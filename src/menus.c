@@ -367,7 +367,7 @@ init_menus_sprites (void)
   new_sprprog ();
   add_sprprog0 (compile_menu_text (_("SCREEN OPTIONS"),
 				   T_CENTERED|T_WAVING, 5, 159));
-  add_sprprog0 (compile_menu_text (_("GLENZ TRAIL"), T_FLUSHED_LEFT, 41, 56));
+  add_sprprog0 (compile_menu_text (_("RADAR"), T_FLUSHED_LEFT, 41, 56));
   add_sprprog0 (compile_menu_text (_("INFOS"), T_FLUSHED_LEFT, 75, 56));
   add_sprprog0 (compile_menu_text (_("LIGHTING"), T_FLUSHED_LEFT, 109, 56));
   add_sprprog0 (compile_menu_text (_("INERTIA"), T_FLUSHED_LEFT, 143, 56));

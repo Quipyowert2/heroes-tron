@@ -1,3 +1,10 @@
+2000-12-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/helptext.c (help_text4): Fix TIME CA$H description.
+	(hepl_text5): Correct homepage URL.
+	* src/menus.c (init_menus_sprites): Fix radar text in screen menu.
+	* po/fr.po: Update.
+
 2000-12-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* Makefile.am (EXTRA_DIST): Add ABOUT-NLS.

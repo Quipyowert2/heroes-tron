@@ -121,8 +121,8 @@ that goes over it.  The Clocks give you extra time.\n\
 \n\
 %{>>}%yTIME CA$H\n\
 \n\
-%{>>>}The aim of %yTIME CA$H%w mode is to collect a randomly definied \
-amount of money.  The first player that gets it will win.\n\
+%{>>>}In %yTIME CA$H%w mode the winner the the player who collected \
+the largest amount of money.\n\
 \n\
 ");
 
@@ -177,7 +177,7 @@ const char *const help_text5 = N_("\
 \n\
 %{center}home page:\n\
 %{img BCVr 183 124 30 41}\n\
-%{center}http://www.realtech.scene.org/heroes/\n\
+%{center}http://heroes.sourceforge.net/\n\
 \n\
 %{center}send bug reports to:\n\
 %{img BCVr 183 124 30 41}\n\
