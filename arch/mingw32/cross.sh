@@ -35,6 +35,7 @@ SDLPREFIX="/usr/local/$BUILDNAME"
 # configuration options
 CONFIGURE_OPTS="--host=$BUILDNAME --enable-html-doc=$PREFIX/doc \
 --prefix=$PREFIX --program-suffix=.exe --with-sdl=$SDLPREFIX"
+LIBS='-luser32 -lgdi32 -lwinmm -ldxguid'
 
 # top level directory
 TOPSRC_DIR=`cd ../..; pwd`
@@ -47,16 +48,13 @@ CONFIGURE="$TOPSRC_DIR/configure"
 BUILDDIR="$PWD/=build"
 DESTDIR="$PWD/=inst"
 
-# compiler to use
-CC="$BUILDNAME-gcc"
-
 # command to strip binaries
 STRIPPROG="$BUILDNAME-strip"
 
 function cross_conf ()
 {
   mkdir -p $BUILDDIR
-  (cd $BUILDDIR && $CONFIGURE $CONFIGURE_OPTS CC=$CC)
+  (cd $BUILDDIR && $CONFIGURE $CONFIGURE_OPTS LIBS="$LIBS")
 }
 
 function cross_build ()
@@ -76,7 +74,7 @@ function cross_install ()
 	   BUGS \
 	   ChangeLog \
 	   COPYING \
-           NEWS \
+	   NEWS \
 	   THANKS \
 	   TODO ; do
     test -f $TOPSRC_DIR/$f && cp $TOPSRC_DIR/$f $DESTDIR/$PREFIX/doc/
@@ -91,7 +89,7 @@ function cross_pack ()
   # package name and version
   eval `cd $TOPSRC_DIR && autoconf --trace 'AC_INIT:VERSION=$2;PACKAGE=$1'`
   # zip file to create
-  ZIPFILE="`pwd`/$PACKAGE-$VERSION-mingw32.zip"
+  ZIPFILE="`pwd`/$PACKAGE-$VERSION-XXX-mingw32.zip"
 
   cd $DESTDIR && zip -9 -r $ZIPFILE ./$PREFIX
 }
@@ -120,10 +118,10 @@ function dispatch ()
       cross_clean
       ;;
     all)
-      dispatch conf
-      dispatch make
-      dispatch inst
-      dispatch pkg
+      dispatch conf &&
+      dispatch make &&
+      dispatch inst &&
+      dispatch pkg  &&
       dispatch clean
       ;;
     *)

@@ -1,3 +1,10 @@
+2001-01-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/mingw32/cross.sh: Set LIBS to libs needed to link staticaly.
+	Don't set CC, it's detected.  Output zip file is now
+	$PACKAGE-$VERSION-XXX-ming32.zip.  Adjust `cross.sh all' to halt
+	after the first failure any subtarget.
+
 2001-01-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Remove the (broken & undocumented) support for screenshots.
