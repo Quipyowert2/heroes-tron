@@ -1,5 +1,14 @@
 2000-11-08  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/draw.h (draw_text_320, draw_text_waving_320,
+	draw_text_array_320,copy_rect_2_320, copy_rect_4_320): Remove (now
+	useless).
+	* src/draw.c (draw_text_320, draw_text_waving_320,
+	draw_text_array_320,copy_rect_2_320, copy_rect_4_320): Remove (now
+	useless): Likewise.
+
+2000-11-08  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Install files in right directories.
 
 	* src/etc/Makefile.am (xdir): Install in $(pkgdatadir).

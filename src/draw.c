@@ -196,75 +196,9 @@ draw_text_waving (const char *text, int posx, int posy, char cent)
   }
 }
 
-void
-draw_text_320 (const char *text, int posx, int posy, char cent)
-{
-  char j, c;
-  int i, k, l, d = -1;
-  unsigned char *dest = corner[0] + posx + posy * 320;
-  const unsigned char *src = text;
-
-  JUSTIF_CALC (toupper);
-  for (; *text != 0; text++) {
-    i = (toupper (*text) - font_first_ascii);
-    src =
-      main_font_img.buffer + font_pos + ((int) (i) % 14 * 22) +
-      ((int) (i) / 14) * 320 * font_height;
-    for (j = font_width[i]; j != 0; j--) {
-      for (k = 320 * (font_height - 1), l = 320 * (font_height - 1); k >= 0;) {
-	c = *(src + k);
-	k -= 320;
-	if (c != font_transp_color)
-	  *(dest + l) = c;
-	l -= 320;
-      }
-      dest++;
-      src++;
-    }
-  }
-}
-
-void
-draw_text_waving_320 (const char *text, int posx, int posy, char cent)
-{
-  char j, c;
-  int i, m, k, l, d = -1;
-  unsigned char *dest = corner[0] + posx + posy * 320;
-  const unsigned char *src = text;
-  unsigned char sinl = text_waving_step;
-
-  JUSTIF_CALC (toupper);
-  for (; *text != 0; text++) {
-    i = (toupper (*text) - font_first_ascii);
-    src =
-      main_font_img.buffer + font_pos + ((int) (i) % 14 * 22) +
-      ((int) (i) / 14) * 320 * font_height;
-    sinl += 2;
-    sinl &= 31;
-    m = ((signed char) minisinus[sinl]) * 320;
-    for (j = font_width[i]; j != 0; j--) {
-      for (k = 320 * (font_height - 1), l = 320 * (font_height - 1) + m;
-	   k >= 0;) {
-	c = *(src + k);
-	k -= 320;
-	if (c != font_transp_color)
-	  *(dest + l) = c;
-	l -= 320;
-      }
-      dest++;
-      src++;
-    }
-  }
-}
-
 void (*draw_text_array[2]) (const char*, int, int, char) = {
   &draw_text, 
   &draw_text_waving
-};
-
-void (*draw_text_array_320[2]) (const char*, int, int, char) = {
-  &draw_text_320, 
-  &draw_text_waving_320
 };
 
 void
@@ -422,23 +356,6 @@ copy_rect_transp_red (const unsigned char *src, unsigned char *dest, int xt,
 }
 
 void
-copy_rect_transp_320 (const unsigned char *src, unsigned char *dest, int xt,
-		      int yt)
-{
-  int j, k;
-  for (j = yt; j != 0; j--) {
-    for (k = xt; k != 0; k--) {
-      if (*src != 0)
-	*dest = *src;
-      src++;
-      dest++;
-    }
-    src += 320 - xt;
-    dest += 320 - xt;
-  }
-}
-
-void
 copy_32x32_transp_z (const unsigned char *src, unsigned char *dest)
 {
   int j, k;
@@ -477,30 +394,6 @@ copy_rect_2 (const unsigned char *src, unsigned char *dest, int xt, int yt)
     fastmem2 (src, dest, xt >> 1);
     src += 320;
     dest += xbuf;
-  }
-}
-
-void
-copy_rect_2_320 (const unsigned char *src, unsigned char *dest, int xt,
-		 int yt)
-{
-  int j;
-  for (j = yt; j > 0; j--) {
-    fastmem2 (src, dest, xt >> 1);
-    src += 320;
-    dest += 320;
-  }
-}
-
-void
-copy_rect_4_320 (const unsigned char *src, unsigned char *dest, int xt,
-		 int yt)
-{
-  int j;
-  for (j = yt; j > 0; j--) {
-    fastmem4 (src, dest, xt >> 2);
-    src += 320;
-    dest += 320;
   }
 }
 

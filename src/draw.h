@@ -28,12 +28,7 @@ void draw_text_clipped_right (const char *text, int posx, int posy,
 			      char cent);
 void draw_text_waving (const char *text, int posx, int posy,
 		       char cent);
-void draw_text_320 (const char *text, int posx, int posy,
-		    char cent);
-void draw_text_waving_320 (const char *text, int posx, int posy, char cent);
-
 extern void (*draw_text_array[2]) (const char *, int, int, char);
-extern void (*draw_text_array_320[2]) (const char *, int, int, char);
 
 void draw_text_bonus (const char *text, int posx, int posy, int p);
 
@@ -44,8 +39,6 @@ void copy_rect_transp (const unsigned char *src, unsigned char *dest, int xt,
 		       int yt);
 void copy_rect_transp_red (const unsigned char *src, unsigned char *dest,
 			   int xt, int yt);
-void copy_rect_transp_320 (const unsigned char *src, unsigned char *dest,
-			   int xt, int yt);
 void copy_32x32_transp_z (const unsigned char *src, unsigned char *dest);
 void copy_rect_transp_8 (const unsigned char *src, unsigned char *dest,
 			 int xt, int yt, char coul);
@@ -54,10 +47,6 @@ void copy_rect_4 (const unsigned char *src, unsigned char *dest, int xt,
 		  int yt);
 void copy_rect_2 (const unsigned char *src, unsigned char *dest, int xt,
 		  int yt);
-void copy_rect_2_320 (const unsigned char *src, unsigned char *dest, int xt,
-		      int yt);
-void copy_rect_4_320 (const unsigned char *src, unsigned char *dest, int xt,
-		      int yt);
 
 void draw_demo_stick (const pixel_t* dest);
 void aff_buffer (void);
