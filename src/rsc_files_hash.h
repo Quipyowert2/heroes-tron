@@ -31,5 +31,6 @@ struct rsc_file {
 struct rsc_file *in_rsc_set (const char *str, unsigned int len);
 void print_rsc_files (void);
 const char *get_rsc_approx (const char *rsc_name);
+void free_modified_rsc (void);
 
 #endif /* HEROES__RSC_FILES_HASH__H */

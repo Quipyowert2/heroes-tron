@@ -52,6 +52,7 @@
 #include "endian.h"
 #include "hendian.h"
 #include "rsc_files.h"
+#include "rsc_files_hash.h"
 #include "fader.h"
 
 #define __HEROES__
@@ -3890,6 +3891,7 @@ main (int argc, char *argv[])
   free_scores ();
   free_options ();
   free_userdir ();
+  free_modified_rsc ();
   close_txti ();
   return 0;
 }

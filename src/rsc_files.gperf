@@ -63,6 +63,7 @@ user-conf,		"$(user-dir)/heroesrc",			0,0
 user-dir,		"$(home-dir)/.heroes",			0,0
 vehicles-img,		"$(data-dir)/pics/vehic.pcx",		0,0
 %%
+
 void
 print_rsc_files (void)
 {
@@ -95,4 +96,12 @@ get_rsc_approx (const char *rsc_name)
     }
   }
   return res;
+}
+
+void
+free_modified_rsc (void)
+{
+  int i;
+  for (i = MIN_HASH_VALUE; i <= MAX_HASH_VALUE; ++i)
+    XFREE (rsc_set[i].modified_value);
 }
