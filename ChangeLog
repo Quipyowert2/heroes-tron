@@ -1,5 +1,9 @@
 2001-08-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* doc/heroes.texi (Machines): Add OpenBSD, update MSVC.
+
+2001-08-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* m4/h-joystick.m4 (heroes_CHECK_JOYSTICK_LIB): Typo.
 
 2001-08-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
