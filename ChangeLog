@@ -1,3 +1,29 @@
+2000-08-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Support option -2 and -3 and stretch the display accordingly.
+
+	* src/argv.h (stretch): New.
+	* src/argv.c (stretch): New.
+	(print_help): Describe -2 and -3.
+	(long_options): Add --double and --triple.
+	(parse_argv): Handle -2 and -3.
+	* src/display.c (screen_rv,src_w,src_h): New.
+	(stretch_twofold,stretch_threefold): New.
+	[HAVE_PKG_GGI] (init_video): Use the value of stretch to setup 
+	src_w, src_h, screen and screen_rw.  Use src_w and src_h to 
+	initialize the visuals.
+	[HAVE_PKG_GGI] (vsynchro): Call stretch_threefold or stretch_twofold
+	if needed.
+	[HAVE_SDL] (init_video): Use the value of stretch to setup 
+	src_w, src_h, screen and screen_rw.  Use src_w and src_h to 
+	initialize the visual.
+	[HAVE_SDL] (vsynchro): Call stretch_threefold or stretch_twofold
+	if needed.
+	* src/keyb.h (mouse_x,mouse_y): Divide the position by the 
+	stretch factor.
+	* doc/heroes.texi (Options): Document -2 and -3.  Document the
+	utility of -F with GGI's DGA driver.
+
 2000-08-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* BUGS: New file.

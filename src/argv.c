@@ -52,6 +52,7 @@ char* level_name;
 int mono = 0;
 int bits8 = 0;
 int hqmix = 0;
+int stretch = 1;
 
 #ifndef HAVE_GETOPT_LONG
 struct option {
@@ -108,6 +109,8 @@ print_help (char* argv0)
 	"  -G, --gfx-options=OPTIONS" 
                                     " options to give to the display driver\n"
 	"  -F, --full-screen\t"     "    full screen mode\n"
+	"  -2, --double\t\t"        "    stretch the display twofold\n"
+	"  -3, --triple\t\t"        "    stretch the display threefold\n"
 	"\n"
 	"These options can be set in your file ~/.heroes/heroesrc (which is "
         "read\nbefore parsing other command line options) using a line like "
@@ -140,6 +143,8 @@ const struct option long_options[] = {
   {"driver",		0, 0,		'd'},
   {"gfx-options",	1, 0,		'G'},
   {"full-screen",	1, 0,		'F'},
+  {"double",		1, 0,		'2'},
+  {"triple",		1, 0,		'3'},
   {0,			0, 0,		0}
 };
 
@@ -154,7 +159,7 @@ parse_argv (int argc, char **argv)
   for (;;) {
     int option_index = 0;
 
-    c = getopt_long (argc, argv, "vhm8qsXl:gnd:G:JF", 
+    c = getopt_long (argc, argv, "vhm8qsXl:gnd:G:JF23", 
 		     long_options, &option_index);
 
     /* Detect the end of the options. */
@@ -205,6 +210,12 @@ parse_argv (int argc, char **argv)
       break;
     case 'J':
       joyoff = 1;
+      break;
+    case '2':
+      stretch = 2;
+      break;
+    case '3':
+      stretch = 3;
       break;
     case '?':
       /* getopt_long already printed an error message. */

@@ -21,6 +21,7 @@
 
 #include "config.h"
 #include "keyb.h"
+#include "argv.h"
 
 int enable_mouse = 0;
 int mouse_pos_x = 0;
@@ -47,14 +48,14 @@ int
 mouse_x (void)
 {
   update_mouse_state ();
-  return mouse_pos_x;
+  return mouse_pos_x / stretch;
 }
 
 int 
 mouse_y (void)
 {
   update_mouse_state ();
-  return mouse_pos_y;
+  return mouse_pos_y / stretch;
 }
 
 char 

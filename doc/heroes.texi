@@ -734,7 +734,23 @@ With SDL this replaces the environment variable @samp{SDL_VIDEODRIVER}.
 SDL needs to be given an additional parameter to do full screen output,
 this is the purpose of this command line flag.  With GGI, this has the
 effect of allowing Heroes to run on video mode of any size (i.e. not
-constrained to 320x200).
+constrained to 320x200) so the name is quite misleading, but since GGI's
+DGA driver doesn't switch video modes you will find this options helpful
+to run DGA in non-320x200 modes.
+
+@item -2
+@itemx --double
+@cindex -2
+@cindex --double
+@cindex stretching
+Stretch the game twofold before blitting to screen.  This is slow.
+
+@item -3
+@itemx --triple
+@cindex -3
+@cindex --triple
+@cindex stretching
+Stretch the game threefold before blitting to screen.  This is even slower.
 
 @end table
 
