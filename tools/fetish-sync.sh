@@ -49,6 +49,7 @@ intl/po2tbl.sed.in
 intl/textdomain.c
 intl/xopen-msg.sed
 lib/alloca.c
+lib/basename.c
 lib/error.c
 lib/error.h
 lib/ftruncate.c

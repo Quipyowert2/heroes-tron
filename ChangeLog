@@ -1,5 +1,15 @@
 2001-04-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* lib/basename.c: New file.
+	* lib/basename.h: New file.
+	* lib/Makefile.am (noinst_HEADERS): Add basename.h.
+	(libheroes_a_SOURCES): Add basename.c.
+	* tools/fetish-sync: Add basename.c.
+	* HACKING: Likewise.
+	* src/debugmsg.c (dmsg_init): Basename-ify the program name.
+
+2001-04-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Ahem... output debug messages on stdout, as said in HACKING.
 
 	* src/debugmsg.c (dmsg): s/stderr/stdout/.

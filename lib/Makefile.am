@@ -30,6 +30,7 @@ strndup.c \
 w_dirent.c
 
 noinst_HEADERS= \
+basename.c \
 error.h \
 fopenlock.h \
 fstrcmp.h \
@@ -45,6 +46,7 @@ INCLUDES = -I.. -I$(srcdir) -I../intl -I$(top_srcdir)/src
 
 # These files are always compiled
 libheroes_a_SOURCES= \
+basename.c \
 error.c \
 fopenlock.c \
 fstrcmp.c \

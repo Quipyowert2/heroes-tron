@@ -192,6 +192,7 @@ Avoid any change to these files, if possible.
 (And report any change upstream, of course.)
 
  lib/alloca.c	   (from fetish)
+ lib/basename.c    (from fetish)
  lib/ftruncate.c   (from fetish)
  lib/getopt.c	   (from glibc)
  lib/getopt1.c	   (from glibc)

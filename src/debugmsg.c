@@ -23,6 +23,7 @@
 #include "debughash.h"
 #include "errors.h"
 #include "misc.h"
+#include "basename.h"
 
 enum debug_lvl debug_level = 0;
 const char* program_name = 0;
@@ -122,7 +123,7 @@ you want that feature.");
 void
 dmsg_init (const char* prgname)
 {
-  program_name = prgname;
+  program_name = base_name (prgname);
 
   dmsg_parse_string (getenv ("HEROES_DEBUG"));
 }
