@@ -1,5 +1,16 @@
 2000-09-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	On some machines, quit_yes_no used to be called
+	in a loop because the release of the <Esc> key
+	was not recorded.
+	
+	* src/heroes.c (quit_yes_no): Enclose the function by calls
+	to (un)init_keyboard_map so that the keyboard map get 
+	cleared on exit.
+	(pause_menu): Remove superfluous instruction.
+
+2000-09-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Synchronize with my own CVS repository.
 
 	* ChangeLog: Add one missing entry.

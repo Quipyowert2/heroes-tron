@@ -3753,13 +3753,6 @@ main_menu (void)
   } while (p >= 0);
 }
 
-
-
-
-
-
-
-
 static void
 pause_menu (void)
 {
@@ -3784,8 +3777,6 @@ pause_menu (void)
   fastmem4 ((char *) corner[0] + 90 * 320, (char *) corner[0], 20 * 320 / 4);
   fastmem4 ((char *) corner[0], (char *) corner[0] + 20 * 320, 20 * 320 / 4);
   uninit_keyboard_map ();
-  keyboard_map[HK_Pause] = 0;
-  //      kbdfilflag=0;
   do {
     update_text_waving_step ();
     fastmem4 ((char *) corner[0] + 20 * 320, (char *) corner[0],
@@ -3915,6 +3906,7 @@ quit_yes_no (void)
       vsynch ();
     } while (joystick_b[0] || joystick_b[1]);
 
+  uninit_keyboard_map ();
   halve_volume ();
   event_sfx (85);
   do {
@@ -3952,6 +3944,7 @@ quit_yes_no (void)
     event_sfx (88);
   else
     event_sfx (87);
+  init_keyboard_map ();
 
   /* delay important timers that continued running during the pause */
   shift_htimer (update_htimer, pause_htimer);
