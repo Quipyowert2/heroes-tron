@@ -38,8 +38,8 @@ extern int tunnel_square_io[4][2];
 #define NOGLENZPLR 108		/* colors pour les trainées sans glenz */
 #define NOGLENZRED 16		/* couleur pour le sang sans glenz */
 
-extern char radar_trail_color[16];
-extern char radar_wall_color[16];
+extern pixel_t radar_trail_color[16];
+extern pixel_t radar_wall_color[16];
 
 extern int bonus_proba_array[5][17];
 extern int bonus_points[2][17];	/* interet (pour le cpu) */
@@ -81,8 +81,8 @@ extern char mode_name[5][12];
 extern int d2w[9];
 extern int w2d[4];
 
-extern unsigned char glenz[8][256];
-void draw_glenz_box (unsigned char *dest, int c, int xt, int yt);
+extern pixel_t glenz[8][256];
+void draw_glenz_box (pixel_t *dest, int c, int xt, int yt);
 
 extern level_header_t map_info;
 extern unsigned long int map_info_2xt, map_info_2yt;

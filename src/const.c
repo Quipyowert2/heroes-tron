@@ -82,11 +82,11 @@ int tunnel_square_io[4][2] = { {0, 1}, {1, 3}, {3, 2}, {2, 0} };
 #define NOGLENZPLR 108		/* colors pour les trainées sans glenz */
 #define NOGLENZRED 16		/* couleur pour le sang sans glenz */
 
-char radar_trail_color[16] =
+pixel_t radar_trail_color[16] =
   { 111, 127, 143, 159, 111, 127, 143, 159, 109, 125, 141, 157, 109, 125, 141,
   157
 };
-char radar_wall_color[16] =
+pixel_t radar_wall_color[16] =
   { 0, 89, 89, 91, 89, 91, 91, 93, 89, 91, 91, 93, 91, 93, 93, 95 };
 
 /* L+  L-  S+  S-  R#   C  ZZ  !!  -1  T+  T-  EL  []   X  XL  ~~  $$ */
@@ -142,7 +142,7 @@ char camera_stop_y[2];
 
 pixel_t *(render_buffer[2]);		/* 384*260 */
 
-unsigned char glenz[8][256];		/* lignes de glenz */
+pixel_t glenz[8][256];		/* glenz lines */
 
 level_header_t map_info = { 0, 0, -1, -1, 
 			    {0, 0, 0, 0}, {0, 0, 0, 0}, "", "", "" };
@@ -289,9 +289,9 @@ get_key_or_joy (void)
 }
 
 void
-draw_glenz_box (unsigned char *dest, int c, int xt, int yt)
+draw_glenz_box (pixel_t *dest, int c, int xt, int yt)
 {
-  char *glenzligne = glenz[c];
+  pixel_t *glenzligne = glenz[c];
   int xt2;
 
   for (; yt != 0; yt--) {

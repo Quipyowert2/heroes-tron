@@ -1,5 +1,12 @@
 2000-10-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/const.c (radar_trail_color, 
+	radar_wall_color, draw_glenz_box): Fix signedness.
+	(glenz): Use pixel_t.
+	* src/const.h: Likewise.
+
+2000-10-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Remove most warnings from src/hedlite.c.
 
 	* src/hedlite.c (partiel4,cadre,cadrept): Fix prototype.
