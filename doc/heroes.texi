@@ -121,8 +121,7 @@ Overview of Heroes
 * Getting Heroes::              Where to download Heroes from.
 * Mailing lists::               Where to talk about Heroes..
 * Bug Reporting::               Sending bugs, suggestions, contributions.
-* Authors::                     Who made Heroes.
-* Contributors::                Contributions to Heroes.
+* People::                      Contributors
 * History::                     History of the DOS version.
 
 Installation of Heroes
@@ -130,7 +129,7 @@ Installation of Heroes
 * Libraries::                   Libraries Heroes can link with.
 * configure::                   Generic configure instructions.
 * configure options::           Configure options specific to heroes.
-* Relocatable package::
+* Relocatable package::         Building a relocatable package.
 * Machines::                    Architectures where Heroes is known to work.
 
 Running Heroes
@@ -231,8 +230,7 @@ such as network support or programmable vehicles.
 * Getting Heroes::              Where to download Heroes from.
 * Mailing lists::               Where to talk about Heroes..
 * Bug Reporting::               Sending bugs, suggestions, contributions.
-* Authors::                     Who made Heroes.
-* Contributors::                Contributions to Heroes.
+* People::                      Contributors
 * History::                     History of the DOS version.
 @end menu
 
@@ -324,7 +322,7 @@ so you don't need to subscribe to both lists.
 
 
 @c ======================================================================
-@node     Bug Reporting, Authors, Mailing lists, Overview
+@node     Bug Reporting, People, Mailing lists, Overview
 @comment  node-name,  next,  previous,  up
 @section  Reporting bugs, sending suggestions or contribution
 @cindex   bug
@@ -402,94 +400,23 @@ new drawings (e.g. new sets of tiles), track some new music or add your
 personal touch here and there.
 
 @c ======================================================================
-@node     Authors, Contributors, Bug Reporting, Overview
+@node     People, History, Bug Reporting, Overview
 @comment  node-name,  next,  previous,  up
-@section  Authors
+@section  People
 @cindex   authors
-
-@itemize @bullet
-@item
-Romuald Genevois (Guen) @email{rgenevois@@besancon.net}@*
-@uref{http://www.realtech.scene.org/romualdgenevois}
-
-Had the idea of that game, designed most of it,
-drew the graphics, created most of the levels.
-
-@item
-Alexandre Liverneaux (Alexel) @email{alex.livernaux@@wanadoo.fr}@*
-@uref{http://alexel.planet-d.net/}
-
-Composed the sound tracks.
-
-@item
-Philippe Meisburger (Tnk) @email{philmeis@@mail.dotcom.fr}@*
-@uref{http://perso.club-internet.fr/philmeis/}
-
-Composed the sound tracks and created a few levels.
-
-@item
-Alexandre Duret-Lutz (Pollux) @email{duret_g@@epita.fr}@*
-@uref{http://www.epita.fr/~duret_g/}
-
-Wrote the original source code, and created a few levels.
-@end itemize
-
-@c ======================================================================
-@node     Contributors, History, Authors, Overview
-@comment  node-name,  next,  previous,  up
-@section  Contributors
 @cindex   contributors
+@cindex   translators
+@cindex   packagers
 
-@itemize @bullet
-@item
-Pierre Baillet @email{octplane@@via.ecp.fr}
+Heroes would not be what it is presently without the following people.
 
-Contributed support for non-8bits depth video mode with LibGGI.
+@include people.texi
 
-@item
-Hermann J. Beackers @email{beckers@@st-oneline.de}
-
-Contributed the German translations.
-
-@item
-Jos Boersema @email{joshb@@sourceforge.net}
-
-Contributed the Dutch translations.
-
-@item
-Daniel Burrows @email{Daniel_Burrows@@brown.edu}
-
-Is the Debian maintainer of Heroes.
-
-@item
-Jean Delvare @email{delvare@@ensicaen.ismra.fr}
-
-Reported numerous errors, suggested various improvements, and built
-RPMs.
-
-@item
-St@'ephane Denis @email{S.Denis@@darkworks.com}
-
-Gave valuable advices regarding the Win32 port.
-
-@item
-Mattias Engdeg@aa{}rd @email{f91-men@@nada.kth.se}
-
-Ported Heroes to Solaris.
-
-@item
-Uwe Hermann @email{uh1763@@bingo-ev.de}
-
-Is hacking happily.
-
-@item
-Maxim Sobolev @email{sobomax@@FreeBSD.org}
-
-Is the maintainer of the FreeBSD port (which he did).
-@end itemize
+More people are listed in the file @file{THANKS} at the top level
+of the Heroes tarball.
 
 @c ======================================================================
-@node     History,  , Contributors, Overview
+@node     History,  , People, Overview
 @comment  node-name,  next,  previous,  up
 @section  History of the DOS version
 @cindex   history

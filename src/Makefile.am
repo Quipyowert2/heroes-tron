@@ -90,6 +90,8 @@ parafmt.c \
 parafmt.h \
 pcx.c \
 pcx.h \
+people.def \
+people.tpl \
 persona.c \
 persona.h \
 pixelize.c \

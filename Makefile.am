@@ -20,7 +20,11 @@
 AUTOMAKE_OPTIONS = 1.4b gnits dist-bzip2
 ACLOCAL_AMFLAGS = -I m4
 
-EXTRA_DIST = ABOUT-NLS ANNOUNCE BUGS HACKING \
+# Some files, such as AUTHORS or THANKS, usually automatically added
+# by automake are listed here because they don't exist on the CVS
+# but are generated from a rule in this Makefile (and automake
+# is not smart enough to handle this :o)).
+EXTRA_DIST = ANNOUNCE AUTHORS BUGS HACKING THANKS \
 misc/heroes-1.xpm \
 misc/heroes-2.xpm \
 misc/heroes-3.xpm \
@@ -43,6 +47,12 @@ README: $(top_srcdir)/doc/heroes.texi $(top_srcdir)/tools/readme.sed
 	LC_ALL=C $(MAKEINFO) --no-header -I $(top_srcdir)/doc heroes.texi | \
 	sed -n -f $(top_srcdir)/tools/readme.sed > README.tmp
 	mv README.tmp README
+
+THANKS: $(top_srcdir)/src/people.def $(top_srcdir)/src/people.tpl
+	$(AUTOGEN) -L $(top_srcdir)/src -o 'thanks=THANKS' $<
+
+AUTHORS: $(top_srcdir)/src/people.def $(top_srcdir)/src/people.tpl
+	$(AUTOGEN) -L $(top_srcdir)/src -o 'authors=AUTHORS' $<
 
 # additional checks to perform during distcheck.
 # this is heavily inspired from Jim Meyring's setup

@@ -1,5 +1,22 @@
 2001-05-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Generate AUTHORS, THANKS, and the associated section of the
+	documentation from a central file (src/people.def).
+
+	* AUTHORS: Delete.
+	* THANKS: Delete.
+	* Makefile (AUTHORS, THANKS): New targets.
+	* src/people.def: New file.
+	* src/people.tpl: New file.
+	* src/Makefile.am (heroes_SOURCES): Add people.def or people.tpl.
+	* doc/Makefile.am (heroes_TEXINFOS,
+	MAINTAINERCLEANFILES): Add people.texi.
+	(people.texi): New target.
+	* doc/heroes.texi (Authors, Contributors): Replaces these sections ...
+	(People): ... with this one, which includes people.texi.
+
+2001-05-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Ask AM_GNU_GETTEXT to check for ngettext.
 	Reported by Jean.
 
