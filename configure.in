@@ -46,7 +46,6 @@ AC_ARG_WITH(sdl,
 [  --with-sdl[=DIR]        Root directory of SDL installation
   --without-sdl           Disables SDL usage completely])
 
-
 # --with-sdl-exec-prefix should imply --with-sdl, and vice-versa
 
 test "${with_sdl_exec_prefix-no}" != no &&
@@ -401,24 +400,14 @@ fi
 
 confdir=${datadir}/heroes/txt_cfg/
 extradir=${datadir}/heroes/extralvl/
-heddir=${datadir}/heroes/hedit/
-introdir=${datadir}/heroes/intro/
-nivdir=${datadir}/heroes/level/
-rscdir=${datadir}/heroes/rsc/
 scoresdir=${datadir}/heroes/txt_cfg/
-spritedir=${datadir}/heroes/sprites/
 textdir=${datadir}/heroes/txt_cfg/
 etcdir=${datadir}/heroes/etc/
 data_dir=${datadir}/heroes
 
 AC_SUBST(confdir)
 AC_SUBST(extradir)
-AC_SUBST(heddir)
-AC_SUBST(introdir)
-AC_SUBST(nivdir)
-AC_SUBST(rscdir)
 AC_SUBST(scoresdir)
-AC_SUBST(spritedir)
 AC_SUBST(textdir)
 AC_SUBST(etcdir)
 

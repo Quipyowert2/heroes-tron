@@ -1,5 +1,10 @@
 2000-08-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.in (confdir): Remove declaration of heddir, introdir,
+	nivdir, rscdir and spritedir directories.
+
+2000-08-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/timer.c (reset_timer_with_offset,read_timer): Fix 
 	computation formula.
 	(shift_timer): New.
