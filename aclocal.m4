@@ -215,6 +215,7 @@ AC_ARG_WITH($1-libdir,
 $1_libdir="$withval")
 
 if test "${with_$1}" != no ; then
+	OLD_LIBS=$LIBS
         OLD_LDFLAGS=$LDFLAGS
         OLD_CFLAGS=$CFLAGS
         OLD_CPPFLAGS=$CPPFLAGS
@@ -232,7 +233,7 @@ if test "${with_$1}" != no ; then
         if test "$no_good" = yes; then
 dnl     broken
                 ifelse([$6], , , [$6])
-
+		LIBS=$OLD_LIBS
                 LDFLAGS=$OLD_LDFLAGS
                 CPPFLAGS=$OLD_CPPFLAGS
                 CFLAGS=$OLD_CFLAGS

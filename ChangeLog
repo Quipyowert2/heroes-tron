@@ -1,5 +1,27 @@
 2000-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Preliminary support for SDL_mixer.
+
+	* acconfig.h: Add HAVE_PKG_sdl_mixer.
+	* aclocal.m4: Fix AC_caolan_CHECK_PACKAGE so that LIBS
+	get backuped.
+	* configure.in: Add --with-mikmod option, for consistancy.
+	Handles choice between libMikMod and SDL_mixer.  Check for 
+	SDL_mixer.
+	* src/display.c (init_SDL) [HAVE_LIBSDL_MIXER]: Call SDL_Init with
+	flag SDL_INIT_AUDIO.
+	* src/sound.c [HAVE_LIBSDL_MIXER] (music,audio_rate,audio_format,
+	audio_channels,audio_buffers): New.
+	[HAVE_LIBSDL_MIXER] (set_volume, halve_volume, init_sound_engine,
+	uninit_sound_engine, load_soundtrack, unload_soundtrack,
+	play_soundtrack, print_drivers_list, decode_sound_options,
+	load_soundtrack_from_alias): New.
+
+	* src/timer.c (update_timers): Check HAVE_GETTIMEOFDAY, not
+	GETTIMEOFDAY.
+	
+2000-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Under DOS, mkdir doesn't take a second argument.
 
 	* configure.in: Check whether mkdir takes two arguments and define

@@ -70,7 +70,7 @@ free_timer (timer_t timer)
 void
 update_timers (void)
 {
-#ifdef GETTIMEOFDAY
+#ifdef HAVE_GETTIMEOFDAY
   gettimeofday (&current_time, 0);
 #else
   current_time = clock ();

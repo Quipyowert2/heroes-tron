@@ -291,6 +291,9 @@ init_SDL (void)
   if (done)
     return;
   SDL_Init (SDL_INIT_VIDEO 
+#ifdef HAVE_LIBSDL_MIXER
+	    | SDL_INIT_AUDIO
+#endif
 #ifdef HAVE_SDL_JOYSTICKOPEN
 	    | SDL_INIT_JOYSTICK
 #endif

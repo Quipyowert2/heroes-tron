@@ -158,7 +158,7 @@ play_soundtrack (void)
     return;
   pthread_mutex_lock (&playing);
   MikMod_SetNumVoices (-1, 6);
-  //  MikMod_EnableOutput ();
+  /* MikMod_EnableOutput (); */
   Player_Start (module);
   pthread_create (&polling_thread, 0, update_thread, 0);
 }
@@ -236,6 +236,124 @@ load_soundtrack_from_alias (char* alias)
 
 #else // not HAVE_LIBMIKMOD
 
+#ifdef HAVE_LIBSDL_MIXER
+
+#include <stdio.h>
+#include <SDL_mixer.h>
+#include "argv.h"
+#include "musicfiles.h"
+
+static Mix_Music *music = NULL;
+
+int audio_rate;
+Uint16 audio_format;
+int audio_channels;
+int audio_buffers;
+
+void
+set_volume (void)
+{
+}
+
+void
+halve_volume (void)
+{
+}
+
+extern void init_SDL (void);
+
+int
+init_sound_engine (void)
+{
+  audio_rate = (hqmix ? 22050 : 44100);
+  audio_format = (bits8 ? AUDIO_S8 : AUDIO_S16);
+  audio_channels = (mono ? 1 : 2);
+  audio_buffers = 4096;
+  
+  init_SDL ();
+  /* Open the audio device */
+  if (Mix_OpenAudio (audio_rate, audio_format, audio_channels, audio_buffers) 
+      < 0) {
+    fprintf(stderr, "Couldn't open audio: %s\n", SDL_GetError());
+    exit (2);
+  } else {
+    Mix_QuerySpec(&audio_rate, &audio_format, &audio_channels);
+    printf("Opened audio at %d Hz %d bit %s, %d bytes audio buffer\n", 
+	   audio_rate,
+	   (audio_format&0xFF),
+	   (audio_channels > 1) ? "stereo" : "mono", 
+	   audio_buffers );
+  }
+
+  /* Set the external music player, if any */
+  Mix_SetMusicCMD (getenv ("MUSIC_CMD"));
+
+  return 0;
+}
+
+void
+uninit_sound_engine (void)
+{
+  Mix_CloseAudio ();
+}
+
+void
+load_soundtrack (char *ptr)
+{
+  music = Mix_LoadMUS(ptr);
+  if (!music) {
+    fprintf (stderr, "Could not load %s, reason: %s\n", ptr,
+	     SDL_GetError ());
+  }
+}
+
+void
+unload_soundtrack (void)
+{
+  if (music) {
+    Mix_FreeMusic (music);
+    music = NULL;
+  }
+}
+
+void
+play_soundtrack (void)
+{
+  if (music)
+    Mix_PlayMusic(music, -1);
+}
+
+void
+print_drivers_list (void)
+{
+  printf ("Heroes has been compiled with SDL_mixer,"
+	  " there is no driver list available.\n");
+}
+
+void
+decode_sound_options (char* optarg __attribute__ ((unused)), 
+		      char* argv0 __attribute__ ((unused)))
+{
+}
+
+void 
+load_soundtrack_from_alias (char* alias)
+{
+  sound_track_t* st = get_sound_track_from_alias (alias);
+
+  if (st) {
+    load_soundtrack (st->filename);
+    soundtrack_title = st->title;
+    soundtrack_author = st->author;
+  } else {
+    music = 0;
+    soundtrack_title = 0;
+    soundtrack_author = 0;
+  }
+}
+
+#else // not HAVE_LIBSDL_MIXER and not HAVE_LIBMIKMOD
+
 #include <stdio.h>
 
 /* empty implementation */
@@ -294,6 +412,6 @@ load_soundtrack_from_alias (char* alias __attribute__ ((unused)))
 {
 }
 
+#endif // not HAVE_LIBSDL_MIXER
+
 #endif // not HAVE_MIKMOD
-
-
