@@ -23,7 +23,8 @@ ACLOCAL_AMFLAGS = -I m4
 # by automake are listed here because they don't exist on the CVS
 # but are generated from a rule in this Makefile (and automake
 # is not smart enough to handle this :o)).
-EXTRA_DIST = ANNOUNCE AUTHORS BUGS ChangeLog.00 GNUmakefile HACKING THANKS \
+EXTRA_DIST = ANNOUNCE AUTHORS BUGS ChangeLog.00 ChangeLog.01 \
+GNUmakefile HACKING THANKS \
 misc/heroes-1.xpm \
 misc/heroes-2.xpm \
 misc/heroes-3.xpm \
