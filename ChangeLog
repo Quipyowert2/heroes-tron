@@ -1,5 +1,18 @@
 2000-11-02  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Draw superposed sprites using RLE-programs.
+
+	* src/renderdata.c (init_tile_sprites,uninit_tile_sprites,
+	get_tile_sprite,tile_set_size,tile_sprites): New.
+	(uninit_render_data): Call uninit_tile_sprites.  Use XFREE0.
+	(init_render_data): Call init_tile_sprites.
+	(init_render_data): Adapt to use get_tile_sprite.
+	* src/renderdata.h (fg_data_t): Store sprite as a rleprog_t.
+	* src/render.c (copy_tile_transp): Remove.
+	(draw_level): Adapt to display sprite as rleprog_t.
+
+2000-11-02  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Adapt AC_INIT to autoconf 2.49a.
 
 2000-11-01  Alexandre Duret-Lutz  <duret_g@epita.fr>

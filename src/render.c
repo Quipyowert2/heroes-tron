@@ -58,24 +58,6 @@ copy_tile (const pixel_t* src, pixel_t* dest, int tx)
 }
 
 static void
-copy_tile_transp (const pixel_t *src, pixel_t *dest, int width)
-{
-  int j, k;
-  pixel_t c;
-
-  for (j = 20; j != 0; j--) {
-    for (k = 24; k != 0; k--) {
-      c = *src++;
-      if (c != 0)
-	*dest = c;
-      dest++;
-    }
-    src += width - 24;
-    dest += xbuf - 24;
-  }
-}
-
-static void
 draw_dollar (pixel_t *dest)
 {
   int j, k;
@@ -716,7 +698,7 @@ draw_level (int p)
       if (fg_data[pos].big_dollar)
 	draw_dollar (dest);
       if (fg_data[pos].sprite)
-	copy_tile_transp (fg_data[pos].sprite, dest, tile_set_img.width);
+	exec_rleprog (fg_data[pos].sprite, dest);
       dest += 24;
     }
     dest += xbuf * 20 - 24 * (nbr_tiles_cols - camera_stop_x[p]);

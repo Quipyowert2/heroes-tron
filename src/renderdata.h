@@ -46,7 +46,7 @@ extern bg_data_t *bg_data;
    in the same struct because they are drawn in the same loop */
 
 typedef struct {
-  const pixel_t *sprite;	/* transparent sprite if non nil */
+  rleprog_t *sprite;		/* sprite to superpose if non nil */
   rleprog_t **bonus;		/* bonus line, if non nil */
   char big_dollar;		/* 1 if a big dollar must be drawn */
 } fg_data_t;

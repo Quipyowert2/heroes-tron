@@ -28,15 +28,51 @@
 bg_data_t *bg_data = 0;
 fg_data_t *fg_data = 0;
 
+int tile_set_size = 0;		/* number of tiles in the tile set */
+rleprog_t **tile_sprites;	/* An array as wide as the tile set,
+				   which might contains pointer to
+				   the rleprog_t for a tile (usefull when
+				   that tile is used as a sprite) */
+static void
+init_tile_sprites (void)
+{
+  tile_set_size = (tile_set_img.width / 24) * 10;
+  XCALLOC_ARRAY (tile_sprites, tile_set_size);
+}
+
+static void
+uninit_tile_sprites (void)
+{
+  while (tile_set_size--)
+    XFREE0 (tile_sprites[tile_set_size]);
+  XFREE0 (tile_sprites);
+}
+
+static rleprog_t *
+get_tile_sprite (unsigned int offset)
+{
+  /* convert an offset-in-image, into a tile-number */
+  int tile_row = offset / (tile_set_img.width * 20);
+  int tile_col = (offset % (tile_set_img.width * 20)) / 24;
+  int tile_pos = tile_row * (tile_set_img.width / 24) + tile_col;
+
+  /* don't recompile the sprite if it's already done */
+  if (!tile_sprites[tile_pos])
+    tile_sprites[tile_pos] =
+      compile_rleprog (tile_set_img.buffer + offset, 0, 20, 24,
+		       tile_set_img.width, xbuf);
+
+  return tile_sprites[tile_pos];
+}
+
 void
 uninit_render_data (void)
 {
   dmsg (D_SECTION, "Uninitialize rendering data");
 
-  free (bg_data);
-  bg_data = 0;
-  free (fg_data);
-  fg_data = 0;
+  uninit_tile_sprites ();
+  XFREE0 (bg_data);
+  XFREE0 (fg_data);
 }
 
 void
@@ -49,6 +85,7 @@ init_render_data (void)
 
   XMALLOC_ARRAY (bg_data, max_pos);
   XMALLOC_ARRAY (fg_data, max_pos);
+  init_tile_sprites ();
 
   /* initialize background tile information */
 
@@ -83,7 +120,7 @@ init_render_data (void)
     /* foreground data */
 
     if (level_map[pos].sprite)
-      fg_data[pos].sprite = level_map[pos].sprite + tile_set_img.buffer;
+      fg_data[pos].sprite = get_tile_sprite (level_map[pos].sprite);
     else
       fg_data[pos].sprite = 0;
     fg_data[pos].bonus = 0;
