@@ -28,6 +28,7 @@ lvl_free (a_level *lvl)
   XFREE0 (lvl->private->sound_track_alias);
   XFREE0 (lvl->private->tile_sprite_map_basename);
   XFREE0 (lvl->private);
+  XFREE0 (lvl->tileset);
   XFREE0 (lvl->square_type);
   XFREE0 (lvl->square_walls_out);
   XFREE0 (lvl->square_direction);
@@ -36,3 +37,10 @@ lvl_free (a_level *lvl)
   XFREE0 (lvl->square_move[D_DOWN]);
   XFREE0 (lvl->square_move[D_LEFT]);
 }
+
+void
+lvl_free_tileset (a_level *lvl)
+{
+  XFREE0 (lvl->tileset);
+}
+

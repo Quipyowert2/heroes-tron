@@ -117,6 +117,7 @@ lvl_load_file (const char *filename, a_level *out, bool load_body)
 #endif
 
   XMALLOC_VAR (out->private);
+  out->tileset = 0;
 
 #ifdef HAVE_MMAP
   /* Try to mmap the file.  If it fail for any reason, we'll

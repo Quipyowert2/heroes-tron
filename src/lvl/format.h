@@ -130,4 +130,43 @@
 #define GET_SPEED_DIR(p) ((const a_dir_mask8 *) ((p) + 10))
 #define SPEED_DIR(p) ((a_u8 *)((p) + 10))
 
+
+/* A pie file contains (PIE_TILE_WIDTH * PIE_TILE_HEIGHT) records that
+   describe the type and options for each tile in the tile set pcx file.
+
+   Structure of a record:
+
+   Offset  Size  Repeat  What
+   --------------------------------------------------------------------
+    0      1     4       entry walls for each sub-square
+    4      5     1       parameters
+    9      1     1       tile type
+   ==
+   10 bytes.
+*/
+
+//#define PIE_TILE_WIDTH 26
+//#define PIE_TILE_HEIGHT 10
+
+#define PIE_GET_TILE_WALLS(p) ((const a_u8 *) (p))
+#define PIE_GET_TILE_TYPE(p) ((a_tile_type) (GET_U8 ((p) + 9)))
+
+#define PIE_GET_TUNNEL_DIR(p) (dir_mask_to_dir ((a_dir_mask) \
+						((GET_U8 ((p) + 8)) & 15)))
+
+#define PIE_GET_ANIM_FRAME_COUNT(p) (GET_U8 ((p) + 4))
+#define PIE_GET_ANIM_FRAME_DELAY(p) (GET_U8 ((p) + 5) + 1)
+
+#define PIE_GET_EFFECT_SET(p) ((const a_u8*) ((p) + 4))
+#define PIE_GET_SANIM_FRAME_COUNT(p) ((GET_U8 ((p) + 8)) >> 4)
+#define PIE_GET_SANIM_FRAME_DELAY(p) (((GET_U8 ((p) + 8)) & 15) + 1)
+
+#define PIE_GET_SPEED_DIR(p) ((const a_dir_mask8 *) ((p) + 4))
+
+/* Dimensions (in pixels) of tileset image file and tiles */
+#define PIE_PCX_PIXELS_X 640
+#define PIE_PCX_PIXELS_Y 200
+#define PIE_TILE_PIXELS_X 24
+#define PIE_TILE_PIXELS_Y 20
+
 #endif /* HEROES__FORMAT__H */

@@ -28,8 +28,10 @@ lvl_libhlvl_a_SOURCES= \
   lvl/free.c \
   lvl/in_body.c \
   lvl/load.c \
+  lvl/loadpie.c \
   lvl/lvl.h \
   lvl/lvl_priv.h \
+  lvl/mapedit.c \
   lvl/privacc.c \
   lvl/save.c
 

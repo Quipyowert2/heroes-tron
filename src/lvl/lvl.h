@@ -98,7 +98,7 @@ typedef a_u8 a_tile_type8;	/* Hold the same values, on 8bits. */
 
 typedef struct a_level a_level;	/* An Heroes level.  */
 typedef struct a_level_bits a_level_bits; /* Hiden details about levels.  */
-
+typedef struct a_tileset a_tileset; /* defined below */
 
 /* The pointers in the a_level structure should point to constant
    data.  But from the level loading code the data need to be mutable.
@@ -157,6 +157,9 @@ struct a_level {
   /* square_move[D_UP][SQR] is the square that a vehicle shoud go into
      when it leave SQR by the top edge.  */
   LVL_MUTABLE a_square_index *square_move[DIR_MAX];
+
+  /* Optionally loaded tileset information -- only needed for map editing */
+  LVL_MUTABLE a_tileset *tileset;
 
   /*-------------------------------------------------------------.
   | Opaque structure to hide the remaining data.  Use one of the |
@@ -283,5 +286,73 @@ void lvl_animation_info (const a_level *lvl, a_tile_index tile,
 #define SQRX(lvl_ptr, sqr0, x) \
   ((sqr0) + (((x) & 2) ? (lvl_ptr)->square_width : 0) + ((x) & 1))
 
+
+/*-------------------------.
+| Interface for map editor |
+`-------------------------*/
+
+typedef struct a_tileset_tile a_tileset_tile;
+struct a_tileset_tile {
+  LVL_MUTABLE a_tile_type8 type;
+  /* Animation data.  */
+  LVL_MUTABLE unsigned int frame_count;
+  LVL_MUTABLE unsigned int frame_delay;
+  LVL_MUTABLE an_anim_kind anim;
+  /* Sprite data.  */
+  LVL_MUTABLE unsigned int sprite_offset;
+};
+
+typedef struct a_tileset_square a_tileset_square;
+struct a_tileset_square {
+  LVL_MUTABLE a_tile_type8 type;
+  LVL_MUTABLE a_dir8 direction;
+  LVL_MUTABLE a_dir_mask8 walls_in;
+};
+
+/* The a_tileset structure contains the same width and height fields like
+   a_level, so most of the above macros can be used on it. */
+
+struct a_tileset {
+  /* Dimensions */
+  LVL_MUTABLE a_tile_coord tile_width;
+  LVL_MUTABLE a_tile_coord tile_height;
+  LVL_MUTABLE a_square_coord square_width;
+  LVL_MUTABLE a_square_coord square_height;
+
+  LVL_MUTABLE a_tile_index tile_count; /* tile_width * tile_height */
+  LVL_MUTABLE a_square_index square_count; /* square_width * square_height */
+
+  /* Dimensions (in pixels) of tileset image file */
+  LVL_MUTABLE int image_width;
+  LVL_MUTABLE int image_height;
+
+  LVL_MUTABLE a_tileset_tile *tile;
+  LVL_MUTABLE a_tileset_square *square;
+};
+
+/* Prepare a new level structure in memory */
+int lvl_create (a_level *lvl, a_tile_coord height, a_tile_coord width,
+	       bool wrap_y, bool wrap_x, const char* tile_sprite_map_basename);
+
+/* create the level's tileset structure -- necessary for lvl_assign_tile */
+int lvl_load_tileset (a_level *lvl);
+
+/* assign a tile from the tileset to the level */
+int lvl_assign_tile (a_level *lvl, a_tile_index dest, a_tile_index src);
+
+/* delete the level's tileset */
+void lvl_free_tileset (a_level *lvl);
+
+/* Choose a soundtrack alias */
+void lvl_set_soundtrack (a_level *lvl, const char* sound_track_alias);
+
+/* Set starting position and direction for player */
+int lvl_set_start (a_level *lvl, int player, a_square_index idx, a_dir dir);
+
+/* Locate a tunnel's start and end squares */
+int lvl_setup_tunnel (a_level *lvl, a_square_index start, a_square_index end);
+
+/* set the animation speed */
+void lvl_set_anim_delay (a_level *lvl, a_tile_index idx, unsigned int delay);
 
 #endif /* HEROES__LVL__H */

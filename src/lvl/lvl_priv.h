@@ -53,6 +53,8 @@ struct a_tile_data {
 /* The body of the level is made of tile_count records of
    LVL_RECORD_SIZE bytes.  */
 #define LVL_RECORD_SIZE 16
+/* Size in bytes of records in *.pie files */
+#define PIE_RECORD_SIZE 10
 
 /* The following is declared, but not defined in lvl.h.  */
 struct a_level_bits {
@@ -77,5 +79,8 @@ void initialize_level_body (a_level *out);
 void initialize_empty_level_body (a_level *lvl);
 void encode_level_header (a_u8 *data, const a_level *lvl);
 void encode_level_body (a_u8 *data, const a_level *lvl);
+
+a_dir dir_mask_to_dir (a_dir_mask dm);
+extern const int tunnel_square_io[4][2];
 
 #endif /* HEROES__LVL_PRIV__H */

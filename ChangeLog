@@ -1,3 +1,26 @@
+2002-02-06  Ingo van Lil  <inguin@gmx.de>
+
+	Add support for loading *.pie files and editing levels in libhlvl.
+
+	* src/lvl/loadpie.c, src/lvl/mapedit.c: New files.
+	* src/lvl/Makefile.inc (lvl_libhlvl_a_SOURCES): Add them.
+	* src/lvl/de_body.c (dir_mask_to_dir, tunnel_square_io): Move them ...
+	* src/lvl/privacc.c (dir_mask_to_dir, tunnel_square_io): ... here.
+	* src/lvl/format.c (PIE_GET_TILE_WALLS, PIE_GET_TILE_TYPE,
+	PIE_GET_TUNNEL_DIR, PIE_GET_ANIM_FRAME_COUNT,
+	PIE_GET_ANIM_FRAME_DELAY, PIE_GET_EFFECT_SET,
+	PIE_GET_SANIM_FRAME_COUNT, PIE_GET_SANIM_FRAME_DELAY,
+	PIE_GET_SPEED_DIR, PIE_PCX_PIXELS_X, PIE_PCX_PIXELS_Y,
+	PIE_TILE_PIXELS_X, PIE_TILE_PIXELS_Y): New macros.
+	* src/lvl/free.c (lvl_free): Free lvl->tileset.
+	(lvl_free_tileset): New function.
+	* src/lvl/load.c (lvl_load_file): Initialize lvl->tileset.
+	* src/lvl/lvl.h (a_tileset_tile, a_tileset_square, a_tileset,
+	lvl_create, lvl_load_tileset, lvl_assign_tile, lvl_free_tileset,
+	lvl_set_start, lvl_setup_tunnel, lvl_set_anim_delay): New declarations.
+	* src/lvl/lvl_priv.h (PIE_RECORD_SIZE, dirmask_to_dir,
+	tunnel_square_io): New declarations.
+
 2002-02-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Now the src/* code does not access the private parts

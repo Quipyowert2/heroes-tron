@@ -70,3 +70,31 @@ lvl_animation_info (const a_level *lvl, a_tile_index tile,
   *frame_count = lvl->private->tile[tile].frame_count;
   *delay = lvl->private->tile[tile].frame_delay;
 }
+
+/* Simple helper function to transform masked direction into
+   directions.  */
+a_dir
+dir_mask_to_dir (a_dir_mask dm)
+{
+  if (dm & DM_UP)
+    return D_UP;
+  else if (dm & DM_RIGHT)
+    return D_RIGHT;
+  else if (dm & DM_DOWN)
+    return D_DOWN;
+  else
+    return D_LEFT;
+}
+
+/* Each tunnel has two input/output squares, indiced 0 and 1.
+   tunnel_square_io[][] is used to build the map of square links as it
+   helps to locate the square used to exit from a tunnel, given the
+   direction of the output tunnel (first index), and the  square
+   input number (second index).
+   For instance, if tile A is a tunnel oriented up, linked to
+   tile B which is a tunnel oriented right, we need to:
+    link  A's square number `tunnel_square_io[w_up][0]'
+      to  B's square number `tunnel_square_io[w_right][1]'
+   and link  A's square number `tunnel_square_io[w_up][1]'
+         to  B's square number `tunnel_square_io[w_right][0]' */
+const int tunnel_square_io[4][2] = { {0, 1}, {1, 3}, {3, 2}, {2, 0} };
