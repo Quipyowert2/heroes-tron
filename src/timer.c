@@ -97,10 +97,20 @@ read_htimer (htimer_t timer)
   u = current_time.tv_usec - timer->orig_time.tv_usec;
   d = timer->slice_duration;
 
- blocking_loop:
-  /* The following formula computes `(s*SEC+u)/d', trying to not
-     overflow (obviously `s*SEC+u' is likely to be too big) */
-  res = (s*(SEC/d)) + ((s*(SEC%d))/d) + ((((s*(SEC%d))%d)+u)/d);
+  for (;;) {
+    /* The following formula computes `(s*SEC+u)/d', trying to not
+       overflow (obviously `s*SEC+u' is likely to be too big) */
+    res = (s*(SEC/d)) + ((s*(SEC%d))/d) + ((((s*(SEC%d))%d)+u)/d);
+
+    if ((res != 0) || (((timer->kind & T_BLOCKING) == 0)))
+      break;
+    else {			/* The timer is blocking */
+      struct timeval present_time;
+      gettimeofday (&present_time, 0);
+      s = present_time.tv_sec - timer->orig_time.tv_sec;
+      u = present_time.tv_usec - timer->orig_time.tv_usec;
+    }
+  }
 
   if (timer->kind & T_LOCAL) {
     reset_htimer (timer);
@@ -111,34 +121,28 @@ read_htimer (htimer_t timer)
       --timer->orig_time.tv_sec;
     }
   }
-
-  if ((res == 0) && (timer->kind & T_BLOCKING)) {
-    struct timeval present_time;
-    gettimeofday (&present_time, 0);
-    s = present_time.tv_sec - timer->orig_time.tv_sec;
-    u = present_time.tv_usec - timer->orig_time.tv_usec;
-    goto blocking_loop;
-  }
 #else
   long c, d, res;
 
   c = current_time - timer->orig_time;
   d = timer->slice_duration;
 
- blocking_loop:
-  res = c / d;
+  for (;;) {
+    res = c / d;
+
+    if ((res != 0) || (((timer->kind & T_BLOCKING) == 0)))
+      break;
+    else			/* The timer is blocking */
+      c = clock () - timer->orig_time;
+  }
 
   if (timer->kind & T_LOCAL) {
     reset_htimer (timer);
     /* account for the time remaining from the last unfinished slice */
     timer->orig_time -= c % d;
   }
-
-  if ((res == 0) && (timer->kind & T_BLOCKING)) {
-    c = clock () - timer->orig_time;
-    goto blocking_loop;
-  }
 #endif
+  
   dmsg (D_TIMER, "read timer %p, return %ld", timer, res);
   return res;
 }
