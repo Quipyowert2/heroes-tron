@@ -1,5 +1,11 @@
 2000-12-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* Makefile.am (EXTRA_DIST): Add ABOUT-NLS.
+	* ABOUT-NLS: New file.
+	* HACKING: Update.
+
+2000-12-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in (ALL_LINGUAS): Add fr.
 	* m4/libintl.m4 (AM_WITH_NLS): When using AC_CONFIG_AUX_DIR,
 	prefix $(top_srcdir) to the value of MKINSTALLDIRS so that it

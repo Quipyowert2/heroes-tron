@@ -214,8 +214,8 @@ gettext!
 
 Other files:
 
- lib/fstrcmp.c	  (from ?, from libit)
- lib/fstrcmp.h	  (from ?, from libit)
+ lib/fstrcmp.c	  (from gettext, via libit)
+ lib/fstrcmp.h	  (from gettext, via libit)
  lib/getshline.c  (from a2ps)
  lib/getshline.h  (from a2ps)
  lib/w_dirent.c   (from mingw, originally dirent.c)
