@@ -1,5 +1,10 @@
 2001-02-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/display.c (set_color, set_pal): Don't set palette on visu if
+	it is not palletized.
+
+2001-02-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Revert an error I did when adapting Jean's patch.
 
 	* src/menus.c (keyboard_menu): Don't strip keyname which are 7

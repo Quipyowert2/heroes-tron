@@ -445,7 +445,8 @@ set_color (unsigned char c, unsigned char r, unsigned char g, unsigned char b)
   cmap[c].g = g * 1024;
   cmap[c].b = b * 1024;
   dmsg (D_VIDEO, "set color %d=(%d,%d,%d)",c,r,g,b);
-  ggiSetPalette (visu, c, 1, cmap);
+  if (GT_SCHEME (vid_mode.graphtype) == GT_PALETTE)
+    ggiSetPalette (visu, c, 1, cmap);
   if (render_visu != NULL)
     ggiSetPalette (render_visu, c, 1, cmap);
 }
@@ -462,7 +463,8 @@ set_pal (const unsigned char *ptr, int p, int n)
     cmap[i].b = *ptr++ * 1024;
   }
   dmsg (D_VIDEO, "set %d colors", n/3);
-  ggiSetPalette (visu, p / 3, n / 3, cmap);
+  if (GT_SCHEME (vid_mode.graphtype) == GT_PALETTE)
+    ggiSetPalette (visu, p / 3, n / 3, cmap);
   if (render_visu != NULL)
     ggiSetPalette (render_visu, p / 3, n / 3, cmap);
 }
