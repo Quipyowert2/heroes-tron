@@ -745,7 +745,7 @@ an_opponent_sig ai_standard_color = {
 
 an_opponent_sig ai_standard_tcash = {
   "standard AI for Time Ca$h",
-  OT_COLOR,
+  OT_TCASH,
   &ai_level_initialize,
   &ai_level_finalize,
   0,

@@ -106,11 +106,14 @@ state_init (a_level_state *state, const a_level *lvl, char cont,
 
     for (i = 0; i < 4; ++i) {
 
-      if ((bits->player[i].cpu & 2) == 0) {
-	bits->opponent[i] = opponent_get_random (state->game_mode);
+      /* Setup AI opponents.  */
+      if ((bits->player[i].cpu & 2) == 0
+	  && (bits->opponent[i] = opponent_get_random (state->game_mode))) {
 	bits->opponent_data[i] =
 	  bits->opponent[i]->initialize_player (state, i);
       } else {
+	/* Either `player #i' is a human player, or we couldn't find
+	   an AI driver for it.  */
 	bits->opponent[i] = 0;
 	bits->opponent_data[i] = 0;
       }

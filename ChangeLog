@@ -1,3 +1,11 @@
+2002-04-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/rules/state.c (state_init): Don't initialize an opponent
+	if we found no AI driver for it.
+	* src/plugins/stdai.c (ai_standard_tcash): Declare as an OT_TCASH
+	opponent.
+	Reported by Ingo.
+
 2002-04-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* libltdl/Makefile.am (ACLOCAL_AMFLAGS): New.
