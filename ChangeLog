@@ -1,3 +1,9 @@
+2001-02-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* Makefile.am (distcheck-hook): Add my-distcheck-nodisplay.
+	(my-distcheck-nodisplay): New target.
+	* HACKING: Update accordingly (distcheck now makes four builds).
+
 2001-02-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.in: Bump to version 0.8f.

@@ -48,7 +48,11 @@ README: $(top_srcdir)/doc/heroes.texi $(top_srcdir)/tools/readme.sed
 # this is heavily inspired from Jim Meyring's setup
 # in Fileutils & Shellutils & Textutils.
 
-distcheck-hook: man-distcheck my-distcheck-ggi my-distcheck-sdl
+distcheck-hook: \
+	man-distcheck \
+	my-distcheck-ggi \
+	my-distcheck-sdl \
+	my-distcheck-nodisplay
 
 # Use this to make sure we don't run these programs when building
 # from a virgin tgz file, below.
@@ -67,6 +71,16 @@ my-distcheck-ggi:
 	cd $(t) \
 	  && ../$(distdir)/configure --disable-nls --with-ggi --with-gii \
 			             --with-mikmod \
+	  && $(MAKE) AM_MAKEFLAGS='$(null_AM_MAKEFLAGS)'
+	-rm -rf $(t)
+
+# build without any library (VPATH build)
+my-distcheck-nodisplay:
+	-rm -rf $(t)
+	mkdir $(t)
+	cd $(t) \
+	  && ../$(distdir)/configure --disable-nls --disable-display \
+				     --disable-joystick --disable-sound \
 	  && $(MAKE) AM_MAKEFLAGS='$(null_AM_MAKEFLAGS)'
 	-rm -rf $(t)
 

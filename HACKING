@@ -297,7 +297,7 @@ that branch should be merged in the main trunk.
  - run tools/cvsboot.sh and make a dummy build
    (to update the generated file to the new version)
  - build the distribution using `make distcheck' in addition to making
-   a distribution, this will actually  perform three builds of the
+   a distribution, this will actually perform four builds of the
    game using differents configurations (so you need both SDL and GGI
    installed to do that)
 
