@@ -803,7 +803,10 @@ cross build the Heroes package available on the web page is in the
 subdirectory @file{arch/mingw32}.
 
 @item Win32/VisualC (SDL)
-See the files in the @file{arch/VisualC} subdirectory.
+See the files in the @file{arch/VisualC} subdirectory.  These are
+out-of-date (they have not been updated since version 0.7) and will
+probably be removed in a future version of Heroes; but you can use
+them as a start to compile Heroes with MSVC.
 
 @item Digital Unix (GGI)
 Should build out of the box.
