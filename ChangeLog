@@ -1,5 +1,11 @@
 2001-05-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* m4/h-paths.m4: Adjust the definition of localedir to the one used
+	by recent gettexts, and put more comments about issues regarding
+	localedir.
+
+2001-05-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* m4/dos.m4: New file, from fileutils-4.1, patched to check for
 	__WIN32__, _WIN32, and __MSDOS__.
 	* tools/fetish-sync.sh (files): Add dos.m4.
