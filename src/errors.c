@@ -76,22 +76,22 @@ emsg (msg, va_alist)
   va_list args;
 #endif
 
-  if (disable_emsg)
-    return;
-  fprintf (stderr, "%s: ", progname);
+  if (disable_emsg) {
+    fprintf (stderr, "%s: ", progname);
 #ifdef VA_START
-  VA_START (args, msg);
+    VA_START (args, msg);
 # if HAVE_VPRINTF
-  vfprintf (stderr, msg, args);
+    vfprintf (stderr, msg, args);
 # else
-  _doprnt (msg, args, stderr);
+    _doprnt (msg, args, stderr);
 # endif /* HAVE_VPRINTF */
-  va_end (args);
+    va_end (args);
 #else
-  fprintf (stderr, msg, va_alist);
+    fprintf (stderr, msg, va_alist);
 #endif /* VA_START */
-  putc ('\n', stderr);
-  fflush (stderr);
+    putc ('\n', stderr);
+    fflush (stderr);
+  }
   exit_heroes (33);
 }
 

@@ -1,5 +1,10 @@
 2000-10-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/errors.c (emsg): Bug fix: exit the game even if
+	error messages are disabled.
+
+2000-10-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	FreeBSD has getopt_long in the gnugetopt library.  Moreover we
 	don't want to use our own getopt.h header when getopt_long is
 	already available on the build system.  The FreeBSD part is
