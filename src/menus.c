@@ -242,6 +242,8 @@ free_menu (menu_t *menu)
     free_sprite (menu->entries[--i]);
   free (menu->entries);
   free (menu->hrules);
+  free_sprite (menu->title);
+  free (menu->funcs);
   free (menu);
 }
 
@@ -589,7 +591,7 @@ uninit_menus_sprites (void)
     for (i = 0; i < 7; ++i) {
       FREE_SPRITE0 (music_ico[i]);
       FREE_SPRITE0 (sfx_ico[i]);
-      FREE_SPRITE0 (luminance_ico[7]);
+      FREE_SPRITE0 (luminance_ico[i]);
     }
   }
   FREE_SPRITE0 (radar_ico[0]);
@@ -612,9 +614,9 @@ uninit_menus_sprites (void)
   FREE_SPRITE0 (sound_menu_txt);
   FREE_SPRITE0 (music_vol_txt);
   FREE_SPRITE0 (sfx_vol_txt);
+  FREE_SPRITE0 (screen_menu_txt);
   FREE_SPRITE0 (game_menu_txt);
   FREE_SPRITE0 (game_rounds_txt);
-  FREE_SPRITE0 (screen_menu_txt);
   FREE_SPRITE0 (keyboard_menu_txt);
   {
     int i;
@@ -644,8 +646,8 @@ uninit_menus_sprites (void)
   FREE_SPRITE0 (pause_menu_txt);
   FREE_SPRITE0 (quitgame_menu_txt);
   FREE_SPRITE0 (quitheroes_menu_txt);
-  FREE_SPRITE0 (quit_yes_txt);
   FREE_SPRITE0 (quit_no_txt);
+  FREE_SPRITE0 (quit_yes_txt);
   FREE_SPRITE0 (ed_new_level_txt);
   FREE_SPRITE0 (ed_existing_level_txt);
   FREE_SPRITE0 (ed_name_txt);
@@ -654,12 +656,12 @@ uninit_menus_sprites (void)
   FREE_SPRITE0 (ed_x_size_txt);
   FREE_SPRITE0 (ed_y_size_txt);
   FREE_SPRITE0 (ed_edit_txt);
-  FREE_SPRITE0 (edit_first_menu_txt);
-  FREE_SPRITE0 (edit_first_new_txt);
-  FREE_SPRITE0 (edit_first_load_txt);
   free_menu (option_menu_data);
   free_menu (main_menu_data);
   FREE_SPRITE0 (edit_sel_txt);
+  FREE_SPRITE0 (edit_first_menu_txt);
+  FREE_SPRITE0 (edit_first_new_txt);
+  FREE_SPRITE0 (edit_first_load_txt);
   FREE_SPRITE0 (playmenu_title_txt);
   FREE_SPRITE0 (playmenu_players_txt[0]);
   FREE_SPRITE0 (playmenu_players_txt[1]);
