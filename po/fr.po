@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Heroes 0.10\n"
-"POT-Creation-Date: 2001-08-22 15:41+0200\n"
-"PO-Revision-Date: 2001-05-22 22:15+02:00\n"
+"Project-Id-Version: Heroes 0.12e\n"
+"POT-Creation-Date: 2001-08-25 15:48+0200\n"
+"PO-Revision-Date: 2001-08-25 14:45+0200\n"
 "Last-Translator: Alexandre Duret-Lutz <duret_g@epita.fr>\n"
 "Language-Team: none <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -92,7 +92,7 @@ msgstr ""
 "Copyright (C) %d  Alexandre Duret-Lutz, Romuald Genevois,\n"
 "Alexandre Liverneaux et Philippe Meisburger.\n"
 
-#: src/argv.c:62
+#: src/argv.c:62 src/heroeslvl.c:65
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
@@ -134,7 +134,7 @@ msgstr ""
 "Heroes est un jeu similaire aux jeux \"Tron\" and \"Nibbles\" d'antan mais\n"
 "plus est plus élaboré et ajoute plusieurs effets graphiques.\n"
 
-#: src/argv.c:116
+#: src/argv.c:116 src/heroeslvl.c:82
 msgid ""
 "Mandatory arguments to long options are mandatory for short options too.\n"
 msgstr ""
@@ -257,7 +257,7 @@ msgstr ""
 "Visitez http://heroes.sourceforge.net/ pour information, documentation, et\n"
 "mises à jour."
 
-#: src/argv.c:168
+#: src/argv.c:168 src/heroeslvl.c:103
 msgid "Report bugs to <heroes-bugs@lists.sourceforge.net>."
 msgstr "Rapporter toutes anomalies à <heroes-bugs@lists.sourceforge.net>."
 
@@ -285,7 +285,7 @@ msgstr "%d POINTS"
 
 #: src/bonus.c:351
 msgid "FIRE TRAIL!"
-msgstr ""
+msgstr "TRAINEE DE FEU"
 
 #: src/bonus.c:365
 msgid "GET TURBO+"
@@ -340,9 +340,8 @@ msgid "different parts of the game"
 msgstr "différentes parties du jeu"
 
 #: src/debughash.c:107 src/debughash.gperf:54
-#, fuzzy
 msgid "joystick initialization and events"
-msgstr "initialization du joystick"
+msgstr "initialization et évènements du joystick"
 
 #: src/debughash.c:109 src/debughash.gperf:55
 msgid "timer handling"
@@ -484,7 +483,6 @@ msgstr ""
 "\n"
 
 #: src/helptext.c:72
-#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -527,6 +525,7 @@ msgstr ""
 "%{img L 0 132 20 22}%{>}%{img L 0 154 20 22}%{>>>}Ralentissement\n"
 "%{img L 0 176 20 22}%{>}%{img L 0 198 20 22}%{>>>}Bonus Aleatoire\n"
 "%{img L 0 220 20 22}%{>}%{img L 0 242 20 22}%{>>>}Points\n"
+"%{img L 0 264 20 22}%{>}%{img L 0 286 20 22}%{>>>}Trainee de feu\n"
 "%{img L 20 0 20 22}%{>}%{img L 20 22 20 22}%{>>>}Stop\n"
 "%{img L 20 44 20 22}%{>}%{img L 20 66 20 22}%{>>>}Commandes inversees\n"
 "%{img L 20 88 20 22}%{>}%{img L 20 110 20 22}%{>>>}Puissance supplementaire\n"
@@ -630,7 +629,6 @@ msgstr ""
 "\n"
 
 #: src/helptext.c:146
-#, fuzzy
 msgid ""
 "%{head 4}GAME OPTIONS\n"
 "\n"
@@ -718,7 +716,8 @@ msgstr ""
 "%{>>}%gAUTOPILOTE\n"
 "\n"
 "%{>>>}Les casse-cou pourront essayer de jouer sans l'option %gAUTOPILOT%w, "
-"reposez en paix...\n"
+"reposez en paix...   Notez que l'%gAUTOPILOTE%w ne fonctionne pas contre les "
+"trainees de feu.\n"
 "\n"
 
 #: src/helptext.c:192
@@ -803,51 +802,276 @@ msgstr ""
 "Alexandre Liverneaux and Philippe Meisburger.\n"
 "\n"
 
-#: src/heroes.c:676 src/heroes.c:764
+#: src/heroes.c:680 src/heroes.c:768
 #, c-format
 msgid "Cannot load level %s (error %d)"
-msgstr ""
+msgstr "Impossible de charger le niveau %s (erreur %d)"
 
-#: src/heroes.c:1910
+#: src/heroes.c:1914
 #, c-format
 msgid "INVERTED %d"
 msgstr "INVERSE %d"
 
-#: src/heroes.c:1941
+#: src/heroes.c:1945
 #, c-format
 msgid "STOPPED %d"
 msgstr "ARRETE %d"
 
 #. TRANS: %d, the number of remaining lives, is always
 #. positive.
-#: src/heroes.c:2237
+#: src/heroes.c:2241
 msgid "LAST LIFE"
 msgid_plural "%d LIVES LEFT"
 msgstr[0] "DERNIERE VIE"
 msgstr[1] "RESTE %d VIES"
 
-#: src/heroes.c:2808
+#: src/heroes.c:2812
 msgid "Error during level loading"
 msgstr "Erreur pendant le chargement du niveau"
 
-#: src/heroes.c:2844
+#: src/heroes.c:2848
 #, c-format
 msgid "-LEVEL %d-"
 msgstr "-NIVEAU %d-"
 
-#: src/heroes.c:2846
+#: src/heroes.c:2850
 #, c-format
 msgid "-ROUND %d/%d-"
 msgstr "-MANCHE %d/%d-"
 
-#: src/heroes.c:3332
+#: src/heroes.c:3336
 msgid "error in sfx.cfg"
 msgstr "erreur dans sfx.cfg"
 
+#: src/heroeslvl.c:64
+#, c-format
+msgid "Copyright (C) %d  Alexandre Duret-Lutz.\n"
+msgstr "Copyright (C) %d  Alexamdre Duret-Lutz.\n"
+
+#: src/heroeslvl.c:75
+#, c-format
+msgid "Try '%s --help' for more information.\n"
+msgstr "Essayez '%s --help' pour plus d'informations.\n"
+
+#: src/heroeslvl.c:80
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS]... levels\n"
+"\n"
+msgstr ""
+"Utilisation : %s [OPTIONS]... niveaux\n"
+"\n"
+
+#: src/heroeslvl.c:81
+msgid "Heroeslvl is a tool used to inspect Heroes' level files.\n"
+msgstr ""
+"Heroeslvl est un outil servant à inspecter les fichiers de niveaux "
+"d'Heroes.\n"
+
+#: src/heroeslvl.c:84
+msgid "  -v, --version               display version number"
+msgstr "  -v, --version               affiche le numéro de version"
+
+#: src/heroeslvl.c:86
+msgid "  -h, --help                  display this help"
+msgstr "  -h, --help                  affiche cette aide"
+
+#: src/heroeslvl.c:88
+msgid ""
+"  -p, --print=WHAT            select information to display.  WHAT should "
+"be\n"
+"                                one or more of these characters:"
+msgstr ""
+"  -p, --print=QUOI            choisit les informations a afficher.  QUOI "
+"peut\n"
+"                                être un ou plusieurs des caractères "
+"suivants :"
+
+#: src/heroeslvl.c:91
+msgid "d   print square directions"
+msgstr "d   affiche les directions des carrés"
+
+#: src/heroeslvl.c:92
+msgid "f   print filename"
+msgstr "f   affiche le nom du fichier"
+
+#: src/heroeslvl.c:93
+msgid "h   print header"
+msgstr "h   affiche l'entête"
+
+#: src/heroeslvl.c:94
+msgid "i   print tile details"
+msgstr "i   affiche les détails des tuiles"
+
+#: src/heroeslvl.c:95
+msgid "t   print square type map"
+msgstr "t   affiche la carte des type des carrés"
+
+#: src/heroeslvl.c:96
+msgid "T   print type keys"
+msgstr "T   affiche la légende des types"
+
+#: src/heroeslvl.c:97
+msgid "w   print square wall map"
+msgstr "w   affiche les murs de chaque carré"
+
+#: src/heroeslvl.c:98
+msgid "@   print tunnels"
+msgstr "@   affiche les tunnels"
+
+#: src/heroeslvl.c:99
+msgid "  -i, --indent                indent everything but the filename"
+msgstr "  -i, --indent                indente tout sauf the nom de fichier"
+
+#: src/heroeslvl.c:102
+msgid "When no options are given, the default is -ipfh."
+msgstr "Lorsqu'aucune option n'est donnée, -ipfh est utilisé."
+
+#: src/heroeslvl.c:202
+#, c-format
+msgid "%sheight:\t%d tiles\t(%d squares)\n"
+msgstr "%shauteur:\t%d tuile\t(%d carrés)\n"
+
+#: src/heroeslvl.c:204
+#, c-format
+msgid "%swidth:\t%d tiles\t(%d squares)\n"
+msgstr "%slargeur:\t%d tuile\t(%d carrés)\n"
+
+#: src/heroeslvl.c:207
+#, c-format
+msgid "%sY-wrap:\tno\n"
+msgstr "%sBoucle-Y:\tnon\n"
+
+#: src/heroeslvl.c:209
+#, c-format
+msgid "%sY-wrap:\t%d tiles\t(%d squares)\n"
+msgstr "%sBoucle-Y:\t%d tuile\t(%d carrés)\n"
+
+#: src/heroeslvl.c:212
+#, c-format
+msgid "%sX-wrap:\tno\n"
+msgstr "%sBoucle-X:\tnon\n"
+
+#: src/heroeslvl.c:214
+#, c-format
+msgid "%sX-wrap:\t%d tiles\t(%d squares)\n"
+msgstr "%sBoucle-X:\t%d tuile\t(%d carrés)\n"
+
+#: src/heroeslvl.c:216
+#, c-format
+msgid "%ssound track alias:\t%s\n"
+msgstr "%salias bande son:\t%s\n"
+
+#: src/heroeslvl.c:218
+#, c-format
+msgid "%stile map basename:\t%s\n"
+msgstr "%simage des tuiles:\t%s\n"
+
+#: src/heroeslvl.c:220
+#, c-format
+msgid "%sstarting squares and directions (y x dir):\n"
+msgstr "%scarrés et directions de départ (y x dir):\n"
+
+#: src/heroeslvl.c:262
+msgid "none"
+msgstr "rien"
+
+#: src/heroeslvl.c:263
+msgid "stop"
+msgstr "stop"
+
+#: src/heroeslvl.c:264
+msgid "speed"
+msgstr "vitesse"
+
+#: src/heroeslvl.c:265
+msgid "tunnel"
+msgstr "tunnel"
+
+#: src/heroeslvl.c:266
+msgid "boom"
+msgstr "explosion"
+
+#: src/heroeslvl.c:267
+msgid "anim"
+msgstr "animation"
+
+#: src/heroeslvl.c:268
+msgid "ice"
+msgstr "glace"
+
+#: src/heroeslvl.c:269
+msgid "dust"
+msgstr "poussière"
+
+#: src/heroeslvl.c:270
+msgid "outway"
+msgstr "inaccessible"
+
+#: src/heroeslvl.c:390
+#, c-format
+msgid "%sTunnels:\n"
+msgstr "%sTunnels:\n"
+
+#. TRANS: This is the header of an array (output by heroeslvl -p@),
+#. so the position of these words is important.
+#.
+#. SRCIDX is a short for 'source index' (entrance of a tunnel) and
+#. DESTIDX means 'destination index' (output of the tunnel).
+#: src/heroeslvl.c:396
+#, c-format
+msgid "%s  NBR  SRCIDX   Y   X  DIR      DESTIDX\n"
+msgstr "%s  NBR  SRCIDX   Y   X  DIR      DESTIDX\n"
+
+#. TRANS: `still' is used to describe tiles which are not animated.
+#: src/heroeslvl.c:427
+msgid "still"
+msgstr "fixe"
+
+#. TRANS: `loop' is for animated tiles where frames are displayed
+#. from 1 to n, and then again from 1 to n, etc.
+#: src/heroeslvl.c:431
+msgid "loop"
+msgstr "boucle"
+
+#. TRANS: `pingpong' is for tiles animated in loop where frame
+#. displayed from 1 to n, then from n to 1, and then again from 1
+#. to n, etc.
+#: src/heroeslvl.c:436
+msgid "pingpong"
+msgstr "pingpong"
+
+#. TRANS: This is the header of an array (output by heroeslvl -pi) so
+#. the position of these word is important.
+#.
+#. SPRITE is the address of the sprite used to render the tile.  OVERLAY
+#. is the address of a sprite that should be displayed on top
+#. of the players (e.g. trees).  ANIM-TYPE is the kind of animation used
+#. for the tile, FRM the number of frame to display, DEL the delay
+#. between each frame.
+#: src/heroeslvl.c:454
+#, c-format
+msgid "%sTILE  Y  X    TYPE      SPRITE    OVERLAY  ANIM-TYPE FRM DEL\n"
+msgstr "%sTUILE Y  X    TYPE      IMAGE     SURIMPR  TYPE-ANIM IMG ATTENTE\n"
+
+#: src/heroeslvl.c:504
+#, c-format
+msgid "cannot load %s"
+msgstr "impossible de charger %s"
+
+#: src/heroeslvl.c:508
+#, c-format
+msgid "File:\t%s\n"
+msgstr "Fichier:\t%s\n"
+
+#: src/heroeslvl.c:540
+msgid "Missing filename."
+msgstr "Nom de fichier manquant."
+
 #: src/levellst.c:54
-#, fuzzy, c-format
+#, c-format
 msgid "cannot open directory %s"
-msgstr "Impossible de créer les répertoire `%s'."
+msgstr "impossible d'ouvrir le répertoire %s"
 
 #. TRANS: in QUEST mode, the player goes throught all the levels, but
 #. have to search for specific powerups in order to jump to the next
@@ -1406,12 +1630,12 @@ msgstr "%s:%d: il manque le nom de la ressource"
 #: src/userconf.c:126 src/userconf.c:140
 #, c-format
 msgid "%s:%d: %s: can only be used from the system configuration file"
-msgstr ""
+msgstr "%s:%d: %s: can only be used from the system configuration file"
 
 #: src/userconf.c:135 src/userconf.c:149
-#, fuzzy, c-format
+#, c-format
 msgid "%s:%d: %s: unknown value: %s"
-msgstr "%s:%d: mot clef inconnu `%s'"
+msgstr "%s:%d: %s: valeur inconnue: %s"
 
 #: src/userconf.c:153
 #, c-format
@@ -1467,11 +1691,11 @@ msgstr "Echec lors de l'ouverture du visuel interne `display-memory'."
 msgid "Failed to set 320x200x8 mode on display-memory"
 msgstr "Impossible d'ouvrir le visuel `display-memory' en 320x200x8"
 
-#: src/media/ggi/video.c:284
+#: src/media/ggi/video.c:285
 msgid "failed to acquire direct-buffer"
 msgstr "impossible d'obtenir un accès direct au tampon d'affichage"
 
-#: src/media/ggi/video.c:301
+#: src/media/ggi/video.c:302
 msgid "failed to release direct-buffer"
 msgstr "impossible de libérer l'accès direct au tampon d'affichage"
 
