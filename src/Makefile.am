@@ -85,6 +85,8 @@ keyb.h \
 keys_heroes.h \
 keysdef.c \
 keysdef.h \
+levellst.c \
+levellst.h \
 menus.c \
 menus.h \
 misc.c \

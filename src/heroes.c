@@ -69,20 +69,16 @@
 #include "relocate.h"
 #include "vars.h"
 #include "camera.h"
+#include "levellst.h"
 
 char tile_set_name[128];
 char glenz_name[128];
 
-char *level_list;
-#define levellstchunk 13
-char *levelinf;
 int *level_full_list;
-int level_full_list_size = 0;
+size_t level_full_list_size = 0;
 int rounds = 1;
 
-int level_list_nbr = 0;
-
-int current_quest_level;
+unsigned int current_quest_level;
 
 int level_is_finished;
 
@@ -581,34 +577,14 @@ unload_level (void)
 static void
 load_level_from_number (int nbr, char cont)
 {
-  char tmp[1024];
   char e;
 
   dmsg (D_SECTION, "load level #%d", nbr);
-
-  {
-    char* t = get_non_null_rsc_file ("levels-dir");
-    strcat (strcpy ((char *) tmp, t), level_list + nbr * levellstchunk);
-    free (t);
-  }
-  e = load_level ((char *) tmp, cont);
-  if (e != 0) {
-    emsg (_("Error %d during loading level"), e);
-  }
+  e = load_level (level_list[nbr].name, cont);
+  if (e != 0)
+    emsg (_("Cannot load level %s (error %d)"), level_list[nbr].name, e);
 }
 
-/*
-static void loadlvlpasrandq2(int nbr,char cont)
-{
-  char tmp[1024];char e;
-  strcat(strcpy((char*)tmp,nivdir),levellstq2[nbr]);
-  e=load_level((char*)tmp,cont);
-  if (e!=0) {
-    sprintf(tmp,"Error %d during loading level\n",e);
-    fatal_error((char*)tmp);
-  }
-}
-*/
 static void
 compute_level_full_list (void)
 {
@@ -617,7 +593,7 @@ compute_level_full_list (void)
 
   dmsg (D_SECTION, "compute level full list");
 
-  level_full_list_size = level_list_nbr + extra_nbr;
+  level_full_list_size = level_list_size + extra_nbr;
   XMALLOC_ARRAY (level_full_list, level_full_list_size);
 
   if (extra_nbr == 0) {
@@ -634,7 +610,7 @@ compute_level_full_list (void)
   }
   i = 0;
   if (opt.extras != 2)
-    for (; i < level_list_nbr; i++)
+    for (; i < (int) level_list_size; i++)
       level_full_list[i] = i;
   if (opt.extras != 0)
     for (j = 0; j < extra_nbr; j++)
@@ -652,7 +628,7 @@ free_level_full_list (void)
 static int
 random_level (void)
 {
-  int i, j, k;
+  unsigned int i, j, k;
   assert (level_full_list_size > 0);
   i = rand () % level_full_list_size;
   level_full_list_size--;
@@ -663,51 +639,38 @@ random_level (void)
 }
 
 static void
-load_random_wrapped_level (char c, char cont)
+load_random_wrapped_level (bool wrapped, char cont)
 {
   int t;
-  char tmp[1024];
-  char e;
 
   dmsg (D_SECTION, "load random wrapped level");
 
   do {
-    t = rand () % level_list_nbr;
-  } while (c == 1 && levelinf[t] != 1);
-  {
-    char* tt = get_non_null_rsc_file ("levels-dir");
-    strcat (strcpy ((char *) tmp, tt), level_list + t * levellstchunk);
-    free (tt);
-  }
-  e = load_level ((char *) tmp, cont);
-  if (e != 0) {
-    emsg (_("Error %d occured while loading level %s"), e, tmp);
-  }
+    t = rand () % level_list_size;
+  } while (wrapped && !level_list[t].wrapped);
+
+  load_level_from_number (t, cont);
 }
 
 static void
 load_random_level (char cont)
 {
   int t;
-  char tmp[1024];
+  char *tmp;
   char e;
   t = random_level ();
   /* t=1; */
 
-  dmsg (D_SECTION, "load random wrapped");
+  dmsg (D_SECTION, "load random level");
 
   if (t & 0x10000) {
-    strcpy (tmp, extra_list[t & 0xffff].full_name);
+    tmp = extra_list[t & 0xffff].full_name;
   } else {
-    char* tt = get_non_null_rsc_file ("levels-dir");
-    strcat (strcpy ((char *) tmp, tt), level_list + t * levellstchunk);
-    free (tt);
+    tmp = level_list[t].name;
   }
-  e = load_level ((char *) tmp, cont);
-  if (e != 0) {
-    emsg (_("Error %d occured while loading level %s"), e, tmp);
-  }
-
+  e = load_level (tmp, cont);
+  if (e != 0)
+    emsg (_("Cannot load level %s (error %d)"), tmp, e);
 }
 
 static void
@@ -863,7 +826,7 @@ play_menu (void)
     rounds = rounds_nbr_values[opt.gamerounds];
   } else
     rounds = 1;
-  while (((current_quest_level < level_list_nbr)
+  while (((current_quest_level < level_list_size)
 	  || ((game_mode > M_QUEST)
 	      && (current_quest_level < level_full_list_size)))
 	 && (rounds > 0) && (play_game (cont) == 0)) {
@@ -880,7 +843,7 @@ play_menu (void)
 
   /* END OF THE GAME */
 
-  if ((game_mode == M_QUEST) && (current_quest_level >= level_list_nbr)) {
+  if ((game_mode == M_QUEST) && (current_quest_level >= level_list_size)) {
     if (level_is_finished != 15) {
       /* End scroller */
       char* tmp;
@@ -906,7 +869,7 @@ play_menu (void)
 
   game_mode = M_QUEST;
 /* free_all_sfx(); */
-  load_random_wrapped_level (1, cont);
+  load_random_wrapped_level (true, cont);
   load_sfx_mode (-1);
 
   play_soundtrack ();
@@ -2325,7 +2288,7 @@ play_demo (void)
 
   in_menu = 0;
   tutor = 0;
-  load_random_wrapped_level (0, 0);
+  load_random_wrapped_level (false, 0);
 
   play_soundtrack ();
   set_pal_with_luminance (&tile_set_img.palette);
@@ -2465,7 +2428,7 @@ load_demo (void)
   game_mode = M_QUEST;
   in_demo = 0;
   two_players = olddeuxplr;
-  load_random_wrapped_level (1, 0);
+  load_random_wrapped_level (true, 0);
   load_sfx_mode (-1);
 
   play_soundtrack ();
@@ -2482,7 +2445,7 @@ main_menu (void)
 
   dmsg (D_SECTION, "-- menu --");
 
-  load_random_wrapped_level (1, 0);
+  load_random_wrapped_level (true, 0);
   load_sfx_mode (-1);
 
   play_soundtrack ();
@@ -3208,51 +3171,6 @@ play_game (char cont)
   return (l);
 }
 
-static void
-read_level_list (void)
-{
-  FILE *f;
-  int i = 0;
-  char string[32];
-  char* t = get_non_null_rsc_file ("levels-list-txt");
-
-  dmsg (D_FILE|D_SECTION, "read level list: %s ...", t);
-  if ((f = fopen (t, "rt")) == NULL) {
-    dperror ("fopen");
-    emsg (_("Cannot open %s."), t);
-  }
-  free (t);
-  while (!feof (f)) {
-    fgets ((char *) string, 32, f);
-    if (string[0] == '>' || string[0] == ' ')
-      level_list_nbr++;
-  }
-  fseek (f, 0, 0);
-  XMALLOC_ARRAY (level_list, level_list_nbr * 13);
-  XMALLOC_ARRAY (levelinf, level_list_nbr);
-  while (!feof (f)) {
-    char *tmp;
-    fgets ((char *) string, 32, f);
-    tmp = strchr ((char *) string, 0xd);
-    if (tmp)
-      *tmp = 0;
-    tmp = strchr ((char *) string, 0xa);
-    if (tmp)
-      *tmp = 0;
-    string[13] = 0;
-    if (string[0] == '>' || string[0] == ' ') {
-      strncpy (level_list + i * levellstchunk, (char *) &(string[1]), 13);
-      if (string[0] == '>')
-	levelinf[i] = 1;
-      else
-	levelinf[i] = 0;
-      i++;
-    }
-  }
-  fclose (f);
-  dmsg (D_FILE|D_SECTION, "... done");
-}
-
 int
 main (int argc, char *argv[])
 {
@@ -3423,8 +3341,7 @@ main (int argc, char *argv[])
   free_all_sfx ();
   close_sfx_handle ();
   unload_level ();
-  free (levelinf);
-  free (level_list);
+  free_level_list ();
   uninit_bonuses ();
   close_buffers ();
   uninit_sound_engine ();

@@ -29,6 +29,7 @@
 #include "misc.h"
 #include "rsc_files.h"
 #include "debugmsg.h"
+#include "levellst.h"
 
 typedef struct {
   filename_t	filename;
@@ -61,15 +62,6 @@ static void free_extradir_info (extradir_info_t* ei)
 {
   free (ei->filename);
   free (ei);
-}
-
-/* select only *.lvl files */
-static int
-select_file (const struct dirent *d)
-{
-  int l = strlen (d->d_name);
-  return (l > 4 && d->d_name[l - 4] == '.' && d->d_name[l - 3] == 'l'
-	  && d->d_name[l - 2] == 'v' && d->d_name[l - 1] == 'l');
 }
 
 /* compare two extra-levels for sorting,
@@ -109,7 +101,7 @@ browse_extra_directory (extradir_info_t* edi, level_list_t* ll)
   }
 
   while ((de = readdir (dir)))
-    if (select_file (de)) {
+    if (select_file_lvl (de)) {
       /* add the file to the list */
       char* fn;
       NEW (extra_level_t, tmp);

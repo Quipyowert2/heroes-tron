@@ -1,5 +1,23 @@
 2001-07-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/levellst.c: New file.
+	* src/levellst.h: New file.
+	* src/Makefile.am (heroes_SOURCES): Add them.
+	* src/extras.c (select_file): Rename as select_file_lvl and move
+	to levellst.c.
+	(browse_Extra_directories): Use select_file_lvl.
+	* src/heroes.c (level_list, levellstchunk, levelinf,
+	level_list_nbr): Remove, replaced by varables from levellst.h and .c.
+	(level_full_list_Size, current_quest_level): Define as unsigned.
+	(load_level_from_level, compute_level_full_list, random_level,
+	load_random_wrapped_level, load_random_level, play_menu, load_demo,
+	main_menu, main): Adjust to the new definitions.
+	(read_level_list): Remove.
+	* sr/rsc_files.gperf (end-scroller-txt, help-txt, levels-list-txt,
+	text-conf-txt): Remove.
+
+2001-07-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/lvl/load.c (lvl_load_body_mem,
 	lvl_load_header_mem): New functions.
 	(lvl_init_lvl_basic_fields): New function, extracted from...
