@@ -141,6 +141,7 @@ jm_FUNC_REALLOC
 
 # for error.c
 AC_CHECK_FUNCS([strerror])
+AC_CHECK_DECLS([strerror])
 AC_FUNC_STRERROR_R
 
 jm_FUNC_FTRUNCATE

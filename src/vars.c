@@ -87,20 +87,9 @@ var_define (const char *name, const char *value)
 const char *
 var_get_value (const char *name)
 {
-  struct hash_entry *bucket
-    = var_hash->bucket + hash_string (name, var_hash->n_buckets);
-  struct hash_entry *cursor;
-
-  assert (bucket < var_hash->bucket_limit);
-
-  if (!bucket->data)
-    return 0;
-
-  for (cursor = bucket; cursor; cursor = cursor->next)
-    if (!strcasecmp (((a_var_entry*)(cursor->data))->name, name))
-      return cursor->data;
-
-  return 0;
+  a_var_entry ve;
+  ve.name = name;
+  return hash_lookup (var_hash, &ve);
 }
 
 void

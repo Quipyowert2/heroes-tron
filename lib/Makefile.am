@@ -41,6 +41,7 @@ libheroes_a_SOURCES= \
   isdir.c \
   isdir.h \
   stripslash.c \
+  unlocked-io.h \
   w_dirent.h \
   xalloc.h \
   xmalloc.c \

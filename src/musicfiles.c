@@ -111,20 +111,9 @@ add_sound_track_cons (char *alias, char *filename, char *title, char *author)
 a_sound_track *
 get_sound_track_from_alias (const char *alias)
 {
-  struct hash_entry *bucket
-    = st_hash->bucket + hash_case_string (alias, st_hash->n_buckets);
-  struct hash_entry *cursor;
-
-  assert (bucket < st_hash->bucket_limit);
-
-  if (!bucket->data)
-    return 0;
-
-  for (cursor = bucket; cursor; cursor = cursor->next)
-    if (!strcasecmp (((a_sound_track*)(cursor->data))->alias, alias))
-      return cursor->data;
-
-  return 0;
+  a_sound_track st;
+  st.alias = alias;
+  return hash_lookup (st_hash, &st);
 }
 
 a_sound_track *
