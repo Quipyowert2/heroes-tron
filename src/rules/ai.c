@@ -26,9 +26,6 @@
 #include "ai.h"
 #include "hooks.h"
 
-#include "explosions.h"		/* FIXME: Get rid of this.  */
-#include "bonus.h"		/* FIXME: Get rid of this.  */
-
 char ia_max_depth;
 char ia_cur_depth;
 char ia_is_invincible;
@@ -46,23 +43,29 @@ int bonus_points[2][17] =
 };
 
 
-void
-ai_level_initialize (a_level_state *state)
+static void *
+ai_level_initialize (const a_level_state *state, int player)
 {
-  XCALLOC_ARRAY (tile_bonus_cpu, state->level->tile_count);
+  (void) player;
+  if (tile_bonus_cpu == 0)
+    XCALLOC_ARRAY (tile_bonus_cpu, state->level->tile_count);
+  return 0;
 }
 
-void
-ai_level_finalize (a_level_state *state)
+static void
+ai_level_finalize (const a_level_state *state, int player, void *callback_data)
 {
+  (void) callback_data;
   (void) state;
+  (void) player;
   XFREE0 (tile_bonus_cpu);
 }
 
 /* Adjust speed of AI-player C.  */
-void
-ai_throttle (a_level_state *state, const a_level *lvl, int c)
-
+static void
+ai_throttle (const a_level_state *state, int p,
+	     an_opponent_action *action,
+	     void *callback_data)
 {
   /* DEAD_END[C] is TRUE if player C stopped (or tried to) because
      some opponent prevents it to move.  */
@@ -71,35 +74,38 @@ ai_throttle (a_level_state *state, const a_level *lvl, int c)
   unsigned free_directions = 4;
   bool seen_opponent = false;
   bool seen_opponent_head = false;
+
   /* Check squares neighboring next position.  */
   a_square_index next_pos =
-    lvl->square_move[state->player[c].way][state->player[c].pos];
+    state->level->square_move[state->player[p].way][state->player[p].pos];
   a_dir i;
   for (i = 0; i < 4; i++) {
-    a_square_index idx = lvl->square_move[i][next_pos];
-    if (idx == INVALID_INDEX || i == REVERSE_DIR (state->player[c].way)) {
+    a_square_index idx = state->level->square_move[i][next_pos];
+    if (idx == INVALID_INDEX || i == REVERSE_DIR (state->player[p].way)) {
       --free_directions;
     } else {
       a_u8 o = state->square_occupied[idx];
       if (o != 0xff) {
-	if ((o & 3) != c) {
+	if ((o & 3) != p) {
 	  seen_opponent = true;
 	  if (o < 8)
 	    seen_opponent_head = true;
 	}
 	--free_directions;
       } else if (state->square_explo_state[idx] < EXPLOSION_IMMEDIATE + 2
-		 && ! state->player[c].invincible) {
+		 && ! state->player[p].invincible) {
 	--free_directions;
       }
     }
   }
 
+  (void) callback_data;
+
   if (! seen_opponent || free_directions > 1) {
     /* If no opponent is wandering around, or there is at least
        two free direction, there is no need to worry.  */
-    state->player[c].turbo = 1;
-    dead_end[c] = false;
+    action->throttle = TH_NORMAL;
+    dead_end[p] = false;
     return;
   }
 
@@ -111,32 +117,32 @@ ai_throttle (a_level_state *state, const a_level *lvl, int c)
        overtake us).  Don't accelerate otherwise, because we would not
        have the time to stop if he cuts us up.  */
     if (seen_opponent_head)
-      state->player[c].turbo = 2;
+      action->throttle = TH_SPEEDUP;
     else
-      state->player[c].turbo = 1;
-    dead_end[c] = false;
+      action->throttle = TH_NORMAL;
+    dead_end[p] = false;
     return;
   }
 
-  if (! dead_end[c]) {
+  if (! dead_end[p]) {
     /* This is a cul de sac and we haven't yet stopped.
        Better do it now.  */
     int chance = 3;
     assert (seen_opponent && free_directions == 0);
-    if (state->player[c].rotozoom)
+    if (state->player[p].rotozoom)
       --chance;
-    if (state->player[c].waves)
+    if (state->player[p].waves)
       --chance;
     if (rand() % 4 <= chance)
-      state->player[c].turbo = 0;
+      action->throttle = TH_BRAKE;
     /* Remember we already tried to stop, so we don't give
        another chance to this AI vehicle if it failed to stop.  */
-    dead_end[c] = true;
+    dead_end[p] = true;
   }
 }
 
 static unsigned int
-ia_eval_dist (a_level_state *state, const a_level *lvl, int pos)
+ia_eval_dist (const a_level_state *state, const a_level *lvl, int pos)
 {
   a_square_coord curx, cury, distx, disty;
   curx = state->square_coord[pos].x;
@@ -237,7 +243,7 @@ self (new) (128). : 1pts,
 */
 
 static int
-ia_eval_neighb_pos (a_level_state *state, const a_level *lvl,
+ia_eval_neighb_pos (const a_level_state *state, const a_level *lvl,
 		    a_dir dir, a_square_index pos)
 {
   a_square_index idx;
@@ -259,7 +265,7 @@ ia_eval_neighb_pos (a_level_state *state, const a_level *lvl,
 }
 
 static unsigned int
-ia_eval_dir_target (a_level_state *state, const a_level *lvl,
+ia_eval_dir_target (const a_level_state *state, const a_level *lvl,
 		    a_square_index pos)
 {
   a_u32 mindist;
@@ -292,7 +298,7 @@ ia_eval_dir_target (a_level_state *state, const a_level *lvl,
 }
 
 static int
-ia_eval_dir_lemming (a_level_state *state, const a_level *lvl,
+ia_eval_dir_lemming (const a_level_state *state, const a_level *lvl,
 		     a_square_index pos)
 {
   int mindist;
@@ -336,7 +342,7 @@ ia_eval_dir_lemming (a_level_state *state, const a_level *lvl,
 }
 
 static int
-ia_eval_dir_color (a_level_state *state, const a_level *lvl,
+ia_eval_dir_color (const a_level_state *state, const a_level *lvl,
 		   a_square_index pos)
 {
   signed int mindist;
@@ -387,7 +393,7 @@ ia_eval_dir_color (a_level_state *state, const a_level *lvl,
 }
 
 static int
-ia_eval_dir_cash (a_level_state *state, const a_level *lvl,
+ia_eval_dir_cash (const a_level_state *state, const a_level *lvl,
 		  a_square_index pos)
 {
   signed int mindist;
@@ -427,7 +433,7 @@ ia_eval_dir_cash (a_level_state *state, const a_level *lvl,
 }
 
 static int
-ia_eval_dir_bonus (a_level_state *state, const a_level *lvl,
+ia_eval_dir_bonus (const a_level_state *state, const a_level *lvl,
 		   a_square_index pos)
 {
   ia_cur_depth--;
@@ -544,19 +550,22 @@ ia_eval_dir_bonus (a_level_state *state, const a_level *lvl,
 	  }								\
     }
 
-char
-ia_goto_target (a_level_state *state, const a_level *lvl,
-		int c, int targetx_, int targety_)
+static void
+ia_goto_target (const a_level_state *state, int c,
+		an_opponent_action *action,
+		void *callback_data)
 {
   a_square_index idx, pos;
   a_u32 tmp[4] = { U32_MAX, U32_MAX, U32_MAX, U32_MAX };
   a_u32 mindist = U32_MAX;
   a_dir mindir = 0;
+  const a_level *lvl = state->level;
+  (void) callback_data;
 
   ia_player = c;
   ia_max_depth = state->player[c].ia_max_depth;
-  ia_target_x = targetx_;
-  ia_target_y = targety_;
+  ia_target_x = state->player[state->player[c].target].x2;
+  ia_target_y = state->player[state->player[c].target].y2;
   ia_wrap_x = ia_target_x + lvl->tile_width;
   if (ia_wrap_x >= lvl->square_width) {
     ia_wrap_x -= lvl->square_width;
@@ -577,19 +586,22 @@ ia_goto_target (a_level_state *state, const a_level *lvl,
   ia_goto_target_inline (D_DOWN);
   ia_goto_target_inline (D_LEFT);
   if (tmp[state->player[c].way] == tmp[mindir])
-    return state->player[c].way;
+    action->dir = state->player[c].way;
   else
-    return mindir;
+    action->dir = mindir;
 }
 
-char
-ia_goto_nearest_bonus (a_level_state *state, const a_level *lvl,
-		       int c)
+static void
+ia_goto_nearest_bonus (const a_level_state *state, int c,
+		       an_opponent_action *action,
+		       void *callback_data)
 {
   a_square_index idx, pos;
   int tmp[4] = { 0, 0, 0, 0 };
   int mindist = 0;
   a_dir mindir = 0;
+  const a_level *lvl = state->level;
+  (void) callback_data;
 
   ia_player = c;
   ia_max_depth = state->player[c].ia_max_depth;
@@ -600,18 +612,22 @@ ia_goto_nearest_bonus (a_level_state *state, const a_level *lvl,
   ia_goto_bonus_inline (D_DOWN);
   ia_goto_bonus_inline (D_LEFT);
   if (tmp[state->player[c].way] == tmp[mindir])
-    return state->player[c].way;
+    action->dir = state->player[c].way;
   else
-    return mindir;
+    action->dir = mindir;
 }
 
-char
-ia_goto_nearest_lemming (a_level_state *state, const a_level *lvl, int c)
+static void
+ia_goto_nearest_lemming (const a_level_state *state, int c,
+			 an_opponent_action *action,
+			 void *callback_data)
 {
   a_square_index idx, pos;
   int tmp[4] = { 0, 0, 0, 0 };
   int mindist = 0;
   a_dir mindir = 0;
+  const a_level *lvl = state->level;
+  (void) callback_data;
 
   ia_player = c;
   ia_max_depth = state->player[c].ia_max_depth;
@@ -622,18 +638,22 @@ ia_goto_nearest_lemming (a_level_state *state, const a_level *lvl, int c)
   ia_goto_lemming_inline (D_DOWN);
   ia_goto_lemming_inline (D_LEFT);
   if (tmp[state->player[c].way] == tmp[mindir])
-    return state->player[c].way;
+    action->dir = state->player[c].way;
   else
-    return mindir;
+    action->dir = mindir;
 }
 
-char
-ia_goto_nearest_color (a_level_state *state, const a_level *lvl, int c)
+static void
+ia_goto_nearest_color (const a_level_state *state, int c,
+		       an_opponent_action *action,
+		       void *callback_data)
 {
   a_square_index idx, pos;
   int tmp[4] = { 0, 0, 0, 0 };
   int mindist = 0;
   a_dir mindir = 0;
+  const a_level *lvl = state->level;
+  (void) callback_data;
 
   ia_player = c;
   ia_max_depth = state->player[c].ia_max_depth;
@@ -644,18 +664,22 @@ ia_goto_nearest_color (a_level_state *state, const a_level *lvl, int c)
   ia_goto_color_inline (D_DOWN);
   ia_goto_color_inline (D_LEFT);
   if (tmp[state->player[c].way] == tmp[mindir])
-    return state->player[c].way;
+    action->dir = state->player[c].way;
   else
-    return mindir;
+    action->dir = mindir;
 }
 
-char
-ia_goto_nearest_cash (a_level_state *state, const a_level *lvl, int c)
+static void
+ia_goto_nearest_cash (const a_level_state *state, int c,
+		      an_opponent_action *action,
+		      void *callback_data)
 {
   a_square_index idx, pos;
   int tmp[4] = { 0, 0, 0, 0 };
   int mindist = 0;
   a_dir mindir = 0;
+  const a_level *lvl = state->level;
+  (void) callback_data;
 
   ia_player = c;
   ia_max_depth = state->player[c].ia_max_depth;
@@ -666,7 +690,62 @@ ia_goto_nearest_cash (a_level_state *state, const a_level *lvl, int c)
   ia_goto_cash_inline (D_DOWN);
   ia_goto_cash_inline (D_LEFT);
   if (tmp[state->player[c].way] == tmp[mindir])
-    return state->player[c].way;
+    action->dir = state->player[c].way;
   else
-    return mindir;
+    action->dir = mindir;
 }
+
+an_opponent_sig ai_standard_quest = {
+  "standard AI for Quest mode",
+  OT_QUEST,
+  &ai_level_initialize,
+  &ai_level_finalize,
+  0,
+  0,
+  &ia_goto_nearest_bonus,
+  &ai_throttle
+};
+
+an_opponent_sig ai_standard_deathm = {
+  "standard AI for Death Match",
+  OT_QUEST | OT_DEATHM,
+  &ai_level_initialize,
+  &ai_level_finalize,
+  0,
+  0,
+  &ia_goto_target,
+  &ai_throttle
+};
+
+an_opponent_sig ai_standard_killem = {
+  "standard AI for Kill'em all",
+  OT_KILLEM,
+  &ai_level_initialize,
+  &ai_level_finalize,
+  0,
+  0,
+  &ia_goto_nearest_lemming,
+  &ai_throttle
+};
+
+an_opponent_sig ai_standard_color = {
+  "standard AI for Color",
+  OT_COLOR,
+  &ai_level_initialize,
+  &ai_level_finalize,
+  0,
+  0,
+  &ia_goto_nearest_color,
+  &ai_throttle
+};
+
+an_opponent_sig ai_standard_tcash = {
+  "standard AI for Time Ca$h",
+  OT_COLOR,
+  &ai_level_initialize,
+  &ai_level_finalize,
+  0,
+  0,
+  &ia_goto_nearest_cash,
+  &ai_throttle
+};

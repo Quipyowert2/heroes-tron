@@ -24,6 +24,7 @@
 
 #include "prefs.h"		/* FIXME: Get rid of this include. */
 #include "ai.h"
+#include "debugmsg.h"
 
 void
 state_init (a_level_state *state, const a_level *lvl, char cont,
@@ -83,6 +84,35 @@ state_init (a_level_state *state, const a_level *lvl, char cont,
   if (!in_menu) {
     unsigned i;
     for (i = 0; i < 4; ++i) {
+
+      if ((state->player[i].cpu & 2) == 0) {
+	switch (state->game_mode) {
+	case M_QUEST:
+	  if (rand () & 1)
+	    bits->opponent[i] = &ai_standard_deathm;
+	  else
+	    bits->opponent[i] = &ai_standard_quest;
+	  break;
+	case M_DEATHM:
+	  bits->opponent[i] = &ai_standard_deathm;
+	  break;
+	case M_KILLEM:
+	  bits->opponent[i] = &ai_standard_killem;
+	  break;
+	case M_TCASH:
+	  bits->opponent[i] = &ai_standard_tcash;
+	  break;
+	case M_COLOR:
+	  bits->opponent[i] = &ai_standard_color;
+	  break;
+	}
+	bits->opponent_data[i] =
+	  bits->opponent[i]->initialize_player(state, i);
+      } else {
+	bits->opponent[i] = 0;
+	bits->opponent_data[i] = 0;
+      }
+
       /* trail_offset[i]=0; */
       if (state->game_mode == M_DEATHM) {
 	bits->trail_size[i] = 32;
@@ -96,7 +126,7 @@ state_init (a_level_state *state, const a_level *lvl, char cont,
 	state->player[i].wins = 0;
       } else {
 	/* reinitialize dead computers: give them an empty score
-	   and decrase their total of wins */
+	   and decrease their total of wins */
 	if (state->player[i].cpu < 2 && state->player[i].lifes == 0)
 	  {
 	    state->player[i].lifes = 9;
@@ -161,16 +191,28 @@ state_init (a_level_state *state, const a_level *lvl, char cont,
   if (!in_menu)
     spread_bonuses (state);
 
-  ai_level_initialize (state);
-
   bits->players_started = false;
   bits->update_timer = new_htimer (T_LOCAL, HZ (70));
+
+  {
+    unsigned i;
+    for (i = 0; i < 4; ++i) {
+      an_opponent_sig *op = state->private->opponent[i];
+      if (op && op->name)
+	dmsg (D_MISC, "player %d is driven by %s", i, op->name);
+    }
+  }
 }
 
 void
 state_free (a_level_state *state)
 {
-  ai_level_finalize (state);
+  int p;
+  for (p = 0; p < 4; ++p) {
+    an_opponent_sig *op = state->private->opponent[p];
+    if (op && op->finalize_player)
+      op->finalize_player(state, p, state->private->opponent_data[p]);
+  }
 
   uninit_bonuses_level (state);
   release_explosions (state);

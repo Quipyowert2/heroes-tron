@@ -1,3 +1,21 @@
+2002-03-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/opponents.h: New file.
+	* src/Makefile.am (heroes_SOURCES): Add it.
+	* src/rules/ai.c, src/rules/ai.h: Reorganize to present the AI in ...
+	(ai_standard_quest, ai_standard_deathm, ai_standard_killem,
+	ai_standard_color, ai_standard_tcash): ... these instances of the
+	an_opponent_sig struct defined in src/opponents.h.
+	* src/rules/player.c (state_erase_player, state_reinit_player):
+	Adjust to use the an_opponent_sig interface.
+	* src/rules/state.c (state_init, state_free): Likewise.
+	* src/rules/player.h (player.behaviour): Remove.
+	* src/rules/statepriv.h (a_level_state_bits.opponent,
+	a_level_state_bits.opponent_data): New attributes.
+	* src/rules/update.c (opponent_action_prepare, opponent_action_honor):
+	New functions.
+	(update_player): Adjust to use the an_opponent_sig interface.
+
 2002-03-02  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/Makefile.am (heroes_SOURCES): Add hookscore.c and hookscore.h.

@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------.
-| Copyright 2001  Alexandre Duret-Lutz <duret_g@epita.fr>           |
+| Copyright 2002  Alexandre Duret-Lutz <duret_g@epita.fr>           |
 |                                                                   |
 | This file is part of Heroes.                                      |
 |                                                                   |
@@ -21,17 +21,12 @@
 #ifndef HEROES__AI__H
 #define HEROES__AI__H
 
-void ai_level_initialize (a_level_state *state);
-void ai_level_finalize (a_level_state *state);
+#include "opponents.h"
 
-void ai_throttle (a_level_state *state, const a_level *lvl, int c);
-
-char ia_goto_target (a_level_state *state, const a_level *lvl,
-		     int c, int targetx_, int targety_);
-char ia_goto_nearest_bonus (a_level_state *state, const a_level *lvl,
-			    int c);
-char ia_goto_nearest_lemming (a_level_state *state, const a_level *lvl, int c);
-char ia_goto_nearest_color (a_level_state *state, const a_level *lvl, int c);
-char ia_goto_nearest_cash (a_level_state *state, const a_level *lvl, int c);
+extern an_opponent_sig ai_standard_quest;
+extern an_opponent_sig ai_standard_deathm; /* used in quest too */
+extern an_opponent_sig ai_standard_killem;
+extern an_opponent_sig ai_standard_color;
+extern an_opponent_sig ai_standard_tcash;
 
 #endif /* HEROES__AI__H */

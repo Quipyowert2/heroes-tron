@@ -34,6 +34,7 @@
 #endif
 #include "state.h"
 #include "timer.h"
+#include "opponents.h"
 
 typedef struct an_explosion_info an_explosion_info;
 
@@ -68,6 +69,9 @@ struct a_level_state_bits {
 
   a_timer update_timer;
   bool players_started;
+
+  an_opponent_sig *opponent[4];
+  void *opponent_data[4];
 };
 
 extern void add_color (a_level_state *state, bool allow_clocks);

@@ -110,6 +110,7 @@ misc.c \
 misc.h \
 musicfiles.c \
 musicfiles.h \
+opponents.h \
 parafmt.c \
 parafmt.h \
 pcx.c \

@@ -22,6 +22,7 @@
 #include "system.h"
 #include "statepriv.h"
 #include "debugmsg.h"
+#include "opponents.h"
 
 #include "prefs.h"		/* FIXME: Get rid of this include. */
 
@@ -29,11 +30,17 @@ void
 state_erase_player (a_level_state *state, unsigned i)
 {
   const a_level *lvl = state->level;
+  an_opponent_sig *s = state->private->opponent[i];
+
   dmsg (D_MISC, "erase player %d", i);
+
+  if (s && s->stop_player)
+    state->private->opponent_data[i] =
+      s->stop_player(state, i, state->private->opponent_data[i]);
 
   /* FIXME: this first line used to be guarded by
      if (!in_menu)
-     It'd not clear to me why this is needed.
+     It's not clear to me why this is needed.
   */
   state->square_occupied
     [SQR_COORDS_TO_INDEX (lvl,
@@ -194,11 +201,6 @@ state_reinit_player (a_level_state *state, unsigned p)
   /**************/
 
   state->player[p].ia_max_depth = (rand () & 1) + 5;
-  if (state->game_mode >= M_KILLEM && state->game_mode != M_DEATHM)
-    state->player[p].behaviour = 2;
-  else
-    state->player[p].behaviour = rand () & 1;
-
   /* Attach the CPU to one of the human player.  */
   {
     int human_players = 0;
@@ -242,5 +244,12 @@ state_reinit_player (a_level_state *state, unsigned p)
   for (m = state->private->trail_size[p]; m >= 0; m--) {
     state->private->trail_pos[p][m] = start_idx;
     state->private->trail_way[p][m] = DIR8_PAIR (start_dir, start_dir);
+  }
+
+  {
+    an_opponent_sig *s = state->private->opponent[p];
+    if (s && s->start_player)
+      state->private->opponent_data[p] =
+	s->start_player(state, p, state->private->opponent_data[p]);
   }
 }

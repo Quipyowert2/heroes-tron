@@ -69,7 +69,6 @@ typedef struct
 				   /* 2: player local [,3: player distant] */
   int ia_max_depth;		/* recusrion depth for CPU (keep <= 7,
 				   or it will be slow) */
-  int behaviour;		/* 0.follower 1.bonus eater 2.squisher 3...*/
   int target;			/* target to follow */
   int lemmings_nbr;
   int martians_nbr;		/* ;-) */

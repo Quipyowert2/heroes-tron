@@ -124,6 +124,44 @@ find_free_way (a_level_state *state, int c)
 }
 
 
+static void
+opponent_action_prepare (const a_level_state *state,
+			 an_opponent_action *opp, int p)
+{
+  opp->dir = state->player[p].next_way;
+  switch (state->player[p].turbo) {
+  case 0:
+    opp->throttle = TH_BRAKE;
+    break;
+  case 1:
+    opp->throttle = TH_NORMAL;
+    break;
+  case 2:
+    opp->throttle = TH_SPEEDUP;
+    break;
+  default:
+    abort();
+  }
+}
+
+static void
+opponent_action_honor (a_level_state *state,
+		       const an_opponent_action *opp, int p)
+{
+  state->player[p].next_way = opp->dir;
+  switch (opp->throttle) {
+  case TH_BRAKE:
+    state->player[p].turbo = 0;
+    break;
+  case TH_NORMAL:
+    state->player[p].turbo = 1;
+    break;
+  case TH_SPEEDUP:
+    state->player[p].turbo = 2;
+    break;
+  }
+}
+
 /* * * * * * * * * * * * * * * * * * * * *\
  * Handling of players moves, collisions, *
  * bonus effects, lemmings dies, etc.     *
@@ -225,9 +263,16 @@ update_player (a_level_state *state, unsigned c)
   }
 
   if (state->player[c].delay == 0) {
-    /* Adjust speed of AI-controled vehicles.  */
-    if (cpuon && ((state->player[c].cpu & 2) == 0))
-      ai_throttle (state, lvl, c);
+    if (cpuon && state->player[c].target < 16) {
+      an_opponent_sig *op = state->private->opponent[c];
+      if (op && op->frame_update) {
+	an_opponent_action act;
+	opponent_action_prepare (state, &act, c);
+	op->frame_update (state, c, &act, state->private->opponent_data[c]);
+	opponent_action_honor (state, &act, c);
+      }
+    }
+
     if (state->player[c].turbo != 1 && state->player[c].turbo_level > 0
 	&& state->player[c].speedup == 0) {
       state->player[c].vitt = (state->player[c].v + state->player[c].vi) * state->player[c].turbo;
@@ -317,25 +362,13 @@ update_player (a_level_state *state, unsigned c)
 
     if (cpuon) {
       if (state->player[c].target < 16) {
-	if ((state->player[c].cpu & 2) == 0) {
-	  if (state->player[c].behaviour == 1)
-	    state->player[c].next_way = ia_goto_nearest_bonus (state, lvl,
-							       c);
-	  else if (state->player[c].behaviour == 2) {
-	    if (state->game_mode == M_KILLEM)
-	      state->player[c].next_way = ia_goto_nearest_lemming (state, lvl,
-								   c);
-	    if (state->game_mode == M_TCASH)
-	      state->player[c].next_way = ia_goto_nearest_cash (state, lvl,
-								c);
-	    if (state->game_mode == M_COLOR)
-	      state->player[c].next_way = ia_goto_nearest_color (state, lvl,
-								 c);
-	  } else
-	    state->player[c].next_way =
-	      ia_goto_target (state, lvl,
-			      c, state->player[state->player[c].target].x2,
-			      state->player[state->player[c].target].y2);
+	an_opponent_sig *op;
+	op = state->private->opponent[c];
+	if (op && op->square_update) {
+	  an_opponent_action acc;
+	  opponent_action_prepare (state, &acc, c);
+	  op->square_update (state, c, &acc, state->private->opponent_data[c]);
+	  opponent_action_honor (state, &acc, c);
 	}
       } else
 	state->player[c].target -= 16;
