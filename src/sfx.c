@@ -22,7 +22,8 @@
 #include "config.h"
 #include "sfx.h"
 
-#ifdef HAVE_LIBMIKMOD
+#if defined HAVE_LIBMIKMOD || defined HAVE_LIBSDL_MIXER
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -35,7 +36,6 @@
 #include "errors.h"
 #include "options.h"
 #include "misc.h"
-#include <mikmod.h>
 #include "argv.h"
 #include "rsc_files.h"
 #ifdef HAVE_DMALLOC
@@ -48,10 +48,68 @@ typedef char* filename_t;
 
 static filename_t *sfx_names;
 static char *sfx_loaded;
-static struct SAMPLE **sfx_handles;
 static int *play_handles;
 static int event_handle[max_events];
 static int max_sfx = 0;
+
+#ifdef HAVE_LIBMIKMOD
+
+#include <mikmod.h>
+static struct SAMPLE **sfx_handles;
+
+static struct SAMPLE
+_load_sfx (char* file)
+{
+  struct SAMPLE* tmp;
+  
+  tmp = Sample_Load (file);
+  if (tmp)
+    tmp->panning = (PAN_RIGHT + PAN_LEFT) / 2;
+  return tmp;
+}
+
+static void
+_free_sfx (struct SAMPLE* sfx)
+{
+  Sample_Free (sfx);
+}
+
+static void
+_play_sfx (struct SAMPLE* sfx)
+{
+    /* set the sample volume */
+    sfx->volume = (13 - opt.sfx_volume) * 64 / 13;
+    Sample_Play (sfx, 0, 0);
+}
+
+#endif /* HAVE_LIBMIKMOD */
+
+#ifdef HAVE_LIBSDL_MIXER
+
+#include <SDL_mixer.h>
+static Mix_Chunk **sfx_handles;
+
+static Mix_Chunk*
+_load_sfx (char* file)
+{
+  return Mix_LoadWAV (file);
+}
+
+static void
+_free_sfx (Mix_Chunk* sfx)
+{
+  Mix_FreeChunk (sfx);
+}
+
+static void
+_play_sfx (Mix_Chunk* sfx)
+{
+    /* set the sample volume */
+    sfx->volume = (13 - opt.sfx_volume) * 128 / 13;
+    Mix_PlayChannel (-1, sfx, 0);
+}
+
+#endif /* HAVE_LIBSDL_MIXER */
 
 static void
 remove_comments (char *str)
@@ -186,7 +244,7 @@ free_all_sfx (void)
     return;
   for (i = 1; i < max_sfx; i++)
     if (sfx_loaded[i]) {
-      Sample_Free (sfx_handles[i]);
+      _free_sfx (sfx_handles[i]);
       sfx_loaded[i] = 0;
     }
 }
@@ -257,11 +315,9 @@ load_sfx_mode (signed char mode)
 
   for (i = 1; i < max_sfx; i++)
     if (sfx_loaded[i]) {
-      if (!(sfx_handles[i] = Sample_Load (sfx_names[i]))) {
+      if (!(sfx_handles[i] = _load_sfx (sfx_names[i]))) {
 	fprintf(stderr,"%s :",sfx_names[i]);
 	fatal_error ("Unable to load that sample.");
-      } else {
-	sfx_handles[i]->panning = (PAN_RIGHT + PAN_LEFT) / 2;
       }
     }
 }
@@ -275,17 +331,13 @@ event_sfx (int event)
   assert (event < max_events);
   assert (event_handle[event] < max_sfx);
   if (event_handle[event] != 0) {
-    struct SAMPLE* i = sfx_handles[event_handle[event]];
     assert (sfx_loaded[event_handle[event]]);
-    if (opt.sfx) {
-      /* set the sample volume */
-      i->volume = (13 - opt.sfx_volume) * 64 / 13;
-      Sample_Play (i, 0, 0);
-    }
+    if (opt.sfx) 
+      _play_sfx (sfx_handles[event_handle[event]]);
   }
 }
 
-#else /* !HAVE_LIBMIKMOD */
+#else /* !HAVE_LIBMIKMOD and !HAVE_LIBSDL_MIXER */
 
 char 
 read_sfx_conf (void)

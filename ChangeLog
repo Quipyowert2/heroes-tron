@@ -1,5 +1,23 @@
 2000-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	SFX support for SDL_mixer
+
+	* src/sfx.c: Move functions around, and setup support
+	for both MikMod and SDL_mixer.
+	[HAVE_LIBMIKMOD] (_load_sfx,_free_sfx,_play_sfx): New.
+	[HAVE_LIBSDL_MIXER] (sfx_handles,_load_sfx,_free_sfx,
+	_play_sfx): New.
+	(free_all_sfx,event_sfx,load_sfx_mode): Adapt to
+	use _free_sfx, _play_sfx and _load_sfx respectively.
+
+	Misc. sound-related fixes.
+	
+	* src/sound.c [HAVE_LIBSDL_MIXER] (init_sound_engine):
+	Fix audio rate selection.  Reduce the audio buffer value.
+	* src/argv.c (parse_argv): Add missing 'q' case.	
+
+2000-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Update to latest versions from subversion.gnu.org.
 
 	* lib/getopt.c: Fresh version from glibc CVS.

@@ -265,10 +265,12 @@ extern void init_SDL (void);
 int
 init_sound_engine (void)
 {
-  audio_rate = (hqmix ? 22050 : 44100);
+  audio_rate = (hqmix ? 44100 : 22050);
   audio_format = (bits8 ? AUDIO_S8 : AUDIO_S16);
   audio_channels = (mono ? 1 : 2);
-  audio_buffers = 4096;
+  /* Use small values for audio buffer to reduce the duration between
+     the moment where a sample is mixed and the moment where it is heard. */
+  audio_buffers = (hqmix ? 2048 : 1024);
   
   init_SDL ();
   /* Open the audio device */

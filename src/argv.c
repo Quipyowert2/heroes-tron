@@ -202,6 +202,9 @@ parse_argv (int argc, char **argv)
     case '3':
       stretch = 3;
       break;
+    case 'q':
+      hqmix = 1;
+      break;
     case '?':
       /* getopt_long already printed an error message. */
     case 0:
