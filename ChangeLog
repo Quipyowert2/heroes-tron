@@ -1,3 +1,31 @@
+2001-01-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Flush the display directly wherever we can avoid to
+	write in `screen'.  There are still some places that use
+	`screen' (intro, level-editor, two-player display) and
+	need to be further worked.
+
+	* src/display.c (stretch_twofold, stretch_twofold_even,
+	stretch_threefold, stretch_threefold_even, stretch_fourfold,
+	stretch_fourfold_even, copy_screen, copy_display): Qualify the
+	source argument as const.
+	[HAVE_LIBSDL,HAVE_LIBGGI] (vsynchro): Likewise.
+	(erase_odd_line): Delete.
+	(copy_screen_event): New.
+	(copy_display): Use copy_screen_event instead of erase_odd_line.
+	* src/display.h (vsynchro): Qualify the source argument
+	as const.
+	* src/scrtools.c (flush_display): New.
+	(vsynch): Rewrite using flush_display.
+	* src/scrtools.c (flush_display): New.
+	* src/endscroll.c (end_scroll): Adapt to use flush_display.
+	* src/heroes (play_menu, play_demo, main_menu, play_game): Likewise.
+	* src/menus.c (display_menu, control_menu, keyboard_menu,
+	sound_menu, screen_menu, game_menu, extra_menu, quit_menu,
+	editor_selector, editor_menu, editor_first_menu, jukebox_draw,
+	pause_menu, quit_yes_no, enter_your_name, scores_menu,
+	help_menu): Likewise.
+
 2001-01-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Make `screen' an xbuf*ybuf sized buffer, and adapt all code

@@ -1115,8 +1115,7 @@ play_menu (void)
   do {
     do {
       draw_play_menu (l);
-      vsynch ();
-      aff_buffer ();
+      flush_display (corner[0]);
       if (key_or_joy_ready ()) {
 	t = get_key_or_joy ();
 	if (t == HK_Up || HK_Down)
@@ -1156,8 +1155,7 @@ play_menu (void)
       do {
 	background_menu ();
 	draw_saved_games_info (0, u, false);
-	vsynch ();
-	aff_buffer ();
+	flush_display (corner[0]);
 	if (key_or_joy_ready ()) {
 	  t = get_key_or_joy ();
 	  if (t == HK_Up) {
@@ -1200,13 +1198,12 @@ play_menu (void)
     if (flip_pos < -256)
       flip_pos = -256;
     flip_buffer (flip_pos);
-    vsynch ();
-    display_buffer_tmp1 ();
+    flush_display (render_buffer[1]);
   } while (flip_pos > -256);
-  vsynch ();
+  flush_display (render_buffer[1]);
   /* erase the one-line flipped screen */
-  memset (screen + 100 * xbuf, 0, 320);
-  vsynch ();
+  memset (render_buffer[1] + 100 * xbuf, 0, 320);
+  flush_display (render_buffer[1]);
 
   free_htimer (flip_timer);
 
@@ -2795,8 +2792,7 @@ play_demo (void)
       /* FIXME: use a timer for the pendulumn */
       flip_pos = pendulum_update (n);
       flip_buffer (flip_pos);
-      vsynch ();
-      display_buffer_tmp1 ();
+      flush_display (render_buffer[1]);
       output_screen ((char) n);
       n = update_all (0);
     } while (elapsed_time < 3000);
@@ -2830,11 +2826,11 @@ play_demo (void)
 	std_black_fadeout (&tile_set_img.palette);
 	fader_status_flagback (&fade_stat);
       }
-      vsynch ();
       if (two_players == false) {
-	aff_buffer ();
+	flush_display (corner[0]);
       } else {
 	display_two_buffers ();
+	vsynch ();
       }
     }
     enable_blit = 1;
@@ -2935,8 +2931,7 @@ main_menu (void)
     do {
       background_menu ();
       draw_main_menu (l);
-      vsynch ();
-      aff_buffer ();
+      flush_display (corner[0]);
       if (key_or_joy_ready () || demo_ready) {
 	if (demo_ready == 0)
 	  t = get_key_or_joy ();
@@ -2975,8 +2970,7 @@ main_menu (void)
 	    draw_main_menu (l);
 	    if (corner_buffer ())
 	      break;
-	    vsynch ();
-	    aff_buffer ();
+	    flush_display (corner[0]);
 	  }
 	  load_demo ();
 	  dmsg (D_SECTION, "-- (back to) menu (from demo) --");
@@ -3282,8 +3276,7 @@ play_game (char cont)
 
       DRAW_SPRITE (levelname, render_buffer[1]);
 
-      vsynch ();
-      display_buffer_tmp1 ();
+      flush_display (render_buffer[1]);
       output_screen ((char) n);
       process_input_events ();
       n = update_all (0);
@@ -3295,8 +3288,7 @@ play_game (char cont)
     corner[0] = render_buffer[0];
     clear_scr_area (corner[0]);
     DRAW_SPRITE (levelname, corner[0]);
-    aff_buffer ();
-    vsynch ();
+    flush_display (corner[0]);
 
     sleep (1);
     update_htimers ();
@@ -3332,11 +3324,10 @@ play_game (char cont)
     update_text_waving_step ();
     if (enable_blit) {
       if (two_players == false) {
-	vsynch ();
-	aff_buffer ();
+	flush_display (corner[0]);
       } else {
-	vsynch ();
 	display_two_buffers ();
+	vsynch ();
       }
     }
     enable_blit = 1;
@@ -3377,8 +3368,7 @@ play_game (char cont)
       update_text_waving_step ();
       if (two_players == false) {
 	draw_end_level_info (0, l);
-	vsynch ();
-	aff_buffer ();
+	flush_display (corner[0]);
       } else {
 	pixel_t* tmp;
 
@@ -3387,8 +3377,8 @@ play_game (char cont)
 	corner[0] = corner[1];
 	draw_end_level_info (swapside ? 0 : -160, l);
 	corner[0] = tmp;
-	vsynch ();
 	display_two_buffers ();
+	vsynch ();
       }
       output_screen ((char) n);
       n = update_all (1);
@@ -3426,8 +3416,7 @@ play_game (char cont)
 	do {
 	  if (two_players == false) {
 	    draw_saved_games_info (0, l, true);
-	    vsynch ();
-	    aff_buffer ();
+	    flush_display (corner[0]);
 	  } else {
 	    pixel_t *tmp;
 
@@ -3436,8 +3425,8 @@ play_game (char cont)
 	    corner[0] = corner[1];
 	    draw_saved_games_info (swapside ? 0 : -160, l, true);
 	    corner[0] = tmp;
-	    vsynch ();
 	    display_two_buffers ();
+	    vsynch ();
 	  }
 	  output_screen ((char) n);
 	  n = update_all (1);
@@ -3554,8 +3543,8 @@ play_game (char cont)
 	  corner[0] = corner[1];
 	  draw_end_level_info (swapside ? 0 : -160, l);
 	  corner[0] = tmp;
-	  vsynch ();
 	  display_two_buffers_moving_and_clear (i);
+	  vsynch ();
 	}
 	output_screen ((char) n);
 	process_input_events ();
@@ -3563,8 +3552,8 @@ play_game (char cont)
       }
       if (two_players == false) {
 	draw_end_level_info (0, l);
-	vsynch ();
 	display_buffer_moving (40);
+	vsynch ();
       } else {
 	pixel_t *tmp;
 	tmp = corner[0];
@@ -3572,8 +3561,8 @@ play_game (char cont)
 	corner[0] = corner[1];
 	draw_end_level_info (swapside ? 0 : -160, l);
 	corner[0] = tmp;
-	vsynch ();
 	display_two_buffers_moving_and_clear (40);
+	vsynch ();
       }
     } else {
       dmsg (D_SECTION, "print round info");
@@ -3587,8 +3576,7 @@ play_game (char cont)
 	update_text_waving_step ();
 	if (two_players == false) {
 	  draw_round_info (0);
-	  vsynch ();
-	  aff_buffer ();
+	  flush_display (corner[0]);
 	} else {
 	  pixel_t *tmp;
 	  tmp = corner[0];
@@ -3622,8 +3610,8 @@ play_game (char cont)
 	update_text_waving_step ();
 	if (two_players == false) {
 	  draw_round_info (0);
-	  vsynch ();
 	  display_buffer_moving (i);
+	  vsynch ();
 	} else {
 	  pixel_t *tmp;
 	  tmp = corner[0];
@@ -3631,8 +3619,8 @@ play_game (char cont)
 	  corner[0] = corner[1];
 	  draw_round_info (swapside ? 0 : -160);
 	  corner[0] = tmp;
-	  vsynch ();
 	  display_two_buffers_moving_and_clear (i);
+	  vsynch ();
 	}
 	output_screen ((char) n);
 	process_input_events ();
@@ -3640,8 +3628,8 @@ play_game (char cont)
       }
       if (two_players == false) {
 	draw_round_info (0);
-	vsynch ();
 	display_buffer_moving (40);
+	vsynch ();
       } else {
 	pixel_t *tmp;
 	tmp = corner[0];
@@ -3649,8 +3637,8 @@ play_game (char cont)
 	corner[0] = corner[1];
 	draw_round_info (swapside ? 0 : -160);
 	corner[0] = tmp;
-	vsynch ();
 	display_two_buffers_moving_and_clear (40);
+	vsynch ();
       }
 /* end of round info */
     }

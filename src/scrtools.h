@@ -24,6 +24,7 @@
 #include "pcx.h"
 
 void set_pal_with_luminance (const palette_t* palsrc);
+void flush_display (const pixel_t *src);
 void vsynch (void);
 
 void backup_screen (pixel_t *dest);

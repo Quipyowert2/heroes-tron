@@ -824,10 +824,8 @@ display_menu (menu_t *menu, int l, bool blit)
   for (line = 0; line < menu->lines - 1; ++line)
     hrule (menu->hrules[line]);
   waving_arrows (l * 20 + menu->first_row - 5, menu->arrows_col);
-  if (blit) {
-    aff_buffer ();
-    vsynch ();
-  }
+  if (blit)
+    flush_display (corner[0]);
 }
 
 static void
@@ -878,8 +876,7 @@ control_menu (void)
     chkbox (141, 260, opt.autopilot_two);
     hrule (95);
     DRAW_SPRITE (control_menu_txt, corner[0]);
-    vsynch ();
-    aff_buffer ();
+    flush_display (corner[0]);
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
       t = move_updown (t, &l, 4);
@@ -957,8 +954,7 @@ keyboard_menu (void)
 	DRAW_SPRITE (keyboard_keys_txt[i], corner[0]);
       }
     }
-    vsynch ();
-    aff_buffer ();
+    flush_display (corner[0]);
 
     if (testing == 0) {
       if (key_or_joy_ready ()) {
@@ -1054,8 +1050,7 @@ sound_menu (void)
       DRAW_SPRITE (sfx_vol_txt, corner[0]);
     }
     DRAW_SPRITE (sound_menu_txt, corner[0]);
-    vsynch ();
-    aff_buffer ();
+    flush_display (corner[0]);
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
       t = move_updown (t, &l, 4);
@@ -1141,8 +1136,8 @@ screen_menu (void)
     chkbox (140, 260, opt.inertia);
     DRAW_SPRITE (screen_menu_txt, corner[0]);
 
-    vsynch ();
-    aff_buffer ();
+    flush_display (corner[0]);
+
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
       t = move_updown (t, &l, 4);
@@ -1200,8 +1195,8 @@ game_menu (void)
     }
     DRAW_SPRITE (game_rounds_txt, corner[0]);
 
-    vsynch ();
-    aff_buffer ();
+    flush_display (corner[0]);
+
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
       t = move_updown (t, &l, 5);
@@ -1321,8 +1316,9 @@ extra_menu (void)
 	}
     }
     arrows (30 + l * 22 + 40 * (l == 2) + 78 * (l == 3), 1);
-    vsynch ();
-    aff_buffer ();
+
+    flush_display (corner[0]);
+
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
       if (t == HK_Up || t == HK_Down || t == HK_Escape)
@@ -1449,8 +1445,7 @@ quit_menu (void)
   do {
     background_menu ();
     draw_quit_menu (l);
-    vsynch ();
-    aff_buffer ();
+    flush_display (corner[0]);
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
       t = move_updown (t, &l, 1);
@@ -1537,8 +1532,7 @@ editor_selector (void)
 			    corner[0] + i * 13 * xbuf);
       }
     waving_arrows (101, 60);
-    vsynch ();
-    aff_buffer ();
+    flush_display (corner[0]);
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
       if (t == HK_Up || t == HK_Down || t == HK_Escape || t == HK_Home
@@ -1675,8 +1669,7 @@ editor_menu (void)
     draw_sprprogwav_if (l == 5, ed_y_size_txt, corner[0]);
     draw_sprprogwav_if (l == 6, ed_edit_txt, corner[0]);
 
-    aff_buffer ();
-    vsynch ();
+    flush_display (corner[0]);
 
     /* handle key events */
     if (key_or_joy_ready ()) {
@@ -1889,8 +1882,7 @@ editor_first_menu (void)
     draw_sprprogwav_if (l == 0, edit_first_load_txt, corner[0]);
     draw_sprprogwav_if (l == 1, edit_first_new_txt, corner[0]);
     waving_arrows (81 + l * 20, 50);
-    vsynch ();
-    aff_buffer ();
+    flush_display (corner[0]);
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
       if (t == HK_Up || t == HK_Down || t == HK_Escape)
@@ -1994,8 +1986,7 @@ jukebox_draw (int pos)
       reset_htimer (lemming_htimer);
   }
 
-  vsynch ();
-  aff_buffer ();
+  flush_display (corner[0]);
 }
 
 static int
@@ -2079,6 +2070,8 @@ pause_menu (void)
   halve_volume ();
   event_sfx (58);
 
+  /* FIXME: find a mean to backup the screen (now that
+     screen is not used anymore...) */
   backup_screen (render_buffer[0]);
   shade_scr_area (render_buffer[0], render_buffer[1]);
   corner[0] = render_buffer[0];
@@ -2117,6 +2110,8 @@ quit_yes_no (void)
 
   pause_htimer = new_htimer (T_GLOBAL, 1);
 
+  /* FIXME: find a mean to backup the screen (now that
+     screen is not used anymore...) */
   backup_screen (render_buffer[0]);
   shade_scr_area (render_buffer[0], render_buffer[1]);
   corner[0] = render_buffer[0];
@@ -2124,7 +2119,7 @@ quit_yes_no (void)
   if (opt.ctrl_one || opt.ctrl_two)
     do {
       get_joystick_state ();
-      vsynch ();
+      flush_display (corner[0]);
     } while (joystick_b[0] || joystick_b[1]);
 
   uninit_keyboard_map ();
@@ -2139,8 +2134,8 @@ quit_yes_no (void)
     draw_sprprogwav_if (l == 1, quit_no_txt, corner[0]);
     waving_arrows (91 + 15 * l, 90);
 
-    vsynch ();
-    aff_buffer ();
+    flush_display (corner[0]);
+
     t = 0;
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
@@ -2193,7 +2188,7 @@ enter_your_name (char c, char* name)
     DRAW_SPRITE (player_name, corner[0]);
     hrule (112);
     hrule (135);
-    vsynch ();
+    flush_display (corner[0]);
     {
       long p = read_htimer (pixelize_timer);
       if (p <= 6)
@@ -2448,8 +2443,7 @@ scores_menu (void)
       }
       hrule (28);
       hrule (59);
-      vsynch ();
-      aff_buffer ();
+      flush_display (corner[0]);
       if (rollflag == 1) {
 	rolldec += 1 + (320 - rolldec) / 8;
 	if (rolldec == 320)
@@ -2502,8 +2496,7 @@ help_menu (void)
 
     draw_reader_data (help_text, corner[0] - 10 * xbuf,
 		      curmult >> MULT_SHIFT, (curmult >> MULT_SHIFT) + 220);
-    vsynch ();
-    aff_buffer ();
+    flush_display (corner[0]);
 
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();

@@ -56,7 +56,7 @@ char video_initialized = 0;	/* has the driver been initialized? */
 /* slow stretching routines */
 
 static void
-stretch_twofold (pixel_t *s)
+stretch_twofold (const pixel_t *s)
 {
   pixel_t *d = screen_rv;
   int rows_left, columns_left;
@@ -83,7 +83,7 @@ stretch_twofold (pixel_t *s)
 }
 
 static void
-stretch_twofold_even (pixel_t *s)
+stretch_twofold_even (const pixel_t *s)
 {
   pixel_t *d = screen_rv;
   int rows_left, columns_left;
@@ -100,7 +100,7 @@ stretch_twofold_even (pixel_t *s)
 }
 
 static void
-stretch_threefold (pixel_t* s)
+stretch_threefold (const pixel_t* s)
 {
   pixel_t *d = screen_rv;
   int rows_left, columns_left;
@@ -137,7 +137,7 @@ stretch_threefold (pixel_t* s)
 }
 
 static void
-stretch_threefold_even (pixel_t *s)
+stretch_threefold_even (const pixel_t *s)
 {
   pixel_t *d = screen_rv;
   int rows_left, columns_left;
@@ -165,7 +165,7 @@ stretch_threefold_even (pixel_t *s)
 }
 
 static void
-stretch_fourfold (pixel_t *s)
+stretch_fourfold (const pixel_t *s)
 {
   pixel_t *d = screen_rv;
   int rows_left, columns_left;
@@ -188,7 +188,7 @@ stretch_fourfold (pixel_t *s)
 }
 
 static void
-stretch_fourfold_even (pixel_t* s)
+stretch_fourfold_even (const pixel_t* s)
 {
   pixel_t *d = screen_rv;
   int rows_left, columns_left;
@@ -209,16 +209,16 @@ stretch_fourfold_even (pixel_t* s)
 }
 
 static void
-erase_odd_lines (pixel_t *s)
+copy_screen_even (const pixel_t *s)
 {
+  pixel_t *d = screen_rv;
   int i;
-  s += xbuf;
-  for (i = 100; i; --i, s += 2 * xbuf)
-    memset (s, 0, 320);
+  for (i = 200; i; --i, s += xbuf * 2, d += 2 * scr_pitch)
+    fastmem4 (s, d, 320/4);
 }
 
 static void
-copy_screen (pixel_t *s)
+copy_screen (const pixel_t *s)
 {
   pixel_t *d = screen_rv;
   int i;
@@ -229,7 +229,7 @@ copy_screen (pixel_t *s)
 /* Copy the rendered display (s) to the visual (screen_rv).  This
    may require stretching, if the user asked for.  */
 static void
-copy_display (pixel_t *s)
+copy_display (const pixel_t *s)
 {
   /* the result of stretching routines is written directly
      to the video memory */
@@ -250,8 +250,9 @@ copy_display (pixel_t *s)
       stretch_fourfold (s);
   } else {			/* stretch == 1 */
     if (even_lines)
-      erase_odd_lines (s);
-    copy_screen (s);
+      copy_screen_even (s);
+    else
+      copy_screen (s);
   }
 }
 
@@ -402,7 +403,7 @@ set_pal (const unsigned char *ptr, int p, int n)
 }
 
 void
-vsynchro (pixel_t *s)
+vsynchro (const pixel_t *s)
 {
   copy_display (s);
   ggiCrossBlit (render_visu, 0, 0, scr_w, scr_h, visu,
@@ -535,7 +536,7 @@ set_pal (const unsigned char *ptr, int p, int n)
 }
 
 void
-vsynchro (pixel_t *s)
+vsynchro (const pixel_t *s)
 {
   if (SDL_MUSTLOCK (visu))
     SDL_LockSurface (visu);

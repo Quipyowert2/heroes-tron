@@ -52,11 +52,17 @@ set_pal_with_luminance (const palette_t* palsrc)
 }
 
 void
-vsynch (void)
+flush_display (const pixel_t *src)
 {
   run_fader ();
-  vsynchro (screen);
+  vsynchro (src);
   update_htimers ();
+}
+
+void
+vsynch (void)
+{
+  flush_display (screen);
 }
 
 void

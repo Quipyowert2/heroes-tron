@@ -41,7 +41,7 @@ void init_video (void);
 void uninit_video (void);
 void set_color (unsigned char c, unsigned char r, unsigned char g,
 		unsigned char b);
-void vsynchro (pixel_t *s);
+void vsynchro (const pixel_t *s);
 void set_pal (const unsigned char *ptr, int p, int n);
 
 #endif /* HEROES__DISPLAY__H */
