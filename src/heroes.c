@@ -22,6 +22,7 @@
 //#define DEBUG
 //#define NOREP
 
+#include "config.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
@@ -42,8 +43,6 @@
 #include "joystick.h"
 #include "errors.h"
 #include "fastmem.h"
-//#include "freemem.h"
-//#include "extinfo.h"
 #include "sfx.h"
 #include "options.h"
 #include "scores.h"
@@ -59,7 +58,6 @@
 #include "txts.h"
 #include "misc.h"
 #include "argv.h"
-#include "config.h"
 
 #include "sound.h"
 #include "endscroll.h"

@@ -1,5 +1,35 @@
 2000-08-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Create a lib/ directory for compatibility and utility functions.
+
+	* src/getshline.c, src/getshline.h: Move to ...
+	* lib/getshline.c, lib/getshline.h: ... here.
+	* src/Makefile.am (heroes_SOURCES): Remove getshline.h and 
+	getshline.c.
+	(INCLUDE,LD_ADD): New.
+	* lib/Makefile.am: New file.
+	* lib/getopt.c: New file.
+	* lib/getopt.h: New file.
+	* lib/getopt1.c: New file.
+	* Makefile.am (SUBDIRS): Add lib.
+	* configure.in: Test for randir.  Remove check for strstr, strdup,
+	and mkdir because their result is not used.  Remove check for
+	getopt_long and getopt.h because lib/getopt* are automatic
+	replacements.  When checking the build host is the same as the
+	target host, look $build variable, not $hots.  Output lib/Makefile.
+	* argv.c [!HAVE_GETOPT_H]: Suppress this case, since lib/ has 
+	a replacement for getopt.
+	[!HAVE_GETOPT_LONG]: Likewise.
+
+	* src/argv.c, src/endscroll.c, src/extras.c,
+	src/hedlite.c, src/heroes.c, src/intro.c, src/joystick.c,
+	src/menus.c, src/misc.c, src/musicfiles.c, src/options.c,
+	src/pixelize.c, src/rsc_files.c, src/savegame.c, src/scores.c,
+	src/sfx.c, src/sound.c, src/start.c, src/txts.c, src/userconf.c,
+	src/visuals.c: Move "config.h" at the top of the include list.	
+	
+2000-08-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* autoconf.in: Test for the "string.h" header.
 	* src/config.h, src/fastmem.h, src/gfx_reader.h, src/argv.c,
 	src/display.c, src/extras.c, src/hedlite.c, src/heroes.c,

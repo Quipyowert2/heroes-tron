@@ -19,6 +19,7 @@
 `------------------------------------------------------------------------*/
 
 
+#include "config.h"
 #define USERCONFIG_FILE "heroesrc"
 
 #ifdef HAVE_STRING_H
@@ -33,7 +34,6 @@
 #include "getshline.h"
 #include "userconf.h"
 #include "argv.h"
-#include "config.h"
 #include "extras.h"
 #include "musicfiles.h"
 #include "rsc_files.h"

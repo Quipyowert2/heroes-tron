@@ -19,12 +19,12 @@
 `------------------------------------------------------------------------*/
 
 
+#include "config.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include "const.h"
 #include "sfx.h"
 #include "options.h"
-//#include "font_menu.h"
 #include "keyb.h"
 #include "keys_heroes.h"
 #include "keysdef.h"
@@ -46,7 +46,6 @@
 #include "txts.h"
 
 #include "menus.h"
-#include "config.h"
 #include "keyb.h"
 #include "misc.h"
 #include "rsc_files.h"

@@ -18,14 +18,7 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-#include <stdlib.h>
-#include <math.h>
-#ifdef HAVE_STRING_H
-#  include <string.h>
-#else
-#  include <strings.h>
-#endif
+#include "config.h"
 #include "display.h"
 #include "fastmem.h"
 #include "const.h"

@@ -21,6 +21,9 @@ SUBDIRS = etc extralvl txt_cfg
 
 bin_PROGRAMS = heroes
 
+INCLUDES = -I$(top_srcdir)/lib
+LDADD = ../lib/libheroes.a
+
 heroes_SOURCES = \
 argv.c \
 argv.h \
@@ -42,8 +45,6 @@ font.h \
 font_deck.h \
 font_help.h \
 font_menu.h \
-getshline.h \
-getshline.c \
 generic_list.h \
 gfx_reader.h \
 hedlite.c \

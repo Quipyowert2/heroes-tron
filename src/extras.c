@@ -23,6 +23,7 @@
  *   Create the list of extra levels.
  */
 
+#include "config.h"
 #include <stdlib.h>
 #include <stdio.h>
 #ifdef HAVE_STRING_H
@@ -32,7 +33,6 @@
 #endif
 #include <dirent.h>
 #include "extras.h"
-#include "config.h"
 #include "generic_list.h"
 #include "hedlite.h"
 #include "misc.h"

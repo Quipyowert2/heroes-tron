@@ -19,9 +19,9 @@
 `------------------------------------------------------------------------*/
 
 
+#include "config.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "config.h"
 #include "joystick.h"
 
 int joystick_x[2] = { 0, 0 };	// coord. X

@@ -18,7 +18,7 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
+#include "config.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -28,7 +28,6 @@
 #include "timer.h"
 #include "fastmem.h"
 #include "start.h"
-#include "config.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif

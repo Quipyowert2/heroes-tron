@@ -18,8 +18,7 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-/* Id: */
-
+#include "config.h"
 #ifdef HAVE_STRING_H
 #  include <string.h>
 #else
@@ -30,7 +29,6 @@
 #include "getshline.h"
 #include "musicfiles.h"
 #include "generic_list.h"
-#include "config.h"
 #include "misc.h"
 #include "rsc_files.h"
 #ifdef HAVE_DMALLOC

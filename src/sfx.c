@@ -19,8 +19,8 @@
 `------------------------------------------------------------------------*/
 
 
-#include "sfx.h"
 #include "config.h"
+#include "sfx.h"
 
 #ifdef HAVE_LIBMIKMOD
 #include <stdio.h>

@@ -21,10 +21,10 @@
 
 /* chargement, et reinitialisation des options d'Heroes */
 
-#include "optionss.h"
-#include "stdio.h"
-#include "options.h"
 #include "config.h"
+#include <stdio.h>
+#include "optionss.h"
+#include "options.h"
 #include "misc.h"
 #include "userdir.h"
 #include "keys_heroes.h"

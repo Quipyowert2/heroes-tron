@@ -21,16 +21,16 @@
 
 /* sauvegarde des scores d'Heroes */
 
-#include "structs.h"
-#include "stdio.h"
-#include "stdlib.h"
+#include "config.h"
+#include <stdio.h>
+#include <stdlib.h>
 #ifdef HAVE_STRING_H
 #  include <string.h>
 #else
 #  include <strings.h>
 #endif
+#include "structs.h"
 #include "scores.h"
-#include "config.h"
 #include "misc.h"
 #include "userdir.h"
 #include "endian.h"

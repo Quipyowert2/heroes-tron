@@ -20,25 +20,23 @@
 
 /* l'intro du jeu */
 
+#include "config.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "display.h"
-#include "pcx.h"
-#include "timer.h"
-//#include "keyboard_map.h"
-//#include "errors.h"
-#include "fastmem.h"
 #ifdef HAVE_STRING_H
 #  include <string.h>
 #else
 #  include <strings.h>
 #endif
+#include "display.h"
+#include "pcx.h"
+#include "timer.h"
+#include "fastmem.h"
 
 #include "const.h"
 #include "sound.h"
 
 #include "intro.h"
-#include "config.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif

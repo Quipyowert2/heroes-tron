@@ -85,9 +85,9 @@ malloc_lib='<disabled>'
 # ===================
 
 AC_PROG_CC
-
 AC_PROG_CPP
 AC_PROG_AWK
+AC_PROG_RANLIB
 
 usable_perl=false
 AC_PATH_PROG(PERL, perl)
@@ -339,17 +339,20 @@ AC_C_CONST
 # Checks for library functions.
 # =============================
 
-AC_CHECK_FUNCS(mkdir strdup strstr)
+# AC_CHECK_FUNCS(mkdir)
+# test "$ac_cv_func_mkdir" = yes || LIBOBJS="$LIBOBJS mkdir.o"
+
+# AC_SUBST(LIBOBJS)
 
 # Check for gnu getopt
-AC_CHECK_HEADERS(getopt.h)
-AC_CHECK_FUNCS(getopt_long)
+# AC_CHECK_HEADERS(getopt.h)
+# AC_CHECK_FUNCS(getopt_long)
 
 # =====================
 # Checks for endianess.
 # =====================
 
-case "$host" in
+case "$build" in
   $target)
     # if the build host is the target, we can test endianess 
     # by running a small test program
@@ -444,9 +447,16 @@ AC_DEFINE_DIR(datadir  ,data_dir,  data directory)
 # ============
 
 AM_CONFIG_HEADER(src/config.h)
-AC_OUTPUT(Makefile src/Makefile src/etc/Makefile src/extralvl/Makefile
-	src/txt_cfg/Makefile
-	man/Makefile doc/Makefile)
+AC_OUTPUT(
+ Makefile
+ lib/Makefile
+ src/Makefile
+ src/etc/Makefile
+ src/extralvl/Makefile
+ src/txt_cfg/Makefile
+ man/Makefile
+ doc/Makefile
+)
 
 # ====================
 # Configuration report

@@ -28,6 +28,7 @@
 #define __HEDITver__ "1.5"
 #define __HEDLITE__
 
+#include "config.h"
 #include <stdio.h>
 #include <stdlib.h>
 #ifdef HAVE_STRING_H
@@ -50,7 +51,6 @@
 #include "structs.h"
 #include "misc.h"
 #include "hedlite.h"
-#include "config.h"
 #include "hendian.h"
 #include "userdir.h"
 #include "rsc_files.h"

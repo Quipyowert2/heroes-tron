@@ -18,7 +18,7 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
+#include "config.h"
 #include <stdlib.h>
 #include <stdio.h>
 #ifdef HAVE_STRING_H
@@ -29,7 +29,6 @@
 #include <ctype.h>
 #include "errors.h"
 #include "txts.h"
-#include "config.h"
 #include "rsc_files.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>

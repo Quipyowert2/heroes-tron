@@ -24,11 +24,6 @@
 #include "const.h"
 #include "display.h"
 #include "fastmem.h"
-#ifdef HAVE_STRING_H
-#  include <string.h>
-#else
-#  include <strings.h>
-#endif
 #include "visuals.h"
 #include "timer.h"
 #include "heroes.h"

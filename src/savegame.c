@@ -21,7 +21,8 @@
 
 /* game saving ... */
 
-#include "stdio.h"
+#include "config.h"
+#include <stdio.h>
 #include "structs.h"
 #ifdef HAVE_STRING_H
 #  include <string.h>
@@ -31,7 +32,6 @@
 #include "scores.h"
 #include "assert.h"
 #include "savegame.h"
-#include "config.h"
 #include "argv.h"
 #include "misc.h"
 #include "userdir.h"
