@@ -1,5 +1,12 @@
 2001-02-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/hedlite.c (partiel4c, carre, framept): Rename as ...
+	(copy_tile_pcx, draw_check_point, frame_dashed): ... these.
+	(affgt, majg, majd): Rename as ...
+	(draw_left_panel, update_left_panel, update_middle_panel): ... these.
+
+2001-02-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/hedlite.c (partiel4, partiel2): Rename both as ...
 	(rectangle_copy): ... this.  Adjust all calls.
 

@@ -155,7 +155,7 @@ copy_tile (int src_, pixel_t *dest)
 }
 
 static void
-partiel4c (int src_, pixel_t *dest)
+copy_tile_pcx (int src_, pixel_t *dest)
 {
   int i = tile_set_img.width;
   int j;
@@ -252,7 +252,7 @@ frame (int x, int y, int xd, int yd, pixel_t col)
 }
 
 static void
-framept (int x, int y, int xd, int yd, pixel_t col1, pixel_t col2)
+frame_dashed (int x, int y, int xd, int yd, pixel_t col1, pixel_t col2)
 {
   int i;
   pixel_t *dest = hedit_buffer + y * xbuf + x;
@@ -344,7 +344,7 @@ transpac (pixel_t *source, pixel_t *dest, int xt, int yt, char coul)
 }
 
 static void
-carre (int x, int y, pixel_t c)
+draw_check_point (int x, int y, pixel_t c)
 {
   pixel_t *dest = hedit_buffer + x + y * xbuf;
 
@@ -374,7 +374,7 @@ carre (int x, int y, pixel_t c)
 }
 
 static void
-affgt (int t)
+draw_left_panel (int t)
 {
   switch (level_map[t].type) {
   case t_speed:
@@ -399,10 +399,10 @@ affgt (int t)
   case t_ice:
   case t_boom:
   case t_stop:
-    carre (297, 91, level_map[t].info.param[0]);
-    carre (297 + 12, 91, level_map[t].info.param[1]);
-    carre (297, 91 + 10, level_map[t].info.param[2]);
-    carre (297 + 12, 91 + 10, level_map[t].info.param[3]);
+    draw_check_point (297, 91, level_map[t].info.param[0]);
+    draw_check_point (297 + 12, 91, level_map[t].info.param[1]);
+    draw_check_point (297, 91 + 10, level_map[t].info.param[2]);
+    draw_check_point (297 + 12, 91 + 10, level_map[t].info.param[3]);
     rectangle_copy (0, 112, 30, 27, 290, 112, &heditrsc);
   case t_outway:
     if ((level_map[t].info.param[4] >> 4) > 0) {
@@ -553,7 +553,7 @@ anim_mod_bcl (int i, int x, int y)
 }
 
 static void
-majd (void)
+update_middle_panel (void)
 {
   rectangle_copy (xdalles, 0, 144, 200, 145, 0, &tile_set_img);
   frame (145 + xdallesdec, ydalles, 23, 19, 15);
@@ -603,7 +603,7 @@ affplan (int xloc, int yloc, char c)
 				  dest + square_offset[n]);
       }
       if (i + m == tempd)
-	framept (xx - 12, yy - 7, 24, 20, 8, 15);
+	frame_dashed (xx - 12, yy - 7, 24, 20, 8, 15);
       dest += 24;
       xx += 24;
     }
@@ -675,7 +675,7 @@ curdalled (void)
 }
 
 static void
-majg (void)
+update_left_panel (void)
 {
   affplan (xplan, yplan, 0);
   {
@@ -683,7 +683,7 @@ majg (void)
 	       [((xplan + xplandec / 24) & hplaninfo.xwrap) +
 		((yplan + yplandec / 20) & hplaninfo.ywrap) *
 		hplaninfo.xt].number, hedit_buffer + 293 + 88 * xbuf);
-    affgt (curdallep ());
+    draw_left_panel (curdallep ());
     rectangle_copy (0, 71, 30, 13, 290, 71, &heditrsc);
     if (level_map[curdallep ()].sprite != 0)
       draw_text ("[S]", 309, 71, 8, 0);
@@ -782,7 +782,7 @@ departfix (void)
     }
   }
   while (mouse_x () > 290 && (!key_ready ()) && mouse2 () == 0);
-  majg ();
+  update_left_panel ();
 }
 
 static void
@@ -862,7 +862,7 @@ save_pcx (void)
     j3 = hplaninfo.xt * i3;
     dest = tempc;
     for (i1 = 0; i1 < hplaninfo.xt; i1++) {
-      partiel4c (level_map[i1 + j3].number, dest);
+      copy_tile_pcx (level_map[i1 + j3].number, dest);
       if (sprhide == 0) {
 	for (n = 0; n < 4; n++)
 	  if (i1 + j3 == hplaninfo.start[n])
@@ -949,8 +949,8 @@ planfull (void)
   draw_text (nombre, 302, 43, 8, 2);
   sprintf (nombre, "%u", hplaninfo.yt);
   draw_text (nombre, 307, 43, 8, 0);
-  majd ();
-  majg ();
+  update_middle_panel ();
+  update_left_panel ();
 }
 
 static void
@@ -1197,7 +1197,7 @@ joueanim (void)
 				  level_map[i + m].collision[n] * 12,
 				  dest + square_offset[n]);
 	  if (i + m == tempd)
-	    framept (xx - 12, yy - 7, 24, 20, 8, 15);
+	    frame_dashed (xx - 12, yy - 7, 24, 20, 8, 15);
 	}
 	dest += 24;
 	xx += 24;
@@ -1209,8 +1209,8 @@ joueanim (void)
   }
   while (mouse12 () == 0 && key_ready () == 0);
 
-  majg ();
-  majd ();
+  update_left_panel ();
+  update_middle_panel ();
 }
 
 static void
@@ -1222,23 +1222,23 @@ gestclav (int i, int mod)
   case HK_Home:
     if (mod & HK_MOD_Ctrl) {
       xdalles = 0;
-      majd ();
+      update_middle_panel ();
     }
     break;
   case HK_End:
     if (mod & HK_MOD_Ctrl) {
       xdalles = (tile_set_img.width / 24) * 24 - 144;
-      majd ();
+      update_middle_panel ();
     }
     break;
   case HK_PageDown:
     if (mod & HK_MOD_Ctrl) {
       if (ydalles < 180) {
 	ydalles += 20;
-	majd ();
+	update_middle_panel ();
       } else if (xdallesdec < 120) {
 	xdallesdec += 24;
-	majd ();
+	update_middle_panel ();
       }
     }
     break;
@@ -1246,10 +1246,10 @@ gestclav (int i, int mod)
     if (mod & HK_MOD_Ctrl) {
       if (ydalles > 0) {
 	ydalles -= 20;
-	majd ();
+	update_middle_panel ();
       } else if (xdallesdec > 0) {
 	xdallesdec -= 24;
-	majd ();
+	update_middle_panel ();
       }
     }
     break;
@@ -1257,10 +1257,10 @@ gestclav (int i, int mod)
     if (mod & HK_MOD_Ctrl) {
       if (xdalles + 168U < tile_set_img.width) {
 	xdalles += 24;
-	majd ();
+	update_middle_panel ();
       } else if (xdallesdec < 120) {
 	xdallesdec += 24;
-	majd ();
+	update_middle_panel ();
       }
     } else if (mod & HK_MOD_Shift) {
       if (xplandec < 120)
@@ -1268,11 +1268,11 @@ gestclav (int i, int mod)
       else if (xplan < (hplaninfo.xt - 6) || hplaninfo.xwrap != DONT_WRAP) {
 	xplan = ((xplan + 1) & hplaninfo.xwrap);
       }
-      majg ();
+      update_left_panel ();
     } else {
       if (xplan < (hplaninfo.xt - 6) || hplaninfo.xwrap != DONT_WRAP) {
 	xplan = ((xplan + 1) & hplaninfo.xwrap);
-	majg ();
+	update_left_panel ();
       } else
 	gestclav (HK_Right, HK_MOD_Shift);
     }
@@ -1281,10 +1281,10 @@ gestclav (int i, int mod)
     if (mod & HK_MOD_Ctrl) {
       if (xdalles > 0) {
 	xdalles -= 24;
-	majd ();
+	update_middle_panel ();
       } else if (xdallesdec > 0) {
 	xdallesdec -= 24;
-	majd ();
+	update_middle_panel ();
       }
     } else if (mod & HK_MOD_Shift) {
       if (xplandec > 0)
@@ -1292,11 +1292,11 @@ gestclav (int i, int mod)
       else if (xplan > 0 || hplaninfo.xwrap != DONT_WRAP) {
 	xplan = ((xplan - 1) & hplaninfo.xwrap);
       }
-      majg ();
+      update_left_panel ();
     } else {
       if (xplan > 0 || hplaninfo.xwrap != DONT_WRAP) {
 	xplan = ((xplan - 1) & hplaninfo.xwrap);
-	majg ();
+	update_left_panel ();
       } else
 	gestclav (HK_Left, HK_MOD_Shift);
     }
@@ -1310,11 +1310,11 @@ gestclav (int i, int mod)
       else if (yplan < (hplaninfo.yt - 10) || hplaninfo.ywrap != DONT_WRAP) {
 	yplan = ((yplan + 1) & hplaninfo.ywrap);
       }
-      majg ();
+      update_left_panel ();
     } else {
       if (yplan < (hplaninfo.yt - 10) || hplaninfo.ywrap != DONT_WRAP) {
 	yplan = ((yplan + 1) & hplaninfo.ywrap);
-	majg ();
+	update_left_panel ();
       } else
 	gestclav (HK_Down, HK_MOD_Shift);
     }
@@ -1328,11 +1328,11 @@ gestclav (int i, int mod)
       else if (yplan > 0 || hplaninfo.ywrap != DONT_WRAP) {
 	yplan = ((yplan - 1) & hplaninfo.ywrap);
       }
-      majg ();
+      update_left_panel ();
     } else {
       if (yplan > 0 || hplaninfo.ywrap != DONT_WRAP) {
 	yplan = ((yplan - 1) & hplaninfo.ywrap);
-	majg ();
+	update_left_panel ();
       } else
 	gestclav (HK_Up, HK_MOD_Shift);
     }
@@ -1352,7 +1352,7 @@ gestclav (int i, int mod)
     level_map[j].info = ddef[curdalled ()].info;
     gestclav (HK_i, HK_MOD_None);
     gestclav (HK_O, HK_MOD_None);
-    majg ();
+    update_left_panel ();
     break;
   case HK_i:
   case HK_I:
@@ -1411,7 +1411,7 @@ gestclav (int i, int mod)
 	  level_map[curdallepb (j)].collision[1] |= c_up;
       }
     }
-    majg();
+    update_left_panel();
     break;
   case HK_f:
   case HK_F:
@@ -1422,23 +1422,23 @@ gestclav (int i, int mod)
 	level_map[j].type = ddef[curdalled ()].type;
 	level_map[j].info = ddef[curdalled ()].info;
       }
-      majg ();
+      update_left_panel ();
     } else if (mod & (HK_MOD_Alt | HK_MOD_Meta)) {
       for (j = hplaninfo.xt * hplaninfo.yt - 1; j >= 0; j--)
 
 	level_map[j].number =
 	  (((j % hplaninfo.xt) + (j / hplaninfo.xt)) & 1) * 20 *
 	  tile_set_img.width;
-      majg ();
+      update_left_panel ();
     }
     break;
   case HK_F3:
     sprhide ^= 1;
-    majg ();
+    update_left_panel ();
     break;
   case HK_F6:
     afftests ^= 1;
-    majg ();
+    update_left_panel ();
     break;
   case HK_s:
   case HK_S:
@@ -1448,7 +1448,7 @@ gestclav (int i, int mod)
 	(short int) (xdalles + xdallesdec + ydalles * (tile_set_img.width));
     else
       level_map[curdallep ()].sprite = 0;
-    majg ();
+    update_left_panel ();
     break;
   case HK_d:
   case HK_D:
@@ -1462,17 +1462,17 @@ gestclav (int i, int mod)
       tempd = DONT_WRAP;
     else
       tempd = curdallep ();
-    majg ();
+    update_left_panel ();
     break;
   case HK_o:
   case HK_O:
     outwayflag ();
-    majg();
+    update_left_panel();
     break;
   case HK_p:
   case HK_P:
     save_pcx ();
-    majg ();
+    update_left_panel ();
     break;
   case HK_0:
     i = 0;
@@ -1504,7 +1504,7 @@ gestclav (int i, int mod)
     level_map[curdallep ()].type = i;
     level_map[curdallep ()].info.tunnel.output = 0;
     level_map[curdallep ()].info.param[4] = 0;
-    majg ();
+    update_left_panel ();
     break;
   default:
     break;
@@ -1528,7 +1528,7 @@ gestsrs1 (void)
     }
     if (y >= 86 && y <= 137) {
       (*fnptr[level_map[i].type]) (i, x, y);
-      majg ();
+      update_left_panel ();
     }
     if (y >= 168) {
       if ((level_map[i].type == t_speed ||
@@ -1537,7 +1537,7 @@ gestsrs1 (void)
 	   level_map[i].type == t_dust ||
 	   level_map[i].type == t_outway || level_map[i].type == t_boom)) {
 	anim_mod_bcl (i, x, y);
-	majg ();
+	update_left_panel ();
       }
     }
   }
@@ -1545,7 +1545,7 @@ gestsrs1 (void)
   if (x < 144) {
     xplandec = (x / 24) * 24;
     yplandec = (y / 20) * 20;
-    majg ();
+    update_left_panel ();
     do {
       x2 = mouse_x ();
       y2 = mouse_y ();
@@ -1568,7 +1568,7 @@ gestsrs1 (void)
   if (x > 144 && x < 289) {
     xdallesdec = ((x - 145) / 24) * 24;
     ydalles = (y / 20) * 20;
-    majd ();
+    update_middle_panel ();
     do {
       x2 = mouse_x ();
       y2 = mouse_y ();
@@ -1625,7 +1625,7 @@ gestsrs3 (void)
     gestclav (HK_t, HK_MOD_None);
     xplandec = a;
     yplandec = b;
-    majg ();
+    update_left_panel ();
   }
 }
 
@@ -1752,8 +1752,8 @@ hmain (const char* lname, const char* tset_name,
   sprintf (nombre, "%u", hplaninfo.yt);
   draw_text (nombre, 307, 43, 8, 0);
 
-  majd ();
-  majg ();
+  update_middle_panel ();
+  update_left_panel ();
   while (key_ready ())
     get_key ();
   mouse_show ();
