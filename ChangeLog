@@ -1,3 +1,16 @@
+2001-03-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Support for relocatable locales.
+
+	* src/heroes.c (main): Check for HEROES_LOCALE_DIR or
+	HEROES_LOCALEDIR and set the locale-dir resource accodingly.
+	Use this resource to initialize the locales.
+	* src/rsc_files.gperf (locale-dir): New entry.
+	* src/Makefile.am (rsc_files_hash.c): Adapt key indexes.
+	* doc/heroes.texi (Environment variables): Document HEROES_LOCAL_DIR,
+	and note the --list=resources can be used to check the value of
+	data-dir and locale-dir.
+
 2001-03-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Support for set-group-id and set-user-id access to a

@@ -3620,12 +3620,25 @@ main (int argc, char *argv[])
   mtrace (); /* GNU libc's malloc debugging facility */
 
   dmsg_init (argv[0]);
-  dmsg (D_SECTION,"initialization");
+  dmsg (D_SECTION, "initialization");
 
   init_persona ();
 
+  {
+    char* locale_dir;
+    dmsg (D_SYSTEM,"looking for HEROES_LOCALE_DIR or HEROES_LOCALEDIR...");
+    if ((locale_dir = getenv ("HEROES_LOCALE_DIR")) ||
+	(locale_dir = getenv ("HEROES_LOCALEDIR"))) {
+      dmsg (D_SYSTEM,"... found: %s", locale_dir);
+      set_rsc_file ("locale-dir", locale_dir);
+    } else {
+      dmsg (D_SYSTEM, "... not found.");
+      set_rsc_file ("locale-dir", LOCALEDIR);
+    }
+  }
+
   setlocale (LC_ALL, "");
-  bindtextdomain (PACKAGE, LOCALEDIR);
+  bindtextdomain (PACKAGE, get_non_null_rsc_file ("locale-dir"));
   textdomain (PACKAGE);
 
   {

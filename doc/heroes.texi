@@ -1164,10 +1164,22 @@ export HEROES_DEBUG=all:-timer
 The @samp{HEROES_DATA_DIR} variable may specify the path were the data
 files are located.  It thus allows you to relocate the data file.  If
 this variable is not found the default path (configured at build time)
-will be used.
+will be used.  Type @samp{heroes --list-resources | grep data-dir} to
+see the value actually used by Heroes.
 
-Common people don't need to set this variable.  This is only useful if
+Most people don't need to set this variable.  This is only useful if
 you got Heroes as a binary distribution and want to move files around.
+
+@subsection @samp{HEROES_LOCALE_DIR}
+@cindex @samp{HEROES_LOCALE_DIR}
+
+The @samp{HEROES_LOCALE_DIR} variable override the path were the message
+catalogs are locked for.  The default value is hardcoded into the
+Heroes binary, and you can see it if you run
+@samp{heroes --list=resources | grep locale-dir}.
+
+As for @samp{HEROES_DATA_DIR}, you probably don't need to set this
+variable, unless you have moved Heroes.
 
 @subsection @samp{HOME}
 @cindex @samp{HOME}

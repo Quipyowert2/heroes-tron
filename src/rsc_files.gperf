@@ -47,6 +47,7 @@ jukebox-font,		"$(data-dir)/pics/fontdeck.pcx",	0,0
 jukebox-img,		"$(data-dir)/pics/jukebox.pcx",		0,0
 levels-list-txt,	"$(data-dir)/levels/level.lst",		0,0
 levels-dir,		"$(data-dir)/levels/",			0,0
+locale-dir,	"is hardcoded or initialized from $HEROES_LOCALE_DIR", 0, 0
 main-font,		"$(data-dir)/pics/fontem.pcx",		0,0
 menu-pictures-img,	"$(data-dir)/pics/fontem2.pcx",		0,0
 new-level-menu-img,	"$(data-dir)/pics/newlevel.pcx",	0,0
