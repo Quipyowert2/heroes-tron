@@ -1,5 +1,13 @@
 2000-09-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* man/Makefile.am (heroes.6): Do not build heroes.6
+	conditionnaly, `missing' will warn the user if help2man
+	is needed.
+	* configure.in: Be paranoiac, quote everything.  Use
+	AC_MISSING_PROG to check for help2man.
+
+2000-09-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Free even more memory.
 
 	* src/hedlite.h (free_levels_output_dir): New.

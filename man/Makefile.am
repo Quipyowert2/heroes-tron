@@ -21,7 +21,12 @@
 man_MANS = heroes.6
 EXTRA_DIST = $(man_MANS)
 
-if HAVE_HELP2MAN
 heroes.6 : $(srcdir)/../src/argv.c
-	@HELP2MAN@ -n game -s6 ../src/heroes | sed -e 's/ FSF//' > $@
-endif
+	@if test -f $(top_builddir)/src/heroes; then \
+	  echo "Updating man page $@"; \
+	  $(HELP2MAN) -n game -s6 $(top_builddir)/src/heroes | \
+            sed -e 's/ FSF//' > $@; \
+	else \
+	  echo "WARNING: The man page $@ cannot be updated yet."; \
+	  echo "         Retry once the corresponding executable is built."; \
+	fi
