@@ -1,5 +1,9 @@
 2001-07-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/heroeslvl.c (process): Don't load full level if we can avoid it.
+
+2001-07-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Add option -pi to display tile details.
 
 	* src/heroeslvl.c (options_t): Add print_tile_details.

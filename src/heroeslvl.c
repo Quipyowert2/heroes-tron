@@ -464,8 +464,20 @@ process (const char *filename)
 {
   int err;
   level_t lvl;
+  bool load_full;
 
-  err = lvl_load_file (filename, &lvl, true);
+  /* Sometime we don't need to load the full level, only the header is
+     needed to print the requested information.  */
+  if (options.print_types
+      | options.print_walls
+      | options.print_directions
+      | options.print_tunnels
+      | options.print_tile_details)
+    load_full = true;
+  else
+    load_full = false;
+
+  err = lvl_load_file (filename, &lvl, load_full);
   if (err) {
     error (0, err, "cannot load %s", filename);
     exit_status = 3;
