@@ -1,3 +1,10 @@
+2001-11-11  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* BUGS: Suppress Benjamin Preidecker's report about Heroes 0.5
+	frozen with KGI error messages.
+	Christoph Egger <Christoph_Egger@t-online.de> (GGI devel)
+	says it's obsolete.
+
 2001-11-09  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* ChangeLog.01: New file.

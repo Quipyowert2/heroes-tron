@@ -12,27 +12,6 @@
 
 ======================================================================
 
-From: Benjamin Preidecker <bpreidecker@gmx.de>
-Date: Thu, 03 Aug 2000 19:17:45 +0200
-Version: 0.5
-
-The game froze once when I exited a (quest-)game. I tried to reproduce
-the error, but had no success. The only info I can give you about the
-freeze is what was printed on the console afterwards. I hope it helps
-you a bit.  (I tried to kill the game, but it didn't work, so I had to
-use kill -9)
-
-[The standard GGI messages]
-Terminating on signal 11
-Linux kbd: couldn't restore mode: Bad file descriptor
-Linux kbd: tcseattr failed: Bad file descriptor
-Terminating on signal 2
-Linux kbd: couldn't restore mode: Bad file descriptor
-Linux kbd: tcseattr failed: Bad file descriptor
-Killed
-
-======================================================================
-
 From: "Christian T. Steigies" <cts@debian.org>
 Date: Wed, 30 Aug 2000 17:49:34 +0200
 Version: 0.6pre3

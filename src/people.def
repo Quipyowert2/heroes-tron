@@ -101,6 +101,12 @@ and created a few levels.";
 };
 
 person = {
+  name    = "Christoph Egger";
+  email   = Christoph_Egger@t-online.de;
+  thanks  = "Sent useful comments about BUGS and TODO.";
+};
+
+person = {
   name    = "Mattias Engdegård";
   email   = f91-men@nada.kth.se;
   port    = Solaris;
