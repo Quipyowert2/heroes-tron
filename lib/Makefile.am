@@ -19,10 +19,10 @@
 
 noinst_LIBRARIES= libheroes.a
 
-EXTRA_DIST = strcasecmp.c w_dirent.c
+EXTRA_DIST = strcasecmp.c w_dirent.c getopt.c getopt1.c
 
 noinst_HEADERS= \
-getopt.h \
+gnugetopt.h \
 getshline.h \
 w_dirent.h
 
@@ -31,8 +31,6 @@ INCLUDES = -I../src
 
 # These files are always compiled
 libheroes_a_SOURCES= \
-getopt.c \
-getopt1.c \
 getshline.c
 
 # Additional files to compile, when functions are missing.

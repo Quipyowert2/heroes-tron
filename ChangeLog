@@ -1,3 +1,23 @@
+2000-10-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	FreeBSD has getopt_long in the gnugetopt library.  Moreover we
+	don't want to use our own getopt.h header when getopt_long is
+	already available on the build system.  The FreeBSD part is
+	untested.
+	
+	* configure.in: Check for getopt.h.  Check for getopt_long, which
+	might be available in the gnugetopt library.  AC_LIBOBJ the
+	replacements when needed.
+	* lib/getopt.h: Move ...
+	* lib/gnugetopt.h: ... here to avoid conflict with existing
+	getopt.h.
+	* lib/Makefile.am (EXTRA_DIST): Add getopt.c and getopt1.c.
+	(HEADERS): Rename getopt.h into gnugetopt.h.
+	(libheroes_a_SOURCES): Remove getopt.c and getopt1.c.
+	* arch/VisualC/heroes.dsp: Rename getopt.h into gnugetopt.h.
+	* src/argv.c: Do not include getopt.h.
+	* src/common.h: Include getopt.h or gnugetopt.h.
+
 2000-10-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/VisualC/config.h (HAVE_READDIR): Comment out.

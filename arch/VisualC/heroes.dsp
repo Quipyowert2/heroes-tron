@@ -447,7 +447,7 @@ SOURCE=..\lib\getopt.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\lib\getopt.h
+SOURCE=..\lib\gnugetopt.h
 # End Source File
 # Begin Source File
 

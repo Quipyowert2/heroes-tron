@@ -19,7 +19,6 @@
 `------------------------------------------------------------------------*/
 
 #include "common.h"
-#include "getopt.h"
 #include "const.h"
 #include "argv.h"
 #include "sound.h"

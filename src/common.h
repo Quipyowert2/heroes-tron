@@ -116,6 +116,12 @@
 # endif
 #endif
 
+#if HAVE_GETOPT_H && HAVE_GETOPT_LONG
+# include <getopt.h>
+#else
+# include "gnugetopt.h"
+#endif
+
 #if HAVE_WINDOWS_H
 # include <windows.h>
 # ifndef HAVE_READDIR
