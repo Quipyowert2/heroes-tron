@@ -61,8 +61,7 @@ lvl_save_file (const char *filename, const a_level *out)
   int fd;
   int err;
 
-  fd = open (filename, O_WRONLY | O_CREAT | O_TRUNC | O_BINARY,
-	     S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+  fd = open (filename, O_WRONLY | O_CREAT | O_TRUNC | O_BINARY, S_IRWUGO);
   if (fd == -1)
     return -1;
 

@@ -1,3 +1,12 @@
+2002-01-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/system.h (S_IRUSR, S_IRGRP, S_IROTH, S_IWUSR, S_IWGRP,
+	S_IWOTH, S_IXUSR, S_IXGRP, S_IXOTH, S_IRWXU, S_IRWXG, S_IRWXO,
+	S_IXUGO, S_IRWXUGO, S_IRUGO, S_IWUGO, S_IRWUGO): New macros.
+	* src/lvl/save.c (lvl_save_file): Create the file in S_IRWUGO mode.
+
+	* tests/lvlsave.c: Include error.h.
+
 2002-01-21  Ingo van Lil  <inguin@gmx.de>
 
 	* src/lvl/en_body.c (en_reverse_walls): Fix warnings.

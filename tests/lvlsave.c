@@ -20,6 +20,7 @@
 
 #include "system.h"
 #include "lvl.h"
+#include "error.h"
 
 a_level lvl;
 

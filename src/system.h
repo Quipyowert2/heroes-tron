@@ -329,6 +329,77 @@ char *stpcpy (const char *s1, const char *s2);
 # define S_ISDIR(mode) (((mode) & S_IFMT) == S_IFDIR)
 #endif
 
+
+#if !S_IRUSR && S_IREAD
+# define S_IRUSR S_IREAD
+#endif
+#if !S_IRUSR
+# define S_IRUSR 00400
+#endif
+#if !S_IRGRP
+# define S_IRGRP (S_IRUSR >> 3)
+#endif
+#if !S_IROTH
+# define S_IROTH (S_IRUSR >> 6)
+#endif
+
+#if !S_IWUSR && S_IWRITE
+# define S_IWUSR S_IWRITE
+#endif
+#if !S_IWUSR
+# define S_IWUSR 00200
+#endif
+#if !S_IWGRP
+# define S_IWGRP (S_IWUSR >> 3)
+#endif
+#if !S_IWOTH
+# define S_IWOTH (S_IWUSR >> 6)
+#endif
+
+#if !S_IXUSR && S_IEXEC
+# define S_IXUSR S_IEXEC
+#endif
+#if !S_IXUSR
+# define S_IXUSR 00100
+#endif
+#if !S_IXGRP
+# define S_IXGRP (S_IXUSR >> 3)
+#endif
+#if !S_IXOTH
+# define S_IXOTH (S_IXUSR >> 6)
+#endif
+
+#if !S_IRWXU
+# define S_IRWXU (S_IRUSR | S_IWUSR | S_IXUSR)
+#endif
+#if !S_IRWXG
+# define S_IRWXG (S_IRGRP | S_IWGRP | S_IXGRP)
+#endif
+#if !S_IRWXO
+# define S_IRWXO (S_IROTH | S_IWOTH | S_IXOTH)
+#endif
+
+/* S_IXUGO is a common extension to POSIX.1.  */
+#if !S_IXUGO
+# define S_IXUGO (S_IXUSR | S_IXGRP | S_IXOTH)
+#endif
+
+#ifndef S_IRWXUGO
+# define S_IRWXUGO (S_IRWXU | S_IRWXG | S_IRWXO)
+#endif
+
+#ifndef S_IRUGO
+# define S_IRUGO (S_IRUSR | S_IRGRP | S_IROTH)
+#endif
+
+#ifndef S_IWUGO
+# define S_IWUGO (S_IWUSR | S_IWGRP | S_IWOTH)
+#endif
+
+#ifndef S_IRWUGO
+# define S_IRWUGO (S_IRUGO | S_IWUGO)
+#endif
+
 /* ===== The following ctype definition are stolen from textutils ===== */
 
 /* Jim Meyering writes:
