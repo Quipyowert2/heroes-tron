@@ -1,5 +1,17 @@
 2001-01-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/render.c (display_two_buffers_moving_and_clear,
+	display_two_buffers_moving): Remove.
+	* src/render.h (display_two_buffers_moving_and_clear,
+	display_two_buffers_moving): Remove
+	* src/scrtools.c (flush_display2_moving): New function.
+	* src/scrtools.h (flush_display2_moving): New function.
+	* src/heroes.c (play_demo, play_game): Use flush_display2_moving
+	instead of display_two_buffers_moving_and_clear or
+	display_two_buffers_moving.
+
+2001-01-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/display.c (stretch_twofold, stretch_twofold_even,
 	stretch_threefold, stretch_threefold_even, stretch_fourfold,
 	stretch_fourfold_even, copy_screen_even, copy_screen,

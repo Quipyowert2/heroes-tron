@@ -26,6 +26,7 @@
 void set_pal_with_luminance (const palette_t* palsrc);
 void flush_display (const pixel_t *src);
 void flush_display2 (const pixel_t *src1, const pixel_t *src2);
+void flush_display2_moving (int x);
 void vsynch (void);
 
 void backup_screen (pixel_t *dest);

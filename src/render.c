@@ -846,36 +846,3 @@ display_buffer_moving (int x)
     fastmem4 (src + 160, dest + 160 + (x << 2), 160 / 4 - x);
   }
 }
-
-void
-display_two_buffers_moving (int x)
-{
-  const pixel_t* src1 = corner[swapside];
-  const pixel_t* src2 = corner[1 - swapside];
-  pixel_t *dest = screen;
-  int i;
-
-  for (i = 200; i > 0; i--, src1 += xbuf, src2 += xbuf, dest += xbuf) {
-    fastmem4 (src1 + (x << 2), dest, 160 / 4 - x);
-    fastmem4 (src2, dest + 160 + (x << 2), 160 / 4 - x);
-  }
-}
-
-/* this one clear the screen too */
-void
-display_two_buffers_moving_and_clear (int x)
-{
-  const pixel_t* src1 = corner[swapside];
-  const pixel_t* src2 = corner[1 - swapside];
-  pixel_t* dest = screen;
-  int *desti;
-  int i, j;
-
-  for (i = 200; i > 0; i--, src1 += xbuf, src2 += xbuf, dest += xbuf) {
-    fastmem4 (src1 + (x << 2), dest, 160 / 4 - x);
-    desti = ((int *) dest) + 40 - x;
-    for (j = (x << 1); j != 0; j--)
-      *desti++ = 0;
-    fastmem4 (src2, dest + 160 + (x << 2), 160 / 4 - x);
-  }
-}

@@ -2707,8 +2707,7 @@ play_demo (void)
   if (two_players) {
     int buffer_pos = 39;
     do {
-      vsynch ();
-      display_two_buffers_moving_and_clear (buffer_pos);
+      flush_display2_moving (buffer_pos);
       output_screen ((char) n);
       n = update_all (0);
       for (i = n; i > 0; i--)
@@ -3206,8 +3205,7 @@ play_game (char cont)
     do {
       DRAW_SPRITE (levelname, corner[swapside] + (buffer_pos << 2));
       DRAW_SPRITE (levelname, corner[1 - swapside] - (buffer_pos << 2) - 160);
-      vsynch ();
-      display_two_buffers_moving (buffer_pos);
+      flush_display2_moving (buffer_pos);
       output_screen ((char) n);
       process_input_events ();
       n = update_all (0);
@@ -3448,8 +3446,7 @@ play_game (char cont)
 	  corner[0] = corner[1];
 	  draw_end_level_info (swapside ? 0 : -160, l);
 	  corner[0] = tmp;
-	  display_two_buffers_moving_and_clear (i);
-	  vsynch ();
+	  flush_display2_moving (i);
 	}
 	output_screen ((char) n);
 	process_input_events ();
@@ -3466,8 +3463,7 @@ play_game (char cont)
 	corner[0] = corner[1];
 	draw_end_level_info (swapside ? 0 : -160, l);
 	corner[0] = tmp;
-	display_two_buffers_moving_and_clear (40);
-	vsynch ();
+	flush_display2_moving (40);
       }
     } else {
       dmsg (D_SECTION, "print round info");
@@ -3523,8 +3519,7 @@ play_game (char cont)
 	  corner[0] = corner[1];
 	  draw_round_info (swapside ? 0 : -160);
 	  corner[0] = tmp;
-	  display_two_buffers_moving_and_clear (i);
-	  vsynch ();
+	  flush_display2_moving (i);
 	}
 	output_screen ((char) n);
 	process_input_events ();
@@ -3541,8 +3536,7 @@ play_game (char cont)
 	corner[0] = corner[1];
 	draw_round_info (swapside ? 0 : -160);
 	corner[0] = tmp;
-	display_two_buffers_moving_and_clear (40);
-	vsynch ();
+	flush_display2_moving (40);
       }
 /* end of round info */
     }

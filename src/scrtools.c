@@ -71,6 +71,24 @@ flush_display2 (const pixel_t *src1, const pixel_t *src2)
   update_htimers ();
 }
 
+void
+flush_display2_moving (int x)
+{
+  pixel_t* src1 = corner[swapside];
+  const pixel_t* src2 = corner[1 - swapside];
+  int *desti;
+  int i, j;
+
+  src1 += x << 2;
+  for (i = 200; i > 0; i--, src1 += xbuf, src2 += xbuf) {
+    desti = ((int *) src1) + 40 - x;
+    for (j = x << 1; j != 0; j--)
+      *desti++ = 0;
+    fastmem4 (src2, src1 + 160 + (x << 2), 160 / 4 - x);
+  }
+  flush_display (corner[swapside] + (x << 2));
+}
+
 /* FIXME: remove */
 void
 vsynch (void)
