@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------.
-| Copyright 2001  Alexandre Duret-Lutz <duret_g@epita.fr>           |
+| Copyright 2001, 2002  Alexandre Duret-Lutz <duret_g@epita.fr>     |
 |                                                                   |
 | This file is part of Heroes.                                      |
 |                                                                   |
@@ -60,7 +60,7 @@ static void
 version (void)
 {
   puts ("heroeslvl (Heroes) " VERSION "\n");
-  printf (_("Copyright (C) %d  Alexandre Duret-Lutz.\n"), 2001);
+  printf (_("Copyright (C) %d  Alexandre Duret-Lutz.\n"), 2002);
   puts (_("This is free software; see the source for copying conditions.  "
 	  "There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS"
 	  " FOR A PARTICULAR PURPOSE."));
