@@ -1,3 +1,7 @@
+2000-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.in: Work around a bug in the realloc test on Alpha.
+
 2000-11-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Draw "Take this bonus" using a S_RLE_SHADE sprite.  This has
