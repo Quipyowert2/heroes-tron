@@ -31,6 +31,58 @@ reset_htimer (htimer_t timer)
   timer->orig_time = current_time;
 }
 
+#if HAVE_GETTIMEOFDAY
+/* Subtract the `struct timeval' values X and Z,
+   storing the result in RES_SEC, RES_USEC (unless they are NULL pointers).
+   Return 1 if the difference is negative, otherwise 0.
+   (adapted from the GNU libc6 manual to not modify arguments, and return
+   res_sec and res_usec separately)
+*/
+static int
+timeval_subtract (long *res_sec, long *res_usec,
+		  const time_type *x, const time_type *z)
+{
+  time_type y = *z;
+  /* Perform the carry for the later subtraction by updating Y. */
+  if (x->tv_usec < y.tv_usec) {
+    int nsec = (y.tv_usec - x->tv_usec) / SECOND + 1;
+    y.tv_usec -= SECOND * nsec;
+    y.tv_sec += nsec;
+  }
+  if (x->tv_usec - y.tv_usec > SECOND) {
+    int nsec = (x->tv_usec - y.tv_usec) / SECOND;
+    y.tv_usec += SECOND * nsec;
+    y.tv_sec -= nsec;
+  }
+
+  /* Compute the time remaining to wait.
+     `tv_usec' is certainly positive. */
+  if (res_sec)
+    *res_sec = x->tv_sec - y.tv_sec;
+  if (res_usec)
+    *res_usec = x->tv_usec - y.tv_usec;
+
+  /* Return 1 if result is negative. */
+  return x->tv_sec < y.tv_sec;
+}
+
+static time_type last_time;	/* last time returned by gettimeofday */
+
+/* make sure the times returned by gettimeofday are increasing...  */
+static void
+xgettimeofday (time_type *tv)
+{
+  time_type t;
+  gettimeofday (&t, 0);
+  if (timeval_subtract (0, 0, &t, &last_time))
+    dmsg (D_TIMER,
+	  "successive calls to gettimeofday() returned decreasing values");
+  else
+    last_time = t;
+  *tv = last_time;
+}
+#endif
+
 void
 reset_htimer_with_offset (htimer_t timer, long sec)
 {
@@ -67,7 +119,7 @@ void
 update_htimers (void)
 {
 #ifdef HAVE_GETTIMEOFDAY
-  gettimeofday (&current_time, 0);
+  xgettimeofday (&current_time);
 #else
   current_time = get_current_time ();
 #endif
@@ -76,6 +128,9 @@ update_htimers (void)
 void
 init_htimer (void)
 {
+#if HAVE_GETTIMEOFDAY
+  gettimeofday (&last_time, 0);
+#endif
   update_htimers ();
 }
 
@@ -85,8 +140,7 @@ read_htimer (htimer_t timer)
 #if HAVE_GETTIMEOFDAY
   long s, u, d, res;
 
-  s = current_time.tv_sec - timer->orig_time.tv_sec;
-  u = current_time.tv_usec - timer->orig_time.tv_usec;
+  timeval_subtract (&s, &u, &current_time, &timer->orig_time);
   d = timer->slice_duration;
 
   for (;;) {
@@ -98,19 +152,12 @@ read_htimer (htimer_t timer)
       break;
     else {			/* The timer is blocking */
       struct timeval present_time;
-      gettimeofday (&present_time, 0);
-      s = present_time.tv_sec - timer->orig_time.tv_sec;
-      u = present_time.tv_usec - timer->orig_time.tv_usec;
+      xgettimeofday (&present_time);
+      timeval_subtract (&s, &u, &present_time, &timer->orig_time);
     }
   }
 
-  /* KLUDGE: For some unknown reason the current time can be older
-     that the origin of a timer (FIXME: find why!).  This
-     means that `res' can negative, which we can accept. */
-  if (res < 0) {
-    dmsg (D_TIMER, "read timer %p, return 0 (res = %ld)", timer, res);
-    return 0;
-  }
+  assert (res >= 0);
 
   if (timer->kind & T_LOCAL) {
     reset_htimer (timer);
