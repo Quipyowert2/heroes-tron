@@ -21,6 +21,7 @@
 #include "common.h"
 #include "structs.h"
 #include "hendian.h"
+#include "endian.h"
 
 void 
 bswap_level_header (level_header_t* level_info)

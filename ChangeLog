@@ -1,5 +1,10 @@
 2000-09-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/hedlite.c: Include endian.h.
+	* src/hendian.c: Likewise.
+
+2000-09-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Lock visual when needed (SDL only).
 
 	* src/display.c (screen_allocated): New.
