@@ -4,12 +4,10 @@ AC_DEFUN([adl_ENABLE_DEBUG],
   case "${enable_debug}" in
     yes)
       AC_DEFINE([DEBUG],1,[Define if you want debugging code.])
-      if test -n "$GCC"; then
-        CFLAGS="$CFLAGS -ggdb3"
-      else
-        if test "${ac_cv_prog_cc_g}" = yes; then
-          CFLAGS="$CFLAGS -g"
-        fi
+      # We used to use -ggdb3 when supported, but not all tools
+      # are able to grok the resulting debug infos.
+      if test "${ac_cv_prog_cc_g}" = yes; then
+        CFLAGS="$CFLAGS -g"
       fi
       ;;
     no)

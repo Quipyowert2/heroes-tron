@@ -1,5 +1,10 @@
 2002-03-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* m4/debug.m4: Never use -ggdb3, simply use -g instead.
+	* tools/alpha.sh: Use perl to run exnews.pl.
+
+2002-03-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/sprunish.c (compile_sprunish): Check for src<eol before
 	dereferencing *src, not after.
 	* src/userconf.c (read_userconf): Don't free strings installed

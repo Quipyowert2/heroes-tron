@@ -30,7 +30,7 @@ $PACKAGE $VERSION has just been uploaded.
   http://heroes.sf.net/dl/prereleases/$PACKAGE-$VERSION.tar.bz2
 
 EOF
-tools/exnews.pl NEWS >> mailtxt
+perl tools/exnews.pl NEWS >> mailtxt
 cat >> mailtxt <<EOF
 Enjoy.
 --
