@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Heroes v0.29b\n"
+"Project-Id-Version: Heroes v0.29c\n"
 "POT-Creation-Date: 2002-10-24 21:04+0200\n"
-"PO-Revision-Date: 2002-07-24 23:57-0300\n"
+"PO-Revision-Date: 2002-10-27 14:28-0300\n"
 "Last-Translator: Ariel Fermani <the_end@bbs.frc.utn.edu.ar>\n"
 "Language-Team: Argentinian <translation-es-AR@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -142,7 +142,7 @@ msgid ""
 "Heroes is a game similar to the \"Tron\" and \"Nibbles\" games of yore\n"
 "but includes many graphical improvements and new game features.\n"
 msgstr ""
-"Heroes es un juego similar a los antaños juegos \"Tron\" y \"Nibbles\" pero\n"
+"Heroes es un juego similar a los juegos de antaño \"Tron\" y \"Nibbles\" pero\n"
 "incluye muchas mejoras gráficas y nuevas características.\n"
 
 #: src/argv.c:155 src/heroeslvl.c:81
@@ -572,7 +572,7 @@ msgstr ""
 "%{>>>}%{img L 20 176 20 22}Fin-de-Nivel\n"
 "%{img R 0 0 20 22}%{flushright}Cola+1\n"
 "%{>>>}Cola+1 tiene el efecto de hacer crecer la cola de tu vehículo.  Hay "
-"dos formas de que ésta disminuya: agarrar un Cola-1 ó perder una vida.  El "
+"dos formas de que ésta disminuya: agarrar un Cola-1 o perder una vida.  El "
 "bonus Fin-de-Nivel aparece por primera vez cuando la cola de alguien alcanza "
 "las 10 unidades.\n"
 "\n"
@@ -697,7 +697,7 @@ msgstr ""
 "%{img L 293 99 20 32}\n"
 "%{>>}%gAUTOPILOTO\n"
 "\n"
-"%{>>>}Si estás loco, podés probar jugar sin el %gAUTOPILOTO%w.  Descansa en "
+"%{>>>}Si estás loco, podés probar jugar sin el %gAUTOPILOTO%w.  Descansá en "
 "paz...  Notá que el %gAUTOPILOTO%w no funciona contra la Colas de Fuego.\n"
 "\n"
 
@@ -720,7 +720,7 @@ msgstr ""
 "%{img BCVr 183 124 30 41}\n"
 "%{center}http://heroes.sourceforge.net/\n"
 "\n"
-"%{center}enviá reportes de `bugs' a:\n"
+"%{center}enviá reportes de 'bugs' a:\n"
 "%{img BCVr 183 124 30 41}\n"
 "%{center}heroes-bugs@lists.sourceforge.net\n"
 "\n"
@@ -823,7 +823,7 @@ msgstr ""
 #: src/heroeslvl.c:80
 msgid "Heroeslvl is a tool used to inspect Heroes' level files.\n"
 msgstr ""
-"Heroeslvl es una herramienta para inspeccionar los archivos de\n"
+"Heroeslvl es una herramienta utilizada para inspeccionar los archivos de\n"
 "niveles de Heroes.\n"
 
 #: src/heroeslvl.c:83
@@ -1434,7 +1434,7 @@ msgstr "Francés"
 
 #: src/people.c:74
 msgid "Spanish for Argentina"
-msgstr ""
+msgstr "Castellano (Argentina)"
 
 #: src/people.c:81
 msgid "Packagers\n"
@@ -1449,24 +1449,24 @@ msgid "Other people we wish to thanks\n"
 msgstr "Otras personas a las que queremos agradecer\n"
 
 #: src/plugins.c:39 src/plugins.c:43
-#, fuzzy, c-format
+#, c-format
 msgid "%s reported %d errors"
-msgstr "%s: error de truncado"
+msgstr "%s reportó %d errores"
 
 #: src/plugins.c:54
 #, c-format
 msgid "libltdl:lt_dlexit reported %d errors"
-msgstr ""
+msgstr "libltdl:lt_dlexit reportó %d errores"
 
 #: src/plugins.c:63
-#, fuzzy, c-format
+#, c-format
 msgid "failed to dlopen plug-in `%s'"
-msgstr "Fallo al abrir pantalla: %s"
+msgstr "fallo al hacer `dlopen' al plug-in `%s'"
 
 #: src/plugins.c:66
 #, c-format
 msgid "no `initialize' symbol in plug-in `%s'"
-msgstr ""
+msgstr "no hay símbolo `initialize' en plug-in `%s'"
 
 #: src/readmake.c:188
 #, c-format
@@ -1560,7 +1560,7 @@ msgstr "%s:%d: %s: valor desconocido: %s"
 #: src/userconf.c:158
 #, c-format
 msgid "%s:%d: unknown keyword `%s'"
-msgstr "%s:%d: teclado desconocido `%s'"
+msgstr "%s:%d: palabra clave `%s' desconocida"
 
 #: src/media/sfx.c:94
 #, c-format
