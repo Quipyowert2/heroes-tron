@@ -1,5 +1,9 @@
 2001-09-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.ac: Rewrite the configuration report.
+
+2001-09-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* m4/h-display.m4 (heroes_CHECK_DISPLAY_LIB): Typo preventing
 	SDL_mixer to be checked for when Allegro is not used.
 	Reported by Daniel Burrows <dburrows@brown.edu>.

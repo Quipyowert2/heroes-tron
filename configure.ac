@@ -213,36 +213,36 @@ AC_CONFIG_FILES([
 ])
 AC_OUTPUT
 
-# ====================
-# Configuration report
-# ====================
+eval bindir="$bindir"
+eval bindir="$bindir"
+eval datadir="$datadir"
+eval mandir="$mandir"
+eval infodir="$infodir"
+eval htmldir="$htmldir"
 
-# (Disabled.  Needs extensive update.)
+eval vkm_libalt_name='$adl_libalt_'$selection_vkm'_name'
+eval j_libalt_name='$adl_libalt_'$selection_j'_name'
+eval s_libalt_name='$adl_libalt_'$selection_s'_name'
+eval m_libalt_name='$adl_libalt_'$selection_m'_name'
 
-# eval bindir="$bindir"
-# eval bindir="$bindir"
-# eval datadir="$datadir"
-# eval mandir="$mandir"
-# eval infodir="$infodir"
-# eval htmldir="$htmldir"
-#
-# echo "
-# Heroes configuration
-# --------------------
-# Heroes version           : $VERSION
-# host                     : $host
-# display & keyboard       : ${display_lib}
-# joystick                 : ${joystick_lib}
-#   CFLAGS                 : $GGI_CFLAGS $GII_CFLAGS $SDL_CFLAGS
-#   LIBS                   : $GGI_LDFLAGS $GII_LDFLAGS $GGI_LIBS $GII_LIBS $SDL_LIBS
-# sound                    : ${sound_lib}
-#   CFLAGS                 : $SDL_MIXER_CFLAGS $LIBMIKMOD_CFLAGS
-#   LIBS                   : $SDL_MIXER_LDFLAGS $SDL_MIXER_LIBS $LIBMIKMOD_LIBS
-# compiler                 : $CC
-#   CFLAGS                 : $CFLAGS $MORE_WARNINGS_CFLAGS
-#   LIBS                   : $LDFLAGS $LIBS
-# binary install path      : $bindir
-# data install path        : ${datadir}/heroes
-# manual page install path : $mandir
-# info manual install path : $infodir
-# html doc install path    : $htmldir"
+echo "
+Heroes configuration
+--------------------
+Heroes version           : $VERSION
+host                     : $host
+
+binary install path      : $bindir
+data install path        : ${datadir}/heroes
+manual page install path : $mandir
+info manual install path : $infodir
+html doc install path    : $htmldir
+
+compiler                 : $CC
+general options
+  CFLAGS                 : $CFLAGS $MORE_WARNINGS_CFLAGS
+  LIBS                   : $LDFLAGS $LIBS
+
+display, keyboard, mouse : ${vkm_libalt_name}
+joystick                 : ${j_libalt_name}
+sound                    : ${s_libalt_name}
+main                     : ${m_libalt_name}"
