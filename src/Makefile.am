@@ -27,7 +27,7 @@ EXTRA_DIST = rsc_files.gperf debughash.gperf
 
 # We use a global CFLAGS, rather than a per-target CFLAGS because otherwise
 # Automake has to generate a compile rule for *each* object.
-CFLAGS = @CFLAGS@ @GGI_CFLAGS@ @GII_CFLAGS@ @LIBMIKMOD_CFLAGS@ @SDL_CFLAGS@ @SDL_MIXER_CFLAGS@
+CFLAGS = @CFLAGS@ @MORE_WARNINGS_CFLAGS@ @GGI_CFLAGS@ @GII_CFLAGS@ @LIBMIKMOD_CFLAGS@ @SDL_CFLAGS@ @SDL_MIXER_CFLAGS@
 
 heroeslvl_LDADD = lvl/libhlvl.a ../lib/libheroes.a
 heroeslvl_SOURCES = heroeslvl.c

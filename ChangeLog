@@ -1,5 +1,16 @@
 2001-07-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Because intl/ and lib/ contains third party code which does not
+	conform to the same level of "strictness" as the code in src/,
+	enable some -Woptions in src/ only.
+
+	* m4/gccwarn.m4 (CF_GCC_MORE_WARNINGS): New functions.
+	(ad_GCC_WARNINGS): Call CF_GCC_MORE_WARNINGS, AC_SUBST()
+	MORE_WARNINGS_CFGLAGS.
+	* src/Makefile.am (CFLAGS): Add MORE_WARNINGS_CFGLAGS.
+
+2001-07-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	``heroeslvl'' should not be linked with SDL or GGI as ``heroes''.
 	So let's change configure to not add those libraries to LIBS,
 	CFLAGS, etc.  Use per-target LDFLAGS and LDADD instead.
