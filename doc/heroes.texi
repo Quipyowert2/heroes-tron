@@ -1261,11 +1261,11 @@ be printed using the @samp{--list=debug} option).
 
 @table @samp
 @item SECTION
-The different parts of the game (introduction, 
+The different parts of the game (introduction,
 demonstration, menus, ...).
 
 @item SYSTEM
-Handling of environment variables, creation of 
+Handling of environment variables, creation of
 directories, initialization of libraries.
 
 @item RESOURCE
@@ -1376,7 +1376,7 @@ directory) and from the @file{~/.heroes/heroesrc} in your home
 directory.
 
 @subsection @samp{option:}
-@cindex options:
+@cindex options
 
 You can specify options in that file, they will be processed before any
 options given on the command line.  Put the word @samp{Options:} in
@@ -1393,7 +1393,7 @@ Options: -g -s
 Multiple @samp{Options:} lines can be given, they are processed in order.
 
 @subsection @samp{setenv:}
-@cindex setenv:
+@cindex setenv
 @vindex SDL_VIDEODRIVER
 @cindex environment variable
 @cindex variable
@@ -1412,14 +1412,14 @@ use AAlib (the ASCII art rendering library) and configure AAlib via its
 @samp{AAOPTS} variable.
 
 @subsection @samp{extradir:}
-@cindex extradir:
+@cindex extradir
 @cindex extra levels directory
 
 Lines starting with @samp{extradir:} are used to specify
 additional extra levels directories.
 
 @subsection @samp{soundconf:}
-@cindex soundconf:
+@cindex soundconf
 
 The @samp{soundconf:} lines are used to introduce configuration files
 defining the sound tracks played by the game.  The format of such files
@@ -1466,7 +1466,7 @@ sound-tracks used by heroes, and hence verify the correctness of your
 configuration.
 
 @subsection @samp{setrsc:}
-@cindex setrsc:
+@cindex setrsc
 @cindex file resources
 
 This follow the same format as @samp{setenv} but is used to overwrite
@@ -1492,8 +1492,8 @@ setrsc: main-font /home/adl/heroes-dev/tmp/fontem.pcx
 @end example
 
 @subsection @samp{keepsgid:} and @samp{keepsuid:}
-@cindex keepsgid:
-@cindex keepsuid:
+@cindex keepsgid
+@cindex keepsuid
 @cindex suid
 @cindex sgid
 

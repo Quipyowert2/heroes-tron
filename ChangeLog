@@ -1,5 +1,9 @@
 2002-03-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* doc/heroes.texi (heroesrc): Don't use `:' in index entry names.
+
+2002-03-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/etc/heroesrc: Try to read soundfiles from
 	$(data-dir)/hqmod/sound.conf too.
 
