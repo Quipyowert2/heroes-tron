@@ -247,8 +247,8 @@ AC_DEFUN([AM_GNU_GETTEXT],
 
    AC_CHECK_HEADERS([argz.h limits.h locale.h nl_types.h malloc.h stddef.h \
 stdlib.h string.h unistd.h sys/param.h])
-   AC_CHECK_FUNCS([feof_unlocked fgets_unlocked getcwd mempcpy munmap putenv \
-setenv setlocale stpcpy strchr strcasecmp strdup tsearch \
+   AC_CHECK_FUNCS([feof_unlocked fgets_unlocked getcwd getegid mempcpy \
+munmap putenv setenv setlocale stpcpy strchr strcasecmp strdup tsearch \
 __argz_count __argz_stringify __argz_next])
 
    AM_ICONV

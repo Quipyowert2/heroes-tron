@@ -1,5 +1,9 @@
 2001-04-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* gettext.m4: Check for getegid().
+
+2001-04-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Drop the fetish copy of gettext and switch to gettext-0.10.37,
 	released a few days ago.  The main reason for the change is that
 	the change needed to run the old gettext on MinGW are already
