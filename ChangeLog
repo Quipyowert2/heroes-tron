@@ -1,5 +1,13 @@
 2000-11-11  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/menus.c (edit_sel_txt): New.
+	(init_menus_sprites): Create edit_sel_txt.
+	(uninit_menus_sprites): Free it.
+	(editor_selector): Adapt to use edit_sel_txt and the new sprite
+	drawing functions.  Remove lname.
+
+2000-11-11  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/menu.c (entry_func_t, menu_entry_t, menu_t, options_entries,
 	main_entries, main_menu_data, option_menu_data, compile_menu,
 	display_menu, exec_menu, free_menu): New.

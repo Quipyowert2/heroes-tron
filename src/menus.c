@@ -86,6 +86,7 @@ static sprite_t* ed_y_wrap_txt = 0;
 static sprite_t* ed_x_size_txt = 0;
 static sprite_t* ed_y_size_txt = 0;
 static sprite_t* ed_edit_txt = 0;
+static sprite_t* edit_sel_txt = 0;
 
 static sprite_t* jukebox_frame = 0;
 static sprite_t* jukebox_back = 0;
@@ -369,6 +370,9 @@ init_menus_sprites (void)
 
   /* main menu */
   main_menu_data = compile_menu ("HEROES", main_entries);
+
+  /* editor selector */
+  edit_sel_txt = compile_menu_text (txti[170], T_CENTERED|T_WAVING, 10, 159);
 }
 
 void
@@ -425,6 +429,7 @@ uninit_menus_sprites (void)
   FREE_SPRITE0 (ed_edit_txt);
   free_menu (option_menu_data);
   free_menu (main_menu_data);
+  FREE_SPRITE0 (edit_sel_txt);
 }
 
 static void
@@ -1238,25 +1243,29 @@ editor_selector (void)
 {
   int l = 0;
   int i = 0, t;
-  char lname[FILENAME_SIZE + 1];
+  sprite_t *filenames[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
   if (extra_user_nbr == 1) {
     event_sfx (116);
-    strcpy (lname, extra_list[0].level_name);
-
-    hmain (lname, 0, 0, 0, 0, 0);
+    hmain (extra_list[0].level_name, 0, 0, 0, 0, 0);
     return;
   }
   std_white_fadein (&tile_set_img.palette);
   do {
     background_menu ();
-    draw_text_waving (txti[170], 159, 10, 1);
+    DRAW_SPRITE (edit_sel_txt, corner[0]);
     hrule (30);
     hrule (187);
+
+    /* draw filenames (generate correspounding sprites if needed) */
+
     for (i = -5; i <= 5; i++)
       if ((i + l) >= 0 && (unsigned int) (i + l) < extra_user_nbr) {
-	strcpy (lname, extra_list[i + l].level_name);
-	draw_text_array[i == 0] (lname, 159, 105 + i * 13, 1);
+	if (!filenames [i + 5])
+	  filenames [i + 5] = compile_menu_text (extra_list[i + l].level_name,
+						 T_CENTERED, 105, 159);
+	draw_sprprogwav_if (i == 0, filenames [i + 5],
+			    corner[0] + i * 13 * xbuf);
       }
     waving_arrows (101, 60);
     vsynch ();
@@ -1264,27 +1273,30 @@ editor_selector (void)
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
       if (t == HK_Up || t == HK_Down || t == HK_Escape || t == HK_Home
-	  || t == HK_End || t == HK_PageUp || t == HK_PageDown)
+	  || t == HK_End || t == HK_PageUp || t == HK_PageDown) {
+	int j;
 	event_sfx (1);
+	/* free all filenames */
+	for (j = 0; j < 11; ++j)
+	  FREE_SPRITE0 (filenames[j]);
+      }
       if (t == HK_Up) {
 	if (l > 0)
 	  l--;
 	else
 	  l = extra_user_nbr - 1;
-      }
-      if (t == HK_Down) {
+      } else if (t == HK_Down) {
 	if ((unsigned int) (l + 1) < extra_user_nbr)
 	  l++;
 	else
 	  l = 0;
-      }
-      if (t == HK_Home)
+      } else if (t == HK_Home) {
 	l = 0;
-      if (t == HK_End)
+      } else if (t == HK_End) {
 	l = extra_user_nbr - 1;
-      if (t == HK_PageUp)
+      } else if (t == HK_PageUp) {
 	l = (l > 10) ? (l - 10) : 0;
-      if (t == HK_PageDown)
+      } else if (t == HK_PageDown)
 	l = (((unsigned int) (l + 11) < extra_user_nbr)
 	     ? (l + 10) : (extra_user_nbr - 1));
     } else
@@ -1292,9 +1304,7 @@ editor_selector (void)
   } while (t != HK_Enter && t != HK_Escape);
   if (t == HK_Enter) {
     event_sfx (116);
-    strcpy (lname, extra_list[l].level_name);
-
-    hmain (lname, 0, 0, 0, 0, 0);
+    hmain (extra_list[l].level_name, 0, 0, 0, 0, 0);
   } else
     event_sfx (8);
 }
