@@ -1,5 +1,13 @@
 2000-12-31  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* m4/checkpkg.m4 (UP,DOWN,DOWNALT): Rewrite to work around a
+	possible bug in m4 ??? (HAVE_PKG_SDL_MIXER was understood as
+	HAVE_PKG_SDLMIXER for autoheader - not for autoconf; I can
+	reproduce this if I run autoconf with autoheader's four --trace,
+	but the bug disappear if one of the four traces is removed.)
+
+2000-12-31  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/Makefile.am (localdatadir): Delete
 	(localedir): Redefine and comment.
 	* m4/h-display.m4: Don't imbricate tests for SDL and GGI.

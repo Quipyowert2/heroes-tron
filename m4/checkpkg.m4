@@ -22,9 +22,9 @@ AC_DEFUN([AC_caolan_CHECK_PACKAGE],
 [
 dnl we're going to need uppercase, lowercase and user-friendly versions of the
 dnl string `LIBRARY'
-pushdef([UP], translit([$1], [a-z-], [A-Z_]))dnl
-pushdef([DOWN], translit([$1], [A-Z-], [a-z_]))dnl
-pushdef([DOWNALT], translit([$1], [A-Z_], [a-z-]))dnl
+pushdef([UP], AC_TR_CPP([$1]))dnl
+pushdef([DOWN], translit([$1], [-A-Z], [_a-z]))dnl
+pushdef([DOWNALT], translit([$1], [_A-Z], [-a-z]))dnl
 
 AC_ARG_WITH(DOWNALT,
 [AC_HELP_STRING([--with-]DOWNALT[=DIR],[root directory of $1 installation])],
