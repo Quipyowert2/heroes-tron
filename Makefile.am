@@ -25,4 +25,4 @@ AUTOMAKE_OPTIONS = 1.4 gnits # dist-bzip2
 ACLOCAL_AMFLAGS = -I m4
 
 EXTRA_DIST = BUGS misc/heroes.xpm
-SUBDIRS = lib src m4 man doc
+SUBDIRS = arch lib src m4 man doc

@@ -1,5 +1,19 @@
 2000-10-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Include VicualC project files, from Stéphane Denis.
+
+	* arch/Makefile.am: New.
+	* arch/VisualC/config.h: New file.
+	* arch/VisualC/keysdef-inc.h: New file.
+	* arch/VisualC/heroes.dsp: New file, from Stéphane Denis.
+	* arch/VisualC/heroes.dsw: New file, from Stéphane Denis.
+	* arch/VisualC/README.html: New file, from Stéphane Denis.
+	* arch/VisualC/README.txt: New file.
+	* configure.in: Check for zip and unzip. Generate arch/Makefile.
+	* Makefile.am (SUBDIRS): Add arch.
+
+2000-10-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Define and use macros for common __attribute__ stuffs.
 
 	* src/common.h (__attribute__,ATTRIBUTE_NORETURN,ATTRIBUTE_UNUSED,

@@ -142,6 +142,8 @@ AC_PROG_AWK
 AC_PROG_RANLIB
 
 AM_MISSING_PROG([HELP2MAN], [help2man], [\${SHELL} \${top_srcdir}])
+AM_MISSING_PROG([ZIP], [zip], [\${SHELL} \${top_srcdir}])
+AM_MISSING_PROG([UNZIP], [unzip], [\${SHELL} \${top_srcdir}])
 
 AC_PATH_PROG([GPERF], [gperf])
 AM_CONDITIONAL(HAVE_GPERF, [test \! -z "$GPERF"])
@@ -459,6 +461,7 @@ AM_CONDITIONAL(MAKE_HTML, [test "${enable_html_doc-no}" != no])
 AM_CONFIG_HEADER(src/config.h) dnl DO NOT quote, this is parsed by automake.
 AC_OUTPUT([
  Makefile
+ arch/Makefile
  lib/Makefile
  src/Makefile
  src/etc/Makefile
