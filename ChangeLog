@@ -1,3 +1,13 @@
+2001-07-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Check gettext version in upgettext.sh.  Older versions can
+	cause the bootstrap process to fail ungracefully.
+	Suggested by Laurent Duperval <lduperval@microcelli5.com>.
+
+	* tools/upgettext.sh (usage): Add -f.
+	(checkversion): New function.
+	Handle -f, call checkversion unless -f is given.
+
 2001-07-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* tools/alpha.sh: Reorder and comment sections.

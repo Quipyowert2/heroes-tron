@@ -79,6 +79,12 @@ person = {
 };
 
 person = {
+  name    = "Laurent Duperval";
+  email   = lduperval@microcelli5.com;
+  suggestions;
+};
+
+person = {
   name    = "Alexandre Duret-Lutz";
   email   = duret_g@epita.fr;
   aka     = Pollux;

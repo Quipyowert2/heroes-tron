@@ -20,7 +20,7 @@ moreverb=''
 
 usage ()
 {
-  echo "Usage: upgettext.sh [-h] [-v]"
+  echo "Usage: upgettext.sh [-h] [-v] [-f]"
 }
 
 die ()
@@ -35,6 +35,24 @@ saferun ()
   $@ || die "*** Error '${1+\"$@\"}' exited with bad status."
 }
 
+checkversion ()
+{
+  # We need a recent gettext (one that offer ngettext, and compile
+  # fine on Win32 platforms).  0.10.38 is the minimal version.
+
+  major=`gettext --version | sed -n 's/[^0-9]*\([0-9]*\)\.[0-9]*\.[0-9]*/\1/p'`
+  minor=`gettext --version | sed -n 's/[^0-9]*[0-9]*\.\([0-9]*\)\.[0-9]*/\1/p'`
+  micro=`gettext --version | sed -n 's/[^0-9]*[0-9]*\.[0-9]*\.\([0-9]*\)/\1/p'`
+  $verb "gettext version $major.$minor.$micro"
+  if test "$major" -lt 0 \
+       -o \( "$major" -eq 0 -a "$minor" -lt 10 \) \
+       -o \( "$major" -eq 0 -a "$minor" -eq 10 -a "$micro" -lt 38 \) ; then
+    echo '*** Your gettext is old.  We need at least gettext 0.10.38'
+    echo '*** Please fetch a d^Hrecent copy from ftp://ftp.gnu.org/gnu/gettext/'
+    exit 1
+  fi
+}
+
 while test $# -gt 0 ; do
   case "${1}" in
     -h | --h*)
@@ -43,6 +61,9 @@ while test $# -gt 0 ; do
     -v | --v* | -V)
       verb='echo'
       shift ;;
+    -f | --f*)
+      force=yes
+      ;;
     *)
       usage
       exit 1;;
@@ -51,6 +72,8 @@ done
 
 test -f configure.ac || test -f configure.in ||
   die "Cannot find configure.in in current directory."
+
+test x"$force" = xyes || checkversion
 
 # install gettext by copying files to patch them
 saferun touch configure.in # gettextize 0.10.37 doesn't yet know configure.ac
