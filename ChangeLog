@@ -1,5 +1,9 @@
 2000-08-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/Makefile.am (EXTRADIST): Add rsc_files.gperf.
+
+2000-08-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/musicfiles.c (read_sound_config_file): Print the expanded
 	filename.
 
