@@ -492,8 +492,9 @@ load_level (char *nomlvl, char cont)
   if (fread (glenz, 256, 8, ftmp) != 8)
     return (6);
   fclose (ftmp);
-  for (i = map_info.xt * map_info.yt - 1; i >= 0; i--)
-    level_map[i].number += (long int) tile_set_img.buffer;
+
+  init_render_data ();
+
   if (in_menu) {
     load_soundtrack_from_alias ("MENU");
     soundtrack_current_nbr = 0;
@@ -917,6 +918,7 @@ unload_level (void)
 {
   dmsg (D_LEVEL, "unloading level");
 
+  uninit_render_data ();
   img_free (&tile_set_img);
   free (level_map);
   free (square_occupied);

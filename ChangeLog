@@ -1,3 +1,15 @@
+2000-10-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Use a separate struct to hold the information needed to
+	render the background tiles.
+
+	* src/renderdata.c: New file.
+	* src/renderdata.h: New file.
+	* src/Makefile.in (heroes_SOURCES): Add renderdata.h and renderdata.c.
+	* src/heroes.c (load_level): Call init_render_data.
+	* src/heroes.h (unload_level): Call uninit_render_data.
+	* src/render.c (draw_level): Draw background tiles using bg_data.
+
 2000-10-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Old GCCs do not recognize -fstrict-aliasing, test this

@@ -28,6 +28,7 @@
 #include "argv.h"
 #include "timer.h"
 #include "heroes.h"
+#include "renderdata.h"
 
 char tutor = 0;
 
@@ -519,12 +520,11 @@ void
 draw_level (int p)
 {
   int i, j;
-  int k, l, m, tmp, tmp2;
+  int k, l, m;
   const lemming_t* tmppti;
   signed char bb;
   unsigned char b;
   unsigned int ib;
-  unsigned char t;
   signed char sinl;
   pixel_t *dest = render_buffer[p] + sbuf;
   pixel_t *dest2;
@@ -565,32 +565,26 @@ draw_level (int p)
 	 j--, i++) {
       i = (i & map_info.xwrap);
       if ((i + m) < (int)(map_info.xt * map_info.yt)) {
-	t = level_map[i + m].type;
-	if (t == t_anim ||
-	    (((level_map[i + m].info.param[4] & 0xf0) != 0) &&
-	     (t == t_speed || t == t_boom || t == t_stop || t == t_ice
-	      || t == t_outway || t == t_dust))) {
-	  if (t == t_anim)
-	    copy_tile ((pixel_t *)
-		       (level_map[i + m].number +
-			24 *
-			((anim_frame / (level_map[i + m].info.anim.speed + 1))
-			 % (level_map[i + m].info.anim.frame_nbr + 1))), dest,
-		       tile_set_img.width);
-	  else {
-	    tmp2 = level_map[i + m].info.param[4] >> 4;
-	    tmp =
-	      ((anim_frame / ((level_map[i + m].info.param[4] & 15) + 1)) %
-	       (tmp2 << 1));
-	    if (tmp > tmp2)
-	      tmp = (tmp2 << 1) - tmp;
-	    copy_tile ((pixel_t *) (level_map[i + m].number + 24 * tmp), dest,
-		       tile_set_img.width);
+	bg_data_t* tile = bg_data + i + m;
+	switch (tile->kind) {
+	case A_NONE:
+	  copy_tile (tile->source, dest, tile_set_img.width);
+	  break;
+	case A_LOOP:
+	  copy_tile (tile->source + 
+		     24 * (anim_frame / tile->anim_speed) % tile->anim_frames,
+		     dest, tile_set_img.width);
+	  break;
+	case A_PINGPONG:
+	  {
+	    int frm = ((anim_frame / tile->anim_speed) 
+		       % (tile->anim_frames * 2));
+	    if (frm > tile->anim_frames)
+	      frm = 2 * tile->anim_frames - frm;
+	    copy_tile (tile->source + 24 * frm, dest, tile_set_img.width);
 	  }
-	} else
-	  copy_tile ((pixel_t *) level_map[i + m].number, dest, 
-		     tile_set_img.width);
-
+	  break;
+	}
       }
       dest += 24;
     }

@@ -85,6 +85,8 @@ pixelize.c \
 pixelize.h \
 render.c \
 render.h \
+renderdata.c \
+renderdata.h \
 rleprog.c \
 rleprog.h \
 rletext.c \
