@@ -1,3 +1,12 @@
+2001-02-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Heroes binaries to compiled with gcc 2.7.* failed pack struct
+	correctly.
+
+	* src/system.h: Undefine __attribute__ after xalloc.h inclusion.
+	This is needed because we want to use __attribute__ ((packed)) on
+	gcc 2.7.* while xalloc.h inhibit it for gcc <= 2.8.
+
 2001-02-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	From Jean Delvare.  Spelling mistakes.

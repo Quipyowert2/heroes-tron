@@ -229,7 +229,21 @@ typedef signed char		s8_t;
 #endif
 #define UCHAR(c) ((unsigned char) (c))
 
+/* xalloc.h (from fileutils.h) define __attribute__ only for gcc >= 2.8
+   (according to the ChangeLog this is needed for OPENStep 4.2 cc)
+   while we want to allow __attribute__ for gcc >= 2.7 in Heroes
+   (because 2.7.2 is still widely used and __attribute__((packed)) is
+   mandatory).  So we need to undefine __attribute__ after xalloc has been
+   included. */
+#ifndef __attribute__
+/* remember that __attribute has to be undefined after inclusion */
+# define undefine__attribute__
+#endif
 #include "xalloc.h"
+#ifdef undefine__attribute__
+# undef __attribute__
+# undef undefine__attribute__
+#endif
 
 /* Like XFREE, but also zeroes Var */
 #define XFREE0(Var)				\
