@@ -98,8 +98,14 @@ file_unlock (int fd)
 # else /* !HAVE_FLOCK */
 #  if HAVE__LOCKING
 
+  /* Some version of MinGW used to spell _LK_UNLCK with an O.  */
+#   ifndef _LK_UNLCK
+#    ifdef _LK_UNLOCK
+#     define _LK_UNLCK _LK_UNLOCK
+#    endif
+#   endif
   /* Unlock the 10 next bytes.  */
-  return _locking (fd, _LK_UNLOCK, 10);
+  return _locking (fd, _LK_UNLCK, 10);
 
 #  else /* !HAVE__LOCKING */
 
