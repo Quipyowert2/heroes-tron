@@ -1,5 +1,13 @@
 2000-11-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/menu.c (edit_first_menu_txt, edit_first_new_txt,
+	edit_first_load_txt): New.
+	(init_menus_sprites, uninit_menus_sprites): Handle the above new
+	sprites.
+	(editor_first_menu): Use them.  Simplify keys handling.
+
+2000-11-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/argv.h (nosfx, joyoff, loadulevel, directmenu, swapside,
 	mono, bits8, hqmix, nosound, even_lines): Define as booleans.
 	* src.argv.c (nosfx, joyoff, loadulevel, directmenu, swapside,
