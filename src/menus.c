@@ -2223,7 +2223,6 @@ enter_your_name (char c, char* name)
 {
   keycode_t t = 0;
   int pos = 0;
-  char l;
   char head[256];
   htimer_t pixelize_timer = new_htimer (T_GLOBAL, HZ (7));
   sprite_t *player_number;
@@ -2259,13 +2258,10 @@ enter_your_name (char c, char* name)
     }
     if (key_ready ()) {
       t = get_key ();
-      l = t & 255;
-      if (l >= 'a' && l <= 'z')
-	l -= 'a' - 'A';
+      t = TOUPPER (t);
       if (pos < PLAYER_NAME_SIZE)
-	if ((l > 20 && l <= 95) || (l == 20 && pos != 0)) {
-	  name[pos] = l;
-	  pos++;
+	if ((t > ' ' && t <= '_') || (t == ' ' && pos > 0)) {
+	  name[pos++] = t;
 	  name[pos] = 0;
 	  event_sfx (70);
 	  FREE_SPRITE0 (player_name); /* force recompilation */

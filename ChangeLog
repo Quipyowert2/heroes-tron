@@ -1,3 +1,10 @@
+2001-04-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/menus.c (enter_your_name): Work directly with keycodes to
+	not misinterpret extended keys (sush as shift keys) as standard
+	characters.
+	Reported by Janos Holanyi <csani@lme.linux.hu>.
+
 2001-04-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* m4/getoptlong.m4: Update for submission to the Autoconf
