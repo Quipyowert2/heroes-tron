@@ -1,5 +1,9 @@
 2000-09-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.in: Use $host, not $target, when cross-compiling.
+
+2000-09-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Provide opendir/readdir/closedir substitutes 
 	for plain Win32 (untested).
 
