@@ -21,11 +21,13 @@
 #ifndef HEROES__HOOKS__H
 #define HEROES__HOOKS__H
 
-/* Modules can "hook" some functions which must be called back
+/** -- BEGIN PUBLIC -- **/
+
+/* Plug-ins can "hook" some functions which must be called back
    whenever a "hook point" is encountered.
 
    This implementation is heavily inspired from the one found in Zsh.
-   */
+*/
 
 typedef struct a_hook a_hook;
 typedef struct a_hook_fun_list a_hook_fun_list;
@@ -108,5 +110,7 @@ void *hook_rem_fun (const char *name, a_hook_fun fun);
 typedef bool (*a_hook_rem_if_fun)(void *ref_data, void *callback_data);
 void *hook_rem_fun_if (const char *name, a_hook_fun fun, void *ref_data,
 		       a_hook_rem_if_fun if_fun);
+
+/** -- END PUBLIC -- **/
 
 #endif /* HEROES__HOOKS__H */

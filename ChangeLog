@@ -1,3 +1,15 @@
+2002-03-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Extract src/plugins/plugin.h from various source files.
+
+	* tools/pubhex.awk: New file.
+	* tools/Makefile.inc (EXTRA_DIST): Add it.
+	* src/hooks.h, src/opponents.h, src/lvl/lvl.h, src/rules/player.h,
+	src/rules/state.h: Add PUBLIC markers.
+	* src/plugins/Makefile.inc (plugins/plugins.h): New rule.
+	(pkginclude_HEADER, BUILT_SOURCES, PLUGIN_H_INPUTS,
+	PUBHEX_AWK): New variables.
+
 2002-03-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.ac: Show the plug-ins install path.

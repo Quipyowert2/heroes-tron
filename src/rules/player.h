@@ -19,6 +19,8 @@
 | 02111-1307 USA                                                    |
 `------------------------------------------------------------------*/
 
+/** -- BEGIN PUBLIC -- **/
+
 /* these two structures are used to access
    the higher and lower part of a a_u32 */
 typedef struct {
@@ -34,11 +36,13 @@ typedef union {
   hl h;
 } ehl;
 
+/* FIXME: There are meny fields here that should not be public.  */
+
 typedef struct
 {
-  int x, y;			/* position */
-  int x2, y2;			/* position square_occupied; */
-  int pos;			/* address square */
+  int x, y;			/* position (tile coords) */
+  int x2, y2;			/* position (square coords) */
+  int pos;			/* posision (square index) */
   int v;			/* speed */
   int vi;			/* additional speed */
   int vitt;			/* speed to reach */
@@ -66,7 +70,7 @@ typedef struct
   char tunnel_inverse;
   char autopilot;
   char cpu;			/* 0: local CPU    [1: remote CPU] */
-				   /* 2: player local [,3: player distant] */
+				/* 2: player local [,3: player distant] */
   int ia_max_depth;		/* recusrion depth for CPU (keep <= 7,
 				   or it will be slow) */
   int target;			/* target to follow */
@@ -74,6 +78,8 @@ typedef struct
   int martians_nbr;		/* ;-) */
   int time;
   int cash;			/* ... or colors */
-  int wins;			/* games win */
+  int wins;			/* games won so far */
 }
 a_player;
+
+/** -- END PUBLIC -- **/

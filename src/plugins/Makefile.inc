@@ -21,3 +21,17 @@ pkglib_LTLIBRARIES = plugins/stdai.la
 
 plugins_stdai_la_SOURCES = plugins/stdai.c
 plugins_stdai_la_LDFLAGS = -module -release $(VERSION)
+
+pkginclude_HEADERS = plugins/plugin.h
+BUILT_SOURCES += plugins/plugin.h
+
+PLUGIN_H_INPUTS = \
+  lvl/lvl.h \
+  rules/player.h \
+  rules/state.h \
+  hooks.h \
+  opponents.h
+
+PUBHEX_AWK = $(top_srcdir)/tools/pubhex.awk
+plugins/plugin.h: $(PUBHEX_AWK) $(PLUGIN_H_INPUTS)
+	$(AWK) -f $(PUBHEX_AWK) $(PLUGIN_H_INPUTS) >plugins/plugin.h

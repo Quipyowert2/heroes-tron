@@ -21,6 +21,8 @@
 #ifndef HEROES__LVL__H
 #define HEROES__LVL__H
 
+/** -- BEGIN PUBLIC -- **/
+
 /* Tiles are units of 24x20 pixels, squares are units of 12x10 pixels.
    There is 4 squares per tiles.
 
@@ -134,9 +136,12 @@ struct a_level {
   a_tile_coord tile_width_wrap;
   a_square_coord square_height_wrap;
   a_square_coord square_width_wrap;
+#ifndef DONT_WRAP
+# define DONT_WRAP (~0u)	/* Used for non wrapping directions.  */
+#endif
 
   /* Most maps are allocated as one-dimensional arrays.  So we define
-     to more constants used for the size of the arrays.  */
+     two more constants used for the size of the arrays.  */
   a_tile_index tile_count;	/* == tile_width * tile_height */
   a_square_index square_count;	/* == square_width * square_height */
 
@@ -169,9 +174,7 @@ struct a_level {
   LVL_MUTABLE a_level_bits *private;
 };
 
-#ifndef DONT_WRAP
-# define DONT_WRAP (~0u)	/* Used for non wrapping directions.  */
-#endif
+/** -- END PUBLIC -- **/
 
 /* Load a level from FILENAME to OUT.  Return 0 on success, !0
    otherwise.  If LOAD_BODY is true, parse the body, and compute the
@@ -181,6 +184,8 @@ int lvl_load_file (const char *filename, a_level *out, bool load_body);
 int lvl_save_file (const char *filename, const a_level *out);
 /* Free any data associated to LVL.  */
 void lvl_free (a_level *lvl);
+
+/** -- BEGIN PUBLIC -- **/
 
 /* These two functions return a pointer to a string allocated for LVL,
    and freed by lvl_free().  You should not free them yourself, and
@@ -286,6 +291,7 @@ void lvl_animation_info (const a_level *lvl, a_tile_index tile,
 #define SQRX(lvl_ptr, sqr0, x) \
   ((sqr0) + (((x) & 2) ? (lvl_ptr)->square_width : 0) + ((x) & 1))
 
+/** -- END PUBLIC -- **/
 
 /*-------------------------.
 | Interface for map editor |

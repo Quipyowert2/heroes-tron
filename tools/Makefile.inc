@@ -25,5 +25,6 @@ tools/exnews.pl \
 tools/fetish-sync.sh \
 tools/genm4mam.sh \
 tools/genpotfiles.sh \
+tools/pubhex.awk \
 tools/readme.sed \
 tools/upgettext.sh

@@ -23,6 +23,8 @@
 
 #include "state.h"
 
+/** -- BEGIN PUBLIC -- **/
+
 typedef enum an_opponent_type an_opponent_type;
 enum an_opponent_type {
   OT_NONE   = 0,		/* cannot play */
@@ -92,17 +94,18 @@ struct an_opponent_sig {
 			an_opponent_action *action,
 			void *callback_data);
 
-  /* Unless NULL, this functions is called on each frame (i.e. 70
-     times per second).  This is called frequently, so please, keep
-     it fast!.  */
+  /* Unless NULL, this functions is called on each frame (i.e., 70
+     times per second).  This is called frequently, so please keep
+     it fast!  */
   void (*frame_update)(const a_level_state *state, int player,
 		       an_opponent_action *action,
 		       void *callback_data);
 };
 
-
 void opponent_register (an_opponent_sig *opp);
 void opponent_unregister (an_opponent_sig *opp);
+
+/** -- END PUBLIC -- **/
 
 an_opponent_sig *opponent_get_random (a_game_mode mode);
 

@@ -24,6 +24,8 @@
 # include "player.h"
 # include "timer.h"
 
+/** -- BEGIN PUBLIC -- **/
+
 /* Information about a lemming.  */
 typedef struct a_lemming a_lemming;
 struct a_lemming {
@@ -213,6 +215,8 @@ int state_trail_size (const a_level_state *state, int player);
 
 /* Return TRUE if the trail is expending.  */
 bool state_trail_expending (const a_level_state *state, int player);
+
+/** -- END PUBLIC -- **/
 
 void state_erase_player (a_level_state *state, unsigned i);
 void state_reinit_player (a_level_state *state, unsigned p);
