@@ -1,3 +1,10 @@
+2001-02-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Revert an error I did when adapting Jean's patch.
+
+	* src/menus.c (keyboard_menu): Don't strip keyname which are 7
+	letter wide, only thos which are longer.
+
 2001-02-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Adapted from Jean Delvare <devare@ensicaen.ismra.fr>.

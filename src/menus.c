@@ -973,7 +973,9 @@ keyboard_menu (void)
 	    char name[10];
 	    strncpy (name, keyname, 9);
 	    name[9] = 0;
-	    if (strlen (name) > 6) {
+	    if (strlen (name) > 7) {
+	      /* keep only the 6 first chars as `...' is
+		 roughtly the width of one char */
 	      name[6] = '.';
 	      name[7] = '.';
 	      name[8] = '.';
