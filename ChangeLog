@@ -1,3 +1,12 @@
+2001-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/heroes.c (heroes_main): Set system-conf from the
+	HEROES_SYSTEM_CONF envvar.
+	* tests/Makefile.am (EXTRA_DIST): Add defs.
+	* tests/defs: Set HEROES_SYSTEM_CONF to $srcdir/../src/etc/heroesrc,
+	otherwise the testsuite would use the (maybe not installed)
+	system configuration.
+
 2001-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* ANNOUNCE, NEWS: Update for 0.17.

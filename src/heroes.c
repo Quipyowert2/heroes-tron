@@ -3254,6 +3254,16 @@ heroes_main (int argc, char *argv[])
   init_locales ();
   init_sound_track_list ();
 
+  /* Allow to override system-conf.  That's especially used by the
+     testsuite; and not documented (although it could).  */
+  {
+    char *system_conf = getenv ("HEROES_SYSTEM_CONF");
+    if (system_conf) {
+      dmsg (D_SYSTEM, "HEROES_SYSTEM_CONF = %s", system_conf);
+      set_rsc_file ("system-conf", system_conf, false);
+    }
+  }
+
   /* Read the system-wide configuration file. */
   {
     char* tmp;
