@@ -1,3 +1,10 @@
+2000-07-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/etc/Makefile.am (EXTRA_DIST): Distribute heroesrc.in, 
+	not heroesrc.
+	* src/mod/Makefile.am (EXTRA_DIST): Distribute sound.conf.in,
+	not sound.conf.
+
 2000-07-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Install a system-wide configuration file, and use it to define

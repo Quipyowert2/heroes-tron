@@ -21,7 +21,7 @@
 xdir = @moddir@
 x_DATA = $(wildcard *.xm) sound.conf
 
-EXTRA_DIST = $(x_DATA)
+EXTRA_DIST = $(wildcard *.xm) sound.conf.in
 CLEANFILES = sound.conf
 
 sound.conf: sound.conf.in ../config.h

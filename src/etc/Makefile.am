@@ -21,7 +21,7 @@
 xdir = @etcdir@
 x_DATA = heroesrc
 
-EXTRA_DIST = $(x_DATA)
+EXTRA_DIST = heroesrc.in
 CLEANFILES = heroesrc
 
 heroesrc: heroesrc.in ../config.h
