@@ -5,20 +5,14 @@ please send a note to <heroes-discuss@lists.sourceforge.net>.
 Short term.
 -----------
 
-  Create a convenience library to load levels.  This is will
-  make any change to the level format more easy.  It has to be
-  used in heroes when loading the level for playing or editing.
+  Use the level-loading library in the level editor.  Hence, get rid
+  of most struct in src/struct.h (and their ugly ATTRIBUTE_PACKED).
 
-  Load the level in a way that doesn't require ATTRIBUTE_PACKED
-  structures.  ATTRIBUTE_PACKED is evil.
+  Document heroeslvl.
 
-  A separate binary (say heroeslvl) is needed to perform various task
-  on level files (such as modification of the header fields, automatic
-  generation of level.lst, level integrity checking -- maybe conversion
-  of level format, should we need to do this a day).
+  Create level.lst using heroeslvl.
 
-  /* Map square indexes to coordinates, for fast conversion.  */
-  const square_coord_pair_t *square_coord;
+  heroeslvl should not load the whole file if only the header is needed.
 
 Middle term.
 ------------

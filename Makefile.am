@@ -135,5 +135,6 @@ man-distcheck:
 dist-hook:
 	-chmod -R a-s $(distdir)
 
+EXTRA_DIST += arch/Makefile.inc m4/Makefile.inc
 include arch/Makefile.inc
 include m4/Makefile.inc

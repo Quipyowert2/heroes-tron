@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.10\n"
-"POT-Creation-Date: 2001-07-10 19:08+0200\n"
+"POT-Creation-Date: 2001-07-16 10:02+0200\n"
 "PO-Revision-Date: 2001-05-22 22:15+02:00\n"
 "Last-Translator: Alexandre Duret-Lutz <duret_g@epita.fr>\n"
 "Language-Team: none <LL@li.org>\n"
@@ -265,37 +265,41 @@ msgstr "Rapporter toutes anomalies à <heroes-bugs@lists.sourceforge.net>."
 msgid "-n is an obsolete option, you should use --list=sound-drivers"
 msgstr "-n est une option obsolète, vous devriez utiliser --list=sound-drivers"
 
-#: src/bonus.c:323 src/bonus.c:328
+#: src/bonus.c:325 src/bonus.c:330
 #, c-format
 msgid "SIZE IS %d"
 msgstr "TAILLE %d"
 
-#: src/bonus.c:333
+#: src/bonus.c:335
 msgid "SPEEDED UP"
 msgstr "ACCELERATION"
 
-#: src/bonus.c:337
+#: src/bonus.c:339
 msgid "SPEEDED DOWN"
 msgstr "RALENTISSEMENT"
 
-#: src/bonus.c:344
+#: src/bonus.c:346
 #, c-format
 msgid "GET %dPTS"
 msgstr "%d POINTS"
 
-#: src/bonus.c:360
+#: src/bonus.c:351
+msgid "FIRE TRAIL!"
+msgstr ""
+
+#: src/bonus.c:365
 msgid "GET TURBO+"
 msgstr "TURBO+"
 
-#: src/bonus.c:367
+#: src/bonus.c:372
 msgid "GET TURBO-"
 msgstr "TURBO-"
 
-#: src/bonus.c:375
+#: src/bonus.c:380
 msgid "INVINCIBLE!"
 msgstr "INVINCIBLE !"
 
-#: src/bonus.c:387
+#: src/bonus.c:392
 msgid "EXTRA-LIFE!"
 msgstr "NOUVELLE VIE"
 
@@ -421,12 +425,12 @@ msgstr "FIN"
 msgid "character '%c' is not drawable (in message '%s')"
 msgstr "le caractère '%c' n'est pas représentable (dans le message '%s')"
 
-#: src/hedlite.c:1650
+#: src/hedlite.c:1651
 #, c-format
 msgid "Cannot create directory `%s'."
 msgstr "Impossible de créer les répertoire `%s'."
 
-#: src/hedlite.c:1707 src/hedlite.c:1714
+#: src/hedlite.c:1708 src/hedlite.c:1715
 #, c-format
 msgid "%s: invalid level file"
 msgstr "%s: carte de niveau invalide"
@@ -524,6 +528,7 @@ msgstr ""
 "\n"
 
 #: src/helptext.c:72
+#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -539,6 +544,7 @@ msgid ""
 "%{img L 0 132 20 22}%{>}%{img L 0 154 20 22}%{>>>}Speed Down\n"
 "%{img L 0 176 20 22}%{>}%{img L 0 198 20 22}%{>>>}Random Bonus\n"
 "%{img L 0 220 20 22}%{>}%{img L 0 242 20 22}%{>>>}Points\n"
+"%{img L 0 264 20 22}%{>}%{img L 0 286 20 22}%{>>>}Fire Trail\n"
 "%{img L 20 0 20 22}%{>}%{img L 20 22 20 22}%{>>>}Stop\n"
 "%{img L 20 44 20 22}%{>}%{img L 20 66 20 22}%{>>>}Inverted controls\n"
 "%{img L 20 88 20 22}%{>}%{img L 20 110 20 22}%{>>>}Power +\n"
@@ -576,7 +582,7 @@ msgstr ""
 "%{img L 40 44 20 22}%{>}%{img L 40 66 20 22}%{>>>}Vision ondulee\n"
 "\n"
 
-#: src/helptext.c:99
+#: src/helptext.c:100
 msgid ""
 "%{head 3}GAME MODES\n"
 "\n"
@@ -667,7 +673,8 @@ msgstr ""
 "dollards en un temps limite.\n"
 "\n"
 
-#: src/helptext.c:145
+#: src/helptext.c:146
+#, fuzzy
 msgid ""
 "%{head 4}GAME OPTIONS\n"
 "\n"
@@ -711,7 +718,7 @@ msgid ""
 "%{>>}%gAUTOPILOT\n"
 "\n"
 "%{>>>}If you are mad, you can try to play without %gAUTOPILOT%w, rest in "
-"peace...\n"
+"peace...  Note that %gAUTOPILOT%w does not work against fire trails.\n"
 "\n"
 msgstr ""
 "%{head 4}OPTIONS DU JEU\n"
@@ -758,7 +765,7 @@ msgstr ""
 "reposez en paix...\n"
 "\n"
 
-#: src/helptext.c:191
+#: src/helptext.c:192
 msgid ""
 "%{head 1}CONTACT\n"
 "\n"
@@ -782,7 +789,7 @@ msgstr ""
 "%{center}heroes-bugs@lists.sourceforge.net\n"
 "\n"
 
-#: src/helptext.c:204
+#: src/helptext.c:205
 msgid ""
 "%{img C 175 0 10 119}\n"
 "%{img L 96 200 40 50}%{img R 96 200 40 50} We take care of today's "
@@ -840,54 +847,54 @@ msgstr ""
 "Alexandre Liverneaux and Philippe Meisburger.\n"
 "\n"
 
-#: src/heroes.c:890
+#: src/heroes.c:673
 #, c-format
 msgid "Error %d during loading level"
 msgstr "Erreur %d pendant le chargement du niveau"
 
-#: src/heroes.c:978 src/heroes.c:1002
+#: src/heroes.c:761 src/heroes.c:785
 #, c-format
 msgid "Error %d occured while loading level %s"
 msgstr "L'erreur %d est survenue pendant le chargement du niveau %s"
 
-#: src/heroes.c:2121
+#: src/heroes.c:1926
 #, c-format
 msgid "INVERTED %d"
 msgstr "INVERSE %d"
 
-#: src/heroes.c:2152
+#: src/heroes.c:1957
 #, c-format
 msgid "STOPPED %d"
 msgstr "ARRETE %d"
 
 #. TRANS: %d, the number of remaining lives, is always
 #. positive.
-#: src/heroes.c:2439
+#: src/heroes.c:2249
 msgid "LAST LIFE"
 msgid_plural "%d LIVES LEFT"
 msgstr[0] "DERNIERE VIE"
 msgstr[1] "RESTE %d VIES"
 
-#: src/heroes.c:3146
+#: src/heroes.c:2903
 msgid "Error during level loading"
 msgstr "Erreur pendant le chargement du niveau"
 
-#: src/heroes.c:3186
+#: src/heroes.c:2943
 #, c-format
 msgid "-LEVEL %d-"
 msgstr "-NIVEAU %d-"
 
-#: src/heroes.c:3188
+#: src/heroes.c:2945
 #, c-format
 msgid "-ROUND %d/%d-"
 msgstr "-MANCHE %d/%d-"
 
-#: src/heroes.c:3583
+#: src/heroes.c:3340
 #, c-format
 msgid "Cannot open %s."
 msgstr "Impossible d'ouvrir %s."
 
-#: src/heroes.c:3708
+#: src/heroes.c:3465
 msgid "error in sfx.cfg"
 msgstr "erreur dans sfx.cfg"
 

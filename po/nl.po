@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.8c\n"
-"POT-Creation-Date: 2001-07-10 19:08+0200\n"
+"POT-Creation-Date: 2001-07-16 10:02+0200\n"
 "PO-Revision-Date: 2001-02-23 22:37+01:00\n"
 "Last-Translator: Jos Boersema <joshb@FIXME>\n"
 "Language-Team: none <LL@li.org>\n"
@@ -271,37 +271,41 @@ msgstr "Raporteer bugs aan <heroes-bugs@lists.sourceforge.net>."
 msgid "-n is an obsolete option, you should use --list=sound-drivers"
 msgstr "-n is een verouderde optie, u moet nu --list=sound-drivers gebruiken"
 
-#: src/bonus.c:323 src/bonus.c:328
+#: src/bonus.c:325 src/bonus.c:330
 #, c-format
 msgid "SIZE IS %d"
 msgstr "GROOTTE IS %d"
 
-#: src/bonus.c:333
+#: src/bonus.c:335
 msgid "SPEEDED UP"
 msgstr "VERSNELD"
 
-#: src/bonus.c:337
+#: src/bonus.c:339
 msgid "SPEEDED DOWN"
 msgstr "VERLANGZAAMD"
 
-#: src/bonus.c:344
+#: src/bonus.c:346
 #, c-format
 msgid "GET %dPTS"
 msgstr "KRIJG %dPTS"
 
-#: src/bonus.c:360
+#: src/bonus.c:351
+msgid "FIRE TRAIL!"
+msgstr ""
+
+#: src/bonus.c:365
 msgid "GET TURBO+"
 msgstr "KRIJG TURBP+"
 
-#: src/bonus.c:367
+#: src/bonus.c:372
 msgid "GET TURBO-"
 msgstr "KRIJG TURBO-"
 
-#: src/bonus.c:375
+#: src/bonus.c:380
 msgid "INVINCIBLE!"
 msgstr "ONSCHENDBAAR!"
 
-#: src/bonus.c:387
+#: src/bonus.c:392
 msgid "EXTRA-LIFE!"
 msgstr "EXTRA-LEVEN!"
 
@@ -428,12 +432,12 @@ msgstr "EINDE"
 msgid "character '%c' is not drawable (in message '%s')"
 msgstr "karakter `%c' is niet afdrukbaar (in bericht `%s')"
 
-#: src/hedlite.c:1650
+#: src/hedlite.c:1651
 #, c-format
 msgid "Cannot create directory `%s'."
 msgstr "Kan directorie `%s' niet maken."
 
-#: src/hedlite.c:1707 src/hedlite.c:1714
+#: src/hedlite.c:1708 src/hedlite.c:1715
 #, c-format
 msgid "%s: invalid level file"
 msgstr "%s: ongeldig level bestand"
@@ -489,6 +493,7 @@ msgstr ""
 # "rotozoom"?? now like: `turning zoom-in'
 # "wavy visions" visions as in "vision of a landscape"
 #: src/helptext.c:72
+#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -504,6 +509,7 @@ msgid ""
 "%{img L 0 132 20 22}%{>}%{img L 0 154 20 22}%{>>>}Speed Down\n"
 "%{img L 0 176 20 22}%{>}%{img L 0 198 20 22}%{>>>}Random Bonus\n"
 "%{img L 0 220 20 22}%{>}%{img L 0 242 20 22}%{>>>}Points\n"
+"%{img L 0 264 20 22}%{>}%{img L 0 286 20 22}%{>>>}Fire Trail\n"
 "%{img L 20 0 20 22}%{>}%{img L 20 22 20 22}%{>>>}Stop\n"
 "%{img L 20 44 20 22}%{>}%{img L 20 66 20 22}%{>>>}Inverted controls\n"
 "%{img L 20 88 20 22}%{>}%{img L 20 110 20 22}%{>>>}Power +\n"
@@ -541,7 +547,7 @@ msgstr ""
 "%{img L 40 44 20 22}%{>}%{img L 40 66 20 22}%{>>>}Golvende uitzichten\n"
 "\n"
 
-#: src/helptext.c:99
+#: src/helptext.c:100
 msgid ""
 "%{head 3}GAME MODES\n"
 "\n"
@@ -630,7 +636,8 @@ msgstr ""
 "pakt.\n"
 "\n"
 
-#: src/helptext.c:145
+#: src/helptext.c:146
+#, fuzzy
 msgid ""
 "%{head 4}GAME OPTIONS\n"
 "\n"
@@ -674,7 +681,7 @@ msgid ""
 "%{>>}%gAUTOPILOT\n"
 "\n"
 "%{>>>}If you are mad, you can try to play without %gAUTOPILOT%w, rest in "
-"peace...\n"
+"peace...  Note that %gAUTOPILOT%w does not work against fire trails.\n"
 "\n"
 msgstr ""
 "%{head 4}SPEL OPTIES\n"
@@ -722,7 +729,7 @@ msgstr ""
 "PILOOT%w, rust zacht...\n"
 "\n"
 
-#: src/helptext.c:191
+#: src/helptext.c:192
 msgid ""
 "%{head 1}CONTACT\n"
 "\n"
@@ -746,7 +753,7 @@ msgstr ""
 "%{center}heroes-bugs@lists.sourceforge.net\n"
 "\n"
 
-#: src/helptext.c:204
+#: src/helptext.c:205
 msgid ""
 "%{img C 175 0 10 119}\n"
 "%{img L 96 200 40 50}%{img R 96 200 40 50} We take care of today's "
@@ -804,53 +811,53 @@ msgstr ""
 "Alexandre Liverneaux en Philippe Meisburger.\n"
 "\n"
 
-#: src/heroes.c:890
+#: src/heroes.c:673
 #, c-format
 msgid "Error %d during loading level"
 msgstr "Fout %d tijdens laden level"
 
-#: src/heroes.c:978 src/heroes.c:1002
+#: src/heroes.c:761 src/heroes.c:785
 #, c-format
 msgid "Error %d occured while loading level %s"
 msgstr "Fout %d trad op tijdens laden level %s"
 
-#: src/heroes.c:2121
+#: src/heroes.c:1926
 #, c-format
 msgid "INVERTED %d"
 msgstr "OMGEKEERD %d"
 
-#: src/heroes.c:2152
+#: src/heroes.c:1957
 #, c-format
 msgid "STOPPED %d"
 msgstr "GESTOPT %d"
 
 #. TRANS: %d, the number of remaining lives, is always
 #. positive.
-#: src/heroes.c:2439
+#: src/heroes.c:2249
 msgid "LAST LIFE"
 msgid_plural "%d LIVES LEFT"
 msgstr[0] "LAATSTE LEVEN"
 
-#: src/heroes.c:3146
+#: src/heroes.c:2903
 msgid "Error during level loading"
 msgstr "Fout tijdens level laden"
 
-#: src/heroes.c:3186
+#: src/heroes.c:2943
 #, c-format
 msgid "-LEVEL %d-"
 msgstr "-LEVEL %d-"
 
-#: src/heroes.c:3188
+#: src/heroes.c:2945
 #, c-format
 msgid "-ROUND %d/%d-"
 msgstr "-RONDE %d/%d-"
 
-#: src/heroes.c:3583
+#: src/heroes.c:3340
 #, c-format
 msgid "Cannot open %s."
 msgstr "Kan `%s' niet openen."
 
-#: src/heroes.c:3708
+#: src/heroes.c:3465
 msgid "error in sfx.cfg"
 msgstr "fout in sfx.cfg"
 

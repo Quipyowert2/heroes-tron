@@ -19,10 +19,10 @@ dnl
 
 AC_PREREQ(2.50)
 
-AC_INIT([heroes], [0.12], [heroes-bugs@lists.sourceforge.net])
+AC_INIT([heroes], [0.12a], [heroes-bugs@lists.sourceforge.net])
 AC_CONFIG_AUX_DIR(tools)
 AC_CONFIG_SRCDIR([src/heroes.c])
-AM_INIT_AUTOMAKE([heroes], [0.12])
+AM_INIT_AUTOMAKE([heroes], [0.12a])
 
 AC_COPYRIGHT([Copyright 2000, 2001  Alexandre Duret-Lutz])
 
@@ -42,6 +42,7 @@ test -z "$CFLAGS" && CFLAGS=""
 AC_PROG_CC
 AC_ISC_POSIX
 AC_PROG_CC_STDC
+AM_PROG_CC_C_O
 AC_PROG_CPP
 AC_PROG_AWK
 AC_PROG_RANLIB

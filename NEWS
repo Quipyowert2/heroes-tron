@@ -1,3 +1,17 @@
+Heroes 0.12a	July 16, 2001
+
+	* A new utility, heroeslvl, can load levels and dump various
+	  information.
+	* Level loading and representation code rewritten as a library
+	  (used by the game and heroeslvl, but not yet the level editor).
+	* Explosion handling code rewritten.  Two noticeable differences:
+	  - explosions from dead players are now harmful,
+	  - explosions from dead players will propagate to neighbor
+	    explosive squares.
+	* New bonus: fire trail
+	  (appears more frequently in Death Match mode).
+	* Autopilot is disabled against direct collisions with fire trails.
+
 Heroes 0.12	July 10, 2001
 
 	* Locking support for windows (untested).
