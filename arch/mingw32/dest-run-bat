@@ -1,0 +1,2 @@
+set HEROES_DATA_DIR=C:\heroes\share\heroes
+bin\heroes.exe -8 -d freq=11050
