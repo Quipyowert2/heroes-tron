@@ -96,7 +96,7 @@
 
 #endif /* HAVE_LIBGGI */
 
-#ifdef HAVE_SDL
+#ifdef HAVE_LIBSDL
 
 #define	HK_MOD_None	0
 #define	HK_MOD_Shift	KMOD_SHIFT
@@ -164,6 +164,6 @@
 #define HK_T		'T'
 #define HK_Up		SDLK_UP
 
-#endif /* HAVE_SDL */
+#endif /* HAVE_LIBSDL */
 
 #endif /* HEROES__KEYS_HEROES__H */

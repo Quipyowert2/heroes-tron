@@ -1,5 +1,14 @@
 2001-01-09  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* m4/h-sdl.m4: Rename HAVE_SDL into HAVE_LIBSDL.
+	* src/display.c: Likewise.
+	* src/keyb.c: Likewise.
+	* src/keys_heroes.h: Likewise.
+	* src/system.h: Likewise.  Also adapt #ifdef/#ifndef usage
+	to follow autoconf recommendation (i.e. using #if).
+
+2001-01-09  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/menus.c (draw_play_menu): Move arrows closer to the screen
 	border to give more space to translations.
 

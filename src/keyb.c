@@ -224,8 +224,8 @@ key_ready (void)
   return ggiKbhit (visu);
 }
 
-#endif
-#ifdef HAVE_SDL
+#endif /* HAVE_LIBGGI */
+#ifdef HAVE_LIBSDL
 
 #include <assert.h>
 #include <SDL.h>
@@ -366,4 +366,4 @@ key_ready (void)
      get_key will process it */
 }
 
-#endif
+#endif /* HAVE_LIBSDL */

@@ -14,7 +14,7 @@ AC_DEFUN([heroes_CHECK_SDL],
 AC_HELP_STRING([--without-sdl],[disables SDL usage completely])])
  if test "${with_sdl-yes}" != no; then
   AC_adl_PKG_GENERIC(sdl,[1.0.1],[SDL_Init],
-   [AC_DEFINE([HAVE_SDL],1,[Define if you have the SDL library.])],
+   [AC_DEFINE([HAVE_LIBSDL],1,[Define if you have the SDL library.])],
    [with_sdl=no])
  fi
  if test "${with_sdl-yes}" != no; then

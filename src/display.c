@@ -423,8 +423,8 @@ vsynchro (void)
   ggiFlush (visu);
 }
 
-#endif
-#ifdef HAVE_SDL
+#endif /* HAVE_LIBGGI */
+#ifdef HAVE_LIBSDL
 
 SDL_Surface* visu = 0;
 int visu_options = SDL_HWPALETTE | SDL_DOUBLEBUF;
@@ -570,4 +570,4 @@ vsynchro (void)
   SDL_Flip (visu);		/* can change visu->pixels */
 }
 
-#endif
+#endif /* HAVE_LIBSDL */

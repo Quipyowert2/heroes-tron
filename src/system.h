@@ -54,22 +54,22 @@
 #include <math.h>
 #include <errno.h>
 
-#ifdef HAVE_STRING_H
-# if (!defined STDC_HEADERS) && defined HAVE_MEMORY_H
+#if HAVE_STRING_H
+# if HAVE_MEMORY_H && ! STDC_HEADERS
 #  include <memory.h>
 # endif
 # include <string.h>
 #else
-# ifdef HAVE_STRINGS_H
+# if HAVE_STRINGS_H
 #  include <strings.h>
 # endif
 #endif
 
-#ifdef HAVE_UNISTD_H
+#if HAVE_UNISTD_H
 # include <unistd.h>
 #endif
 
-#ifdef HAVE_DIRENT_H
+#if HAVE_DIRENT_H
 # include <dirent.h>
 #else
 # define dirent direct
@@ -93,7 +93,7 @@
 #endif
 
 #if HAVE_VPRINTF || HAVE_DOPRNT
-# ifdef STDC_HEADERS
+# if STDC_HEADERS
 #  include <stdarg.h>
 #  define VA_START(args, lastarg) va_start(args, lastarg)
 # else
@@ -145,55 +145,56 @@
 
 #if HAVE_WINDOWS_H
 # include <windows.h>
-# ifndef HAVE_READDIR
+# if ! HAVE_READDIR
    /* should be included after io.h */
 #  include "w_dirent.h"
 # endif
-# ifndef HAVE_SLEEP
+# if ! HAVE_SLEEP
 #  define sleep(x) (Sleep ((x) * 1000))
 # endif
 #endif
 
 /* display-keyboard-mouse library */
 
-#if defined HAVE_LIBGGI && defined HAVE_SDL
-# error "HAVE_LIBGGI and HAVE_SDL can't be defined both"
+#if HAVE_LIBGGI && HAVE_LIBSDL
+# error "HAVE_LIBGGI and HAVE_LIBSDL can't be defined both"
 #endif
-#ifdef HAVE_LIBGGI
+#if HAVE_LIBGGI
 # include <ggi/ggi.h>
 typedef uint32		keycode_t;
 #endif
-#ifdef HAVE_SDL
+#if HAVE_LIBSDL
 # include <SDL.h>
 typedef SDLKey		keycode_t;
 #endif
 
 /* joystick library */
 
-#ifdef JOYSTICK_SUPPORT
-# if defined HAVE_LIBGII && defined HAVE_SDL_JOYSTICKOPEN
+#if JOYSTICK_SUPPORT
+# if HAVE_LIBGII && HAVE_SDL_JOYSTICKOPEN
 #  error "HAVE_LIBGII and HAVE_SDL_JOYSTICKOPEN can't be defined both"
 # endif
-# ifdef HAVE_LIBGII
+# if HAVE_LIBGII
 #  include <ggi/gii.h>
 # endif
-# ifdef HAVE_SDL_JOYSTICKOPEN
-#  include <SDL.h>
+# if HAVE_SDL_JOYSTICKOPEN && ! HAVE_LIBSDL
+#  error "HAVE_SDL_JOSTICKOPEN can't be defined if HAVE_LIBSDL isn't"
+/* Hence SDL.h is already included when HAVE_SDL_JOSTICKOPEN. */
 # endif
 #endif
 
 /* sound library */
 
-#if defined HAVE_LIBMIKMOD && defined HAVE_LIBSDL_MIXER
+#if HAVE_LIBMIKMOD && HAVE_LIBSDL_MIXER
 # error "HAVE_LIBMIKMOD and HAVE_LIBSDL_MIXER can't be defined both"
 #endif
-#ifdef HAVE_LIBMIKMOD
+#if HAVE_LIBMIKMOD
 # include <mikmod.h>
 # include <pthread.h>
 #endif
-#ifdef HAVE_LIBSDL_MIXER
-# ifndef HAVE_SDL
-#  error "HAVE_LIBSDL_MIXER can't be defined if HAVE_SDL isn't"
+#if HAVE_LIBSDL_MIXER
+# if ! HAVE_LIBSDL
+#  error "HAVE_LIBSDL_MIXER can't be defined if HAVE_LIBSDL isn't"
 # endif
 # include <SDL_mixer.h>
 #endif
@@ -208,7 +209,7 @@ typedef enum {false = 0, true = 1} bool;
 
 /* common integer sizes */
 
-#ifdef HAVE_STDINT_H
+#if HAVE_STDINT_H
 # include <stdint.h>
 typedef uint32_t	u32_t;
 typedef uint16_t	u16_t;
@@ -259,23 +260,23 @@ Array = xrealloc ((Array), sizeof (*(Array)) * (N_items))
 
 /* keep this header at the end of the include list, because it may
    define some macros to change the declaration of malloc functions */
-#ifdef HAVE_DMALLOC_H
+#if HAVE_DMALLOC_H
 # define DMALLOC_FUNC_CHECK
 # include <dmalloc.h>
 #endif
 
 /* miscellaneous prototypes for replacement functions */
 
-#ifndef HAVE_STRCASECMP
+#if ! HAVE_STRCASECMP
 int strcasecmp (const char *s1, const char *s2);
 #endif
 
-#ifdef HAVE_MKDIR
-# ifdef MKDIR_TAKES_ONE_ARG
+#if HAVE_MKDIR
+# if MKDIR_TAKES_ONE_ARG
 #  define mkdir(a,b) mkdir(a)
 # endif
 #else
-# ifdef HAVE__MKDIR
+# if HAVE__MKDIR
 #  define mkdir(a,b) _mkdir(a)
 # else
 #  error "Don't know how to create a directory on this system."
