@@ -431,7 +431,6 @@ load_level (char *nomlvl, char cont)
   FILE *ftmp;
   int i, j, k, k2, l, m;
   int *ptr;
-  int b;
   lemming_t *ptir;
 
   dmsg (D_FILE|D_LEVEL, "loading level: %s", nomlvl);
@@ -794,28 +793,38 @@ load_level (char *nomlvl, char cont)
   for (j = 0; j < (int)map_info.yt; j++) {	/* search for tunnels */
     for (i = 0, k = 0; i < (int)map_info.xt; i++, m++, k += 8) {
       if (level_map[m].type == t_tunnel) {
-	if (level_map[level_map[m].info.tunnel.output].type == t_tunnel) {
-	  b =
-	    level_map[level_map[m].info.tunnel.output].info.tunnel.direction;
-	} else {
-	  b = w2d[d2w[level_map[m].info.tunnel.direction] ^ 2];
-	}
-	square_wrap[k + l +
-		    (square2offset
-		     [tunnel_square_io
-		      [d2w[(int) level_map[m].info.tunnel.direction]][0]] <<
-		     2) + d2w[level_map[m].info.tunnel.direction]] =
-	  ((level_map[m].info.tunnel.output % map_info.xt) << 1) +
-	  ((level_map[m].info.tunnel.output / map_info.xt) << 1) *
-	  (map_info_2xt) + square2offset[tunnel_square_io[d2w[b]][1]];
-	square_wrap[k + l +
-		    (square2offset
-		     [tunnel_square_io
-		      [d2w[level_map[m].info.tunnel.direction]][1]] << 2)
-		    + d2w[level_map[m].info.tunnel.direction]] =
-	  ((level_map[m].info.tunnel.output % map_info.xt) << 1) +
-	  ((level_map[m].info.tunnel.output / map_info.xt) << 1) *
-	  (map_info_2xt) + square2offset[tunnel_square_io[d2w[b]][0]];
+	unsigned int way = d2w[level_map[m].info.tunnel.direction];
+	unsigned int output = level_map[m].info.tunnel.output;
+	unsigned int dest_way;
+
+	/* find which way should the vehicule seem to come from when
+	   it quit the tunnel */
+
+	if (level_map[output].type == t_tunnel)
+	  /* if the destination tile is a tunnel, use its direction */
+	  dest_way = d2w[level_map[output].info.tunnel.direction];
+	else
+	  /* else, consider the output as an imaginary tunnel whose
+	     direction is reversed */
+	  dest_way = way ^ 2;
+
+	/* each tunnel has two input/output squares that must be
+	   linked to the two corresponding i/o squares of the
+	   destination tile */
+
+	square_wrap[k + l /* current tile */
+		   + (square2offset [tunnel_square_io [way][0]] << 2) /* sqr */
+		   + way /* way */] =
+	  ((output % map_info.xt) << 1)
+	  + ((output / map_info.xt) << 1) * map_info_2xt 
+	  + square2offset[tunnel_square_io[dest_way][1]];
+
+	square_wrap[k + l /* current tile */
+		   + (square2offset [tunnel_square_io [way][1]] << 2) /* sqr */
+		   + way /* way */] =
+	  ((output % map_info.xt) << 1)
+	  + ((output / map_info.xt) << 1) * map_info_2xt 
+	  + square2offset[tunnel_square_io[dest_way][0]];
       }
     }
     l += map_info.xt * 4 * 4;

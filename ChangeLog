@@ -1,5 +1,10 @@
 2000-09-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/heroes.c (load_level): Cleanup the tunnels
+ 	initialization loop.
+
+2000-09-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	From Mattias Engdegård.
 
 	* configure.in: Always define the MAKE_HTML conditional.
