@@ -1,5 +1,11 @@
 2002-04-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/rules/player.h (a_player) <x, y, x2, y2, pos>: Rename as ...
+	(a_player) <tx, ty, sx, sy, si>: ... these.
+	Adjust all user functions.
+
+2002-04-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/rules/statepriv.h (a_level_state_bits) <player, iplayer>: New.
 	* src/rules/state.h (a_level_state) <player>: Make this an array of
 	pointers to the player entries in a_level_state_bits.

@@ -39,7 +39,7 @@ find_free_way (a_level_state *state, int c)
   a_player *const p = state->player[c];
   a_level_state_bits *const bits = state->private;
 
-  m = p->x2 + p->y2 * lvl->square_width;
+  m = p->sx + p->sy * lvl->square_width;
   e = 1;
   for (i = 0; i < 4; i++) {
     a_square_index idx = lvl->square_move[i][m];
@@ -242,7 +242,7 @@ update_player (a_level_state *state, unsigned c)
     }
   }
   update_player_bonus_vars (c);
-  d = (p->x2 >> 1) + (p->y2 >> 1) * lvl->tile_width;
+  d = (p->sx >> 1) + (p->sy >> 1) * lvl->tile_width;
   if (p->rotozoom != 0)
     p->rotozoom--;
   if (p->waves != 0) {
@@ -313,7 +313,7 @@ update_player (a_level_state *state, unsigned c)
 /**** handling of trails ****/
     if (p->delay == 0) {
       int a;
-      l = p->x2 + p->y2 * lvl->square_width;
+      l = p->sx + p->sy * lvl->square_width;
       state->square_occupied[l] = SQOC_TRAIL(c);
       state->private->trail_offset[c] =
 	(state->private->trail_offset[c] - 1) & (maxq - 1);
@@ -349,12 +349,12 @@ update_player (a_level_state *state, unsigned c)
       }
     }
 
-    d2 = p->y2 * lvl->square_width + p->x2;
+    d2 = p->sy * lvl->square_width + p->sx;
     if (p->delay == 0)
       d2 = lvl->square_move[p->way][d2];
-    p->pos = d2;
-    p->x2 = state->square_coord[d2].x;
-    p->y2 = state->square_coord[d2].y;
+    p->si = d2;
+    p->sx = state->square_coord[d2].x;
+    p->sy = state->square_coord[d2].y;
     p->d.h.h = 0;
 
     if (p->spec == T_TUNNEL) {
@@ -381,12 +381,12 @@ update_player (a_level_state *state, unsigned c)
 	p->invincible == 0)
       p->spec = 0xff;
 
-    d = (p->x2 >> 1) +
-      (p->y2 >> 1) * lvl->tile_width;
+    d = (p->sx >> 1) +
+      (p->sy >> 1) * lvl->tile_width;
 
-    if (lvl->square_type[p->pos] == T_ICE)
+    if (lvl->square_type[p->si] == T_ICE)
       p->spec = T_ICE;
-    if ((lvl->square_type[p->pos] == T_STOP
+    if ((lvl->square_type[p->si] == T_STOP
 	 && p->delay == 0)
 	|| p->notify_delay) {
       p->notify_delay = 0;
@@ -619,18 +619,18 @@ update_player (a_level_state *state, unsigned c)
     }
 
 /******************/
-    if (lvl->square_type[p->pos] == T_TUNNEL
-	&& lvl->square_direction[p->pos] == p->next_way) {
+    if (lvl->square_type[p->si] == T_TUNNEL
+	&& lvl->square_direction[p->si] == p->next_way) {
       a_dir dir;
       a_square_index dest;
       p->spec = T_TUNNEL;
       if ((p->cpu == 2) && (!state->private->level_is_finished))
 	event_sfx (69);
-      dest = lvl->square_move[p->next_way][p->pos];
+      dest = lvl->square_move[p->next_way][p->si];
       if (lvl->square_type[dest] == T_TUNNEL)
 	dir = lvl->square_direction[dest] ^ 2;
       else
-	dir = lvl->square_direction[p->pos] ^ 2;
+	dir = lvl->square_direction[p->si] ^ 2;
       p->tunnel_way = dir;
       p->next_way = p->tunnel_way;
       if (p->tunnel_inverse)
@@ -640,8 +640,8 @@ update_player (a_level_state *state, unsigned c)
 
     /*    if (p->spec!=t_tunnel*8) */
     {
-      if (lvl->square_type[p->pos] == T_SPEED) {
-	a_dir dir = lvl->square_direction[p->pos];
+      if (lvl->square_type[p->si] == T_SPEED) {
+	a_dir dir = lvl->square_direction[p->si];
 
 	if (p->way == dir)
 	  ip->vi = ip->v;
@@ -652,7 +652,7 @@ update_player (a_level_state *state, unsigned c)
       } else
 	ip->vi = 0;
 
-      if (lvl->square_type[p->pos] == T_DUST)
+      if (lvl->square_type[p->si] == T_DUST)
 	ip->vi = -(ip->v >> 1);
       trigger_possible_explosion (state, d2);
     }

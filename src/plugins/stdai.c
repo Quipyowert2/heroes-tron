@@ -78,7 +78,7 @@ ai_throttle (const a_level_state *state, int p,
   bool seen_opponent_head = false;
 
   /* Check squares neighboring next position.  */
-  a_square_index next_pos = state->level->square_move[pp->way][pp->pos];
+  a_square_index next_pos = state->level->square_move[pp->way][pp->si];
   a_dir i;
   for (i = 0; i < 4; i++) {
     a_square_index idx = state->level->square_move[i][next_pos];
@@ -564,8 +564,8 @@ ia_goto_target (const a_level_state *state, int c,
 
   ia_player = c;
   ia_max_depth = pp->ia_max_depth;
-  ia_target_x = state->player[pp->target]->x2;
-  ia_target_y = state->player[pp->target]->y2;
+  ia_target_x = state->player[pp->target]->sx;
+  ia_target_y = state->player[pp->target]->sy;
   ia_wrap_x = ia_target_x + lvl->tile_width;
   if (ia_wrap_x >= lvl->square_width) {
     ia_wrap_x -= lvl->square_width;
@@ -580,7 +580,7 @@ ia_goto_target (const a_level_state *state, int c,
     ia_wrap_right = 0;
 
   ia_is_invincible = (pp->invincible != 0);
-  pos = pp->pos;
+  pos = pp->si;
   ia_goto_target_inline (D_UP);
   ia_goto_target_inline (D_RIGHT);
   ia_goto_target_inline (D_DOWN);
@@ -607,7 +607,7 @@ ia_goto_nearest_bonus (const a_level_state *state, int c,
   ia_player = c;
   ia_max_depth = pp->ia_max_depth;
   ia_is_invincible = (pp->invincible != 0);
-  pos = pp->pos;
+  pos = pp->si;
   ia_goto_bonus_inline (D_UP);
   ia_goto_bonus_inline (D_RIGHT);
   ia_goto_bonus_inline (D_DOWN);
@@ -634,7 +634,7 @@ ia_goto_nearest_lemming (const a_level_state *state, int c,
   ia_player = c;
   ia_max_depth = pp->ia_max_depth;
   ia_is_invincible = (pp->invincible != 0);
-  pos = pp->pos;
+  pos = pp->si;
   ia_goto_lemming_inline (D_UP);
   ia_goto_lemming_inline (D_RIGHT);
   ia_goto_lemming_inline (D_DOWN);
@@ -661,7 +661,7 @@ ia_goto_nearest_color (const a_level_state *state, int c,
   ia_player = c;
   ia_max_depth = pp->ia_max_depth;
   ia_is_invincible = (pp->invincible != 0);
-  pos = pp->pos;
+  pos = pp->si;
   ia_goto_color_inline (D_UP);
   ia_goto_color_inline (D_RIGHT);
   ia_goto_color_inline (D_DOWN);
@@ -688,7 +688,7 @@ ia_goto_nearest_cash (const a_level_state *state, int c,
   ia_player = c;
   ia_max_depth = pp->ia_max_depth;
   ia_is_invincible = (pp->invincible != 0);
-  pos = pp->pos;
+  pos = pp->si;
   ia_goto_cash_inline (D_UP);
   ia_goto_cash_inline (D_RIGHT);
   ia_goto_cash_inline (D_DOWN);

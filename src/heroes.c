@@ -560,7 +560,7 @@ output_screen (char n)
       corner[0] = render_buffer[1] + xbuf;
     }
     if (opt.radar_map)
-      draw_radar_map (p1->x2, p1->y2, radar_current_pos);
+      draw_radar_map (p1->sx, p1->sy, radar_current_pos);
     if (opt.display_infos)
       draw_score (state.col2plr[0], 0, 5, 5, -radar_current_pos);
     if (state.game_mode != M_QUEST) {

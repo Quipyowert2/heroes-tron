@@ -44,26 +44,26 @@ state_erase_player (a_level_state *state, unsigned i)
      It's not clear to me why this is needed.
   */
   state->square_occupied
-    [SQR_COORDS_TO_INDEX (lvl, p->y2, p->x2)] = SQOC_VACANT;
+    [SQR_COORDS_TO_INDEX (lvl, p->sy, p->sx)] = SQOC_VACANT;
 
   switch (p->way) {
   case D_LEFT:
     state->square_occupied
-      [SQR_COORDS_TO_INDEX (lvl, p->y2, SQR_COORD_LEFT (lvl, p->x2))]
+      [SQR_COORDS_TO_INDEX (lvl, p->sy, SQR_COORD_LEFT (lvl, p->sx))]
       = SQOC_VACANT;
     break;
   case D_RIGHT:
     state->square_occupied
-      [SQR_COORDS_TO_INDEX (lvl, p->y2, SQR_COORD_RIGHT (lvl, p->x2))]
+      [SQR_COORDS_TO_INDEX (lvl, p->sy, SQR_COORD_RIGHT (lvl, p->sx))]
       = SQOC_VACANT;
     break;
   case D_UP:
     state->square_occupied
-      [SQR_COORDS_TO_INDEX (lvl, SQR_COORD_UP (lvl, p->y2), p->x2)]
+      [SQR_COORDS_TO_INDEX (lvl, SQR_COORD_UP (lvl, p->sy), p->sx)]
       = SQOC_VACANT;
   case D_DOWN:
     state->square_occupied
-      [SQR_COORDS_TO_INDEX (lvl, SQR_COORD_DOWN (lvl, p->y2), p->x2)]
+      [SQR_COORDS_TO_INDEX (lvl, SQR_COORD_DOWN (lvl, p->sy), p->sx)]
       = SQOC_VACANT;
     break;
   default:
@@ -83,27 +83,27 @@ state_position_player (a_level_state *state, unsigned i)
      It's not clear to me why this is needed.
   */
   state->square_occupied
-    [SQR_COORDS_TO_INDEX (lvl, p->y2, p->x2)] = SQOC_VEHICLE_TAIL (i);
+    [SQR_COORDS_TO_INDEX (lvl, p->sy, p->sx)] = SQOC_VEHICLE_TAIL (i);
 
   switch (p->way) {
   case D_LEFT:
     state->square_occupied
-      [SQR_COORDS_TO_INDEX (lvl, p->y2, SQR_COORD_LEFT (lvl, p->x2))]
+      [SQR_COORDS_TO_INDEX (lvl, p->sy, SQR_COORD_LEFT (lvl, p->sx))]
       = SQOC_VEHICLE_HEAD (i);
     break;
   case D_RIGHT:
     state->square_occupied
-      [SQR_COORDS_TO_INDEX (lvl, p->y2, SQR_COORD_RIGHT (lvl, p->x2))]
+      [SQR_COORDS_TO_INDEX (lvl, p->sy, SQR_COORD_RIGHT (lvl, p->sx))]
       = SQOC_VEHICLE_HEAD (i);
     break;
   case D_UP:
     state->square_occupied
-      [SQR_COORDS_TO_INDEX (lvl, SQR_COORD_UP (lvl, p->y2), p->x2)]
+      [SQR_COORDS_TO_INDEX (lvl, SQR_COORD_UP (lvl, p->sy), p->sx)]
       = SQOC_VEHICLE_HEAD (i);
     break;
   case D_DOWN:
     state->square_occupied
-      [SQR_COORDS_TO_INDEX (lvl, SQR_COORD_DOWN (lvl, p->y2), p->x2)]
+      [SQR_COORDS_TO_INDEX (lvl, SQR_COORD_DOWN (lvl, p->sy), p->sx)]
       = SQOC_VEHICLE_HEAD (i);
     break;
   default:
@@ -140,9 +140,9 @@ state_reinit_player (a_level_state *state, unsigned p)
 		     state->square_occupied[next_idx] != 0xff));
 
   pp->way = start_dir;
-  pp->x2 = start_coord.x;
-  pp->y2 = start_coord.y;
-  pp->pos = start_idx;
+  pp->sx = start_coord.x;
+  pp->sy = start_coord.y;
+  pp->si = start_idx;
 
   /* ensure that the start position is usable,
      otherwise try another position (randomly) */
@@ -183,13 +183,13 @@ state_reinit_player (a_level_state *state, unsigned p)
       }
     }
     /* else, get a new position randomly on the map */
-    pp->y2 = rand () % lvl->square_height;
-    pp->x2 = rand () % lvl->square_width;
-    start_idx = SQR_COORDS_TO_INDEX (lvl, pp->y2, pp->x2);
+    pp->sy = rand () % lvl->square_height;
+    pp->sx = rand () % lvl->square_width;
+    start_idx = SQR_COORDS_TO_INDEX (lvl, pp->sy, pp->sx);
   }
 
-  pp->x = pp->x2 >> 1;
-  pp->y = pp->y2 >> 1;
+  pp->tx = pp->sx >> 1;
+  pp->ty = pp->sy >> 1;
 
   /**************/
 

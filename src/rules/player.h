@@ -44,9 +44,11 @@ typedef union {
 typedef struct a_player a_player;
 struct a_player
 {
-  int x, y;			/* position (tile coords) */
-  int x2, y2;			/* position (square coords) */
-  int pos;			/* posision (square index) */
+  /* Position, in various format.  */
+  a_tile_coord tx, ty;
+  a_square_coord sx, sy;
+  a_square_index si;
+
   int vitp;			/* current speed */
   ehl d;			/* offset */
 

@@ -151,12 +151,12 @@ position_camera (void)
   const a_player *const p = state.player[state.col2plr[0]];
 
   if (p->spec == t_tunnel && opt.inertia) {
-    int d = lvl.square_move[p->way][p->pos];
+    int d = lvl.square_move[p->way][p->si];
     camera_x[0] = state.square_coord[d].x << 15;
     camera_y[0] = state.square_coord[d].y << 15;
   } else {
-    camera_x[0] = p->x2 << 15;
-    camera_y[0] = p->y2 << 15;
+    camera_x[0] = p->sx << 15;
+    camera_y[0] = p->sy << 15;
   }
 
   if (p->way == w_left)
@@ -171,12 +171,12 @@ position_camera (void)
   if (two_players) {
     const a_player *const p2 = state.player[state.col2plr[1]];
     if (p2->spec == t_tunnel) {
-      int d = lvl.square_move[p2->way][p2->pos];
+      int d = lvl.square_move[p2->way][p2->si];
       camera_x[1] = state.square_coord[d].x << 15;
       camera_y[1] = state.square_coord[d].y << 15;
     } else {
-      camera_x[1] = p2->x2 << 15;
-      camera_y[1] = p2->y2 << 15;
+      camera_x[1] = p2->sx << 15;
+      camera_y[1] = p2->sy << 15;
     }
     if (p2->way == w_left)
       camera_x[1] -= p2->d.e >> 1;
@@ -192,10 +192,10 @@ position_camera (void)
 void
 init_camera (void)
 {
-  inert_x[0] = camera_x[0] = state.player[state.col2plr[0]]->x2 << 15;
-  inert_y[0] = camera_y[0] = state.player[state.col2plr[0]]->y2 << 15;
-  inert_x[1] = camera_x[1] = state.player[state.col2plr[1]]->x2 << 15;
-  inert_y[1] = camera_y[1] = state.player[state.col2plr[1]]->y2 << 15;
+  inert_x[0] = camera_x[0] = state.player[state.col2plr[0]]->sx << 15;
+  inert_y[0] = camera_y[0] = state.player[state.col2plr[0]]->sy << 15;
+  inert_x[1] = camera_x[1] = state.player[state.col2plr[1]]->sx << 15;
+  inert_y[1] = camera_y[1] = state.player[state.col2plr[1]]->sy << 15;
 }
 
 void
