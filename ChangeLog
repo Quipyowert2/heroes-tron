@@ -1,5 +1,10 @@
 2000-12-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.in: Use heroes_DEBUG.
+	* m4/h-debug.m4: New file.
+
+2000-12-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Use heroes_CHECK_JOYSTICK_LIB.
 	* m4/h-joystick.m4: New.
 
