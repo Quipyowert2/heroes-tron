@@ -220,11 +220,11 @@ warnings.
 `--disable-debug'
      This is a three state option.  The default is to compile with
      debugging symbols: this produce bigger binaries but allow to get
-     helpfull coredumps, without slowing down the game.  You may want to
-     use `--enable-debug' to include more debugging data and turn on
+     helpfull coredumps, without slowing down the game.  You may want
+     to use `--enable-debug' to include more debugging data and turn on
      some debugging code.  Use `--disable-debug' to turn this off.
-     Translators: you _want_ to use this option, really!  Because the
-     debugging code include some check on the translated messages.
+     Translators: you _do want_ to turn this option on, really!  Because
+     the debugging code includes some checks on the translated messages.
 
 `--disable-optimizations'
      Turn off compiler optimizations options.  This can ease debugging.
@@ -303,7 +303,10 @@ Win32/MinGW32 (SDL)
      is in the subdirectory `arch/mingw32'.
 
 Win32/VisualC (SDL)
-     See the files in the `arch/VisualC' subdirectory.
+     See the files in the `arch/VisualC' subdirectory.  These are
+     out-of-date (they have not been updated since version 0.7) and will
+     probably be removed in a future version of Heroes; but you can use
+     them as a start to compile Heroes with MSVC.
 
 Digital Unix (GGI)
      Should build out of the box.
