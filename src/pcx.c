@@ -105,7 +105,7 @@ pcx_load (const char *file, image_ * image)
     delta (image);
 
 
-  data = (unsigned char) getc (fptr);	// data==0Ch expected
+  data = (unsigned char) getc (fptr);	/* data==0Ch expected */
 
   fread (&(image->palette), 768, 1, fptr);
   for (i = 0; i < 256 * 3; i++)

@@ -34,7 +34,7 @@
 #include "timer.h"
 #include "heroes.h"
 
-// Def. des 15 sprites de l'explosion1, à l'envers (14->0).
+/* Def. des 15 sprites de l'explosion1, à l'envers (14->0). */
 #define nfrexplo1 15
 int fst_explo_list[nfrexplo1] = { 132 + 65 * 320,
   99 + 65 * 320,
@@ -76,12 +76,12 @@ int trail[16] =
    comment ça marche, mais ça marche... */
 int tunnel_square_io[4][2] = { {0, 1}, {1, 3}, {3, 2}, {2, 0} };
 
-#define xbuf 384		// pour des multiplications plus faciles
-#define ybuf 300		// une bande vide de 50 lignes au dessus et en dessous...
-#define sbuf 50*xbuf		// ...pour éviter de faire du clipping sur les explosions
+#define xbuf 384		/* pour des multiplications plus faciles */
+#define ybuf 300		/* une bande vide de 50 lignes au dessus et en dessous... */
+#define sbuf 50*xbuf		/* ...pour éviter de faire du clipping sur les explosions */
 
-#define NOGLENZPLR 108		// colors pour les trainées sans glenz
-#define NOGLENZRED 16		// couleur pour le sang sans glenz
+#define NOGLENZPLR 108		/* colors pour les trainées sans glenz */
+#define NOGLENZRED 16		/* couleur pour le sang sans glenz */
 
 char radar_trail_color[16] =
   { 111, 127, 143, 159, 111, 127, 143, 159, 109, 125, 141, 157, 109, 125, 141,
@@ -90,18 +90,18 @@ char radar_trail_color[16] =
 char radar_wall_color[16] =
   { 0, 89, 89, 91, 89, 91, 91, 93, 89, 91, 91, 93, 91, 93, 93, 95 };
 
-//                     L+  L-  S+  S-  R#   C  ZZ  !!  -1  T+  T-  EL  []   X  XL  ~~  $$
+/* L+  L-  S+  S-  R#   C  ZZ  !!  -1  T+  T-  EL  []   X  XL  ~~  $$ */
 int bonus_proba_array[5][17] =
-  { {40, 10, 12, 8, 8, 40, 0, 8, 10, 16, 16, 0, 8, 7, 4, 7, 0},	//quest
-{0, 0, 10, 7, 7, 20, 0, 8, 10, 10, 11, 0, 6, 7, 2, 7, 0},	//deathm
-{25, 10, 12, 8, 8, 40, 0, 8, 10, 16, 16, 0, 8, 7, 4, 7, 0},	//killem
-{25, 10, 12, 8, 8, 20, 0, 8, 10, 16, 16, 0, 8, 7, 4, 7, 25},	//tcash
+  { {40, 10, 12, 8, 8, 40, 0, 8, 10, 16, 16, 0, 8, 7, 4, 7, 0},	/* quest */
+{0, 0, 10, 7, 7, 20, 0, 8, 10, 10, 11, 0, 6, 7, 2, 7, 0},	/* deathm */
+{25, 10, 12, 8, 8, 40, 0, 8, 10, 16, 16, 0, 8, 7, 4, 7, 0},	/* killem */
+{25, 10, 12, 8, 8, 20, 0, 8, 10, 16, 16, 0, 8, 7, 4, 7, 25},	/* tcash */
 {25, 10, 12, 8, 8, 30, 0, 8, 10, 16, 16, 0, 8, 7, 4, 7, 0}
-};				//color
+};				/* color */
 int bonus_points[2][17] =
-  { {20, -15, 15, -10, 5, 18, 0, -10, 0, 0, -5, 50, 5, 0, 8, 0, 25},	//violets
+  { {20, -15, 15, -10, 5, 18, 0, -10, 0, 0, -5, 50, 5, 0, 8, 0, 25}, /* violets */
 {-15, 10, 0, 10, 5, -5, 0, 8, 8, -5, 5, -20, -5, 9, -10, 9, -25}
-};				//beiges
+}; /* beiges */
 
 /* differentes possibilités pour le nbr de rounds */
 int rounds_nbr_values[16] =
@@ -120,7 +120,7 @@ int w2d[4] = { d_up, d_right, d_down, d_left };
 
 char in_menu = 1;
 char in_demo = 0;
-//int error;
+/* int error; */
 char in_jokebox;
 
 signed char p;
@@ -131,20 +131,20 @@ char kbjoy[6] = { 0, 0, 0, 0, 0, 0 };
 char kbjoyold[6] = { 0, 0, 0, 0, 0, 0 };
 palette_ temppal;
 
-unsigned long int camera_x[2];		// virgule fixe 16b,16b
-unsigned long int camera_y[2];		// idem
-unsigned long int corner_x[2];		// en pixels
-unsigned long int corner_y[2];		// idem
-char *(corner[2]);		// addresse absolue
-unsigned long int corner_dx[2];		// coordonées de dalle
-unsigned long int corner_dy[2];		// idem
+unsigned long int camera_x[2];		/* virgule fixe 16b,16b */
+unsigned long int camera_y[2];		/* idem */
+unsigned long int corner_x[2];		/* en pixels */
+unsigned long int corner_y[2];		/* idem */
+char *(corner[2]);                      /* addresse absolue */
+unsigned long int corner_dx[2];		/* coordonées de dalle */
+unsigned long int corner_dy[2];		/* idem */
 unsigned long int inert_x[2], inert_y[2];
-unsigned int nbr_tiles_cols = 15;	// nbr de colonnes de tile_set_img à afficher
-unsigned int nbr_tiles_rows = 11;	//     ... lignes ...
+unsigned int nbr_tiles_cols = 15;	/* nbr de colonnes de tile_set_img à afficher */
+unsigned int nbr_tiles_rows = 11;	/* ... lignes ... */
 char camera_stop_x[2];
 char camera_stop_y[2];
 
-char *(render_buffer[2]);	// BUFFERS DE RENDU 384*260
+char *(render_buffer[2]);		/* BUFFERS DE RENDU 384*260 */
 
 unsigned char glenz[8][256];		/* lignes de glenz */
 
@@ -166,12 +166,12 @@ char two_players = 0;
 
 /****** JOUEURS ET TRAINEE ******/
 #define maxq 128
-// maxq à reporter dans const.h !!!
+/* maxq à reporter dans const.h !!! */
 player_t player[4];
 int trail_pos[4][maxq];
 char trail_way[4][maxq];
 int trail_offset[4];
-char trail_size[4];		// Taille de la trainée MOINS UN
+char trail_size[4];		/* Taille de la trainée MOINS UN */
 /*******************************/
 
 /* correspondance couleur<->player_t */
@@ -180,7 +180,7 @@ int plr2col[4];
 
 /****** STOCKAGE DU LEVEL ******/
 
-tile_t *level_map;		// pointeur sur le level_map du niveau
+tile_t *level_map;		/* pointeur sur le level_map du niveau */
 
 int last_explo;
 
@@ -205,20 +205,20 @@ int *square_offset2coord;
 signed char *square_object;
 #define lemmings_per_players 50
 #define lemmings_total (lemmings_per_players*4)
-// constantes à reporter dans const.c
+/* constantes à reporter dans const.c */
 lemming_t **square_lemmings_list;
 lemming_t **square_dead_lemmings_list;
 lemming_t lemmings_support[lemmings_total];
 int bonus_total_nbr, bonus_real_nbr, objects_nbr;
 int next_bonus_to_update;
-int square2offset[4] = { 0, 1, 0, 0 };	/*deux dernières valeurs calculées plus tard */
+int square2offset[4] = { 0, 1, 0, 0 };	/* deux dernières valeurs calculées plus tard */
 
 int bonus_anim_offset;
 int radar_target_pos;
 int radar_current_pos;
 
 int game_mode = 0;
-//char questmode=0;
+/* char questmode=0; */
 unsigned char game_magic;
 int camera_center_x = 873813;
 char *clock_anim_offset;
@@ -237,7 +237,7 @@ vsynch (void)
 
 void
 pal2pal (palette_ * src, palette_ * dest, char step)
-{				// 0 à 64
+{				/* 0 à 64 */
   int i;
   for (i = 767; i >= 0; i--)
     temppal.global[i] =
@@ -347,7 +347,7 @@ set_pal_with_luminance (palette_ * palsrc)
     for (i = 767; i >= 0; i--)
       paldest.global[i] = (unsigned char) ((palsrc->global[i] * 64)
 					   /(64 + (opt.luminance - 3) * 6));
-//  ((src->global[i]*(64-step))+(dest->global[i]*step))>>6;
+/* ((src->global[i]*(64-step))+(dest->global[i]*step))>>6; */
   }
   set_pal ((char *) &paldest, 0, 768);
 }

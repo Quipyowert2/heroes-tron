@@ -902,8 +902,8 @@ load_level (char *nomlvl, char cont)
 /* * * * * * * * * * * * * * * * * * */
   level_is_finished = 0;
 
-  //  reset_htimer_with_offset (0, HZ(70)*1000); /* what it is intended for? */
-  //  update_htimer ();
+  /* reset_htimer_with_offset (0, HZ(70)*1000); * what it is intended for? * */
+  /* update_htimer (); */
   if (!in_menu)
     for (i = bonus_real_nbr - 1; i >= 0; i--)
       add_random_bonus (i);
@@ -1021,8 +1021,8 @@ compute_corner (int p, int n)
   corner_x[p] = ((x & 0xffff) * 24) >> 16;
   corner_y[p] = ((y & 0xffff) * 20) >> 16;
   corner[p] = render_buffer[p] + sbuf + corner_y[p] * xbuf + corner_x[p];
-// corner_dy[p]=corner_dx[p]=0;
-// printf("Camera \%d\t\%d\nCorner \%d\t\%d\n",camera_x,camera_y,corner_x,corner_y);
+  /* corner_dy[p]=corner_dx[p]=0; */
+  /* printf("Camera \%d\t\%d\nCorner \%d\t\%d\n",camera_x,camera_y,corner_x,corner_y); */
 }
 
 static void
@@ -1343,7 +1343,7 @@ compute_level_full_list (void)
       i--;
     if (i < 0)
       opt.extras = 0;
-//     printf("%d\n",i);
+      /* printf("%d\n",i); */
   }
   i = 0;
   if (opt.extras != 2)
@@ -1405,7 +1405,7 @@ load_random_level (char cont)
   char tmp[1024];
   char e;
   t = random_level ();
-//  t=1;
+  /* t=1; */
 
   dmsg (D_SECTION, "load random wrapped");
 
@@ -1619,7 +1619,7 @@ play_menu (void)
   if (flagload == 0) {
     if (l == 1 /*|| l==2 */ ) {
       game_mode = M_QUEST;
-//        questmode=(char)(l-1);
+/*        questmode=(char)(l-1); */
     } else if (l == 2)
       game_mode = M_KILLEM;
     else if (l == 3)
@@ -1633,7 +1633,7 @@ play_menu (void)
     current_quest_level = 0;
     game_magic = compute_magic ();
   } else {
-// questmode=gamemodeh=saverec[u].questmode;
+/* questmode=gamemodeh=saverec[u].questmode; */
     gamemodeh = game_mode = M_QUEST;
     current_quest_level = saverec[u].level;
     game_magic = saverec[u].magic;
@@ -1695,7 +1695,7 @@ play_menu (void)
   dmsg (D_SECTION, "-- (back to) menu (from game) --");
 
   game_mode = M_QUEST;
-// free_all_sfx();
+/* free_all_sfx(); */
   load_random_wrapped_level (1, cont);
   load_sfx_mode (-1);
 
@@ -1892,7 +1892,7 @@ pendulum_update (int n)
 /****************** ******* ****** *********************/
 static void
 grow_trail (int c, char t)
-{				//int j;
+{				/* int j; */
   int i, k;
 
   k = ((trail_offset[c] + trail_size[c] - 1) & (maxq - 1));
@@ -1917,10 +1917,10 @@ grow_trail (int c, char t)
 
 static void
 shrink_trail (int c, char t)
-{				//int j;
+{				/* int j; */
   int i;
 
-//  k=(trail_offset[c]+trail_size[c]-1)&(maxq-1);
+/*  k=(trail_offset[c]+trail_size[c]-1)&(maxq-1); */
   while (t != 0 && trail_size[c] > 5) {
     trail_size[c]--;
     i = ((trail_offset[c] + trail_size[c]) & (maxq - 1));
@@ -1967,7 +1967,7 @@ _bonus (int c, char t)
     sprintf (txt_tmp, txti[19], i);
     draw_txt_bonus (c, txt_tmp, 150);
     break;
-//       case 7: cut the trail
+  /* case 7: cut the trail */
   case 8:
     player[c].notify_delay = 1;
     break;
@@ -2210,7 +2210,7 @@ ia_eval_dir_lemming (int pos)
     ia_eval_dir_lemming_inline (w_down);
     ia_eval_dir_lemming_inline (w_left);
 
-    mindist += tmp2;		//*(5+ia_cur_depth)/* /ia_max_depth*/;
+    mindist += tmp2;		/* *(5+ia_cur_depth); */
 
     square_occupied[pos] = 0xff;
     ia_cur_depth++;
@@ -2258,7 +2258,7 @@ ia_eval_dir_color (int pos)
     ia_eval_dir_color_inline (w_down);
     ia_eval_dir_color_inline (w_left);
 
-    mindist += tmp2;		//*(5+ia_cur_depth)/* /ia_max_depth*/;
+    mindist += tmp2;		/* *(5+ia_cur_depth); */
 
     square_occupied[pos] = 0xff;
     ia_cur_depth++;
@@ -2294,7 +2294,7 @@ ia_eval_dir_cash (int pos)
     ia_eval_dir_cash_inline (w_down);
     ia_eval_dir_cash_inline (w_left);
 
-    mindist += tmp2;		//*(5+ia_cur_depth)/* /ia_max_depth*/;
+    mindist += tmp2;		/* *(5+ia_cur_depth); */
 
     square_occupied[pos] = 0xff;
     ia_cur_depth++;
@@ -2562,8 +2562,8 @@ find_free_way (int c)
     e += e;
   }
 
-// if (player[c].spec==t_tunnel*8) {player[c].spec=0;/* return;*/}
-// if (player[c].spec==t_tunnel*4) {player[c].spec=t_tunnel*8; return;}
+/* if (player[c].spec==t_tunnel*8) {player[c].spec=0;* return;*} */
+/* if (player[c].spec==t_tunnel*4) {player[c].spec=t_tunnel*8; return;} */
 
 
   f = player[c].next_way;
@@ -2598,7 +2598,7 @@ find_free_way (int c)
       if (!(d & 1))
 	n--;
     player[c].next_way = (char) (i - 1);
-//  if (w2d[i-1]&e) fatal_error("find_free_way() return nonsense !");
+/*  if (w2d[i-1]&e) fatal_error("find_free_way() return nonsense !"); */
     assert ((w2d[i - 1] & e) == 0);
   } else
     player[c].spec = 0xff;
@@ -2623,7 +2623,7 @@ update_player (int c)
     if (player[c].score_delta % (10000 << 2) == 0)
       _bonus (c, 15);
   }
-//   if ((player[c].score_delta>>2)>player[c].score) player[c].score_delta--;
+/* if ((player[c].score_delta>>2)>player[c].score) player[c].score_delta--; */
   if (player[c].turbo_level_delta < player[c].turbo_level) {
     player[c].turbo_level_delta += 8;
     if (player[c].turbo_level_delta > player[c].turbo_level)
@@ -2640,10 +2640,10 @@ update_player (int c)
     if (player[c].time > 0) {
       player[c].time--;
 /* stop the game if the player is alone */
-//       if ((!level_is_finished) &&
-//           (player[(c+1)&3].spec==0xde) &&
-//           (player[(c+2)&3].spec==0xde) &&
-//           (player[(c+3)&3].spec==0xde)) { level_is_finished=c+1; return; }
+/*       if ((!level_is_finished) && */
+/*           (player[(c+1)&3].spec==0xde) && */
+/*           (player[(c+2)&3].spec==0xde) && */
+/*           (player[(c+3)&3].spec==0xde)) { level_is_finished=c+1; return; } */
     } else if (!level_is_finished) {
       player[c].spec = 0xde;
       erase_trail (c);
@@ -2715,13 +2715,13 @@ update_player (int c)
   }
 
 
-//   if (explofr[c]!=0) explofr[c]--;
+/* if (explofr[c]!=0) explofr[c]--; */
   if (player[c].d.h.h != 0 || player[c].delay == 1) {
 
 /**** handling of trails ****/
     if ( /*player[c].spec!=t_tunnel*8 && */ player[c].delay == 0) {
       l = player[c].x2 + player[c].y2 * map_info_2xt;
-      square_occupied[l] = (char) (c + 8);	//0xff;
+      square_occupied[l] = (char) (c + 8);	/* 0xff; */
       trail_offset[c] = (char) ((trail_offset[c] - 1) & (maxq - 1));
       trail_pos[c][trail_offset[c]] = l;
       trail_way[c][trail_offset[c]] = square_way[l] =
@@ -2771,8 +2771,8 @@ update_player (int c)
 
     if (player[c].spec == t_tunnel) {
       /*  player[c].old_way= */ player[c].way = player[c].tunnel_way;
-      //d2w[b]^2;
-/*             player[c].next_way=player[c].tunnel_way;//d2w[b]^2;
+      /* d2w[b]^2; */
+/*             player[c].next_way=player[c].tunnel_way; d2w[b]^2;
 	     if (player[i].tunnel_inverse) player[c].next_way^=2;*/
       player[c].spec = 0;
     }
@@ -2780,7 +2780,7 @@ update_player (int c)
 
     if (cpuon) {
       if (player[c].target < 16)
-//  for (i=0;i<4;i++)
+/*  for (i=0;i<4;i++) */
       {
 	if ((player[c].cpu & 2) == 0) {
 	  if (player[c].behaviour == 1)
@@ -2800,7 +2800,7 @@ update_player (int c)
       } else
 	player[c].target -= 16;
     }
-//       if (player[c].spec!=t_tunnel*4)
+/*       if (player[c].spec!=t_tunnel*4) */
     {
       square_occupied[d2 /*player[c].x2+player[c].y2*map_info_2xt */ ] = c;
       if (
@@ -2812,7 +2812,7 @@ update_player (int c)
     player[c].square = (char) ((player[c].x2 & 1) + (player[c].y2 & 1) * 2);
     d = (player[c].x2 >> 1) + (player[c].y2 >> 1) * map_info.xt;
 
-//    if (player[c].spec!=t_tunnel*4)
+/*    if (player[c].spec!=t_tunnel*4) */
     {
       if (level_map[d].type == t_ice
 	  && level_map[d].info.param[player[c].square] != 0)
@@ -2924,7 +2924,7 @@ update_player (int c)
 	    }
 	  }
 	  square_object[d2] = -1;
-	  // add_color(0);
+	  /* add_color(0); */
 	  objects_nbr--;
 	}
       }
@@ -2946,7 +2946,7 @@ update_player (int c)
 	    }
 	  }
 	  square_object[d2] = -1;
-	  //add_cash(0);
+	  /* add_cash(0); */
 	  objects_nbr--;
 	}
       }
@@ -2988,7 +2988,7 @@ update_player (int c)
        }
 */
     if (player[c].autopilot)
-      find_free_way (c);	// here t_tunnel*4 become t_tunnel*8 !!!
+      find_free_way (c);	/* here t_tunnel*4 become t_tunnel*8 !!! */
     if ((!player[c].autopilot)
 	&& (player[c].next_way == (player[c].old_way ^ 2)))
       player[c].next_way = player[c].old_way;
@@ -3030,10 +3030,10 @@ update_player (int c)
 	if (player[c].lifes > 1) {
 	  if (player[c].cpu == 2)
 	    event_sfx (60);
-//            if (player[c].lifes!=1/*2*/)
+/*            if (player[c].lifes!=1) */
 	  sprintf (txt_tmp, txti[30], player[c].lifes);
-//            else
-//              sprintf(txt_tmp,"1 LIFE LEFT");
+/*            else */
+/*              sprintf(txt_tmp,"1 LIFE LEFT"); */
 
 	} else {
 	  sprintf (txt_tmp, txti[31]);
@@ -3065,8 +3065,8 @@ update_player (int c)
 	  b = d2w[level_map[d].info.tunnel.direction];
 	}
 	player[c].tunnel_way = (char) b;
-//             player[c].way=player[c].tunnel_way;//d2w[b]^2;
-	player[c].next_way = player[c].tunnel_way;	//d2w[b]^2;
+/*             player[c].way=player[c].tunnel_way; d2w[b]^2; */
+	player[c].next_way = player[c].tunnel_way;	/* d2w[b]^2; */
 	if (player[c].tunnel_inverse)
 	  player[c].next_way ^= 2;
 
@@ -3075,7 +3075,7 @@ update_player (int c)
 
 
 
-//    if (player[c].spec!=t_tunnel*8)
+/*    if (player[c].spec!=t_tunnel*8) */
     {
       if (level_map[d].type == t_speed) {
 	e = level_map[d].info.param[player[c].square];
@@ -3097,12 +3097,12 @@ update_player (int c)
 	square_explosion_type[d2 /*player[c].x2+player[c].y2*map_info_2xt */ ]
 	  =
 	  (char) (1 + (rand () & 1));
-//            return;
+/*            return; */
       }
     }
     player[c].delay = 0;
 
-//      if (square_wrap[(d2<<2)+player[c].way]==-1) {printf("Le player_t %d (0-3) pénètre une dalle \"-1\" !",c); fatal_error(""); }
+/*      if (square_wrap[(d2<<2)+player[c].way]==-1) {printf("Le player_t %d (0-3) pénètre une dalle \"-1\" !",c); fatal_error(""); } */
     assert (square_wrap[(d2 << 2) + player[c].way] != -1);
     square_occupied[square_wrap[(d2 << 2) + player[c].way]] = (char) (c + 4);
   }
@@ -3114,9 +3114,9 @@ update_player (int c)
 static void
 update_explo (void)
 {
-  int i;			//,x,y,m,x2;
-  int x2;			//
-  int *m;			//
+  int i;			/* ,x,y,m,x2; */
+  int x2;
+  int *m;
   unsigned char c;
   for (i = explo_nbr - 1; i >= 0; i--) {
     c = *explo_list_ptr[i];
@@ -3304,7 +3304,7 @@ play_demo (void)
   set_pal_with_luminance (&tile_set_img.palette);
   radar_current_pos = 81;
   radar_target_pos = 0;
-// .... game .... //
+/* .... game .... */
   if (two_players) {
     nbr_tiles_cols = 8;
     camera_center_x = 436800;
@@ -3328,11 +3328,11 @@ play_demo (void)
   reset_htimer (blink_htimer);
   reset_htimer (update_htimer);
   output_screen ((char) n);	/* update corner[] */
-//   corner[0]=render_buffer[0];
-//   corner[1]=render_buffer[1];
+/*   corner[0]=render_buffer[0]; */
+/*   corner[1]=render_buffer[1]; */
 
   if (two_players == 0) {
-//      p2=64;
+/*      p2=64; */
     pendulum_init ();
     n = 0;
     do {
@@ -3342,7 +3342,7 @@ play_demo (void)
       display_buffer_tmp1 ();
       output_screen ((char) n);
       n = update_all (0);
-//         for (i=n;i>0;i--) if (p2>0) p2--;
+/*         for (i=n;i>0;i--) if (p2>0) p2--; */
     } while ( /*p2!=0 */ elapsed_time < 3000);
   }
   if (two_players) {
@@ -3396,7 +3396,7 @@ play_demo (void)
     process_input_events ();
     if (level_is_finished == 0)
       n = update_all (1);
-// in_demo!!     get_input_directions();
+/* in_demo!!     get_input_directions(); */
     if (devparm && keyboard_map[HK_F12])
       level_is_finished = 1;
 
@@ -3450,7 +3450,7 @@ load_demo (void)
     game_mode = M_COLOR;
   current_quest_level = 0;
 
-  unload_level ();		// stop also the music
+  unload_level ();		/* stop also the music */
   in_demo = 1;
   if (opt.sfx)
     load_sfx_mode (game_mode);
@@ -4062,8 +4062,8 @@ get_input_directions (void)
     } else
       player[col2plr[1]].tunnel_inverse = 0;
 
-//   if ((player[col2plr[1]].spec==t_tunnel)) printf("ss:%d,nxss:%d,ssold:%d,ssold2:%d,sstun:%d.\n",
-//       player[col2plr[1]].way,player[col2plr[1]].next_way,player[col2plr[1]].old_way,player[col2plr[1]].old_old_way,player[col2plr[1]].tunnel_way);
+/*   if ((player[col2plr[1]].spec==t_tunnel)) printf("ss:%d,nxss:%d,ssold:%d,ssold2:%d,sstun:%d.\n", */
+/*       player[col2plr[1]].way,player[col2plr[1]].next_way,player[col2plr[1]].old_way,player[col2plr[1]].old_old_way,player[col2plr[1]].tunnel_way); */
     if (((player[col2plr[1]].next_way ^ 2) == player[col2plr[1]].tunnel_way)
 	&& (player[col2plr[1]].spec == t_tunnel))
       player[col2plr[1]].next_way = player[col2plr[1]].tunnel_way;
@@ -4205,7 +4205,7 @@ play_game (char cont)
     free (t);
   } else if (game_mode == M_QUEST /*&& questmode==0 */ )
     load_level_from_number (current_quest_level++, cont);
-// else if (game_mode==M_QUEST /*&& questmode==1*/) loadlvlpasrandq2(current_quest_level++,cont);
+/* else if (game_mode==M_QUEST) loadlvlpasrandq2(current_quest_level++,cont); */
   else
     load_random_level (cont);
 
@@ -4215,7 +4215,7 @@ play_game (char cont)
   radar_current_pos = 81;
   radar_target_pos = 0;
 
-// . ... game ... . //
+/* . ... game ... . */
   if (two_players) {
     nbr_tiles_cols = 8;
     camera_center_x = 436800;
@@ -4251,7 +4251,7 @@ play_game (char cont)
 	     rounds_nbr_values[opt.gamerounds]);
 
   if (two_players == 0) {
-//      p2=64;
+/*      p2=64; */
     pendulum_init ();
     n = 0;
     do {
@@ -4268,7 +4268,7 @@ play_game (char cont)
       output_screen ((char) n);
       process_input_events ();
       n = update_all (0);
-//         for (i=n;i>0;i--) if (p2>0) p2--;
+/*         for (i=n;i>0;i--) if (p2>0) p2--; */
     } while ( /*p2!=0 */ elapsed_time < 3000);
   }
   if (two_players) {
@@ -4477,7 +4477,7 @@ play_game (char cont)
 	      if (t == HK_Enter) {
 		saverec[l].name[pos - 1] = 0;
 		saverec[l].level = current_quest_level /*+1 */ ;
-//                saverec[l].questmode=questmode;
+/*                saverec[l].questmode=questmode; */
 		for (u = 0; u < 4; u++) {
 		  saverec[l].points[u] = player[col2plr[u]].score;
 		  saverec[l].magic = game_magic;
@@ -4490,7 +4490,7 @@ play_game (char cont)
 	    }
 	  }
 	} while ((t != HK_Escape && t != HK_Enter) || editflag != 0);
-	// while (keyboard_map[HK_Escape]) process_input_events ();
+	/* while (keyboard_map[HK_Escape]) process_input_events (); */
 	l = 1;
 	write_save_records ();
       } else if (t == HK_Escape) {
@@ -4581,7 +4581,7 @@ play_game (char cont)
 	    l = 255;
       } while ( /*keyboard_map[HK_Escape]==0 */ l != 255
 	       && (flag || keyboard_map[HK_Enter] == 0));
-//   if (keyboard_map[HK_Escape]) l=255;
+/*   if (keyboard_map[HK_Escape]) l=255; */
 
       if (l == 0)
 	event_sfx (66);		/*next */
@@ -4633,7 +4633,7 @@ play_game (char cont)
   nbr_tiles_cols = 15;
   camera_center_x = 873813;
   in_menu = 1;
-// if (l!=0) cont=0;
+/* if (l!=0) cont=0; */
 
   return (l);
 }
@@ -4767,7 +4767,7 @@ main (int argc, char *argv[])
 #endif
 
   read_level_list ();
-// readlvllstq2();
+/* readlvllstq2(); */
   browse_extra_directories ();
   if (reinitopt)
     reinit_options ();
@@ -4831,7 +4831,7 @@ main (int argc, char *argv[])
   pcx_load_from_rsc ("menu-pictures-img", &icons_img);
   pcx_load_from_rsc ("vehicles-img", &vehicles_img);
   pcx_load_from_rsc ("trails-img", &trailimg);
-// if (odbg) debugsavepcx(&trailimg);
+/* if (odbg) debugsavepcx(&trailimg); */
   pcx_load_from_rsc ("purple-bonus-img", &bonus_a_img);
   pcx_load_from_rsc ("brown-bonus-img", &bonus_b_img);
   pcx_load_from_rsc ("bonus-font", &bonus_font_img);

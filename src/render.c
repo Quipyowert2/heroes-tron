@@ -171,7 +171,7 @@ draw_trail_real (int c, unsigned char s, unsigned char *dest,
 	dest++;
       }
       dest += xbuf - 12;
-      src += 192 - 12;		//320-12;
+      src += 192 - 12;		/* 320-12; */
     }
   } else {
     c = (char) (NOGLENZPLR + (c << 4));
@@ -183,7 +183,7 @@ draw_trail_real (int c, unsigned char s, unsigned char *dest,
 	dest++;			/*  est dans la pile !?! */
       }
       dest += xbuf - 12;
-      src += 192 - 12;		//320-12;
+      src += 192 - 12;		/* 320-12; */
     }
   }
 }
@@ -215,7 +215,7 @@ draw_vehicle_tail (int c, unsigned char *dest)
 	dest++;
       }
       dest += xbuf - 12;
-      src += 192 - 12;		//320-12;
+      src += 192 - 12;		/* 320-12; */
     }
   } else {
     cc = (char) (NOGLENZPLR + (c << 4));
@@ -227,7 +227,7 @@ draw_vehicle_tail (int c, unsigned char *dest)
 	dest++;			/*  est dans la pile !?!  */
       }
       dest += xbuf - 12;
-      src += 192 - 12;		//320-12;
+      src += 192 - 12;		/* 320-12; */
     }
   }
   posit = vehicles_img.buffer + (c << 6) + (player[c].way << 4);
@@ -462,7 +462,7 @@ draw_lemming (unsigned char *dest, lemming_t * ptibptr, unsigned int pos)
       dest += (lemmings_move_offset / 6553) * xbuf;
     if (d == w_left)
       dest -= lemmings_move_offset / 5461;
-//                 copy_rect_transp(src,dest,8,7);
+/*                 copy_rect_transp(src,dest,8,7); */
     copy_lemming_transp (src, dest);
   }
 
@@ -506,7 +506,7 @@ draw_dead_lemming (char *src, lemming_t * ptibptr)
 	dest += (ptibptr->min / 6553) * xbuf;
       if (d == w_left)
 	dest -= ptibptr->min / 5461;
-//        copy_rect_transp(vehicles_img.buffer+240+(ptibptr->dead<<4),dest,12,10);
+/*        copy_rect_transp(vehicles_img.buffer+240+(ptibptr->dead<<4),dest,12,10); */
 
       copy_dead_lemming_transp (vehicles_img.buffer + 181 * 320 - 16 +
 				(ptibptr->dead << 4), dest,
@@ -864,7 +864,7 @@ draw_radar_map (int dx, int dy)
 
   for (y = 40; y != 0; y--)
 /*  {*src++=15;
-   for (x=73-dede;x!=0;x--) ;// *src++=glenz[0][*src];
+   for (x=73-dede;x!=0;x--) ; *src++=glenz[0][*src];
    *src=15;
    src+=xbuf-74+dede;
   }
@@ -895,7 +895,7 @@ draw_radar_map (int dx, int dy)
 	      *src = 27;
 	  } else if ((tmp = square_occupied[tdx + tdym]) != -1)
 	    *src = radar_trail_color[tmp];
-	  else if ((tmp = square_wall[tdx + tdym]) != 0)	// square_radar_wall
+	  else if ((tmp = square_wall[tdx + tdym]) != 0)	/* square_radar_wall */
 	    *src = radar_wall_color[tmp];
 	  else
 	    *src = glenz[0][*src];
@@ -1129,13 +1129,13 @@ display_two_buffers_moving (int x)
 {
   char *src1 = corner[swapside], *src2 = corner[1 - swapside];
   char *dest = (char *) screen;
-//  int *desti;
-  int i;			//,j;
+  /* int *desti; */
+  int i;			/* ,j; */
   draw_demo_stick (src2 - 160);
   for (i = 200; i > 0; i--, src1 += xbuf, src2 += xbuf, dest += 320) {
     fastmem4 (src1 + (x << 2), dest, 160 / 4 - x);
-//      desti=((int*)dest)+40-x;
-//      for (j=(x<<1);j!=0;j--) *desti++=0;
+/*      desti=((int*)dest)+40-x; */
+/*      for (j=(x<<1);j!=0;j--) *desti++=0; */
     fastmem4 (src2, dest + 160 + (x << 2), 160 / 4 - x);
   }
 }

@@ -507,7 +507,11 @@ fi
 if test -n "$auto_cflags"; then
   if test "x${enable_debug}" = xyes; then
     if test -n "$GCC"; then
-      CFLAGS="$CFLAGS -Wall -W -Wmissing-prototypes -ggdb"
+      CFLAGS="$CFLAGS -Wall -ansi -pedantic -W -Wtraditional -Wshadow \
+-Wpointer-arith -Wcast-qual -Wcast-align -Wwrite-strings \
+-Wconversion -Waggregate-return -Wstrict-prototypes \
+-Wmissing-prototypes -Wmissing-declarations -Wnested-externs \
+-Winline -ggdb"
     else
       CFLAGS="$CFLAGS -g"
     fi

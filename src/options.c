@@ -19,7 +19,7 @@
 `------------------------------------------------------------------------*/
 
 
-/* chargement, et reinitialisation des options d'Heroes */
+/* Save/load/re-initialize heroes options. */
 
 #include "common.h"
 #include "options.h"
@@ -52,18 +52,18 @@ options_file (void)
 void
 reinit_options (void)
 {
-  opt.screen_size = 0;		// 0=max
+  opt.screen_size = 0;		/* 0=max */
   opt.radar_map = 1;
   opt.use_glenz = 1;
   opt.display_infos = 1;
   opt.luminance = 3;
   opt.inertia = 1;
   opt.music = 1;
-  opt.music_volume = 6;		// 0=max
+  opt.music_volume = 6;		/* 0=max */
   opt.sfx = 1;
-  opt.sfx_volume = 6;		// 0=max
-  opt.ctrl_one = 0;		// 0=keyboard
-  opt.ctrl_two = 0;		// 1=joystick
+  opt.sfx_volume = 6;		/* 0=max */
+  opt.ctrl_one = 0;		/* 0=keyboard */
+  opt.ctrl_two = 0;		/* 1=joystick */
   opt.autopilot_one = 1;
   opt.autopilot_two = 1;
   opt.ghosts = 0;

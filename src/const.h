@@ -31,38 +31,38 @@ extern int trail[16];
 
 extern int tunnel_square_io[4][2];
 
-#define xbuf 384		// pour des multiplications plus faciles
-#define ybuf 300		// une bande vide de 50 lignes au dessus et en dessous...
-#define sbuf 50*xbuf		// ...pour éviter de faire du clipping
+#define xbuf 384		/* pour des multiplications plus faciles */
+#define ybuf 300		/* une bande vide de 50 lignes au dessus et en dessous... */
+#define sbuf 50*xbuf		/* ...pour éviter de faire du clipping */
 
-#define NOGLENZPLR 108		// colors pour les trainées sans glenz
-#define NOGLENZRED 16		// couleur pour le sang sans glenz
+#define NOGLENZPLR 108		/* colors pour les trainées sans glenz */
+#define NOGLENZRED 16		/* couleur pour le sang sans glenz */
 
 extern char radar_trail_color[16];
 extern char radar_wall_color[16];
 
 extern int bonus_proba_array[5][17];
-extern int bonus_points[2][17];	//interet (pour le cpu)
+extern int bonus_points[2][17];	/* interet (pour le cpu) */
 
 extern int rounds_nbr_values[16];
 
 extern signed char p;
 extern signed int p2;
 
-extern unsigned long int camera_x[2];	// virgule fixe 16b,16b
-extern unsigned long int camera_y[2];	// idem
-extern unsigned long int corner_x[2];	// en pixels
-extern unsigned long int corner_y[2];	// idem
-extern char *(corner[2]);	// addresse absolue
-extern unsigned long int corner_dx[2];	// coordonées de dalle
-extern unsigned long int corner_dy[2];	// idem
+extern unsigned long int camera_x[2];	/* virgule fixe 16b,16b */
+extern unsigned long int camera_y[2];	/* idem */
+extern unsigned long int corner_x[2];	/* en pixels */
+extern unsigned long int corner_y[2];	/* idem */
+extern char *(corner[2]);	        /* addresse absolue */
+extern unsigned long int corner_dx[2];	/* coordonées de dalle */
+extern unsigned long int corner_dy[2];	/* idem */
 extern unsigned long int inert_x[2], inert_y[2];
-extern unsigned int nbr_tiles_cols;	// nbr de colonnes de tile_set_img à afficher
-extern unsigned int nbr_tiles_rows;	//     ... lignes ...
+extern unsigned int nbr_tiles_cols;	/* nbr de colonnes de tile_set_img à afficher */
+extern unsigned int nbr_tiles_rows;	/*     ... lignes ... */
 extern char camera_stop_x[2];
 extern char camera_stop_y[2];
 
-extern char *(render_buffer[2]);	// BUFFER DE RENDU 384*260
+extern char *(render_buffer[2]);	/* BUFFER DE RENDU 384*260 */
 
 void vsynch (void);
 void pal2pal (palette_ * src, palette_ * dest, char step);
@@ -105,19 +105,19 @@ extern signed char minisinus[32];
 extern char two_players;
 
 #define maxq 128
-// maxq à reporter dans const.c !!!
+/* maxq à reporter dans const.c !!! */
 extern player_t player[4];
 extern int trail_pos[4][maxq];
 extern char trail_way[4][maxq];
 extern int trail_offset[4];
-extern char trail_size[4];	// Taille de la trainée MOINS UN
+extern char trail_size[4];	/* Taille de la trainée MOINS UN */
 
 extern int col2plr[4];
 extern int plr2col[4];
 
 /****** STOCKAGE DU LEVEL ******/
 
-extern tile_t *level_map;	// pointeur sur le level_map du niveau
+extern tile_t *level_map;	/* pointeur sur le level_map du niveau */
 
 extern int last_explo;
 
@@ -142,20 +142,20 @@ extern int *square_offset2coord;
 extern signed char *square_object;
 #define lemmings_per_players 50
 #define lemmings_total (lemmings_per_players*4)
-// constantes à reporter dans const.c
+/* constantes à reporter dans const.c */
 extern lemming_t **square_lemmings_list;
 extern lemming_t **square_dead_lemmings_list;
 extern lemming_t lemmings_support[lemmings_total];
 extern int bonus_total_nbr, bonus_real_nbr, objects_nbr;
 extern int next_bonus_to_update;
-extern int square2offset[4];	/*deux dernières valeurs calculées plus tard */
+extern int square2offset[4]; /* deux dernières valeurs calculées plus tard */
 
 extern int bonus_anim_offset;
 extern int radar_target_pos;
 extern int radar_current_pos;
 
 extern int game_mode;
-//extern char questmode;
+/* extern char questmode; */
 extern unsigned char game_magic;
 
 extern int camera_center_x;

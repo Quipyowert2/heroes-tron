@@ -114,10 +114,10 @@ int fr = 1;
 void
 end_scroll (void)
 {
-//      signed char p;
-//      int t;
-//      FILE* aux;
-//      char flag;
+  /* signed char p; */
+  /* int t; */
+  /* FILE* aux; */
+  /* char flag; */
 
   scroll_buffer = malloc (XBUF * YBUF);
   page = malloc (320 * 220);

@@ -670,7 +670,7 @@ game_menu (void)
 		      corner[0] + 128 * xbuf + 255 + 5 * opt.speed * 2, 8,
 		      14);
 
-//   copy_rect_transp(main_font_img.buffer+218+50*320+opt.ghosts*21,corner[0]+133*xbuf+260,21,14);
+/*   copy_rect_transp(main_font_img.buffer+218+50*320+opt.ghosts*21,corner[0]+133*xbuf+260,21,14); */
     copy_rect_transp (main_font_img.buffer + 181 + 53 * 320,
 		      corner[0] + 154 /*161 */  * xbuf + 251, 37, 10);
     copy_rect_transp (main_font_img.buffer + 173 + 51 * 320,
@@ -689,7 +689,7 @@ game_menu (void)
     draw_text (txti[119], 56, 105, 0);
     draw_text (txti[120], 56, 129, 0);
 
-//   draw_text("GHOSTS",56,149,0);
+    /* draw_text("GHOSTS",56,149,0); */
     sprintf (tmp1, txti[121], rounds_nbr_values[opt.gamerounds],
 	     (opt.gamerounds == 0) ? '\0' : 'S');
     draw_text (tmp1, 56, 153 /*158 */ , 0);
@@ -734,14 +734,14 @@ game_menu (void)
 	}
       if (t == HK_Right || t == HK_Enter) {
 
-//       if (l==4) opt.ghosts^=1;
+/*       if (l==4) opt.ghosts^=1; */
 	if (l == 3) {
 	  if (opt.speed < 2)
-	    opt.speed++;	/*else opt.speed=0; */
+	    opt.speed++;	/* else opt.speed=0; */
 	}
 	if (l == 4) {
 	  if (opt.gamerounds < 15)
-	    opt.gamerounds++;	/*else opt.gamerounds=0; */
+	    opt.gamerounds++;	/* else opt.gamerounds=0; */
 	}
 	if (l == 0) {
 	  tmp = opt.player_color[0];
@@ -764,7 +764,7 @@ game_menu (void)
       }
       if (t == HK_Left) {
 
-//       if (l==4) opt.ghosts^=1;
+/*       if (l==4) opt.ghosts^=1; */
 	if (l == 3)
 	  if (opt.speed > 0)
 	    opt.speed--;
@@ -802,7 +802,7 @@ extra_menu (void)
   char l = 0;
   int t, i, ll = 0;
 
-//  char *gtype[3]={txti[122],txti[123],txti[124]};
+/*  char *gtype[3]={txti[122],txti[123],txti[124]}; */
   p = 64;
   memset (pal.global, 63, 768);
 
@@ -846,7 +846,7 @@ extra_menu (void)
     pal2pal (&tile_set_img.palette, &pal, p);
     vsynch ();
 
-//   if (p>=0) set_pal((char *)&temppal.global,0,768);
+/*   if (p>=0) set_pal((char *)&temppal.global,0,768); */
     if (p >= 0)
       set_pal_with_luminance ((palette_rvb *) temppal.global);
     aff_buffer ();
@@ -1003,7 +1003,7 @@ option_menu (void)
       pal2pal (&tile_set_img.palette, &pal, p);
       vsynch ();
 
-//   if (p>=0) set_pal((char *)&temppal.global,0,768);
+/*   if (p>=0) set_pal((char *)&temppal.global,0,768); */
       if (p >= 0)
 	set_pal_with_luminance ((palette_rvb *) temppal.global);
       aff_buffer ();
@@ -1132,7 +1132,7 @@ draw_play_menu (char l)
 		    corner[0] + 48 * xbuf + 100, 120, 3);
   draw_text_array[l == 1] (mode_name[0], 159, 60, 1);
 
-//   draw_text_array[l==2](mode_name[1],159,73,1);
+  /* draw_text_array[l==2](mode_name[1],159,73,1); */
   draw_text_array[l == 2] (mode_name[2], 159, 83, 1);
   draw_text_array[l == 3] (mode_name[1], 159, 99, 1);
   draw_text_array[l == 4] (mode_name[3], 159, 115, 1);
@@ -1213,8 +1213,8 @@ editor_selector (void)
     event_sfx (116);
     strcpy (tmp1, extra_list[0].level_name);
 
-//      sprintf(tmp2,"%s A A A A A",tmp1);
-//      spawnl(P_WAIT,"HEDLITE.EXE","HEDLITE.EXE",tmp2,NULL);
+/*      sprintf(tmp2,"%s A A A A A",tmp1); */
+/*      spawnl(P_WAIT,"HEDLITE.EXE","HEDLITE.EXE",tmp2,NULL); */
 
     hmain (7, tmp1, "A", "A", "A", "A", "A");
     return;
@@ -1278,8 +1278,8 @@ editor_selector (void)
     event_sfx (116);
     strcpy (tmp1, extra_list[l].level_name);
 
-//    sprintf(tmp2,"%s A A A A A",tmp1);
-//    spawnl(P_WAIT,"HEDLITE.EXE","HEDLITE.EXE",tmp2,NULL);
+/*    sprintf(tmp2,"%s A A A A A",tmp1); */
+/*    spawnl(P_WAIT,"HEDLITE.EXE","HEDLITE.EXE",tmp2,NULL); */
 
     hmain (7, tmp1, "A", "A", "A", "A", "A");
   } else
@@ -1373,7 +1373,7 @@ editor_menu (void)
     else
       draw_text_waving_320 (txti[175], 159, 7, 1);
 
-//        draw_text_array_320[l==0](txti[176],8,33,0);
+    /* draw_text_array_320[l==0](txti[176],8,33,0); */
     draw_text_320 ((char *) titres[tiles], 138, 33, 1);
     draw_text_array_320[l == 1] (txti[177], 8, 54, 0);
     draw_text_320 ((char *) tmp1, 185, 54, 1);
@@ -1563,8 +1563,8 @@ editor_menu (void)
   if (l == 6 && t == HK_Enter) {
     event_sfx (116);
 
-//          sprintf(tmp2,"%s %s %c %c %c %c",tmp1,tile_sets_names[tiles],xsize+' ',ysize+' ',((xwrap==-1)?'!':(xwrap+' ')),((ywrap==-1)?'!':(ywrap+' ')));
-//          spawnl(P_WAIT,"HEDLITE.EXE","HEDLITE.EXE",tmp2,NULL);
+/*          sprintf(tmp2,"%s %s %c %c %c %c",tmp1,tile_sets_names[tiles],xsize+' ',ysize+' ',((xwrap==-1)?'!':(xwrap+' ')),((ywrap==-1)?'!':(ywrap+' '))); */
+/*          spawnl(P_WAIT,"HEDLITE.EXE","HEDLITE.EXE",tmp2,NULL); */
     sprintf (tmp2, "%c %c %c %c", xsize + ' ', ysize + ' ',
 	     ((xwrap == -1) ? '!' : (xwrap + ' ')),
 	     ((ywrap == -1) ? '!' : (ywrap + ' ')));

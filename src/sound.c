@@ -470,7 +470,7 @@ load_soundtrack_from_alias (char* alias)
   }
 }
 
-#else // not HAVE_LIBSDL_MIXER and not HAVE_LIBMIKMOD
+#else /* not HAVE_LIBSDL_MIXER and not HAVE_LIBMIKMOD */
 
 #include <stdio.h>
 
@@ -530,6 +530,6 @@ load_soundtrack_from_alias (char* alias __attribute__ ((unused)))
 {
 }
 
-#endif // not HAVE_LIBSDL_MIXER
+#endif /* not HAVE_LIBSDL_MIXER */
 
-#endif // not HAVE_MIKMOD
+#endif /* not HAVE_MIKMOD */

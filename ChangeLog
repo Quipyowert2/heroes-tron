@@ -1,3 +1,20 @@
+2000-09-19  Uwe Hermann  <uh1763@bingo-ev.de>
+
+	* configure.in [$GCC]: Add lots of gcc warning options.
+	* src/options.c: Change C++-style comments to C-style comments.
+	Translate a comment into english language.
+	* src/const.c: Change C++-style comments to C-style comments.
+	* src/const.h: Likewise.
+	* src/endscroll.c: Likewise.
+	* src/hedlite.c: Likewise.
+	* src/heroes.c: Likewise.
+	* src/menus.c: Likewise.
+	* src/pcx.c: Likewise.
+	* src/render.c: Likewise.
+	* src/sound.c: Likewise.
+	* src/txts.c: Likewise.
+	* src/visuals.c: Likewise.
+
 2000-09-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.in: Set version to 0.6b.

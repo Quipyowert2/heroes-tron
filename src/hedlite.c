@@ -939,7 +939,7 @@ static collisionsg()
     while (mouse12()!=0);
   }
   mouseoff();
- }//do
+ }* do *
  while(mousex()>290 && (!key_ready()) && mouse2()==0);
  majg();
  cadre(292,87,25,21,0);
@@ -1431,8 +1431,8 @@ gestclav (int i, int mod)
   case HK_F1:
 #ifdef PORT			/* help */
     modevga (TEXT);
-//                  spawnl(P_WAIT,"READER.EXE","READER.EXE","HEDLITE.DOC",NULL);
-//                  spawnl(P_WAIT,"MEM.EXE",NULL);
+    /* spawnl(P_WAIT,"READER.EXE","READER.EXE","HEDLITE.DOC",NULL); */ 
+    /* spawnl(P_WAIT,"MEM.EXE",NULL); */
     rmain (2, "txt_cfg\\hedlite_.doc", "hedlite.doc");
     modevga (G320x200x256);
     set_pal ((char *) &tile_set_img.palette, 0, 256 * 3);
@@ -1564,8 +1564,8 @@ gestclav (int i, int mod)
 	gestclav (HK_Up, HK_MOD_Shift);
     }
     break;
-//     case 0x0f09: cote^=1;majd();majg();
-//                  break;
+/*     case 0x0f09: cote^=1;majd();majg(); */
+/*                  break; */
   case HK_Enter:
     if (mod & HK_MOD_Ctrl) {
       joueanim ();
@@ -1574,8 +1574,8 @@ gestclav (int i, int mod)
     }
     break;
   case HK_Space:
-    //if (((*etatclav)&3)==0)
-    //{
+    /* if (((*etatclav)&3)==0) */
+    /* { */
     j = curdallep ();
     level_map[j].number =
       xdalles + xdallesdec + ydalles * (tile_set_img.width);
@@ -1610,9 +1610,9 @@ gestclav (int i, int mod)
     gestclav (HK_O, HK_MOD_None);
     majg ();
     break;
-  case HK_i:			// I
-  case HK_I:			//if (i==0x1769) fprintf(hlog,"\t[i] used\n");
-    // else          fprintf(hlog,"\t[I] used\n");
+  case HK_i:			/* I */
+  case HK_I:			/* if (i==0x1769) fprintf(hlog,"\t[i] used\n"); */
+    /* else          fprintf(hlog,"\t[I] used\n"); */
     for (j = hplaninfo.xt * hplaninfo.yt - 1; j >= 0; j--) {
       level_map[j].collision[0] = 0;
       level_map[j].collision[1] = 0;
@@ -1669,7 +1669,7 @@ gestclav (int i, int mod)
 	  level_map[curdallepb (j)].collision[1] |= c_up;
       }
     }
-//                  majg();
+/*                  majg(); */
     break;
   case 006: /* ^F */
     gestclav (HK_f, HK_MOD_Ctrl);
@@ -1701,7 +1701,7 @@ gestclav (int i, int mod)
     afftests ^= 1;
     majg ();
     break;
-  case HK_s:			// S
+  case HK_s:			/* S */
   case HK_S:
     if (level_map[curdallep ()].sprite == 0)
 
@@ -1711,13 +1711,13 @@ gestclav (int i, int mod)
       level_map[curdallep ()].sprite = 0;
     majg ();
     break;
-  case HK_d:			// D
+  case HK_d:			/* D */
   case HK_D:
     t = level_map[curdallep ()].type;
     if (t != t_boom && t != t_anim && t != t_outway)
       departfix ();
     break;
-  case HK_t:			// T
+  case HK_t:			/* T */
   case HK_T:
     if (tempd == curdallep ())
       tempd = 0xffffffff;
@@ -1725,11 +1725,11 @@ gestclav (int i, int mod)
       tempd = curdallep ();
     majg ();
     break;
-  case HK_o:			// O
-  case HK_O:			//fprintf(hlog,"\t[O] used\n");
-    outwayflag ();		/*majg(); */
+  case HK_o:			/* O */
+  case HK_O:			/* fprintf(hlog,"\t[O] used\n"); */
+    outwayflag ();		/* majg(); */
     break;
-  case HK_p:			// P
+  case HK_p:			/* P */
   case HK_P:
     save_pcx ();
     majg ();
@@ -1893,7 +1893,7 @@ gestsrs2 (void)
       else
 	gestclav (HK_Home, HK_MOD_Ctrl);
     }
-//            if (y>=86 && y<=108) gestclav(0x2e63);
+/*            if (y>=86 && y<=108) gestclav(0x2e63); */
   }
   if (x < 144) {
     xplandec = (x / 24) * 24;
@@ -2035,7 +2035,7 @@ hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2,
     hplaninfo.start_way[3] = 0x23;
   }
 
-  //fprintf(hlog,"\tUsing %s (PCX,PIE) and %s (XM)\n",hplaninfo.tile_set_name,hplaninfo.soundtrack_name);
+  /* fprintf(hlog,"\tUsing %s (PCX,PIE) and %s (XM)\n",hplaninfo.tile_set_name,hplaninfo.soundtrack_name); */
 
   tile_set_name = strappend (strappend (tile_set_name, 
 					hplaninfo.tile_set_name), ".pcx");

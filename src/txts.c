@@ -74,8 +74,8 @@ read_txti_cfg (void)
       tmpptr2 = strchr (tmpptr, ' ');
       *tmpptr2++ = 0;
       nbr = atol (tmpptr + 1);
-//            tmpptr2=forward_spaces(tmpptr2);
-//            printf("|%s|\n",tmpptr2);
+/*            tmpptr2=forward_spaces(tmpptr2); */
+/*            printf("|%s|\n",tmpptr2); */
       if (nbr < max_txti)
 	txti[nbr] = strdup (tmpptr2);
     }

@@ -50,10 +50,10 @@ rotozoom_buffer (void)
   angle = (player[col2plr[0]].rotozoom & 511) >> 1;
   if (player[col2plr[0]].rotozoom_direction)
     angle = (-angle) & 255;
-  deltay = rotosinus[angle];	//2;
-  deltax = rotocosinus[angle];	//2;
-  deltay2 = rotosinus2[angle];	//2;
-  deltax2 = rotocosinus2[angle];	//2;
+  deltay = rotosinus[angle];	/* 2; */
+  deltax = rotocosinus[angle];	/* 2; */
+  deltay2 = rotosinus2[angle];	/* 2; */
+  deltax2 = rotocosinus2[angle];	/* 2; */
   debutx = (160 << 16) - 160 * deltax - 100 * deltax2;
   debuty = (100 << 16) - 160 * deltay - 100 * deltay2;
 
@@ -107,10 +107,10 @@ rotozoom_half_buffer (int c)
   angle = (player[col2plr[c]].rotozoom & 511) >> 1;
   if (player[col2plr[0]].rotozoom_direction)
     angle = (-angle) & 255;
-  deltay = rotosinus[angle];	//2;
-  deltax = rotocosinus[angle];	//2;
-  deltay2 = rotosinus2[angle];	//2;
-  deltax2 = rotocosinus2[angle];	//2;
+  deltay = rotosinus[angle];	/* 2; */
+  deltax = rotocosinus[angle];	/* 2; */
+  deltay2 = rotosinus2[angle];	/* 2; */
+  deltax2 = rotocosinus2[angle];	/* 2; */
   debutx = (80 << 16) - 80 * deltax - 100 * deltax2;
   debuty = (100 << 16) - 80 * deltay - 100 * deltay2;
 
@@ -161,7 +161,7 @@ horizontal_zoom_wave (char *src, char *dest, int oldsize, int newsize)
   int tmp;
   char tmp1;
   int *adest;
-//     newsize-=4;
+/*     newsize-=4; */
   if (((int) dest) & 3)
     do {
       tmp1 = *(src + (x >> 16));
@@ -202,7 +202,7 @@ horizontal_zoom_flip (char *src, char *dest, int oldsize, int newsize)
   int tmp;
   char tmp1;
   short int *adest;
-//     newsize-=2;
+/*     newsize-=2; */
   if (((int) dest) & 1)
     do {
       tmp1 = *(src + (x >> 16));
