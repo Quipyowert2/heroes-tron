@@ -1,5 +1,13 @@
 2001-05-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.in: Bump version number to 0.10.
+	* NEWS: Update for 0.10.
+	* GNUmakefile (src/debughash.gperf): New target.
+	(cvsboot): Require src/debughash.gperf.
+	* po/fr.po: Update.
+
+2001-05-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* Makefile.am: Avoid non-portable use of $< and $@ in
 	explicit rules.
 	* doc/Makefile.am: Likewise.

@@ -40,8 +40,11 @@ endif
 # tool/genpotfile.sh is run (by tools/cvsboot.sh).
 src/people.c: src/people.def src/people.tpl
 	$(AUTOGEN) -L src -o 'c=src/people.c' $<
+# likewise
+src/debughash.gperf: src/debugchn.def src/debugchn.tpl
+	$(AUTOGEN) -L src -o 'gperf=src/debughash.gperf' $<
 
-cvsboot: AUTHORS THANKS src/people.c
+cvsboot: AUTHORS THANKS src/people.c src/debughash.gperf
 	tools/cvsboot.sh -v
 
 .PHONY: all cvsboot
