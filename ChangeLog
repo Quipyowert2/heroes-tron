@@ -1,5 +1,56 @@
 2002-01-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	This is the first step towards grouping all the level state
+	variables in the same struct (named `a_level_state').  This also
+	moves many related definitions and handling functions into the
+	`rules' directory.  Intuitively, this directory should hold all
+	the functions and data related to updating the state of a game.
+
+	The work is not complete yet.  Other tasks remaining are the
+	migration of update_player(), ai functions, and the move of the
+	code for bonus and explosions.
+
+	* src/rules/Makefile.inc, src/rules/lemmings.c,
+	src/rules/objects.c, src/rules/players.c, src/rules/players.h,
+	src/rules/state.c, src/rules/state.h, src/rules/statepriv.h,
+	src/rules/trail.c: New file.
+	* src/Makefile.am: Include rules/Makefile.inc.
+	(INCLUDES): Add -I$(srcdir)/rules.
+	(heroes_LDADD, heroes_DEPENDENCIES): add rules/libhrules.a.
+	* src/const.h (player, trail_pos, trail_way, trail_offset,
+	trail_size, square_lemmings_list, square_dead_lemmings_list,
+	lemmings_support, object_nbr, lemmings_per_players,
+	lemmings_total, maxq): Move ...
+	* src/rules/statepriv.h (a_level_state_bits): ... here.
+	* src/const.h (col2plr, plr2col, square_occupied, square_way,
+	square_tile, square_coord, square_object, game_mode): Move ...
+	* src/rules/state.h (a_level_state): ... here.
+	* src/const.h (state): New variable.
+	* src/const.c: Reflect changes of const.h.
+	* src/heroes.c (ia_skip_firsts_moves, erase_player,
+	reinit_player): Move ...
+	* src/rules/player.c (ia_skip_firsts_moves, state_erase_player,
+	state_reinit_player): ... here.
+	* src/heroes.c (add_color, add_cacsh): Move ...
+	* src/rules/objects.c: ... here.
+	* src/heroes.c (find_lemming_direction): Move ...
+	* src/rules/lemmings.c: ... here.
+	* src/heroes.c (load_level, unload_level): Move most code ...
+	* src/rules/state.c (state_init, state_free): ... here.
+	* src/heroes.c (grow_trail, shrink_trail, erase_trail): Move ...
+	* src/rules/trails.c (grow_trail, shrink_trail, erase_trail): ... here.
+	* src/heroes.h (grow_trail, shrink_trail): Remove.
+	* src/structs.h (hl, ehl, a_player, M_QUEST, M_DEATHM, M_KILLEM,
+	M_TCASH, M_COLOR): Move ...
+	* src/player.h: ... here.
+	* src/structs.h (a_lemming): Move ...
+	* src/statepriv.h: ... here.
+	* src/bonus.c, src/camera.c, src/heroes.c, src/menus.c,
+	src/render.c, src/visual.c: Adjust to use state.
+	* src/explosions.c: s/state/explo_state/ to avoid conflicts.
+
+2002-01-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/const.c, src/heroes.c, src/heroeslvl.c, src/lvl/privacc.c,
 	src/const.h, src/lvl/lvl.h, src/lvl/lvl_priv.h: Typo
 	s/a_square_corrd_paur/a_square_coord_pair/.

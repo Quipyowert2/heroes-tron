@@ -27,6 +27,7 @@
 #include "debugmsg.h"
 #include "sprrle.h"
 #include "sprtext.h"
+#include "state.h"
 
 /* density of bonuses in different modes */
 
@@ -224,7 +225,7 @@ init_bonuses_level (void)
 
   dmsg (D_BONUS, "Initialize bonuses for level.");
 
-  reset_bonus_mode (game_mode);
+  reset_bonus_mode (state.game_mode);
 
   XCALLOC_ARRAY (tile_bonus, lvl.tile_count);
   XCALLOC_ARRAY (tile_bonus_cpu, lvl.tile_count);
@@ -316,88 +317,88 @@ apply_bonus (int pl, char bonus)
       bonus++;
   }
 
-  if (player[pl].cpu == 2)
+  if (state.player[pl].cpu == 2)
     event_sfx (19 + bonus);
   switch (bonus) {
   case 1:
-    grow_trail (pl, 5);
-    sprintf (txt_tmp, _("SIZE IS %d"), (trail_size[pl] + 1) / 5 - 1);
+    grow_trail (&state, pl, 5);
+    sprintf (txt_tmp, _("SIZE IS %d"), state_trail_size (&state, pl));
     set_txt_bonus (pl, txt_tmp, 150);
     break;
   case 2:
-    shrink_trail (pl, 5);
-    sprintf (txt_tmp, _("SIZE IS %d"), (trail_size[pl] + 1) / 5 - 1);
+    shrink_trail (&state, pl, 5);
+    sprintf (txt_tmp, _("SIZE IS %d"), state_trail_size (&state, pl));
     set_txt_bonus (pl, txt_tmp, 150);
     break;
   case 3:
-    player[pl].speedup = 500;
+    state.player[pl].speedup = 500;
     set_txt_bonus (pl, _("SPEEDED UP"), 150);
     break;
   case 4:
-    player[pl].speedup = -500;
+    state.player[pl].speedup = -500;
     set_txt_bonus (pl, _("SPEEDED DOWN"), 150);
     break;
   case 6:
     {
       int i;
       i = rand () & 255;
-      player[pl].score += i;
+      state.player[pl].score += i;
       sprintf (txt_tmp, _("GET %dPTS"), i);
       set_txt_bonus (pl, txt_tmp, 150);
     }
     break;
   case 7:
     set_txt_bonus (pl, _("FIRE TRAIL!"), 150);
-    player[pl].fire_trail += 2000;
+    state.player[pl].fire_trail += 2000;
     break;
   case 8:
-    player[pl].notify_delay = 1;
+    state.player[pl].notify_delay = 1;
     break;
   case 9:
-    player[pl].inversed_controls = 500;
+    state.player[pl].inversed_controls = 500;
     break;
   case 10:
-    if (player[pl].turbo_level > 1024 - 512)
-      player[pl].turbo_level = 1024;
+    if (state.player[pl].turbo_level > 1024 - 512)
+      state.player[pl].turbo_level = 1024;
     else
-      player[pl].turbo_level += 512;
+      state.player[pl].turbo_level += 512;
     set_txt_bonus (pl, _("GET TURBO+"), 150);
     break;
   case 11:
-    if (player[pl].turbo_level > 256)
-      player[pl].turbo_level -= 256;
+    if (state.player[pl].turbo_level > 256)
+      state.player[pl].turbo_level -= 256;
     else
-      player[pl].turbo_level = 0;
+      state.player[pl].turbo_level = 0;
     set_txt_bonus (pl, _("GET TURBO-"), 150);
     break;
   case 12:
-    if (trail_size[pl] >= 55)
+    if (state_trail_size (&state, pl) >= 10)
       level_is_finished = (char) (pl + 1);
     break;
   case 13:
-    player[pl].invincible = 350;
+    state.player[pl].invincible = 350;
     set_txt_bonus (pl, _("INVINCIBLE!"), 150);
     break;
   case 14:
-    if (player[pl].waves == 0 || doublefx != 0) {
-      player[pl].rotozoom += 1024;
-      if (player[pl].rotozoom == 0)
-	player[pl].rotozoom_direction = rand () & 1;
+    if (state.player[pl].waves == 0 || doublefx != 0) {
+      state.player[pl].rotozoom += 1024;
+      if (state.player[pl].rotozoom == 0)
+	state.player[pl].rotozoom_direction = rand () & 1;
     }
     break;
   case 15:
-    if (player[pl].lifes < 100) {
-      player[pl].lifes++;
+    if (state.player[pl].lifes < 100) {
+      state.player[pl].lifes++;
       set_txt_bonus (pl, _("EXTRA-LIFE!"), 150);
     }
     break;
   case 16:
-    if (player[pl].rotozoom == 0 || doublefx != 0)
-      player[pl].waves += 1024;
+    if (state.player[pl].rotozoom == 0 || doublefx != 0)
+      state.player[pl].waves += 1024;
     break;
   case 17:
-    player[pl].cash += 10;
-    player[pl].score += 50;
+    state.player[pl].cash += 10;
+    state.player[pl].score += 50;
     break;
   default:
     assert (0 /* unknown bonus! */ );

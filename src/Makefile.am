@@ -32,7 +32,7 @@ AUTOMAKE_OPTIONS = subdir-objects
 
 bin_PROGRAMS = heroes heroeslvl
 
-INCLUDES = -I$(top_srcdir)/lib -I../lib -I../intl -I$(srcdir)/lvl -I$(srcdir)/media -I$(srcdir)/sys -I.. -I.
+INCLUDES = -I$(top_srcdir)/lib -I../lib -I../intl -I$(srcdir)/lvl -I$(srcdir)/media -I$(srcdir)/rules -I$(srcdir)/sys -I.. -I.
 
 EXTRA_DIST = rsc_files.gperf debughash.gperf
 
@@ -41,14 +41,16 @@ AM_CFLAGS = $(MORE_WARNINGS_CFLAGS)
 heroeslvl_LDADD = lvl/libhlvl.a ../lib/libheroes.a $(INTLLIBS)
 heroeslvl_SOURCES = heroeslvl.c
 
-heroes_LDADD = lvl/libhlvl.a media/libhmcommon.a ../lib/libheroes.a \
+heroes_LDADD = lvl/libhlvl.a rules/libhrules.a media/libhmcommon.a \
+	       ../lib/libheroes.a \
 	       $(INTLLIBS) $(LIBALT_LOCAL_XLDADD) $(LIBALT_XLDADD)
 heroes_LDFLAGS = $(LIBALT_XLDFLAGS)
 
 ## Depend upon Makefile because the value of LIBALT_LOCAL_LDADD might
 ## change from one instantiation to the other (in which case heroes
 ## needs to be re-linked).
-heroes_DEPENDENCIES = lvl/libhlvl.a media/libhmcommon.a ../lib/libheroes.a \
+heroes_DEPENDENCIES = lvl/libhlvl.a rules/libhrules.a media/libhmcommon.a \
+	       ../lib/libheroes.a \
 	       $(LIBALT_LOCAL_XLDADD) Makefile
 heroes_SOURCES = \
 argv.c \
@@ -234,6 +236,8 @@ EXTRA_DIST += etc/Makefile.inc
 include etc/Makefile.inc
 EXTRA_DIST += lvl/Makefile.inc
 include lvl/Makefile.inc
+EXTRA_DIST += rules/Makefile.inc
+include rules/Makefile.inc
 EXTRA_DIST += media/Makefile.inc
 include media/Makefile.inc
 EXTRA_DIST += sys/Makefile.inc

@@ -1,6 +1,6 @@
 /*------------------------------------------------------------------.
-| Copyright 1997, 1998, 2000, 2001  Alexandre Duret-Lutz            |
-|                                    <duret_g@epita.fr>             |
+| Copyright 1997, 1998, 2000, 2001, 2002  Alexandre Duret-Lutz      |
+|                                          <duret_g@epita.fr>       |
 |                                                                   |
 | This file is part of Heroes.                                      |
 |                                                                   |
@@ -19,48 +19,37 @@
 | 02111-1307 USA                                                    |
 `------------------------------------------------------------------*/
 
-#ifndef HEROES__CONST__H
-#define HEROES__CONST__H
+#include "system.h"
+#include "statepriv.h"
 
-/* this file carries too many unrelated stuffs */
+void
+add_color (a_level_state *state, const a_level *lvl, bool allow_clocks)
+{
+  a_square_index d;
+  unsigned char b;
+  do {
+    d = rand () % lvl->square_count;
+  }
+  while (state->square_object[d] != -1);
+  if (allow_clocks && (rand () % 40 == 0))
+    b = 16;
+  else
+    b = rand () % 5;
+  if ((rand () & 3) == 0)
+    b |= 8;
+  state->square_object[d] = b;
+}
 
-#include "pcx.h"
-#include "structs.h"
-#include "gameid.h"
-#include "lvl.h"
-#include "state.h"
-
-extern int rounds_nbr_values[16];
-
-extern a_pixel *(render_buffer[2]);	/* xbuf * ybuf */
-
-char key_or_joy_ready (void);
-a_keycode get_key_or_joy (void);
-
-extern char kbjoy[6];
-extern char kbjoyold[6];
-extern char in_jokebox;
-extern char in_menu;
-extern char in_demo;
-
-extern char demo_ready;
-
-extern a_pixel glenz[8][256];
-void draw_glenz_box (a_pixel *dest, int c, int xt, int yt);
-
-extern a_pcx_image main_font_img, vehicles_img;
-extern a_pcx_image bonus_font_img;
-extern a_pcx_image tile_set_img, font_deck_img;
-
-extern signed char minisinus[32];
-extern bool two_players;
-
-extern a_level lvl;
-extern a_level_state state;
-
-extern a_gameid game_id;
-
-extern int lemmings_anim_offset;
-extern int lemmings_move_offset;
-
-#endif /* HEROES__CONST__H */
+void
+add_cash (a_level_state *state, const a_level *lvl, bool allow_clocks)
+{
+  a_square_index d;
+  unsigned char b = 0;
+  do {
+    d = rand () % lvl->square_count;
+  }
+  while (state->square_object[d] != -1);
+  if (allow_clocks && (rand () % 40 == 0))
+    b = 15;
+  state->square_object[d] = b;
+}

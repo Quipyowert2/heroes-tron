@@ -99,9 +99,9 @@ draw_trail_real (int c, a_dir8_pair s, a_pixel* dest, unsigned char fixe)
 
   if (fixe) {
     if (s & 1)
-      d = player[c].d.h.l / 5462;
+      d = state.player[c].d.h.l / 5462;
     else
-      d = player[c].d.h.l / 6554;
+      d = state.player[c].d.h.l / 6554;
   }
   spr = trails[s][d];
   draw_sprglenz_custom (spr, dest, glenz[c + 2]);
@@ -112,25 +112,25 @@ draw_vehicle_tail (int c, a_pixel* dest)
 {
   int d;
   const a_pixel *posit = 0;
-  int s = DIR8_PAIR(REVERSE_DIR(player[c].old_way),
-		    REVERSE_DIR(player[c].way));
+  int s = DIR8_PAIR(REVERSE_DIR(state.player[c].old_way),
+		    REVERSE_DIR(state.player[c].way));
   const a_sprite *spr;
 
-  if (player[c].way & 1) {
-    d = player[c].d.h.l / 5462;
+  if (state.player[c].way & 1) {
+    d = state.player[c].d.h.l / 5462;
     spr = trails[s][12 - (d + 12) / 2];
   } else {
-    d = player[c].d.h.l / 6554;
+    d = state.player[c].d.h.l / 6554;
     spr = trails[s][10 - (d + 10) / 2];
   }
   draw_sprglenz_custom (spr, dest, glenz[c + 2]);
 
-  posit = vehicles_img.buffer + (c << 6) + (player[c].way << 4);
+  posit = vehicles_img.buffer + (c << 6) + (state.player[c].way << 4);
 
   if (invincible[c])
     posit += 10 * 320;
 
-  switch (player[c].way) {
+  switch (state.player[c].way) {
   case D_LEFT:
     copy_square_transp (posit + d, dest, (char) d, 0);
     break;
@@ -153,28 +153,28 @@ draw_vehicle_head (int c, a_pixel* dest)
   char b;
   const a_pixel* posit;
 
-  if (player[c].spec == t_tunnel)
-    b = player[c].tunnel_way;
+  if (state.player[c].spec == t_tunnel)
+    b = state.player[c].tunnel_way;
   else
-    b = player[c].way;
+    b = state.player[c].way;
   posit = vehicles_img.buffer + (c << 6) + (b << 4);
   if (invincible[c])
     posit += 10 * 320;
 
   if (b == w_left) {
-    d = 12 - player[c].d.e / 5461;
+    d = 12 - state.player[c].d.e / 5461;
     copy_square_transp (posit, dest + d, (char) d, 0);
   }
   if (b == w_right) {
-    d = 12 - player[c].d.e / 5461;
+    d = 12 - state.player[c].d.e / 5461;
     copy_square_transp (posit + d, dest, (char) d, 0);
   }
   if (b == w_up) {
-    d = 10 - player[c].d.e / 6554;
+    d = 10 - state.player[c].d.e / 6554;
     copy_square_transp (posit, dest + d * xbuf, 0, (char) d);
   }
   if (b == w_down) {
-    d = 10 - player[c].d.e / 6554;
+    d = 10 - state.player[c].d.e / 6554;
     copy_square_transp (posit + d * 320, dest, 0, (char) d);
   }
 }
@@ -191,10 +191,11 @@ draw_trail_tail (int c, a_pixel* dest)
   char k;
   int tmp1;
   c -= 2;
-  tmp1 = trail_offset[c] + trail_size[c] - 1;
-  k = trail_way[c][tmp1 & (maxq - 1)];
-  if (trail_pos[c][tmp1 & (maxq - 1)]
-      != trail_pos[c][(tmp1 - 1) & (maxq - 1)])
+  /* FIXME: I don't undrestand what the code is checking here.  */
+  tmp1 = state.private->trail_offset[c] + state.private->trail_size[c] - 1;
+  k = state.private->trail_way[c][tmp1 & (maxq - 1)];
+  if (state.private->trail_pos[c][tmp1 & (maxq - 1)]
+      != state.private->trail_pos[c][(tmp1 - 1) & (maxq - 1)])
     draw_trail_real ((char) c, k, dest, 1);
   else
     draw_trail_real ((char) c, k, dest, 0);
@@ -251,8 +252,8 @@ draw_lemming (a_pixel *dest, const a_lemming *lem, unsigned int pos)
 {
   const a_pixel *src;
 
-  assert (lem >= lemmings_support
-	  && lem < lemmings_support + lemmings_total);
+  assert (lem >= state.private->lemmings_support
+	  && lem < state.private->lemmings_support + lemmings_total);
 
   if (pos == lem->pos_tail) {
     int c = lem->couleur;
@@ -298,8 +299,8 @@ draw_dead_lemming (a_pixel *dest_, const a_lemming *lem)
   char d;
 
   do {
-    assert (lem >= lemmings_support
-	    && lem < lemmings_support + lemmings_total);
+    assert (lem >= state.private->lemmings_support
+	    && lem < state.private->lemmings_support + lemmings_total);
 
     dest = dest_;
     d = lem->dir;
@@ -338,7 +339,7 @@ draw_level (int p)
   lemmings_anim_offset = (lemmings_move_offset * 64 / 65536) & 7 << 3;
   if (read_htimer (blink_htimer) & 1)
     for (bb = 3; bb >= 0; bb--)
-      invincible[bb] = (player[bb].invincible != 0);
+      invincible[bb] = (state.player[bb].invincible != 0);
   else
     for (bb = 3; bb >= 0; bb--)
       invincible[bb] = 0;
@@ -398,7 +399,7 @@ draw_level (int p)
 
   /* draw bloody dead lemings */
 
-  if (game_mode == M_KILLEM) {
+  if (state.game_mode == M_KILLEM) {
     dest = render_buffer[p] + sbuf - 24 - 10 * xbuf;
     for (k = corner_dy[p] * 2 - 1, l = 2 + (11 - camera_stop_y[p]) * 2; l > 0;
 	 l--, k++) {
@@ -410,11 +411,11 @@ draw_level (int p)
 	     2 + (nbr_tiles_cols - camera_stop_x[p]); j > 0; j--, i += 2) {
 	  i &= lvl.square_width_wrap;
 	  if ((unsigned) i < lvl.square_width) {
-	    tmppti = square_dead_lemmings_list[i + m];
+	    tmppti = state.private->square_dead_lemmings_list[i + m];
 	    if (tmppti != NULL) {
 	      draw_dead_lemming (dest, tmppti);
 	    }
-	    tmppti = square_dead_lemmings_list[i + m + 1];
+	    tmppti = state.private->square_dead_lemmings_list[i + m + 1];
 	    if (tmppti != NULL) {
 	      draw_dead_lemming (dest + 12, tmppti);
 	    }
@@ -435,11 +436,11 @@ draw_level (int p)
       m = k * lvl.square_width;
       for (i = corner_dx[p] * 2, j = (nbr_tiles_cols - camera_stop_x[p]);
 	   j > 0; j--, i = ((i + 2) & lvl.square_width_wrap)) {
-	tmppti = square_lemmings_list[i + m];
+	tmppti = state.private->square_lemmings_list[i + m];
 	if (tmppti != NULL) {
 	  draw_lemming (dest, tmppti, i + m);
 	}
-	tmppti = square_lemmings_list[i + m + 1];
+	tmppti = state.private->square_lemmings_list[i + m + 1];
 	if (tmppti != NULL) {
 	  draw_lemming (dest + 12, tmppti, i + m + 1);
 	}
@@ -451,7 +452,7 @@ draw_level (int p)
 
   /* draw color pyramids */
 
-  if (game_mode == M_COLOR) {
+  if (state.game_mode == M_COLOR) {
     dest = render_buffer[p] + sbuf + 2 + xbuf * 2;
     for (k = corner_dy[p] * 2, l = (11 - camera_stop_y[p]) * 2; l > 0;
 	 l--, k = ((k + 1) & lvl.square_height_wrap)) {
@@ -459,10 +460,10 @@ draw_level (int p)
       m = k * lvl.square_width;
       for (i = corner_dx[p] * 2, j = (nbr_tiles_cols - camera_stop_x[p]);
 	   j > 0; j--, i = ((i + 2) & lvl.square_width_wrap)) {
-	bb = square_object[i + m];
+	bb = state.square_object[i + m];
 	if (bb >= 0)
 	  draw_color (dest, bb);
-	bb = square_object[i + m + 1];
+	bb = state.square_object[i + m + 1];
 	if (bb >= 0)
 	  draw_color (dest + 12, bb);
 	dest += 24;
@@ -473,7 +474,7 @@ draw_level (int p)
 
   /* draw small dollars */
 
-  if (game_mode == M_TCASH) {
+  if (state.game_mode == M_TCASH) {
     dest = render_buffer[p] + sbuf + 2;
     for (k = corner_dy[p] * 2, l = (11 - camera_stop_y[p]) * 2; l > 0;
 	 l--, k = ((k + 1) & lvl.square_height_wrap)) {
@@ -481,12 +482,12 @@ draw_level (int p)
       m = k * lvl.square_width;
       for (i = corner_dx[p] * 2, j = (nbr_tiles_cols - camera_stop_x[p]);
 	   j > 0; j--, i = ((i + 2) & lvl.square_width_wrap)) {
-	bb = square_object[i + m];
+	bb = state.square_object[i + m];
 	if (bb == 15)
 	  DRAW_SPRITE (clock_anim, dest);
 	else if (bb >= 0)
 	  DRAW_SPRITE (small_dollar, dest);
-	bb = square_object[i + m + 1];
+	bb = state.square_object[i + m + 1];
 	if (bb == 15)
 	  DRAW_SPRITE (clock_anim, dest + 12);
 	else if (bb >= 0)
@@ -506,18 +507,18 @@ draw_level (int p)
     m = k * lvl.square_width;
     for (i = corner_dx[p] * 2, j = (nbr_tiles_cols - camera_stop_x[p]); j > 0;
 	 j--, i = ((i + 2) & lvl.square_width_wrap)) {
-      bb = square_occupied[i + m];
+      bb = state.square_occupied[i + m];
       if (bb != -1) {
 	if (bb >= 0 && bb < 4)
 	  draw_vehicle_tail (bb, dest);
 	else if (bb >= 4 && bb < 8)
 	  draw_vehicle_head ((char) (bb - 4), dest);
 	else if (bb >= 8 && bb < 12)
-	  draw_trail ((char) (bb - 6), dest, square_way[i + m]);
+	  draw_trail ((char) (bb - 6), dest, state.square_way[i + m]);
 	else if (bb >= 12 && bb < 16)
 	  draw_trail_tail ((char) (bb - 10), dest);
       }
-      bb = square_occupied[i + m + 1];
+      bb = state.square_occupied[i + m + 1];
       if (bb != -1) {
 	dest2 = dest + 12;
 	if (bb >= 0 && bb < 4)
@@ -525,7 +526,7 @@ draw_level (int p)
 	else if (bb >= 4 && bb < 8)
 	  draw_vehicle_head ((char) (bb - 4), dest2);
 	else if (bb >= 8 && bb < 12)
-	  draw_trail ((char) (bb - 6), dest2, square_way[i + m + 1]);
+	  draw_trail ((char) (bb - 6), dest2, state.square_way[i + m + 1]);
 	else if (bb >= 12 && bb < 16)
 	  draw_trail_tail ((char) (bb - 10), dest2);
       }
@@ -583,7 +584,7 @@ draw_level (int p)
   /* Draw tutorial arrows */
 
   if (tutor) {
-    int bonus_to_show = trail_size[col2plr[p]] < 55 ? 1 : 12;
+    int bonus_to_show = state.private->trail_size[state.col2plr[p]] < 55 ? 1 : 12;
     long wavepos = read_htimer (waving_htimer);
     /* Angle is the angle of the tail of the arrow, i.e.
        `<-' is 0 and `->' is M_PI.
@@ -680,7 +681,7 @@ draw_radar_map (a_square_coord dx, a_square_coord dy, int radar_shift)
       for (x = 73; x; --x) {
 	tdx &= lvl.square_width_wrap;
 	if (tdx < lvl.square_width) {
-	  tmp = tile_bonus[square_tile[tdx + tdym]];
+	  tmp = tile_bonus[state.square_tile[tdx + tdym]];
 	  /* If there is a bonus on this square ... */
 	  if (tmp != 0 && tmp != -1) {
 	    /* ... draw it, possibly blinking.  */
@@ -690,7 +691,7 @@ draw_radar_map (a_square_coord dx, a_square_coord dy, int radar_shift)
 	      *src = 27;
 	  } else {
 	    /* Otherwise, maybe there is someone?  */
-	    if ((tmp = square_occupied[tdx + tdym]) != -1)
+	    if ((tmp = state.square_occupied[tdx + tdym]) != -1)
 	      *src = radar_trail_color[tmp];
 	    /* or just a wall?  */
 	    else if ((tmp = lvl.square_walls_out[tdx + tdym]) != 0)
@@ -734,12 +735,12 @@ draw_score (int c, int p,
       || (col + score_shift + 33 < 0))
     return;
 
-  for (y = ((game_mode < M_TCASH) ? 63 : 75); y != 0; y--) {
+  for (y = ((state.game_mode < M_TCASH) ? 63 : 75); y != 0; y--) {
     for (x = 33; x != 0; --x, ++src)
       *src = glenz[0][*src];
     src += xbuf - 33;
   }
-  sprintf (score, "%.6d", player[c].score_delta >> 2);
+  sprintf (score, "%.6d", state.player[c].score_delta >> 2);
   for (i = 0; i < 6; i++) {
     src = IMGPOS (main_font_img, 72, (score[i] - '0') * 18);
     for (y = 9; y != 0; y--) {
@@ -752,7 +753,7 @@ draw_score (int c, int p,
     dest += xbuf;
   }
   src = IMGPOS (main_font_img, 50,
-		((player[c].lifes < 11) ? player[c].lifes - 1 : 10) * 10);
+		((state.player[c].lifes < 11) ? state.player[c].lifes - 1 : 10) * 10);
   for (y = 11; y != 0; y--) {
     for (x = 9; x != 0; x--, src++, tmp++)
       if (*src != 0)
@@ -771,7 +772,7 @@ draw_score (int c, int p,
     tmp += xbuf - 9;
     src += 311;
   }
-  x = player[c].turbo_level_delta * 41 / 1024;
+  x = state.player[c].turbo_level_delta * 41 / 1024;
   tmp2 -= xbuf;
   src = IMGPOS (main_font_img, 71 + x, 193);
   for (y = x; y != 0; y--) {
@@ -781,8 +782,8 @@ draw_score (int c, int p,
     tmp2 -= 3 + xbuf;
     src -= 3 + 320;
   }
-  if (game_mode >= M_TCASH) {
-    sprintf (score, "%.3d", player[c].time / 70);
+  if (state.game_mode >= M_TCASH) {
+    sprintf (score, "%.3d", state.player[c].time / 70);
     for (i = 0; i < 3; i++) {
       src = IMGPOS (main_font_img, 50, (score[i] - '0') * 10);
       for (y = 11; y != 0; y--) {
@@ -806,7 +807,7 @@ draw_logo_info (int c, int nbr, a_pixel* dest)
   a_pixel* tmp3;
   int x, y;
 
-  if (game_mode < M_TCASH) {
+  if (state.game_mode < M_TCASH) {
     for (x = 50; x != 0; --x, ++src)
       *src = glenz[0][*src];
     src += xbuf - 50;
@@ -883,7 +884,7 @@ draw_logo_info (int c, int nbr, a_pixel* dest)
       tmp3 += xbuf - 9;
       src += 311;
     }
-    if (player[c].spec == 0xde)
+    if (state.player[c].spec == 0xde)
       DRAW_SPRITE (red_cross[c], dest - 5 * xbuf + 20);
   }
 }

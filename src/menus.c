@@ -2285,7 +2285,7 @@ draw_end_level_info (int decal, char l)
   if (!winner_txt) {
     if (level_is_finished != 15) {
       sprintf (winner, _("PLAYER %d WON!"),
-	       plr2col[level_is_finished - 1] + 1);
+	       state.plr2col[level_is_finished - 1] + 1);
       draw_glenz_box (corner[0] + decal + 22 * xbuf,
 		      level_is_finished + 1, 320, 6);
     } else {
@@ -2299,18 +2299,18 @@ draw_end_level_info (int decal, char l)
   }
   DRAW_SPRITE (winner_txt, corner[0] + decal);
 
-  if (game_mode == M_QUEST)
+  if (state.game_mode == M_QUEST)
     DRAW_SPRITE (info_mode_quest_txt, corner[0] + decal);
-  else if (game_mode == M_DEATHM)
+  else if (state.game_mode == M_DEATHM)
     DRAW_SPRITE (info_mode_deathm_txt, corner[0] + decal);
-  else if (game_mode == M_KILLEM)
+  else if (state.game_mode == M_KILLEM)
     DRAW_SPRITE (info_mode_killem_txt, corner[0] + decal);
-  else if (game_mode == M_TCASH)
+  else if (state.game_mode == M_TCASH)
     DRAW_SPRITE (info_mode_tcash_txt, corner[0] + decal);
-  else if (game_mode == M_COLOR)
+  else if (state.game_mode == M_COLOR)
     DRAW_SPRITE (info_mode_color_txt, corner[0] + decal);
 
-  if ((level_is_finished != 15) && (game_mode == M_QUEST)) {
+  if ((level_is_finished != 15) && (state.game_mode == M_QUEST)) {
     draw_sprprogwav_if (l == 0, info_mode_next_txt, corner[0] + decal);
     draw_sprprogwav_if (l == 1, info_mode_save_txt, corner[0] + decal);
     waving_arrows (145 + l * 20, info_mode_next_save_arrow_pos);
@@ -2319,33 +2319,33 @@ draw_end_level_info (int decal, char l)
   }
   for (i = 0; i < 4; i++) {
     draw_glenz_box (corner[0] + decal + (75 + i * 12) * xbuf +
-		    2 * xbuf, col2plr[i] + 2, 284 + i * 6, 6);
-    DRAW_SPRITE (vehicles_spr[col2plr[i]],
+		    2 * xbuf, state.col2plr[i] + 2, 284 + i * 6, 6);
+    DRAW_SPRITE (vehicles_spr[state.col2plr[i]],
 		 corner[0] + decal + (75 + i * 12) * xbuf + 284 + i * 6);
-    DRAW_SPRITE (player_logo[col2plr[i]],
+    DRAW_SPRITE (player_logo[state.col2plr[i]],
 		 corner[0] + decal + (75 + i * 12) * xbuf + 5);
-    if (player[col2plr[i]].martians_nbr)
+    if (state.player[state.col2plr[i]].martians_nbr)
       DRAW_SPRITE (info_martian[i],
 		   corner[0] + decal + (69 + i * 12) * xbuf + 35);
     if (!lines[i][0]) {
-      if (game_mode == M_QUEST)
-	sprintf (nbr, "%d", (trail_size[col2plr[i]] + 1) / 5 - 1);
-      else if (game_mode == M_DEATHM)
+      if (state.game_mode == M_QUEST)
+	sprintf (nbr, "%d", state_trail_size (&state, state.col2plr[i]));
+      else if (state.game_mode == M_DEATHM)
 	sprintf (nbr, "   ");
-      else if (game_mode == M_KILLEM)
-	sprintf (nbr, "%d", player[col2plr[i]].lemmings_nbr);
-      else if (game_mode >= M_TCASH)
-	sprintf (nbr, "%d", player[col2plr[i]].cash);
+      else if (state.game_mode == M_KILLEM)
+	sprintf (nbr, "%d", state.player[state.col2plr[i]].lemmings_nbr);
+      else if (state.game_mode >= M_TCASH)
+	sprintf (nbr, "%d", state.player[state.col2plr[i]].cash);
       lines[i][0] = compile_menu_text (nbr, T_CENTERED, 75 + i * 12, 108 - 10);
     }
     DRAW_SPRITE (lines[i][0], corner[0] + decal);
     if (!lines[i][1]) {
-      sprintf (nbr, "%d", player[col2plr[i]].score);
+      sprintf (nbr, "%d", state.player[state.col2plr[i]].score);
       lines[i][1] = compile_menu_text (nbr, T_CENTERED, 75 + i * 12, 182 - 10);
     }
     DRAW_SPRITE (lines[i][1], corner[0] + decal);
     if (!lines[i][2]) {
-      sprintf (nbr, "%d", player[col2plr[i]].lifes);
+      sprintf (nbr, "%d", state.player[state.col2plr[i]].lifes);
       lines[i][2] = compile_menu_text (nbr, T_CENTERED, 75 + i * 12, 265 - 10);
     }
     DRAW_SPRITE (lines[i][2], corner[0] + decal);
@@ -2382,25 +2382,25 @@ draw_round_info (int decal)
 
   for (i = 0; i < 4; i++) {
     draw_glenz_box (corner[0] + decal + (75 + i * 12) * xbuf +
-		    2 * xbuf, col2plr[i] + 2, 284 + i * 6, 6);
-    DRAW_SPRITE (vehicles_spr[col2plr[i]],
+		    2 * xbuf, state.col2plr[i] + 2, 284 + i * 6, 6);
+    DRAW_SPRITE (vehicles_spr[state.col2plr[i]],
 		 corner[0] + decal + (75 + i * 12) * xbuf + 284 + i * 6);
-    DRAW_SPRITE (player_logo[col2plr[i]],
+    DRAW_SPRITE (player_logo[state.col2plr[i]],
 		 corner[0] + decal + (75 + i * 12) * xbuf + 5);
     if (!lines[i][0]) {
-      sprintf (info, "%d", player[col2plr[i]].wins);
+      sprintf (info, "%d", state.player[state.col2plr[i]].wins);
       lines[i][0] = compile_menu_text (info,
 				       T_CENTERED, 75 + i * 12, 108 - 10);
     }
     DRAW_SPRITE (lines[i][0], corner[0] + decal);
     if (!lines[i][1]) {
-      sprintf (info, "%d", player[col2plr[i]].score);
+      sprintf (info, "%d", state.player[state.col2plr[i]].score);
       lines[i][1] = compile_menu_text (info,
 				       T_CENTERED, 75 + i * 12, 182 - 10);
     }
     DRAW_SPRITE (lines[i][1], corner[0] + decal);
     if (!lines[i][2]) {
-      sprintf (info, "%d", player[col2plr[i]].lifes);
+      sprintf (info, "%d", state.player[state.col2plr[i]].lifes);
       lines[i][2] = compile_menu_text (info,
 				       T_CENTERED, 75 + i * 12, 265 - 10);
     }

@@ -59,29 +59,9 @@ a_pcx_image tile_set_img, font_deck_img;
 signed char minisinus[32];
 bool two_players = false;
 
-a_player player[4];
-int trail_pos[4][maxq];
-a_dir8_pair trail_way[4][maxq];
-int trail_offset[4];
-char trail_size[4];		/* trail size, minus one */
-
-/* mapping color <-> player */
-int col2plr[4];
-int plr2col[4];
-
 a_level lvl;
+a_level_state state;
 
-unsigned char *square_occupied;
-a_dir8_pair *square_way;
-a_tile_index *square_tile;
-a_square_coord_pair *square_coord;
-signed char *square_object;
-a_lemming **square_lemmings_list;
-a_lemming **square_dead_lemmings_list;
-a_lemming lemmings_support[lemmings_total];
-int objects_nbr;
-
-int game_mode = 0;
 a_gameid game_id;
 int lemmings_anim_offset;
 int lemmings_move_offset;

@@ -171,18 +171,18 @@ propagate_to_neighbors_maybe (a_square_index idx, long orig_time)
 static void
 trigger_explosion_at_time (a_square_index idx, long orig_time)
 {
-  int state;
+  int explo_state;
   bool propagated;
 
   /* We don't trigger explosions in the future.  */
   assert (explo_time >= orig_time);
 
-  state = compute_explosion_state (orig_time);
+  explo_state = compute_explosion_state (orig_time);
 
-  /* Maybe we need to propagate this explosion.  Note that STATE may
+  /* Maybe we need to propagate this explosion.  Note that EXPLO_STATE may
      happen to be negative, meaning the explosion vanished; we still
      try propagate.  */
-  if (state <= EXPLOSION_TRIGGER_NEIGHBORS) {
+  if (explo_state <= EXPLOSION_TRIGGER_NEIGHBORS) {
     propagate_to_neighbors_maybe (idx, orig_time);
     propagated = true;
   } else {
@@ -191,7 +191,7 @@ trigger_explosion_at_time (a_square_index idx, long orig_time)
 
   /* Insert the explosion into the list of active explosions
      only if it's active...  */
-  if (state >= 0) {
+  if (explo_state >= 0) {
     if (explo_list_max <= explo_list_first_unused) {
       explo_list_max += 64;
       XREALLOC_ARRAY (explo_list, explo_list_max);
@@ -203,7 +203,7 @@ trigger_explosion_at_time (a_square_index idx, long orig_time)
     ++explo_list_first_unused;
 
     /* Update level rendering information.  */
-    square_explo_state[idx] = state;
+    square_explo_state[idx] = explo_state;
     square_explo_type[idx] = rand () % NBR_EXPLOSION_KINDS;
   }
 }
@@ -283,18 +283,18 @@ update_explosions (void)
   shift_dest = 0;
   for (i = 0; i < explo_list_first_unused; ++i) {
     a_square_index idx = explo_list[i].idx;
-    int state = compute_explosion_state (explo_list[i].orig_time);
+    int explo_state = compute_explosion_state (explo_list[i].orig_time);
 
     /* Propagate to neighbors.  */
     if (! explo_list[i].neighb_done
-	&& state <= EXPLOSION_TRIGGER_NEIGHBORS) {
+	&& explo_state <= EXPLOSION_TRIGGER_NEIGHBORS) {
       propagate_to_neighbors_maybe (idx, explo_list[i].orig_time);
       explo_list[i].neighb_done = true;
     }
 
-    if (state >= 0) {
+    if (explo_state >= 0) {
       /* Update rendering info.  */
-      square_explo_state[idx] = state;
+      square_explo_state[idx] = explo_state;
 
       /* Mark position of for explosition in a sequence of
 	 activated explosions.  */

@@ -44,7 +44,4 @@ extern int level_is_finished;
 extern char enable_blit;
 extern int rounds;
 
-extern void grow_trail (int pl, int size);
-extern void shrink_trail (int pl, int size);
-
 #endif /* HEROES__HEROES__H */
