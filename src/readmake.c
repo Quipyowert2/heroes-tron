@@ -132,6 +132,12 @@ shift_margins (int *lm, int *rm)
   rm[line] = DEF_RM;
 }
 
+static void
+flag_error (int flag, const char *cmd)
+{
+  emsg (_("Unknown option '%c' for command '%s'."), flag, cmd);
+}
+
 read_data_t *
 compile_reader_data (read_data_t *head, const char *str)
 {
@@ -218,11 +224,7 @@ compile_reader_data (read_data_t *head, const char *str)
 	    offset -= (h - 10) / 2 * xbuf;
 	    break;
 	  default:
-	    /* TRANS: image is the name of an internal command (hence
-	       maybe not worth to translate) used to display pictures
-	       in the help reader; `flag' is just a synonym for `option'
-	       here. */
-	    emsg (_("Unknown image flag '%c'."), *flags);
+	    flag_error (*flags, "image");
 	  }
 	}
 
@@ -269,6 +271,38 @@ compile_reader_data (read_data_t *head, const char *str)
 				   10, 310 - 12, help_pics_img.width, xbuf),
 	   voffset + 5 + 12, true);
 	voffset += xbuf * (help_font->line_skip + help_font->height);
+	goto next_line;
+      } else if (!strcmp (cmd, "textat")) {
+	char *flags = readtok (&curstr);
+	int y = atoi (readtok (&curstr));
+	int x = atoi (readtok (&curstr));
+	int pos = voffset + y * xbuf;
+	int align = 0;
+	for (; *flags; ++flags) {
+	  switch (*flags) {
+	  case 'L':		/* y,x is the bottom left of text */
+	    align |= T_FLUSHED_LEFT;
+	    break;
+	  case 'R':		/* y,x is the bottom right of text */
+	    align |= T_FLUSHED_RIGHT;
+	    break;
+	  case 'C':		/* y,x is the center of the text */
+	    align |= T_CENTERED;
+	    break;
+	  case 'W':		/* waving text */
+	    align |= T_WAVING;
+	    break;
+	  case 'c':		/* x is relative to the middle of the screen */
+	    pos += 320 / 2;
+	    break;
+	  default:
+	    flag_error (*flags, "textat");
+	  }
+	}
+	head = insert_read_data (head,
+				 compile_sprtext_color (help_font, curstr,
+							align, 0, x),
+				 pos, false);
 	goto next_line;
       } else {
 	if (cmd[0] == '>') {

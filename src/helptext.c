@@ -33,7 +33,12 @@ const char *const help_text1 = N_("\
 \n\
 %{head 1}CONTROL & BOARD\n\
 \n\
-%{img C 357 55 80 205}\n\
+%{img BC 357 55 80 205}\n\
+%{textat cL -9 -81}%yPAUSE\n\
+%{textat cR -9 97}%yQUIT GAME\n\
+%{textat cR 26 -62}%yCONTROL\n\
+%{textat cL 30 74}%ySTOP\n\
+%{textat cL 52 68}%yTURBO\n\
 \n\
 \n\
 \n\
@@ -41,7 +46,16 @@ const char *const help_text1 = N_("\
 \n\
 \n\
 \n\
-%{img CG 486 0 140 320}\n\
+%{img BCG 486 0 140 320}\n\
+%{textat cR -7 -82}%ySCORE\n\
+%{textat cR 1 8}%yCOMMENTARY\n\
+%{textat cL 16 29}%yHEROES\n\
+%{textat cL 33 29}%yWALLS\n\
+%{textat cL 55 29}%yBONUS\n\
+%{textat cL 29 -102}%yLIFES\n\
+%{textat cL 51 -109}%yTURBO ENERGY\n\
+%{textat cL 72 -104}%yTIME\n\
+%{textat cR 96 40}%yPLAYER COLOR\n\
 \n\
 \n\
 \n\

@@ -1,5 +1,12 @@
 2001-05-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/helptext.c (help_text1): Draw the two pictures in the
+	background and label them using textat commands.
+	* src/readmake.c (flag_error): New function.
+	(compile_reader_data): Handle textat commands and use flag_error.
+
+2001-05-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Bump version number to 0.10.
 	* NEWS: Update for 0.10.
 	* GNUmakefile (src/debughash.gperf): New target.
