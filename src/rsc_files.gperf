@@ -33,7 +33,7 @@ editor-preview-prefix,  "$(data-dir)/pics/editp",		0,0
 end-scroller-bg-img,	"$(data-dir)/pics/background.pcx",	0,0
 end-scroller-txt,	"$(data-dir)/txt_cfg/heroes.sdf",	0,0
 extra-levels-dir,	"$(data-dir)/extralvl/",		0,0
-games-file,		"$(user-dir)/savegame.dat",		0,0
+saved-games-file,	"$(user-dir)/savedgames",		0,0
 hedlite-output-dir,	"$(user-dir)/levels/",			0,0
 help-font,		"$(data-dir)/pics/fontread.pcx",	0,0
 help-pictures-img,	"$(data-dir)/pics/helpics.pcx",		0,0

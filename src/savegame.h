@@ -28,7 +28,7 @@ typedef struct
   u32_t points[4];
   u32_t lifes[4];
   u8_t magic;
-  char used;
+  bool used;
 }
 ATTRIBUTE_PACKED saved_game;
 

@@ -25,10 +25,11 @@
 #include "argv.h"
 #include "misc.h"
 #include "userdir.h"
-#include "bytesex.h"
 #include "debugmsg.h"
 #include "rsc_files.h"
 #include "fopenlock.h"
+#include "getshline.h"
+#include "errors.h"
 
 #define N_MAGICS 40
 saved_game saverec[10];
@@ -38,10 +39,10 @@ static char *name = 0;
 static FILE *fsave = 0;
 
 static char*
-saves_file (void)
+saved_games_file (void)
 {
   if (!name)
-    name = get_non_null_rsc_file ("games-file");
+    name = get_non_null_rsc_file ("saved-games-file");
   return name;
 }
 
@@ -81,18 +82,6 @@ find_magic (unsigned char m)
   return (-1);
 }
 
-
-static unsigned long int
-check_save_records (void)
-{
-  unsigned long int crc = 0xa8c4d602;
-  unsigned int i;
-  unsigned char *src = (unsigned char *) saverec;
-  for (i = 0; i < (10 * sizeof (saved_game) - 4); i += 3, src += 3)
-    crc ^= GETWORD(src);
-  return (crc);
-}
-
 void
 clear_save_records (void)
 {
@@ -113,47 +102,27 @@ clear_save_records (void)
   }
 }
 
-/* convert to and from local endianess */
-static void
-bswap_save_records (saved_game* from, saved_game* to)
-{
-  int i;
-
-  for (i = 0; i < 10; ++i) {
-    strcpy (to[i].name, from[i].name);
-    to[i].used = from[i].used;
-    to[i].magic = from[i].magic;
-    to[i].level = BSWAP32 (from[i].level);
-    to[i].points[0] = BSWAP32 (from[i].points[0]);
-    to[i].points[1] = BSWAP32 (from[i].points[1]);
-    to[i].points[2] = BSWAP32 (from[i].points[2]);
-    to[i].points[3] = BSWAP32 (from[i].points[3]);
-    to[i].lifes[0] = BSWAP32 (from[i].lifes[0]);
-    to[i].lifes[1] = BSWAP32 (from[i].lifes[1]);
-    to[i].lifes[2] = BSWAP32 (from[i].lifes[2]);
-    to[i].lifes[3] = BSWAP32 (from[i].lifes[3]);
-  }
-}
-
 void
 write_save_records (void)
 {
-  unsigned int i;
-  saved_game savetmp[10];
+  int i;
 
   if (fsave == 0)
-    fsave = fopenlock (saves_file (), "wb");
+    fsave = fopenlock (saved_games_file (), "wb");
 
-  dmsg (D_FILE, "saving games to %s", saves_file ());
+  dmsg (D_FILE, "saving games to %s", saved_games_file ());
 
-  i = check_save_records ();
-
-  /* convert endianess */
-  bswap_save_records (saverec, savetmp);
-  i = BSWAP32 (i);
-
-  fwrite (savetmp, sizeof (saved_game), 10, fsave);
-  fwrite ((int *) &i, 4, 1, fsave);
+  for (i = 0; i < 10; ++i) {
+    saved_game *sg = saverec + i;
+    fprintf (fsave, "%u %u %u %u %u %u %u %u %u %u %u\n %s\n",
+	     sg->level,
+	     sg->points[0], sg->lifes[0],
+	     sg->points[1], sg->lifes[1],
+	     sg->points[2], sg->lifes[2],
+	     sg->points[3], sg->lifes[3],
+	     sg->magic, sg->used,
+	     sg->name);
+  }
 
   fclose (fsave);
   fsave = 0;
@@ -162,34 +131,64 @@ write_save_records (void)
 static void
 load_save_records_read (void)
 {
-  unsigned long int i;
-  saved_game savetmp[10];
+  int i;
+  int endline = 0;
+  char* buf = 0;
+  size_t bufsize = 0;
+  int firstline = 0;
 
-  if (fsave == 0) {
-    clear_save_records ();
+  clear_save_records ();
+  if (fsave == 0)
     return;
+
+  /* Read the scores from disk.  */
+  i = 0;
+  while (getshline_numbered
+         (&firstline, &endline, &buf, &bufsize, fsave) != -1) {
+    saved_game *sg = saverec + i;
+    if (*buf != ' ') {
+      unsigned int u[11];
+      if (sscanf (buf, "%u %u %u %u %u %u %u %u %u %u %u",
+		  u, u + 1, u + 2, u + 3, u + 4, u + 5, u + 6,
+		  u + 7, u + 8, u + 9, u + 10) != 11
+	  || u[10] > 1) {
+	wmsg (_("%s:%d: parse error.  Clearing saved-game file."),
+	      saved_games_file (), firstline);
+	clear_scores ();
+	return;
+      }
+      sg->level = u[0];
+      sg->points[0] = u[1];
+      sg->lifes[0] = u[2];
+      sg->points[1] = u[3];
+      sg->lifes[1] = u[4];
+      sg->points[2] = u[5];
+      sg->lifes[2] = u[6];
+      sg->points[3] = u[7];
+      sg->lifes[3] = u[8];
+      sg->magic = u[9];
+      sg->used = u[10];
+    } else {
+      strncpy (sg->name, buf, 16);
+      chomp (sg->name);
+      ++i;
+    }
+    /* Exit if the savedgame array is full.  */
+    if (i >= 10)
+      break;
   }
-
-  fread (savetmp, sizeof (saved_game), 10, fsave);
-  fread ((int *) &i, 4, 1, fsave);
-
-  /* convert endianess */
-  bswap_save_records (savetmp, saverec);
-  i = BSWAP32 (i);
-
-  if (check_save_records () != i)
-    clear_save_records ();
+  free (buf);
 }
 
 static void
 load_save_records_open (const char *mode)
 {
-  fsave = fopenlock (saves_file (), mode);
+  fsave = fopenlock (saved_games_file (), mode);
 
-  dmsg (D_FILE, "reading saved games from %s", saves_file ());
+  dmsg (D_FILE, "reading saved games from %s", saved_games_file ());
 
   if (fsave == 0) {
-    dmsg (D_FILE, "cannot open %s", saves_file ());
+    dmsg (D_FILE, "cannot open %s", saved_games_file ());
     dperror ("fopen");
     clear_save_records ();
     return;
@@ -199,17 +198,21 @@ load_save_records_open (const char *mode)
 void
 load_save_records (void)
 {
-  load_save_records_open ("rb");
+  load_save_records_open ("rt");
   load_save_records_read ();
-  fclose (fsave);
-  fsave = 0;
+  if (fsave) {
+    fclose (fsave);
+    fsave = 0;
+  }
 }
 
 void
 load_save_records_and_keep_locked (void)
 {
-  load_save_records_open ("r+b");
+  load_save_records_open ("r+t");
   load_save_records_read ();
+  if (fsave == 0)
+    load_save_records_open ("w+t");
   fseek (fsave, 0L, SEEK_SET);
 }
 

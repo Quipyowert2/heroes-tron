@@ -1,5 +1,20 @@
 2001-03-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Save the games as text.
+
+	* src/rsc_files.gperf (games-file): Remove.
+	(saved-games-file): New.
+	* src/savegame.c (saves_file): Rename as ...
+	(saved_games_file): ... this.  Adjust all calls.
+	(check_save_records, bswap_save_records): Remove.
+	(write_save_records, load_save_records_read): Write and read the
+	saved games as text.
+	(load_save_records, load_save_records_and_keep_locked): Adjust to
+	open the saved games file as text file.  Create the file if needed.
+	* src/savegame.h (saved_game): Declare used as bool.
+
+2001-03-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Save the scores as text.
 
 	* src/misc.c (chomp): New function.
