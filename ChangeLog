@@ -1,5 +1,9 @@
 2000-10-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* ChangeLog: Cleanups.
+
+2000-10-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Use a separate struct to hold the information needed to
 	render the foreground sprites and bonuses.
 
@@ -37,7 +41,7 @@
 
 	Old GCCs do not recognize -fstrict-aliasing, test this
 	at configure-time.
-	
+
 	* m4/ac_adl_gcc_optim.m4: New file.
 	* m4/Makefile.am (EXTRA_DIST): Add it.
 	* configure.in: Used it.
@@ -53,12 +57,12 @@
 2000-10-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Fix problems observed on Solaris.
-	
+
 	* src/visuals.c (corner_buffer_end): Use memset instead of
 	a loop over a cast int* (caused BUS error).
 	* m4/ac_adl_find_header.m4: Remove buggy redirection (caused
 	configure to abort).
-	
+
 2000-10-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/errors.c (emsg): Thinko.
@@ -78,7 +82,7 @@
 2000-10-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Copyright pedantry, follow the FSF guidelines.
-	
+
 	* Makefile.am: Remove the `(C)' glyph which has no legal meaning.
 	* configure.in: Likewise.
 	* arch/Makefile.am: Likewise.
@@ -215,12 +219,12 @@
 	(system-conf): ... this.
 	(user-conf): New.
 	* src/heroes.c (main): Adapt to use new resources.
-	* src/userconf.c (read_userconf): Don't try to build the 
+	* src/userconf.c (read_userconf): Don't try to build the
 	user config filename, always use the supplied file.
 
 2000-10-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
-	* src/const.c (radar_trail_color, 
+	* src/const.c (radar_trail_color,
 	radar_wall_color, draw_glenz_box): Fix signedness.
 	(glenz): Use pixel_t.
 	* src/const.h: Likewise.
@@ -255,7 +259,7 @@
 	(draw_quit_menu): Reverse the proposition order.
 	(background_menu, sound_menu, screen_menu, game_menu, extra_menu,
 	option_menu, draw_quit_menu, quit_menu, draw_play_menu, draw_main_menu,
-	editor_first_menu, draw_saved_games_info): Change type of l from 
+	editor_first_menu, draw_saved_games_info): Change type of l from
 	char to int.
 	(init_menus_sprites): Typo.
 	* src/menus.h (draw_play_menu,draw_quit_menu,
@@ -267,7 +271,7 @@
 	Regroup waving arrows logic into one function.
 
 	* src/menus.c (waving_arrows): New.
-	(option_menu, quit_menu, draw_play_menu, draw_main_menu, 
+	(option_menu, quit_menu, draw_play_menu, draw_main_menu,
 	editor_selector, editor_first_menu): Use waving_arrows.
 
 2000-10-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
@@ -280,11 +284,11 @@
 	(hrule): New.
 	(background_menu,extra_menu,option_menu,draw_play_menu,
 	draw_main_menu,editor_selector): Use hrule.
-	
+
 2000-10-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	rletextize the extra menu.
-	
+
 	* src/menus.c (extra_menu_txt,extra_modes_txt,extra_combine_txt): New.
 	(init_menus_sprites): Initialize the above variables.
 	(uninit_menus_sprites): Free them.
@@ -393,7 +397,7 @@
 	* src/rleprog.c (compile_rleprog): Zero latest_known.
 	(free_rleprog): Cosmetic.
 	(concat_rleprog): New.
-	
+
 2000-10-11  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Remove most warning from src/intro.c.
@@ -422,19 +426,19 @@
 
 	Remove more warnings.
 
-	* src/draw.h (draw_text, draw_text_clipped_left, 
+	* src/draw.h (draw_text, draw_text_clipped_left,
 	draw_text_clipped_right, draw_text_waving, draw_text_320,
 	draw_text_waving_320, draw_text_array, draw_text_array_320,
 	draw_text_bonus, draw_deck_text): Fix signedness and use `text'
 	instead of `texte'.
-	* src/draw.c (draw_text, draw_text_clipped_left, 
+	* src/draw.c (draw_text, draw_text_clipped_left,
 	draw_text_clipped_right, draw_text_waving, draw_text_320,
 	draw_text_waving_320, draw_text_array, draw_text_array_320,
 	draw_text_bonus, draw_deck_text): Likewise.
 	* src/heroes.c (add_random_bonus,add_bonus,
 	compute_level_full_list,output_screen): Fix signedness.
 	(load_level): Fix dmsg format.
-	(draw_round_info,play_game): Use temporary variables with a 
+	(draw_round_info,play_game): Use temporary variables with a
 	correct type to avoid casts.
 	* src/pixelize.c (pixelize_1, pixelize_2_inline, pixelize_2,
 	pixelize_4_inline, pixelize_4, pixelize_8_inline, pixelize_8,
@@ -454,7 +458,7 @@
 	* src/gfx_reader.h: Include scrtools (declare vsynch).
 	(txtptr,strptr): Use u8_t.
 	(copy_rect_transp_help,copy_rect_transp_help_with_glenz,
-	copy_rect_transp_help_full_glenz,draw_text_help): Adapt 
+	copy_rect_transp_help_full_glenz,draw_text_help): Adapt
 	signedness and constness.
 	(show_help): Rename glenz into glenz_color.  Fix signedness.
 
@@ -467,13 +471,13 @@
 	* src/const.c (tmp1,tmp2): Remove.
 	* src/hedlite.c (hmain): Change prototype, and adapt body.
 	* src/hedlite.h (hmain): Change prototype.
-	* src/heroes.c (enter_your_name): Take the buffer to write to 
+	* src/heroes.c (enter_your_name): Take the buffer to write to
 	as argument. Use memset.
 	(play_menu): Adapt call to enter_your_name.
 	(scores_menu, draw_end_level_info, draw_text_waving,
 	draw_end_level_info, draw_round_info): Use local buffers.
 	* src/render.c (draw_score): Likewise.
-	* src/menus.c (draw_key, game_menu, extra_menu, 
+	* src/menus.c (draw_key, game_menu, extra_menu,
 	editor_selector,editor_menu): Likewise.
 	(editor_selector,editor_menu): Adapt call to hmain.
 	* src/structs.h (FILENAME_SIZE,PLAYER_NAME_SIZE): New.
@@ -507,17 +511,17 @@
 2000-10-08  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Fix signedness warnings in visuals.[hc].
-	
+
 	* src/visuals.h (srcroto): Declare as pixel_t*.
 	* src/visuals.c (srcroto): Likewise.
-	(rotozoom_buffer, rotozoom_half_buffer,	horizontal_zoom_wave, 
+	(rotozoom_buffer, rotozoom_half_buffer,	horizontal_zoom_wave,
 	horizontal_zoom_flip, vertical_zoom_wave, wave_buffer,
 	wave_half_buffer, corner_buffer_begin, corner_buffer_middle,
-	corner_buffer_end): Adapt to use pixel_t, u8_t and u32_t. 
+	corner_buffer_end): Adapt to use pixel_t, u8_t and u32_t.
 
 2000-10-08  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
-	* src/keysdef.h (keyname_s): Fix constness. 
+	* src/keysdef.h (keyname_s): Fix constness.
 	* src/structs.h (type_name): Likewise.
 	* src/hedlite.c (draw_text,fatalog): Likewise.
 	* src/sound.h (load_soundtrack_from_alias): Likewise.
@@ -533,12 +537,12 @@
 
 	* src/rleprog.h: New file.
 	* src/rleprog.c: New file.
-	* src/Makefile.am (heroes_SOURCES): Add src/rleprog.h and 
+	* src/Makefile.am (heroes_SOURCES): Add src/rleprog.h and
 	src/rleprog.c.
 	* arch/VisualC/heroes.dsp: Likewise.
 
 	Use this new feature to draw the arrows and checked boxes.
-	
+
 	* src/menus.h (left_arrow,right_arrow): New.
 	(init_menus_sprites,uninit_menus_sprites): New.
 	* src/menus.c (left_arrow,right_arrow,checked_box): New.
@@ -552,7 +556,7 @@
 	(main): Call init_menus_sprites and uninit_menus_sprites.
 
 	Misc.
-	
+
 	* src/sound.c (decode_sound_options): Typo.
 	* src/pcx.h (IMGPOS): New macro.
 	(pcx_header_t,color_rvb_t,palette_t,pcx_image_t): Use u8_t and u16_t.
@@ -571,7 +575,7 @@
 	* src/const.h (vsynch,set_pal_with_luminance) Move to src/scrtools.h.
 	* src/const.c (vsynch,set_pal_with_luminance) Move to src/scrtools.c,
 	and fix constness and signedness issues.
-	
+
 	* src/pcx.h (palette_rvb): Remove.
 	(color_): Rename to ...
 	(color_rvb_t): ... this.
@@ -579,7 +583,7 @@
 	* src/display.h (pixel_t): New.
 	(screen): Use pixel_t* as type.
 	(set_pal): Set constness of the first argument.
-	* src/display.c (screen_rv, screen, stretch_twofold, 
+	* src/display.c (screen_rv, screen, stretch_twofold,
 	stretch_twofold_even, stretch_threefold, stretch_threefold_even,
 	erase_odd_lines, copy_screen): Adapt to use pixel_t.
 	[HAVE_PKG_GII,HAVE_SDL] (set_pal): Set constness of the first arg.
@@ -597,7 +601,7 @@
 	* src/menus.c: Likewise.
 	* src/fader.c: Likewise.
 	* src/fader.h: Likewise.
-	
+
 2000-10-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* lib/getshline.c (getshstr): Change terminator type to suppress
@@ -614,7 +618,7 @@
 	don't want to use our own getopt.h header when getopt_long is
 	already available on the build system.  The FreeBSD part is
 	untested.
-	
+
 	* configure.in: Check for getopt.h.  Check for getopt_long, which
 	might be available in the gnugetopt library.  AC_LIBOBJ the
 	replacements when needed.
@@ -637,13 +641,13 @@
 2000-10-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Fix VPATH build failure (caused `make distcheck' to fail).
-	
+
 	* arch/Makefile.am (Vzip): New.
 	(EXTRA_DIST,distclean-local): Use $(Vzip).
 	(VisualC/VisualC.zip): Rename to ...
 	($(Vzip)): ... this. Build in $(srcdir).
 	(VisualC/config.cp): Build $(VSIP) in $(srcdir).
-	(VisualC/config.h): Depend upon configure which is distributed, 
+	(VisualC/config.h): Depend upon configure which is distributed,
 	not Makefile which is generated.  Ensure that configure is newer
 	than the target, because the creation of config.cp can trigger
 	the rule anyway.
@@ -655,7 +659,7 @@
 2000-10-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* README: Update from Texinfo documentation.
-	* NEWS: Update from 
+	* NEWS: Update from
 	* configure.in (GGI_KEYBOARD_H): Typo.
 	* m4/Makefile.am (EXTRA_DIST): Typo.
 
@@ -684,7 +688,7 @@
 	* src/hedlite.c (fn0,tunnel_mod,hmain): Likewise.
 	* src/options.h (options_t): Likewise.
 	* src/pcx.h (header_): Likewise.
-	* src/sfx.c [!HAVE_LIBMIKMOD] [!HAVE_LIBSDL_MIXER] 
+	* src/sfx.c [!HAVE_LIBMIKMOD] [!HAVE_LIBSDL_MIXER]
 	(load_sfx_mode,event_sfx): Likewise.
 	* src/sound.c [HAVE_LIBMIKMOD] (update_thread): Likewise.
 	[!HAVE_LIBSDL_MIXER] [!HAVE_LIBMIKMOD] (load_soundtrack,
@@ -755,7 +759,7 @@
 2000-09-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Add option --verbose (same purpose as HEROES_DEBUG).
-	
+
 	* doc/heroes.texi (Options): Document.
 	* src/argv.c (print_help): Add --verbose.
 	(long_options): Likewise.
@@ -769,7 +773,7 @@
 
 	Rename -q into -i, and add -q and -Q to disable warning
 	and error messages.
-	
+
 	* doc/heroes.texi (Options): Document new options.
 	* src/errors.h (disable_emsg,disable_wmsg): New.
 	* src/errors.h (disable_emsg,disable_wmsg): New.
@@ -782,7 +786,7 @@
 2000-09-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Add wmsg and emsg, for warning and error messages.  Use them.
-	
+
 	* src/errors.c (fatal_error): Delete.
 	(wmsg,emsg): New.
 	* src/errors.h: Likewise.
@@ -795,7 +799,7 @@
 	* src/txts.c (read_txti_cfg): Likewise.
 	* src/display.c (init_video): Use emsg instead of *printf.
 	(init_video): Likewise.
-	* src/joystick.c [HAVE_PKG_GII] (_get_joystick_state): Use wmsg 
+	* src/joystick.c [HAVE_PKG_GII] (_get_joystick_state): Use wmsg
 	instead of fprintf.
 	* src/joystick.c (joyinit): Use wmsg instead of puts.
 	* src/musicfiles.c (read_sound_config_file): Use wmsg instead of
@@ -835,7 +839,7 @@
 	* src/heroes.c (jukebox_menu): Likewise.
 	(enter_your_name,main_menu): Likewise.  Use a timer for the
 	pixelize effect.
-	(play_menu): Adapt likewise.  Use a timer for the flipping effect. 
+	(play_menu): Adapt likewise.  Use a timer for the flipping effect.
 	(play_demo,play_game): Use local variables instead of p2.
 	* src/menus.c (background_menu): Don't handle fading anymore.
 	(control_menu, keyboard_menu, sound_menu, screen_menu, game_menu,
@@ -844,19 +848,19 @@
 	draw_saved_games_info): Adapt to use fader.
 
 	Rename argument to remove a warning.
-	
+
 	* src/sound.c (decode_sound_options): Rename optarg to options_string.
 	* src/sound.h (decode_sound_options): Likewise.
 
 	Misc.
 
 	* src/menus.c (demo_info): Remove (obsolete).
-	* src/menus.h (demo_info): Likewise.	
-	
+	* src/menus.h (demo_info): Likewise.
+
 2000-09-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Suppress some warnings.
-	
+
 	* src/debugmsg.c (dmsg): Take a constant message.
 	* src/debugmsg.h (dmsg): Likewise.
 	* configure.in (CFLAGS): Remove -ansi, for it is harmful.
@@ -888,17 +892,17 @@
 2000-09-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.in: Check for direct.h and io.h.
-	* lib/w_dirent.c: Don't include system headers, 
+	* lib/w_dirent.c: Don't include system headers,
 	include common.h instead.
 	* lib/w_dirent.h: Don't include io.h
 	* src/common.h: Include io.h and direct.h.
-	
+
 	* lib/strcasecmp.c (strcasecmp): Return 0 if the two pointers
 	are equal.
 
 2000-09-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
-	* configure.in: Check for mkdir.  Check whether it takes only 
+	* configure.in: Check for mkdir.  Check whether it takes only
 	one argument instead of testing whether it takes two arguments.
 	* src/common.h (mkdir): Define as a macro mkdir when needed.
 	* src/hedlite.c (create_levels_output_dir): Remove TWO_ARGS_MKDIR
@@ -923,7 +927,7 @@
 
 	Fix the tunnel bug noticed on Solaris
 	by Mattias Engdegård <f91-men@nada.kth.se>.
-	
+
 	* src/structs.h [WORDS_BIGENDIAN] (tunnel_t): Reverse the
 	bitfields.
 	* BUGS: Remove the report.
@@ -950,7 +954,7 @@
 	* configure.in: Set version to 0.6b.
 
 	Prune useless files from the CVS tree.
-	
+
 	* aclocal.m4: Delete (autogenerated).
 	* edit.pcx: Delete (useless).
 	* file_id_.diz: Likewise.
@@ -979,23 +983,23 @@
 	(configure options): Mark --with-sdl as @samp. Fix spelling.
 	* README: Update from Texinfo documentation.
 	* NEWS: Update.
-	
+
 	There is something strange with automake 1.4a.
 
 	* doc/Makefile.am (htmldir): Rename to ...
 	(hdir): ... this.  And include back in the MAKE_HTML conditional.
-	
+
 2000-09-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Temporaly kluge	hopping to work around MSVC (untested).
-	
+
 	* src/draw.c (Id): New.
 	(draw_text,draw_text_clipped_left,draw_text_waving,
 	draw_text_clipped_right): Use Id.
 
 2000-09-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
-	* configure.in: Check for sleep.		
+	* configure.in: Check for sleep.
 	* src/common.h [HAVE_WINDOWS] [!HAVE_SLEEP]: Use Sleep as a
 	replacement for sleep (untested).
 
@@ -1005,7 +1009,7 @@
 
 2000-09-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
-	Provide opendir/readdir/closedir substitutes 
+	Provide opendir/readdir/closedir substitutes
 	for plain Win32 (untested).
 
 	* configure.in: Check for readdir.
@@ -1050,7 +1054,7 @@
 	extra_selected_list (these two operations used to be done by
 	browse_extra_directory).
 	* src/common.h [!HAVE_DIRENT_H]: Include other possible headers.
-	
+
 2000-09-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Improve the generic list by handling comparator and
@@ -1096,7 +1100,7 @@
 
 2000-09-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
-	Use timeGetTime instead of clock on Win32 targets, 
+	Use timeGetTime instead of clock on Win32 targets,
 	as suggested by	Stéphane Denis <S.Denis@darkworks.com>.
 
 	* configure.in: Check for windows.h.
@@ -1124,7 +1128,7 @@
 	* doc/Makefile.am (htmldir): Move out of MAKE_HTML conditional.
 	* src/Makefile.am (keysdef.c): New (explicit dependency).
 	* depcomp: New.
-	
+
 2000-09-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/keyb.c (get_key): Typo.
@@ -1169,14 +1173,14 @@
 	[HAVE_SDL] (SDL_initialized): New.
 	[HAVE_SDL] (init_SDL): Use SDL_initialized instead of the
 	static variable `done'
-	[HAVE_SDL] (uninit_video): Use screen_allocated and 
+	[HAVE_SDL] (uninit_video): Use screen_allocated and
 	SDL_initialized to know what to uninitialize.
 	* src/errors.h (exit_heroes): New.
 	* src/errors.c (exit_heroes): New.
 	(fatal_error): Call exit_heroes.
 	* src/sound.c (sound_initialized,sound_track_loaded,
 	sound_track_playing): New.
-	[HAVE_LIBMIKMOD,HAVE_PKG_sdl_mixer] (init_sound_engine): Set 
+	[HAVE_LIBMIKMOD,HAVE_PKG_sdl_mixer] (init_sound_engine): Set
 	sound_initialized.
 	[HAVE_LIBMIKMOD,HAVE_PKG_sdl_mixer] (uninit_sound_engine): Use
 	sound_initialized.
@@ -1201,7 +1205,7 @@
 	(copy_screen): New.
 	(copy_display): Call copy_screen.
 	[HAVE_PKG_GGI,HAVE_SDL] (uninit_video): Set scr_pitch.
-	
+
 2000-09-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/hedlite.c: Include endian.h.
@@ -1221,7 +1225,7 @@
 	if the visual require locking, allocate screen instead.
 	[HAVE_SDL] (vsynchro): Adapt to call copy_display.  Lock the
 	surface	if needed and set screen_rv.
-	
+
 2000-09-11  Uwe Hermann  <uh1763@bingo-ev.de>
 
 	* AUTHORS, TODO, doc/heroes.texi: Fix several typos and some other
@@ -1352,7 +1356,7 @@
 	* src/argv.h (even_lines): New.
 	* src/argv.c (even_lines): New.
 	(print_help): Add -e.
-	(long_options): Add --even-lines.  Fix argument number 
+	(long_options): Add --even-lines.  Fix argument number
 	of --double and --triple (they don't accept any).
 	(parse_argv): Handle -e.
 	* doc/heroes.texi (Options): Document -e.
@@ -1389,9 +1393,9 @@
 	* src/txts.h (close_txti): New.
 	* src/musicfiles.c (uninit_sound_track_list): Don't use the
 	list temporaly variable.
-	* src/extras.c (free_extra_directories): Also free the cells, 
+	* src/extras.c (free_extra_directories): Also free the cells,
 	and call free_levels_output_dir.
-	* src/heroes.c (main): Call close_txti, free_scores, 
+	* src/heroes.c (main): Call close_txti, free_scores,
 	free_save_records, free_options.
 
 2000-09-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
@@ -1418,7 +1422,7 @@
 
 2000-09-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
-	AC_PATH_GENERIC is not enough to test for a library, we 
+	AC_PATH_GENERIC is not enough to test for a library, we
 	need to check wether the library link or not.
 
 	* acinclude.m4: Add AC_adl_PKG_GENERIC.
@@ -1429,9 +1433,9 @@
 	On some machines, quit_yes_no used to be called
 	in a loop because the release of the <Esc> key
 	was not recorded.
-	
+
 	* src/heroes.c (quit_yes_no): Enclose the function by calls
-	to (un)init_keyboard_map so that the keyboard map get 
+	to (un)init_keyboard_map so that the keyboard map get
 	cleared on exit.
 	(pause_menu): Remove superfluous instruction.
 
@@ -1516,13 +1520,13 @@
 	(hl): Reverse order of attributes when WORDS_BIGENDIAN.
 
 2000-08-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
-	
+
 	Add --enable-heroes-debug option to compile HEROES_DEBUG
 	support or not.
 
 	* configure.in: Add --enable-heroes-debug option.
 	Move the definition of DEBUG in another place, it was wrong.
-	* src/debugmsg.h (DEBUG): Rename to ... 
+	* src/debugmsg.h (DEBUG): Rename to ...
 	(USE_HEROES_DEBUG): ... this.
 	* src/debugmsg.c: Likewise.
 	* src/userconf.c (read_userconf): Transform a fprintf in a call
@@ -1542,7 +1546,7 @@
 
 2000-08-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
-	* src/timer.c (read_htimer): Thinko, slice rest must not be 
+	* src/timer.c (read_htimer): Thinko, slice rest must not be
 	accounted if we are blocking.
 
 2000-08-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
@@ -1595,14 +1599,14 @@
 2000-08-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/intro.c (play_intro): Set a black palette in ONE call,
-	not 768! 
+	not 768!
 
 2000-08-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/heroes.c (load_level): Add missing parameter to dmsg call.
 
 2000-08-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
- 
+
 	Add a dperror, a wrapper to perror.
 
 	* src/debugmsg.c [DEBUG] (dmsg): Use progname.
@@ -1628,7 +1632,7 @@
 2000-08-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Ellipsis in macro argument list is non-standard.
-	
+
 	* src/debugmsg.h [!DEBUG] (dmsg): Don't use ellipsis, rely
 	on the use of comma operator in while argument instead.
 
@@ -1661,17 +1665,17 @@
 
 	Output debug messages from various places.
 
-	* src/display.c [HAVE_PKG_GGI] (init_video, uninit_video, 
+	* src/display.c [HAVE_PKG_GGI] (init_video, uninit_video,
 	set_color, set_pal): Call dmsg.
 	[HAVE_SDL] (set_display_params, init_SDL, init_video, set_color,
 	set_pal): Likewise.
-	* src/extras.c (browse_extra_directory, 
+	* src/extras.c (browse_extra_directory,
 	add_extra_in_user_directory): Likewise.
 	* src/gfx_reader.h (graphic_reader): Likewise.
 	* src/heroes.c (erase_player, reinit_player, load_level, save_pcx,
-	load_level_from_number, compute_level_full_list, 
+	load_level_from_number, compute_level_full_list,
 	load_random_wrapped_level, load_random_level, play_menu, play_demo,
-	load_demo, main_menu, pause_menu, quit_yes_no, play_game, 
+	load_demo, main_menu, pause_menu, quit_yes_no, play_game,
 	read_level_list, main): Likewise.
 	* src/intro.c (play_intro): Likewise.
 	* src/joystick.c (joyinit): Likewise.
@@ -1683,8 +1687,8 @@
 	* src/scores.c (write_scores, load_scores): Likewise.
 	* src/sfx.c (read_sfx_conf, free_all_sfx, load_sfx_mode,
 	event_sfx): Likewise.
-	* src/sound.c [HAVE_LIBMIKMOD,HAVE_LIBSDL_MIXER] (set_volume, 
-	halve_volume, init_sound_engine, uninit_sound_engine, 
+	* src/sound.c [HAVE_LIBMIKMOD,HAVE_LIBSDL_MIXER] (set_volume,
+	halve_volume, init_sound_engine, uninit_sound_engine,
 	load_soundtrack, play_soundtrack): Likewise.
 	* src/timer.c (new_htimer, free_htimer, read_htimer, shift_htimer):
 	Likewise.
@@ -1754,7 +1758,7 @@
 	(asort): Move to ...
 	* lib/alphasort.c (alphasort): ... here.
 	* src/extras.c [!HAVE_SCANDIR] (scandir): Declare.
-	(myscandir): Move to ...	
+	(myscandir): Move to ...
 	* lib/scandir.c (scandir): ... here.
 	* src/extras.c (browse_extra_directory): Use scandir and alphadir.
 
@@ -1770,7 +1774,7 @@
 
 	* doc/heroes.texi (Libraries): Describe SDL_mixer.
 	(configure options): Describe new configure options.
-	(Troubleshooting): Rename the subsection about Alsa and 
+	(Troubleshooting): Rename the subsection about Alsa and
 	MikMod.
 	(History): Flush left.
 	* README: Update accordingly.  Add a Summary section.
@@ -1818,10 +1822,10 @@
 	use _free_sfx, _play_sfx and _load_sfx respectively.
 
 	Misc. sound-related fixes.
-	
+
 	* src/sound.c [HAVE_LIBSDL_MIXER] (init_sound_engine):
 	Fix audio rate selection.  Reduce the audio buffer value.
-	* src/argv.c (parse_argv): Add missing 'q' case.	
+	* src/argv.c (parse_argv): Add missing 'q' case.
 
 2000-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
@@ -1841,7 +1845,7 @@
 	* aclocal.m4: Fix AC_caolan_CHECK_PACKAGE so that LIBS
 	get backuped.
 	* configure.in: Add --with-mikmod option, for consistancy.
-	Handles choice between libMikMod and SDL_mixer.  Check for 
+	Handles choice between libMikMod and SDL_mixer.  Check for
 	SDL_mixer.
 	* src/display.c (init_SDL) [HAVE_LIBSDL_MIXER]: Call SDL_Init with
 	flag SDL_INIT_AUDIO.
@@ -1854,7 +1858,7 @@
 
 	* src/timer.c (update_timers): Check HAVE_GETTIMEOFDAY, not
 	GETTIMEOFDAY.
-	
+
 2000-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Under DOS, mkdir doesn't take a second argument.
@@ -1864,7 +1868,7 @@
 	* src/hedlite.c (create_levels_output_dir): Do not use
 	the second mkdir argument if !TWO_ARGS_MKDIR.
 	* src/userdir.c (setup_userdir): Likewise.
-	
+
 	* fastmem.h: Add missing "config.h" include.
 
 2000-08-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
@@ -1872,13 +1876,13 @@
 	Use clock when gettimeofday isn't available.
 
 	* configure.in: Check for gettimeofday.
-	* src/timer.h: Adapt to use struct timeval or clock_t 
+	* src/timer.h: Adapt to use struct timeval or clock_t
 	whether GETTIMEOFDAY is	defined or not.
-	(reset_timer_with_offset): Remove the usec argument.  
+	(reset_timer_with_offset): Remove the usec argument.
 	* src/timer.c: Likewise.
-	(reset_timer_with_offset,update_timers,read_timer,shift_timer): 
+	(reset_timer_with_offset,update_timers,read_timer,shift_timer):
 	Write the !GETTIMEOFDAY version.
-	* src/heroes.c (play_demo,play_game,main_menu): Adapt call to 
+	* src/heroes.c (play_demo,play_game,main_menu): Adapt call to
 	reset_timer_with_offset.
 
 2000-08-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
@@ -1887,7 +1891,7 @@
 
 	* src/getshline.c, src/getshline.h: Move to ...
 	* lib/getshline.c, lib/getshline.h: ... here.
-	* src/Makefile.am (heroes_SOURCES): Remove getshline.h and 
+	* src/Makefile.am (heroes_SOURCES): Remove getshline.h and
 	getshline.c.
 	(INCLUDE,LD_ADD): New.
 	* lib/Makefile.am: New file.
@@ -1900,7 +1904,7 @@
 	getopt_long and getopt.h because lib/getopt* are automatic
 	replacements.  When checking the build host is the same as the
 	target host, look $build variable, not $hots.  Output lib/Makefile.
-	* argv.c [!HAVE_GETOPT_H]: Suppress this case, since lib/ has 
+	* argv.c [!HAVE_GETOPT_H]: Suppress this case, since lib/ has
 	a replacement for getopt.
 	[!HAVE_GETOPT_LONG]: Likewise.
 
@@ -1909,8 +1913,8 @@
 	src/menus.c, src/misc.c, src/musicfiles.c, src/options.c,
 	src/pixelize.c, src/rsc_files.c, src/savegame.c, src/scores.c,
 	src/sfx.c, src/sound.c, src/start.c, src/txts.c, src/userconf.c,
-	src/visuals.c: Move "config.h" at the top of the include list.	
-	
+	src/visuals.c: Move "config.h" at the top of the include list.
+
 2000-08-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* autoconf.in: Test for the "string.h" header.
@@ -1920,11 +1924,11 @@
 	src/pixelize.c, src/rsc_files.c, src/savegame.c, src/scores.c,
 	src/sfx.c, src/sound.c, src/txts.c, src/userconf.c, src/visuals.c:
 	Include "string.h" or "strings.h" conditionaly.
-	
+
 2000-08-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.in: Change the definition of GGI and SDL conditional
-	so they also works when $with_GGI and $with_sdl are directory 
+	so they also works when $with_GGI and $with_sdl are directory
 	names.
 
 2000-08-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
@@ -1945,14 +1949,14 @@
 	(Bug Reporting): Do not suggest shar.  Remove the statement about
 	the size of sound tracks, this is as true in the current packaging
 	scheme.
-	(Libraries): Move the note about memory debugger at the 
+	(Libraries): Move the note about memory debugger at the
 	end of the section.
 	(Environment): Describes the HEROES_DATA_DIR variable.
 	(heroesrc): Describes the setrsc command.
 	(Troubleshooting): Fix the way the user is tell how to
 	run libmikmod in OSS-emulation.
 	* README: Update, from the texinfo manual.
-	* src/argv.c (print_help): Change bug reports address to 
+	* src/argv.c (print_help): Change bug reports address to
 	<heroes-bugs@lists.sourceforge.net>
 
 2000-08-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
@@ -1962,7 +1966,7 @@
 
 2000-08-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
-	* src/timer.c (reset_timer_with_offset,read_timer): Fix 
+	* src/timer.c (reset_timer_with_offset,read_timer): Fix
 	computation formula.
 	(shift_timer): New.
 	* src/timer.h (shift_timer): New.
@@ -1982,8 +1986,8 @@
 	rate.  This is a rather important change that will probably
 	introduce bugs.
 
-	* src/timer.c: New timer code. 
-	* src/timer.h: New timer code. 
+	* src/timer.c: New timer code.
+	* src/timer.h: New timer code.
 	* src/const.h (frame_cur,frame_old,demo_done): Remove.
 	* src/const.c (frame_cur,frame_old,demo_done): Remove.
 	(vsynch): Call update_timers.
@@ -1994,7 +1998,7 @@
 	(draw_text_waving,draw_text_bonus): Use text_waving_step (fix
 	endian bug).
 	(affvga320sin): Rename to ...
-	(draw_text_waving_320): ... this.  Use text_waving_step (fix 
+	(draw_text_waving_320): ... this.  Use text_waving_step (fix
 	endian bug).
 	(draw_text_array_320): Adapt to use draw_text_waving_320.
 	* src/draw.h (init_text_waving_step,uninit_text_waving_step,
@@ -2003,7 +2007,7 @@
 	(draw_text_waving_320): ... this.
 	* gfx_reader.h [!__HEROES__]: Remove all that unused code.
 	(draw_text_help) [SDF]: Define and use read_timer.
-	* src/heroes.c (soundtrack_time): Remove (replaced by 
+	* src/heroes.c (soundtrack_time): Remove (replaced by
 	sound_track_timer).
 	(DEMO_DURATION): Set to 90 secs.
 	(blink_timer,clock_timer,bonus_anim_timer,
@@ -2014,28 +2018,28 @@
 	(add_random_bonus,add_bonus,erase_trail,
 	update_bonus): Adapt to use even_time.
 	(load_level): Comment out timer code (what's the purpose?).
-	(jukebox_menu): Setup and use lemming_timer.  Use waving_timer, 
+	(jukebox_menu): Setup and use lemming_timer.  Use waving_timer,
 	and sound_track_timer.
 	(play_menu): Reset sound_track_timer.
 	(update_all): Use update_timer.
-	(play_demo): Setup and use demo_timer.  Reset clock_timer, 
-	bonus_anim_timer, tiles_anim_timer, blink_timer, and update_timer 
+	(play_demo): Setup and use demo_timer.  Reset clock_timer,
+	bonus_anim_timer, tiles_anim_timer, blink_timer, and update_timer
 	before running the game.  Update event_time from event_timer.
 	Reset background_timer and fading_timer on exit.
 	(load_demo): Reset sound_track_timer and demo_trigger_timer on exit.
-	(main_menu): Reset sound_track_timer, background_timer, fading_timer, 
+	(main_menu): Reset sound_track_timer, background_timer, fading_timer,
 	demo_trigger_timer and event_timer.  Update event_time.	 Adapt to
 	use the above timers.  Adapt to new calling convention of
 	corner_buffer.
 	(pause): Rename to ...
 	(pause_menu): ... this because of name conflict from unistd.h.
 	Adapt to use sound_track_timer.  Call update_text_waving_step.
-	(quit_yes_no): Adapt to use waving_timer.  Call 
+	(quit_yes_no): Adapt to use waving_timer.  Call
 	update_text_waving_step.  Reset background_timer and fading_timer.
 	(get_input_directions):  Adapt to call pause_menu instead of pause.
 	(draw_end_level_info):  Adapt to use waving_timer.
-	(play_game):  Reset sound_track_timer, event_timer, 
-	clock_timer, bonus_anim_timer, tiles_anim_timer, 
+	(play_game):  Reset sound_track_timer, event_timer,
+	clock_timer, bonus_anim_timer, tiles_anim_timer,
 	blink_timer and update_timer.  Make an explicit call to sleep
 	rather than a loop over vsynch.  Update event_time from event_timer
 	and call update_text_waving_step on each iteration of the game loop.
@@ -2054,7 +2058,7 @@
 	wrapped (fix endian bug).  Call update_text_waving_step.
 	(demo_info,option_menu,draw_quit_menu,draw_play_menu,
 	draw_main_menu,editor_selector,editor_menu,
-	editor_first_menu): Use waving_timer.  Rename calls to 
+	editor_first_menu): Use waving_timer.  Rename calls to
 	affvga320sin as calls to draw_text_waving_320.
 	(editor_menu): Reset background_timer and fading_timer on exit.
 	* src/render.c (draw_level): Adapt to use clock_timer,
@@ -2063,7 +2067,7 @@
 	* src/visuals.c (corner_buffer): Adapt to use corner_timer.  Return
 	1 if the effect is finished.
 	* src/visuals.h (corner_buffer): Return int.
-	
+
 2000-08-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	From Maxim Sobolev <sobomax@FreeBSD.org>.
@@ -2092,17 +2096,17 @@
 	(parse_argv): Handle -2 and -3.
 	* src/display.c (screen_rv,src_w,src_h): New.
 	(stretch_twofold,stretch_threefold): New.
-	[HAVE_PKG_GGI] (init_video): Use the value of stretch to setup 
-	src_w, src_h, screen and screen_rw.  Use src_w and src_h to 
+	[HAVE_PKG_GGI] (init_video): Use the value of stretch to setup
+	src_w, src_h, screen and screen_rw.  Use src_w and src_h to
 	initialize the visuals.
 	[HAVE_PKG_GGI] (vsynchro): Call stretch_threefold or stretch_twofold
 	if needed.
-	[HAVE_SDL] (init_video): Use the value of stretch to setup 
-	src_w, src_h, screen and screen_rw.  Use src_w and src_h to 
+	[HAVE_SDL] (init_video): Use the value of stretch to setup
+	src_w, src_h, screen and screen_rw.  Use src_w and src_h to
 	initialize the visual.
 	[HAVE_SDL] (vsynchro): Call stretch_threefold or stretch_twofold
 	if needed.
-	* src/keyb.h (mouse_x,mouse_y): Divide the position by the 
+	* src/keyb.h (mouse_x,mouse_y): Divide the position by the
 	stretch factor.
 	* doc/heroes.texi (Options): Document -2 and -3.  Document the
 	utility of -F with GGI's DGA driver.
@@ -2140,13 +2144,13 @@
 
 	From Mattias Engdegård <f91-men@nada.kth.se>.
 	First fixes needed to compile on Solaris.
-	
+
 	* configure.in: Check for getopt.h and getopt_long.
 	* src/argv.c: Include getopt.h conditionnaly, hand-define
 	[!HAVE_GETOPT_LONG] (struct option,getopt_long): Define.
 	* src/display.c (set_display_params): Use putenv, not setenv.
 	* src/extras.c (asort,myscandir): New.
-	(browse_extra_directory): Use myscandir and asort instead of 
+	(browse_extra_directory): Use myscandir and asort instead of
 	scandir and alphasort.
 	* src/menus.c: Include endian.h.
 	* src/pcx.c: Likewise.
@@ -2182,7 +2186,7 @@
 
 2000-07-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
-	* src/sfx/: Delete recursively (files are going to 
+	* src/sfx/: Delete recursively (files are going to
 	the heroes-sound-effects package).
 	* src/mod/: Delete recursively (heroes-sound-tracks package).
 	* src/Makefile.am: Remove sfx and mod directory handling.
@@ -2197,7 +2201,7 @@
 2000-07-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/musicfiles.c (dirname): New.
-	(read_sound_config_file): Allow files that does not begin by `/' 
+	(read_sound_config_file): Allow files that does not begin by `/'
 	to be loaded relatively to the config file directory.
 	* src/mod/Makefile.am: sound.conf does not need to be built from
 	sound.conf.in anymore.
@@ -2205,7 +2209,7 @@
 	(EXTRA_DIST): Keep sound.conf instead of sound.conf.in.
 	* src/mod/sound.conf: New file.
 	* src/mod/sound.conf.in: Delete.
-	
+
 	* src/rsc_files.gperf (sfx-dir): New.
 	* src/sfx.c (read_sfx_conf): Adapt to get the sfx directory and
 	sfx.cfg file from resources.
@@ -2225,7 +2229,7 @@
 2000-07-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Setup the base structure for resources handling.  rsc_files*
-	are used to map a symbolic name to a true filename, handling 
+	are used to map a symbolic name to a true filename, handling
 	variable substitutions (e.g. $(data-dir)).
 
 	* rsc_files.c: New file.
@@ -2236,7 +2240,7 @@
 	* src/pcx.h (pcx_load_from_rsc): New.
 	* configure.in: Remove all directory #definitions and define
 	only datadir.
-	* src/Makefile.am (heroes_SOURCES): Add rsc_files.c, rsc_files.h 
+	* src/Makefile.am (heroes_SOURCES): Add rsc_files.c, rsc_files.h
 	and rsc_files_hash.c.
 	(BUILT_SOURCES): Add rsc_files_hash.c.
 	(rsc_files_hash.c): New.
@@ -2252,20 +2256,20 @@
 	(hmain): Adapt to fill those arrays, and read images from resources.
 	* src/heroes.c (load_level,load_level_from_number,
 	load_random_level,load_random_wrapped_level,
-	play_menu,read_level_list): Adapt to read filenames and 
+	play_menu,read_level_list): Adapt to read filenames and
 	dirnames from resources.
-	(play_game): Append the directory name to level_name, taken from 
+	(play_game): Append the directory name to level_name, taken from
 	resources.
 	(main): Setup the data-dir resource. Adapt to read filenames for
 	heroesrc and pictures from resources.
-	* src/intro.c (show_intro): Read all pictures using resources. 
+	* src/intro.c (show_intro): Read all pictures using resources.
 	* src/menus.c (load_tile_set_preview,editor_menu): Adapt to read
 	files from resources.
 	* src/txts.c (read_txti_cfg): Likewise.
 
 	* src/misc.c (strappend): New.
 	* src/misc.h (strappend): New.
-	
+
 2000-07-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/intro.c (show_intro): At stratup, fill the black side of the
@@ -2290,7 +2294,7 @@
 	* README: Likewise.
 	* doc/heroes.texi (Contributors): Update.
 	* THANKS: Update.
-	
+
 2000-07-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Add mouse support with SDL 1.0.x.
@@ -2312,7 +2316,7 @@
 2000-07-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Support for VPATH builds.
-	
+
 	* src/etc/Makefile.am (heroesrc): Don't use broken `$<' variable,
 	adapt for VPATH builds.
 	* man/Makefile.am (heroes.6): Depends on argv.c rather than argv.o.
@@ -2328,7 +2332,7 @@
 
 	Fix a bug introduced by a previous patch (`make distclean'
 	produced an error when configured with sound support).
-	
+
 	* configure.in: Define the NOSOUND consitional.
 	* src/Makefile.am (DIST_SUBDIRS): New.
 	(DISTCLEANFILES): Define only if NOSOUND (otherwise mod/Makefile
@@ -2354,7 +2358,7 @@
 	(jukebox_menu,pause): Display title and author using draw_deck_text.
 	(main): Load and unload font_deck_img.
 	* src/sound.c (soundtrack_author,soundtrack_title): New.
-	(unload_soundtrack,load_soundtrack_from_alias): Update 
+	(unload_soundtrack,load_soundtrack_from_alias): Update
 	soundtrack_author and soundtrack_title.
 	* src/sound.h (soundtrack_author,soundtrack_title): New.
 	* src/font_deck.h: New file.
@@ -2368,7 +2372,7 @@
 
 2000-07-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
-	* src/etc/Makefile.am (EXTRA_DIST): Distribute heroesrc.in, 
+	* src/etc/Makefile.am (EXTRA_DIST): Distribute heroesrc.in,
 	not heroesrc.
 	* src/mod/Makefile.am (EXTRA_DIST): Distribute sound.conf.in,
 	not sound.conf.
@@ -2386,7 +2390,7 @@
 	of the right list when looking for the alias.
 	(init_sound_track_list): Make the function empty (all the work
 	is done from the config file).
-	* src/userconf.c (read_userconf): Use the file argument, when 
+	* src/userconf.c (read_userconf): Use the file argument, when
 	not 0.
 	* src/etc/Makefile.am: New file.
 	* src/etc/heroesrc.in: New file.
@@ -2394,7 +2398,7 @@
 	(CLEANFILES): Delete sound.conf.
 	(sound.conf): New.
 	* src/mod/sound.conf.in: New file.
-	
+
 2000-07-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Display only user's levels in editor menus.
@@ -2402,7 +2406,7 @@
 	* src/extras.c (extra_user_nbr): New.
 	(cmp_filenames): Rename to ...
 	(cmp_extralevels): ... this.  Sort the user-levels first.
-	(browse_extra_directory): Update extra_user_nbr.  Adapt to 
+	(browse_extra_directory): Update extra_user_nbr.  Adapt to
 	call cmp_extralevels.
 	(free_extra_list): Reset extra_user_nbr.
 	* src/extras.h (extra_user_nbr): New.
@@ -2438,7 +2442,7 @@
 	(browse_extra_directories): New. Sort the list.
 	(add_extra_directory,add_extra_in_user_directory): New.
 	(make_extra_list): Rename into ...
-	(add_default_extra_directories): ... this. Add ~/.heroes/levels 
+	(add_default_extra_directories): ... this. Add ~/.heroes/levels
 	directory.
 	(free_extra_list): Adapt to free extra_level_t.
 	* src/hedlite.h (hedlit_output_dir,levels_output_dir): New.
@@ -2449,13 +2453,13 @@
 	(hmain): Removed commented out code.  Call create_levels_output_dir.
 	Handle level filename.
 	* src/heroes.c (load_random_level): Adapt to extra_level_t.
-	(main): Adapt to call add_default_extra_directories and 
+	(main): Adapt to call add_default_extra_directories and
 	browse_extra_directories.
-	* src/menus.c (extra_menu,editor_selector,editor_menu): Adapt 
+	* src/menus.c (extra_menu,editor_selector,editor_menu): Adapt
 	to extra_level_t.
-	(editor_menu): Call browse_extra_directories instead of 
+	(editor_menu): Call browse_extra_directories instead of
 	make_extra_list.
-	* src/userconf.c (read_userconf): Call browse_extra_directories 
+	* src/userconf.c (read_userconf): Call browse_extra_directories
 	instead of make_extra_list.
 	* src/userdir.c (exists_userdir): Rename into ...
 	(exists_dir): ... this.  Take the directory to test in argument.
@@ -2465,18 +2469,18 @@
 2000-07-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Fix two bugs occuring when using GGI.
-	
+
 	* src/hedlite.c (gestclav): Handle `^F' manualy (needed with GGI).
-	* src/menus.c (editor_menu):  Transform `if's in `else if's to 
+	* src/menus.c (editor_menu):  Transform `if's in `else if's to
 	prevent an arrow keysyms from being used in the level name field.
-	
+
 2000-07-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Document the level editor.
 
 	* doc/heroes.texi (Top): Add a detailed node listing.
 	(Level editor): New section.
-	
+
 2000-07-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Allow modification of `speed' and `stop' tile parameters in
@@ -2485,20 +2489,20 @@
 	* src/hedlite.h (fnptr): Add speed_mod and stop_mod.
 	(speed_mod): New.
 	(stop_mod): New.
-	* src/structs.h (spd_test): Make visible by removing test 
+	* src/structs.h (spd_test): Make visible by removing test
 	for __HEDLITE__.
-	
+
 2000-07-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Support for key modifiers in level editor.
-	
+
 	* src/hedlite.c (gestclav): Add an extra parameter for
 	the modifiers state.  Support keys that was not yet supported.
 	(gestsrs1,gestsrs2,gestsrs3,hmain): Adapt calls to gestclav.
 	* src/keyb.c (keyboard_modifiers): New.
 	(init_keyboard_map): Reset keyboard_modifiers.
 	(process_input_events): Update keyboard_modifiers.
-	[HAVE_PKG_GGI] (get_key): Rewrite to allow update of 
+	[HAVE_PKG_GGI] (get_key): Rewrite to allow update of
 	keyboard_modifiers.
 	[HAVE_SDL] (get_key): Update keyboard_modifiers.
 	* src/keyb.h (keyboard_modifiers): New.
@@ -2508,9 +2512,9 @@
 
 2000-07-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
-	Handle relative mouse moves in level editor. 
+	Handle relative mouse moves in level editor.
 	Make the full view work.
-	
+
 	* src/hedlite.c (affplan): Call vsynchro.
 	(planfull, gestsrs1): Handle relative moves where needed.
 
@@ -2518,7 +2522,7 @@
 
 	Factorize endian-swaping of level infos into hendian.{h,c} and
 	patch the leveleditor to swap read and saved files.
-	
+
 	* src/Makefile.am (heroes_SOURCES): Add hendian.c and hendian.h.
 	* src/hedlite.c (save_pcx): BSWAP* header attributes.
 	(hmain): Call bswap_level_header and bswap_level_tiles after
@@ -2527,34 +2531,34 @@
 	calls to bswap_level_header and bswap_level_tiles.
 	* src/hendian.h: New file.
 	* src/hendian.c: New file.
-	
+
 2000-07-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/heroes.texi: Add two missing node descriptions.
-	
+
 2000-07-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Point people to the heroes-discuss mailing list and other
 	SourceForge services.
-	
+
 	* src/argv.c (print_help): Change the `reports bug to:' email.
 	* doc/heroes.texi (Getting Heroes): Add sourceforge URLs for
 	project home page, download, and CVS.
 	(Mailing list): New section.
 	(Bug Reporting): Change email.  Suggest sending snapshots of
 	problems.
-	
+
 2000-07-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Mouse support with via SDL.
 
-	* src/keyb.c [HAVE_SDL] (mouse_show, mouse_hide, 
+	* src/keyb.c [HAVE_SDL] (mouse_show, mouse_hide,
 	update_mouse_state): Implement these functions.
 	[HAVE_SDL] (handle_mouse_events): New.
 	[HAVE_SDL] (process_input_events): Call handle_mouse_events.
 	* src/hedlite.c (departfix, hmain): Remove useless call to mouse_show
 	and mouse_hide.
-	
+
 2000-07-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* doc/heroes.texi (Libraries): Reword LibMikMod description.
@@ -2565,11 +2569,11 @@
 
 	* src/menus.c (extra_menu,editor_selector): Translate some
 	hard-coded MS-DOS keycodes to Heroes' keysyms.
-	
+
 2000-07-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* doc/heroes.texi (Troubleshooting): Typos.
-	
+
 2000-07-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* doc/heroes.texi (Libraries): Link LibMikMod description
@@ -2581,17 +2585,17 @@
 	Link the level editor into the menu, and adapt
 	the level editor to Heroes keycodes (most of them).
 	Install editor data.
-	
+
 	* src/hedit/Makefile.am: New.
 	* configure.in: Generate src/hedit/Makefile.
 	* src/Makefile.am: Add hedit directory.
 	* src/extras.c (free_extra_list): New.
 	* src/extras.h (free_extra_list): New.
 	* src/hedlite.c (majd,majg): Call vsynchro to update the display.
-	(planfull,gestclav,gestsrs1,gestsrs2,gestsrs3,hmain): Replace 
+	(planfull,gestclav,gestsrs1,gestsrs2,gestsrs3,hmain): Replace
 	hardcoded keyvalues by keysyms (most of them).
 	(hmain): Clear the screen.
-	* src/heroes.c: Remove unused include. 
+	* src/heroes.c: Remove unused include.
 	(mouse_found): Set to 1 (should this variable be removed?).
 	* src/keyb.c (update_mouse_state): New.
 	(mouse_x,mouse_y,mouse_1,mouse_2,mouse_12): Call update_mouse_state.
@@ -2611,7 +2615,7 @@
 	* src/keyb.c (mouse12): Return 1 if either button are pressed.
 	* src/structs.c (param_u): Set size of the param array to 5,
 	since param[4] was accessed in the code.
-	
+
 2000-07-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Preliminary mouse support (this is only the GGI implementation).
@@ -2627,7 +2631,7 @@
 	[HAVE_PKG_GGI] (process_input_events): Rewrite the events
 	processing loop as a switch and add mouse events handling.
 	[HAVE_SDL] (init_mouse,mouse_show,mouse_hide): New.
-	
+
 2000-07-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/heroes.c (quit_yes_no): Remove unsed `flag' variable,
@@ -2649,11 +2653,11 @@
 	* src/userconf.c (read_userconf): Handle `soundconf:'.  Close the
 	input file.
 	* doc/heroes.texi (heroesrc): Document it.
-	
+
 2000-07-09  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Sound configuration via -8 and -q options.
-	
+
 	* src/argv.c (hqmix,bits8): New variables.
 	(print_help): Display -8 and -q options.
 	(long_options): Add --8bits and --high-quality options.
@@ -2662,7 +2666,7 @@
 	* src/sound.c (init_sound_engine): Set md_mode with respect to
 	hqmix and bits8.
 	* doc/heroes.texi (Options): Document these new options.
-	(Troubleshooting): Add a `Sound errors' subsection.	
+	(Troubleshooting): Add a `Sound errors' subsection.
 
 2000-07-09  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
@@ -2698,7 +2702,7 @@
 	* configure.in: Check for endianess.
 	* src/endian.h: New file.
 	* src/Makefile.am (heroes_SOURCES): Add endian.h.
-	
+
 	* src/scores.c (bswap_scores): New.
 	(write_scores,load_scores): Adapt to call bswap_scores.
 	* src/savegame.c (compute_magic): Translate a comment.
@@ -2711,36 +2715,36 @@
 	attributes.
 	* src/structs.h: Translate some comments.
 	(saved_game): Tag level points and lifes as unsigned.
-	
+
 2000-07-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* doc/heroes.texi (Libraries): Add a note to suggest using GGI
 	instead of SDL.
 	* README: Likewise.
-	
+
 2000-07-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Handle --full-screen with GGI too.
-	
+
 	* src/argv.c (long_options): Typo.
 	* src/display.c (full_screen): New.
 	(set_full_screen_mode): The full_screen to 1.
 	(init_video): Set the recommanded video mode, if full_screen.
 	(vsynchro): CrossBlit the rendered buffer centered in the visual.
 	* doc/heroes.texi (Options): Updated.
-	
+
 2000-07-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Bug fix.
-	
+
 	* configure.in: Disable joystick support if neighter libGII or
 	support from SDL are available..
 
 2000-07-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	SDL needs a special flag parameter to do full screen.
-	
-	* src/argv.c (print_help,long_options,parse_argv): Handle -F or 
+
+	* src/argv.c (print_help,long_options,parse_argv): Handle -F or
 	--full-screen.
 	* src/display.c [HAVE_PKG_GGI] (set_full_screen_mode): New.
 	[HAVE_SDL] (visu_options,set_full_screen_mode): New.
@@ -2751,16 +2755,16 @@
 
 	Reinterpret level_header_t.soundtrack_name as an alias which
 	could be linked to any soundtrack file.
-	
+
 	* src/sound.h
 	[HAVE_MIKMOD] (load_soundtrack_from_alias): New.
 	[!HAVE_MIKMOD] (load_soundtrack_from_alias): New.
 	[HAVE_MIKMOD] (unload_soundtrack,play_soundtrack): Don't do
 	anything if no module loaded.
-	
+
 	* src/intro.c (show_intro): Adapt to call load_soundtrack_from_alias.
 	* src/heroes.c (soundtrack_name): Remove.
-	(load_level,jukebox_menu,play_menu,pause): Adapt to call 
+	(load_level,jukebox_menu,play_menu,pause): Adapt to call
 	load_soundtrack_from_alias.
 	(main): Call init_sound_track_list.
 
@@ -2769,7 +2773,7 @@
 	* src/generic_list.h: New file.
 	* src/Makefile.am (heroes_SOURCES): Add generic_list.h,
 	musicfiles.c and musicfiles.h.
-	
+
 2000-07-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/heroes.c (pause): Handle HK_Pause as an alias to HK_Escape.
@@ -2779,7 +2783,7 @@
 2000-07-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Handle multiple extra levels directories.
-	
+
 	* src/extras.c (make_extra_list): Rename to ...
 	(browse_extra_directory): ... this.  Take the directory in
 	argument, handle error of scandir, append to (instead of
@@ -2789,7 +2793,7 @@
 	* src/extras.h (browse_extra_directory): New.
 	* src/userconf.c (read_userconf): Call browse_extra_directory
 	for each `extradir:' line.
-	* doc/heroes.texi (heroesrc): Split the section in subsections 
+	* doc/heroes.texi (heroesrc): Split the section in subsections
 	for each keyword recognized (Option: and setenv:).
 	(setenv:): New subsection.
 
@@ -2799,18 +2803,18 @@
 
 	* src/display.c [HAVE_SDL] (set_display_params): Call setenv.
 	* doc/heroes.texi (Heroes options,heroesrc): Document.
-	
+
 2000-07-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Bug fix.
 
 	* acinclude.m4 (AC_caolan_CHECK_PACKAGE): Restore CFLAGS, LDFLAGS
 	and CPPFLAGS with correct values.
-	
+
 2000-07-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Bug fix.
-	
+
 	* src/argv.c (long_options): --gfx-options should take one
 	argument, no zero.
 
@@ -2827,7 +2831,7 @@
 2000-07-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/Makefile.am (heroes_SOURCES): Add missing keys_heroes.h.
-	
+
 2000-07-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.in: Change version to 0.4.
@@ -2840,7 +2844,7 @@
 	Use 3rd and 4th buttons of first joystick if there is no
 	second joystick to fill second joystick buttons states
 	(this is used during the game for pause and quit).
-	
+
 	* src/joystick.c [HAVE_SDL] (joyinit): Get number of buttons for
 	the first joystick.
 	[HAVE_SDL] (get_joystick_state): Get the state of the 3rd and 4th
@@ -2852,11 +2856,11 @@
 
 	* src/userconf.c (read_userconf): Handle `setenv:' lines.
 	* doc/heroes.texi (heroesrc): Document it.
-	
+
 2000-07-02  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Texinfo documentation.
-	
+
 	* Makefile.am (EXTRA_DIST): Remove HISTORY.
 	(SUBDIRS): Add doc.
 	* configure.in: Build doc/Makefile.  Print info manual install
@@ -2867,15 +2871,15 @@
 	* doc/heroes.texi: New file.
 	* doc/mdate-sh: New file.
 	* HISTORY: Delete.
-	
+
 	* src/keys_heroes.h [HAVE_PKG_GGI] [HK_Enter]: Typo.
-	
+
 2000-07-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Joystick handling with SDL.
 
 	* src/display.c (init_video): Move the call to SDL_Init to...
-	(init_SDL): ... herem so that init_SDL can be called from joyinit().  
+	(init_SDL): ... herem so that init_SDL can be called from joyinit().
 	(init_SDL) [HAVE_SDL_JOYSTICKOPEN]: Call SDL_Init with
 	SDL_INIT_JOYSTICK.
 	* src/joystick.h (is_joystick_up,is_joystick_right,
@@ -2884,27 +2888,27 @@
 	* src/joystick.c [HAVE_SDL_JOYSTICKOPEN] (joyinit,
 	get_joystick_state): New.
 	* configure.in: Check if SDL handles joysticks.
-	
+
 2000-07-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Call SDL_EnableKeyRepeat where available.
 
-	* src/display.c [HAVE_SDL] (init_video) [HAVE_ENABLEKEYREPEAT]: 
+	* src/display.c [HAVE_SDL] (init_video) [HAVE_ENABLEKEYREPEAT]:
 	Call SDL_EnableKeyRepeat.
 	* configure.in: Check for SDL_EnableKeyRepeat.
-	
+
 2000-07-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/argv.c (print_help): Typo.
 	* src/display.c [HAVE_SDL] (init_video): Print SDL error messages.
-	
+
 2000-07-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Rename --ggi-display in --gfx-options.
-	
+
 	* src/argv.c (print_help): Rename option in printed message.
 	(long_options): Rename option.
-	
+
 2000-07-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Better ./configure support for linking with SDL from non-standard
@@ -2914,12 +2918,12 @@
 	with other --with-sdl-* options.  Rename *_SDL variables to *_sdl.
 	Assume that --with-sdl-exec-prefix=DIR imply --with-sdl=DIR and
 	vice versa.
-	
+
 2000-07-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	--disable-joystick `support'.
 
-	* src/joystick.c: Move code under #ifdef JOYSTICK_SUPPORT and 
+	* src/joystick.c: Move code under #ifdef JOYSTICK_SUPPORT and
 	#ifdef HAVE_PKG_GII.
 	[JOYSTICK_SUPPORT,HAVE_PKG_GII] (joyinit): Suggest -J options
 	if no joystick detected.
@@ -2928,26 +2932,26 @@
 	* acconfig.h [HAVE_PKG_GII]: New.
 	* configure.in: Add support for --disable-joystick.  Change
 	configuration status display to print selected libraries.
-	
+
 2000-07-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Concat keymap.* and keyb.*.  Remove keymap.*.
-	
+
 	* src/keymap.h (get_key,key_ready): Move to ...
 	* src/keyb.h (get_key,key_ready): ... here.
 	* src/keymap.c (get_key,key_ready): Move to ...
 	* src/keyb.c (get_key,key_ready): ... here.
 	* src/keymap.h: Delete.
 	* src/keymap.c: Delete.
-	* src/Makefile.am (source_HEROES): Remove src/keymap.h amd 
-	src/keymap.c.	
+	* src/Makefile.am (source_HEROES): Remove src/keymap.h amd
+	src/keymap.c.
 	* src/endscroll.c: Include keyb.h instead of keymap.h.
 	* src/menus.c: Likewise.
 	* src/heroes.c: Likewise.
 	* src/const.c: Likewise.
 
 	Interface with SDL.
-	
+
 	* src/display.c: Include config.h, and move existing code under
 	#ifdef HAVE_PKG_GGI.
 	[HAVE_SDL] (visu,screen,set_display_params,init_video,
@@ -2959,10 +2963,10 @@
 	[HAVE_SDL] (KH_*): New definitions for SDL.
 
 	Misc.
-	
+
 	* src/heroes (play_game): Use HK_Enter instead of HK_Return.
 	* configure.in: Define DEBUG when --enable-debug.
-	
+
 2000-06-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Preliminary support for SDL.
@@ -2982,12 +2986,12 @@
 	[SDL] (keysdef-sdl.h): Rule to make keysdef-sdl.h.
 	* src/keysdef.c: Include options.h.  Include keysdef-ggi.h or
 	keysdef-sdl.h with respect to HAVE_PKG_GGI and HAVE_SDL.
-	
+
 2000-06-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Move files around, to prepare the interfacing with some other
 	library than LibGGI.
-	
+
 	* Makefile.am (heroes_SOURCES): Add keysdef-gii.h.
 	(BUILT_SOURCES): Rename keysdef.c to keysdef-gii.h.
 	(keysdef.c): Rename to ...
@@ -3001,19 +3005,19 @@
 
 	* acinclude.m4: Remove occurence of `AM_PATH_GTK' to suppress a
 	warning from autoreconf.
-	
+
 2000-06-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Centralize the definitions of used key in src/keys_heroes.h to
 	make the interfacing with another library easiest.
-	
+
 	* src/keys_heroes.h: New file.
 	* src/gfx_reader.h: Adapt to use keys_heroes.h.
 	* src/options.c: Likewise.
 	* src/menus.c: Likewise.
 	* src/heroes.c: Likewise.
 	* src/const.c: Likewise.
-	
+
 2000-06-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.in: Change version to 0.3.
@@ -3026,7 +3030,7 @@
 
 	Smarter keyboard configurator: allow to assign a key already
 	assigned.  Don't use keyboard_map anymore.
-	
+
 	* src/menus.c (keyboard_menu): Use get_key and key_ready instead
 	of keyboard_map.  Assign GIIK_NIL to stolen keys.  Jump on NIL keys
 	when trying to quit.
@@ -3034,8 +3038,8 @@
 2000-06-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Joystick(s?) handling.
-	
-	* src/joystick.h (joystick_x, joystick_y): Change signedness to 
+
+	* src/joystick.h (joystick_x, joystick_y): Change signedness to
 	signed.
 	(joystick_limit_up,joystick_limit_right,joystick_limit_down,
 	joystick_limit_left): Remove.
@@ -3055,7 +3059,7 @@
 	play_game): Uncomment joystick handling code.
 	(get_input_directions): Remove detection of joystick unplugging.
 	(main): Call joy_init() if joystick handling not disabled.
-	* src/const.c (key_or_joy_ready): Remove detection of joystick 
+	* src/const.c (key_or_joy_ready): Remove detection of joystick
 	unplugging.
 	(get_key_or_joy): Return correct KeySyms.
 
@@ -3066,7 +3070,7 @@
 2000-06-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Suppress warning for unused parameters in empty functions.
-	
+
 	* src/sound.c [HAVE_MIKMOD] (update_thread): Flag parameter as unused.
 	[!HAVE_MIKMOD] (update_thread,decode_sound_options): Likewise.
 	* src/sfx.c [!HAVE_MIKMOD] (load_sfx_mode,event_sfx): Likewise.
@@ -3079,11 +3083,11 @@
 	(reinit_player): Rename `flag' to `unusable', move the declaration
 	of `bitfl' in the loop where it is used.
 	(main) [PORT]: Remove obselete code.
-	
+
 2000-06-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Handles -G and --ggi-display options.
-	
+
 	* src/display.h (set_display_params): New function.
 	* src/display.c: Include string.h and dmalloc.h.
 	(display_params): New variable.
@@ -3106,7 +3110,7 @@
 	* src/sound.c (set_volume): Set md_musicvolume.
 	(halve_volume): Likewise.
 	* src/sfx.c (event_sfx): Set the sample volume.
-	
+
 2000-06-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Support for options setup in ~/.heroes/heroesrc.  Always create
@@ -3125,12 +3129,12 @@
 	* src/argv.c (print_help): Display a pair of lines about
 	~/.heroes/heroesrc.
 	(parse_argv): Reset optind to 0 so that parse_argv can be called
-	multiple times.  
+	multiple times.
 	* src/userconf.h: New file.
 	* src/userconf.c: New file.
 	* src/getshline.h: New file.
 	* src/getshline.c: New file.
-	
+
 	Move MikMod specific options parsing to sound.c.
 
 	* src/sound.h (nth_driver, driver_option): Remove.
@@ -3141,13 +3145,13 @@
 	* src/sound.c (get_int): ...here.
 
 	Missing include for dmalloc.h.
-	
+
 	* src/misc.c [HAVE_DMALLOC]: Include dmalloc.h.
-	
+
 2000-06-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Support for dmalloc or electric fence.
-	
+
 	* src/txts.c [HAVE_DMALLOC]: Include dmalloc.h.
 	* src/start.c [HAVE_DMALLOC]: Likewise.
 	* src/sound.c [HAVE_DMALLOC]: Likewise.
@@ -3165,11 +3169,11 @@
 
 	* configure.in: Add comments.  Add option --enable-mem-debug.
 	Check for dmalloc or else efence.
-	
+
 2000-06-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Support for sound driver selection and arguments passing.
-	
+
 	* src/sound.h (print_drivers_list,nth_driver,driver_options): New.
 	* src/sound.c (print_drivers_list,nth_driver,driver_options): New.
 	(init_sound_engine): Initialize md_device with nth_driver. Call
@@ -3188,7 +3192,7 @@
 	* src/sfx/Makefile.am: New (was missing).
 
 	Various (signedness) cleanups.
-	
+
 	* configure.in: Suppress -Wno-implicit flag, add -W.
 	* src/txts.c (read_txti_cfg): nbr is now unsigned.
 	* src/sound.h (setup,sync,error): Remove.
@@ -3213,12 +3217,12 @@
 	map_info_2xt,map_info_2yt): Likewise.
 	(map_info): Complete initalizer.
 	* src/argv.c: #include string.h
-	
+
 2000-06-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/sfx/*.raw : Convert each .raw file into ...
 	* src/sfx/*.wav : ... a .wav file.
-	
+
 2000-06-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/txt_cfg/txti.cfg: Fix a spelling mistake.
@@ -3234,7 +3238,7 @@
 2000-06-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Support for --disable-sound in sfx.c.
-	
+
 	* src/sfx.c
 	[!HAVE_LIBMIKMOD] (read_sfx_conf,close_sfx_handle,
 	load_sfx_mode,free_all_sfx,event_sfx): New (dummy) fonctions.
@@ -3242,9 +3246,9 @@
 2000-06-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Support for sound effects.
-	
+
 	* src/sound.h (mono): Remove.
-	* src/sound.c (mono): Remove. 
+	* src/sound.c (mono): Remove.
 	(init_sound_engine): Switch to mono if --mono.
 	(play_soundtrack): Set number of SFX voices.
 	* src/sfx.c: Port all #ifdef'ed-out code. Translate comments.
@@ -3261,14 +3265,14 @@
 2000-06-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Suppress the `orange line' bug when playing a two player game.
-	
+
 	* src/const.c (glenz): Change type from char to unsigned char.
 	* src/const.h (glenz): Likewise.
 
 2000-06-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Save options|saves|scores files in ~/.heroes/ by default.
-	
+
 	* src/scores.c (SCORES_FILE,name,scores_file): New.
 	(write_scores,load_scores): Use scores_file.
 	* src/savegame.c (SAVES_FILE,name,saves_file): New.
@@ -3292,8 +3296,8 @@
 	(EXTRA_DIST): New.
 	* src/txt_cfg/Makefile.am (x_DATA): Empty (don't install
 	scores.dat).
-	(y_DATA): Empty (don't install options.dat and savegame.dat).	
-	
+	(y_DATA): Empty (don't install options.dat and savegame.dat).
+
 2000-05-31  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/heroes.c (enter_your_name): Use delete or backspace.
@@ -3308,15 +3312,15 @@
 2000-05-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	A smarter way to search for LibGGI.
-	
-	* acconfig.h (HAVE_PKG_LibGGI): New. 
+
+	* acconfig.h (HAVE_PKG_LibGGI): New.
 	* configure.in: Use AC_caolan_CHECK_PACKAGE to search LibGGI.
 	* acinclude.m4 (AC_caolan_CHECK_PACKAGE): New.
-	
+
 2000-05-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Better keyboard handling (use GII unified scancodes, and
-	display the correct names).	
+	display the correct names).
 
 	* src/menus.c (search_keyname): New.
 	(draw_key): Use search_keyname.
@@ -3329,16 +3333,16 @@
 	* src/Makefile.am (heroes_SOURCES): Add keysdef.c.
 	(BUILT_SOURCES): New.
 	(keysdef.c): New.
-	* src/keysdef.h: Erase the old file. This now defines 
+	* src/keysdef.h: Erase the old file. This now defines
 	struct keynames_s.
 	* configure.in: Figure out where is ggi/keyboard.h. Test for cpp,
 	and awk.
-	
+
 2000-05-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Draw in memory before bliting to visual with any depth.
 	Original patch from Pierre Baillet <octplane@via.ecp.fr>.
-	
+
 	* src/display.c (render_visu): New.
 	(init_video): Open render_visu and acquire a direct-buffer
 	in render_visu. visu has now an unconstrained depth.
@@ -3349,7 +3353,7 @@
 	* src/keyb.c (init_keyboard_map): Cosmetic cleanup.
 
 	Suppress a buffer overflow.
-	
+
 	* src/pixelize (pixel16inline2): Rename to...
 	(pixel_16_inline_2): ... this.  Draw one line less.
 	(pixelize_16): Adapt.
@@ -3358,8 +3362,8 @@
 	(pixelize_32): Adapt.
 	(pixel64inline2): Rename to...
 	(pixel_64_inline_2): ... this.  Draw one line less.
-	(pixelize_64): Adapt.	
-	
+	(pixelize_64): Adapt.
+
 2000-05-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/intro.c (show_intro): Don't show wrong copyright info.
@@ -3367,19 +3371,19 @@
 
 2000-05-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
-	* src/heroes.c (play_game): Fix handling of escape in 
+	* src/heroes.c (play_game): Fix handling of escape in
 	savegame menu.
 
 2000-05-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
-	* src/keyb.c (process_input_events): Read and ignore KeyRepeat 
+	* src/keyb.c (process_input_events): Read and ignore KeyRepeat
 	events so that further calls of get_key don't see them.
 
 2000-05-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/sound.c (init_sound_engine): Register only the xm loader.
 	* TODO: Updated.
-	
+
 2000-05-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/heroes.c (play_game): Suppress an infinite loop
@@ -3390,40 +3394,40 @@
 	* src/keyb.c (keyboard_map): Likewise.
 	(init_keyboard_map): Use KEY_MAX.
 	(process_input_events): Ensure that keyboard_map won't overflow.
-	
+
 2000-05-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	More arguments fixes...
-	
+
 	* src/argv.c (long_options): Clean up. Correct values.
-	
+
 2000-05-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
-	
+
 	Fix a bug in argument handling.
-	
+
 	* src/argv.c (parse_argv): Handle 0 return from getopt_long.
-	Remove cases that can be processed directly by getopt_long.  
+	Remove cases that can be processed directly by getopt_long.
 	Move long_option array out of parse_argv.
 
 2000-05-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
-	
+
 	* configure.in: Evaluate $mandir before echoing.
-	
+
 2000-05-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	From Jean Delvare <delvare@ensicaen.ismra.fr>.
 
 	* src/display.c (init_video): Add newline to error message.
-	
+
 2000-05-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Don't supply help2man in the dist.
-	
+
 	* configure.in: Check for help2man.
 	* man/Makefile.am: Build heroes.6 if HAVE_HELP2MAN.  Strip one
-	extra space. 
+	extra space.
 	(EXTRA_DIST): Remove help2man.
-	* man/help2man: Delete. 
+	* man/help2man: Delete.
 	* README: Updated.
 
 2000-05-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
@@ -3434,7 +3438,7 @@
 2000-05-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Better error handling when setting video mode.
-	
+
 	* src/display.c (init_video): Exit if correct video unavailable.
 	* README: Update.
 
@@ -3446,18 +3450,18 @@
 	* src/gfx_reader.h: Likewise.
 	* src/pcx.c: Display filename on error.
 	* src/heroes.c: Fix loaded file names.
-	
+
 2000-05-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Build a man page.
-	
+
 	* Makefile.am (SUBDIRS): Add man subdir.
 	* configure.in: Check for perl. Output man/Makefile. Display $mandir.
 	* src/argv.c (version): Don't indent authors.
 	(print_help): Display help.
 	* man/Makefile.am: New file.
 	* man/help2man: New file.
-	
+
 	* src/draw.c: Cosmetic changes.
 
 2000-05-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
@@ -3519,7 +3523,7 @@
 	* src/Makefile.am (heroes_SOURCES): Adjust.
 
 	* Adjust all includers.
-	
+
 2000-05-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Rename all functions and global variables as given by the two
@@ -4033,7 +4037,7 @@
 2000-05-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Misc cleanups.
-	
+
 	* src/sdf.c (texte): Remove.
 	(sdf): Don't load srtattxt.pcx.
 	* src/render (draw_lvl): Remove useless comments.
@@ -4048,7 +4052,7 @@
 2000-05-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Fix the extramenu bug.
-	
+
 	* src/misc.c (strupr): New.
 	* src/misc.h (strupr): New.
 	* src/menus.c (extramenu): Upper case the filenames before
@@ -4066,9 +4070,9 @@
 
 2000-05-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
-	Use gettimeofday to simulate the frame timer (don't use 
+	Use gettimeofday to simulate the frame timer (don't use
 	times anymore).
-	
+
 	* src/timer_.c: Use HAVE_SYS_TIME to #include the correct header.
 	(start_time): Change type to struct timeval.
 	(frame_lenght): Remove.
@@ -4079,12 +4083,12 @@
 	(readsettimer_withvalue,updatetimer): Adapted to use gettimeofday.
 	(updatetimer_block): Comment added.
 	* configure.in: Check for sys/time.h.
-	
+
 2000-05-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
-	Add the intro and tweak the timer to wait the next 
+	Add the intro and tweak the timer to wait the next
 	frame in updatetimer_block.
-	
+
 	* src/intro.c (lezardata,lezardatac,lezardcoulptr): Now unsigned.
 	(img2vram,copiemoto1,copiemoto2,lezardcalc,
 	lezard,antialias,show_intro): Tag static.
@@ -4100,25 +4104,25 @@
 	* src/const.c (vsynch): Call updatetimer_block instead of updatetimer.
 	* src/timer_.c (updatetimer_block): New.
 	* src/timer_.h (updatetimer_block): New.
-	
+
 2000-05-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.in: Guess canonical host.  Exit if LibGGI is not
 	usable. Add -NDEBUG to $CFLAGS.  Display configuration status.
 	* config.guess: New file.
 	* config.new: New file.
-	* acconfig.h (HOST): Added. 
+	* acconfig.h (HOST): Added.
 	* src/argv.c (version): Display canonical host.
 
 2000-05-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Tag local functions with static.
-	
+
 	* src/sound.c (init_midas): Typo.
 	(update_thread): Tag static.
 	* src/sfx.c (filenamet,sfxnames,sfxloaded,sfxhandles,
 	playhandles,eventhdl,maxsfx,tmp3,virem,stgame): #ifdef out.
-	(readsfxcfg,closesfxhdl,freeallsfx,loadsfxmode,eventsfx): Remove 
+	(readsfxcfg,closesfxhdl,freeallsfx,loadsfxmode,eventsfx): Remove
 	extern tag.
 	* src/scores.c (cmpscores,checkscores): Tag static.
 	* src/savegame.c (setmagic,checksaverec): Tag static.
@@ -4134,17 +4138,17 @@
 	editormenu): Tag static.
 	(loadtilesprev): Lowercase the strings.
 	* src/joystick.c (_getjoystate): Tag static.
-	
+
 2000-05-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.in: Add support for --disable-sound and
-	--enable-debug.  Add more compiler warning and 
+	--enable-debug.  Add more compiler warning and
 	optimization flags.
 	* README (Installation): Document --disable-sound and
 	--enable-debug.
 
 	* src/Makefile.am (heroes_LDADD): Remove.
-	
+
 	* TODO: Update.
 
 2000-05-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
@@ -4160,7 +4164,7 @@
 	* src/sound.h (init_midas): Return status.
 	* src/sound.c [HAVE_LIBMIKMOD]: Use Mikmod.
 	[!HAVE_LIBMIKMOD]: Empty implemetation.
-	
+
 	* src/heroes.c (loadlevel): Downcase module name.
 	(jukeboxmenu): Likewise.
 	(pause): Likewise.
@@ -4171,7 +4175,7 @@
 	* acinclude.m4: Add AC_PATH_GENERIC macro.
 
 	* src/mod/Makefile.am: New file.
-	
+
 	* TODO: Add some notes.
 
 2000-05-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
@@ -4180,7 +4184,7 @@
 
 	* src/argv.h: New.
 	* src/argv.c: New.
-	
+
 	* src/sfx.h (nosfx): Move to argv.h.
 	* src/sfx.c (nosfx): Move to argv.c.
 
@@ -4195,16 +4199,16 @@
 	(play): Use level_name from argv.h instead of levelnom.
 	(main): Remove all command line parsing code.
 	(doublefx,snap,joyoff,devparm,loadulevel,directmenu,
-	reinitsco,reinitopt,reinitsav): Moved to argv.h and argv.c.	
-	
+	reinitsco,reinitopt,reinitsav): Moved to argv.h and argv.c.
+
 	* src/render.c: #include argv.h.
-	
+
 	* src/Makefile.am (heroes_SOURCES): Add argv.c and argv.h.
-	
+
 2000-05-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	A working autoconf/automake configuration.
-	
+
 	* src/sfx.c (readsfxcfg): Return 0.
 
 	* src/Makefile.am (SUBDIRS): New.
@@ -4213,14 +4217,14 @@
 	* src/rsc/Makefile.am: New.
 	* src/level/Makefile.am: New.
 	* src/extralvl/Makefile.am: New.
-	
+
 	* acinclude.m4: New, defines AC_DEFINE_DIR.
 	* configure.in: Use AC_DEFINE_DIR.
 
 2000-05-09  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Some fixes, plus autoconf/automake installation.
-	
+
 	* src/sfx.c: #ifdef out all the code.
 
 	* src/heroes.c: Rename to ...
@@ -4232,26 +4236,26 @@
 	* src/config.h: Remove from project (generated by configure).
 	* src/Makefile: Likewise.
 	* src/level/demo.lst: Delete.
-	
+
 	* README: New file.
 	* AUTHORS: New file.
 	* NEWS: New file.
 	* COPYING: New file.
 	* INSTALL: New file.
-	
+
 	* Makefile.am: New file.
 	* configure.in: New file.
 	* src/Makefile.am: New file.
-	
+
 	* install-sh: New file.
 	* aclocal.m4: New file.
-	
+
 2000-05-08  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Recode each source file from MSDOS to latin1 charset.
 	Indent -br -ce each source file.
 	Insert copyright header on top of each source file.
-	
+
 2000-05-08  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Handle keyboard events.
@@ -4261,9 +4265,9 @@
 	(instkbdfil,uninstkbdfil,instkbdcc,uninstkbdcc): Remove.
 	(process_input_events): New.
 	* src/keyb.c: Likewise.
-	
+
 	* src/menus.c (keybmenu): Call process_input_events.
-	* src/heroes.c 
+	* src/heroes.c
 	(playdemo): Call process_input_events.
 	(quit_yn): Use touchejoy instead of clavier.
 	(play): Call process_input_events. Use touchejoy instead of
@@ -4281,11 +4285,11 @@
 	(frame_lenght): New.
 	(installetimer): Calculate frame_lenght.
 	(updatetimer): Use frame_lenght.
-	
-	* src/readvga.c (transphelpfgl): Specify signedness of some char 
+
+	* src/readvga.c (transphelpfgl): Specify signedness of some char
 	variables.
 	* src/heroes.c (outputscreen): Likewise.
-	
+
 2000-05-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/visuals.c (aff_buffer_def_half): Handle the case where a
@@ -4299,54 +4303,54 @@
 	* src/pixel.c
 	(pixe8inline,pixe16inline,pixe32inline,pixe64inline): Correct
 	wrong calculation.
-	
+
 	* src/readvga.c (showhelp): Use GII keysyms.
 	* src/menus.c: Likewise.
 	* src/heroes.c: Likewise.
 	* src/clavier.h: #include ggi/keyboard.h.
-	
+
 	* src/const.h (touchejoy): Return int.
 	* src/const.c (touchejoy): Likewise.
-	
+
 2000-05-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/visuals.c (aff_buffer_def): Write on 320 columns, not 319.
 	(aff_buffer_def_half): Write on 160 columns, not 159.
-	* src/vga_.c 
+	* src/vga_.c
 	(init_video): Call ggiSetColorfulPalette.
 	(defcoul,defpal): Scale colors by 1024.
 	* src/render.c (partiel4b): Typo.
-	(draw_lvl): Specify signedness of some char 
+	(draw_lvl): Specify signedness of some char
 	variables (or promote some other to int).
 	* src/piece.h: Use proper syntax for __attribute__ ((packed)).
 	* src/heroes.c: Various tweaks for timer.
 	* src/const.c (vsynch): Update frametot.
 	* src/Makefile (OBJ): Remove finfo.o.
 	* src/timer_.c (updatetimer): Don't use CLOCKS_PER_SEC.
-	
+
 2000-05-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
-	Interface with GGI. Replace timer stuff. 
+	Interface with GGI. Replace timer stuff.
 	Miscellaneous fixes.
-	
-	* src/vga_.h: Remove all DOS stuff.  Specify signedness 
+
+	* src/vga_.h: Remove all DOS stuff.  Specify signedness
 	of some char variables (or promote some other to int).
 	* src/vga_.c: Likewise.  Interface with libggi.
 
-	* src/timer_.h:  Specify signedness 
+	* src/timer_.h:  Specify signedness
 	of some char variables (or promote some other to int).
 	* src/timer_.c:
 
 	* src/sound.c (init_midas): Remove video mode switching.
 	* src/sdf.c (sdf): Likewise.
 	* src/intro.c (show_intro): Likewise.
-	
+
 	* src/menus.c: Remove tests of demoversion.
 
 	* src/keyb.c: #ifdef out all the code.
 	* src/joystick.c (_getjoystate): Do nothing.
 
-	* src/heroes.c: Remove reference to finfo.h. Remove tests of 
+	* src/heroes.c: Remove reference to finfo.h. Remove tests of
 	demoversion.
 	(readlevellst): Prevent NULL dereferencing.
 	(main): Init srand from time(0). Call init_video and close_video.
@@ -4381,22 +4385,22 @@
 
 	* src/finfo.c: Delete.
 	* src/finfo.h: Delete.
-	
+
 2000-05-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Translate assembly code back to C.
 
-	* src/visuals.c 
+	* src/visuals.c
 	(rotoinline): Remove.
 	(aff_buffer_def): Add C code to replace rotoinline call.
 	(rotoinline2): Remove.
 	(aff_buffer_def_half): Add  C code to replace rotoinline2 call.
 	* src/render.c (partiel4b): Translate to C.
-	* src/pixel.c 
+	* src/pixel.c
 	(pixel2inline,pixel4inline,pixel8inline,pixel16inline,pixel16inline2,
 	pixel32inline,pixel32inline2): Translate to C.
 	(pixel2,pixel4,pixel8,pixel16,pixel32): Adapt.
-	
+
 2000-05-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Move all directory #definitions in the same file (src/config.h).
@@ -4422,12 +4426,12 @@
 	(extradir): Remove.
 	* src/const.c: Likewise.
 	(spritedir,rscdir,nivdir,heddir,moddir,introdir,extradir): Remove.
-	* src/sfx.c: Likewise. 
+	* src/sfx.c: Likewise.
 	(sfxdir): Remove.
 	* src/extras.h (extradir): Remove.
 	* src/const.h (spritedir,rscdir,nivdir,heddir,moddir,introdir): Remove.
 	* src/Makefile: New file.
-	
+
 2000-05-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	For each X.c: #include X.h and solve the conflicts.
@@ -4453,13 +4457,13 @@
 	* src/const.c: #include src/const.h.
 	* src/const.h: Correct.
 	* src/clavier.c: #include src/clavier.h.
-	* src/affvga.c: #include src/affvga.h.  Specify signedness 
+	* src/affvga.c: #include src/affvga.h.  Specify signedness
 	of some char variables (or promote some other to int)
 	* src/affvga.h: Adapt.
-	
+
 	* src/hcdplay.h: Delete.
 	* src/test.c: Delete.
-	
+
 2000-05-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Many changes allowing all the following files to compile : sfx.c
@@ -4467,7 +4471,7 @@
 	savegame.c intro.c vga_.c menus.c affvga.c extras.c visuals.c
 	render.c start.c sound.c pixel.c finfo.c sdf.c txts.c misc.c.
 
-	* src/visuals.h: Specify signedness of	some char variables 
+	* src/visuals.h: Specify signedness of	some char variables
 	(or promote some other to int).
 	* src/render.h: Likewise.
 	* src/visuals.c: Likewise. #ifdef out some assembly code.
@@ -4483,23 +4487,23 @@
 	* src/pcx.c: #include stdlib.h.
 	* src/options.c: Reverse the order of functions.
 	* src/menus.c: Add '{ }' arround many ambiguous if/else.
-	Specify signedness of some char variables (or promote some 
+	Specify signedness of some char variables (or promote some
 	other to int).
 	* src/keybc.c: Remove reference to dos.h and conio.h.
-	* src/intro.c: Remove reference to mallox.h. Specify signedness 
-	of some char variables (or promote some other to int). 
+	* src/intro.c: Remove reference to mallox.h. Specify signedness
+	of some char variables (or promote some other to int).
 	#ifdef out some assembly code.
 	* src/fastmem.h: Typos.
 	* src/extras.h: Rewrite all `(*X)[]' as `*X'.
 	* src/extras.c (makeextralst): Use scandir to list extra levels.
 	(select_file): New.
 	* src/erreurs.c: Remove the MS-DOS part.
-	* src/const.c: Specify signedness of some char variables (or 
+	* src/const.c: Specify signedness of some char variables (or
 	promote some other to int).  Rewrite all `(*X)[]' as `*X'.
-	* src/affvga.c: Specify signedness of some char variables (or 
+	* src/affvga.c: Specify signedness of some char variables (or
 	promote some other to int).  Rewrite call to JUSTIF_CALL with
 	empty parameter as `JUSTIF_CALC( )'.
-	
+
 2000-05-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Many changes allowing heroes.c to compile.
@@ -4507,30 +4511,30 @@
 	* src/render.h (afftxtbonus): Remove.
 	* src/readvga.c: Remove ref. to conio.h, specify signedness of
 	some char variables (or promote some other to int).
-	* src/optionss.h: Specify signedness of	some char variables 
+	* src/optionss.h: Specify signedness of	some char variables
 	(or promote some other to int).
 	* src/options.h: Likewise.
 	* src/keyb.c: Likewise.
 	* src/extras.h: Likewise.
 	* src/const.h: Likewise.
-	* src/const.c: Likewise.	
-	* src/piece.h: Likewise.  Replace #pragma pack by 
+	* src/const.c: Likewise.
+	* src/piece.h: Likewise.  Replace #pragma pack by
 	__attribute__ ((packed)).
 	* src/pcx.h: Replace #pragma pack by __attribute__ ((packed)).
 	Remove to #pragma aux.
 
 	* src/heroes.c: Too many changes to list. Many functions moved.
-	Specify signedness of some char variables (or promote some 
+	Specify signedness of some char variables (or promote some
 	other to int).  Rewrite all `(*X)[]' as `*X'.
 	* src/extras.c: Rewrite all `(*X)[]' as `*X'.
-	
+
 2000-05-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/mallox.h: Delete.
 	* src/mallox.c: Delete.
 	* src/makefile: Delete.
-	* src/fortune.h: Delete. 
-	* src/fortune.c: Delete. 
+	* src/fortune.h: Delete.
+	* src/fortune.c: Delete.
 
 	* src/start.c: Remove reference to mallox.h.
 	* src/sfx.c: Likewise.
@@ -4540,12 +4544,12 @@
 	* src/finfo.c: Likewise.
 	src/extras.c
 	* src/heroes.c: Likewise. Remove reference to fortune.h.
-	
+
 	* src/keyb.h: Remove LED stuff.
 	* src/keyb.c: Likewise.
 	* src/clavier.h (touche,toucheready): Remove #pargma aux.
 	* src/clavier.c: Likewise.
-	
+
 2000-05-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/cdplayer.bat: Delete.
@@ -4568,13 +4572,13 @@
 	* src/vgatxt.h: Delete.
 	* src/vgatxt_a.asm: Delete.
 
-	* src/sound.c: #ifdef out all calls to Midas. Remove 
+	* src/sound.c: #ifdef out all calls to Midas. Remove
 	reference to setup.h.
 	* src/sfx.c: #ifdef out all calls to Midas.
 
 	* src/mouse.h: Remove every #pragma aux (assembly code).
 	* src/joystick.c (_getjoystate): Remove #pragma aux.
-	
+
 	* src/menus.c: Remove reference to reader.h. #ifdef out
 	calls to hmain (level editor).
 
@@ -4582,7 +4586,7 @@
 	tmrSyncSrc.
 
 	* src/heroes.c: #ifdef out reference to mouse.h.  Remove references
-	to reader.h, install.h, hcdplay.h and midas.h.  
+	to reader.h, install.h, hcdplay.h and midas.h.
 	#ifdef out calls to tmrSyncSrc, access to joysticks states, mouse
 	and sound initialization.
 	(createbatches): Remove.
@@ -4594,7 +4598,7 @@
 
 	* src/const.h: Remove reference to midas.h.
 	* src/const.c: Likewise.
-	
-2000-05-06:  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+2000-05-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* Initial revision (MS-DOS version).
