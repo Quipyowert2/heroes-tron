@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.8c\n"
-"POT-Creation-Date: 2001-02-19 20:32+0100\n"
-"PO-Revision-Date: 2001-02-12 19:40+01:00\n"
+"POT-Creation-Date: 2001-02-20 09:02+0100\n"
+"PO-Revision-Date: 2001-02-19 21:56+01:00\n"
 "Last-Translator: Jos Boersema <joshb@FIXME>\n"
 "Language-Team: none <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -87,12 +87,12 @@ msgid "memory exhausted"
 msgstr "geheugen uitgeput"
 
 #: src/argv.c:57
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Copyright (C) %d  Alexandre Duret-Lutz, Romuald Genevois,\n"
 "Alexandre Liverneaux and Philippe Meisburger.\n"
 msgstr ""
-"Copyright 1997, 1998, 2000  Alexandre Duret-Lutz, Romuald Genevois,\n"
+"Copyright (C) %d  Alexandre Duret-Lutz, Romuald Genevois,\n"
 "Alexandre Liverneaux en Philippe Meisburger.\n"
 
 #: src/argv.c:60
@@ -379,14 +379,12 @@ msgstr ""
 #. TRANS: a `visual' is associated by LibGGI to a display.  You can
 #. actually call it a `display', this makes no big difference.
 #: src/display.c:373
-#, fuzzy
 msgid "failed to open visual."
-msgstr "Openen van scherm mislukt."
+msgstr "openen van scherm mislukt."
 
 #: src/display.c:381
-#, fuzzy
 msgid "cannot setup a correct display."
-msgstr "Kon geen correct scherm opzetten."
+msgstr "kon geen correct scherm opzetten."
 
 #: src/display.c:388
 #, c-format
@@ -406,14 +404,12 @@ msgid "Failed to set 320x200x8 mode on display-memory"
 msgstr "Openen van intern scherm-geheugen voor scherm mislukt."
 
 #: src/display.c:486
-#, fuzzy
 msgid "failed to acquire direct-buffer"
-msgstr "Kan geen correcte directe-buffer krijgen."
+msgstr ""
 
 #: src/display.c:503
-#, fuzzy
 msgid "failed to release direct-buffer"
-msgstr "Kan geen correcte directe-buffer krijgen."
+msgstr ""
 
 #: src/display.c:580
 #, c-format
@@ -1230,7 +1226,8 @@ msgid "ONE PLAYER"
 msgstr "1 SPELER"
 
 #: src/menus.c:558
-msgid "TWO PLAYER"
+#, fuzzy
+msgid "TWO PLAYERS"
 msgstr "TWEE SPELERS"
 
 #: src/menus.c:562
@@ -1240,11 +1237,13 @@ msgstr "LADEN..."
 # FIXME: shouldn't that be "choOse a save slot"?
 #. saved game selection
 #: src/menus.c:571
-msgid "CHOSE A SAVE SLOT"
+#, fuzzy
+msgid "CHOOSE A SAVE SLOT"
 msgstr "KIES EEN BEWAAR POSITIE"
 
 #: src/menus.c:573
-msgid "CHOSE A LOAD SLOT"
+#, fuzzy
+msgid "CHOOSE A LOAD SLOT"
 msgstr "KIES EEN LAAD POSITIE"
 
 #. enter your name
@@ -1304,30 +1303,30 @@ msgid "HIGHER SCORES"
 msgstr "HOGERE SCORES"
 
 #. FIXME: handle plural
-#: src/menus.c:1245
+#: src/menus.c:1253
 #, c-format
 msgid "%d ROUNDS"
 msgstr "%d RONDES"
 
-#: src/menus.c:2225
+#: src/menus.c:2233
 #, c-format
 msgid "PLAYER %d, YOU CAME IN THE TOP 10"
 msgstr "SPELER %d, U STAAT IN DE TOP 10"
 
-#: src/menus.c:2294
+#: src/menus.c:2302
 #, c-format
 msgid "PLAYER %d WON!"
 msgstr "SPELER %d WINT!"
 
-#: src/menus.c:2300
+#: src/menus.c:2308
 msgid "EVERYONE LOST!"
 msgstr "IEDEREEN VERLIEST!"
 
-#: src/menus.c:2302
+#: src/menus.c:2310
 msgid "YOU LOST!"
 msgstr "U VERLIEST!"
 
-#: src/menus.c:2381
+#: src/menus.c:2389
 #, c-format
 msgid "ROUND %d/%d"
 msgstr "RONDE %d/%d"

@@ -1,5 +1,15 @@
 2001-02-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.in: Bump to version 0.8f.
+	* NEWS: Update for 0.8f.
+	* src/Makefile.am: Copyright 2001.
+	* src/keysdef.c: Likewise.
+	* Makefile.am: Likewise.
+	* po/fr.po: Update.
+	* po/nl.po: Update.
+
+2001-02-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/menus.c (keyboard_menu): Regenerate keyname sprites
 	for conflicting keys.
 	Reported by Jean Delvare <devare@ensicaen.ismra.fr>.

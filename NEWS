@@ -1,3 +1,10 @@
+Heroes 0.8f	February 20, 2001
+
+	* New configure option: --disable-display.
+	* Bug fixes:
+	  - correctly update screen on key conflicts (since 0.6c)
+	  - get support for gcc 2.7.2 back (apparently dropped since 0.6e)
+
 Heroes 0.8e	February 14, 2001
 
 	* GGI usage enhancements:

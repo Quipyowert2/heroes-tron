@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.8e\n"
-"POT-Creation-Date: 2001-02-19 20:32+0100\n"
-"PO-Revision-Date: 2001-02-13 22:41+01:00\n"
+"POT-Creation-Date: 2001-02-20 09:02+0100\n"
+"PO-Revision-Date: 2001-02-19 21:52+01:00\n"
 "Last-Translator: Alexandre Duret-Lutz <duret_g@epita.fr>\n"
 "Language-Team: none <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -83,12 +83,12 @@ msgid "memory exhausted"
 msgstr "mémoire épuisée"
 
 #: src/argv.c:57
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Copyright (C) %d  Alexandre Duret-Lutz, Romuald Genevois,\n"
 "Alexandre Liverneaux and Philippe Meisburger.\n"
 msgstr ""
-"Copyright 1997, 1998, 2000  Alexandre Duret-Lutz, Romuald Genevois,\n"
+"Copyright (C) %d  Alexandre Duret-Lutz, Romuald Genevois,\n"
 "Alexandre Liverneaux et Philippe Meisburger.\n"
 
 #: src/argv.c:60
@@ -368,23 +368,22 @@ msgstr ""
 #: src/display.c:353
 msgid "failed to get any direct buffer for this visual"
 msgstr ""
+"impossible d'obtenir un accès direct au tampon d'affichage de ce visuel"
 
 #. TRANS: a `visual' is associated by LibGGI to a display.  You can
 #. actually call it a `display', this makes no big difference.
 #: src/display.c:373
-#, fuzzy
 msgid "failed to open visual."
-msgstr "Echec lors de l'ouverture du visuel."
+msgstr "echec lors de l'ouverture du visuel."
 
 #: src/display.c:381
-#, fuzzy
 msgid "cannot setup a correct display."
-msgstr "Impossible de configurer un affichage correct."
+msgstr "impossible de configurer un affichage correct."
 
 #: src/display.c:388
 #, c-format
 msgid "negociated video mode is too small (width=%d, height=%d)"
-msgstr ""
+msgstr "le mode vidéo négocié est trop petit (largeur=%d, hauteur=%d)"
 
 #. TRANS: `display-memory' is the name of a LibGGI driver and
 #. make no sense to translate.
@@ -393,19 +392,16 @@ msgid "Failed to open an internal `display-memory' visual."
 msgstr "Echec lors de l'ouverture du visuel interne `display-memory'."
 
 #: src/display.c:403
-#, fuzzy
 msgid "Failed to set 320x200x8 mode on display-memory"
-msgstr "Echec lors de l'ouverture du visuel interne `display-memory'."
+msgstr "Impossible d'ouvrir le visuel `display-memory' en 320x200x8"
 
 #: src/display.c:486
-#, fuzzy
 msgid "failed to acquire direct-buffer"
-msgstr "Impossible d'obtenir un accès direct au tampon d'affichage."
+msgstr "impossible d'obtenir un accès direct au tampon d'affichage"
 
 #: src/display.c:503
-#, fuzzy
 msgid "failed to release direct-buffer"
-msgstr "Impossible d'obtenir un accès direct au tampon d'affichage."
+msgstr "impossible de libérer l'accès direct au tampon d'affichage"
 
 #: src/display.c:580
 #, c-format
@@ -1199,7 +1195,8 @@ msgid "ONE PLAYER"
 msgstr "UN JOUEUR"
 
 #: src/menus.c:558
-msgid "TWO PLAYER"
+#, fuzzy
+msgid "TWO PLAYERS"
 msgstr "DEUX JOUEURS"
 
 #: src/menus.c:562
@@ -1208,11 +1205,13 @@ msgstr "CHARGER..."
 
 #. saved game selection
 #: src/menus.c:571
-msgid "CHOSE A SAVE SLOT"
+#, fuzzy
+msgid "CHOOSE A SAVE SLOT"
 msgstr "CHOISISSEZ UN EMPLACEMENT"
 
 #: src/menus.c:573
-msgid "CHOSE A LOAD SLOT"
+#, fuzzy
+msgid "CHOOSE A LOAD SLOT"
 msgstr "CHOISSISSEZ UN EMPLACEMENT"
 
 #. enter your name
@@ -1269,30 +1268,30 @@ msgid "HIGHER SCORES"
 msgstr "MEILLEURS SCORES"
 
 #. FIXME: handle plural
-#: src/menus.c:1245
+#: src/menus.c:1253
 #, c-format
 msgid "%d ROUNDS"
 msgstr "%d MANCHES"
 
-#: src/menus.c:2225
+#: src/menus.c:2233
 #, c-format
 msgid "PLAYER %d, YOU CAME IN THE TOP 10"
 msgstr "JOUEUR %d, VOUS FIGUREZ PARMI LES 10 MEILLEURS"
 
-#: src/menus.c:2294
+#: src/menus.c:2302
 #, c-format
 msgid "PLAYER %d WON!"
 msgstr "LE JOUEUR %d GAGNE !"
 
-#: src/menus.c:2300
+#: src/menus.c:2308
 msgid "EVERYONE LOST!"
 msgstr "TOUT LE MONDE PERD"
 
-#: src/menus.c:2302
+#: src/menus.c:2310
 msgid "YOU LOST!"
 msgstr "VOUS AVEZ PERDU !"
 
-#: src/menus.c:2381
+#: src/menus.c:2389
 #, c-format
 msgid "ROUND %d/%d"
 msgstr "MANCHE %d/%d"
