@@ -1,3 +1,8 @@
+2000-12-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/readmake.c (free_reader_data): Also free data_bg.
+	(compile_reader_data): Skip the formating block on empty strings.
+
 2000-12-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* TODO: Update.

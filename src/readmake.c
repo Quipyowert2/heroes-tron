@@ -279,6 +279,7 @@ compile_reader_data (read_data_t *head, const char *str)
 	voffset += xbuf * (help_font->line_skip + help_font->height);
 	shift_margins (lm, rm);
       } while (lm[0] != DEF_LM || rm[0] != DEF_RM);
+      goto next_line;
     }
 
     /* format the paragraph */
@@ -335,6 +336,13 @@ void
 free_reader_data (read_data_t *rd)
 {
   private_read_data_t *p = rd->data;
+  while (p) {
+    private_read_data_t *n = p->next;
+    free_sprite (p->sprite);
+    free (p);
+    p = n;
+  }
+  p = rd->data_bg;
   while (p) {
     private_read_data_t *n = p->next;
     free_sprite (p->sprite);
