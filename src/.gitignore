@@ -11,3 +11,8 @@ music.raw
 music.wav
 rsc_files_hash.c
 debughash.c
+prefs.c
+prefs.h
+debugchn.h
+debughash.gperf
+keysdefs-inc.h
