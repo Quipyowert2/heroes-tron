@@ -16,7 +16,7 @@ AC_CACHE_CHECK([where $1 is located], ac_adl_Header,
 # We should get lines of the form `# 1 "/usr/include/$1"'
 # The backslash substitution is to persuade cygwin to cough up
 # slashes rather than doubled backslashes in the path.
-echo "#include <$1>" > nametmp.c >& /dev/null
+echo "#include <$1>" > nametmp.c
 afh_file_list="`$CPP $2 nametmp.c |
 sed -n 's/^#[ 	].*\"\(.*\)\"/\1/p' |
 sed 's/\\\\\\\\/\//g' |

@@ -462,12 +462,8 @@ corner_buffer_end (int i)
 	src += xbuf;
 	dest++;
       }
-    } else {
-      for (k = 0; k < 80; k++) {
-	*((int *) dest) = 0;
-	dest += 4;
-      }
-    }
+    } else 
+      memset (dest, 0, 320);
   }
   for (l = 0; i + l < 200; l++) {
     dest2[1] = glenzd[dest2[1]];
