@@ -120,7 +120,7 @@ subset).
      `http://mikmod.darkorb.net/'.  If you install LibMikMod from
      sources you may want to compile LibMikMod without Alsa support.
 
-   * SDL_Mixer is an alternate sound engine that can be used only if
+   * SDL_Mixer is an alternative sound engine that can be used only if
      you use SDL as display driver. You don't need it if you want to
      compile Heroes without sound support.  Get it from
      `http://www.devolution.com/~slouken/SDL/projects/SDL_mixer/'.

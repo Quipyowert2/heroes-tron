@@ -1,5 +1,13 @@
 2000-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* NEWS: Update for next release.
+	* THANKS: Likewise.
+
+	* doc/heroes.texi (Libraries): "an alterate" -> "an alternative".
+	* Readme: Likewise.
+
+2000-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* doc/heroes.texi (Libraries): Describe SDL_mixer.
 	(configure options): Describe new configure options.
 	(Troubleshooting): Rename the subsection about Alsa and 

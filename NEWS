@@ -1,5 +1,43 @@
 		      User visible changes in Heroes.
 
+Heroes 0.6	September XX, 2000
+
+	* heroes has been split in four packages:
+	   - heroes:               source code, documentation
+	   - heroes-data:          level maps, graphics
+	   - heroes-sound-track:   sound tracks
+	   - heroes-sound-effects: sound effects
+	* SDL_mixer support (as an alternative for LibMikMod).
+	* Options, games, and scores are saved as soon as possible,
+	  not only on exit.
+	* Option list reordered in help screen and man page.
+	* Filenames are handled internally via aliases that can 
+	  be overridden with the `setrsc:' command in heroesrc.
+	* Filenames from sound configuration files not beginning by `/'
+	  are relative to the configuration file directory.
+	* Filename given after a `soundconf:' command are subject
+	  to alias expansion (e.g. `$(data-dir)/mod/sound.conf').
+	* New options:
+	  -2: double display size (slow)
+	  -3: triple display size (slower)
+	  -S: disable sound
+	  -X: disable sfx (not new, but was undocumented)
+	* Bugs fixed:
+	  - -q option wasn't handled
+	  - keysdef-inc.h was not build if --with-sdl or --with-GGI
+	    were given an argument
+	  - keysdef-inc.h included wrong SDL header
+	  - typos in the game texts and in the documentation
+	  - endian bugs in timing code
+	  - -DDEBUG was not in CFLAGS if the user specified 
+	    her own CFLAGS at configure time.
+	  - mouse support for SDL 1.0.x was missing.
+	  - a ./configure test was broken due to unquoted
+	    variable substitution.
+	* Internal major changes:
+	  - new directory lib/ for utility and compatibility functions.
+	  - timer code fully rewritten
+
 Heroes 0.5	July 22, 2000
 
 	* Level editor integration.
