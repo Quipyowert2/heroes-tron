@@ -1,5 +1,9 @@
 2001-05-08  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/relocate.c (try_to_derive_argv0): Don't free path if null.
+
+2001-05-08  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/items.c (catch_this): Remove.
 	(tutorial_arrow): New.
 	(init_item, unit_items): Handle tutorial_arrow instead of catch_this.

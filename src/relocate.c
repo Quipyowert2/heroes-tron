@@ -112,7 +112,7 @@ try_to_derive_argv0 (const char *argv0)
     set_rsc_file ("prefix", path, false);
     dmsg (D_SYSTEM, "trying $(prefix)='%s'", path);
   }
-  free (path);
+  XFREE (path);
   return check_installation ();
 }
 
