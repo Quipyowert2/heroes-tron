@@ -210,7 +210,7 @@ support) can be done.
 The web page of Heroes is @uref{http://www.realtech.scene.org/heroes/}.
 This page has been designed by Romuald Genevois
 @email{rgenevois@@besancon.net}.  More up to date information about
-recent versions are can be found on the Heroes project home page on
+recent versions can be found on the Heroes project home page on
 SourceForge: @uref{http://sourceforge.net/projects/heroes/}.
 
 The latest version of Heroes is always uploaded to@*
@@ -220,10 +220,10 @@ on the @samp{heroes-announce} mailing list (@pxref{Mailing lists}).
 Heroes is also uploaded to MetaLab (sunsite) in @file{/pub/linux/games};
 see @uref{http://metalab.unc.edu/pub/linux/MIRRORS.html,the MetaLab
 mirror list} to find your nearest mirror. You will have to wait three or
-four days to have files available on MetaLab after a release.
+four days to have the files available on MetaLab after a release.
 
 Heroes is distributed as four packages with independent version
-numbering.  Be sure to get them four:
+numbering and release schedule.  Be sure to get them four:
 
 @table @samp
 @item heroes
