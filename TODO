@@ -15,23 +15,23 @@ GENERAL The code is VERY UGLY and needs to be cleaned up.
 Medium priority
 ===============
 
+GENERAL Port on other unices.
+
 GENERAL Some filenames are in french, they should be translated.
 
-GENERAL Some parts should be modularized. Especially, ensure 
-        that gfx/sound/mouse/joystick/keyboard-calls are not squattered 
-        throughout the code.
+GENERAL Some parts of the code should be modularizedm especialy 
+        heroes.c and hedlite.c should be splited.
 
 DISPLAY Direct X11 support would be nice.
-
-INPUT   A mouse interface is needed for the editor.
-
-EDITOR  The builtin editor must be ported.
 
 MISC    Saves of games/options/scores are only performed when quitting, this
 	may not be good.  Think of the case were two heroes process access
 	a global score file.
 
 MISC	It would be nice to have games/options/scores files in text format.
+
+MISC	Try to load GGI, SDL, and MikMod libraries dymicaly (i.e. select
+        available library at run-time versus configure-time).
 
 INSTALL Some ./configure options should be added to specify data paths.
 
@@ -47,3 +47,8 @@ SOUND   Try to play with DMODE_SOFT_MUSIC and GUS.
 GFX	Would Hermes be faster than LibGGI's crossblit ?
 
 EDITOR  The external editor should be ported too, it will need more work.
+
+FUTURE  Programmable vehicles (for CPU controled ones) would be nice.  It
+        would be fun to link with Guile and control the vehicles in scheme.
+
+FUTURE  Network support.        

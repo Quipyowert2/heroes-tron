@@ -1,5 +1,26 @@
 		      User visible changes in Heroes.
 
+Heroes 0.5	July 22, 2000
+
+	* Level editor integration.
+	* Documentation updates.
+	* Sound configuration files allow specification of played 
+          sound-tracks (`soundconf:' in ~/.heroes/heroesrc).
+	* New options:
+	  -8: 8bits audio
+	  -q: high quality mixer
+	  -F: full screen video (where available)
+	* Preliminary support for big-endian machines [untested]
+	* Handle multiple extra level directories (`extradir:' in 
+	  ~/.heroes/heroesrc).
+	* Bugs fixed:
+	  - configure went wrong on joystick tests when GGI was not
+	    available and SDL didn't have joystick support.
+	  - --gfx-options used to segfault.
+	* Minor improvements:
+	  - Allow <PAUSE> to continue paused games.
+	  - With SDL, the --gfx-options will set SDL_VIDEODRIVER.
+
 Heroes 0.4	July 3, 2000
 
 	* Simple DirectMedia Layer (SDL) support.
@@ -28,7 +49,7 @@ Heroes 0.2	June 3, 2000
 	* Better keycode handling.  Report correct keysyms 
 	  in the KEYS menu.
 	* Improved ./configure options to specify LibGGI location.
-	* Bugs fixed :
+	* Bugs fixed:
 	  - a buffer overflow in pixelize
           - backspace and delete didn't work in console
 	  - the `orange vertical line' when playing a two players game

@@ -167,14 +167,15 @@ General Public Licenses that accompany it.
 @chapter Overview of Heroes
 @cindex  overview
 @cindex  nibble
-Heroes is a game inspired from Nibble, but with a lot of enhancements.
+Heroes is a game inspired from Nibbles (or Tron), but with a lot of
+enhancements.
 
-In a Nibble-like game, you drive a kind of snake whose tail grows
+In a Nibbles-like game, you drive a kind of snake whose tail grows
 when you eat certain bonuses.  You can't cross your tail, so the more you
 grow the more difficult the game is.  The aim is to get ten of these bonuses.
 
 Heroes features several game mode that are variations over these rules.
-Quest is the classical Nibble, in Death Match you start with very long
+Quest is the classical Nibbles, in Death Match you start with very long
 tails a must kill your opponents, in Kill'em All you must run over
 lemmings moving on the ground, in Color or Time Cash you must collect
 money or pyramids of color.
@@ -261,7 +262,8 @@ any unusual options you gave to `configure'.
 the actions necessary to reproduce the bug.
 
 @item 
-a description of the problem (sometimes, a snapshot may be a good description).
+a description of the problem (sometimes, a snapshot may be a 
+good description).
 
 @item 
 anything else that you think would be helpful.
@@ -465,6 +467,7 @@ keyboard handling.  Install LibMikMod if you want sound output.  Install
 LibGII to get joystick support, unless you have a recent SDL.
 
 My personal preference goes to LibGGI which seems to be faster than SDL.
+On the other hand, SDL seems better at doing full screen display.
 
 @node    configure, configure options, Libraries, Installation
 @comment node-name,  next,  previous,  up
@@ -732,8 +735,10 @@ constrained to 320x200).
 @section @file{~/.heroes/heroesrc}
 @cindex  heroesrc
 
-Each time you start heroes, it tries to read the file
-@file{~/.heroes/heroesrc} in your home directory.
+Each time you start heroes, it tries to read the system-wide
+configuration file @file{heroesrc} (in the @file{$datadir/heroes/etc/}
+directory) and from the @file{~/.heroes/heroesrc} in your home
+directory.
 
 @subsection @samp{option:}
 @cindex options:
@@ -833,6 +838,7 @@ section get written.
 @cindex  editor
 
 The level editor is available from the `editor' entry in the main menu.
+Created levels will be stored in your @file{~/.heroes/levels} directory.
 
 This editor is a cut down version of the one that served us to build all
 100 levels of this game.  This one will allow you to construct your own

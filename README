@@ -1,11 +1,11 @@
 In short
 ========
 
-   This is a port of Heroes for Linux. Heroes was a DOS game, like nibble
+   This is a port of Heroes for Linux. Heroes was a DOS game, like nibbles
 but with many enhancements. It can be played by one or two players. It
 features 12 original soundtracks, 94 levels (in 10 different tilesets) plus
 a level editor. There are five game modes like Quest (the classical
-nibble), or Kill'em all (run over lemmings).
+nibbles), or Kill'em all (run over lemmings).
 
    Presently the port is not complete, but the game is playable.  The main
 missing feature is the level editor.  Some other features as the audio CD
@@ -25,18 +25,23 @@ Getting Heroes
 ==============
 
    The web page of Heroes is `http://www.realtech.scene.org/heroes/'.
-It has been designed by Romuald Genevois <rgenevois@besancon.net>.
+This page has been designed by Romuald Genevois
+<rgenevois@besancon.net>.  See also the project home page on
+SourceForge: `http://sourceforge.net/projects/heroes/'.
 
-   Latest version of Heroes are always uploaded to
-`http://gadl.free.fr/heroes/linux/' and
-`http://www.epita.fr/~duret_g/heroes/linux/', the former site being a
-lot faster.
+   The latest version of Heroes is always uploaded to
+`ftp://download.sourceforge.net/pub/sourceforge/heroes/' and
+`http://www.epita.fr/~duret_g/heroes/linux/', the former site being
+faster.
 
    Heroes is also uploaded to MetaLab (sunsite) in `/pub/linux/games';
 see the MetaLab mirror list
 (http://metalab.unc.edu/pub/linux/MIRRORS.html) to find your nearest
 mirror. You will have to wait three or four days to have files
 available on MetaLab after a release.
+
+   A public CVS server is accessible.  See this page
+(ftp://download.sourceforge.net/pub/sourceforge/heroes/) for details.
 
 Needed Libraries
 ================
@@ -66,7 +71,9 @@ install all of them but just a subset).
 keyboard handling.  Install LibMikMod if you want sound output.  Install
 LibGII to get joystick support, unless you have a recent SDL.
 
-   My personal preference goes to LibGGI which seems to be faster than SDL.
+   My personal preference goes to LibGGI which seems to be faster than
+SDL.  On the other hand, SDL seems better at doing full screen
+display.
 
 configure generic instructions
 ==============================
@@ -156,5 +163,6 @@ Reporting bugs, sending suggestions or contribution
 ===================================================
 
    We welcome bug reports or suggestions for Heroes (both program or
-documentation).  Please email them to <duret_g@epita.fr>, but look at 
-the Texinfo documentation of Heroes before.
+documentation).  Please email them to the Heroes' mailing list
+<heroes-discuss@@lists.sourceforge.net>.  Please, see the Texinfo 
+documentation of Heroes for guidelines regarding to bug reporting.

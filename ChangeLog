@@ -1,3 +1,11 @@
+2000-07-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* NEWS: Update.
+	* TODO: Update.
+	* README: Update.
+	* doc/heroes.texi: Update.
+	* misc/heroes.xpm: New file.
+
 2000-07-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Use authors and titles from the config file in the CD deck.
