@@ -320,20 +320,25 @@ that branch should be merged in the main trunk.
  - Update administrative files:
    + THANKS (all the emails from the ChangeLog should
              figure in THANKS or AUTHORS)
-   + NEWS,TODO,BUGS must be up to date
+   + NEWS, TODO, BUGS must be up to date
  - Set version number in configure.in
- - make a dummy build (to update the generated file to the new version)
- - build the distribution using `make distcheck'
+ - run tools/cvsboot.sh and make a dummy build
+   (to update the generated file to the new version)
+ - build the distribution using `make distcheck' in addition to making
+   a distribution, this will actually  perform three builds of the
+   game using differents configurations (so you need both SDL and GGI
+   installed to do that)
 
 If the above was successful:
 
  - commit the changes to CVS
  - tag the repository (cvs tag heroes_xx_yy)
+ - update the webpages
 
 ** Where to upload
 
  SourceForge
-    ftp://download.sourceforge.net/incoming/
+    ftp://upload.sourceforge.net/incoming/
     https://sourceforge.net/project/admin/editpackages.php?group_id=7982
  MetaLab
     ftp://metalab.unc.edu/incoming/Linux/
