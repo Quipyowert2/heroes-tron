@@ -1,5 +1,16 @@
 2000-09-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Handle video pitch (SDL windx5 driver is now usable).
+
+	* src/display.c (scr_pitch): New.
+	(stretch_twofold,stretch_twofold_even,
+	stretch_threefold,stretch_threefold_even): Use scr_pitch.
+	(copy_screen): New.
+	(copy_display): Call copy_screen.
+	[HAVE_PKG_GGI,HAVE_SDL] (uninit_video): Set scr_pitch.
+	
+2000-09-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/hedlite.c: Include endian.h.
 	* src/hendian.c: Likewise.
 

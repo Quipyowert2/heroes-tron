@@ -50,6 +50,7 @@ char screen_allocated = 0;	/* Whether screen has been mallocated */
    be efficient. */
 
 static int scr_w, scr_h;	/* screen_rv width and height */
+static int scr_pitch;		/* screen_rv pitch */
 
 /* slow stretching routines */
 
@@ -76,7 +77,7 @@ stretch_twofold (void)
       s += 2;
       d += 4;
     }
-    d += 640;
+    d += 2 * scr_pitch - 640;
   }
 }
 
@@ -93,7 +94,7 @@ stretch_twofold_even (void)
       ++s;
       d += 2;
     }
-    d += 640;
+    d += 2 * scr_pitch - 640;
   }
 }
 
@@ -130,7 +131,7 @@ stretch_threefold (void)
       s += 2;
       d += 6;
     }
-    d += 2 * 960;
+    d += 3 * scr_pitch - 960;
   }
 }
 
@@ -158,7 +159,7 @@ stretch_threefold_even (void)
       ++s;
       d += 3;
     }
-    d += 5 * 960;
+    d += 6 * scr_pitch - 960;
     s += 320;
   }
 }
@@ -170,6 +171,16 @@ erase_odd_lines (void)
   int i;
   for (i = 100; i; --i, s += 640)
     memset (s, 0, 320);
+}
+
+static void
+copy_screen (void)
+{
+  unsigned char* s = screen;
+  unsigned char* d = screen_rv;
+  int i;
+  for (i = 200; i; --i, s += 320, d += scr_pitch)
+    fastmem4 (s, d, 320/4);
 }
 
 /* Copy the rendered display (screen) to the visual (screen_rv).  This
@@ -194,7 +205,7 @@ copy_display (void)
     if (even_lines)    
       erase_odd_lines ();
     if (screen_allocated)
-      fastmem4 (screen, screen_rv, 320 * 200 / 4);
+      copy_screen ();
   }
 }
 
@@ -249,6 +260,7 @@ init_video (void)
 
   scr_w = 320 * stretch;
   scr_h = 200 * stretch;
+  scr_pitch = src_w;
 
   vid_mode.frames = 1;
   vid_mode.visible.x = scr_w;
@@ -431,6 +443,8 @@ init_video (void)
     screen_allocated = 1;
   } else
     screen = screen_rv;
+
+  scr_pitch = visu->pitch;
 
   dmsg (D_VIDEO, "set misc. video parameters");
 
