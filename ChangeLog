@@ -1,3 +1,10 @@
+2002-03-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/sprunish.c (compile_sprunish): Check for src<eol before
+	dereferencing *src, not after.
+	* src/userconf.c (read_userconf): Don't free strings installed
+	in the environment using putenv.
+
 2002-03-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.ac: Bump version to 0.29a.  Use the new

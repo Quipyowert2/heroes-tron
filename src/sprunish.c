@@ -101,7 +101,7 @@ compile_sprunish (const a_pixel *src, a_pixel transp_color,
 	     && *src != transp_color && *src != glenz_color; ++src)
 	++n;
       /* count the number of glenz pixels */
-      for (s = 0; *src == glenz_color && src < eol && s < 255; ++src)
+      for (s = 0; src < eol && s < 255 && *src == glenz_color; ++src)
 	++s;
       /* write the corresponding data */
       *pc++ = m;      *pc++ = n;

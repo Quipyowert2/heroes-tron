@@ -87,7 +87,13 @@ read_userconf (const char* file, bool secure)
       XMALLOC_ARRAY (s, strlen (argv[1]) + strlen (argv[2]) + 2);
       sprintf (s, "%s=%s", argv[1], argv[2]);
       putenv (s);
-      free (s);
+      /* Can't free s, because most implementation of putenv
+	 will not copy the string but add the pointer to the environment
+	 directly.  So we create a memory leak, but in this case
+	 it doesn't really matters.
+	 FIXME: Use setenv when possible.  Provide a setenv implementation
+	 (using putenv) for architectures lacking putenv.  */
+      /* free (s); */
     } else if (!strcasecmp (argv[0], "extradir:")) {
       argv[1] = strtok (0, "\n");
       add_extra_directory (argv[1]);
