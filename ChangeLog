@@ -1,3 +1,15 @@
+2001-07-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/lvl/load.c (lvl_load_body_mem,
+	lvl_load_header_mem): New functions.
+	(lvl_init_lvl_basic_fields): New function, extracted from...
+	(lvl_load_header): ... here.  Rename as ...
+	(lvl_load_header_file): ... this.  Use lvl_load_header_mem.
+	(lvl_load_body): Rename as ...
+	(lvl_load_body_file): ... this.  Use lvl_load_header_file.
+	(lvl_load_file): Try to load the file using mmap, before
+	falling back to read.
+
 2001-07-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/heroeslvl.c (process): Don't load full level if we can avoid it.

@@ -120,6 +120,10 @@
 # endif
 #endif
 
+#if HAVE_MMAP
+# include <sys/mman.h>
+#endif
+
 #if HAVE_GETOPT_H && HAVE_GETOPT_LONG
 # include <getopt.h>
 #else
