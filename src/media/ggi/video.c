@@ -63,9 +63,24 @@ static int current_frame = 0;	/* used as index to `db' for
 
 static bool ggi_initialized = false;
 
+/* GGI fails to allocate a 8bit mode for some special X configuration.
+   (Probably when the server supports 8bits depth although it's not
+   the _default_ depth.)  A workaround is to not ask GGI for a 8bit
+   mode; this is activated if DONT_REQUEST_8BIT_MODE is TRUE.  */
+static bool dont_request_8bit_mode = false;
+
 void
 set_display_params (const char* str)
 {
+  /* Turn on the dont_request_8bit_mode workaround if the user typed
+     `-G not8'.  Other GGIs argument may be supplied after a colon as
+     in `-G not8:mumble' */
+  if (strncmp(str, "not8", 4) == 0 && (str[4] == ':' || str[4] == 0)) {
+    dont_request_8bit_mode = true;
+    if (str[4] == 0)
+      return;
+    str += 5;
+  }
   XFREE0 (display_params);
   display_params = xstrdup (str);
 }
@@ -79,6 +94,10 @@ set_full_screen_mode (void)
 static bool
 setup_320x200x8_display (void)
 {
+  if (dont_request_8bit_mode) {
+    dmsg (D_VIDEO, "skipped 320x200x8/2 mode negociation");
+    return false;
+  }
   dmsg (D_VIDEO, "negociate 320x200x8/2 mode");
   vid_mode.frames = 2;
   vid_mode.visible.x = scr_w;

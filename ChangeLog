@@ -1,3 +1,10 @@
+2001-12-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/media/ggi/video.c (dont_request_8bit_mode): New flag.
+	(set_display_params): Set dont_request_8bit_mode if `-G not8'.
+	(setup_320x200x8_display): Do nothing if dont_request_8bit_mode.
+	* doc/heroes.texi (Invoking heroes, Troubleshooting): Document this.
+
 2001-12-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/Makefile.am (parafmt_check_LDADD): New.

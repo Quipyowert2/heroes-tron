@@ -1111,6 +1111,11 @@ except that the former does not modify @samp{GGI_DISPLAY}.  (BTW, the
 above setting uses GGI's tile driver to display Heroes in two
 half-windows... this maybe quite fun to try in two player mode.)
 
+It is also possible to prevent Heroes' GGI driver to request a 8 bit
+mode with @samp{-G not8}.  This is necessary on some uncommon X setup
+to workaround a bug in GGI (@pxref{Troubleshooting}).  Other legitimate
+GGI settings maybe supplied after a colon, as in @samp{-G not8:x}.
+
 As SDL applications are concerned, selection of the video driver is
 achieved through the @samp{SDL_VIDEODRIVER} environment variable.  At
 the time of writting this is not documented in SDL, so you will have to
@@ -1254,11 +1259,11 @@ be printed using the @samp{--list=debug} option).
 
 @table @samp
 @item SECTION
-The different parts of the game (introduction, 
+The different parts of the game (introduction,
 demonstration, menus, ...).
 
 @item SYSTEM
-Handling of environment variables, creation of 
+Handling of environment variables, creation of
 directories, initialization of libraries.
 
 @item RESOURCE
@@ -1798,13 +1803,30 @@ video modes, I suggest you play with a environment variable called
 use heroes' @samp{--gfx-options} option instead of the above variable.  If
 you want to force X display, you can add a line
 @example
-Options: --gfx-display=X
+Options: --gfx-options=X
 @end example
 in your @file{~/.heroes/heroesrc} file.
 Note: @samp{--gfx-options} has no effect if you are using SDL.
 
 We suggest you to run the game under X because in console modes (libvga,
 frame buffers, ...) it's easy to get stuck if the game freeze.
+
+People using an X server that supports 8bit visuals although the default
+visual is not 8bit (run @code{xdpyinfo} to see a list of visuals that
+your X server supports) are subject to what is probably a GGI bug.
+Basically GGI's X driver fails to allocate the 8bit mode correctly.
+The symptom is
+@example
+X Error of failed request:  BadMatch (invalid parameter attributes)
+  Major opcode of failed request:  1 (X_CreateWindow)
+  Serial number of failed request:  24
+  Current serial number in output stream:  31
+@end example
+One workaround is to prevent Heroes from negociating a 8bit video mode.
+Specify @samp{--gfx-options not8} to that effect.  The default visual
+depth for your server will then be selected by GGI.  (Of course this is
+slower because Heroes internally works in 8bit mode; use of another
+display depth involves a conversion.)
 
 @subsection Keyboard
 @cindex keyboard
