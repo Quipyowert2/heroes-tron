@@ -17,10 +17,14 @@ dnl with this program; if not, write to the Free Software Foundation, Inc.,
 dnl 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 dnl 
 
-AC_INIT(src/heroes.c)
-AM_INIT_AUTOMAKE(heroes, 0.5)
+AC_PREREQ(2.49a)
 
-AC_CANONICAL_HOST
+dnl AC_COPYRIGHT([Copyright (C) 2000, Alexandre Duret-Lutz]) # BUGGED
+
+AC_INIT(src/heroes.c)
+AC_CANONICAL_TARGET
+
+AM_INIT_AUTOMAKE(heroes, 0.6)
 AC_DEFINE_UNQUOTED(HOST,"$host",[The canonical host])
 
 # ==================
@@ -28,29 +32,31 @@ AC_DEFINE_UNQUOTED(HOST,"$host",[The canonical host])
 # ==================
 
 AC_ARG_ENABLE(html-doc,
-[  --enable-html-doc[=DIR] Build and install html documentation])
+AC_HELP_STRING([--enable-html-doc=DIR],
+               [build and install html documentation]))
 AC_ARG_ENABLE(sound,
-[  --disable-sound         Turn off sound support])
+AC_HELP_STRING([--disable-sound],[turn off sound support]))
 AC_ARG_ENABLE(debug,
-[  --enable-debug          Turn on debugging])
+AC_HELP_STRING([--enable-debug],[turn on debugging]))
 AC_ARG_ENABLE(heroes-debug,
-[  --disable-heroes-debug  Disable tracing facility])
+AC_HELP_STRING([--heroes-debug],[disable tracing facility]))
 AC_ARG_ENABLE(mem-debug,
-[  --enable-mem-debug      Turn on memory debugging])
+AC_HELP_STRING([--mem-debug],[turn on memory debugging]))
 AC_ARG_ENABLE(user-config,
-[  --disable-user-config   Turn off per user configuration file])
+AC_HELP_STRING([--user-config],[turn off per user configuration file]))
 AC_ARG_ENABLE(user-scores,
-[  --disable-user-scores   Turn off per user scores file])
+AC_HELP_STRING([--disable-user-scores],[turn off per user scores file]))
 AC_ARG_ENABLE(user-saves,
-[  --disable-user-saves    Turn off per user saves file])
+AC_HELP_STRING([--disable-user-saves],[turn off per user saves file]))
 AC_ARG_ENABLE(joystick,
-[  --disable-joystick      Turn off joystick support])
+AC_HELP_STRING([--disable-joystick],[turn off joystick support]))
 AC_ARG_WITH(sdl,
-[  --with-sdl[=DIR]        Root directory of SDL installation
-  --without-sdl           Disables SDL usage completely])
+AC_HELP_STRING([--with-sdl=DIR],[root directory of SDL installation])
+AC_HELP_STRING([--without-sdl],[disables SDL usage completely]))
 AC_ARG_WITH(mikmod,
-[  --with-mikmod[=DIR]     Root directory of libMikMod installation
-  --without-mikmod        Disables libMikMod usage completely])
+AC_HELP_STRING([--with-mikmod=DIR],
+               [root directory of libMikMod installation])
+AC_HELP_STRING([--without-mikmod],[disables libMikMod usage completely]))
 
 # debugging options
 
@@ -135,6 +141,7 @@ malloc_lib='<disabled>'
 # ===================
 
 AC_PROG_CC
+AC_PROG_CC_STDC
 AC_PROG_CPP
 AC_PROG_AWK
 AC_PROG_RANLIB
@@ -447,9 +454,9 @@ AC_SUBST(LIBOBJS)
 # AC_CHECK_HEADERS(getopt.h)
 # AC_CHECK_FUNCS(getopt_long)
 
-# =====================
-# Checks for endianess.
-# =====================
+# ====================
+# Check for endianess.
+# ====================
 
 case "$build" in
   $target)
@@ -539,14 +546,14 @@ AC_SUBST(scoresdir)
 AC_SUBST(textdir)
 AC_SUBST(etcdir)
 
-AC_DEFINE_DIR(datadir  ,data_dir,  data directory)
+AC_DEFINE_DIR(datadir,data_dir,data directory)
 
 # ===================
 # HTML documentation. 
 # ===================
 
 # disabled by default
-if test "${enable_html_doc-no}" != xno; then
+if test "${enable_html_doc-no}" != no; then
   if test "x$enable_html_doc" = xyes; then
     htmldir="$data_dir/doc"
   else
@@ -555,7 +562,7 @@ if test "${enable_html_doc-no}" != xno; then
   AC_SUBST(htmldir)
   AM_CONDITIONAL(MAKE_HTML, test "${enable_html_doc-no}" != no)
 else
-  htmldir='<disabled>'
+  htmldir='\<none\>'
 fi
 
 # ============
@@ -577,12 +584,12 @@ AC_OUTPUT(
 # Configuration report
 # ====================
 
-eval bindir=$bindir
-eval bindir=$bindir
-eval datadir=$datadir
-eval mandir=$mandir
-eval infodir=$infodir
-eval htmldir=$htmldir
+eval bindir="$bindir"
+eval bindir="$bindir"
+eval datadir="$datadir"
+eval mandir="$mandir"
+eval infodir="$infodir"
+eval htmldir="$htmldir"
 
 echo "
 Heroes configuration

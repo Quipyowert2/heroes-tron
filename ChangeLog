@@ -1,3 +1,12 @@
+2000-09-02  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.in: Set version to 0.6.  Port to Autoconf 2.49a.
+	* acinclude.m4: Port to Autoconf 2.49a (use AC_HELP_STRING).
+	* install-sh: Update from Autoconf 2.49a.
+	* missing: Likewise.
+	* mkinstalldirs: Likewise.
+	* INSTALL: Likewise.
+
 2000-09-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Solaris already defines SEC.

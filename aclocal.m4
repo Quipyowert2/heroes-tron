@@ -1,4 +1,4 @@
-dnl aclocal.m4 generated automatically by aclocal 1.4
+dnl ./aclocal.m4 generated automatically by aclocal 1.4
 
 dnl Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
@@ -73,9 +73,13 @@ pushdef([DOWN], translit([$1], [A-Z], [a-z]))dnl
 dnl
 dnl Get the cflags and libraries from the LIBRARY-config script
 dnl
-AC_ARG_WITH(DOWN-prefix,[  --with-]DOWN[-prefix=PFX       Prefix where $1 is installed (optional)],
+AC_ARG_WITH(DOWN-prefix,
+AC_HELP_STRING([--with-]DOWN[-prefix=PFX],
+               [prefix where $1 is installed (optional)]),
         DOWN[]_config_prefix="$withval", DOWN[]_config_prefix="")
-AC_ARG_WITH(DOWN-exec-prefix,[  --with-]DOWN[-exec-prefix=PFX Exec prefix where $1 is installed (optional)],
+AC_ARG_WITH(DOWN-exec-prefix,
+AC_HELP_STRING([--with-]DOWN[-exec-prefix=PFX],
+               [exec prefix where $1 is installed (optional)]),
         DOWN[]_config_exec_prefix="$withval", DOWN[]_config_exec_prefix="")
 
   if test x$DOWN[]_config_exec_prefix != x ; then
@@ -196,7 +200,7 @@ AC_DEFUN(AC_caolan_CHECK_PACKAGE,
 [
 
 AC_ARG_WITH($1,
-[  --with-$1[=DIR]      root directory of $1 installation],
+AC_HELP_STRING([--with-$1=DIR],[root directory of $1 installation]),
 with_$1=$withval
 if test "${with_$1}" != yes; then
         $1_include="$withval/include"
@@ -206,12 +210,14 @@ fi
 )
 
 AC_ARG_WITH($1-include,
-[  --with-$1-include=DIR        specify exact include dir for $1 headers],
+AC_HELP_STRING([--with-$1-include=DIR],
+               [specify exact include dir for $1 headers]),
 $1_include="$withval")
 
 AC_ARG_WITH($1-libdir,
-[  --with-$1-libdir=DIR        specify exact library dir for $1 library
-  --without-$1        disables $1 usage completely],
+AC_HELP_STRING([--with-$1-libdir=DIR],
+               [specify exact library dir for $1 library])
+AC_HELP_STRING([--without-$1],[disables $1 usage completely]),
 $1_libdir="$withval")
 
 if test "${with_$1}" != no ; then
