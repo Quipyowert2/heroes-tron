@@ -77,6 +77,7 @@ print_help (char* argv0)
 	"  -m, --mono\t\t"          "    non-stereo output\n"
 	"  -8, --8bits\t\t"	    "    8bits sound output\n"
 	"  -q, --high-quality\t"    "    high quality mixer\n"
+	"  -X, --no-sfx\t\t"        "    disable sound-effects\n"
 	"  -s, --swap-sides\t"      "    swap sides in two player mode\n"
 	"      --no-double-fx\t"    
                            "    disable superposition of rotozoom and waves\n"

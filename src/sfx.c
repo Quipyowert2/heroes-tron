@@ -78,18 +78,25 @@ read_sfx_conf (void)
   char *tmpptr2;
   char c;
   int nbr;
-  char *sfxdir = get_non_null_rsc_file ("sfx-dir");
+  char *sfxdir = get_rsc_file ("sfx-dir");
 
+  if (sfxdir == 0)
+    nosfx = 1;
   if (nosfx)
-    return (0);
+    return 0;
 
   {
     char* conf = get_rsc_file ("sfx-conf-txt");
-    if (conf == 0)
-      return -1;
+    if (conf == 0) {
+      nosfx = 1;
+      return 0;
+    }
     if ((*conf == 0) || (fconf = fopen (conf, "rt")) == NULL) {
+      fprintf(stderr, "Cannot open %s, disabling sound-effects\n"
+	      "(run with -X to supress this message).\n", conf);
+      nosfx = 1;
       free (conf);
-      return (-1);
+      return 0;
     }
     free (conf);
   }
@@ -127,7 +134,7 @@ read_sfx_conf (void)
   }
   fclose (fconf);
   free (sfxdir);
-  return (0);
+  return 0;
 }
 
 void
