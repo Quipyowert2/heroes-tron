@@ -1,3 +1,23 @@
+2000-12-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/parafmt.c (word_s): Declare next_break and next_break_cost as
+	arrays.
+	(paragraph_s): Replace max_width by max_widths and nmax_widths,
+	add break_data and break_cost_data.
+	(split_words): Change constness of argument wa.
+	(initialize_width_data): New.
+	(compute_break_cost): Take a new argument, widx, to indicate the line
+	width to consider.  Adjust the body to use widx.
+	(compute_best_break): Likewise.
+	(compute_breaking_path): Adapt to call compute_best_break for each
+	possible widx.
+	(convert_paragraph_to_array): Adapt to handle next_break as an array.
+	(parafmt_var): New.
+	(parafmt): Rewrite using paragmt_var.
+	[TEST] (print_array_var, check_parafmt_var): New.
+	[TEST] (main): Call check_parafmt_var.
+	* src/parafmt.h (parafmt_var): New.
+
 2000-12-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/bonus.h (set_txt_bonus): Set constness of txt to suppress

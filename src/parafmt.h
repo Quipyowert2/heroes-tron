@@ -42,6 +42,13 @@ typedef unsigned int width_t;
 char **parafmt (const char *str, const width_t *wa,
 		width_t max_width, width_t min_space_width);
 
+/* Likewise, but the width may be different on each line.
+   max_widths is a 0 terminated array giving the width of each line.
+   The last size given by max_width is used for the remaining lines,
+   should there be more lines than widths given.  */
+char **parafmt_var (const char *str, const width_t *wa,
+		    const width_t *max_widths, width_t min_space_width);
+
 /* free an array of strings, as returned by parafmt */
 void free_pararray (char **p);
 
