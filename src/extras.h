@@ -22,11 +22,21 @@
 #ifndef __EXTRAS_H__
 #define __EXTRAS_H__
 
-extern char **extra_list;
+typedef	char*	filename_t;
+
+typedef struct {
+  char*		level_name;
+  filename_t	full_name;
+  char		is_in_user_dir;
+} extra_level_t;
+
+extern extra_level_t *extra_list;
 extern char *extra_selected_list;
 extern int extra_nbr;
-void browse_extra_directory (const char* directory);
-void make_extra_list (void);
+
+void browse_extra_directories (void);
+void add_extra_directory (filename_t fn);
+void add_default_extra_directories (void);
 void free_extra_list (void);
 
 #endif

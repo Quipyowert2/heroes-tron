@@ -35,21 +35,21 @@
 
 char* userdir;
 
-
-/* Test if ~/.heroes exists and is a directory */
-static int 
-exists_userdir (void) {
+/* Test if a file exists and is a directory */
+int 
+exists_dir (char* dir) 
+{
   struct stat s;
-  int err = stat (userdir, &s);
+  int err = stat (dir, &s);
   if (err) {
     if (errno == ENOENT) 
       return 0;
     fprintf(stderr,"%d\n",err);
-    perror ("while testing for ~/" DIR_NAME);
+    perror (dir);
     return -1;
   }
   if (!S_ISDIR(s.st_mode)) {
-    fprintf (stderr, "~/" DIR_NAME " is not a directory.\n");
+    fprintf (stderr, "%s is not a directory.\n", dir);
     return -1;
   }
   return 1;
@@ -74,7 +74,7 @@ setup_userdir (void)
   sprintf(userdir, "%s/" DIR_NAME, home);
 
   {
-    int err = exists_userdir ();
+    int err = exists_dir (userdir);
 
     if (err < 0)
       return 1;

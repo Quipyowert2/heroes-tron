@@ -1,3 +1,47 @@
+2000-07-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Write edited levels in ~/.heroes/levels/.  Rewrite the
+	extradir code to read that directory, and handle a list
+	of directory to search levels into (this list is browsed
+	again each time the level editor exits).
+
+	* src/extras.h (extra_level_t): New.
+	(extra_selected_list): Change type to extra_level_t*.
+	(browse_extra_directory): Remove.
+	(make_extra_list): Remove.
+	(add_extra_directory): New.
+	* src/extras.c (extradir_info_t,edir): New.
+	(extra_selected_list): Change type to extra_level_t*.
+	(cmp_filenames): Adapt to compare extra_level_t.
+	(browse_extra_directory): Take a new argument is_in_user_dir
+	to initialize extra_level_t structure.  Don't sort the list any more.
+	(browse_extra_directories): New. Sort the list.
+	(add_extra_directory,add_extra_in_user_directory): New.
+	(make_extra_list): Rename into ...
+	(add_default_extra_directories): ... this. Add ~/.heroes/levels 
+	directory.
+	(free_extra_list): Adapt to free extra_level_t.
+	* src/hedlite.h (hedlit_output_dir,levels_output_dir): New.
+	(create_levels_output_dir): New.
+	* src/hedlite.c (levelnom): Remove.
+	(select_,boitask,asknew,askold): Remove.
+	(create_levels_output_dir): New.
+	(hmain): Removed commented out code.  Call create_levels_output_dir.
+	Handle level filename.
+	* src/heroes.c (load_random_level): Adapt to extra_level_t.
+	(main): Adapt to call add_default_extra_directories and 
+	browse_extra_directories.
+	* src/menus.c (extra_menu,editor_selector,editor_menu): Adapt 
+	to extra_level_t.
+	(editor_menu): Call browse_extra_directories instead of 
+	make_extra_list.
+	* src/userconf.c (read_userconf): Call browse_extra_directories 
+	instead of make_extra_list.
+	* src/userdir.c (exists_userdir): Rename into ...
+	(exists_dir): ... this.  Take the directory to test in argument.
+	(setup_userdir): Adapt call to exists_dir.
+	* src/userdir.h (exists_dir): New.
+
 2000-07-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Fix two bugs occuring when using GGI.

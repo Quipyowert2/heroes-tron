@@ -1372,7 +1372,7 @@ load_random_level (char cont)
 //  t=1;
 
   if (t & 0x10000) {
-    strcat (strcpy ((char *) tmp, extradir), extra_list[t & 0xffff]);
+    strcpy (tmp, extra_list[t & 0xffff].full_name);
   } else {
     strcat (strcpy ((char *) tmp, nivdir), level_list + t * levellstchunk);
   }
@@ -4591,6 +4591,8 @@ main (int argc, char *argv[])
   if (setup_userdir ())
     exit (1);
 
+  add_default_extra_directories ();
+
   if (read_userconf (0, argv[0]))
     exit (1);
 
@@ -4608,7 +4610,7 @@ main (int argc, char *argv[])
 
   read_level_list ();
 // readlvllstq2();
-  make_extra_list ();
+  browse_extra_directories ();
   if (reinitopt)
     reinit_options ();
   else

@@ -100,7 +100,7 @@ read_userconf (const char* file, const char* argv0)
       setenv (argv[1], argv[2], 1);
     } else if (!strcasecmp (argv[0], "extradir:")) {
       argv[1] = strtok (0, "\n");
-      browse_extra_directory (argv[1]);
+      add_extra_directory (argv[1]);
     } else if (!strcasecmp (argv[0], "soundconf:")) {
       argv[1] = strtok (0, "\n");
       read_sound_config_file (argv[1]);      

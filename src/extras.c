@@ -29,14 +29,24 @@
 #include <dirent.h>
 #include "extras.h"
 #include "config.h"
+#include "generic_list.h"
+#include "hedlite.h"
+#include "misc.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
 
-char **extra_list = 0;
+typedef struct {
+  filename_t	filename;
+  char		is_in_user_dir;
+} extradir_info_t;
 
+NEW_LIST (extradir, extradir_info_t*);
+
+extradir_list_t edir;
+
+extra_level_t *extra_list = 0;
 char *extra_selected_list = 0;
-
 int extra_nbr = 0;
 
 /* select only *.lvl files */
@@ -50,13 +60,13 @@ select_file (const struct dirent *d)
 
 /* compatr two filenames */
 static int
-cmp_filenames (const char** l, const char** r)
+cmp_filenames (const extra_level_t* l, const extra_level_t* r)
 {
-  return strcasecmp (*l, *r);
+  return strcasecmp (l->level_name, r->level_name);
 }
 
-void
-browse_extra_directory (const char* directory)
+static void
+browse_extra_directory (const char* directory, char is_in_user_dir)
 {
   int i;
   struct dirent **tmp_list;
@@ -79,20 +89,60 @@ browse_extra_directory (const char* directory)
   extra_list = realloc (extra_list, extra_nbr * sizeof (*extra_list));
   /* update the list */
   for (i = 0; i < extra_nbr_here; ++i) {
-    extra_list[old_nbr + i] = strdup (tmp_list[i]->d_name);
+    char* fn = malloc (strlen (directory) + 1 + 
+		       strlen(tmp_list[i]->d_name) + 1);
+    extra_list[old_nbr + i].level_name = strdup (tmp_list[i]->d_name);
+    sprintf(fn, "%s/%s", directory, tmp_list[i]->d_name);
+    extra_list[old_nbr + i].full_name = 0;
+    extra_list[old_nbr + i].is_in_user_dir = is_in_user_dir;
+    strupr (extra_list[old_nbr + i].level_name);
+    if ((fn = strchr (extra_list[old_nbr + i].level_name, '.')))
+      *fn = 0;
     free (tmp_list[i]);
   }
   free (tmp_list);  
-
-  /* sort the list */
-  qsort (extra_list, extra_nbr, sizeof(*extra_list), 
-	 (int (*)(const void*,const void*))cmp_filenames);
 }
 
 void
-make_extra_list (void)
+browse_extra_directories (void)
 {
-  browse_extra_directory (extradir);
+  extradir_list_t ed = edir;
+
+  /* get the files of each directory */
+  while (ed) {
+    browse_extra_directory (ed->car->filename, ed->car->is_in_user_dir);
+    ed = ed->cdr;
+  }
+
+  /* sort the files list */
+  qsort (extra_list, extra_nbr, sizeof(*extra_list),
+	 (int (*)(const void*,const void*))cmp_filenames);
+}
+
+void 
+add_extra_directory (filename_t fn)
+{
+  extradir_info_t* tmp = malloc (sizeof (*tmp));
+  tmp->filename = strdup (fn);
+  tmp->is_in_user_dir = 0;
+  extradir_push (&edir, tmp);
+}
+
+static void 
+add_extra_in_user_directory (filename_t fn)
+{
+  extradir_info_t* tmp = malloc (sizeof (*tmp));
+  tmp->filename = strdup (fn);
+  tmp->is_in_user_dir = 1;
+  extradir_push (&edir, tmp);
+}
+
+void
+add_default_extra_directories (void)
+{
+  add_extra_directory (extradir);
+  if (!create_levels_output_dir ())
+    add_extra_in_user_directory (levels_output_dir);
 }
 
 void
@@ -100,8 +150,10 @@ free_extra_list (void)
 {
   int i;
 
-  for (i = 0; i < extra_nbr; ++i)
-    free (extra_list[i]);
+  for (i = 0; i < extra_nbr; ++i) {
+    free (extra_list[i].full_name);
+    free (extra_list[i].level_name);
+  }
   extra_nbr = 0;
   free (extra_list);
   extra_list = 0;

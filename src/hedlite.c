@@ -31,6 +31,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 #include "display.h"
 #include "pcx.h"
@@ -44,6 +48,7 @@
 #include "hedlite.h"
 #include "config.h"
 #include "hendian.h"
+#include "userdir.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
@@ -64,7 +69,6 @@ static level_header_t hplaninfo = { 0, 0, -1, -1,
 };
 static char tile_set_name[128] = rscdir;
 static char dallepie[128] = rscdir;
-static char levelnom[128] = nivdir;
 static char levelnomshort[13];
 static char pcxnom[13];
 static char nombre[5];
@@ -1924,332 +1928,26 @@ gestsrs3 (void)
 
 }
 
-#ifdef PORT
-static void
-select_ (char *quoi, char *resultat)
-{
-  struct find_t dirinfo;
-  int i = 0, j = 0, k = 0, l, t;
-  char tableau[][13];
-  char *scrbak;
+char* levels_output_dir = 0;
 
-  scrbak = malloc (8000);
-  _fmemcpy (scrbak, screentxt, 8000);
-  if (!_dos_findfirst (quoi, 0, (struct find_t *) &dirinfo)) {
-    do
-      i++;
-    while (!_dos_findnext ((struct find_t *) &dirinfo));
-  }
-  tableau = malloc (13 * (i + 1));
-  if (!_dos_findfirst (quoi, 0, (struct find_t *) &dirinfo)) {
-    do
-      strcpy ((char *) &(tableau[j++]), (char *) &dirinfo.name);
-    while (!_dos_findnext ((struct find_t *) &dirinfo) && !(j > i));
-  }
-  i = 0;
-  qsort (tableau, j, 13, &strcmp);
-  txtcadref (60, 0, 75, 49);
-  do {
-    if (i < 24)
-      k = 0;
-    else {
-      if (i + 24 > j) {
-	if (j > 47)
-	  k = j - 48;
-	else
-	  k = 0;
-      } else
-	k = i - 24;
+int
+create_levels_output_dir (void)
+{
+  int error;
+
+  if (!levels_output_dir)
+    levels_output_dir = strcat_alloc (userdir, "/" hedlit_output_dir);
+
+  error = exists_dir (levels_output_dir);
+  if (error < 0)
+    return 1;
+  if (error == 0)
+    if (mkdir (levels_output_dir, 0755)) {
+      perror (levels_output_dir);
+      return 1;
     }
-    for (l = 0; l < 48; l++)
-      if (k + l < j) {
-	qwrite ("\x1a", 61, 1 + l, 112 + 7 + 5 * (i == k + l));
-	qwrite ((char *) &(tableau[k + l]), 62, 1 + l,
-		14 + 112 - 64 * (i == k + l));
-	t = strlen ((char *) &(tableau[k + l]));
-	ligne[1] = 12 - t;
-	qwritep (ligne, 62 + t, 1 + l, 14 + 112 - 64 * (i == k + l));
-	qwrite ("\x1b", 74, 1 + l, 112 + 7 + 5 * (i == k + l));
-      }
-    t = get_key ();
-    switch (t) {
-    case HK_Down:
-      if (i + 1 < j)
-	i++;
-      break;
-    case HK_Up:
-      if (i > 0)
-	i--;
-      break;
-    case HK_PgDn:
-      if (i + 10 < j)
-	i += 10;
-      else
-	i = j - 1;
-      break;
-    case HK_PgUp:
-      if (i > 10)
-	i -= 10;
-      else
-	i = 0;
-      break;
-    case HK_Home:
-      i = 0;
-      break;
-    case HK_End:
-      i = j - 1;
-      break;
-    }
-  }
-  while (t != HK_Enter && t != HK_Escape);
-  if (t == HK_Escape)
-    resultat[0] = 0;
-  else
-    strcpy (resultat, (char *) &(tableau[i]));
-  free (tableau);
-  _fmemcpy (screentxt, scrbak, 8000);
-  free (scrbak);
-
+  return 0;
 }
-
-
-static
-boiteask (char *question, char *entree, int taille)
-{
-  char *scrbak;
-  int l, x, t, i;
-  char tmp[256];
-
-  scrbak = malloc (8000);
-  _fmemcpy (scrbak, screentxt, 8000);
-  l = strlen (question);
-  strcpy ((char *) &tmp, entree);
-  if (l < taille)
-    l = taille;
-  x = 40 - ((l + 4) >> 1);
-  txtcadref (x, 22, x + l + 3, 28);
-  l = strlen ((char *) &tmp);
-  qwrite (question, x + 2, 24, 14 + 112);
-  do {
-    i = strlen ((char *) &tmp);
-    ligne[1] = taille - i;
-    cursor (x + 2 + l, 26);
-    qwrite ((char *) &tmp, x + 2, 26, 15 + 16);
-    qwritep (ligne, x + 2 + i, 26, 15 + 16);
-    t = get_key ();
-    switch (t) {
-    case HK_Backspace:
-      if (l > 0) {
-	l--;
-	tmp[l] = 0;
-      }
-      break;
-    case HK_Enter:
-    case HK_Escape:
-      break;
-    default:
-      if ((char) t > 32 && l < taille) {
-	tmp[l] = (char) t;
-	l++;
-	tmp[l] = 0;
-      }
-      break;
-    }
-  } while (t != HK_Enter && t != HK_Escape);
-  if (t == HK_Enter)
-    strcpy (entree, (char *) &tmp);
-  _fmemcpy (screentxt, scrbak, 8000);
-  free (scrbak);
-  cursor (0, 50);
-}
-
-static char
-asknew ()
-{
-  char *scrbak;
-  int l = 0, i, j;
-
-  scrbak = malloc (8000);
-  _fmemcpy (scrbak, screentxt, 8000);
-
-  txtcadref (29, 20, 51, 31);
-  do {
-    do {
-      qwrite (" Name   : ", 31, 22, 14 + 112 - 64 * (l == 0));
-      qwrite (" Tiles  : ", 31, 23, 14 + 112 - 64 * (l == 1));
-      qwrite (" Module : ", 31, 24, 14 + 112 - 64 * (l == 2));
-      qwrite (" X-Size : ", 31, 25, 14 + 112 - 64 * (l == 3));
-      qwrite (" X-Wrap : ", 31, 26, 14 + 112 - 64 * (l == 4));
-      qwrite (" Y-Size : ", 31, 27, 14 + 112 - 64 * (l == 5));
-      qwrite (" Y-Wrap : ", 31, 28, 14 + 112 - 64 * (l == 6));
-      qwrite ("-=ð[OK]ð=-", 31, 29, 14 + 112 - 64 * (l == 7));
-      qwritel (&levelnomshort, 42, 22, 10 + 112, 8);
-      qwritel (&hplaninfo.tile_set_name, 42, 23, 10 + 112, 8);
-      qwritel (&hplaninfo.soundtrack_name, 42, 24, 10 + 112, 8);
-      sprintf (&nombre, "%u", hplaninfo.xt);
-      qwritel (&nombre, 42, 25, 10 + 112, 5);
-      qwrite (((hplaninfo.xwrap != 0xffffffff) ? "Yes" : "No "), 42, 26,
-	      10 + 112);
-      sprintf (&nombre, "%u", hplaninfo.yt);
-      qwritel (&nombre, 42, 27, 10 + 112, 5);
-      qwrite (((hplaninfo.ywrap != -1) ? "Yes" : "No "), 42, 28, 10 + 112);
-      i = get_key ();
-      if (i == HK_Down)
-	l = (l + 1) & 7;
-      if (i == HK_Up)
-	l = (l - 1) & 7;
-      if (i == HK_Enter)
-	switch (l) {
-	case 0:
-	  boiteask ("Enter level's name:", &levelnomshort, 8);
-	  remove_comments (&levelnomshort);
-	  strlwr (&levelnomshort);
-	  break;
-	case 1:
-	  select_ (rscdir "\\*.pcx", &entree);
-	  remove_comments (&entree);
-	  if (entree[0] != 0)
-	    strcpy (&hplaninfo.tile_set_name, &entree);
-	  break;
-	case 2:
-	  select_ (moddir "\\*.xm", &entree);
-	  remove_comments (&entree);
-	  if (entree[0] != 0)
-	    strcpy (&hplaninfo.soundtrack_name, &entree);
-	  break;
-	case 3:
-	  sprintf (&entree, "%u", hplaninfo.xt);
-	  boiteask ("Enter X-Size:", &entree, 5);
-	  remove_comments (&entree);
-	  j = atol (&entree);
-	  if (j > 0) {
-	    if (j < 15) {
-	      if ((j & (j - 1)) == 0) {
-		hplaninfo.xt = j;
-		hplaninfo.xwrap = j - 1;
-	      }
-	    } else {
-	      hplaninfo.xt = j;
-	      hplaninfo.xwrap = j - 1;
-	      if ((j & (j - 1)) != 0)
-		hplaninfo.xwrap = 0xffffffff;
-	    }
-	  }
-	  break;
-	case 4:
-	  if (hplaninfo.xwrap == 0xffffffff
-	      && (hplaninfo.xt & (hplaninfo.xt - 1)) == 0)
-	    hplaninfo.xwrap = (hplaninfo.xt - 1);
-	  else if (hplaninfo.xwrap != 0xffffffff && hplaninfo.xt >= 13)
-	    hplaninfo.xwrap = 0xffffffff;
-	  break;
-	case 5:
-	  sprintf (&entree, "%u", hplaninfo.yt);
-	  boiteask ("Enter Y-Size:", &entree, 5);
-	  remove_comments (&entree);
-	  j = atol (&entree);
-	  if (j > 0) {
-	    if (j < 11) {
-	      if ((j & (j - 1)) == 0) {
-		hplaninfo.yt = j;
-		hplaninfo.ywrap = j - 1;
-	      }
-	    } else {
-	      hplaninfo.yt = j;
-	      hplaninfo.ywrap = j - 1;
-	      if ((j & (j - 1)) != 0)
-		hplaninfo.ywrap = 0xffffffff;
-	    }
-	  }
-	  break;
-	case 6:
-	  if (hplaninfo.ywrap == 0xffffffff
-	      && (hplaninfo.yt & (hplaninfo.yt - 1)) == 0)
-	    hplaninfo.ywrap = (hplaninfo.yt - 1);
-	  else if (hplaninfo.ywrap != -1 && hplaninfo.yt >= 10)
-	    hplaninfo.ywrap = 0xffffffff;
-	  break;
-	}
-    } while (i != HK_Enter && i != HK_Escape);
-  } while (l != 7 && i != HK_Escape);
-
-  if (i == HK_Escape)
-    _fmemcpy (screentxt, scrbak, 8000);
-  free (scrbak);
-  if (i == HK_Escape)
-    return (0);
-  else
-    return (1);
-}
-
-static char
-askold ()
-{
-  char *scrbak;
-  int l = 0, i;
-
-  scrbak = malloc (8000);
-  _fmemcpy (scrbak, screentxt, 8000);
-
-  txtcadref (29, 21, 51, 30);
-  do {
-    do {
-      qwrite (" Name   : ", 31, 23, 14 + 112);
-      qwrite (" Tiles  : ", 31, 24, 14 + 112 - 64 * (l == 0));
-      qwrite (" Module : ", 31, 25, 14 + 112 - 64 * (l == 1));
-      qwrite (" X-Wrap : ", 31, 26, 14 + 112 - 64 * (l == 2));
-      qwrite (" Y-Wrap : ", 31, 27, 14 + 112 - 64 * (l == 3));
-      qwrite ("-=ð[OK]ð=-", 31, 28, 14 + 112 - 64 * (l == 4));
-      qwritel (&levelnomshort, 42, 23, 10 + 112, 8);
-      qwritel (&hplaninfo.tile_set_name, 42, 24, 10 + 112, 8);
-      qwritel (&hplaninfo.soundtrack_name, 42, 25, 10 + 112, 8);
-      qwrite (((hplaninfo.xwrap != -1) ? "Yes" : "No "), 42, 26, 10 + 112);
-      qwrite (((hplaninfo.ywrap != -1) ? "Yes" : "No "), 42, 27, 10 + 112);
-      i = get_key ();
-      if (i == HK_Down)
-	l = ((l == 4) ? 0 : (l + 1));
-      if (i == HK_Up)
-	l = ((l == 0) ? 4 : (l - 1));
-      if (i == HK_Enter)
-	switch (l) {
-	case 0:
-	  select (rscdir "\\*.pcx", &entree);
-	  remove_comments (&entree);
-	  if (entree[0] != 0)
-	    strcpy (&hplaninfo.tile_set_name, &entree);
-	  break;
-	case 1:
-	  select (moddir "\\*.xm", &entree);
-	  remove_comments (&entree);
-	  if (entree[0] != 0)
-	    strcpy (&hplaninfo.soundtrack_name, &entree);
-	  break;
-	case 2:
-	  if (hplaninfo.xwrap == -1
-	      && (hplaninfo.xt & (hplaninfo.xt - 1)) == 0) hplaninfo.xwrap =
-	      (hplaninfo.xt - 1);
-	  else if (hplaninfo.xwrap != -1 && hplaninfo.xt >= 15)
-	    hplaninfo.xwrap = 0xffffffff;
-	  break;
-	case 3:
-	  if (hplaninfo.ywrap == 0xffffffff
-	      && (hplaninfo.yt & (hplaninfo.yt - 1)) == 0)
-	    hplaninfo.ywrap = (hplaninfo.yt - 1);
-	  else if (hplaninfo.ywrap != -1 && hplaninfo.yt >= 11)
-	    hplaninfo.ywrap = 0xffffffff;
-	  break;
-	}
-    } while (i != HK_Enter && i != HK_Escape);
-  } while (l != 4 && i != HK_Escape);
-
-  _fmemcpy (screentxt, scrbak, 8000);
-  free (scrbak);
-  if (i == HK_Escape)
-    return (0);
-  else
-    return (1);
-}
-#endif
 
 /****************************************************************************/
 /****************************************************************************/
@@ -2259,358 +1957,151 @@ hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2,
        char *argv3, char *argv4, char *argv5, char *argv6)
 {
   int i;
+  char* lvl_name;
 
-  /*
-     mkdir ("EXTRALVL");
-     if (argc != 7) {
-     if (mouseinit () != -1)
-     fatalog ("Geme a mousy mouse pleez.");
-     modevga (TEXT);
-     lines50 ();
-     cursor (0, 50);
-     if ((ftmp = fopen (heddir "HEDITFRM.BIN", "rb")) == NULL)
-     fatalog ("Can't open HEDITFRM.BIN");
-     fread (screentxt, 8000, 1, ftmp);
-     fclose (ftmp);
-     }
-   */
-  for (;;) {
-#ifdef PORT
-    decalx = 1;
-    decaly = 0;
-    if (argc != 7) {
-      txtcadref (30, 20, 51, 30);
-      do {
-	okgo = 1;
-	l = 0;
+  if (create_levels_output_dir ())
+    return 1;
 
-	strcpy (&tile_set_name, rscdir);
-	strcpy (&dallepie, rscdir);
-	strcpy (&levelnom, nivdir);
-	xdalles = 0;
-	ydalles = 0;
-	xdallesdec = 0;
-	xplan = 0;
-	yplan = 0;
-	tempd = 0xffffffff;
-	xplandec = 0;
-	yplandec = 0;
-	sprhide = 0;
-	afftests = 0;
-	notestmouse = 0;
+  strcpy (tile_set_name, rscdir);
+  strcpy (dallepie, rscdir);
+  xdalles = 0;
+  ydalles = 0;
+  xdallesdec = 0;
+  xplan = 0;
+  yplan = 0;
+  tempd = 0xffffffff;
+  xplandec = 0;
+  yplandec = 0;
+  sprhide = 0;
+  afftests = 0;
+  notestmouse = 0;
 
-	do {
-	  qwrite ("    OPEN LEVEL    ", 32, 23, 14 + 112 - 64 * (l == 0));
-	  qwrite (" CREATE NEW LEVEL ", 32, 25, 14 + 112 - 64 * (l == 1));
-	  qwrite (" MODIFY LVL-PARAM ", 32, 27, 14 + 112 - 64 * (l == 2));
-	  i = get_key ();
-	  if (i == HK_Escape) {
-	    modevga (TEXT);
-	    printf ("Heroes Little Editor v" __HEDITver__
-		    " (c) 1996-97 RealTech & Olympus\n");
-	    printf ("Compiled on " __DATE__ " at " __TIME__ "\n");
-	    return;
-	  }
-	  if (i == HK_Down)
-	    l = ((l == 2) ? 0 : (l + 1));
-	  if (i == HK_Up)
-	    l = ((l == 0) ? 2 : (l - 1));
-	} while (i != HK_Enter);
-	if (l == 0) {
-	  select (nivdir "\\*.lvl", &levelnomshort);
-	  if (levelnomshort[0] == 0)
-	    okgo = 0;
-	  strcat (&levelnom, &levelnomshort);
-	  *strchr (&levelnomshort, '.') = 0;
-//      if (okgo) fprintf(hlog,"Loading existing level %s:\n",&levelnom);
-	}
-	if (l == 1) {
-	  if (readconfig () != NULL)
-	    fatalog (config " error.");
-	  okgo = asknew ();
-	  strcat (strcat (&levelnom, &levelnomshort), ".lvl");
-//      if (okgo) fprintf(hlog,"Creating new level %s:\n",&levelnom);
-	}
-	if (l == 2) {
-	  okgo = 0;
-	  select (nivdir "\\*.lvl", &levelnomshort);
-	  if (levelnomshort[0] != 0) {
-	    strcat (&levelnom, &levelnomshort);
-//      fprintf(hlog,"Modifying parameters of %s:\n",&levelnom);
-	    *strchr (&levelnomshort, '.') = 0;
-	    if (!((ftmp = fopen (levelnom, "rb")) == NULL)) {
-	      if (fread (&hplaninfo, sizeof (level_header_t), 1, ftmp) != 1)
-		fatalog ("Invalid level file.");
-	      fclose (ftmp);
-	      if (askold ()) {
-//        fprintf(hlog,"þ\t%s SAVED\n",&levelnom);
-		ftmp = fopen (levelnom, "r+b");
-		strlwr (hplaninfo.soundtrack_name);
-		strlwr (hplaninfo.tile_set_name);
-		fwrite (&hplaninfo, sizeof (level_header_t), 1, ftmp);
-		fclose (ftmp);
-	      }			// else
-//        fprintf(hlog,"\tcanceled\n",&levelnom);
+  strcpy (levelnomshort, argv1);
+  strlwr (levelnomshort);
+  strcat (strcpy (hplaninfo.tile_set_name, "level"), argv2);
+  strcat (strcpy (hplaninfo.soundtrack_name, "heroes"), argv2);
+  hplaninfo.xt = argv3[0] - ' ';
+  hplaninfo.yt = argv4[0] - ' ';
+  hplaninfo.xwrap = argv5[0] - ' ';
+  hplaninfo.ywrap = argv6[0] - ' ';
+  if (hplaninfo.xwrap == 1)
+    hplaninfo.xwrap = 0xffffffff;
+  if (hplaninfo.ywrap == 1)
+    hplaninfo.ywrap = 0xffffffff;
 
-	    }
-	  }
-	}
-      } while (okgo == 0);
-    } else {
-    };
-#endif
-    {
-      strcpy (tile_set_name, rscdir);
-      strcpy (dallepie, rscdir);
-      strcpy (levelnom, nivdir);
-      xdalles = 0;
-      ydalles = 0;
-      xdallesdec = 0;
-      xplan = 0;
-      yplan = 0;
-      tempd = 0xffffffff;
-      xplandec = 0;
-      yplandec = 0;
-      sprhide = 0;
-      afftests = 0;
-      notestmouse = 0;
+  strcat (strcpy (pcxnom, levelnomshort), ".pcx");
 
+  lvl_name = malloc (strlen (levels_output_dir) + 1 + 
+		     strlen (levelnomshort) + 4 + 1);
+  sprintf (lvl_name, "%s/%s.lvl", levels_output_dir, levelnomshort);
 
-      strcpy (levelnomshort, argv1);
-      strlwr (levelnomshort);
-      strcat (strcat (levelnom, levelnomshort), ".lvl");
-      strcat (strcpy (hplaninfo.tile_set_name, "level"), argv2);
-      strcat (strcpy (hplaninfo.soundtrack_name, "heroes"), argv2);
-      hplaninfo.xt = argv3[0] - ' ';
-      hplaninfo.yt = argv4[0] - ' ';
-      hplaninfo.xwrap = argv5[0] - ' ';
-      hplaninfo.ywrap = argv6[0] - ' ';
-      if (hplaninfo.xwrap == 1)
-	hplaninfo.xwrap = 0xffffffff;
-      if (hplaninfo.ywrap == 1)
-	hplaninfo.ywrap = 0xffffffff;
-    }
+  /* initialize level_map */
 
-    strcat (strcpy (pcxnom, levelnomshort), ".pcx");
+  if (!((ftmp = fopen (lvl_name, "rb")) == NULL)) {
+    if (fread (&hplaninfo, sizeof (level_header_t), 1, ftmp) != 1)
+      fatalog ("Invalid level file.");
+    /* convert hplaninfo to local endianess */
+    bswap_level_header (&hplaninfo);
 
-    /* initialize level_map */
-
-    if (!((ftmp = fopen (levelnom, "rb")) == NULL)) {
-      if (fread (&hplaninfo, sizeof (level_header_t), 1, ftmp) != 1)
-	fatalog ("Invalid level file.");
-      /* convert hplaninfo to local endianess */
-      bswap_level_header (&hplaninfo);
-
-      if ((level_map = malloc (hplaninfo.xt * hplaninfo.yt * sizeof (tile_t)))
-	  == NULL)
-	fatalog ("Not enough memory to allocate for level info");
-      if (fread
-	  (level_map, sizeof (tile_t), hplaninfo.xt * hplaninfo.yt,
-	   ftmp) != (hplaninfo.xt * hplaninfo.yt))
-	fatalog ("Invalid level file.");
-      fclose (ftmp);
-      /* convert level_map to local endianess */
-      bswap_level_tiles (&hplaninfo, level_map);
-    } else {
-      if ((level_map = malloc (hplaninfo.xt * hplaninfo.yt * sizeof (tile_t)))
-	  == NULL)
-	fatalog ("Not enough memory to allocate for level info");
-      memset (level_map, 0, hplaninfo.xt * hplaninfo.yt * sizeof (tile_t));
-      hplaninfo.start[0] = 0;
-      hplaninfo.start[1] = 0;
-      hplaninfo.start[2] = 0;
-      hplaninfo.start[3] = 0;
-      hplaninfo.start_way[0] = 0x00;
-      hplaninfo.start_way[1] = 0x11;
-      hplaninfo.start_way[2] = 0x32;
-      hplaninfo.start_way[3] = 0x23;
-    }
-
-//fprintf(hlog,"\tUsing %s (PCX,PIE) and %s (XM)\n",hplaninfo.tile_set_name,hplaninfo.soundtrack_name);
-
-    strcat (strcat (tile_set_name, hplaninfo.tile_set_name), ".pcx");
-    strcat (strcat (dallepie, hplaninfo.tile_set_name), ".pie");
-
-    pcx_load (heddir "edit.pcx", &heditrsc);
-    pcx_load (tile_set_name, &tile_set_img);
-
-/*********** tiles info init  ***********/
-    if ((ddef = malloc ((tile_set_img.width / 24) * 10 * sizeof (tile_t))) ==
-	NULL) fatalog ("Not enough memory to allocate for tiles-info");
-    memset (ddef, 0, (tile_set_img.width / 24) * 10 * sizeof (tile_info_t));
-
-/*   for (i=0;i<((tile_set_img.xt/24)*10);i++) ddef[i]=.type=0;ddef[i].type=0 */
-    if (!((ftmp = fopen (dallepie, "rb")) == NULL))
-      fread (ddef, sizeof (tile_info_t), (tile_set_img.width / 24) * 10,
-	     ftmp);
+    if ((level_map = malloc (hplaninfo.xt * hplaninfo.yt * sizeof (tile_t)))
+	== NULL)
+      fatalog ("Not enough memory to allocate for level info");
+    if (fread
+	(level_map, sizeof (tile_t), hplaninfo.xt * hplaninfo.yt,
+	 ftmp) != (hplaninfo.xt * hplaninfo.yt))
+      fatalog ("Invalid level file.");
     fclose (ftmp);
-/*************************************/
-    if (outwayinit ())
-      return 1;
-    memset (screen, 0, 64000);
-    set_pal ((char *) &tile_set_img.palette, 0, 256 * 3);
-    partiel2 (0, 0, 30, 200, 290, 0, &heditrsc);
-    strupr (levelnomshort);
-    draw_text (levelnomshort, 305, 29, 8, 1);
-    sprintf (nombre, "%lu", hplaninfo.xt);
-    draw_text (nombre, 302, 43, 8, 2);
-    sprintf (nombre, "%lu", hplaninfo.yt);
-    draw_text (nombre, 307, 43, 8, 0);
-
-    majd ();
-    majg ();
-    while (key_ready ())
-      get_key ();
-    mouse_show ();
-    do {
-      while (key_ready () == 0 && mouse12 () == 0);
-      if (key_ready ()) {
-	i = get_key ();
-	gestclav (i, keyboard_modifiers);
-      } else {
-	if (mouse1 ()) {
-	  gestsrs1 ();
-	} else if (mouse2 ()) {
-	  gestsrs2 ();
-	}
-	/* else if (mouse3 ()) {
-	   gestsrs3 ();
-	   }
-	 */
-	while (mouse12 () != 0);
-	notestmouse = 0;
-      }
-    } while (i != HK_Escape);
-    mouse_hide ();
-    outwayclose ();
-#ifdef PORT
-    if (argc != 7) {
-      modevga (TEXT);
-      lines50 ();
-      cursor (0, 50);
-      if ((ftmp = fopen (heddir "heditfrm.bin", "rb")) == NULL)
-	fatalog ("Can't open HEDITFRM.BIN");
-      fread (screentxt, 8000, 1, ftmp);
-      fclose (ftmp);
-
-      txtcadref (28, 20, 52, 30);
-      l = 0;
-      do {
-	qwrite (" SAVE LEVEL & TILES  ", 30, 23, 14 + 112 - 64 * (l == 0));
-	qwrite (" SAVE LEVEL ONLY     ", 30, 24, 14 + 112 - 64 * (l == 1));
-	qwrite (" SAVE TILES ONLY     ", 30, 25, 14 + 112 - 64 * (l == 2));
-	qwrite (" DON'T SAVE ANYTHING ", 30, 27, 14 + 112 - 64 * (l == 3));
-	i = get_key ();
-	if (i == HK_Down)
-	  l = (l + 1) & 3;
-	if (i == HK_Up)
-	  l = (l - 1) & 3;
-	if ((i == HK_Escape && l != 3)) {
-	  l = 3;
-	  i = 0;
-	}
-      } while (i != HK_Enter && !(i == HK_Escape && l == 3));
-      if (i == HK_Escape)
-	l = 3;
-//   printf("\%d\n",l);
-      if ((l & 3) != 3) {
-	txtcadref (27, 20, 53, 30);
-	strlwr (hplaninfo.soundtrack_name);
-	strlwr (hplaninfo.tile_set_name);
-	if ((l & 2) == 0) {
-	  if (!((ftmp = fopen (levelnom, "wb")) == NULL)) {
-	    if ((fwrite (&hplaninfo, sizeof (level_header_t), 1, ftmp) == 1)
-		&&
-		(fwrite
-		 (level_map, sizeof (tile_t), hplaninfo.xt * hplaninfo.yt,
-		  ftmp) == (hplaninfo.xt * hplaninfo.yt))
-	      ) {
-	      qwrite ("LEVEL SAVED", 29, 24, 10 + 112);
-//            fprintf(hlog,"þ\t%s SAVED\n",&levelnom);
-
-	    } else {
-	      qwrite ("ERROR! LEVEL NOT SAVED", 29, 24, 12 + 112);
-//            fprintf(hlog,"\t%s not saved (ERROR!)\n",&levelnom);
-	    }
-	    fclose (ftmp);
-	  } else {
-	    qwrite ("UNABLE TO CREATE LEVEL", 29, 24, 12 + 112);
-//            fprintf(hlog,"\t%s not created (ERROR!)\n",&levelnom);
-	  }
-	} else {
-	  qwrite ("LEVEL NOT SAVED", 29, 24, 14 + 112);
-//      fprintf(hlog,"\t%s not saved\n",&levelnom);
-	}
-
-	if ((l & 1) == 0) {
-	  if (!((ftmp = fopen (dallepie, "wb")) == NULL)) {
-	    if (fwrite
-		(ddef, sizeof (tile_info_t), (tile_set_img.xt / 24) * 10,
-		 ftmp) == ((tile_set_img.xt / 24) * 10)) {
-	      qwrite ("TILES SAVED", 29, 26, 10 + 112);
-//        fprintf(hlog,"þ\t%s SAVED\n",dallepie);
-	    } else {
-	      qwrite ("ERROR! TILES NOT SAVED", 29, 26, 12 + 112);
-//        fprintf(hlog,"\t%s not saved (ERROR!)\n",dallepie);
-	    }
-	    fclose (ftmp);
-	  } else {
-	    qwrite ("UNABLE TO CREATE TILES", 29, 26, 12 + 112);
-//        fprintf(hlog,"\t%s not created (ERROR!)\n",dallepie);
-	  }
-	} else {
-	  qwrite ("TILES NOT SAVED", 29, 26, 14 + 112);
-//      fprintf(hlog,"\t%s not saved\n",dallepie);
-	}
-	get_key ();
-      } else
-//      fprintf(hlog,"\tcanceled\n");
-
-	free (ddef);
-      free (level_map);
-      img_free (&heditrsc);
-      img_free (&tile_set_img);
-
-      if ((ftmp = fopen (heddir "HEDITFRM.BIN", "rb")) == NULL)
-	fatalog ("Can't open HEDITFRM.BIN");
-      fread (screentxt, 8000, 1, ftmp);
-      fclose (ftmp);
-    } else {
-    };
-#endif
-    {
-      if (!((ftmp = fopen (levelnom, "wb")) == NULL)) {
-	/* convert hplaninfo to disk endianess */
-	bswap_level_header (&hplaninfo);
-	fwrite (&hplaninfo, sizeof (level_header_t), 1, ftmp);
-	/* convert level_map to file endianess */
-	bswap_level_tiles (&hplaninfo, level_map);
-	fwrite (level_map, sizeof (tile_t), hplaninfo.xt * hplaninfo.yt,
-		ftmp);
-	fclose (ftmp);
-      }
-      free (ddef);
-      free (level_map);
-      img_free (&heditrsc);
-      img_free (&tile_set_img);
-      return 0;
-    }
+    /* convert level_map to local endianess */
+    bswap_level_tiles (&hplaninfo, level_map);
+  } else {
+    if ((level_map = malloc (hplaninfo.xt * hplaninfo.yt * sizeof (tile_t)))
+	== NULL)
+      fatalog ("Not enough memory to allocate for level info");
+    memset (level_map, 0, hplaninfo.xt * hplaninfo.yt * sizeof (tile_t));
+    hplaninfo.start[0] = 0;
+    hplaninfo.start[1] = 0;
+    hplaninfo.start[2] = 0;
+    hplaninfo.start[3] = 0;
+    hplaninfo.start_way[0] = 0x00;
+    hplaninfo.start_way[1] = 0x11;
+    hplaninfo.start_way[2] = 0x32;
+    hplaninfo.start_way[3] = 0x23;
   }
 
+  //fprintf(hlog,"\tUsing %s (PCX,PIE) and %s (XM)\n",hplaninfo.tile_set_name,hplaninfo.soundtrack_name);
 
-/*--------------------------------------------------------------------------*/
-/*
-   printf("hplaninfo.xt=\%d\n",hplaninfo.xt);
-   printf("hplaninfo.xwrap=\%d\n",hplaninfo.xwrap);
-   printf("hplaninfo.yt=\%d\n",hplaninfo.yt);
-   printf("hplaninfo.ywrap=\%d\n",hplaninfo.ywrap);
-   printf("hplaninfo.tile_set_name=\%s\n",hplaninfo.tile_set_name);
-   printf("hplaninfo.soundtrack_name=\%s\n",hplaninfo.soundtrack_name);
-   printf("tile_set_name=\%s\n",&tile_set_name);
-   printf("dallepie=\%s -> ",&dallepie);
+  strcat (strcat (tile_set_name, hplaninfo.tile_set_name), ".pcx");
+  strcat (strcat (dallepie, hplaninfo.tile_set_name), ".pie");
 
-//   printf("\%d\n",sizeof(tile_t));
-   printf("levelnom=\%s -> ",&levelnom);
-*/
+  pcx_load (heddir "edit.pcx", &heditrsc);
+  pcx_load (tile_set_name, &tile_set_img);
+
+  /*********** tiles info init  ***********/
+  if ((ddef = malloc ((tile_set_img.width / 24) * 10 * sizeof (tile_t))) ==
+      NULL) fatalog ("Not enough memory to allocate for tiles-info");
+  memset (ddef, 0, (tile_set_img.width / 24) * 10 * sizeof (tile_info_t));
+
+  /*   for (i=0;i<((tile_set_img.xt/24)*10);i++) ddef[i]=.type=0;ddef[i].type=0 */
+  if (!((ftmp = fopen (dallepie, "rb")) == NULL))
+    fread (ddef, sizeof (tile_info_t), (tile_set_img.width / 24) * 10, ftmp);
+  fclose (ftmp);
+  /*************************************/
+  if (outwayinit ())
+    return 1;
+  memset (screen, 0, 64000);
+  set_pal ((char *) &tile_set_img.palette, 0, 256 * 3);
+  partiel2 (0, 0, 30, 200, 290, 0, &heditrsc);
+  strupr (levelnomshort);
+  draw_text (levelnomshort, 305, 29, 8, 1);
+  sprintf (nombre, "%lu", hplaninfo.xt);
+  draw_text (nombre, 302, 43, 8, 2);
+  sprintf (nombre, "%lu", hplaninfo.yt);
+  draw_text (nombre, 307, 43, 8, 0);
+
+  majd ();
+  majg ();
+  while (key_ready ())
+    get_key ();
+  mouse_show ();
+
+  do {
+    while (key_ready () == 0 && mouse12 () == 0);
+    if (key_ready ()) {
+      i = get_key ();
+      gestclav (i, keyboard_modifiers);
+    } else {
+      if (mouse1 ()) {
+	gestsrs1 ();
+      } else if (mouse2 ()) {
+	gestsrs2 ();
+      }
+      /* else if (mouse3 ()) {
+	 gestsrs3 ();
+	 }
+      */
+      while (mouse12 () != 0);
+      notestmouse = 0;
+    }
+  } while (i != HK_Escape);
+  mouse_hide ();
+  outwayclose ();
+
+  {
+    if (!((ftmp = fopen (lvl_name, "wb")) == NULL)) {
+      /* convert hplaninfo to disk endianess */
+      bswap_level_header (&hplaninfo);
+      fwrite (&hplaninfo, sizeof (level_header_t), 1, ftmp);
+      /* convert level_map to file endianess */
+      bswap_level_tiles (&hplaninfo, level_map);
+      fwrite (level_map, sizeof (tile_t), hplaninfo.xt * hplaninfo.yt, ftmp);
+      fclose (ftmp);
+    }
+    free (ddef);
+    free (level_map);
+    img_free (&heditrsc);
+    img_free (&tile_set_img);
+  }
+
+  free (lvl_name);
   return 0;
 }

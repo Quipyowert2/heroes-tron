@@ -24,6 +24,7 @@
 
 extern char* userdir;
 
+int exists_dir (char* dir);
 int setup_userdir (void); /* return !0 if failure */
 
 #endif

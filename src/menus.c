@@ -831,12 +831,7 @@ extra_menu (void)
 			corner[0] + (169) * xbuf + 100, 120, 3);
       for (i = -3; i <= 3; i++)
 	if ((i + ll) >= 0 && (i + ll) < extra_nbr) {
-	  char *end;
-
-	  strcpy (tmp1, extra_list[i + ll]);
-	  strupr (tmp1);
-	  if ((end = strchr (tmp1, '.')))
-	    *end = 0;
+	  strcpy (tmp1, extra_list[i + ll].level_name);
 	  draw_text_array[i == 0] (tmp1, 200, 118 + i * 13, 2);
 	  copy_rect_transp (main_font_img.buffer + 218 + 50 * 320 +
 			    extra_selected_list[i + ll] * 21,
@@ -1218,8 +1213,7 @@ editor_selector (void)
   int i = 0, t, j;
   if (extra_nbr == 1) {
     event_sfx (116);
-    strcpy (tmp1, extra_list[0]);
-    *strchr (tmp1, '.') = 0;
+    strcpy (tmp1, extra_list[0].level_name);
 
 //      sprintf(tmp2,"%s A A A A A",tmp1);
 //      spawnl(P_WAIT,"HEDLITE.EXE","HEDLITE.EXE",tmp2,NULL);
@@ -1240,8 +1234,7 @@ editor_selector (void)
 		      corner[0] + (187) * xbuf + 100, 120, 3);
     for (i = -5; i <= 5; i++)
       if ((i + l) >= 0 && (i + l) < extra_nbr) {
-	strcpy (tmp1, extra_list[i + l]);
-	*strchr (tmp1, '.') = 0;
+	strcpy (tmp1, extra_list[i + l].level_name);
 	draw_text_array[i == 0] (tmp1, 159, 105 + i * 13, 1);
       }
     copy_rect_transp (main_font_img.buffer + 134 + 50 * 320,
@@ -1285,8 +1278,7 @@ editor_selector (void)
   } while (t != HK_Enter && t != HK_Escape);
   if (t == HK_Enter) {
     event_sfx (116);
-    strcpy (tmp1, extra_list[l]);
-    *strchr (tmp1, '.') = 0;
+    strcpy (tmp1, extra_list[l].level_name);
 
 //    sprintf(tmp2,"%s A A A A A",tmp1);
 //    spawnl(P_WAIT,"HEDLITE.EXE","HEDLITE.EXE",tmp2,NULL);
@@ -1469,14 +1461,15 @@ editor_menu (void)
 	  flag = 1;
 	}
 	if (flag) {
-	  strcat (strcat (strcpy (tmp2, extradir), tmp1), ".lvl");
+	  sprintf(tmp2, "%s/%s.lvl", levels_output_dir, tmp1);
 	  tmphdl = fopen (tmp2, "rb");
 	  if (tmphdl != NULL) {
 	    if (fread ((void *) &plinfo, sizeof (level_header_t), 1, tmphdl)
-		== 1) {xsize = plinfo.xt;
-	      ysize = plinfo.yt;
-	      xwrap = plinfo.xwrap;
-	      ywrap = plinfo.ywrap;
+		== 1) {
+	      xsize = BSWAP32 (plinfo.xt);
+	      ysize = BSWAP32 (plinfo.yt);
+	      xwrap = BSWAP32 (plinfo.xwrap);
+	      ywrap = BSWAP32 (plinfo.ywrap);
 	      tiles = atol ((char *) &(plinfo.tile_set_name[5])) - 1;
 	      img_free ((image_ *) & tilesprev);
 	      load_tile_set_preview (tiles, (image_ *) & tilesprev);
@@ -1582,7 +1575,7 @@ editor_menu (void)
 	   tmp2 + 6);
     /* met … jour la table des extras */
     free_extra_list ();
-    make_extra_list ();
+    browse_extra_directories ();
   }
   frame_old = frame_cur;
 }
