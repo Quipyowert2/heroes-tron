@@ -1,3 +1,9 @@
+2001-12-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.ac (ALL_LINGUAS): Add pt_BR.
+	* po/pt_BR.po: New file.
+	From Luzemario Dantas Rocha <luza.solucao@uol.com.br>.
+
 2001-12-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.ac: Bump version to 0.18.

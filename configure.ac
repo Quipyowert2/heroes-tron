@@ -164,7 +164,7 @@ jm_AC_DOS
 # Internationalization.
 # =====================
 
-ALL_LINGUAS="de fr it nl"
+ALL_LINGUAS="de fr it nl pt_BR"
 AM_GNU_GETTEXT(,[need-ngettext])
 
 # ===================================

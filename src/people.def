@@ -64,6 +64,12 @@ person = {
 };
 
 person = {
+  name    = "Luzemario Dantas Rocha";
+  email   = luza.solucao@uol.com.br;
+  i18n    = "Brazilian Portuguese";
+};
+
+person = {
   name    = "Jean Delvare";
   email   = delvare@ensicaen.ismra.fr;
   package = "RPM & Slackware Linux";
