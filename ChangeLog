@@ -1,3 +1,23 @@
+2001-10-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Rewrite the explosion code (again).  This fix some issues present
+	in the old explosion handling: 1- the explosions could propagate
+	to the neighboring square already activated (leading to an
+	exponential growth of the number of explosions, hindering
+	game-play as reported by Daniel); 2- the propagation did not occur
+	at a precise time after activation (see comment in the code); 3-
+	vanished explosions were not immediately removed from explo_list.
+
+	* src/explosions.c (an_explosion_info): Remove frame_start.
+	(allocate_explosions): Reset explo_time.
+	(compute_explosion_state, propagate_to_neighbors_maybe,
+	trigger_eplosion_at_time): New functions.
+	(trigger_explosion, trigger_possible_explosion,
+	update_explosions): Rewrite functions.
+	* src/explosions.h (square_explo_type, trigger_explosion): Fix type.
+	(EXPLOSION_SQUARE_TRIGGERED_P,
+	EXPLOSION_SQUARE_TRIGGERABLE_P): New macros.
+
 2001-10-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* m4/checkpkg.m4 (AC_caolan_CHECK_PACKAGE): Quote strings.

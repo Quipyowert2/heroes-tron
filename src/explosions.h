@@ -44,14 +44,19 @@ extern a_sprite *explosions[NBR_EXPLOSION_KINDS][NBR_EXPLOSION_FRAMES];
  * n == EXPLOSION_UNTRIGGERED: idle.
  */
 typedef a_u8 an_explosion;
-
 extern an_explosion *square_explo_state;
-extern an_explosion *square_explo_type;
+#define EXPLOSION_SQUARE_TRIGGERED_P(idx) \
+  (square_explo_state[idx] <= EXPLOSION_TRIGGERED)
+#define EXPLOSION_SQUARE_TRIGGERABLE_P(idx) \
+  (lvl.square_type[idx] == T_BOOM \
+   && square_explo_state[idx] == EXPLOSION_UNTRIGGERED)
+
+extern a_u8 *square_explo_type;	/* in [0 .. NBR_EXPLOSION_KINDS-1] */
 
 void allocate_explosions (void);
 void release_explosions (void);
 /* FRAME_START is expected to be EXPLOSION_IMMEDIATE or EXPLOSION_TRIGGERED. */
-void trigger_explosion (a_square_index idx, unsigned frame_start);
+void trigger_explosion (a_square_index idx, an_explosion frame_start);
 void trigger_possible_explosion (a_square_index idx);
 void update_explosions (void);
 
