@@ -34,9 +34,11 @@ struct options_t {
   bool print_types;		/* --print t */
   bool print_type_keys;		/* --print T */
   bool print_tunnels;		/* --print @ */
+  bool print_tile_details;	/* --print i */
   const char *indent;		/* Set to a prefix output on every
 				   lines, e.g. "  ". (--indent) */
 } options = {
+  false,
   false,
   false,
   false,
@@ -87,6 +89,7 @@ Mandatory arguments to long options are mandatory for short options too.\n");
                                   d   print square directions\n\
                                   f   print filename\n\
                                   h   print header\n\
+                                  i   print tile details\n\
                                   t   print square type map\n\
                                   T   print type keys\n\
                                   w   print square wall map\n\
@@ -120,6 +123,9 @@ decode_print_options (const char *flags)
       break;
     case 'h':
       options.print_header = true;
+      break;
+    case 'i':
+      options.print_tile_details = true;
       break;
     case 't':
       options.print_types = true;
@@ -288,8 +294,7 @@ print_square_types (const level_t *lvl)
     printf ("%s|", options.indent);
     for (x = 0; x < lvl->square_width; ++x, ++idx)
       putchar (type_to_char (lvl->square_type[idx]));
-    puts ("|");
-
+    printf ("|%2u\n", y);
   }
 }
 
@@ -322,7 +327,7 @@ print_square_walls (const level_t *lvl)
     printf ("%s|", options.indent);
     for (x = 0; x < lvl->square_width; ++x, ++idx)
       print_dir_mask (lvl->square_walls_out[idx]);
-    puts ("|");
+    printf ("|%2u\n", y);
   }
 }
 
@@ -352,7 +357,7 @@ print_square_directions (const level_t *lvl)
     printf ("%s|", options.indent);
     for (x = 0; x < lvl->square_width; ++x, ++idx)
       putchar (dir_to_char (lvl->square_direction[idx]));
-    puts ("|");
+    printf ("|%2u\n", y);
   }
 }
 
@@ -406,6 +411,54 @@ print_tunnels (const level_t *lvl)
   free (outputs);
 }
 
+static const char *
+anim_kind_to_str (anim_kind_t k)
+{
+  switch (k) {
+  case A_NONE:
+    return "still";
+  case A_LOOP:
+    return "loop";
+  case A_PINGPONG:
+    return "pingpong";
+  }
+  assert (0);
+}
+
+static void
+print_tile_details (level_t *lvl)
+{
+  tile_index_t i;
+
+  printf ("%sTILE  Y  X    TYPE      SPRITE    OVERLAY  ANIM-TYPE FRM DEL\n",
+	  options.indent);
+  for (i = 0; i < lvl->tile_count; ++i) {
+    unsigned int o, c, d;
+    anim_kind_t k;
+
+    printf ("%s%4u %2u %2u %-10s 0x%08x", options.indent, i,
+	    TILE_INDEX_TO_COORD_Y (lvl, i),
+	    TILE_INDEX_TO_COORD_X (lvl, i),
+	    type_names[lvl_tile_type (lvl, i)],
+	    lvl_tile_sprite_offset (lvl, i));
+
+    o = lvl_tile_sprite_overlay_offset (lvl, i);
+    if (o)
+      printf (" 0x%08x", o);
+    else
+      printf ("           ");
+
+    lvl_animation_info (lvl, i, &c, &d, &k);
+    printf (" %-10s", anim_kind_to_str (k));
+    if (k)
+      printf (" %2u %2u", c, d);
+    else
+      printf ("      ");
+
+    puts ("");
+  }
+}
+
 static void
 process (const char *filename)
 {
@@ -431,6 +484,8 @@ process (const char *filename)
       print_square_directions (&lvl);
     if (options.print_tunnels)
       print_tunnels (&lvl);
+    if (options.print_tile_details)
+      print_tile_details (&lvl);
   }
 }
 

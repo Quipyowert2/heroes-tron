@@ -1,3 +1,15 @@
+2001-07-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Add option -pi to display tile details.
+
+	* src/heroeslvl.c (options_t): Add print_tile_details.
+	(print_tile_details, anim_kind_to_str): New functions.
+	(usage): Document -pi.
+	(decode_print_options): Handle 'i'.
+	(print_square_type, print_square_walls, print_square_directions):
+	Print line numbers.
+	(process): Call print_tile_details.
+
 2001-07-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Gather camera handling code from heroes.c and const.c into camera.c.
