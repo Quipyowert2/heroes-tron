@@ -399,6 +399,23 @@ int strcasecmp (const char *s1, const char *s2);
 
 /* ===== end of ctype definitions ===== */
 
+
+#if ! HAVE_SETEGID
+# define seteuid(x)
+# define setegid(x)
+#endif
+#if ! HAVE_SETREGID
+# define setreuid(x,y)
+# define setregid(x,y)
+#endif
+#if ! HAVE_GETEGID
+# define geteuid() 0
+# define getuid()  0
+# define getegid() 0
+# define getgid()  0
+#endif
+
+
 #ifndef __attribute__
 # if __GNUC__ < 2 || (__GNUC__ == 2 && __GNUC_MINOR__ < 7) || __STRICT_ANSI__
 #  define __attribute__(x)

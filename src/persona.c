@@ -51,7 +51,7 @@ void
 user_persona (void)
 {
   dmsg (D_SYSTEM, "switching to the user persona");
-#ifdef _POSIX_SAVED_IDS
+#ifdef _POSIX_SAVED_IDS && HAVE_SETEGID
   seteuid (user_uid);
   setegid (user_gid);
 #else
@@ -65,7 +65,7 @@ void
 sys_persona (void)
 {
   dmsg (D_SYSTEM, "switching to the system persona");
-#ifdef _POSIX_SAVED_IDS
+#ifdef _POSIX_SAVED_IDS && HAVE_SETEGID
   seteuid (sys_uid);
   setegid (sys_gid);
 #else

@@ -1,3 +1,11 @@
+2001-03-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.in: Check for uid_t, gid_t, getegid, setegid, and setregid.
+	* src/persona.c: Use setregid and setreuid when setegid and seteuid
+	are not found.
+	* src/system.h (seteuid, setegid, setreuid, setreguid, geteuid,
+	getuid, getegid, getgid): New replacement macros.
+
 2001-03-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Keep track of secure (trusted) resources, and only change
