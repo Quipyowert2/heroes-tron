@@ -3251,9 +3251,6 @@ main (int argc, char *argv[])
     write_save_records ();
   }
 
-  if (read_sfx_conf ())
-    emsg (_("error in sfx.cfg"));
-
   if (joyoff) {
     joystick_detected = 0;
     /* reset controlers configuration to keyboards */
@@ -3264,6 +3261,13 @@ main (int argc, char *argv[])
 
   if (init_sound_engine ())
     exit (2);
+
+  /* We read the SFX configuration only once the sound engine has
+     been initialized, because during this initialization we might
+     decide to disable SFX (hence no need to load the config file).
+     */
+  if (read_sfx_conf ())
+    emsg (_("error in sfx.cfg"));
 
   init_video ();
 

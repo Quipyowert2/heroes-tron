@@ -128,12 +128,17 @@ read_sfx_conf (void)
   char *tmpptr2;
   char c;
   int nbr;
-  char *sfxdir = get_rsc_file ("sfx-dir");
+  char *sfxdir;
 
-  if (sfxdir == 0)
-    nosfx = 1;
   if (nosfx)
     return 0;
+
+  sfxdir = get_rsc_file ("sfx-dir");
+  if (sfxdir == 0) {
+    nosfx = 1;
+    free (sfxdir);
+    return 0;
+  }
 
   {
     char* conf = get_rsc_file ("sfx-conf-txt");

@@ -1,5 +1,10 @@
 2001-07-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/heroes.c (main): Call read_sfx_conf after init_sound_engine ().
+	* src/sfx.c (read_sfx_conf): Free sfxdir on error.
+
+2001-07-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/lvl/de_body.c (decode_level_body): Free square_walls_in.
 
 2001-07-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
