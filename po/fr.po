@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Heroes 0.8a\n"
+"Project-Id-Version: Heroes 0.8b\n"
 "POT-Creation-Date: 2001-01-09 20:28+0100\n"
-"PO-Revision-Date: 2000-12-26 22:39+01:00\n"
+"PO-Revision-Date: 2001-01-10 20:23+01:00\n"
 "Last-Translator: Alexandre Duret-Lutz <duret_g@epita.fr>\n"
 "Language-Team: none <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -127,6 +127,8 @@ msgid ""
 "Heroes is a game similar to the \"Tron\" and \"Nibbles\" games of yore\n"
 "but includes many graphical improvements and new game features.\n"
 msgstr ""
+"Heroes est un jeu similaire aux jeux \"Tron\" and \"Nibbles\" d'antan mais\n"
+"plus est plus élaboré et ajoute plusieurs effets graphiques.\n"
 
 #: src/argv.c:106
 msgid ""
@@ -1379,6 +1381,3 @@ msgstr "%s:%d: il manque le nom de la ressource"
 #, c-format
 msgid "%s:%d: unknown keyword `%s'"
 msgstr "%s:%d: mot clef inconnu `%s'"
-
-#~ msgid "Heroes is a game like nibbles but different.\n"
-#~ msgstr "Heroes est un jeu comme Nibbles, mais différent.\n"
