@@ -3353,7 +3353,7 @@ play_game (char cont)
 		((l > 0) ? (l--) : (l = 9));
 		event_sfx (120);
 	      }
-	      if (t == 0x0e7f) { /* FIXME: chose a keysym to use */
+	      if (t == 0x0e7f) { /* FIXME: choose a keysym to use */
 		saverec[l].used = 0;
 		saverec[l].name[0] = 0;
 		event_sfx (128);
@@ -3389,7 +3389,7 @@ play_game (char cont)
 		saverec[l].name[pos - 2] = '^';
 		event_sfx (122);
 		FREE_SPRITE0 (saverec_name[l]); /* force recompilation */
-	      } else if (t == 0x1c0a) { /* FIXME: chose a keysym to use */
+	      } else if (t == 0x1c0a) { /* FIXME: choose a keysym to use */
 		saverec[l].name[pos - 1] = 0;
 		event_sfx (127);
 		editflag = 2;

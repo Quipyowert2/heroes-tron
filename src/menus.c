@@ -555,7 +555,7 @@ init_menus_sprites (void)
 					  4, 159);
   playmenu_players_txt[0] = compile_menu_text (_("ONE PLAYER"),
 					       T_CENTERED, 31, 159);
-  playmenu_players_txt[1] = compile_menu_text (_("TWO PLAYER"),
+  playmenu_players_txt[1] = compile_menu_text (_("TWO PLAYERS"),
 					       T_CENTERED, 31, 159);
   playmenu_goback_txt = compile_menu_text (_("GO BACK"),
 					   T_CENTERED, 187, 159);
@@ -568,9 +568,9 @@ init_menus_sprites (void)
 					   T_CENTERED, 0, 159);
   }
   /* saved game selection */
-  save_select_txt = compile_menu_text (_("CHOSE A SAVE SLOT"),
+  save_select_txt = compile_menu_text (_("CHOOSE A SAVE SLOT"),
 				       T_CENTERED|T_WAVING, 10, 159);
-  load_select_txt = compile_menu_text (_("CHOSE A LOAD SLOT"),
+  load_select_txt = compile_menu_text (_("CHOOSE A LOAD SLOT"),
 				       T_CENTERED|T_WAVING, 10, 159);
 
   /* enter your name */

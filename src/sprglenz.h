@@ -30,7 +30,7 @@
 
 void draw_sprglenz (const sprite_t *sprite, pixel_t *dest);
 
-/* Same as above, but allow to chose the glenz line used */
+/* Same as above, but allow to choose the glenz line used */
 void draw_sprglenz_custom (const sprite_t *sprite, pixel_t *dest,
 			   const pixel_t *glenz_line);
 
