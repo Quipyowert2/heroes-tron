@@ -58,7 +58,7 @@ extern bool two_players;
 
 extern a_player player[4];
 extern int trail_pos[4][maxq];
-extern char trail_way[4][maxq];
+extern a_dir8_pair trail_way[4][maxq];
 extern int trail_offset[4];
 extern char trail_size[4];	/* size of trails, minus one */
 
@@ -68,7 +68,7 @@ extern int plr2col[4];
 extern a_level lvl;
 
 extern unsigned char *square_occupied;
-extern unsigned char *square_way;
+extern a_dir8_pair *square_way;
 extern a_tile_index *square_tile;
 extern a_square_corrd_pair *square_coord;
 extern signed char *square_object;

@@ -315,15 +315,13 @@ reinit_player (unsigned p)
     square_occupied[player[p].x2 +
 		   SQR_COORD_DOWN (&lvl, player[p].y2) * lvl.square_width] =
       (char) (p + 4);
-/*     explofr[p]=0; */
+
   start_dir = player[p].way;
-  square_way[start_idx] = (char) ((start_dir << 2) + start_dir);
+  square_way[start_idx] = DIR8_PAIR (start_dir, start_dir);
   trail_offset[p] = 0;
-  for (m = /* trail_offset[p]+ */ trail_size[p] /* -1 */ ;
-       m >= 0 /* trail_offset[p] */ ;
-       m--) {
+  for (m = trail_size[p]; m >= 0; m--) {
     trail_pos[p][m] = start_idx;
-    trail_way[p][m] = (char) ((start_dir << 2) + start_dir);
+    trail_way[p][m] = DIR8_PAIR (start_dir, start_dir);
   }
 }
 
@@ -638,8 +636,6 @@ load_level (char *filename, char cont)
 
   level_is_finished = 0;
 
-  /* reset_htimer_with_offset (0, HZ(70)*1000); * what it is intended for? * */
-  /* update_htimer (); */
   if (!in_menu)
     spread_bonuses ();
   return (0);
@@ -700,7 +696,6 @@ compute_level_full_list (void)
       i--;
     if (i < 0)
       opt.extras = 0;
-      /* printf("%d\n",i); */
   }
   i = 0;
   if (opt.extras != 2)
@@ -753,7 +748,6 @@ load_random_level (char cont)
   char *tmp;
   char e;
   t = random_level ();
-  /* t=1; */
 
   dmsg (D_SECTION, "load random level");
 
@@ -1184,24 +1178,32 @@ grow_trail (int pl, int size)
     trail_size[pl]++;
     --size;
   }
-  if (trail_size[pl] >= 55 && player[pl].cpu == 2 && game_mode == M_QUEST)
-    event_sfx (89);
-  if (trail_size[pl] >= 55 && game_mode == M_QUEST)
+
+  if (trail_size[pl] >= 55 && game_mode == M_QUEST) {
+    if (player[pl].cpu == 2)
+      event_sfx (89);
     add_end_level_bonuses ();
+  }
 }
 
+/* Shrink the trail for player PL by SIZE squares.  */
 void
 shrink_trail (int pl, int size)
 {
   int i;
 
   while (size != 0 && trail_size[pl] > 5) {
+    --size;
     --trail_size[pl];
     i = ((trail_offset[pl] + trail_size[pl]) & (maxq - 1));
     square_occupied[trail_pos[pl][i]] = 0xff;
     i = ((trail_offset[pl] + trail_size[pl] - 1) & (maxq - 1));
-    square_occupied[trail_pos[pl][i]] = (unsigned char) (pl + 12);
-    --size;
+    /* Setup the new trail tail, but make sure we don't redraw
+       anything if the trail has been erased before (this happens when
+       the player dies: the square is erased (it explodes) and then
+       shrinked).  */
+    if (square_occupied[trail_pos[pl][i]] != 0xff)
+      square_occupied[trail_pos[pl][i]] = (unsigned char) (pl + 12);
   }
 }
 
@@ -1956,7 +1958,7 @@ update_player (int c)
       trail_offset[c] = (char) ((trail_offset[c] - 1) & (maxq - 1));
       trail_pos[c][trail_offset[c]] = l;
       trail_way[c][trail_offset[c]] = square_way[l] =
-	(char) (player[c].way + (player[c].old_way << 2));
+	DIR8_PAIR (player[c].way, player[c].old_way);
       a = (trail_offset[c] + trail_size[c]) & (maxq - 1);
       if (trail_pos[c][a]
 	  != trail_pos[c][(trail_offset[c] + trail_size[c] - 1)

@@ -61,7 +61,7 @@ bool two_players = false;
 
 a_player player[4];
 int trail_pos[4][maxq];
-char trail_way[4][maxq];
+a_dir8_pair trail_way[4][maxq];
 int trail_offset[4];
 char trail_size[4];		/* trail size, minus one */
 
@@ -72,7 +72,7 @@ int plr2col[4];
 a_level lvl;
 
 unsigned char *square_occupied;
-unsigned char *square_way;
+a_dir8_pair *square_way;
 a_tile_index *square_tile;
 a_square_corrd_pair *square_coord;
 signed char *square_object;

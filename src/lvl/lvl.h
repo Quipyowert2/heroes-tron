@@ -58,6 +58,15 @@ enum a_dir { D_UP = 0,
 typedef a_u8 a_dir8;		/* Hold the same values, on 8bits. */
 #define REVERSE_DIR(d) ((d) ^ 2)
 
+/* Two direction on one byte (used for trails).
+   Don't change the encoding, this the resulting value is used
+   to lookup sprites to draw the trail.  */
+typedef a_u8 a_dir8_pair;
+#define DIR8_TAIL(X) ((X) >> 2)
+#define DIR8_HEAD(X) ((X) & 0x3)
+#define DIR8_PAIR(H, T) (((T) << 2) | (H))
+
+
 /* Number of directions,
    unless Heroes goes 3D this is unlikely to change :) */
 #define DIR_MAX 4

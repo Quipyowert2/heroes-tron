@@ -1,3 +1,19 @@
+2001-11-08  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/const.c (trail_way, square_way): Define as an array
+	of a_dir8_pair.
+	* src/const.h (trail_way, square_way): Likewise.
+	* src/heroes.c (reinit_player, update_player): Use DIR8_PAIR.
+	(grow_trail): Beautify.
+	* src/lvl/lvl.h (DIR8_TAIL, DIR8_HEAD, DIR8_PAIR): New macros.
+	* src/render.c (draw_trail_real, draw_vehicle_tail,
+	draw_vehicle_head, draw_trail_tail): Use a_dir8_pair, REVERSE_DIR,
+	and DIR8_PAIR.
+
+	* src/heroes.c (shrink_trail): Don't redraw the trail tail
+	if the trail has been erased.  This completes the fix from
+	2001-10-28.
+
 2001-10-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/heroes.c (update_player): Call erase_trail() before

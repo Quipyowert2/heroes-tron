@@ -89,8 +89,7 @@ copy_square_transp (const a_pixel* src, a_pixel* dest, char d, char e)
 }
 
 static void
-draw_trail_real (int c, unsigned char s, a_pixel* dest,
-		 unsigned char fixe)
+draw_trail_real (int c, a_dir8_pair s, a_pixel* dest, unsigned char fixe)
 {
   const a_sprite *spr;
   int d = 0;
@@ -109,11 +108,12 @@ static void
 draw_vehicle_tail (int c, a_pixel* dest)
 {
   int d;
-  const a_pixel* posit = 0;
-  int s = ((player[c].old_way ^ 2) + ((player[c].way ^ 2) << 2));
+  const a_pixel *posit = 0;
+  int s = DIR8_PAIR(REVERSE_DIR(player[c].old_way),
+		    REVERSE_DIR(player[c].way));
   const a_sprite *spr;
 
-  if (s & 4) {
+  if (s & 1) {
     d = player[c].d.h.l / 5462;
     spr = trails[s][12 - (d + 12) / 2];
   } else {
@@ -123,16 +123,24 @@ draw_vehicle_tail (int c, a_pixel* dest)
   draw_sprglenz_custom (spr, dest, glenz[c + 2]);
 
   posit = vehicles_img.buffer + (c << 6) + (player[c].way << 4);
+
   if (invincible[c])
     posit += 10 * 320;
-  if (player[c].way == w_left)
+
+  switch (player[c].way) {
+  case D_LEFT:
     copy_square_transp (posit + d, dest, (char) d, 0);
-  if (player[c].way == w_right)
+    break;
+  case D_RIGHT:
     copy_square_transp (posit, dest + d, (char) d, 0);
-  if (player[c].way == w_up)
+    break;
+  case D_UP:
     copy_square_transp (posit + d * 320, dest, 0, (char) d);
-  if (player[c].way == w_down)
+    break;
+  case D_DOWN:
     copy_square_transp (posit, dest + d * xbuf, 0, (char) d);
+    break;
+  }
 }
 
 static void
@@ -169,9 +177,9 @@ draw_vehicle_head (int c, a_pixel* dest)
 }
 
 static void
-draw_trail (int c, a_pixel* dest, char d)
+draw_trail (int c, a_pixel* dest, a_dir8_pair d)
 {
-  draw_trail_real ((char) (c - 2), (char) (d & 15), dest, 0);
+  draw_trail_real ((char) (c - 2), d, dest, 0);
 }
 
 static void
@@ -184,9 +192,9 @@ draw_trail_tail (int c, a_pixel* dest)
   k = trail_way[c][tmp1 & (maxq - 1)];
   if (trail_pos[c][tmp1 & (maxq - 1)]
       != trail_pos[c][(tmp1 - 1) & (maxq - 1)])
-    draw_trail_real ((char) c, (char) k, dest, 1);
+    draw_trail_real ((char) c, k, dest, 1);
   else
-    draw_trail_real ((char) c, (char) k, dest, 0);
+    draw_trail_real ((char) c, k, dest, 0);
 }
 
 static void
