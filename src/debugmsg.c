@@ -20,6 +20,7 @@
 
 #include "common.h"
 #include "debugmsg.h"
+#include "errors.h"
 
 enum debug_lvl debug_level = 0;
 const char* progname = 0;
@@ -71,16 +72,13 @@ dperror (const char* s)
 #endif /* !dmsg */
 
 void
-dmsg_init (const char* prgname)
+dmsg_parse_string (const char* opt)
 {
-  char* opt;
   char* buf;
-  progname = prgname;
 
-  opt = getenv ("HEROES_DEBUG");
   if (opt) {
 #ifndef USE_HEROES_DEBUG
-    puts ("Ignoring value of HEROES_DEBUG: recompile Heroes with\n"
+    wmsg ("Ignoring value of HEROES_DEBUG: recompile Heroes with\n"
 	  "the --enable-debug configure option if you want that feature.");
 #else
     if (opt[0] == '-' || (opt[0] >= '0' && opt[0] <= '9')) {
@@ -126,7 +124,7 @@ dmsg_init (const char* prgname)
 	else if (!strcasecmp (opt, "fader"))
 	  val = D_FADER;
 	else {
-	  fprintf (stderr, "Ignoring %s in HEROES_DEBUG\n", opt);
+	  wmsg ("Ignoring unknown debugging option `%s'", opt);
 	  goto next_opt;
 	}
 	
@@ -142,4 +140,12 @@ dmsg_init (const char* prgname)
     dmsg (D_MISC, "set debug level to %x", debug_level);
 #endif /* HEROES_DEBUG */
   }
+}
+
+void
+dmsg_init (const char* prgname)
+{
+  progname = prgname;
+
+  dmsg_parse_string (getenv ("HEROES_DEBUG"));
 }

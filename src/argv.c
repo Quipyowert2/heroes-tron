@@ -67,10 +67,11 @@ print_help (char* argv0)
   printf ("Usage: %s [OPTIONS]...\n\n",argv0);
   puts ("Heroes is a game like nibbles but different.\n"
 	"\nGeneral options:\n"
-	"  -v, --version\t\t"	    "    display version number\n"
+	"      --version\t\t"	    "    display version number\n"
 	"  -h, --help\t\t"	    "    display this help\n"
 	"  -q, --quiet\t\t"	    "    don't print warning messages\n"
 	"  -Q, --really-quiet\t"    "    don't even print error messages\n"
+	"  -v, --verbose=OPTIONS\t" "    enable debugging messages\n"
 	"\nSound options:\n"
 	"  -n, --drivers-info\t"    "    print the sound drivers list\n"
 	"  -d, --driver=N[,OPTIONS]" 
@@ -108,6 +109,7 @@ print_help (char* argv0)
 
 const struct option long_options[] = {
   {"version",		no_argument,       NULL,	'v'},
+  {"verbose",		required_argument, NULL,	'v'},
   {"help",		no_argument,       NULL,	'h'},
   {"cpu-off",		no_argument,       &cpuon,	0},
   {"default-scores",	no_argument,       &reinitsco,	1},
@@ -149,7 +151,7 @@ parse_argv (int argc, char **argv)
   for (;;) {
     int option_index = 0;
 
-    c = getopt_long (argc, argv, "238d:eFgG:hiJl:mnqQsSvX", 
+    c = getopt_long (argc, argv, "238d:eFgG:hiJl:mnqQsSv::X", 
 		     long_options, &option_index);
 
     /* Detect the end of the options. */
@@ -158,8 +160,13 @@ parse_argv (int argc, char **argv)
 
     switch (c) {
     case 'v':
-      version ();
-      return 1;
+      if (!optarg) {
+	version ();
+	return 1;
+      } else {
+	dmsg_parse_string (optarg);
+	break;
+      }
     case 'h':
       print_help (argv[0]);
       return 1;

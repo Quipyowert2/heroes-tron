@@ -51,6 +51,7 @@ void dmsg (void);
 void dperror (const char* s);
 #endif
 
+void dmsg_parse_string (const char* opt);
 void dmsg_init (const char* prgname);
 
 #endif /* HEROES__DEBUGMSG__H */

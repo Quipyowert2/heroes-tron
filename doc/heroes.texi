@@ -770,6 +770,13 @@ such as Windows were such messages will popup a text window.
 @cindex --really-quiet
 Same as @samp{-q}, but disable error messages too.
 
+@item -v OPTIONS
+@itemx --verbose=OPTIONS
+@cindex -v OPTIONS
+@cindex --verbose=OPTIONS
+Enable debugging output.  @samp{OPTIONS} can take the same
+values as @samp{HEROES_DEBUG} (@pxref{Environment}).
+
 @comment sound options:
 
 @item -n

@@ -1,5 +1,18 @@
 2000-09-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Add option --verbose (same purpose as HEROES_DEBUG).
+	
+	* doc/heroes.texi (Options): Document.
+	* src/argv.c (print_help): Add --verbose.
+	(long_options): Likewise.
+	(parse_argv): Handle it.
+	* src/debugmsg.c (dmsg_init): Split into ...
+	(dmsg_init,dmsg_parse_string): ... this two functions.  Adapt
+	to use wmsg.
+	* src/debugmsg.h (dmsg_parse_string): New.
+
+2000-09-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Rename -q into -i, and add -q and -Q to disable warning
 	and error messages.
 	
