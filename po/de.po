@@ -6,13 +6,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.9\n"
 "POT-Creation-Date: 2001-02-24 12:07+0100\n"
-"PO-Revision-Date: 2001-03-07 22:19GMT\n"
+"PO-Revision-Date: 2001-03-18 18:27GMT\n"
 "Last-Translator: Hermann J. Beckers <beckers@st-oneline.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO 8859-1\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 0.6\n"
+"X-Generator: KBabel 0.8\n"
 
 #: lib/error.c:117
 msgid "Unknown system error"
@@ -510,7 +510,7 @@ msgstr ""
 "%{head 2}BONUS\n"
 "\n"
 "%{img L 60 0 20 22}Wirkt auf den Spieler, der das Teil bekommt\n"
-"%{img L 60 22 20 22}Wirkt auf alle Spieler außer den, der den Bonus bekommt\n"
+"%{img L 60 22 20 22}Wirkt auf alle Spieler ausser den, der den Bonus bekommt\n"
 "\n"
 "%{img L 0 0 20 22}%{>}%{img L 0 22 20 22}%{>>>}Spur +1\n"
 "%{img L 0 44 20 22}%{>}%{img L 0 66 20 22}%{>>>}Spur -1\n"
@@ -612,7 +612,7 @@ msgstr ""
 "\n"
 "%{>>}%yTIME CA$H\n"
 "\n"
-"%{>>>}Im %yTIME CA$H%w-Modus gewinnt der Spieler, der den groeßten Geldbetrag "
+"%{>>>}Im %yTIME CA$H%w-Modus gewinnt der Spieler, der den groessten Geldbetrag "
 "einsammelt.\n"
 "\n"
 
@@ -1089,7 +1089,7 @@ msgstr "CODE:"
 
 #: src/menus.c:475
 msgid "PLEASE READ THE LIST OF OTHER CONTRIBUTORS IN THE FILE 'THANKS'"
-msgstr "Weitere Mitwirkende sind in der Datei'THANKS' aufgefuehrt."
+msgstr "WEITERE MITWIRKENDE SIND IN DER DATEI 'THANKS' AUFGEFUEHRT."
 
 #. pause menu
 #: src/menus.c:501
@@ -1202,7 +1202,7 @@ msgstr "NAME EINGEBEN:"
 #. number of PoinTS
 #: src/menus.c:583
 msgid "SIZE  PTS  LIVES"
-msgstr "GROESSE Pkt. LEBEN"
+msgstr "GROESSE PKT. LEBEN"
 
 #: src/menus.c:585
 msgid "PTS  LIVES"
@@ -1230,7 +1230,7 @@ msgstr "NAECHSTER LEVEL"
 #. menu.  This is NOT displayed during saving.
 #: src/menus.c:599
 msgid "SAVE..."
-msgstr "Speichern..."
+msgstr "SPEICHERN..."
 
 #: src/menus.c:601
 msgid "PRESS RETURN"
