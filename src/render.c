@@ -304,7 +304,6 @@ draw_level (int p)
   signed char bb;
   unsigned char b;
   unsigned int ib;
-  signed char sinl;
   pixel_t *dest = render_buffer[p] + sbuf;
   pixel_t *dest2;
   long anim_frame;
@@ -584,8 +583,8 @@ draw_level (int p)
   if (tutor) {
     int bonus_to_show = trail_size[col2plr[p]] < 55 ? 1 : 12;
 
-    sinl = (signed char) minisinus[read_htimer (waving_htimer) & 31];
-    dest = render_buffer[p] + sbuf - (7 + sinl) * xbuf + 15 + sinl - 48;
+    dest = render_buffer[p] + sbuf -
+      (7 + minisinus[read_htimer (waving_htimer) & 31]) * (xbuf - 1) - 40;
 
     for (k = corner_dy[p] - 0, l = 1 + 11 - camera_stop_y[p]; l > 0;
 	 l--, k++) {

@@ -2016,7 +2016,7 @@ jukebox_keys (int *pos)
 void
 jukebox_menu (void)
 {
-  signed char sinl;
+  signed char sh;		/* shift */
   int l = 0;
 
   in_jokebox = 1;
@@ -2024,11 +2024,11 @@ jukebox_menu (void)
   do {
     background_menu ();
 
-    sinl = minisinus[read_htimer (waving_htimer) & 31];
-    draw_glenz_box (corner[0] + (42 + sinl) * xbuf + 234, 2, 86, 6);
-    draw_glenz_box (corner[0] + (62 + sinl) * xbuf + 244, 3, 76, 6);
-    draw_glenz_box (corner[0] + (74 + sinl) * xbuf + 194, 4, 126, 6);
-    draw_glenz_box (corner[0] + (95 + sinl) * xbuf + 194, 5, 126, 6);
+    sh = minisinus[read_htimer (waving_htimer) & 31];
+    draw_glenz_box (corner[0] + (42 + sh) * xbuf + 234, 2, 86, 6);
+    draw_glenz_box (corner[0] + (62 + sh) * xbuf + 244, 3, 76, 6);
+    draw_glenz_box (corner[0] + (74 + sh) * xbuf + 194, 4, 126, 6);
+    draw_glenz_box (corner[0] + (95 + sh) * xbuf + 194, 5, 126, 6);
     DRAW_SPRITE (credit_menu_txt, corner[0]);
     hrule (28);
     hrule (109);

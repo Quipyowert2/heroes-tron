@@ -1,5 +1,11 @@
 2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/menus.c (jukebox_menu): Rename sinl as sh to suppress a
+	warning.
+	* src/render.c (draw_level): Adapt to remove the sinl local variable.
+
+2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/const.c (temppal, pal): Remove.
 	* src/const.h (temppal, pal): Remove.
 	* src/heroes.c (play_demo): Don't set pal.global.
