@@ -1,5 +1,23 @@
 2001-08-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	configure was still defining many HAVE_LIB* macro that are no
+	longer needed since the move to src/media/.  Only
+	HAVE_LIBSDL_MIXER is used.  This remove all the other, to cleanup
+	config.h (and reduce the probability of config.h to change, which
+	is good since all files depend upon config.h).
+
+	* m4/h-display.m4 (heroes_CHECK_DISPLAY_LIB): Don't call
+	heroes_CHECK_DISPLAY_LIB.
+	* m4/checkpkg.m4 (AC_caolan_CHECK_PACKAGE): Don't define HAVE_LIB[]UP.
+	* m4/h-sdl.m4 (heroes_CHECK_SDL): Don't define HAVE_LIBSDL.
+	(heroes_CHECK_SDL_PRELIM): Merge into heroes_CHECK_SDL.
+	* m4/h-mikmod.m4 (heroes_CHECK_MIKMOD): Don't define HAVE_LIBMIMOD.
+	(heroes_CHECK_MIKMOD_PRELIM): Merge into heroes_CHECK_MIKMOD.
+	* m4/h-sdlmixer.m4 (heroes_CHECK_SDL_MIXER): Define HAVE_LIBSDL_MIXER.
+	* configure.ac: Don't define HAVE_LIBM.
+
+2001-08-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	This is the start of support for Allegro.  It does not work yet
 	(actually it segfault, and I've not yet understood why).  Allegro
 	do not use any naming convention for its symbols, neither does

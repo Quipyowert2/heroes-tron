@@ -64,7 +64,7 @@ if test "${with_[]DOWN}" != no ; then
 
 	no_good=no
 	dnl pass a third argument to AC_CHECK_LIB to
-	dnl prevent HAVE_LIB$3 to be defined.
+	dnl prevent HAVE_LIB$3 from being defined.
         AC_CHECK_LIB([$3],[$2],[:],[no_good=yes])
         AC_CHECK_HEADER([$4],,[no_good=yes])
  	LIBS=$OLD_LIBS
@@ -81,9 +81,6 @@ dnl     broken
 dnl     fixed
 		UP[]_LIBS="-l$3"
                 ifelse([$5], , , [$5])
-
-                AC_DEFINE(HAVE_LIB[]UP, 1,
-			  [Define if you have the $3 library installed.])
         fi
 
 fi

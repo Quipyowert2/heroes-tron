@@ -1,17 +1,16 @@
-AC_DEFUN([heroes_CHECK_SDL_PRELIM],[
-# --with-sdl-exec-prefix should imply --with-sdl, and vice-versa
-
-test "${with_sdl_exec_prefix-no}" != no &&
- test "${with_sdl-yes}" = yes && with_sdl="$with_sdl_exec_prefix"
-
-test "${with_sdl-yes}" != yes &&
- test "${with_sdl_exec_prefix-yes}" = yes && with_sdl_exec_prefix="$with_sdl"
-])
-
 AC_DEFUN([heroes_CHECK_SDL],
 [AC_ARG_WITH([sdl],
   [AC_HELP_STRING([--with-sdl=DIR],[root directory of SDL installation])
 AC_HELP_STRING([--without-sdl],[disables SDL usage completely])])
+
+ # --with-sdl-exec-prefix should imply --with-sdl, and vice-versa
+  
+ test "${with_sdl_exec_prefix-no}" != no &&
+  test "${with_sdl-yes}" = yes && with_sdl="$with_sdl_exec_prefix"
+  
+ test "${with_sdl-yes}" != yes &&
+  test "${with_sdl_exec_prefix-yes}" = yes && with_sdl_exec_prefix="$with_sdl"
+  
  if test "${with_sdl-yes}" != no; then
   if test "${with_sdl-no}" != no; then
      user_selection_list_vkm="$user_selection_list_vkm sdlvkm"
@@ -20,8 +19,7 @@ AC_HELP_STRING([--without-sdl],[disables SDL usage completely])])
   fi
 
   AC_adl_PKG_GENERIC(sdl,[1.0.1],[SDL_Init],
-   [AC_DEFINE([HAVE_LIBSDL],1,[Define if you have the SDL library.])
-    AC_CHECK_FUNCS([SDL_EnableKeyRepeat])],
+   [AC_CHECK_FUNCS([SDL_EnableKeyRepeat])],
    [with_sdl=no])
  fi
  if test "${with_sdl-yes}" != no; then

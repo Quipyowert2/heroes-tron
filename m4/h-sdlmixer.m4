@@ -17,9 +17,11 @@ if test "${with_sdl_mixer-yes}" != no; then
   tmp_CPPFLAGS="$CPPFLAGS"
   CPPFLAGS="$SDL_CFLAGS $CPPFLAGS"
 
-  AC_caolan_CHECK_PACKAGE([SDL_mixer],[Mix_OpenAudio],
-			  [SDL_mixer],[SDL_mixer.h],,
-			  [with_sdl_mixer=no])
+  AC_caolan_CHECK_PACKAGE([SDL_mixer], [Mix_OpenAudio],
+		[SDL_mixer], [SDL_mixer.h],
+		[AC_DEFINE([HAVE_LIBSDL_MIXER], 1,
+		  [Define if you have the SDL_mixer library installed.])],
+		[with_sdl_mixer=no])
 
   # revert old value
   CPPFLAGS="$tmp_CPPFLAGS"

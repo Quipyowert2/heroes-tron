@@ -65,7 +65,9 @@ AC__GNU_SOURCE
 # Checks for libraries.
 # =====================
 
-AC_CHECK_LIB([m],[sin])
+dnl pass a third argument to AC_CHECK_LIB to
+dnl prevent HAVE_LIBM from being defined (we don't need it).
+AC_CHECK_LIB([m], [sin], [:])
 heroes_MEDIALIB_SELECTION
 
 # ================================

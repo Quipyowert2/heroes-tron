@@ -1,6 +1,5 @@
 AC_DEFUN([heroes_CHECK_DISPLAY_LIB],
  [
-    heroes_CHECK_SDL_PRELIM
     heroes_CHECK_GGI([adl_LIBALT_OK([ggivkm], [LibGGI], [$GGI_LDFLAGS],
 				    [$GGI_LIBS])])
     heroes_CHECK_SDL([adl_LIBALT_OK([sdlvkm], [SDL dnl
