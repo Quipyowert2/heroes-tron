@@ -27,6 +27,8 @@
 #include "debugmsg.h"
 #include "rsc_files.h"
 #include "fopenlock.h"
+#include "getshline.h"
+#include "errors.h"
 
 top_score highs[5][10];
 
@@ -34,10 +36,10 @@ static char *name = 0;
 static FILE *fscores = 0;
 
 static char*
-scores_file (void)
+score_file (void)
 {
   if (!name)
-    name = get_non_null_rsc_file ("scores-file");
+    name = get_non_null_rsc_file ("score-file");
   return name;
 }
 
@@ -69,60 +71,36 @@ clear_scores (void)
     }
 }
 
-static unsigned long int
-check_scores (void)
-{
-  unsigned long int crc = 0xa8c4d602;
-  unsigned int i;
-  unsigned char *src = (unsigned char *) highs;
-  for (i = 0; i < (5 * 10 * sizeof (top_score) - 4); i += 3, src += 3)
-    crc ^= GETWORD(src);
-  return (crc);
-}
-
-static void
-bswap_scores (void)
-{
-  int j;
-
-  for (j = 0; j < 50; ++j)
-    highs[0][j].points = BSWAP32 (highs[0][j].points);
-}
-
 void
 write_scores (void)
 {
-  unsigned int i;
+  unsigned int i, j;
 
   if (fscores == 0)
-    fscores = fopenlock (scores_file (), "wb");
+    fscores = fopenlock (score_file (), "wb");
 
-  dmsg (D_FILE, "writing scores to %s", scores_file ());
+  dmsg (D_FILE, "writing scores to %s", score_file ());
 
-  i = check_scores ();
+  /* Write down scores to disk.  */
+  for (i = 0; i < 5; ++i)
+    for (j = 0; j < 10; ++j) {
+      fprintf (fscores, "%u %u %u %u\n",
+	       i, j, highs[i][j].points, highs[i][j].magic);
+      fprintf (fscores, " %s\n", highs[i][j].name);
+    }
 
-  /* convert from local endianess to little-endian */
-  bswap_scores ();
-  i = BSWAP32 (i);
-
-  /* write scores down to disk */
-  fwrite (highs, sizeof (top_score), 50, fscores);
-  fwrite ((int *) &i, 4, 1, fscores);
   fclose (fscores);
   fscores = 0;
-
-  /* revert scores endianess */
-  bswap_scores ();
 }
 
 static void
 load_scores_open (const char *mode)
 {
-  fscores = fopenlock (scores_file (), mode);
-  dmsg (D_FILE, "reading scores from %s", scores_file ());
+  fscores = fopenlock (score_file (), mode);
+  dmsg (D_FILE, "reading scores from %s", score_file ());
 
   if (fscores == 0) {
-    dmsg (D_FILE, "cannot open %s", scores_file ());
+    dmsg (D_FILE, "cannot open %s", score_file ());
     dperror ("fopen");
     clear_scores ();
   }
@@ -131,40 +109,60 @@ load_scores_open (const char *mode)
 static void
 load_scores_read (void)
 {
-  unsigned long int i;
+  unsigned int i, j;
+  u32_t points;
+  u32_t magic = 0;
+  int endline = 0;
+  char* buf = 0;
+  size_t bufsize = 0;
+  int firstline = 0;
 
-  if (fscores == 0) {
-    clear_scores ();
+  clear_scores ();
+
+  if (fscores == 0)
     return;
+
+  /* Read the scores from disk.  */
+  while (getshline_numbered
+         (&firstline, &endline, &buf, &bufsize, fscores) != -1) {
+    if (*buf != ' ') {
+      if (sscanf (buf, "%u %u %u %u", &i, &j, &points, &magic) != 4
+	  || i > 5
+	  || j > 10) {
+	wmsg (_("%s:%d: parse error.  Clearing score file."),
+	      score_file (), firstline);
+	clear_scores ();
+	return;
+      }
+      highs[i][j].points = points;
+      highs[i][j].magic = magic;
+    } else {
+      strncpy (highs[i][j].name, buf, PLAYER_NAME_SIZE + 1);
+      chomp (highs[i][j].name);
+      magic = 0;
+    }
   }
-
-  /* Read the score from disk.  */
-  fread (highs, sizeof (top_score), 50, fscores);
-  fread ((int *) &i, 4, 1, fscores);
-
-  /* Convert from little-endian to local endianess.  */
-  bswap_scores ();
-  i = BSWAP32 (i);
-
-  /* Check score CRC.  */
-  if (check_scores () != i)
-    clear_scores ();
+  free (buf);
 }
 
 void
 load_scores (void)
 {
-  load_scores_open ("rb");
+  load_scores_open ("rt");
   load_scores_read ();
-  fclose (fscores);
-  fscores = 0;
+  if (fscores) {
+    fclose (fscores);
+    fscores = 0;
+  }
 }
 
 void
 load_scores_and_keep_locked (void)
 {
-  load_scores_open ("r+b");
+  load_scores_open ("r+t");
   load_scores_read ();
+  if (fscores == 0)
+    load_scores_open ("w+t");
   fseek (fscores, 0L, SEEK_SET);
 }
 

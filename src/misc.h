@@ -21,10 +21,12 @@
 #ifndef HEROES__MISC__H
 #define HEROES__MISC__H
 
-char* strlwr (char *in);
-char* strupr (char *in);
+char *strlwr (char *in);
+char *strupr (char *in);
 
-char* strcat_alloc (const char *fst, const char* snd);
-char* strappend (char *fst, const char* snd);
+char *strcat_alloc (const char *fst, const char* snd);
+char *strappend (char *fst, const char* snd);
+
+char *chomp (char *str);
 
 #endif /* HEROES__MISC__H */

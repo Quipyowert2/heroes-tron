@@ -52,7 +52,7 @@ menu-pictures-img,	"$(data-dir)/pics/fontem2.pcx",		0,0
 new-level-menu-img,	"$(data-dir)/pics/newlevel.pcx",	0,0
 options-file,		"$(user-dir)/options.dat",		0,0
 purple-bonus-img,	"$(data-dir)/pics/bonusa.pcx",		0,0
-scores-file,		"$(user-dir)/scores.dat",		0,0
+score-file,		"$(user-dir)/scores",			0,0
 sfx-conf-txt,		"$(data-dir)/sfx/sfx.conf",		0,0
 sfx-dir,		"$(data-dir)/sfx/",			0,0
 system-conf,		"$(data-dir)/etc/heroesrc",		0,0

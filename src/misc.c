@@ -52,3 +52,13 @@ strappend (char *fst, const char *snd)
   char *res = xrealloc (fst, strlen (fst) + strlen (snd) + 1);
   return res ? strcat (res, snd) : NULL;
 }
+
+char *
+chomp (char *str)
+{
+  char *old = str;
+  while (*str != 0 && *str != '\n' && *str != '\r')
+    ++str;
+  *str = 0;
+  return old;
+}

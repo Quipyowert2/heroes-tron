@@ -1,5 +1,21 @@
 2001-03-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Save the scores as text.
+
+	* src/misc.c (chomp): New function.
+	* src/misc.h (chomp): New function.
+	* src/rsc_files.gperf (scores-file): Remove.
+	(score-file): New.
+	* src/scores.c (scores_file): Rename as ...
+	(score_file): ... this.  Adjust all calls.
+	(check_scores, bswap_scores): Remove.
+	(write_scores, load_scores_read): Write and read the scores as
+	text.
+	(load_scores, load_scores_and_keep_locked): Adjust to open
+	the score as text file.  Create the file if needed.
+
+2001-03-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Adapt score and save records loading/saving to locking.
 	Not perfect yet.
 
