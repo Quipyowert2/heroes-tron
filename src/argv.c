@@ -132,6 +132,7 @@ Display options:\n\
   -F, --full-screen           full screen mode\n\
   -2, --double                stretch the display twofold\n\
   -3, --triple                stretch the display threefold\n\
+  -4, --quadruple             stretch the display fourfold\n\
   -e, --even-lines            display only even-lines\n");
   puts ("\
 Miscellaneous options:\n\
@@ -176,6 +177,7 @@ const struct option long_options[] = {
   {"no-joystick",	no_argument,       NULL,	'J'},
   {"no-sfx",		no_argument,       NULL,	'X'},
   {"no-sound",		no_argument,       NULL,	'S'},
+  {"quadruple",		no_argument,       NULL,	'4'},
   {"quiet",		no_argument,	   NULL,	'q'},
   {"really-quiet",	no_argument,	   NULL,	'Q'},
   {"snap",		no_argument,       &snap,	0},
@@ -208,7 +210,7 @@ parse_argv (int argc, char **argv, const char *from_file, int from_line)
   for (;;) {
     int option_index = 0;
 
-    c = getopt_long (argc, argv, "238d:eFgG:hiJl::L:mnqQsSv::X",
+    c = getopt_long (argc, argv, "2348d:eFgG:hiJl::L:mnqQsSv::X",
 		     long_options, &option_index);
 
     /* Detect the end of the options. */
@@ -274,6 +276,9 @@ parse_argv (int argc, char **argv, const char *from_file, int from_line)
       break;
     case '3':
       stretch = 3;
+      break;
+    case '4':
+      stretch = 4;
       break;
     case 'e':
       even_lines = true;

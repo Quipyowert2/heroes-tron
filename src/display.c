@@ -168,6 +168,50 @@ stretch_threefold_even (void)
 }
 
 static void
+stretch_fourfold (void)
+{
+  pixel_t* s = screen;
+  pixel_t* d = screen_rv;
+  int rows_left, columns_left;
+
+  for (rows_left = 200; rows_left; --rows_left) {
+    u32_t *d2 = (unsigned int *)d;
+    for (columns_left = 320; columns_left; --columns_left) {
+      pixel_t c = *s;
+      u32_t i = (c << 24) | (c << 16) | (c << 8) | c;
+      d2[0] = i;
+      d2[320] = i;
+      d2[320*2] = i;
+      d2[320*3] = i;
+      ++s;
+      ++d2;
+    }
+    d += 4 * scr_pitch;
+  }
+}
+
+static void
+stretch_fourfold_even (void)
+{
+  pixel_t* s = screen;
+  pixel_t* d = screen_rv;
+  int rows_left, columns_left;
+
+  for (rows_left = 200; rows_left; --rows_left) {
+    u32_t *d2 = (unsigned int *)d;
+    for (columns_left = 320; columns_left; --columns_left) {
+      pixel_t c = *s;
+      u32_t i = (c << 24) | (c << 16) | (c << 8) | c;
+      d2[0] = i;
+      d2[320*2] = i;
+      ++s;
+      ++d2;
+    }
+    d += 4 * scr_pitch;
+  }
+}
+
+static void
 erase_odd_lines (void)
 {
   pixel_t* s = screen+320;
@@ -204,6 +248,11 @@ copy_display (void)
       stretch_threefold_even ();
     else
       stretch_threefold ();
+  } else if (stretch == 4) {
+    if (even_lines)
+      stretch_fourfold_even ();
+    else
+      stretch_fourfold ();
   } else {			/* stretch == 1 */
     if (even_lines)
       erase_odd_lines ();

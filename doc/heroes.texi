@@ -941,6 +941,14 @@ Stretch the game twofold before blitting to screen.  This is slow.
 @cindex stretching
 Stretch the game threefold before blitting to screen.  This is even slower.
 
+@item -4
+@itemx --quadruple
+@cindex -4
+@cindex --quadruple
+@cindex stretching
+Stretch the game fourfold before blitting to screen.  This has been
+requested by people which can run @samp{heroes -3} smoothly.
+
 @item -e
 @itemx --even-lines
 @cindex -e
@@ -948,7 +956,7 @@ Stretch the game threefold before blitting to screen.  This is even slower.
 @cindex stretching
 Display only even lines, leaving blank scan lines
 as on real arcade monitors.  This will contribute to make
-options @samp{-2} and @samp{-3} faster.
+options @samp{-2}, @samp{-3} and @samp{-4} faster.
 
 @comment miscellaneous options
 

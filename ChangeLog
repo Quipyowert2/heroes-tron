@@ -1,3 +1,16 @@
+2000-12-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Allow to strech the screen fourfold.
+	Suggested by Gregory Giannoni <gianno_g@epita.fr> who can
+	run heroes -3 smooth on his UltraSparc.
+
+	* src/argv.c (print_help): Mention -4.
+	(long_options): Add --quadruple.
+	(parse_argv): Handle -4.
+	* doc/heroes.texi (Invoking): Document -4 and --quadruple.
+	* src/display.c (stretch_fourfold, stretch_fourfold_even): New.
+	(copy_display): Use them.
+
 2000-12-02  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/heroes.c (output_screen): Declare loginf as ints ratherr
