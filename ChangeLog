@@ -1,5 +1,9 @@
 2000-11-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* NEWS: Mention the new icons.
+
+2000-11-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	New icons from Jean Delvare <delvare@ensicaen.ismra.fr>.
 
 	* misc/heroes.xpm: Delete.

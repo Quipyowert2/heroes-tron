@@ -3,6 +3,7 @@
 Heroes 0.6e	November 20, 2000
 
 	* New section `Machines' in Texinfo manual (and README)
+	* New icons (misc/heroes-?.xpm)
 	* Should work on DEC/OSF (out of the box), and NetBSD (not smooth
 	  yet)
 	* The use glenz option (screen menu) is no longer supported
