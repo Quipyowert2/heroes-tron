@@ -399,32 +399,3 @@ the *standard* behaviour as I answered you :).
 Still I have no idea what the reason is.  (For the records that
 was an Heroes 0.8, compiled against SDL too; I don't even know
 if GGI works on FreeBSD.)
-
-======================================================================
-
-From: Jean Delvare <delvare@ensicaen.ismra.fr>
-Date: Sat, 2 Dec 2000 15:30:37 +0100 (MET)
-Version: 0.7
-
-1* There is a level where all four players may be spawned in a closed
-zone. There is a y-wrap but no x-wrap and we were all condamned to live in
-the first two "cells" of the width (see the ASCII-art picture if I'm not
-clear).
-
-
-        +------------------------+
-        |  |                     |
-        |  |                     |
-        |  |                     |
-        |  |                     |
-        |  |                     |
-        |  |                     |
-zone   --> |                     |
-we      |  |                     |
-were    |  |                     |
-blocked |  |                     |
-in      |  |                     |
-        +------------------------+
-
-I suppose we better find that level and correct this. Playing 'Kill'em
-all' on such a level could take very long ;)

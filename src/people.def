@@ -34,6 +34,12 @@ person = {
 };
 
 person = {
+  name    = "William Black";
+  email   = psychopheles@users.sourceforge.net;
+  bugs;
+};
+
+person = {
   name    = "Hermann J. Beackers";
   email   = beckers@st-oneline.de;
   i18n    = German;

@@ -1,3 +1,12 @@
+2001-07-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	A report from William Black <psychopheles@users.sourceforge.net>
+	about the vehicles-restricted-in-a-two-square-width-vertical-zone
+	allowed to finally close this bug (reported by Jean in Dec 2000).
+
+	* src/people.def: Add him.
+	* BUGS: Update.
+
 2001-07-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Check gettext version in upgettext.sh.  Older versions can
