@@ -105,7 +105,7 @@ static void
 _play_sfx (Mix_Chunk* sfx)
 {
     /* set the sample volume */
-    sfx->volume = (13 - opt.sfx_volume) * 128 / 13;
+    sfx->volume = (13 - opt.sfx_volume) * MIX_MAX_VOLUME / 13;
     Mix_PlayChannel (-1, sfx, 0);
 }
 

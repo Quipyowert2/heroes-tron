@@ -1,5 +1,15 @@
 2000-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/sfx.c (_play_sfx): Use MIX_MAX_VOLUME.
+	* src/sound.c (set_volume,halve_volume): Implement.
+	* src/etc/heroesrc: New in CVS. Read $(datadir)/mod/sound.conf, not
+	/sound.conf.
+	* src/etc/heroesrc.in: Delete.
+	* src/etc/Makefile (EXTRA_DIST): Set to x_DATA.
+	(CLEANFILE,heroesrc): Remove.
+
+2000-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Add -S/--no-sound option, and switch to no-sound automaticaly if the
 	sound-engine can't initialize.
 

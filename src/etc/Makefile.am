@@ -21,8 +21,5 @@
 xdir = @etcdir@
 x_DATA = heroesrc
 
-EXTRA_DIST = heroesrc.in
-CLEANFILES = heroesrc
+EXTRA_DIST = $(x_DATA)
 
-heroesrc: heroesrc.in ../config.h
-	sed -e "s:%%moddir%%:$(moddir):" < $(srcdir)/heroesrc.in > $@

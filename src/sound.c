@@ -262,6 +262,7 @@ load_soundtrack_from_alias (char* alias)
 #include <stdio.h>
 #include <SDL_mixer.h>
 #include "argv.h"
+#include "options.h"
 #include "musicfiles.h"
 
 static Mix_Music *music = NULL;
@@ -274,11 +275,19 @@ int audio_buffers;
 void
 set_volume (void)
 {
+  if (opt.music)
+    Mix_VolumeMusic ((13 - opt.music_volume) * MIX_MAX_VOLUME / 13);
+  else
+    Mix_VolumeMusic (0);
 }
 
 void
 halve_volume (void)
 {
+  if (opt.music)
+    Mix_VolumeMusic ((13 - opt.music_volume) * MIX_MAX_VOLUME / 13 / 2);
+  else
+    Mix_VolumeMusic (0);
 }
 
 extern void init_SDL (void);
@@ -308,12 +317,15 @@ init_sound_engine (void)
     nosfx = nosound = 1;
   } else {
     Mix_QuerySpec(&audio_rate, &audio_format, &audio_channels);
+    /*
     printf("Opened audio at %d Hz %d bit %s, %d bytes audio buffer\n", 
 	   audio_rate,
 	   (audio_format&0xFF),
 	   (audio_channels > 1) ? "stereo" : "mono", 
 	   audio_buffers );
+    */
   }
+  set_volume ();
 
   return 0;
 }
@@ -354,7 +366,7 @@ play_soundtrack (void)
   if (nosound)
     return;
   if (music)
-    Mix_PlayMusic(music, -1);
+    Mix_PlayMusic (music, -1);
 }
 
 void
@@ -375,7 +387,6 @@ load_soundtrack_from_alias (char* alias)
 {
   if (!nosound) {
     sound_track_t* st = get_sound_track_from_alias (alias);
-    
     if (st) {
       load_soundtrack (st->filename);
       soundtrack_title = st->title;
