@@ -28,10 +28,10 @@ const char* progname = 0;
 #ifndef dmsg
 
 #if defined VA_START
-void 
+void
 dmsg (enum debug_lvl dlvl, const char* msg, ...)
 #else
-void 
+void
 dmsg (dlvl, msg, va_alist)
      enum debug_lvl dlvl;
      const char* msg;
@@ -56,7 +56,7 @@ dmsg (dlvl, msg, va_alist)
 #endif /* VA_START */
     putc ('\n', stderr);
     fflush (stderr);
-  }  
+  }
 }
 
 void
@@ -123,11 +123,13 @@ dmsg_parse_string (const char* opt)
 	  val = D_MISC;
 	else if (!strcasecmp (opt, "fader"))
 	  val = D_FADER;
+	else if (!strcasecmp (opt, "bonus"))
+	  val = D_BONUS;
 	else {
 	  wmsg ("Ignoring unknown debugging option `%s'", opt);
 	  goto next_opt;
 	}
-	
+
 	if (neg)
 	  debug_level &= ~val;
 	else

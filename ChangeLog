@@ -1,5 +1,38 @@
 2000-10-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Move bonuses handling in separate files.
+
+	* src/bonus.c: New file.
+	* src/bonus.h: New file.
+	* src/Makefile.am (heroes_SOURCES): Add bonus.c and bonus.h.
+	* src/const.c (bonus_proba_array, bonus_points, bonus_a_img,
+	bonus_b_img, tile_bonus, tile_bonus_cpu, bonus_time, bonus_list,
+	bonus_total_nbr, bonus_real_nbr, next_bonus_to_update,
+	bonus_anim_offset): Move to bonus.c and bonus.h.
+	* src/const.h: Likewise.
+	* src/heroes.c (bonus_proba, bonus_proba_sum, txt_bonus,
+	txt_bonus_tempo, bonus_anim_htimer, random_bonus, add_bonus,
+	add_random_bonus, rem_bonus, _bonus, update_bonus): Move to
+	bonus.c and bonus.h.
+	(load_level): Adapt to call init_bonuses_level.
+	(unload_level): Adapt to call uninit_bonuses_level.
+	(grow_trail, shrink_trail): Remove static.
+	(update_player): Call apply_bonus instead of _bonus,
+	set_txt_bonus intead of draw_txt_bonus.  Adapt to
+	call update_player_bonus_vars.
+	(update_all): Call update_bonuses instead of update_bonus.
+	(main): Adapt to call init_bonus and uninit_bonus.
+	* src/heroes.h (level_is_finished,grow_trail,shrink_trail): Export.
+	* src/render.c: Include bonus.h.
+
+	Create a debuging channel for bonuses.
+
+	* doc/heroes.texi (Environment): Document BONUS.
+	* src/debugmsg.c (dmsg_parse_string): Recognize "bonus".
+	* src/debugmsg.h (debug_lvl): Add D_BONUS.
+
+2000-10-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* ChangeLog: Cleanups.
 
 2000-10-30  Alexandre Duret-Lutz  <duret_g@epita.fr>

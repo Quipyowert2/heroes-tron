@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------.
-| Copyright 1997, 1998, 2000  Alexandre Duret-Lutz <duret_g@epita.fr>     |
+| Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>                 |
 |                                                                         |
 | This file is part of Heroes.                                            |
 |                                                                         |
@@ -18,29 +18,49 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
+#ifndef HEROES__BONUS__H
+#define HEROES__BONUS__H
 
-#ifndef HEROES__HEROES__H
-#define HEROES__HEROES__H
-
+#include "pcx.h"
 #include "timer.h"
 
-extern htimer_t clock_htimer;
-extern htimer_t blink_htimer;
+extern int bonus_points[2][17];	/* interest of bonuses,
+				   for CPU controled vehicles */
+
 extern htimer_t bonus_anim_htimer;
-extern htimer_t tiles_anim_htimer;
-extern htimer_t corner_htimer;
-extern htimer_t waving_htimer;
-extern htimer_t background_htimer;
-extern htimer_t corner_htimer;
-extern htimer_t demo_trigger_htimer;
-extern long event_time;
+extern int bonus_anim_offset;
 
-extern void compute_corner (int p, int n);
-extern void play_demo (void);
+extern pcx_image_t bonus_a_img, bonus_b_img;
 
-extern int level_is_finished;
+extern unsigned char *tile_bonus;
+extern unsigned char *tile_bonus_cpu;
+extern int *bonus_time;
+extern int *bonus_list;
 
-extern void grow_trail (int pl, int size);
-extern void shrink_trail (int pl, int size);
+extern char txt_bonus[4][20];
+extern int txt_bonus_tempo[4];
 
-#endif /* HEROES__HEROES__H */
+extern void add_bonus (int pos_in_list, unsigned char what);
+extern void add_random_bonus (int pos_in_list);
+extern void rem_bonus (int pos);
+
+/* globaly initialize bonuses */
+extern void init_bonuses (void);
+extern void uninit_bonuses (void);
+
+/* reset and allocate bonus data for a given level */
+extern int init_bonuses_level (void);
+extern void uninit_bonuses_level (void);
+
+extern void spread_bonuses (void);
+
+extern void set_txt_bonus (int pl, char *txt, int tempo);
+extern void show_txt_bonus (int pl, char align, int x, int y);
+
+extern void add_end_level_bonuses (void);
+extern void apply_bonus (int pl, char bonus);
+
+extern void update_player_bonus_vars (int pl);
+extern void update_bonuses (void);
+
+#endif

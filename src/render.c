@@ -29,6 +29,7 @@
 #include "timer.h"
 #include "heroes.h"
 #include "renderdata.h"
+#include "bonus.h"
 
 char tutor = 0;
 
@@ -95,7 +96,7 @@ draw_dollar (pixel_t *dest)
       }
       src += 320 - 17;
       dest += xbuf - 17;
-    } 
+    }
   } else {
     for (j = 17; j != 0; j--) {
       for (k = 17; k != 0; k--) {
@@ -511,7 +512,7 @@ draw_level (int p)
   pixel_t *dest2;
   long anim_frame;
 
-  clock_anim_offset = main_font_img.buffer + 81 * 320 + 52 + 
+  clock_anim_offset = main_font_img.buffer + 81 * 320 + 52 +
     (read_htimer (clock_htimer) & 7) * 10;
   lemmings_anim_offset = (lemmings_move_offset * 64 / 65536) & 7 << 3;
   if (read_htimer (blink_htimer) & 1)
@@ -530,7 +531,7 @@ draw_level (int p)
     camera_stop_y[p] = 1;
   else
     camera_stop_y[p] = 0;
-  if (map_info.xwrap == DONT_WRAP && 
+  if (map_info.xwrap == DONT_WRAP &&
       (corner_dx[p] + nbr_tiles_cols) > map_info.xt)
     camera_stop_x[p] = 1;
   else
@@ -553,13 +554,13 @@ draw_level (int p)
 	  copy_tile (tile->source, dest, tile_set_img.width);
 	  break;
 	case A_LOOP:
-	  copy_tile (tile->source + 
+	  copy_tile (tile->source +
 		     24 * (anim_frame / tile->anim_speed) % tile->anim_frames,
 		     dest, tile_set_img.width);
 	  break;
 	case A_PINGPONG:
 	  {
-	    int frm = ((anim_frame / tile->anim_speed) 
+	    int frm = ((anim_frame / tile->anim_speed)
 		       % (tile->anim_frames * 2));
 	    if (frm > tile->anim_frames)
 	      frm = 2 * tile->anim_frames - frm;
@@ -573,7 +574,7 @@ draw_level (int p)
     dest += xbuf * 20 - 24 * (nbr_tiles_cols - camera_stop_x[p]);
   }
 
-  /* draw bloody dead lemings */ 
+  /* draw bloody dead lemings */
 
   if (game_mode == M_KILLEM) {
     dest = render_buffer[p] + sbuf - 24 - 10 * xbuf;
@@ -625,7 +626,7 @@ draw_level (int p)
   }
 
   /* draw color pyramids */
-  
+
   if (game_mode == M_COLOR) {
     dest = render_buffer[p] + sbuf + 2 + xbuf * 2;
     for (k = corner_dy[p] * 2, l = (11 - camera_stop_y[p]) * 2; l > 0;
@@ -667,7 +668,7 @@ draw_level (int p)
   }
 
   /* draw transparent trails */
-  
+
   dest = render_buffer[p] + sbuf;
   for (k = corner_dy[p] * 2, l = (11 - camera_stop_y[p]) * 2; l > 0;
        l--, k = ((k + 1) & (map_info_2ywrap))) {
@@ -731,7 +732,7 @@ draw_level (int p)
     if (((unsigned) k) < map_info_2yt) {
       m = k * map_info_2xt;
       for (i = corner_dx[p] * 2 - 1, j = 0;
-	   (unsigned)j != 2 + (nbr_tiles_cols - camera_stop_x[p]) * 2; 
+	   (unsigned)j != 2 + (nbr_tiles_cols - camera_stop_x[p]) * 2;
 	   j++, i++) {
 	i &= map_info_2xwrap;
 	if (((unsigned) i) < map_info_2xt) {
@@ -761,7 +762,7 @@ draw_level (int p)
       if (((unsigned) k) < map_info_2yt) {
 	m = k * map_info_2xt;
 	for (i = corner_dx[p] * 2 - 1, j = 0;
-	     (unsigned)j != 2 + (nbr_tiles_cols - camera_stop_x[p]) * 2; 
+	     (unsigned)j != 2 + (nbr_tiles_cols - camera_stop_x[p]) * 2;
 	     j++, i++) {
 	  i &= map_info_2xwrap;
 	  if (((unsigned) i) < map_info_2xt) {

@@ -13,10 +13,10 @@
 @c  a kind of preprocessed language in the sense that it requires that
 @c  you preprocess some part of the document before submiting it to Texinfo.
 @c  For example the nodes needs to be hard linked together in the input file.
-@c  This preprocessing can be done automatically under Emacs' Texinfo mode 
-@c  after you press the magic key sequence "C-u C-c C-u C-a" (this will 
-@c  update the menus, the nodes and cramp your fingers).  Users of other 
-@c  editors have to do this very interesting work manually or can ask Emacs 
+@c  This preprocessing can be done automatically under Emacs' Texinfo mode
+@c  after you press the magic key sequence "C-u C-c C-u C-a" (this will
+@c  update the menus, the nodes and cramp your fingers).  Users of other
+@c  editors have to do this very interesting work manually or can ask Emacs
 @c  to do the work.  This can easily be done from the command line:
 @c    % emacs --batch --eval '(and (find-file "heroes.texi")
 @c                                 (texinfo-all-menus-update t)
@@ -113,7 +113,7 @@ This document applies to Heroes version @value{VERSION}.
 Overview of Heroes
 
 * Getting Heroes::              Where to download Heroes from.
-* Mailing lists::               
+* Mailing lists::
 * Bug Reporting::               Sending bugs, suggestions, contributions.
 * Authors::                     Who made Heroes.
 * Contributors::                Contributions to Heroes.
@@ -200,7 +200,7 @@ your own trail.
 
 There are five game modes available.  Quest is the classical Nibbles, in
 Death Match you start with very long tails a must kill your opponents,
-in Kill'em All you must run over lemmings moving on the ground, in 
+in Kill'em All you must run over lemmings moving on the ground, in
 Time Cash or Color modes you must collect money or pyramids of color.
 Heroes features 12 original soundtracks, 94 levels (in 10 different
 tilesets) plus a level editor.
@@ -221,7 +221,7 @@ such as network support or programmable vehicles.
 
 @menu
 * Getting Heroes::              Where to download Heroes from.
-* Mailing lists::               
+* Mailing lists::
 * Bug Reporting::               Sending bugs, suggestions, contributions.
 * Authors::                     Who made Heroes.
 * Contributors::                Contributions to Heroes.
@@ -332,21 +332,21 @@ include enough information to reproduce the problem, if possible.
 Useful information include:
 
 @itemize @bullet
-@item 
+@item
 the version number of Heroes.
 
-@item 
+@item
 hardware, operating system (and OS distribution), and compiler versions.
 
-@item 
+@item
 any unusual options you gave to `configure'.
 
-@item 
+@item
 the actions necessary to reproduce the bug.
 
-@item 
-a description of the problem (sometimes, a snapshot may be a 
-good description) and of the behavior you are expecting (this 
+@item
+a description of the problem (sometimes, a snapshot may be a
+good description) and of the behavior you are expecting (this
 is not always obvious for everyone)
 
 @item
@@ -358,7 +358,7 @@ instance).
 a stack trace of the crash, if you compiled the game with debugging
 options (see below).
 
-@item 
+@item
 anything else that you think would be helpful.
 
 @end itemize
@@ -404,7 +404,7 @@ personal touch here and there.
 Romuald Genevois (Guen) @email{rgenevois@@besancon.net}@*
 @uref{http://www.realtech.scene.org/romualdgenevois}
 
-Had the idea of that game, designed most of it, 
+Had the idea of that game, designed most of it,
 drew the graphics, created most of the levels.
 
 @item
@@ -652,7 +652,7 @@ installed using the optional argument.
 
 @item --with-sdl_mixer[=DIR]
 @cindex --with-sdl_mixer[=DIR]
-Link with SDL_mixer (note the underscore in the option name).  
+Link with SDL_mixer (note the underscore in the option name).
 This is the default if SDL_mixer is installed
 and SDL has been selected.  You may specify where SDL_mixer is
 installed using the optional argument.  Using this option
@@ -843,7 +843,7 @@ Example:
 @example
 % heroes -G 'tile:0,0,160,200,(x):160,0,160,200,(x)'
 @end example
-With SDL this replaces the environment variable @samp{SDL_VIDEODRIVER}.  
+With SDL this replaces the environment variable @samp{SDL_VIDEODRIVER}.
 
 @item -F
 @itemx --full-screen
@@ -876,7 +876,7 @@ Stretch the game threefold before blitting to screen.  This is even slower.
 @cindex -e
 @cindex --even-lines
 @cindex stretching
-Display only even lines, leaving blank scanlines 
+Display only even lines, leaving blank scanlines
 as on real arcade monitors.  This will contribute to make
 options @samp{-2} and @samp{-3} faster.
 
@@ -898,7 +898,7 @@ suppress some overhead on slow machines.
 @cindex --default-saves
 Don't read the corresponding file, but use default value instead.
 The files will be saved at the end of the game anyway, so you can
-use these options to revert the default value of the given file.  
+use these options to revert the default value of the given file.
 Another way to do this is simply to delete the file, it will be
 created the next time Heroes run.
 
@@ -986,6 +986,9 @@ Miscellaneous.
 @item FADER
 Fader handling.
 
+@item BONUS
+Bonuses handling.
+
 @item ALL
 All of the above.
 
@@ -1060,14 +1063,14 @@ setenv: SDL_VIDEODRIVER dga
 
 This may seam redundant with @samp{--gfx-options} and @samp{--driver} but
 can be used to configure other libraries.  For example, setup GGI or SDL to
-use AAlib (the ASCII art rendering library) and configure AAlib via its 
+use AAlib (the ASCII art rendering library) and configure AAlib via its
 @samp{AAOPTS} variable.
 
 @subsection @samp{extradir:}
 @cindex extradir:
 @cindex extra levels directory
 
-Lines starting with @samp{extradir:} are used to specify 
+Lines starting with @samp{extradir:} are used to specify
 additional extra levels directories.
 
 @subsection @samp{soundconf:}
@@ -1406,7 +1409,7 @@ buffer by running heroes with the line
 @example
 Options: -d3,buffer=11,count=4
 @end example
-in my @file{~/.heroes/heroesrc} file.  If you can find correct values for 
+in my @file{~/.heroes/heroesrc} file.  If you can find correct values for
 other drivers, please send them to @email{duret_g@@epita.fr,me}!
 
 @subsection Sound errors
@@ -1453,7 +1456,7 @@ OSS (See @uref{http://www.linux.org.uk/OSS/,this page} for details).}
 interface.
 
 As a more general solution, you may want to compile LibMikMod without Alsa
-support (@samp{./configure --disable-alsa}) so that it never crash 
+support (@samp{./configure --disable-alsa}) so that it never crash
 for any application.
 
 @c ======================================================================
@@ -1467,4 +1470,3 @@ for any application.
 
 @contents
 @bye
-

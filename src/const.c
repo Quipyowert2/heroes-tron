@@ -89,18 +89,6 @@ pixel_t radar_trail_color[16] =
 pixel_t radar_wall_color[16] =
   { 0, 89, 89, 91, 89, 91, 91, 93, 89, 91, 91, 93, 91, 93, 93, 95 };
 
-/* L+  L-  S+  S-  R#   C  ZZ  !!  -1  T+  T-  EL  []   X  XL  ~~  $$ */
-int bonus_proba_array[5][17] =
-  { {40, 10, 12, 8, 8, 40, 0, 8, 10, 16, 16, 0, 8, 7, 4, 7, 0},	/* quest */
-{0, 0, 10, 7, 7, 20, 0, 8, 10, 10, 11, 0, 6, 7, 2, 7, 0},	/* deathm */
-{25, 10, 12, 8, 8, 40, 0, 8, 10, 16, 16, 0, 8, 7, 4, 7, 0},	/* killem */
-{25, 10, 12, 8, 8, 20, 0, 8, 10, 16, 16, 0, 8, 7, 4, 7, 25},	/* tcash */
-{25, 10, 12, 8, 8, 30, 0, 8, 10, 16, 16, 0, 8, 7, 4, 7, 0}
-};				/* color */
-int bonus_points[2][17] =
-  { {20, -15, 15, -10, 5, 18, 0, -10, 0, 0, -5, 50, 5, 0, 8, 0, 25}, /* violets */
-{-15, 10, 0, 10, 5, -5, 0, 8, 8, -5, 5, -20, -5, 9, -10, 9, -25}
-}; /* beiges */
 
 /* differentes possibilités pour le nbr de rounds */
 int rounds_nbr_values[16] =
@@ -144,14 +132,14 @@ pixel_t *(render_buffer[2]);		/* 384*260 */
 
 pixel_t glenz[8][256];		/* glenz lines */
 
-level_header_t map_info = { 0, 0, -1, -1, 
+level_header_t map_info = { 0, 0, -1, -1,
 			    {0, 0, 0, 0}, {0, 0, 0, 0}, "", "", "" };
 unsigned long int map_info_2xt, map_info_2yt;
 signed long int map_info_2xwrap, map_info_2ywrap;
 palette_t pal;
 
 pcx_image_t main_font_img, icons_img, vehicles_img, trailimg;
-pcx_image_t bonus_a_img, bonus_b_img, bonus_font_img, jukebox_img;
+pcx_image_t bonus_font_img, jukebox_img;
 pcx_image_t tile_set_img, font_deck_img;
 
 signed char minisinus[32];
@@ -188,11 +176,7 @@ int *explo_list_pos_x;
 int *explo_list_pos_y;
 int explo_nbr;
 unsigned char *square_explosion_type;
-unsigned char *tile_bonus;
-unsigned char *tile_bonus_cpu;
 int *square2tile;
-int *bonus_time;
-int *bonus_list;
 int *square_wrap;
 int *square_offset2coord;
 signed char *square_object;
@@ -202,11 +186,9 @@ signed char *square_object;
 lemming_t **square_lemmings_list;
 lemming_t **square_dead_lemmings_list;
 lemming_t lemmings_support[lemmings_total];
-int bonus_total_nbr, bonus_real_nbr, objects_nbr;
-int next_bonus_to_update;
+int objects_nbr;
 int square2offset[4] = { 0, 1, 0, 0 };	/* deux dernières valeurs calculées plus tard */
 
-int bonus_anim_offset;
 int radar_target_pos;
 int radar_current_pos;
 

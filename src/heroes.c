@@ -61,6 +61,7 @@
 #include "const.h"
 #include "scrtools.h"
 #include "fontdata.h"
+#include "bonus.h"
 
 char tile_set_name[128];
 char glenz_name[128];
@@ -101,19 +102,13 @@ char ia_wrap_left, ia_wrap_right;
 
 char enable_blit;
 
-int bonus_proba[17];
-int bonus_proba_sum = 0;
-
 char mouse_found = 1;
 /***********************/
 
 char txt_tmp[20];
-char txt_bonus[4][20];
-int txt_bonus_tempo[4];
 
 htimer_t blink_htimer;
 htimer_t clock_htimer;
-htimer_t bonus_anim_htimer;
 htimer_t tiles_anim_htimer;
 htimer_t corner_htimer;
 htimer_t event_htimer;
@@ -149,80 +144,6 @@ close_buffers (void)
 {
   free (render_buffer[0]);
   free (render_buffer[1]);
-}
-
-static unsigned char
-random_bonus (void)
-{
-  int t;
-  unsigned char b;
-  b = 0;
-  t = (rand () % bonus_proba_sum) + 1;
-  while (t > bonus_proba[b])
-    b++;
-  return (b);
-}
-
-static void
-add_bonus (int i, unsigned char b)
-{
-  int d;
-  do {
-    d = rand () % (map_info.xt * map_info.yt);
-  }
-  while (tile_bonus[d] != 0);
-
-  tile_bonus[d] = b;
-  bonus_list[i] = d;
-  bonus_time[i] = event_time + (rand () % 511) - 256;
-
-  --b;
-  /* update foreground data for rendering */
-  if (b == 16)
-    fg_data[d].big_dollar = 1;
-  else {
-    if (b & 128)
-      fg_data[d].bonus = (bonus_b_img.buffer 
-			  + (b & 127) * bonus_b_img.width * 20);
-    else
-      fg_data[d].bonus = (bonus_a_img.buffer 
-			  + b * bonus_a_img.width * 20);
-  }
-}
-
-static void
-add_random_bonus (int i)
-{
-  unsigned char b;
-
-  b = random_bonus ();
-  if (b != 16)			/* yellow `$$' bonuses do not exist */
-    if (!(rand () & 3))
-      b += 128;
-  
-  add_bonus (i, b + 1);
-}
-
-static void
-rem_bonus (int d)
-{
-
-  int i = bonus_real_nbr;
-
-  /* find the bonus position in the list of bonuses */
-  do
-    i--;
-  while (bonus_list[i] != d);
-
-  /* remove the bonus */
-  tile_bonus[d] = 0;
-
-  /* don't draw it anymore */
-  fg_data[d].bonus = 0;
-  fg_data[d].big_dollar = 0;
-
-  /* add a new bonus, at the same position in the list */
-  add_random_bonus (i);
 }
 
 static void
@@ -314,7 +235,7 @@ reinit_player (int i)
   player[i].y2 = player[i].y * 2 + (player[i].square == 2
 				    || player[i].square == 3);
 
-  /* ensure that the start position is usable, 
+  /* ensure that the start position is usable,
      otherwise try another position (randomly) */
 
   do {
@@ -435,11 +356,6 @@ load_level (char *nomlvl, char cont)
 
   dmsg (D_FILE|D_LEVEL, "loading level: %s", nomlvl);
 
-  bonus_proba_sum = 0;
-  for (i = 0; i < 17; i++)
-    bonus_proba_sum = bonus_proba[i] =
-      bonus_proba_array[game_mode][i] + bonus_proba_sum;
-
   if (!in_menu) {
     if (two_players) {
       player[col2plr[0]].cpu = 2;
@@ -465,7 +381,7 @@ load_level (char *nomlvl, char cont)
     dperror ("fopen");
     return (1);
   }
-  { 
+  {
     char* tmp = get_non_null_rsc_file ("tiles-sets-dir");
     strcpy (tile_set_name, tmp);
     strcpy (glenz_name, tmp);
@@ -487,9 +403,9 @@ load_level (char *nomlvl, char cont)
   if (level_map == NULL)
     return (3);
 
-  dmsg (D_LEVEL, "reading full level map (%d bytes)", 
+  dmsg (D_LEVEL, "reading full level map (%d bytes)",
 	map_info.xt * map_info.yt * sizeof(tile_t));
-  
+
   i = fread (level_map, sizeof (tile_t), map_info.xt * map_info.yt, ftmp);
   if (i != (int)(map_info.xt * map_info.yt))
     return (4);
@@ -564,25 +480,20 @@ load_level (char *nomlvl, char cont)
 			          sizeof (*square_explosion_type));
   if (square_explosion_type == NULL)
     return (13);
-/* memset(square_explosion_type,254,map_info_2xt*map_info_2yt+1); */
+
   for (i = map_info_2xt * map_info_2yt - 1; i >= 0; i--)
     square_explosion_type[i] = rand () & 1;
   square_way = malloc (map_info_2xt * map_info_2yt * sizeof (*square_way));
   if (square_way == NULL)
     return (14);
-  tile_bonus = malloc (map_info.xt * map_info.yt * sizeof (*tile_bonus));
-  if (tile_bonus == NULL)
-    return (15);
-  tile_bonus_cpu = malloc (map_info.xt * map_info.yt *
-                           sizeof (*tile_bonus_cpu));
-  if (tile_bonus_cpu == NULL)
-    return (15);
+
+  if (init_bonuses_level ())
+    return 15;
+
   square2tile = malloc (map_info_2xt * map_info_2yt * sizeof (*square2tile));
   if (square2tile == NULL)
     return (15);
 
-  memset (tile_bonus, 0, map_info.xt * map_info.yt);
-  memset (tile_bonus_cpu, 0, map_info.xt * map_info.yt);
   k = 0;
 
   for (i = 0, l = 0; i < (int)map_info.yt; i++, l += map_info_2xt * 2) {
@@ -627,16 +538,6 @@ load_level (char *nomlvl, char cont)
     if (square_object == NULL)
       return (19);
   }
-
-  bonus_total_nbr = (map_info.xt * map_info.yt / 90) + 3;
-  bonus_real_nbr = bonus_total_nbr - 2;
-  bonus_time = malloc (bonus_total_nbr * sizeof (*bonus_time));
-  if (bonus_time == NULL)
-    return (20);
-  bonus_list = malloc (bonus_total_nbr * sizeof (*bonus_list));
-  if (bonus_list == NULL)
-    return (21);
-  next_bonus_to_update = 0;
 
   square2offset[2] = map_info_2xt;
   square2offset[3] = map_info_2xt + 1;
@@ -707,17 +608,6 @@ load_level (char *nomlvl, char cont)
 	square_wall[j + i] |= d_right;
     }
     j += map_info_2xt;
-  }
-  for (i = map_info.xt * map_info.yt - 1; i >= 0; i--) {
-    if (level_map[i].type == t_outway ||
-	*(int *) &(level_map[i].collision) == 0x0f0f0f0f) tile_bonus[i] =
-	0xff;
-/*   if (gueninside) */
-    if ((level_map[i].collision[0] & (c_down | c_right))
-	|| (level_map[i].collision[1] & (c_down | c_left))
-	|| (level_map[i].collision[2] & (c_up | c_right))
-	|| (level_map[i].collision[3] & (c_up | c_left)))
-      tile_bonus[i] = 0xff;
   }
 
   explo_nbr = 0;
@@ -798,14 +688,14 @@ load_level (char *nomlvl, char cont)
 		   + (square2offset [tunnel_square_io [way][0]] << 2) /* sqr */
 		   + way /* way */] =
 	  ((output % map_info.xt) << 1)
-	  + ((output / map_info.xt) << 1) * map_info_2xt 
+	  + ((output / map_info.xt) << 1) * map_info_2xt
 	  + square2offset[tunnel_square_io[dest_way][1]];
 
 	square_wrap[k + l /* current tile */
 		   + (square2offset [tunnel_square_io [way][1]] << 2) /* sqr */
 		   + way /* way */] =
 	  ((output % map_info.xt) << 1)
-	  + ((output / map_info.xt) << 1) * map_info_2xt 
+	  + ((output / map_info.xt) << 1) * map_info_2xt
 	  + square2offset[tunnel_square_io[dest_way][0]];
       }
     }
@@ -851,7 +741,7 @@ load_level (char *nomlvl, char cont)
       player[i].cash = 0;
       player[i].martians_nbr = 0;
     }
-  /* reinit player once again to avoid the case where 
+  /* reinit player once again to avoid the case where
      some vehicles could have been put in front of others */
   erase_player (0);
   reinit_player (0);
@@ -926,8 +816,7 @@ load_level (char *nomlvl, char cont)
   /* reset_htimer_with_offset (0, HZ(70)*1000); * what it is intended for? * */
   /* update_htimer (); */
   if (!in_menu)
-    for (i = bonus_real_nbr - 1; i >= 0; i--)
-      add_random_bonus (i);
+    spread_bonuses ();
   return (0);
 }
 
@@ -937,6 +826,7 @@ unload_level (void)
   dmsg (D_LEVEL, "unloading level");
 
   uninit_render_data ();
+  uninit_bonuses_level ();
   img_free (&tile_set_img);
   free (level_map);
   free (square_occupied);
@@ -951,11 +841,7 @@ unload_level (void)
   free (square_radar_wall);
   free (square_wall);
   free (square_way);
-  free (tile_bonus);
-  free (tile_bonus_cpu);
   free (square2tile);
-  free (bonus_time);
-  free (bonus_list);
   free (square_wrap);
   free (square_offset2coord);
   if (game_mode == M_KILLEM && !in_menu) {
@@ -1140,41 +1026,6 @@ save_pcx (char q)
   fclose (fpcx);
 }
 
-/*
-static void debugsavepcx(pcx_image_t *img)
-{
- FILE *fpcx;
- static char nompcx[13];
- static int pcxnbr;
- entete_ headpcx;
- int i1;
-
- memcpy((entete_*)&headpcx,&(img->entete),sizeof(entete_));
-
- sprintf(nompcx,"debug%.3d.pcx",pcxnbr++);
- if ((fpcx=fopen(nompcx,"wb"))==NULL) return;
- fwrite((char *)&headpcx,1,sizeof(entete_),fpcx);
-
- write_rle(img->buffer,(img->entete.hauteur+1)*(img->entete.largeur+1),fpcx);
-
- putc(0xC,fpcx);
- for (i1=0;i1<768;i1++) putc(img->palette.global[i1]<<2,fpcx);
- fclose(fpcx);
-}
-*/
-static void
-draw_txt_bonus (int c, char *txt_tmp, int tempo)
-{
-  strcpy (txt_bonus[c], txt_tmp);
-  txt_bonus_tempo[c] = tempo;
-}
-static void
-show_txt_bonus (int c, char d, int x, int y)
-{
-  if (txt_bonus_tempo[c] > 0)
-    draw_text_bonus (txt_bonus[c], x, y, d);
-}
-
 static void
 jukebox_menu (void)
 {
@@ -1230,7 +1081,7 @@ jukebox_menu (void)
       else if (l == 2)
 	copy_rect_4 (jukebox_img.buffer + 19 * 320 + 24,
 		     corner[0] + 184 * xbuf + 8 + 274, 16, 9);
-      
+
       if (soundtrack_title)
 	draw_deck_text (soundtrack_title, 110, 186, 1);
       if (soundtrack_author)
@@ -1313,7 +1164,7 @@ load_level_from_number (int nbr, char cont)
 
   dmsg (D_SECTION, "load level #%d", nbr);
 
-  { 
+  {
     char* t = get_non_null_rsc_file ("levels-dir");
     strcat (strcpy ((char *) tmp, t), level_list + nbr * levellstchunk);
     free (t);
@@ -1669,7 +1520,7 @@ play_menu (void)
   /* END OF THE GAME */
 
   if ((game_mode == M_QUEST) && (current_quest_level >= level_list_nbr)) {
-    if (level_is_finished != 15) {  
+    if (level_is_finished != 15) {
       /* End scroller */
       char* tmp;
       char* tmp2;
@@ -1885,136 +1736,37 @@ pendulum_update (int n)
 }
 
 /****************** ******* ****** *********************/
-static void
-grow_trail (int c, char t)
-{				/* int j; */
+void
+grow_trail (int pl, int size)
+{
   int i, k;
 
-  k = ((trail_offset[c] + trail_size[c] - 1) & (maxq - 1));
-  while (t != 0 && trail_size[c] + 5 < maxq) {
-    i = ((trail_offset[c] + trail_size[c]) & (maxq - 1));
-    trail_pos[c][i] = trail_pos[c][k];
-    trail_way[c][i] = trail_way[c][k];
-    trail_size[c]++;
-    t--;
+  k = ((trail_offset[pl] + trail_size[pl] - 1) & (maxq - 1));
+  while (size != 0 && trail_size[pl] + 5 < maxq) {
+    i = ((trail_offset[pl] + trail_size[pl]) & (maxq - 1));
+    trail_pos[pl][i] = trail_pos[pl][k];
+    trail_way[pl][i] = trail_way[pl][k];
+    trail_size[pl]++;
+    --size;
   }
-  if (trail_size[c] >= 55 && player[c].cpu == 2 && game_mode == M_QUEST)
+  if (trail_size[pl] >= 55 && player[pl].cpu == 2 && game_mode == M_QUEST)
     event_sfx (89);
-  if (trail_size[c] >= 55 && bonus_real_nbr != bonus_total_nbr
-      && game_mode == M_QUEST) {
-    add_bonus (bonus_real_nbr++, 12);
-    add_bonus (bonus_real_nbr++, 12 + 128);
-    for (i = 11; i < 17; i++)
-      bonus_proba[i /*11 */ ] += 16;
-    bonus_proba_sum += 16;
-  }
+  if (trail_size[pl] >= 55 && game_mode == M_QUEST)
+    add_end_level_bonuses ();
 }
 
-static void
-shrink_trail (int c, char t)
-{				/* int j; */
-  int i;
-
-/*  k=(trail_offset[c]+trail_size[c]-1)&(maxq-1); */
-  while (t != 0 && trail_size[c] > 5) {
-    trail_size[c]--;
-    i = ((trail_offset[c] + trail_size[c]) & (maxq - 1));
-    square_occupied[trail_pos[c][i]] = 0xff;
-    i = ((trail_offset[c] + trail_size[c] - 1) & (maxq - 1));
-    square_occupied[trail_pos[c][i]] = (unsigned char) (c + 12);
-    t--;
-  }
-}
-
-static void
-_bonus (int c, char t)
+void
+shrink_trail (int pl, int size)
 {
   int i;
-  if (t == 5) {
-    t = random_bonus () + 1;
-    if (t == 5)
-      t++;
-  }
-  if (player[c].cpu == 2)
-    event_sfx (19 + t);
-  switch (t) {
-  case 1:
-    grow_trail (c, 5);
-    sprintf (txt_tmp, txti[15], (trail_size[c] + 1) / 5 - 1);
-    draw_txt_bonus (c, txt_tmp, 150);
-    break;
-  case 2:
-    shrink_trail (c, 5);
-    sprintf (txt_tmp, txti[16], (trail_size[c] + 1) / 5 - 1);
-    draw_txt_bonus (c, txt_tmp, 150);
-    break;
-  case 3:
-    player[c].speedup = 500;
-    draw_txt_bonus (c, txti[17], 150);
-    break;
-  case 4:
-    player[c].speedup = -500;
-    draw_txt_bonus (c, txti[18], 150);
-    break;
-  case 6:
-    i = rand () & 255;
-    player[c].score += i;
-    sprintf (txt_tmp, txti[19], i);
-    draw_txt_bonus (c, txt_tmp, 150);
-    break;
-  /* case 7: cut the trail */
-  case 8:
-    player[c].notify_delay = 1;
-    break;
-  case 9:
-    player[c].inversed_controls = 500;
-    break;
-  case 10:
-    if (player[c].turbo_level > 1024 - 512)
-      player[c].turbo_level = 1024;
-    else
-      player[c].turbo_level += 512;
-    draw_txt_bonus (c, txti[21], 150);
-    break;
-  case 11:
-    if (player[c].turbo_level > 256)
-      player[c].turbo_level -= 256;
-    else
-      player[c].turbo_level = 0;
-    draw_txt_bonus (c, txti[22], 150);
-    break;
-  case 12:
-    if (trail_size[c] >= 55)
-      level_is_finished = (char) (c + 1);
-    break;
-  case 13:
-    player[c].invincible = 350;
-    draw_txt_bonus (c, txti[20], 150);
-    break;
-  case 14:
-    if (player[c].waves == 0 || doublefx != 0) {
-      player[c].rotozoom += 1024;
-      if (player[c].rotozoom == 0)
-	player[c].rotozoom_direction = rand () & 1;
-    }
-    break;
-  case 15:
-    if (player[c].lifes < 100) {
-      player[c].lifes++;
-      draw_txt_bonus (c, txti[23], 150);
-    }
-    break;
-  case 16:
-    if (player[c].rotozoom == 0 || doublefx != 0)
-      player[c].waves += 1024;
-    break;
-  case 17:
-    player[c].cash += 10;
-    player[c].score += 50;
-    break;
-  default:
-    assert (0 /* unknown bonus !!! */ );
-    break;
+
+  while (size != 0 && trail_size[pl] > 5) {
+    --trail_size[pl];
+    i = ((trail_offset[pl] + trail_size[pl]) & (maxq - 1));
+    square_occupied[trail_pos[pl][i]] = 0xff;
+    i = ((trail_offset[pl] + trail_size[pl] - 1) & (maxq - 1));
+    square_occupied[trail_pos[pl][i]] = (unsigned char) (pl + 12);
+    --size;
   }
 }
 
@@ -2616,7 +2368,7 @@ update_player (int c)
     player[c].score_delta++;
     /* 1 life every 10.000 points */
     if (player[c].score_delta % (10000 << 2) == 0)
-      _bonus (c, 15);
+      apply_bonus (c, 15);
   }
 /* if ((player[c].score_delta>>2)>player[c].score) player[c].score_delta--; */
   if (player[c].turbo_level_delta < player[c].turbo_level) {
@@ -2657,8 +2409,7 @@ update_player (int c)
       }
     }
   }
-  if (txt_bonus_tempo[c] > 0)
-    txt_bonus_tempo[c]--;
+  update_player_bonus_vars (c);
   d = (player[c].x2 >> 1) + (player[c].y2 >> 1) * map_info.xt;
   if (player[c].rotozoom != 0)
     player[c].rotozoom--;
@@ -2672,10 +2423,11 @@ update_player (int c)
 
   if (player[c].spec == 0xde)
     return;
+
   if (player[c].inversed_controls > 0) {
     player[c].inversed_controls--;
     sprintf (txt_tmp, txti[24], player[c].inversed_controls / 20 + 1);
-    draw_txt_bonus (c, txt_tmp, 2);
+    set_txt_bonus (c, txt_tmp, 2);
   }
 
   if (player[c].delay == 0) {
@@ -2706,7 +2458,7 @@ update_player (int c)
   } else {
     player[c].delay--;
     sprintf (txt_tmp, txti[25], player[c].delay / 20 + 1);
-    draw_txt_bonus (c, txt_tmp, 2);
+    set_txt_bonus (c, txt_tmp, 2);
   }
 
 
@@ -2952,28 +2704,29 @@ update_player (int c)
 	      player[(i + 2) & 3].lifes == 0
 	      && player[(i + 3) & 3].lifes == 0) level_is_finished = i + 1;
       }
-      t = tile_bonus[d];
-      if (t != 0 && t != 0xff) {
-	rem_bonus (d);
-	if (!level_is_finished) {
-	  player[c].score += 10;
-	  if (t & 128) {
-	    if (player[c].cpu == 2)
-	      event_sfx (39 + (t & 127));
-	    for (i = 0; i < 4; i++)
-	      if ((c != i) && (player[i].spec != 0xde))
-		_bonus ((char) i, (char) (t & 127));
-	  } else
-	    _bonus (c, t);
-	}
-	if (player[c].notify_delay) {
-	  player[c].notify_delay = 0;
-	  player[c].delay = 100;
-	  player[c].d.e = 0;
-	  return;
+      {
+	int bonus = tile_bonus[d];
+	if (bonus && bonus != 0xff) {
+	  rem_bonus (d);
+	  if (!level_is_finished) {
+	    player[c].score += 10;
+	    if (bonus & 128) {
+	      if (player[c].cpu == 2)
+		event_sfx (39 + (bonus & 127));
+	      for (i = 0; i < 4; i++)
+		if ((c != i) && (player[i].spec != 0xde))
+		  apply_bonus (i, (bonus & 127));
+	    } else
+	      apply_bonus (c, bonus);
+	  }
+	  if (player[c].notify_delay) {
+	    player[c].notify_delay = 0;
+	    player[c].delay = 100;
+	    player[c].d.e = 0;
+	    return;
+	  }
 	}
       }
-
     }
     player[c].old_old_way = player[c].old_way;
     player[c].old_way = player[c].way;
@@ -3037,7 +2790,7 @@ update_player (int c)
 	}
       }
       if (!level_is_finished)
-	draw_txt_bonus (c, txt_tmp, 150);
+	set_txt_bonus (c, txt_tmp, 150);
       player[c].invincible = 350;
       return;
     }
@@ -3200,25 +2953,6 @@ update_lemmings (void)
     }
 }
 
-/* only one bonus is updated at each frame (there is no hurry) */
-static void
-update_bonus (void)
-{
-  if (bonus_time[next_bonus_to_update] + 25 * 70 <= event_time) {
-    int bonus_pos = bonus_list[next_bonus_to_update];
-    /* erase the bonus */
-    tile_bonus[bonus_pos] = 0;
-    /* dno't draw it anymore */
-    fg_data[bonus_pos].bonus = 0;
-    fg_data[bonus_pos].big_dollar = 0;
-    /* add a new bonus, at the same position in the list */
-    add_random_bonus (next_bonus_to_update);
-  }
-  next_bonus_to_update++;
-  if (next_bonus_to_update >= bonus_real_nbr)
-    next_bonus_to_update = 0;
-}
-
 
 static int
 update_all (char plr)
@@ -3234,7 +2968,7 @@ update_all (char plr)
       update_player (2);
       update_player (3);
       update_explo ();
-      update_bonus ();
+      update_bonuses ();
       if (radar_current_pos < radar_target_pos)
 	radar_current_pos++;
       else if (radar_current_pos > radar_target_pos)
@@ -3316,10 +3050,6 @@ play_demo (void)
   inert_x[1] = camera_x[1] = player[col2plr[1]].x2 << 15;
   inert_y[1] = camera_y[1] = player[col2plr[1]].y2 << 15;
   init_keyboard_map ();
-  txt_bonus_tempo[0] = 0;
-  txt_bonus_tempo[1] = 0;
-  txt_bonus_tempo[2] = 0;
-  txt_bonus_tempo[3] = 0;
   n = 1;
 
   update_htimers ();
@@ -3389,7 +3119,7 @@ play_demo (void)
     process_input_events ();
     if (level_is_finished == 0)
       n = update_all (1);
-    
+
     if (devparm && keyboard_map[HK_F12])
       level_is_finished = 1;
 
@@ -3566,7 +3296,7 @@ main_menu (void)
   reset_htimer (background_htimer);
   reset_htimer (demo_trigger_htimer);
   reset_htimer_with_offset (event_htimer, 4);
-  event_time = read_htimer (event_htimer); 
+  event_time = read_htimer (event_htimer);
   do {
     std_white_fadein (&tile_set_img.palette);
     do {
@@ -3603,7 +3333,7 @@ main_menu (void)
 	  end_scroll ();
 	if (t == HK_d || t == HK_D || demo_ready) {
 	  htimer_t pixelize_timer;
-	  long pixelize_pos;  
+	  long pixelize_pos;
 
 	  event_sfx (130);
 	  reset_htimer (corner_htimer);
@@ -3671,7 +3401,7 @@ main_menu (void)
     std_black_fadeout (&tile_set_img.palette);
     fader_status_flagback (&fade_stat);
     do {
-      
+
       background_menu ();
       draw_quit_menu (0);
       vsynch ();
@@ -3824,7 +3554,7 @@ quit_yes_no (void)
   htimer_t pause_htimer;
 
   dmsg (D_SECTION, "quit y/n menu");
-  
+
   pause_htimer = new_htimer (T_GLOBAL, 1);
 
   fastmem4 ((char *) screen, src, 64000 / 4);
@@ -4083,10 +3813,10 @@ draw_end_level_info (int decal, char l)
     draw_text_array[l == 0] (txti[58], 159 + decal, 150, 1);
     draw_text_array[l == 1] (txti[59], 159 + decal, 170, 1);
 
-    exec_rleprog (left_arrow, 
+    exec_rleprog (left_arrow,
 		  corner[0] + decal + (145 + l * 20) * xbuf + 45 + j);
-    exec_rleprog (right_arrow, 
-		  corner[0] + decal + (145 + l * 20) * xbuf 
+    exec_rleprog (right_arrow,
+		  corner[0] + decal + (145 + l * 20) * xbuf
 		  + 320 - 45 - 13 - j);
   } else {
     draw_text (txti[60], 159 + decal, 160, 1);
@@ -4199,10 +3929,6 @@ play_game (char cont)
   inert_x[1] = camera_x[1] = player[col2plr[1]].x2 << 15;
   inert_y[1] = camera_y[1] = player[col2plr[1]].y2 << 15;
   init_keyboard_map ();
-  txt_bonus_tempo[0] = 0;
-  txt_bonus_tempo[1] = 0;
-  txt_bonus_tempo[2] = 0;
-  txt_bonus_tempo[3] = 0;
   n = 1;
 
   update_htimers ();
@@ -4695,7 +4421,7 @@ main (int argc, char *argv[])
   {
     char* data_dir;
     dmsg (D_SYSTEM,"looking for HEROES_DATA_DIR or HEROES_DATADIR...");
-    if ((data_dir = getenv ("HEROES_DATA_DIR")) || 
+    if ((data_dir = getenv ("HEROES_DATA_DIR")) ||
 	(data_dir = getenv ("HEROES_DATADIR"))) {
       dmsg (D_SYSTEM,"... found: %s", data_dir);
       set_rsc_file ("data-dir", data_dir);
@@ -4707,7 +4433,7 @@ main (int argc, char *argv[])
   {
     char* home_dir;
     dmsg (D_SYSTEM,"looking for HEROES_HOME_DIR, HEROES_HOMEDIR or HOME...");
-    if ((home_dir = getenv ("HEROES_HOME_DIR")) || 
+    if ((home_dir = getenv ("HEROES_HOME_DIR")) ||
 	(home_dir = getenv ("HEROES_HOMEDIR")) ||
 	(home_dir = getenv ("HOME"))) {
       dmsg (D_SYSTEM,"... found: %s", home_dir);
@@ -4722,7 +4448,7 @@ main (int argc, char *argv[])
   init_sound_track_list ();
 
   /* Read the system-wide configuration file. */
-  { 
+  {
     char* tmp;
     tmp = get_rsc_file ("system-conf");
     if (tmp) {
@@ -4737,7 +4463,7 @@ main (int argc, char *argv[])
   add_default_extra_directories ();
 
   /* Read the user configuration file. */
-  { 
+  {
     char* tmp;
     tmp = get_rsc_file ("user-conf");
     if (tmp) {
@@ -4780,7 +4506,7 @@ main (int argc, char *argv[])
 
   if (read_sfx_conf ())
     emsg ("error in sfx.cfg");
-  
+
   if (joyoff) {
     joystick_detected = 0;
     /* reset controlers configuration to keyboards */
@@ -4807,9 +4533,8 @@ main (int argc, char *argv[])
   waving_htimer = new_htimer (T_GLOBAL, HZ (70));
   corner_htimer = new_htimer (T_GLOBAL, HZ (280));
   update_htimer = new_htimer (T_LOCAL, HZ (70));
-  background_htimer = new_htimer (T_LOCAL, HZ (70));    
+  background_htimer = new_htimer (T_LOCAL, HZ (70));
   sound_track_htimer = new_htimer (T_GLOBAL, HZ (2));
-  bonus_anim_htimer = new_htimer (T_GLOBAL, HZ (35));
   tiles_anim_htimer = new_htimer (T_GLOBAL, HZ (70));
   demo_trigger_htimer = new_htimer (T_GLOBAL, HZ (1));
   init_text_waving_step ();
@@ -4820,15 +4545,13 @@ main (int argc, char *argv[])
   }
 
   init_buffers ();
+  init_bonuses ();
 
   pcx_load_from_rsc ("main-font", &main_font_img);
   pcx_load_from_rsc ("menu-pictures-img", &icons_img);
   pcx_load_from_rsc ("vehicles-img", &vehicles_img);
   pcx_load_from_rsc ("trails-img", &trailimg);
 /* if (odbg) debugsavepcx(&trailimg); */
-  pcx_load_from_rsc ("purple-bonus-img", &bonus_a_img);
-  pcx_load_from_rsc ("brown-bonus-img", &bonus_b_img);
-  pcx_load_from_rsc ("bonus-font", &bonus_font_img);
   pcx_load_from_rsc ("jukebox-img", &jukebox_img);
   pcx_load_from_rsc ("jukebox-font", &font_deck_img);
 
@@ -4858,7 +4581,6 @@ main (int argc, char *argv[])
   free_htimer (demo_trigger_htimer);
   free_htimer (sound_track_htimer);
   free_htimer (tiles_anim_htimer);
-  free_htimer (bonus_anim_htimer);
   free_htimer (background_htimer);
   free_htimer (update_htimer);
   free_htimer (waving_htimer);
@@ -4866,12 +4588,9 @@ main (int argc, char *argv[])
   free_htimer (corner_htimer);
   free_htimer (clock_htimer);
   free_htimer (blink_htimer);
-  
+
   img_free (&font_deck_img);
   img_free (&jukebox_img);
-  img_free (&bonus_font_img);
-  img_free (&bonus_b_img);
-  img_free (&bonus_a_img);
   img_free (&trailimg);
   img_free (&vehicles_img);
   img_free (&icons_img);
@@ -4881,6 +4600,7 @@ main (int argc, char *argv[])
   unload_level ();
   free (levelinf);
   free (level_list);
+  uninit_bonuses ();
   close_buffers ();
   uninit_sound_engine ();
   uninit_video ();

@@ -41,9 +41,6 @@ extern int tunnel_square_io[4][2];
 extern pixel_t radar_trail_color[16];
 extern pixel_t radar_wall_color[16];
 
-extern int bonus_proba_array[5][17];
-extern int bonus_points[2][17];	/* interet (pour le cpu) */
-
 extern int rounds_nbr_values[16];
 
 extern unsigned long int camera_x[2];	/* fixed point 16b,16b */
@@ -90,7 +87,7 @@ extern signed long int map_info_2xwrap, map_info_2ywrap;
 extern palette_t pal;
 
 extern pcx_image_t main_font_img, icons_img, vehicles_img, trailimg;
-extern pcx_image_t bonus_a_img, bonus_b_img, bonus_font_img, jukebox_img;
+extern pcx_image_t bonus_font_img, jukebox_img;
 extern pcx_image_t tile_set_img, font_deck_img;
 
 extern signed char minisinus[32];
@@ -124,11 +121,7 @@ extern int *explo_list_pos_x;
 extern int *explo_list_pos_y;
 extern int explo_nbr;
 extern unsigned char *square_explosion_type;
-extern unsigned char *tile_bonus;
-extern unsigned char *tile_bonus_cpu;
 extern int *square2tile;
-extern int *bonus_time;
-extern int *bonus_list;
 extern int *square_wrap;
 extern int *square_offset2coord;
 extern signed char *square_object;
@@ -138,11 +131,9 @@ extern signed char *square_object;
 extern lemming_t **square_lemmings_list;
 extern lemming_t **square_dead_lemmings_list;
 extern lemming_t lemmings_support[lemmings_total];
-extern int bonus_total_nbr, bonus_real_nbr, objects_nbr;
-extern int next_bonus_to_update;
+extern int objects_nbr;
 extern int square2offset[4]; /* deux dernières valeurs calculées plus tard */
 
-extern int bonus_anim_offset;
 extern int radar_target_pos;
 extern int radar_current_pos;
 
