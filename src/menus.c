@@ -96,9 +96,6 @@ static sprite_t* ed_x_size_txt = 0;
 static sprite_t* ed_y_size_txt = 0;
 static sprite_t* ed_edit_txt = 0;
 static sprite_t* edit_sel_txt = 0;
-static sprite_t* edit_first_menu_txt = 0;
-static sprite_t* edit_first_new_txt = 0;
-static sprite_t* edit_first_load_txt = 0;
 static sprite_t* playmenu_title_txt = 0;
 static sprite_t* playmenu_players_txt[2] = { 0, 0 };
 static sprite_t* playmenu_goback_txt = 0;
@@ -186,6 +183,8 @@ static void sound_menu (void);
 static void control_menu (void);
 static void keyboard_menu (void);
 static void extra_menu (void);
+static void editor_selector (void);
+static void editor_menu (void);
 
 menu_entry_t options_entries[] = {
   { N_("GAME"),		game_menu },
@@ -211,10 +210,20 @@ menu_entry_t main_entries[] = {
   { 0,			0 }
 };
 
-menu_t *main_menu_data ;
+menu_t *main_menu_data;
+
+menu_entry_t editor_entries[] = {
+  /* TRANS: Create a new level.  */
+  { N_("NEW LEVEL"),	editor_menu },
+  /* TRANS: Load an existing level for edition.  */
+  { N_("LOAD LEVEL"),	editor_selector },
+  { N_("GO BACK"),	0 }
+};
+
+menu_t *editor_menu_data;
 
 static menu_t *
-compile_menu (const char *name, const menu_entry_t* entries)
+compile_menu (const char *name, const menu_entry_t *entries)
 {
   int tlines;			/* number of text lines */
   int row;			/* row on screen */
@@ -522,12 +531,7 @@ init_menus_sprites (void)
 				    T_CENTERED|T_WAVING, 10, 159);
 
   /* editor first menu */
-  edit_first_menu_txt = compile_menu_text (_("EDITOR"), T_CENTERED|T_WAVING,
-					   10, 159);
-  edit_first_new_txt = compile_menu_text (_("NEW LEVEL"),
-					  T_CENTERED, 105, 159);
-  edit_first_load_txt = compile_menu_text (_("LOAD LEVEL"),
-					   T_CENTERED, 85, 159);
+  editor_menu_data = compile_menu (_("EDITOR"), editor_entries);
 
   /* play menu */
   playmenu_title_txt = compile_menu_text (_("PLAY"), T_CENTERED|T_WAVING,
@@ -699,9 +703,7 @@ uninit_menus_sprites (void)
   free_menu (option_menu_data);
   free_menu (main_menu_data);
   FREE_SPRITE0 (edit_sel_txt);
-  FREE_SPRITE0 (edit_first_menu_txt);
-  FREE_SPRITE0 (edit_first_new_txt);
-  FREE_SPRITE0 (edit_first_load_txt);
+  free_menu (editor_menu_data);
   FREE_SPRITE0 (playmenu_title_txt);
   FREE_SPRITE0 (playmenu_players_txt[0]);
   FREE_SPRITE0 (playmenu_players_txt[1]);
@@ -1914,40 +1916,10 @@ editor_menu (void)
 void
 editor_first_menu (void)
 {
-  int l = 0;
-  int t;
-  if (extra_user_nbr == 0) {
+  if (extra_user_nbr == 0)
     editor_menu ();
-    return;
-  }
-
-  std_white_fadein (&tile_set_img.palette);
-  do {
-    background_menu ();
-    DRAW_SPRITE (edit_first_menu_txt, corner[0]);
-    draw_sprprogwav_if (l == 0, edit_first_load_txt, corner[0]);
-    draw_sprprogwav_if (l == 1, edit_first_new_txt, corner[0]);
-    waving_arrows (81 + l * 20, 50);
-    flush_display (corner[0]);
-    if (key_or_joy_ready ()) {
-      t = get_key_or_joy ();
-      if (t == HK_Up || t == HK_Down || t == HK_Escape)
-	event_sfx (1);
-      if (t == HK_Up || t == HK_Down)
-	l ^= 1;
-    } else
-      t = 0;
-  } while (t != HK_Enter && t != HK_Escape);
-  if (t == HK_Enter) {
-    if (l == 0) {
-      event_sfx (2);
-      editor_selector ();
-    } else if (l == 1) {
-      event_sfx (2);
-      editor_menu ();
-    }
-  } else
-    event_sfx (8);
+  else
+    exec_menu (editor_menu_data);
 }
 
 void

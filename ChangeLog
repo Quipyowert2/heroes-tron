@@ -1,3 +1,17 @@
+2001-06-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Rewrite editor_first_menu using the compile_menu machinery.  This
+	also get rid of a bug reported by Jean where the french
+	translation for "NEW LEVEL" would have been larger than the
+	distance between the waving arrows.
+
+	* src/menus.c (edit_first_menu_txt, edit_first_new_txt,
+	edit_first_load_txt): Remove.
+	(editor_entries, editor_menu_data): New variables to
+	replace the three above.
+	(init_menus_sprites, uninit_menus_sprites): Adjust.
+	(editor_first_menu): Use exec_menu.
+
 2001-06-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/joystick.c [HAVE_SDL_JOYSTICKOPEN, HAVE_LIBGII]
