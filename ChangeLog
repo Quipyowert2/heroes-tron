@@ -1,3 +1,7 @@
+2001-03-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/system.h (KEYCODE_MAX): New macro.
+
 2001-03-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/options.h (extrasel): Move ...

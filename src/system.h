@@ -163,16 +163,19 @@
 #if HAVE_LIBGGI
 # include <ggi/ggi.h>
 typedef uint32		keycode_t;
+#define KEYCODE_MAX	U32_MAX
 #else /* !HAVE_LIBGGI */
 # if HAVE_LIBSDL
 #  include <SDL.h>
 typedef SDLKey		keycode_t;
+#define KEYCODE_MAX	(SDLK_LAST-1)
 # else /* !HAVE_LIBSDL */
-typedef unsigned int	keycode_t;
+typedef u32_t		keycode_t;
+#define KEYCODE_MAX	U32_MAX
 # endif /* !HAVE_LIBSDL */
 #endif /* !HAVE_LIBGGI */
-/* joystick library */
 
+/* joystick library */
 #if JOYSTICK_SUPPORT
 # if HAVE_LIBGII && HAVE_SDL_JOYSTICKOPEN
 #  error "HAVE_LIBGII and HAVE_SDL_JOYSTICKOPEN can't be defined both"
