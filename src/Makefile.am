@@ -79,7 +79,6 @@ fader.c \
 fader.h \
 fastmem.h \
 font.h \
-font_help.h \
 fontdata.c \
 fontdata.h \
 gameid.c \
