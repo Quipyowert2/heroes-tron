@@ -1,5 +1,12 @@
 2002-03-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/lvl/en_head.c (encode_level_header): Clear unused bytes
+	before saving.
+	* src/lvl/en_body.c (encode_level_body): Zero initialize the
+	square_walls_in array.
+
+2002-03-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/rules/state.c (state_init): Clear state->square_lemmings_list,
 	and state->square_dead_lemmings_list.
 

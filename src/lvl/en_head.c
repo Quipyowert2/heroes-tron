@@ -72,4 +72,8 @@ encode_level_header (a_u8 *data, const a_level *lvl)
   data += 9;
   strncpy (data, lvl->private->sound_track_alias, 8);
   data[8] = 0;
+  data += 9;
+
+  /* Clear unused bytes so we don't save garbage.  */
+  memset (data, 0, 10);
 }

@@ -92,7 +92,7 @@ encode_level_body (a_u8 *data, const a_level *lvl)
   a_dir_mask8 *square_walls_in;	/* Walls forbiding to *enter* a tile.  */
 
   tcount = lvl->tile_count;
-  square_walls_in = xmalloc (lvl->square_count);
+  XCALLOC_ARRAY (square_walls_in, lvl->square_count);
   /* T_OUTWAY squares cannot be entered from any direction */
   for (si = 0; si < lvl->square_count; ++si)
     if (lvl->square_type[si] == T_OUTWAY)
