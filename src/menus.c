@@ -249,6 +249,14 @@ arrows (unsigned int row, unsigned int col)
 }
 
 static void
+waving_arrows (unsigned int row, unsigned int col)
+{
+  col += minisinus[read_htimer (waving_htimer) & 31];
+  exec_rleprog (left_arrow, corner[0] + row * xbuf + col);
+  exec_rleprog (right_arrow, corner[0] + row * xbuf + 320 - col - 13);
+}
+
+static void
 chkbox (unsigned int row, unsigned int col, int checked)
 {
   exec_rleprog (checked_box[checked], corner[0] + row * xbuf + col);
@@ -1012,13 +1020,12 @@ void
 option_menu (void)
 {
   char l = 0;
-  int t, j;
+  int t;
   
   do {
     std_white_fadein (&tile_set_img.palette);
     do {
       background_menu ();
-      j = minisinus[read_htimer (waving_htimer) & 31];
       draw_text_waving (txti[129], 159, 12, 1);
       draw_text_array[l == 0] (txti[130], 159, 55, 1);
       draw_text_array[l == 1] (txti[131], 159, 75, 1);
@@ -1033,7 +1040,7 @@ option_menu (void)
       hrule (128);
       hrule (148);
       hrule (168);
-      arrows (50 + l * 20, 70 + j);
+      waving_arrows (50 + l * 20, 70);
       vsynch ();
       aff_buffer ();
       if (key_or_joy_ready ()) {
@@ -1084,12 +1091,10 @@ option_menu (void)
 void
 draw_quit_menu (char l)
 {
-  int j;
-  j = minisinus[read_htimer (waving_htimer) & 31];
   draw_text_waving (txti[140], 159, 75, 1);
   draw_text_array[l == 0] (txti[141], 159, 95, 1);
   draw_text_array[l == 1] (txti[142], 159, 110, 1);
-  arrows (91 + l * 15, 90 + j);
+  waving_arrows (91 + l * 15, 90);
 }
 
 char
@@ -1134,9 +1139,7 @@ quit_menu (void)
 void
 draw_play_menu (char l)
 {
-  int j;
   background_menu ();
-  j = minisinus[read_htimer (waving_htimer) & 31];
   draw_text_waving (txti[145], 159, 4, 1);
   hrule (21);
   if (two_players)
@@ -1146,8 +1149,6 @@ draw_play_menu (char l)
     draw_text_array[l == 0] (txti[147], 159, 31, 1);
   hrule (48);
   draw_text_array[l == 1] (mode_name[0], 159, 60, 1);
-
-  /* draw_text_array[l==2](mode_name[1],159,73,1); */
   draw_text_array[l == 2] (mode_name[2], 159, 83, 1);
   draw_text_array[l == 3] (mode_name[1], 159, 99, 1);
   draw_text_array[l == 4] (mode_name[3], 159, 115, 1);
@@ -1156,15 +1157,13 @@ draw_play_menu (char l)
   draw_text_array[l == 6] (txti[148], 159, 160, 1);
   hrule (177);
   draw_text_array[l == 7] (txti[94], 159, 187, 1);
-  arrows (41 + l * 16 + 5 * (l > 1) - 15 * (l == 0) + 
-	  13 * (l == 6) + 23 * (l == 7), 30 + j);
+  waving_arrows (41 + l * 16 + 5 * (l > 1) - 15 * (l == 0) + 
+		 13 * (l == 6) + 23 * (l == 7), 30);
 }
 
 void
 draw_main_menu (char l)
 {
-  int j;
-  j = minisinus[read_htimer (waving_htimer) & 31];
   draw_text_waving (txti[150], 159, 12, 1);
   draw_text_array[l == 0] (txti[151], 159, 55, 1);
   draw_text_array[l == 1] (txti[152], 159, 75, 1);
@@ -1179,7 +1178,7 @@ draw_main_menu (char l)
   hrule (128);
   hrule (148);
   hrule (168);
-  arrows (50 + l * 20, 75 + j);
+  waving_arrows (50 + l * 20, 75);
 }
 
 char tile_sets_names[10][3] =
@@ -1199,7 +1198,7 @@ static void
 editor_selector (void)
 {
   int l = 0;
-  int i = 0, t, j;
+  int i = 0, t;
   char lname[FILENAME_SIZE + 1];
 
   if (extra_user_nbr == 1) {
@@ -1212,7 +1211,6 @@ editor_selector (void)
   std_white_fadein (&tile_set_img.palette);
   do {
     background_menu ();
-    j = minisinus[read_htimer (waving_htimer) & 31];
     draw_text_waving (txti[170], 159, 10, 1);
     hrule (30);
     hrule (187);
@@ -1221,7 +1219,7 @@ editor_selector (void)
 	strcpy (lname, extra_list[i + l].level_name);
 	draw_text_array[i == 0] (lname, 159, 105 + i * 13, 1);
       }
-    arrows (101, 60 + j);
+    waving_arrows (101, 60);
     vsynch ();
     aff_buffer ();
     if (key_or_joy_ready ()) {
@@ -1539,7 +1537,7 @@ void
 editor_first_menu (void)
 {
   char l = 0;
-  int t, j;
+  int t;
   if (extra_user_nbr == 0) {
     editor_menu ();
     return;
@@ -1548,11 +1546,10 @@ editor_first_menu (void)
   std_white_fadein (&tile_set_img.palette);
   do {
     background_menu ();
-    j = minisinus[read_htimer (waving_htimer) & 31];
     draw_text_waving (txti[171], 159, 10, 1);
     draw_text_array[l == 0] (txti[172], 159, 85, 1);
     draw_text_array[l == 1] (txti[173], 159, 105, 1);
-    arrows (81 + l * 20, 50 + j);
+    waving_arrows (81 + l * 20, 50);
     vsynch ();
     aff_buffer ();
     if (key_or_joy_ready ()) {
