@@ -1,3 +1,11 @@
+2000-07-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Handle relative mouse moves in level editor. 
+	Make the full view work.
+	
+	* src/hedlite.c (affplan): Call vsynchro.
+	(planfull, gestsrs1): Handle relative moves where needed.
+
 2000-07-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Factorize endian-swaping of level infos into hendian.{h,c} and

@@ -556,7 +556,8 @@ affplan (int xloc, int yloc, char c)
     dest += 20 * 320 - 24 * (6 + c);
     yy += 20;
   }
-};
+  vsynchro ();
+}
 
 static unsigned int
 curdallep (void)
@@ -997,10 +998,8 @@ static void
 planfull (void)
 {
   int t;
-  int xm = 128, ym = 100;
-#ifdef PORT /* mouse */
-  set_mouse_pos (128, 100);
-#endif
+  int x, y, xm = 128, ym = 100;
+
   memset (screen, 0, 64000);
   if (xplan > (hplaninfo.xt - 13) && hplaninfo.xwrap == 0xffffffff)
     xplan = hplaninfo.xt - 13;
@@ -1008,41 +1007,37 @@ planfull (void)
   while (mouse12 () != 0);
   do {
     affplan (xplan, yplan, 7);
+    
     t = 0;
     while (key_ready () == 0 && (xm - mouse_x ()) <= 1
 	   && (mouse_x () - xm) <= 1 && (ym - mouse_y ()) <= 1
 	   && (mouse_y () - ym) <= 1 && mouse12 () == 0);
     if (key_ready ())
       t = get_key ();
-    if (t == HK_Right || (mouse_x () - xm) > 1) {
+    x = mouse_x ();
+    y = mouse_y ();
+    if (t == HK_Right || (x - xm) > 1) {
       if (xplan < (hplaninfo.xt - 13) || hplaninfo.xwrap != 0xffffffff)
 	xplan = ((xplan + 1) & hplaninfo.xwrap);
-#ifdef PORT /* mouse */
-      set_mouse_pos (128, mouse_y ());
-#endif
+      xm = x;
     }
-    if (t == HK_Left || (xm - mouse_x ()) > 1) {
+    if (t == HK_Left || (xm - x) > 1) {
       if (xplan > 0 || hplaninfo.xwrap != 0xffffffff)
 	xplan = ((xplan - 1) & hplaninfo.xwrap);
-#ifdef PORT /* mouse */
-      setmouse (128, mouse_y ());
-#endif
+      xm = x;
     }
-    if (t == HK_Down || (mouse_y () - ym) > 1) {
+    if (t == HK_Down || (y - ym) > 1) {
       if (yplan < (hplaninfo.yt - 10) || hplaninfo.ywrap != 0xffffffff)
 	yplan = ((yplan + 1) & hplaninfo.ywrap);
-#ifdef PORT /* mouse */
-      setmouse (mousex (), 100);
-#endif
+      ym = y;
     }
-    if (t == HK_Up || (ym - mouse_y ()) > 1) {
+    if (t == HK_Up || (ym - y) > 1) {
       if (yplan > 0 || hplaninfo.ywrap != 0xffffffff)
 	yplan = ((yplan - 1) & hplaninfo.ywrap);
-#ifdef PORT /* mouse */
-      setmouse (mouse_x (), 100);
-#endif
+      ym = y;
     }
-  } while (t != HK_Enter && t != HK_Space && t != HK_Escape && mouse12 () == 0);
+  } while (t != HK_Enter && t != HK_Space && t != HK_Escape && 
+	   mouse12 () == 0);
   memset (screen, 0, 64000);
   partiel2 (0, 0, 30, 200, 290, 0, &heditrsc);
   draw_text (levelnomshort, 305, 29, 8, 1);
@@ -1750,47 +1745,21 @@ gestsrs1 (void)
     xplandec = (x / 24) * 24;
     yplandec = (y / 20) * 20;
     majg ();
-    if (y < 4) {
-#ifdef PORT /* mouse */
-      set_mouse_pos (x, 8);
-#endif
-      y = 8;
-    }
-    if (y > 195) {
-#ifdef PORT /* mouse */
-      set_mouse_pos (x, 192);
-#endif
-      y = 192;
-    }
-    if (x < 4) {
-#ifdef PORT /* mouse */
-      set_mouse_pos (8, y);
-#endif
-      x = 8;
-    }
     do {
       x2 = mouse_x ();
       y2 = mouse_y ();
-      if (x2 - x > 3) {
-#ifdef PORT /* mouse */
-	set_mouse_pos (x, y);
-#endif
+      if (x - x2 > 3) {
+	x = x2;
 	gestclav (HK_Right);
-      } else if (x - x2 > 3) {
-#ifdef PORT /* mouse */
-	set_mouse_pos (x, y);
-#endif
+      } else if (x2 - x > 3) {
+	x = x2;
 	gestclav (HK_Left);
       }
-      if (y2 - y > 3) {
-#ifdef PORT /* mouse */
-	set_mouse_pos (x, y);
-#endif
+      if (y - y2 > 3) {
+	y = y2;
 	gestclav (HK_Down);
-      } else if (y - y2 > 3) {
-#ifdef PORT /* mouse */
-	set_mouse_pos (x, y);
-#endif
+      } else if (y2 - y > 3) {
+	y = y2;
 	gestclav (HK_Up);
       }
     } while (mouse12 () != 0);
@@ -1799,47 +1768,21 @@ gestsrs1 (void)
     xdallesdec = ((x - 145) / 24) * 24;
     ydalles = (y / 20) * 20;
     majd ();
-    if (y < 4) {
-#ifdef PORT /* mouse */
-      set_mouse_pos (x, 8);
-#endif
-      y = 8;
-    }
-    if (y > 195) {
-#ifdef PORT /* mouse */
-      set_mouse_pos (x, 192);
-#endif
-      y = 192;
-    }
-    if (x < 4) {
-#ifdef PORT /* mouse */
-      set_mouse_pos (8, y);
-#endif
-      x = 8;
-    }
     do {
       x2 = mouse_x ();
       y2 = mouse_y ();
-      if (x2 - x > 3) {
-#ifdef PORT /* mouse */
-	set_mouse_pos (x, y);
-#endif
+      if (x - x2 > 3) {
+	x = x2;
 	gestclav (0x7400); /* CtrlRight */
-      } else if (x - x2 > 3) {
-#ifdef PORT /* mouse */
-	set_mouse_pos (x, y);
-#endif
+      } else if (x2 - x > 3) {
+	x = x2;
 	gestclav (0x7300); /* CtrlLeft */
       }
-      if (y2 - y > 3) {
-#ifdef PORT /* mouse */
-	set_mouse_pos (x, y);
-#endif
+      if (y - y2 > 3) {
+        y = y2;
 	gestclav (0x7600); /* CtrlPgDn */
-      } else if (y - y2 > 3) {
-#ifdef PORT /* mouse */
-	set_mouse_pos (x, y);
-#endif
+      } else if (y2 - y > 3) {
+	y = y2;
 	gestclav (0x8400); /* CtrlPgUp */
       }
     } while (mouse12 () != 0);
