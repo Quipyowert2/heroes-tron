@@ -1,5 +1,14 @@
 2001-02-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* arch/mingw32/cross.sh	(cross_install): zip the changelog, instead
+	of gzip'ing it.  Suggested by Jean.
+	(cross_pack): Typo.
+	* arch/ming32/dest-readme-txt: Add more text, suggest -F, give
+	the bug-report address.
+	* arch/ming32/dest-readme-lib: Update to newer libs.
+
+2001-02-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* doc/heroes.texi (Machines): Describe the Win32/VisualC files
 	as obsolete.
 

@@ -1,8 +1,8 @@
 This is the Windows binary for Heroes, cross-compiled
-from Linux and linked staticaly against SDL 1.1 (2000-12-29 snapshot), 
-SDL_mixer 1.1.0 and MinGW (2000-02-03 snapshot).  
+from Linux and linked statically against SDL 1.1.8,
+SDL_mixer 1.1.0 and MinGW (from the mingw32 Debian package).
 
-Man page and info file have been replaced by an html page in
+The man page and info file have been replaced by an html page in
 the doc/ directory.
 
 Heroes has been configured with the following options:
@@ -10,7 +10,7 @@ Heroes has been configured with the following options:
 --enable-html-doc=/heroes/doc --with-sdl
 
 SDL and SDL_mixer have been configured with:
---host=i386-mingw32msvc --target=i386-mingw32msvc --build=i386-linux 
+--host=i386-mingw32msvc --target=i386-mingw32msvc --build=i386-linux
 --enable-static --disable-shared
 
 -----

@@ -79,7 +79,7 @@ function cross_install ()
 	   TODO ; do
     test -f $TOPSRC_DIR/$f && cp $TOPSRC_DIR/$f $DESTDIR/$PREFIX/doc/
   done
-  gzip -f -9 $DESTDIR/$PREFIX/doc/ChangeLog
+  (cd $DESTDIR/$PREFIX/doc && zip -9 -m ChangeLog.zip ChangeLog)
   rm -rf $DESTDIR/$PREFIX/info
   rm -rf $DESTDIR/$PREFIX/man
 }
@@ -89,7 +89,7 @@ function cross_pack ()
   # package name and version
   eval `cd $TOPSRC_DIR && autoconf --trace 'AC_INIT:VERSION=$2;PACKAGE=$1'`
   # zip file to create
-  ZIPFILE="`pwd`/$PACKAGE-$VERSION-XXX-mingw32.zip"
+  ZIPFILE="`pwd`/$PACKAGE-$VERSION-XXX.mingw32.zip"
 
   cd $DESTDIR && zip -9 -r $ZIPFILE ./$PREFIX
 }
