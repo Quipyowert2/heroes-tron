@@ -151,6 +151,8 @@ typedef struct
 }
 ATTRIBUTE_PACKED tile_info_t;  /* 10 bytes */
 
+#define FILENAME_SIZE 8
+
 typedef struct
 {
   u32_t xt;
@@ -159,8 +161,8 @@ typedef struct
   u32_t ywrap;
   u32_t start[4];		/* starting tile */
   u8_t start_way[4];		/* starting direction and square */
-  char tile_set_name[9];
-  char soundtrack_name[9];
+  char tile_set_name[FILENAME_SIZE + 1];
+  char soundtrack_name[FILENAME_SIZE + 1];
   char unused[10];
 }
 ATTRIBUTE_PACKED level_header_t; /* 64 bytes */
@@ -244,9 +246,10 @@ lemming_t;
 #define M_COLOR  4
 /*------------------------------ HighScores -------------------------------*/
 
+#define PLAYER_NAME_SIZE 8
 typedef struct
 {
-  char name[9];
+  char name[PLAYER_NAME_SIZE + 1];
   u8_t magic;
   u8_t unused1, unused2;
   u32_t points;

@@ -93,9 +93,6 @@ extern pcx_image_t main_font_img, icons_img, vehicles_img, trailimg;
 extern pcx_image_t bonus_a_img, bonus_b_img, bonus_font_img, jukebox_img;
 extern pcx_image_t tile_set_img, font_deck_img;
 
-extern char tmp1[512];
-extern char tmp2[512];
-
 extern signed char minisinus[32];
 extern char two_players;
 

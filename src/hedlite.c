@@ -1956,10 +1956,9 @@ free_levels_output_dir (void)
 /****************************************************************************/
 /****************************************************************************/
 /****************************************************************************/
-int
-hmain (int argc ATTRIBUTE_UNUSED, const char *argv1, const char *argv2,
-       const char *argv3, const char *argv4, const char *argv5, const 
-       char *argv6)
+int 
+hmain (const char* lname, const char* tset_name, 
+       u32_t xsize, u32_t ysize, u32_t xwrap, u32_t ywrap)
 {
   int i;
   char* lvl_name;
@@ -1982,18 +1981,14 @@ hmain (int argc ATTRIBUTE_UNUSED, const char *argv1, const char *argv2,
   afftests = 0;
   notestmouse = 0;
 
-  strcpy (levelnomshort, argv1);
+  strcpy (levelnomshort, tset_name);
   strlwr (levelnomshort);
-  strcat (strcpy (hplaninfo.tile_set_name, "level"), argv2);
-  strcat (strcpy (hplaninfo.soundtrack_name, "heroes"), argv2);
-  hplaninfo.xt = argv3[0] - ' ';
-  hplaninfo.yt = argv4[0] - ' ';
-  hplaninfo.xwrap = argv5[0] - ' ';
-  hplaninfo.ywrap = argv6[0] - ' ';
-  if (hplaninfo.xwrap == 1)
-    hplaninfo.xwrap = 0xffffffff;
-  if (hplaninfo.ywrap == 1)
-    hplaninfo.ywrap = 0xffffffff;
+  strcat (strcpy (hplaninfo.tile_set_name, "level"), lname);
+  strcat (strcpy (hplaninfo.soundtrack_name, "heroes"), lname);
+  hplaninfo.xt = xsize;
+  hplaninfo.yt = ysize;
+  hplaninfo.xwrap = xwrap;
+  hplaninfo.ywrap = ywrap;
 
   strcat (strcpy (pcxnom, levelnomshort), ".pcx");
 

@@ -154,9 +154,6 @@ pcx_image_t main_font_img, icons_img, vehicles_img, trailimg;
 pcx_image_t bonus_a_img, bonus_b_img, bonus_font_img, jukebox_img;
 pcx_image_t tile_set_img, font_deck_img;
 
-char tmp1[512];
-char tmp2[512];
-
 signed char minisinus[32];
 char two_players = 0;
 

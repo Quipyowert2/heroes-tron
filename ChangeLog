@@ -1,5 +1,27 @@
 2000-10-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Remove the tmp1 and tmp2 global variables.  Change the hmain
+	prototype.
+
+	* src/const.h (tmp1,tmp2): Remove.
+	* src/const.c (tmp1,tmp2): Remove.
+	* src/hedlite.c (hmain): Change prototype, and adapt body.
+	* src/hedlite.h (hmain): Change prototype.
+	* src/heroes.c (enter_your_name): Take the buffer to write to 
+	as argument. Use memset.
+	(play_menu): Adapt call to enter_your_name.
+	(scores_menu, draw_end_level_info, draw_text_waving,
+	draw_end_level_info, draw_round_info): Use local buffers.
+	* src/render.c (draw_score): Likewise.
+	* src/menus.c (draw_key, game_menu, extra_menu, 
+	editor_selector,editor_menu): Likewise.
+	(editor_selector,editor_menu): Adapt call to hmain.
+	* src/structs.h (FILENAME_SIZE,PLAYER_NAME_SIZE): New.
+	(level_header_t): Use FILENAME_SIZE.
+	(top_score): Use PLAYER_NAME_SIZE.
+
+2000-10-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Fix most warnings of src/render.h.
 
 	* src/const.h (clock_anim_offset): Declare as pixel_t*.

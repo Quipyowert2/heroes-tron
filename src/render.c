@@ -910,6 +910,7 @@ draw_score (int c, int p, pixel_t* dest)
   pixel_t* tmp = src + 22 + 2 * xbuf;
   pixel_t* tmp2 = src + 25 + 5 * xbuf + 53 * xbuf;
   int x, y, i;
+  char score[32];
 
   if (radar_current_pos > 60)
     return;
@@ -921,9 +922,9 @@ draw_score (int c, int p, pixel_t* dest)
       *src++ = glenz[0][*src];
     src += xbuf - 33;
   }
-  sprintf (tmp1, "%.6d", player[c].score_delta >> 2);
+  sprintf (score, "%.6d", player[c].score_delta >> 2);
   for (i = 0; i < 6; i++) {
-    src = main_font_img.buffer + 72 * 320 + (tmp1[i] - '0') * 18;
+    src = main_font_img.buffer + 72 * 320 + (score[i] - '0') * 18;
     for (y = 9; y != 0; y--) {
       for (x = 18; x != 0; x--, src++, dest++)
 	if (*src != 0)
@@ -965,9 +966,9 @@ draw_score (int c, int p, pixel_t* dest)
     src -= 3 + 320;
   }
   if (game_mode >= M_TCASH) {
-    sprintf (tmp1, "%.3d", player[c].time / 70);
+    sprintf (score, "%.3d", player[c].time / 70);
     for (i = 0; i < 3; i++) {
-      src = main_font_img.buffer + 50 * 320 + (tmp1[i] - '0') * 10;
+      src = main_font_img.buffer + 50 * 320 + (score[i] - '0') * 10;
       for (y = 11; y != 0; y--) {
 	for (x = 9; x != 0; x--, src++, dest++)
 	  if (*src != 0)

@@ -196,8 +196,9 @@ draw_key (int key, int line)
   const char* keyname = search_keyname (key);
   
   if (!keyname) {
-    sprintf (tmp1, "(%d)", key);
-    draw_text (tmp1, 295, line, 2);
+    char name[64];
+    sprintf (name, "(%d)", key);
+    draw_text (name, 295, line, 2);
   } else 
     draw_text (keyname, 295, line, 2);
 }
@@ -616,6 +617,7 @@ game_menu (void)
 {
   char l = 0, tmp;
   int t;
+  char rounds[32];
 
   std_white_fadein (&tile_set_img.palette);
   do {
@@ -653,11 +655,10 @@ game_menu (void)
     draw_text (txti[119], 56, 105, 0);
     draw_text (txti[120], 56, 129, 0);
 
-    /* draw_text("GHOSTS",56,149,0); */
-    sprintf (tmp1, txti[121], rounds_nbr_values[opt.gamerounds],
+    sprintf (rounds, txti[121], rounds_nbr_values[opt.gamerounds],
 	     (opt.gamerounds == 0) ? '\0' : 'S');
-    draw_text (tmp1, 56, 153 /*158 */ , 0);
-    draw_text (txti[94], 56, 177 /*180 */ , 0);
+    draw_text (rounds, 56, 153, 0);
+    draw_text (txti[94], 56, 177, 0);
     vsynch ();
     aff_buffer ();
     if (key_or_joy_ready ()) {
@@ -760,7 +761,8 @@ extra_menu (void)
 {
   char l = 0;
   int t, i, ll = 0;
-
+  char lname[FILENAME_SIZE + 1];
+  
   std_white_fadein (&tile_set_img.palette);
   do {
     background_menu ();
@@ -784,8 +786,8 @@ extra_menu (void)
 			corner[0] + (169) * xbuf + 100, 120, 3);
       for (i = -3; i <= 3; i++)
 	if ((i + ll) >= 0 && (i + ll) < extra_nbr) {
-	  strcpy (tmp1, extra_list[i + ll].level_name);
-	  draw_text_array[i == 0] (tmp1, 200, 118 + i * 13, 2);
+	  strcpy (lname, extra_list[i + ll].level_name);
+	  draw_text_array[i == 0] (lname, 200, 118 + i * 13, 2);
 	  chkbox (115 + i * 13, 210, extra_selected_list[i + ll]);
 	}
     }
@@ -1078,14 +1080,13 @@ editor_selector (void)
 {
   int l = 0;
   int i = 0, t, j;
+  char lname[FILENAME_SIZE + 1];
+
   if (extra_user_nbr == 1) {
     event_sfx (116);
-    strcpy (tmp1, extra_list[0].level_name);
+    strcpy (lname, extra_list[0].level_name);
 
-/*      sprintf(tmp2,"%s A A A A A",tmp1); */
-/*      spawnl(P_WAIT,"HEDLITE.EXE","HEDLITE.EXE",tmp2,NULL); */
-
-    hmain (7, tmp1, "A", "A", "A", "A", "A");
+    hmain (lname, 0, 0, 0, 0, 0);
     return;
   }
   std_white_fadein (&tile_set_img.palette);
@@ -1099,8 +1100,8 @@ editor_selector (void)
 		      corner[0] + (187) * xbuf + 100, 120, 3);
     for (i = -5; i <= 5; i++)
       if ((i + l) >= 0 && (i + l) < extra_user_nbr) {
-	strcpy (tmp1, extra_list[i + l].level_name);
-	draw_text_array[i == 0] (tmp1, 159, 105 + i * 13, 1);
+	strcpy (lname, extra_list[i + l].level_name);
+	draw_text_array[i == 0] (lname, 159, 105 + i * 13, 1);
       }
     arrows (101, 60 + j);
     vsynch ();
@@ -1135,9 +1136,9 @@ editor_selector (void)
   } while (t != HK_Enter && t != HK_Escape);
   if (t == HK_Enter) {
     event_sfx (116);
-    strcpy (tmp1, extra_list[l].level_name);
+    strcpy (lname, extra_list[l].level_name);
 
-    hmain (7, tmp1, "A", "A", "A", "A", "A");
+    hmain (lname, 0, 0, 0, 0, 0);
   } else
     event_sfx (8);
 }
@@ -1156,20 +1157,15 @@ editor_menu (void)
   int j;
   FILE *tmphdl;
   level_header_t plinfo;
+  char lname[FILENAME_SIZE + 1];
+  char ssize[32];
   char titres[10][16] =
     { "CORRIDOR 1", "CAEROS", "THE DARK AGES", "CORRIDOR 2", "VOLCANO",
     "ELECTRIC DREAM", "METAL MASTER", "MOON 51", "CORRIDOR 3",
     "SWEET DREAM"
   };
-  tmp1[0] = 0;
-  tmp1[1] = 0;
-  tmp1[2] = 0;
-  tmp1[3] = 0;
-  tmp1[4] = 0;
-  tmp1[5] = 0;
-  tmp1[6] = 0;
-  tmp1[7] = 0;
-  tmp1[8] = 0;
+
+  memset (lname,0,FILENAME_SIZE + 1);
   pcx_load_from_rsc ("new-level-menu-img", (pcx_image_t *) & frmenu);
   load_tile_set_preview (0, (pcx_image_t *) & tilesprev);
   for (i = 0; i < 52; i++)
@@ -1230,16 +1226,16 @@ editor_menu (void)
     /* draw_text_array_320[l==0](txti[176],8,33,0); */
     draw_text_320 ((char *) titres[tiles], 138, 33, 1);
     draw_text_array_320[l == 1] (txti[177], 8, 54, 0);
-    draw_text_320 ((char *) tmp1, 185, 54, 1);
+    draw_text_320 ((char *) lname, 185, 54, 1);
     draw_text_array_320[l == 2] (txti[178], 8, 85, 0);
     draw_text_array_320[l == 3] (txti[179], 8, 106, 0);
     draw_text_array_320[l == 4] (txti[180], 8, 137, 0);
     draw_text_array_320[l == 5] (txti[181], 8, 158, 0);
     draw_text_array_320[l == 6] (txti[182], 227, 186, 0);
-    sprintf (tmp2, "%d", xsize);
-    draw_text_320 (tmp2, 248, 137, 1);
-    sprintf (tmp2, "%d", ysize);
-    draw_text_320 (tmp2, 248, 158, 1);
+    sprintf (ssize, "%d", xsize);
+    draw_text_320 (ssize, 248, 137, 1);
+    sprintf (ssize, "%d", ysize);
+    draw_text_320 (ssize, 248, 158, 1);
     vsynch ();
     memcpy (screen, corner[0], 64000); /* FIXME: what is this? */
     if (key_or_joy_ready ()) {
@@ -1293,22 +1289,24 @@ editor_menu (void)
 	if ((l2 >= '0' && l2 <= '9') || (l2 >= '@' && l2 <= 'Z')
 	    || (l2 >= '#' && l2 <= '&') || l2 == '!' || l2 == '_') {
 	  if (pos < 8) {
-	    tmp1[pos] = l2;
+	    lname[pos] = l2;
 	    pos++;
-	    tmp1[pos] = 0;
+	    lname[pos] = 0;
 	    event_sfx (112);
 	    flag = 1;
 	  }
 	}
 	if ((t == HK_BackSpace || t == HK_Delete) && (pos > 0)) {
 	  pos--;
-	  tmp1[pos] = 0;
+	  lname[pos] = 0;
 	  event_sfx (113);
 	  flag = 1;
 	}
 	if (flag) {
-	  sprintf(tmp2, "%s/%s.lvl", levels_output_dir, tmp1);
-	  tmphdl = fopen (tmp2, "rb");
+	  char* filename = malloc (strlen (levels_output_dir) + 1
+				   + strlen (lname) + 5);
+	  sprintf(filename, "%s/%s.lvl", levels_output_dir, lname);
+	  tmphdl = fopen (filename, "rb");
 	  if (tmphdl != NULL) {
 	    if (fread ((void *) &plinfo, sizeof (level_header_t), 1, tmphdl)
 		== 1) {
@@ -1327,6 +1325,7 @@ editor_menu (void)
 	    } else
 	      flaglock = 0;
 	    fclose (tmphdl);
+	    free (filename);
 	  } else
 	    flaglock = 0;
 	  flag = 0;
@@ -1400,21 +1399,15 @@ editor_menu (void)
       }
     } else
       t = 0;
-    if (l == 6 && t == HK_Enter && tmp1[0] == 0)
+    if (l == 6 && t == HK_Enter && lname[0] == 0)
       l = 1;
   } while (t != HK_Escape && !(l == 6 && t == HK_Enter));
   img_free (&frmenu);
   img_free (&tilesprev);
   if (l == 6 && t == HK_Enter) {
-    event_sfx (116);
+    event_sfx (116);    
+    hmain (lname, tile_sets_names[tiles], xsize, ysize, xwrap, ywrap);
 
-    sprintf (tmp2, "%c %c %c %c", xsize + ' ', ysize + ' ',
-	     ((xwrap == -1) ? '!' : (xwrap + ' ')),
-	     ((ywrap == -1) ? '!' : (ywrap + ' ')));
-    tmp2[1] = tmp2[3] = tmp2[5] = 0;
-
-    hmain (7, tmp1, tile_sets_names[tiles], tmp2, tmp2 + 2, tmp2 + 4,
-	   tmp2 + 6);
     /* update extra-levels list */
     free_extra_list ();
     browse_extra_directories ();

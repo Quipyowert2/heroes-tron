@@ -1415,33 +1415,25 @@ load_random_level (char cont)
 }
 
 static void
-enter_your_name (char c)
+enter_your_name (char c, char* name)
 {
   int t = 0;
   int pos = 0;
   char l;
+  char head[256];
   htimer_t pixelize_timer = new_htimer (T_GLOBAL, HZ (7));
 
-  tmp1[0] = 0;
-  tmp1[1] = 0;
-  tmp1[2] = 0;
-  tmp1[3] = 0;
-  tmp1[4] = 0;
-  tmp1[5] = 0;
-  tmp1[6] = 0;
-  tmp1[7] = 0;
-  tmp1[8] = 0;
+  memset (name, 0, PLAYER_NAME_SIZE + 1);
 
-  memset (pal.global, 0, 768);
   std_white_fadein (&tile_set_img.palette);
   event_sfx (73);
   do {
     background_menu ();
-    sprintf (tmp2, txti[35], c);
-    draw_text_waving (tmp2, 159, 20, 1);
+    sprintf (head, txti[35], c);
+    draw_text_waving (head, 159, 20, 1);
     draw_text (txti[36], 159, 40, 1);
     draw_text (txti[37], 159, 70, 1);
-    draw_text (tmp1, 159, 120, 1);
+    draw_text (name, 159, 120, 1);
     copy_rect_transp (main_font_img.buffer + 61 * 320,
 		      corner[0] + 112 * xbuf + 100, 120, 3);
     copy_rect_transp (main_font_img.buffer + 61 * 320,
@@ -1460,23 +1452,23 @@ enter_your_name (char c)
       l = t & 255;
       if (l >= 'a' && l <= 'z')
 	l -= 'a' - 'A';
-      if (pos < 8)
+      if (pos < PLAYER_NAME_SIZE)
 	if ((l > 20 && l <= 95) || (l == 20 && pos != 0)) {
-	  tmp1[pos] = l;
+	  name[pos] = l;
 	  pos++;
-	  tmp1[pos] = 0;
+	  name[pos] = 0;
 	  event_sfx (70);
 	}
       if ((t == HK_BackSpace || t == HK_Delete) && (pos > 0)) {
 	pos--;
-	tmp1[pos] = 0;
+	name[pos] = 0;
 	event_sfx (71);
       }
     }
   } while (t != HK_Escape && t != HK_Enter);
   event_sfx (72);
   if (pos == 0 || t == HK_Escape)
-    strncpy (tmp1, "\0", 8);
+    memset (name, 0, PLAYER_NAME_SIZE);
   free_htimer (pixelize_timer);
 }
 
@@ -1691,8 +1683,7 @@ play_menu (void)
       if (highs[gamemodeh][mag].points >= player[t].score)
 	mag = -1;
       if (mag != -1) {
-	enter_your_name (plr2col[t] + 1);
-	strcpy (highs[gamemodeh][mag].name, tmp1);
+	enter_your_name (plr2col[t] + 1, highs[gamemodeh][mag].name);
 	highs[gamemodeh][mag].magic = game_magic;
 	highs[gamemodeh][mag].points = player[t].score;
 	sort_scores ();
@@ -3448,6 +3439,7 @@ scores_menu (void)
   char flag = 0;
   int rolldec;
   signed char rollflag = 0;
+  char points[32];
 
   std_white_fadein (&tile_set_img.palette);
   do {
@@ -3473,38 +3465,23 @@ scores_menu (void)
 	draw_text (mode_name[i], 159, 40, 1);
 	for (j = 0; j < 10; j++) {
 	  draw_text (highs[i][j].name, 3, 68 + 13 * j, 0);
-/*      if (i<2) {
-	  sprintf(tmp1,"%d.%d",highs[i][j].world,highs[i][j].level);
-	  draw_text(tmp1,185,68+13*j,1);
-      }
-*/
-	  sprintf (tmp1, "%u", highs[i][j].points);
-	  draw_text (tmp1, 316, 68 + 13 * j, 2);
+	  sprintf (points, "%u", highs[i][j].points);
+	  draw_text (points, 316, 68 + 13 * j, 2);
 	}
       } else {
 	draw_text_clipped_left (mode_name[i - 1], 159 - rolldec, 40, 1);
 	for (j = 0; j < 10; j++) {
 	  draw_text_clipped_left (highs[i - 1][j].name, 3 - rolldec,
 				  68 + 13 * j, 0);
-/*      if (i<3) {
-	  sprintf(tmp1,"%d.%d",highs[i-1][j].world,highs[i-1][j].level);
-	  draw_text_clipped_left(tmp1,185-rolldec,68+13*j,1);
-      }
-*/
-	  sprintf (tmp1, "%u", highs[i - 1][j].points);
-	  draw_text_clipped_left (tmp1, 316 - rolldec, 68 + 13 * j, 2);
+	  sprintf (points, "%u", highs[i - 1][j].points);
+	  draw_text_clipped_left (points, 316 - rolldec, 68 + 13 * j, 2);
 	}
 	draw_text_clipped_right (mode_name[i], 159 + 320 - rolldec, 40, 1);
 	for (j = 0; j < 10; j++) {
 	  draw_text_clipped_right (highs[i][j].name, 3 + 320 - rolldec,
 				   68 + 13 * j, 0);
-/*      if (i<2) {
-	  sprintf(tmp1,"%d.%d",highs[i][j].world,highs[i][j].level);
-	  draw_text_clipped_right(tmp1,185+320-rolldec,68+13*j,1);
-      }
-*/
-	  sprintf (tmp1, "%u", highs[i][j].points);
-	  draw_text_clipped_right (tmp1, 316 + 320 - rolldec, 68 + 13 * j, 2);
+	  sprintf (points, "%u", highs[i][j].points);
+	  draw_text_clipped_right (points, 316 + 320 - rolldec, 68 + 13 * j, 2);
 	}
 
       }
@@ -4046,20 +4023,22 @@ static void
 draw_end_level_info (int decal, char l)
 {
   int i, j;
+  char winner[128];
+  char nbr[32];
 
   if (level_is_finished != 15) {
-    sprintf (tmp1, txti[50], plr2col[level_is_finished - 1] + 1);
+    sprintf (winner, txti[50], plr2col[level_is_finished - 1] + 1);
     draw_glenz_box (corner[0] + decal + 22 * xbuf, level_is_finished + 1, 320,
 		    6);
   } else {
     if (two_players)
-      sprintf (tmp1, txti[51]);
+      sprintf (winner, txti[51]);
     else
-      sprintf (tmp1, txti[52]);
+      sprintf (winner, txti[52]);
     draw_glenz_box (corner[0] + decal + 22 * xbuf, 7, 320, 6);
   }
 
-  draw_text_waving (tmp1, 159 + decal, 20, 1);
+  draw_text_waving (winner, 159 + decal, 20, 1);
   if (game_mode == M_QUEST)
     draw_text (txti[53], 180 + decal, 50, 1);
   else if (game_mode == M_DEATHM)
@@ -4098,18 +4077,18 @@ draw_end_level_info (int decal, char l)
 			       corner[0] + decal + (69 + i * 12) * xbuf + 35,
 			       24, 19);
     if (game_mode == M_QUEST)
-      sprintf (tmp1, "%d", (trail_size[col2plr[i]] + 1) / 5 - 1);
+      sprintf (nbr, "%d", (trail_size[col2plr[i]] + 1) / 5 - 1);
     else if (game_mode == M_DEATHM)
-      sprintf (tmp1, "   ");
+      sprintf (nbr, "   ");
     else if (game_mode == M_KILLEM)
-      sprintf (tmp1, "%d", player[col2plr[i]].lemmings_nbr);
+      sprintf (nbr, "%d", player[col2plr[i]].lemmings_nbr);
     else if (game_mode >= M_TCASH)
-      sprintf (tmp1, "%d", player[col2plr[i]].cash);
-    draw_text (tmp1, 108 - 10 + decal, 75 + i * 12, 1);
-    sprintf (tmp1, "%d", player[col2plr[i]].score);
-    draw_text (tmp1, 182 - 10 + decal, 75 + i * 12, 1);
-    sprintf (tmp1, "%d", player[col2plr[i]].lifes);
-    draw_text (tmp1, 265 - 10 + decal, 75 + i * 12, 1);
+      sprintf (nbr, "%d", player[col2plr[i]].cash);
+    draw_text (nbr, 108 - 10 + decal, 75 + i * 12, 1);
+    sprintf (nbr, "%d", player[col2plr[i]].score);
+    draw_text (nbr, 182 - 10 + decal, 75 + i * 12, 1);
+    sprintf (nbr, "%d", player[col2plr[i]].lifes);
+    draw_text (nbr, 265 - 10 + decal, 75 + i * 12, 1);
   }
 }
 
@@ -4117,10 +4096,12 @@ static void
 draw_round_info (int decal)
 {
   int i;
-  sprintf (tmp1, txti[61], rounds_nbr_values[opt.gamerounds] - rounds + 1,
+  char info[128];
+
+  sprintf (info, txti[61], rounds_nbr_values[opt.gamerounds] - rounds + 1,
 	   rounds_nbr_values[opt.gamerounds]);
   draw_glenz_box (corner[0] + decal + 22 * xbuf, 1, 320, 6);
-  draw_text_waving (tmp1, 159 + decal, 20, 1);
+  draw_text_waving (info, 159 + decal, 20, 1);
   draw_text (txti[62], 180 + decal, 50, 1);
 
   draw_text (txti[60], 159 + decal, 160, 1);
@@ -4135,12 +4116,12 @@ draw_round_info (int decal)
     copy_rect_4 (main_font_img.buffer + 196 + col2plr[i] * 28 + 72 * 320,
 		 corner[0] + decal + (75 + i * 12) * xbuf + /*25 */ 5, 28,
 		 11);
-    sprintf (tmp1, "%d", player[col2plr[i]].wins);
-    draw_text (tmp1, 108 - 10 + decal, 75 + i * 12, 1);
-    sprintf (tmp1, "%d", player[col2plr[i]].score);
-    draw_text (tmp1, 182 - 10 + decal, 75 + i * 12, 1);
-    sprintf (tmp1, "%d", player[col2plr[i]].lifes);
-    draw_text (tmp1, 265 - 10 + decal, 75 + i * 12, 1);
+    sprintf (info, "%d", player[col2plr[i]].wins);
+    draw_text (info, 108 - 10 + decal, 75 + i * 12, 1);
+    sprintf (info, "%d", player[col2plr[i]].score);
+    draw_text (info, 182 - 10 + decal, 75 + i * 12, 1);
+    sprintf (info, "%d", player[col2plr[i]].lifes);
+    draw_text (info, 265 - 10 + decal, 75 + i * 12, 1);
   }
 }
 
