@@ -45,6 +45,7 @@
 #include "sprrle.h"
 #include "sprtext.h"
 #include "sprprogwav.h"
+#include "sprshade.h"
 #include "sound.h"
 #include "debugmsg.h"
 #include "timer.h"
@@ -111,6 +112,7 @@ static sprite_t* info_mode_next_txt = 0;
 static sprite_t* info_mode_save_txt = 0;
 static sprite_t* info_mode_return_txt = 0;
 static sprite_t* info_round_txt = 0;
+static sprite_t* info_martian[4] = { 0, 0, 0, 0 };
 static sprite_t* higher_scores_txt = 0;
 static sprite_t* jukebox_frame = 0;
 static sprite_t* jukebox_back = 0;
@@ -454,6 +456,13 @@ init_menus_sprites (void)
 					  T_CENTERED, 170, 159);
   info_mode_return_txt = compile_menu_text (txti[60],
 					    T_CENTERED, 160, 159);
+  {
+    int i;
+    for (i = 0; i < 4; ++i)
+      info_martian[i] =
+	compile_sprshade (IMGPOS (main_font_img, 120, 40 + i * 64),
+			  0, 1, glenz[0], 19, 24, main_font_img.width, xbuf);
+  }
   info_round_txt = compile_menu_text (txti[62],
 				      T_CENTERED, 50, 180);
 
@@ -552,6 +561,11 @@ uninit_menus_sprites (void)
   FREE_SPRITE0 (info_mode_return_txt);
   FREE_SPRITE0 (info_round_txt);
   FREE_SPRITE0 (higher_scores_txt);
+  {
+    int i;
+    for (i = 0; i < 4; ++i)
+      FREE_SPRITE0 (info_martian[i]);
+  }
 }
 
 static void
@@ -2141,9 +2155,8 @@ draw_end_level_info (int decal, char l)
 		 corner[0] + decal + (75 + i * 12) * xbuf + /*25 */ 5, 28,
 		 11);
     if (player[col2plr[i]].martians_nbr)
-      copy_rect_transp_shadow (main_font_img.buffer + 120 * 320 + 40 + i * 64,
-			       corner[0] + decal + (69 + i * 12) * xbuf + 35,
-			       24, 19);
+      DRAW_SPRITE (info_martian[i],
+		   corner[0] + decal + (69 + i * 12) * xbuf + 35);
     if (!lines[i][0]) {
       if (game_mode == M_QUEST)
 	sprintf (nbr, "%d", (trail_size[col2plr[i]] + 1) / 5 - 1);

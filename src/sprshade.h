@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------.
-| Copyright 1997, 1998, 2000  Alexandre Duret-Lutz <duret_g@epita.fr>     |
+| Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>                 |
 |                                                                         |
 | This file is part of Heroes.                                            |
 |                                                                         |
@@ -18,33 +18,25 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-#ifndef HEROES__DRAW__H
-#define HEROES__DRAW__H
+#ifndef HEROES__SPRSHADE__H
+#define HEROES__SPRSHADE__H
 
-void draw_text_bonus (const char *text, int posx, int posy, int p);
+/*---------------------------------------------------------------.
+| transparent sprites that use one color key for glenz.  This is |
+| used to draw dollars (with a shadow line), and other small     |
+| objects.                                                       |
+`---------------------------------------------------------------*/
 
-void draw_deck_text (const char *text, int posx, int posy,
-		     char cent);
+#include "sprrle.h"
 
-void copy_rect_transp (const unsigned char *src, unsigned char *dest, int xt,
-		       int yt);
-void copy_rect_transp_red (const unsigned char *src, unsigned char *dest,
-			   int xt, int yt);
-void copy_rect_transp_8 (const unsigned char *src, unsigned char *dest,
-			 int xt, int yt, char coul);
+void draw_sprshade (const sprite_t *sprite, pixel_t *dest);
 
-void copy_rect_4 (const unsigned char *src, unsigned char *dest, int xt,
-		  int yt);
-void copy_rect_2 (const unsigned char *src, unsigned char *dest, int xt,
-		  int yt);
+sprite_t *compile_sprshade (const pixel_t *src, pixel_t transp_color,
+			    pixel_t glenz_color, pixel_t *glenz_line,
+			    unsigned int block_height,
+			    unsigned int block_width,
+			    unsigned int src_width, unsigned int dest_width);
 
-void draw_demo_stick (const pixel_t* dest);
-void aff_buffer (void);
+void free_sprshade (sprite_t *prog);
 
-void init_text_waving_step (void);
-void uninit_text_waving_step (void);
-void update_text_waving_step (void);
-
-extern unsigned char text_waving_step;
-
-#endif /* HEROES__DRAW__H */
+#endif /* HEROES__SPRSHADE__H */

@@ -252,24 +252,3 @@ aff_buffer (void)
   for (i = 200; i > 0; i--, src += xbuf, dest += 320)
     fastmem4 (src, dest, 320 / 4);
 }
-
-void
-copy_rect_transp_shadow (const unsigned char *src, unsigned char *dest,
-			 int xt, int yt)
-{
-  int j, k;
-  for (j = yt; j != 0; j--) {
-    for (k = xt; k != 0; k--) {
-      if (*src != 0) {
-	if (*src == 1)
-	  *dest = glenz[0][*dest];
-	else
-	  *dest = *src;
-      }
-      src++;
-      dest++;
-    }
-    src += 320 - xt;
-    dest += xbuf - xt;
-  }
-}

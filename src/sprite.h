@@ -31,9 +31,9 @@
 /* Different kind of sprites, they are not all used yet.  These values
    should be used *internally* by the sprite handling functions.  */
 enum sprite_kind {
-  //  S_OPAQUE,			/* opaque (yes!) */
+  /* S_OPAQUE, */		/* opaque (yes!) */
   S_RLE,			/* transparant */
-  //  S_RLE_GL,			/* transparant, using a line of glenz */
+  S_RLE_SHADE,			/* transparant, using one line of glenz */
   S_RLE_ZCOL,			/* transparant, using a kind of
   				   color-based z-buffer, for explosions */
   S_PROG,			/* a list of sprites, to draw all at once */
@@ -76,25 +76,42 @@ struct sprite_prog_s {
   sprite_prog_list_t *list;
 };
 
-struct sprite_rle_s {
-  SPRITE_COMMON_MEMBERS;
+#define SPRITE_RLE_MEMBERS						\
+  SPRITE_COMMON_MEMBERS;						\
+									\
+  /* The code of an rle-sprite is a sequence of				\
+       1 u8_t: number m of transparent pixels to skip			\
+       1 u8_t: number n of bytes to write				\
+       n u8_t: actual bytes to write					\
+     The end of a line can be announced using m=0 and n=0,		\
+     and the code MUST terminate by m=0 and n=0.			\
+  */									\
+  u8_t*		code;							\
+									\
+  /* a pointer the byte right after the end of code,			\
+     in order to known where to stop. */				\
+  u8_t*		end_code;						\
+									\
+  /* the number of byte to skip to from the end of a line to the	\
+     beginning of the next one */					\
+  unsigned int	line_skip
 
-  /* The code of an rle-sprite is a sequence of
+struct sprite_rle_s {
+  SPRITE_RLE_MEMBERS;
+};
+
+struct sprite_rle_shade_s {
+  /* shaded sprites reuse the member of RLE, but the code used
+     is extended.  The code of a shaded sprite is a sequence of
        1 u8_t: number m of transparent pixels to skip
        1 u8_t: number n of bytes to write
        n u8_t: actual bytes to write
-     The end of a line can be announced using m=0 and n=0,
-     and the code MUST terminate by m=0 and n=0.
+       1 u8_t: number s of glenz pixels to draw right after
+     The end of a line can be announced using m=0, n=0, and s=0,
+     and the code MUST terminate by m=0, n=0, and s=0.
   */
-  u8_t*		code;
-
-  /* a pointer the byte right after the end of code,
-     in order to known where to stop. */
-  u8_t*		end_code;
-
-  /* the number of byte to skip to from the end of a line to the
-     beginning of the next one */
-  unsigned int	line_skip;
+  SPRITE_RLE_MEMBERS;
+  pixel_t*	glenz;
 };
 
 union sprite_s {
@@ -102,6 +119,7 @@ union sprite_s {
   struct sprite_common_s	all;
   struct sprite_prog_s		prog;
   struct sprite_rle_s		rle;
+  struct sprite_rle_shade_s	shade;
 };
 
 /* generic sprite freeing function, this will dispatch to the right

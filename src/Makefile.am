@@ -114,6 +114,8 @@ sprprog.c \
 sprprog.h \
 sprprogwav.c \
 sprprogwav.h \
+sprshade.c \
+sprshade.h \
 sprtext.c \
 sprtext.h \
 sprzcol.c \

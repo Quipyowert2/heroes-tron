@@ -1,0 +1,132 @@
+/*------------------------------------------------------------------------.
+| Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>                 |
+|                                                                         |
+| This file is part of Heroes.                                            |
+|                                                                         |
+| Heroes is free software; you can redistribute it and/or modify it under |
+| the terms of the GNU General Public License as published by the Free    |
+| Software Foundation; either version 2 of the License, or (at your       |
+| option) any later version.                                              |
+|                                                                         |
+| Heroes is distributed in the hope that it will be useful, but WITHOUT   |
+| ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or   |
+| FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   |
+| for more details.                                                       |
+|                                                                         |
+| You should have received a copy of the GNU General Public License along |
+| with this program; if not, write to the Free Software Foundation, Inc., |
+| 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
+`------------------------------------------------------------------------*/
+
+#include "system.h"
+#include "sprshade.h"
+
+void draw_sprshade (const sprite_t *sprite, pixel_t *dest)
+{
+  pixel_t	*cur = dest;	/* current writting possition */
+  u8_t		*pc;		/* program counter */
+  u8_t		*epc;		/* end of program code */
+
+  assert (sprite->all.kind == S_RLE_SHADE);
+
+  pc = sprite->shade.code;
+  epc = sprite->shade.end_code;
+
+  while (pc < epc) {
+    unsigned m, n;
+    m = *pc++;
+    n = *pc++;
+    if (n == 0 && m == 0 && *pc == 0) {	/* end of line */
+      ++pc;
+      cur += sprite->shade.line_skip;
+    } else {
+      /* skip transparent pixels */
+      cur += m;
+      /* draw the opaque pixels */
+      for (; n; --n)
+	*cur++ = *pc++;		/* FIXME: would an inlined memcpy be better? */
+      /* draw the glenz pixels */
+      for (m = *pc++; m; --m) {
+	*cur = sprite->shade.glenz[*cur];
+	++cur;
+      }
+    }
+  }
+}
+
+sprite_t *compile_sprshade (const pixel_t *src, pixel_t transp_color,
+			    pixel_t glenz_color, pixel_t *glenz_line,
+			    unsigned int block_height,
+			    unsigned int block_width,
+			    unsigned int src_width, unsigned int dest_width)
+{
+  sprite_t* sprite;
+  unsigned int row;
+  unsigned int code_size;
+  u8_t *pc;			/* program counter */
+
+
+  /* In the worst case (start with an opaque pixel and alternate
+     transparant and opaque), we need four bytes to encode two
+     pixels, plus four bytes for the first pixel, and three for the end
+     of line. */
+  code_size = block_height * ((block_width / 2 + 1) * 4 + 3);
+
+  XMALLOC_VAR (sprite);
+  XMALLOC_ARRAY (sprite->shade.code, code_size);
+
+  /* encode the bloc */
+  pc = sprite->shade.code;
+  for (row = block_height; row; --row) {
+    unsigned int m, n, s;
+    const pixel_t *eol = src + block_width; /* end of line */
+
+    /* encode a line */
+    do {
+      /* count the number of transparant pixels */
+      for (m = 0; *src == transp_color && src < eol && m < 255; ++src)
+	++m;
+      /* count the number of opaque pixels */
+      for (n = 0; src[n] != transp_color && src[n] != glenz_color
+	     && src + n < eol && n < 255;)
+	++n;
+
+      /* write the corresponding data */
+      *pc++ = m;
+      *pc++ = n;
+      for (; n; --n)
+	*pc++ = *src++;
+
+      /* count the number of glenz pixels */
+      for (s = 0; *src == glenz_color && src < eol && s < 255; ++src)
+	++s;
+      /* record it */
+      *pc++ = s;
+
+    } while (src < eol);
+    /* output an end of line */
+    *pc++ = 0;
+    *pc++ = 0;
+    *pc++ = 0;
+
+    /* prepare for next line */
+    src += src_width - block_width;
+  }
+
+  sprite->shade.kind = S_RLE_SHADE;
+  sprite->shade.draw = draw_sprshade;
+  sprite->shade.end_code = pc;
+  sprite->shade.line_skip = dest_width - block_width;
+  sprite->shade.glenz = glenz_line;
+
+  assert (pc < sprite->shade.code + code_size);
+
+  return sprite;
+}
+
+void free_sprshade (sprite_t *prog)
+{
+  assert (prog->all.kind == S_RLE_SHADE);
+  free (prog->shade.code);
+  free (prog);
+}

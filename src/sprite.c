@@ -23,6 +23,7 @@
 #include "sprrle.h"
 #include "sprprog.h"
 #include "sprzcol.h"
+#include "sprshade.h"
 
 void
 free_sprite (sprite_t* sprite)
@@ -37,6 +38,9 @@ free_sprite (sprite_t* sprite)
     break;
   case S_RLE_ZCOL:
     free_sprzcol (sprite);
+    break;
+  case S_RLE_SHADE:
+    free_sprshade (sprite);
     break;
   case S_PROG:
   case S_PROG_WAV:

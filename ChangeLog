@@ -1,3 +1,24 @@
+2000-11-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Generalize copy_rect_transp_shadow as a new kind of sprite.
+	Use it to draw the martians.
+
+	* src/sprshade.c: New file.
+	* src/sprshade.h: New file.
+	* src/Makefile.am (heroes_SOURCES): Add them.
+	* src/draw.c (copy_rect_transp_shadow): Remove.
+	* src/draw.h (copy_rect_transp_shadow, copy_32x32_transp_z): Remove.
+	* src/sprite.c (free_sprite): Handle S_RLE_SHADE.
+	* src/sprite.h (sprite_kind): Add S_RLE_SHADE.
+	(sprite_rle_s): Define members in ...
+	(SPRITE_RLE_MEMBERS): ... this macro.
+	(sprite_rle_shade_s): New.
+	(sprite_s): Add shade member.
+
+	* src/menu.c (info_martian): New.
+	(init_menus_sprites, uninit_explosions): Handle it.
+	(draw_end_level_info): Use it.
+
 2000-11-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Declare explosion sprites to explosion.{c,h} using new sprite
