@@ -24,7 +24,6 @@
 #include "debugmsg.h"
 
 #include "prefs.h"		/* FIXME: Get rid of this include. */
-#include "const.h"		/* FIXME: Get rid of this include. */
 
 void
 state_erase_player (a_level_state *state, const a_level *lvl, unsigned i)
@@ -198,10 +197,17 @@ state_reinit_player (a_level_state *state, const a_level *lvl, unsigned p)
     state->player[p].behaviour = rand () & 1;
 
   /* Attach the CPU to one of the human player.  */
-  if (two_players)
-    state->player[p].target = state->col2plr[rand () & 1];
-  else
-    state->player[p].target = state->col2plr[0];
+  {
+    int human_players = 0;
+    int i;
+    for (i = 0; i < 4; ++i)
+      if (state->player[p].cpu & 2)
+	++human_players;
+    /* If there is no human players, attach to any player.  */
+    if (human_players == 0)
+      human_players = 4;
+    state->player[p].target = rand () % human_players;
+  }
 
 /* AI won't be enabled on the first moves */
 #define ia_skip_firsts_moves 2

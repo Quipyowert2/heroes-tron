@@ -1,5 +1,11 @@
 2002-02-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/rules/player.c (state_reinit_player): Determine the possible
+	players to attch to without using the `two_players' variable,
+	i.e., actually counting the number of human player.
+
+2002-02-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/const.c (lemmings_anim_offset, lemmings_move_offset): Move ...
 	* src/render.c (lemmings_anim_offset, lemmings_move_offset): ... here.
 	(draw_level): Update lemmings_move_offset by calling
