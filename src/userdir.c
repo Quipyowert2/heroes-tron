@@ -22,8 +22,7 @@
 #include "userdir.h"
 #include "debugmsg.h"
 #include "errors.h"
-
-#define DIR_NAME ".heroes"
+#include "rsc_files.h"
 
 char* userdir = 0;
 
@@ -36,37 +35,27 @@ exists_dir (char* dir)
   if (err) {
     if (errno == ENOENT) 
       return 0;
-    perror (dir);
+    dperror ("stat");
     return -1;
   }
   if (!S_ISDIR(s.st_mode)) {
-    wmsg ("%s is not a directory.\n", dir);
+    wmsg ("`%s' is not a directory.\n", dir);
     return -1;
   }
   return 1;
 }
 
 
-/* expand ~/.heroes and create that directory, if needed */
+/* create the $(user-dir) directory, if needed */
 int 
 setup_userdir (void)
 {
-  char* home = getenv ("HOME");
-
   dmsg (D_SECTION,"user directory setup");
 
-  if (!home) {
-    wmsg ("No $HOME found in environment, using `.'");
-    home = ".";
-  }
   if (userdir)
     free (userdir);
-  userdir = malloc (strlen (home) + 1 + sizeof (DIR_NAME) + 1);
-  if (!userdir) {
-    wmsg ("Not enough memory.");
-    return 1;
-  }
-  sprintf(userdir, "%s/" DIR_NAME, home);
+
+  userdir = get_non_null_rsc_file ("user-dir");
 
   {
     int err = exists_dir (userdir);
@@ -75,13 +64,14 @@ setup_userdir (void)
       return 1;
     if (err == 0) {
       if (mkdir (userdir, 0700)) {
-	perror ("while creating ~/" DIR_NAME);
+	dperror ("mkdir");
+	wmsg ("Cannot create directory `%s'.", userdir);
 	return 1;
       } else {
-	wmsg ("directory %s/ created.", userdir);      
+	wmsg ("Directory `%s' created.", userdir);
       }
     } else {
-      dmsg (D_SYSTEM, "directory %s/ already exists", userdir);
+      dmsg (D_SYSTEM, "directory `%s' already exists", userdir);
     }
   }
   return 0;
@@ -92,4 +82,5 @@ free_userdir (void)
 {
   dmsg (D_SYSTEM, "free userdir");
   free (userdir);
+  userdir = 0;
 }

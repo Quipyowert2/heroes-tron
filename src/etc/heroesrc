@@ -1,7 +1,13 @@
 #
 # This is a system-wide heroes configuration file
-# (read before user's configuration)
+# (read before any user's configuration)
 #
 
 # Try to get the sound-tracks filename from here:
 soundconf: $(data-dir)/mod/sound.conf
+
+# Uncomment the following lines if you want to share
+# global options, scores or games saves.
+#setrsc: options-file /var/game/heroes/options.dat
+#setrsc: scores-file  /var/game/heroes/scores.dat
+#setrsc: games-file   /var/game/heroes/games.dat

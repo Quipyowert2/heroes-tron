@@ -28,25 +28,19 @@
 #include "keys_heroes.h"
 #include "endian.h"
 #include "debugmsg.h"
+#include "rsc_files.h"
 
 options_t opt;
 char extrasel = 0;
 
-#define CONFIG_FILE "options.dat"
-#if USER_CONFIG_FILE
 static char* name = 0;
-#endif
 
 static char*
 options_file (void)
 {
-#if USER_CONFIG_FILE
   if (!name)
-    name = strcat_alloc (userdir,"/" CONFIG_FILE);
+    name = get_non_null_rsc_file ("options-file");
   return name;
-#else
-  return confdir CONFIG_FILE;
-#endif
 }
 
 void
@@ -156,8 +150,8 @@ void
 free_options (void)
 {
   dmsg (D_MISC, "free options");
-#if USER_CONFIG_FILE
+
   if (name)
     free (name);
-#endif  
+  name = 0;
 }

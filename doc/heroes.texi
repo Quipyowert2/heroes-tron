@@ -130,6 +130,7 @@ Running Heroes
 * Options::                     Heroes launch-time options.
 * Environment::                 Environment variables used by Heroes.
 * heroesrc::                    Heroes configuration file.
+* Global score file::           Sharing a global score file.
 * Game::                        Game rules.
 * Level editor::                How to create new levels.
 * Troubleshooting::             Common problems.
@@ -681,43 +682,6 @@ This is disabled by default.
 Build and install html documentation in directory @samp{DIR}.
 If @samp{DIR} is not given, install in @file{$datadir/heroes/doc}.
 
-@item --disable-user-config
-@cindex --disable-user-config
-Don't use a per-user configuration file, but a system wide file instead.
-This configuration file records keyboard configuration, colors of
-players, speed of the game, volume, etc. (everything that can be
-configured from the OPTIONS menu of the game).  If you save this as a
-global file, you will want to give special rights to that file and to the
-heroes binary so that it can read and write that file whoever ran it;
-this could lead to security issues.
-
-The default is to save those options in @file{~/.heroes/options.dat}, if
-you specify this option they will be saved in
-@file{DATADIR/heroes/txt_cfg/options.dat}.
-
-@item --disable-user-scores
-@cindex --disable-user-scores
-Don't use a per-user scores file, but a system wide file instead.  If
-you save this as a global file, you will want to give special rights to
-that file and to the heroes binary so that it can read and write that
-file whoever ran it; this could lead to security issues.
-
-The default is to save the scores in @file{~/.heroes/scores.dat}, if
-you specify this option they will be saved in
-@file{DATADIR/heroes/txt_cfg/scores.dat}.
-
-@item --disable-user-saves
-@cindex --disable-user-saves
-Don't use a per-user saves file, but a system wide file instead.  This
-file allow people to save their progression in Quest Mode.  There are 10
-save slots.  If you save this as a global file, you will want to give
-special rights to that file and to the heroes binary so that it can read
-and write that file whoever ran it; this could lead to security issues.
-
-The default is to save the games in @file{~/.heroes/savegame.dat}, if
-you specify this option they will be saved in
-@file{DATADIR/heroes/txt_cfg/savegame.dat}.
-
 @end table
 
 @c ======================================================================
@@ -730,6 +694,7 @@ you specify this option they will be saved in
 * Options::                     Heroes launch-time options.
 * Environment::                 Environment variables used by Heroes.
 * heroesrc::                    Heroes configuration file.
+* Global score file::           Sharing a global score file.
 * Game::                        Game rules.
 * Level editor::                How to create new levels.
 * Troubleshooting::             Common problems.
@@ -1032,7 +997,7 @@ Common people don't need to set this variable.  This is only useful if
 you got Heroes as a binary distribution and want to move files around.
 
 @c ======================================================================
-@node    heroesrc, Game, Environment, Running
+@node    heroesrc, Global score file, Environment, Running
 @comment node-name,  next,  previous,  up
 @section @file{~/.heroes/heroesrc}
 @cindex  heroesrc
@@ -1149,9 +1114,30 @@ the following line.
 setrsc: main-font /home/adl/heroes-dev/tmp/fontem.pcx
 @end example
 
+@c ======================================================================
+@node     Global score file, Game, heroesrc, Running
+@comment  node-name,  next,  previous,  up
+@section  Sharing a global score file
+
+In its default configuration, Heroes will create a score file in each
+user's directory.  However you may want to share a global score file for
+many users.  This can easily be done by redefining the filename used by
+Heroes to read and write the score file.  This filename is a resource,
+so it can be overwritten in an @file{heroesrc} configuration file.
+
+If you are the installer of Heroes, you can do this from the
+system wide @file{heroesrc} with a line like the following
+@example
+setrsc: scores-file /var/game/heroes/scores.dat
+@end example
+Creating the needed directory and giving the correct rights to the
+Heroes binaries and the files is left to you.
+
+The same considerations apply to the saved games (@samp{games-file}) and
+the run-time options (@samp{options-file}).
 
 @c ======================================================================
-@node    Game, Level editor, heroesrc, Running
+@node    Game, Level editor, Global score file, Running
 @comment node-name,  next,  previous,  up
 @section Game
 @cindex  game

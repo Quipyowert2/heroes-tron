@@ -12,10 +12,13 @@ editor-preview-prefix,  "$(data-dir)/pics/editp",		0,0
 end-scroller-bg-img,	"$(data-dir)/pics/start.pcx",		0,0
 end-scroller-txt,	"$(data-dir)/txt_cfg/heroes.sdf",	0,0
 extra-levels-dir,	"$(data-dir)/extralvl/",		0,0
+games-file,		"$(user-dir)/savegame.dat",		0,0
+hedlite-output-dir,	"$(user-dir)/levels/",			0,0
 help-font,		"$(data-dir)/pics/fontread.pcx",	0,0
 help-pictures-img,	"$(data-dir)/pics/helpics.pcx",		0,0
 help-txt,		"$(data-dir)/txt_cfg/heroes.hlp",	0,0
 heroesrc-txt,		"$(data-dir)/etc/heroesrc",		0,0
+home-dir,		"",					0,0
 intro-erase-img,	"$(data-dir)/pics/erase.pcx",		0,0
 intro-logos-img,	"$(data-dir)/pics/olympus.pcx",		0,0
 intro-splash-img,	"$(data-dir)/pics/heroes.pcx",		0,0
@@ -27,10 +30,13 @@ levels-dir,		"$(data-dir)/levels/",			0,0
 main-font,		"$(data-dir)/pics/fontem.pcx",		0,0
 menu-pictures-img,	"$(data-dir)/pics/fontem2.pcx",		0,0
 new-level-menu-img,	"$(data-dir)/pics/newlevel.pcx",	0,0
+options-file,		"$(user-dir)/options.dat",		0,0
 purple-bonus-img,	"$(data-dir)/pics/bonusa.pcx",		0,0
+scores-file,		"$(user-dir)/scores.dat",		0,0
 sfx-conf-txt,		"$(data-dir)/sfx/sfx.conf",		0,0
 sfx-dir,		"$(data-dir)/sfx/",			0,0
 text-conf-txt,		"$(data-dir)/txt_cfg/txti.cfg",		0,0
 tiles-sets-dir,		"$(data-dir)/tilesets/",		0,0
 trails-img,		"$(data-dir)/pics/trail.pcx",		0,0
+user-dir,		"$(home-dir)/.heroes",			0,0
 vehicles-img,		"$(data-dir)/pics/vehic.pcx",		0,0

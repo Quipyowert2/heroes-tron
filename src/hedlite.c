@@ -1929,14 +1929,15 @@ create_levels_output_dir (void)
   int error;
 
   if (!levels_output_dir)
-    levels_output_dir = strcat_alloc (userdir, "/" hedlit_output_dir);
+    levels_output_dir = get_non_null_rsc_file ("hedlite-output-dir");
 
   error = exists_dir (levels_output_dir);
   if (error < 0)
     return 1;
   if (error == 0)
     if (mkdir (levels_output_dir, 0755)) {
-      perror (levels_output_dir);
+      dperror (levels_output_dir);
+      wmsg ("Cannot create directory `%s'.", levels_output_dir);
       return 1;
     }
   return 0;
@@ -1948,6 +1949,7 @@ free_levels_output_dir (void)
   if (levels_output_dir) {
     dmsg (D_MISC, "free levels output dir");
     free (levels_output_dir);
+    levels_output_dir = 0;
   }
 }
 

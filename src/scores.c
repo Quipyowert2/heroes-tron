@@ -25,30 +25,23 @@
 #include "userdir.h"
 #include "endian.h"
 #include "debugmsg.h"
+#include "rsc_files.h"
 
 top_score highs[5][10];
 
-#define SCORES_FILE "scores.dat"
-#if USER_SCORES_FILE
 static char* name = 0;
-#endif
 
 static char*
 scores_file (void)
 {
-#if USER_SCORES_FILE
   if (!name)
-    name = strcat_alloc (userdir,"/" SCORES_FILE);
+    name = get_non_null_rsc_file ("scores-file");
   return name;
-#else
-  return scoresdir SCORES_FILE;
-#endif
 }
 
 static int
 cmp_scores (const void *r1, const void *r2)
-{				/*top_score * r1=c1;
-				   top_score * r2=c2; */
+{
   return (((top_score *) r2)->points - ((top_score *) r1)->points);
 }
 
@@ -152,8 +145,8 @@ void
 free_scores (void)
 {
   dmsg (D_MISC, "free scores");
-#if USER_CONFIG_FILE
+
   if (name)
     free (name);
-#endif  
+  name = 0;
 }

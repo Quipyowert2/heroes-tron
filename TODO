@@ -11,12 +11,7 @@ Before 0.7
 
   a few memory leaks can be removed (see BUGS).
 
-  an option should allow to disable warnings from wmsg (and emsg?)
-
   the default installation path on BeOS should not be /usr/local (?)
-
-  repeated slashes (foo//bar) seem to confuse BeOS, the installation
-  is thus broken (see BUGS).
 
 
 Before 1.0.0

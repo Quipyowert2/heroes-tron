@@ -18,7 +18,7 @@
 # 
 # $Id: Makefile.am 1.1 Sat, 13 May 2000 10:51:14 +0200 pollux $
 
-xdir = @etcdir@
+xdir = @datadir@/etc
 x_DATA = heroesrc
 
 EXTRA_DIST = $(x_DATA)

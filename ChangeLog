@@ -1,3 +1,37 @@
+2000-09-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Revise handling of file saved by the game (options, games,
+	scores).  Use resources instead of configure-time option.
+
+	* configure.in: Remove handling of --disable-user-config,
+	--disable-user-scores and --disable-user-saves.  Remove
+	handling of obsolete directories.  Fix help string for
+	heroes-debug and mem-debug.
+	* doc/heroes.texi (Options): Remove documentation of
+	--disable-user-config,--disable-user-scores and --disable-user-saves.
+	(Global score file): New section.
+	* src/hedlite.c (create_levels_output_dir): Use $(hedlite-output-dir).
+	(free_levels_output_dir): Reset freed pointer.
+	* src/hedlite.h (hedlit_output_dir): Remove.
+	* src/heroes.c (main): Set $(home-dir).
+	* src/options.c (options_file): Use $(options-file).
+	(free_options): Reset freed pointer.
+	* src/rsc_files.gperf (games-file,hedlite-output-dir,home-dir,
+	options-file,scores-file,user-dir): New.
+	* src/savegame.c (saves_file): Use $(games-file).
+	(free_save_records): Reset freed pointer.
+	* src/scores.c (scores_file): Use $(scores-file).
+	(free_scores): Reset freed pointer.
+	* src/userdir.c (DIR_NAME): Remove.
+	(exists_dir): Use dperror instead of perror.
+	(setup_userdir): Use $(user-dir).
+	(free_userdir): Reset freed pointer.
+	* src/etc/Makefile.am (xdir): Don't use etcdir.
+	* src/etc/heroesrc: Give example of redefinition of $(options-file),
+	$(scores-file) and $(games-file).
+	* src/txt_cfg/Makefile.am (xdir,ydir): Remove.
+	(zdir): Don't use textdir.
+
 2000-09-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Add option --verbose (same purpose as HEROES_DEBUG).

@@ -4691,6 +4691,20 @@ main (int argc, char *argv[])
       set_rsc_file ("data-dir", datadir);
     }
   }
+  {
+    char* home_dir;
+    dmsg (D_SYSTEM,"looking for HEROES_HOME_DIR, HEROES_HOMEDIR or HOME...");
+    if ((home_dir = getenv ("HEROES_HOME_DIR")) || 
+	(home_dir = getenv ("HEROES_HOMEDIR")) ||
+	(home_dir = getenv ("HOME"))) {
+      dmsg (D_SYSTEM,"... found: %s", home_dir);
+      set_rsc_file ("home-dir", home_dir);
+    } else {
+      dmsg (D_SYSTEM, "... not found.");
+      wmsg ("HOME variable not found in environment, defaulting to `.'");
+      set_rsc_file ("home-dir", ".");
+    }
+  }
 
   init_sound_track_list ();
 

@@ -18,13 +18,7 @@
 # 
 # $Id: Makefile.am 1.2 Thu, 01 Jun 2000 17:30:18 +0200 pollux $
 
-xdir = @scoresdir@
-x_DATA = # scores.dat
-
-ydir = @confdir@
-y_DATA = # options.dat savegame.dat
-
-zdir = @textdir@
+zdir = @datadir@/txt_cfg
 z_DATA = txti.cfg heroes.hlp heroes.sdf
 
-EXTRA_DIST = $(x_DATA) $(y_DATA) $(z_DATA)
+EXTRA_DIST = $(z_DATA)

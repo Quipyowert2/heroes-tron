@@ -27,26 +27,20 @@
 #include "userdir.h"
 #include "endian.h"
 #include "debugmsg.h"
+#include "rsc_files.h"
 
 #define N_MAGICS 40
 saved_game saverec[10];
 unsigned char magics[N_MAGICS];
 
-#define SAVES_FILE "savegame.dat"
-#if USER_SAVES_FILE
 static char* name = 0;
-#endif
 
 static char*
 saves_file (void)
 {
-#if USER_SAVES_FILE
   if (!name)
-    name = strcat_alloc (userdir,"/" SAVES_FILE);
+    name = get_non_null_rsc_file ("games-file");
   return name;
-#else
-  return confdir SAVES_FILE;
-#endif
 }
 
 static void
@@ -189,8 +183,8 @@ void
 free_save_records (void)
 {
   dmsg (D_MISC, "free save records");
-#if USER_CONFIG_FILE
+
   if (name)
     free (name);
-#endif  
+  name = 0;
 }
