@@ -203,15 +203,19 @@ SOURCE=..\src\generic_list.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\gfx_reader.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\src\hedlite.c
 # End Source File
 # Begin Source File
 
 SOURCE=..\src\hedlite.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\helptext.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\helptext.h
 # End Source File
 # Begin Source File
 
@@ -307,6 +311,14 @@ SOURCE=..\src\options.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\src\parafmt.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\parafmt.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\src\pcx.c
 # End Source File
 # Begin Source File
@@ -320,6 +332,14 @@ SOURCE=..\src\pixelize.c
 # Begin Source File
 
 SOURCE=..\src\pixelize.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\readmake.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\readmake.h
 # End Source File
 # Begin Source File
 
@@ -396,6 +416,14 @@ SOURCE=..\src\sound.h
 # Begin Source File
 
 SOURCE=..\src\sprglenz.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\sprglauto.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\sprglauto.c
 # End Source File
 # Begin Source File
 
@@ -488,14 +516,6 @@ SOURCE=..\src\timer.c
 # Begin Source File
 
 SOURCE=..\src\timer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\src\txts.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\src\txts.h
 # End Source File
 # Begin Source File
 

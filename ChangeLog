@@ -1,5 +1,12 @@
 2000-12-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* NEWS: Update for 0.7b.
+	* arch/VisualC/heroes.dsp: Update.
+	* arch/VisualC/config.h: Update.
+	* ANNOUNCE: Prepare for 0.8.
+
+2000-12-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Check for `ln -s'.  Use it to link
 	getopt.h to gnugetopt.h if the former is not found.
 	Don't generate src/txt_cfg/Makefile.

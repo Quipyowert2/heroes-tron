@@ -1,3 +1,10 @@
+Heroes 0.7b	December 18, 2000
+
+	* full rewrite of the help reader
+	* remove the end-scroller
+	* lib/ and m4/ update
+	* the 'txt_cfg/' directory no longer exists
+
 Heroes 0.7a	December 7, 2000
 
 	* use autoconf 2.49b
