@@ -74,7 +74,7 @@ compile_sprtext (const a_fontdata *font, const char *text,
 	offset += font->width[' '];
     } else {
       /* ensure that the letter actually exists before drawing it */
-      if (font->upper_left[UCHAR (*text)])
+      if (font->width[UCHAR (*text)])
 	add_sprprog (compile_sprrle (font->upper_left[UCHAR (*text)], 0,
 				     font->height, font->width[UCHAR (*text)],
 				     font->line_size, xbuf),
@@ -157,14 +157,14 @@ compile_sprtext_color (const a_fontdata *font, const char *text,
     } else {
     compile_letter:
       /* ensure that the letter actually exists before drawing it */
-      if (font->upper_left[UCHAR (*text)])
+      if (font->width[UCHAR (*text)])
 	add_sprprog (compile_sprunish (font->upper_left[UCHAR (*text)], 0,
 				       82, glenz[0], c,
 				       font->height,
 				       font->width[UCHAR (*text)],
 				       font->line_size, xbuf),
 		     offset);
-      offset += font->width[(int)*text];
+      offset += font->width[UCHAR (*text)];
     }
   }
 

@@ -29,6 +29,7 @@ a_fontdata *help_font = 0;
 a_fontdata *deck_font = 0;
 a_fontdata *bonus_font = 0;
 static a_pcx_image help_font_img;
+static a_pcx_image big_font_img;
 
 static void
 initialize_menu_font (void)
@@ -36,23 +37,25 @@ initialize_menu_font (void)
   a_pixel *upl;			/* upper left pixel of the character */
   int ch;			/* current character */
 
+  pcx_load_from_rsc ("big-font", &big_font_img);
+
   XCALLOC_VAR (menu_font);
   menu_font->height = 10;
   menu_font->line_skip = 2;
-  menu_font->line_size = main_font_img.width;
+  menu_font->line_size = big_font_img.width;
 
-  for (ch = ' '; ch <= 'd'; ++ch) {
+  for (ch = ' '; ch <= 255; ++ch) {
     unsigned int width, act_width;
     unsigned int height;
 
-    upl = main_font_img.buffer +
-      ((int) (ch - ' ') % 14) * 22 +
-      ((int) (ch - ' ') / 14) * main_font_img.width * menu_font->height;
+    upl = big_font_img.buffer +
+      ((int) (ch - ' ') % 16) * 22 +
+      ((int) (ch - ' ') / 16) * big_font_img.width * menu_font->height;
 
     /* detect the width of a character */
     for (act_width = width = 0; width < 22; ++width)
       for (height = 0; height < menu_font->height; ++height) {
-	if (upl[width + height * main_font_img.width] != 0) {
+	if (upl[width + height * big_font_img.width] != 0) {
 	  act_width = width + 1;
 	  break;
 	}
@@ -98,11 +101,17 @@ initialize_deck_font (void)
   deck_font->width[' '] = 4;
   deck_font->min_space_width = 2;
 
-  /* link the lower case characters to the upper */
-  for (ch = 'a'; ch <= 'z'; ++ch) {
-    deck_font->upper_left[ch] = deck_font->upper_left[ch - ('a' - 'A')];
-    deck_font->width[ch] = deck_font->width[ch - ('a' - 'A')];
-  }
+#if !DEBUG
+  /* Link the lower case characters to the upper.
+     (We don't do that in debug mode because it's really a bug to
+     rely on such missing characters.)  */
+  for (ch = 'a'; ch <= 'z'; ++ch)
+    if (deck_font->width[ch] == 0)
+      {
+	deck_font->upper_left[ch] = deck_font->upper_left[TOUPPER(ch)];
+	deck_font->width[ch] = deck_font->width[TOUPPER(ch)];
+      }
+#endif
 }
 
 static void
@@ -152,7 +161,7 @@ initialize_help_font (void)
   help_font->line_skip = 1;
   help_font->line_size = help_font_img.width;
 
-  for (ch = ' '; ch <= 127; ++ch) {
+  for (ch = ' '; ch <= 255; ++ch) {
     unsigned int width, act_width;
     unsigned int height;
 
@@ -198,6 +207,7 @@ uninit_fonts (void)
   XFREE0 (deck_font);
   XFREE0 (bonus_font);
   img_free (&help_font_img);
+  img_free (&big_font_img);
 }
 
 unsigned int
@@ -214,7 +224,7 @@ compute_text_width (const a_fontdata *font, const char *text,
 	continue;
     }
     if (!nspaces || *text != ' ')
-      width += font->width[(int) *text];
+      width += font->width[UCHAR (*text)];
     else
       ++ns;
   }
