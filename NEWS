@@ -1,3 +1,14 @@
+Heroes 0.8b	Juanary 11, 2001
+
+	* Cleanup of config.h's #define macros.
+	* Improvement and fixes in Makefiles' maintainer targets.
+	* Update configure options description (manual/README)
+	* configure shaking (continued):
+          New option: --enable-devel
+	  Changed: --enable-debug is now disabled by default
+	* arch/mingw32/: files used to cross-build the MinGW32
+	  package.
+
 Heroes 0.8a	Juanary 1, 2001
 
         * Internationalization of menus and text output.

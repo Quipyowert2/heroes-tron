@@ -6,5 +6,9 @@ package).  aclocal uses these files to create aclocal.m4 which is in turn
 used by autoconf to create the configure script at the the top level in
 this distribution.
 
+The files starting with `h-' are meant to be specific to Heroes
+(precisely, they are just parts of configure.in moved here to to ease
+the reading of configure.in).
+
 The Makefile.am file in this directory is automatically generated
 by tools/genm4mam.sh.
