@@ -45,6 +45,9 @@
   dest+=d;
 
 
+/* temporaly hack until all this get rewritten */
+#define Id(x) (x)
+
 void
 draw_text (const unsigned char *texte, int posx, int posy, char cent)
 {
@@ -53,7 +56,7 @@ draw_text (const unsigned char *texte, int posx, int posy, char cent)
   unsigned char *dest = corner[0] + posx + posy * xbuf;
   const unsigned char *src = texte;
 
-  JUSTIF_CALC (/**/);
+  JUSTIF_CALC (Id);
   for (; *texte != 0; texte++) {
     i = (*texte - font_first_ascii);
     src =
@@ -84,7 +87,7 @@ draw_text_clipped_left (const unsigned char *texte, int posx, int posy,
   int clip = (int) (corner[0] + 0 + posy * xbuf);
   const unsigned char *src = texte;
 
-  JUSTIF_CALC (/**/);
+  JUSTIF_CALC (Id);
   for (; *texte != 0; texte++) {
     i = (*texte - font_first_ascii);
     src =
@@ -116,7 +119,7 @@ draw_text_clipped_right (const unsigned char *texte, int posx, int posy,
   int clip = (int) (corner[0] + 320 + posy * xbuf);
   const unsigned char *src = texte;
 
-  JUSTIF_CALC (/**/);
+  JUSTIF_CALC (Id);
   for (; *texte != 0; texte++) {
     i = (*texte - font_first_ascii);
     src =
@@ -169,7 +172,7 @@ draw_text_waving (const unsigned char *texte, int posx, int posy, char cent)
   const unsigned char *src = texte;
   unsigned char sinl = text_waving_step;
 
-  JUSTIF_CALC (/**/);
+  JUSTIF_CALC (Id);
   for (; *texte != 0; texte++) {
     i = (*texte - font_first_ascii);
     src =

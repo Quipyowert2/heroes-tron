@@ -1,5 +1,13 @@
 2000-09-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Temporaly kluge	hopping to work around MSVC (untested).
+	
+	* src/draw.c (Id): New.
+	(draw_text,draw_text_clipped_left,draw_text_waving,
+	draw_text_clipped_right): Use Id.
+
+2000-09-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Check for sleep.		
 	* src/common.h [HAVE_WINDOWS] [!HAVE_SLEEP]: Use Sleep as a
 	replacement for sleep (untested).

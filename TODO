@@ -11,9 +11,6 @@ Before 0.7
 
   Try to fix the initialization crash on Linux/m68k
 
-  JUSTIF_CALC in draw.c sometimes use tricky empty parameters, this does
-  no work on VC6.0.
-
 
 Before 1.0.0
 ------------
