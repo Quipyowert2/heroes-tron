@@ -24,6 +24,7 @@
 #include "debugmsg.h"
 #include "rsc_files.h"
 #include "fopenlock.h"
+#include "vars.h"
 
 static uid_t sys_uid;
 static gid_t sys_gid;
@@ -45,6 +46,13 @@ init_persona (void)
   user_gid = getgid ();
   print_persona ();
   user_persona ();
+
+  /* Define some variable to indicate the special permission,
+     so we can use conditionnals in the config files.  */
+  if (sys_uid != user_uid || sys_gid != sys_uid) {
+    var_define ("suid-or-sgid", "true");
+    var_define (sys_uid != user_uid ? "suid" : "sgid", "true");
+  }
 }
 
 void

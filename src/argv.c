@@ -29,6 +29,7 @@
 #include "rsc_files_hash.h"
 #include "debughash.h"
 #include "musicfiles.h"
+#include "vars.h"
 
 int cpuon = 1;
 bool nosfx = false;
@@ -95,6 +96,9 @@ Use `-lWORD' or `--list=WORD' where WORD can be:\n\
   } else if (!strcasecmp (word,"sound-tracks-stat") || /* undocumented */
 	     !strcasecmp (word,"sts")) {
     print_sound_track_list_stat ();
+  } else if (!strcasecmp (word,"variables") || /* undocumented yet */
+	     !strcasecmp (word,"vars")) {
+    var_print_all ();
   } else {
     /* Unknown WORD, print usage. */
     list (0);

@@ -67,6 +67,7 @@
 #include "gameid.h"
 #include "persona.h"
 #include "relocate.h"
+#include "vars.h"
 
 char tile_set_name[128];
 char glenz_name[128];
@@ -3623,6 +3624,7 @@ main (int argc, char *argv[])
   dmsg_init (argv[0]);
   dmsg (D_SECTION, "initialization");
 
+  var_initialize ();		/* Needed by init_persona.  */
   init_persona ();
 
   relocate_data ();
@@ -3778,6 +3780,7 @@ main (int argc, char *argv[])
   close_buffers ();
   uninit_sound_engine ();
   uninit_video ();
+  var_uninitialize ();
   uninit_sound_track_list ();
   free_extra_list ();
   free_extra_directories ();

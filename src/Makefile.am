@@ -150,6 +150,8 @@ userconf.c \
 userconf.h \
 userdir.c \
 userdir.h \
+vars.h \
+vars.c \
 visuals.c \
 visuals.h
 
