@@ -1,29 +1,30 @@
-/*------------------------------------------------------------------------.
-| Copyright 1997, 1998, 2000  Alexandre Duret-Lutz <duret_g@epita.fr>     |
-|                                                                         |
-| This file is part of Heroes.                                            |
-|                                                                         |
-| Heroes is free software; you can redistribute it and/or modify it under |
-| the terms of the GNU General Public License as published by the Free    |
-| Software Foundation; either version 2 of the License, or (at your       |
-| option) any later version.                                              |
-|                                                                         |
-| Heroes is distributed in the hope that it will be useful, but WITHOUT   |
-| ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or   |
-| FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   |
-| for more details.                                                       |
-|                                                                         |
-| You should have received a copy of the GNU General Public License along |
-| with this program; if not, write to the Free Software Foundation, Inc., |
-| 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
-`------------------------------------------------------------------------*/
+/*------------------------------------------------------------------.
+| Copyright 1997, 1998, 2000, 2001  Alexandre Duret-Lutz            |
+|                                    <duret_g@epita.fr>             |
+|                                                                   |
+| This file is part of Heroes.                                      |
+|                                                                   |
+| Heroes is free software; you can redistribute it and/or modify it |
+| under the terms of the GNU General Public License as published by |
+| the Free Software Foundation; either version 2 of the License, or |
+| (at your option) any later version.                               |
+|                                                                   |
+| Heroes is distributed in the hope that it will be useful, but     |
+| WITHOUT ANY WARRANTY; without even the implied warranty of        |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU |
+| General Public License for more details.                          |
+|                                                                   |
+| You should have received a copy of the GNU General Public License |
+| along with this program; if not, write to the Free Software       |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA          |
+| 02111-1307 USA                                                    |
+`------------------------------------------------------------------*/
 
 #include "system.h"
 #include "structs.h"
 #include "scores.h"
 #include "misc.h"
 #include "userdir.h"
-#include "bytesex.h"
 #include "debugmsg.h"
 #include "rsc_files.h"
 #include "fopenlock.h"
@@ -65,8 +66,6 @@ clear_scores (void)
     for (j = 0; j < 10; j++) {
       strncpy (highs[i][j].name, "\0", 8);
       highs[i][j].magic = 0;
-      highs[i][j].unused1 = 0;
-      highs[i][j].unused2 = 0;
       highs[i][j].points = (10 - j) * 250;
     }
 }
@@ -137,7 +136,7 @@ load_scores_read (void)
       highs[i][j].points = points;
       highs[i][j].magic = magic;
     } else {
-      strncpy (highs[i][j].name, buf, PLAYER_NAME_SIZE + 1);
+      strncpy (highs[i][j].name, buf + 1, PLAYER_NAME_SIZE + 1);
       chomp (highs[i][j].name);
       magic = 0;
     }

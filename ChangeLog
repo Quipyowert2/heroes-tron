@@ -1,5 +1,14 @@
 2001-03-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/savegame.h: Copyright 2001.
+	* src/savegame.c: Likewise.
+	(load_save_records_read): Skip the initial space in the name.
+	* src/score.c (load_scores_read): Likewise.
+	(clear_scores): Don't set unused attributes.
+	* src/score.h (top_score): Remove unused attributes.
+
+2001-03-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Save the games as text.
 
 	* src/rsc_files.gperf (games-file): Remove.
