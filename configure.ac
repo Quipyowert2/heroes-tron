@@ -67,7 +67,7 @@ AC__GNU_SOURCE
 
 dnl pass a third argument to AC_CHECK_LIB to
 dnl prevent HAVE_LIBM from being defined (we don't need it).
-AC_CHECK_LIB([m], [sin], [:])
+AC_CHECK_LIB([m], [sin], [LIBS="-lm $LIBS"])
 heroes_MEDIALIB_SELECTION
 
 # ================================

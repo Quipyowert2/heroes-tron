@@ -1,5 +1,10 @@
 2001-08-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.ac: Prepend -lm to LIBS if libm is found, this
+	fix a bug introduced on 2001-08-24.
+
+2001-08-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/sys/Makefile.inc (EXTRA_DIST): Add main.h.
 
 2001-08-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
