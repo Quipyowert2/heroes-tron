@@ -1,3 +1,9 @@
+2002-04-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* libltdl/Makefile.am (ACLOCAL_AMFLAGS): New.
+	* libltdl/acinclude.m4: Remove.
+	* m4/ltdl.m4: New file, from CVS Libtool branch-1-4.
+
 2002-04-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/plugins.c (plugins_initialize): Register the preloaded symbols.
