@@ -1,5 +1,20 @@
 2000-10-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Fix warnings from gfx_reader.h.
+
+	* src/endscroll.c (scroll_buffer,page): Use pixel_t*.
+	(colors): Remove.
+	(copy_background,draw_background): Adapt signedness and constness.
+	(end_scroll): Don't free colors.
+	* src/gfx_reader.h: Include scrtools (declare vsynch).
+	(txtptr,strptr): Use u8_t.
+	(copy_rect_transp_help,copy_rect_transp_help_with_glenz,
+	copy_rect_transp_help_full_glenz,draw_text_help): Adapt 
+	signedness and constness.
+	(show_help): Rename glenz into glenz_color.  Fix signedness.
+
+2000-10-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Remove the tmp1 and tmp2 global variables.  Change the hmain
 	prototype.
 

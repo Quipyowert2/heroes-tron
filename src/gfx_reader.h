@@ -29,10 +29,11 @@
 #include "debugmsg.h"
 #include "endian.h"
 #include "fader.h"
+#include "scrtools.h"
 
 static int nbr_lines;
-static unsigned char *txtptr;
-static unsigned char **strptr;
+static u8_t *txtptr;
+static u8_t **strptr;
 static pcx_image_t font_help_img, help_pics_img;
 
 #ifdef SDF
@@ -45,10 +46,10 @@ static pcx_image_t font_help_img, help_pics_img;
 #endif
 
 static void
-copy_rect_transp_help (char *src, int dest, int xt)
+copy_rect_transp_help (const pixel_t *src, int dest, int xt)
 {
   int j, k;
-  char *dest2 = dest + bufhelp + 5 * xbuf;
+  pixel_t* dest2 = bufhelp + 5 * xbuf + dest;
   for (j = 10; j != 0; j--) {
     for (k = xt; k != 0; k--) {
       if (*src != 0)
@@ -62,11 +63,11 @@ copy_rect_transp_help (char *src, int dest, int xt)
 }
 
 static void
-copy_rect_transp_help_with_glenz (unsigned char *src, int dest, int xt)
+copy_rect_transp_help_with_glenz (const pixel_t* src, int dest, int xt)
 {
   int j, k;
-  unsigned char c;
-  unsigned char *dest2 = dest + bufhelp + 5 * xbuf;
+  pixel_t c;
+  pixel_t* dest2 = dest + bufhelp + 5 * xbuf;
   for (j = 10; j != 0; j--) {
     for (k = xt; k != 0; k--) {
       c = *src;
@@ -97,11 +98,11 @@ copy_rect_transp_help_with_glenz (unsigned char *src, int dest, int xt)
 }
 
 static void
-copy_rect_transp_help_full_glenz (unsigned char *src, int dest, int xt, int c)
+copy_rect_transp_help_full_glenz (const pixel_t* src, int dest, int xt, int c)
 {
   int j, k;
-  unsigned char *dest2 = dest + bufhelp + 5 * xbuf;
-  unsigned char *glenzline;
+  pixel_t* dest2 = dest + bufhelp + 5 * xbuf;
+  pixel_t* glenzline;
   glenzline = glenz[c];
 
   for (j = 10; j != 0; j--) {
@@ -117,14 +118,13 @@ copy_rect_transp_help_full_glenz (unsigned char *src, int dest, int xt, int c)
 }
 
 static void
-draw_text_help (unsigned char *texte, int posx, int posy, char cent,
-		int largeur)
+draw_text_help (u8_t *texte, int posx, int posy, char cent, int largeur)
 {
   static const int colorhelp[6] = { 255, 111, 127, 143, 159, 16 };
   int i, j, c, color;
   signed int k, l, d = -1, nbrspc = 0, spclrg = 0;
-  unsigned char *dest = bufhelp + posx + posy * xbuf;
-  unsigned char *src = texte;
+  pixel_t* dest = bufhelp + posx + posy * xbuf;
+  u8_t *src = texte;
   for (; *src != 0; src++)
     if (*src < 128) {
       i = (*src - ' ');
@@ -182,13 +182,13 @@ draw_text_help (unsigned char *texte, int posx, int posy, char cent,
 static void
 show_help (void)
 {
-  unsigned char *src;
+  u8_t *src;
   int justify2, posx, minx, maxx;
   char justify;
   int i;
   char imgalign;
-  signed char glenz = -1;
-  unsigned char *imgsrc;
+  signed char glenz_color = -1;
+  pixel_t *imgsrc;
   int imgxsize;
   int ligne, nextligne = 2, curligne = 20, ldec;
   int t;
@@ -236,12 +236,12 @@ show_help (void)
 	    || *src == 157 || *src == 158 || *src == 159) {
 	  imgalign = (*src) - 137;
 	  src++;
-	  imgsrc = (char *)GETWORD(src);
+	  imgsrc = (u8_t *)GETWORD(src);
 	  src += 4;
 	  imgxsize = GETHALFWORD(src);
 	  src += 2;
 	  src += *src;
-	  if (glenz == -1) {
+	  if (glenz_color == -1) {
 	    if (imgalign == 0) {
 	      copy_rect_transp_help (imgsrc,
 				     (i * 10 - ldec) * xbuf + 5 + minx,
@@ -277,20 +277,20 @@ show_help (void)
 	    if (imgalign == 0 || imgalign == 20) {
 	      copy_rect_transp_help_full_glenz (imgsrc,
 						(i * 10 - ldec) * xbuf + 5 +
-						minx, imgxsize, glenz);
+						minx, imgxsize, glenz_color);
 	      minx += imgxsize;
 	    } else if (imgalign == 2 || imgalign == 22) {
 	      copy_rect_transp_help_full_glenz (imgsrc,
 						(i * 10 - ldec) * xbuf + 6 +
 						maxx - imgxsize, imgxsize,
-						glenz);
+						glenz_color);
 	      maxx -= imgxsize;
 	    } else if (imgalign == 1 || imgalign == 21)
 	      copy_rect_transp_help_full_glenz (imgsrc,
 						(i * 10 - ldec) * xbuf + 5 +
 						((minx + maxx - imgxsize) >>
-						 1), imgxsize, glenz);
-	    glenz = -1;
+						 1), imgxsize, glenz_color);
+	    glenz_color = -1;
 	  }
 	}
 	if (*src == 134)
@@ -310,21 +310,21 @@ show_help (void)
 	if (*src == 130)
 	  justify2 = maxx - minx;
 	if (*src == 160)
-	  glenz = 7;
+	  glenz_color = 7;
 	if (*src == 161)
-	  glenz = 2;
+	  glenz_color = 2;
 	if (*src == 162)
-	  glenz = 3;
+	  glenz_color = 3;
 	if (*src == 163)
-	  glenz = 4;
+	  glenz_color = 4;
 	if (*src == 164)
-	  glenz = 5;
+	  glenz_color = 5;
 	if (*src == 165)
-	  glenz = 6;
+	  glenz_color = 6;
 	if (*src == 166)
-	  glenz = 0;
+	  glenz_color = 0;
 	if (*src == 167)
-	  glenz = 1;
+	  glenz_color = 1;
 	src++;
       }
       if (justify == 0)

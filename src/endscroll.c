@@ -29,11 +29,9 @@
 
 #define XBUF 128
 #define YBUF 324
-static char *scroll_buffer;
-static char *page;
+static pixel_t *scroll_buffer;
+static pixel_t *page;
 static unsigned int *jumps;
-static char *colors;
-/* static int nbrsauts; */
 
 static pcx_image_t background_img;
 
@@ -52,8 +50,8 @@ static void
 copy_background (void)
 {
   int i;
-  char *dest = scroll_buffer;
-  char *src = background_img.buffer;
+  pixel_t *dest = scroll_buffer;
+  const pixel_t *src = background_img.buffer;
 
   for (i = 108; i != 0; i--) {
     fastmem4 (src, dest, 128 / 4);
@@ -68,8 +66,8 @@ static void
 draw_background (int x, int y)
 {
   int i;
-  char *dest = page + 320 * 10;
-  char *src = scroll_buffer + x + y * XBUF;
+  pixel_t *dest = page + 320 * 10;
+  const pixel_t *src = scroll_buffer + x + y * XBUF;
 
   for (i = 200; i != 0; i--) {
     fastmem4 (src, dest, 320 / 4);
@@ -102,11 +100,6 @@ int fr = 1;
 void
 end_scroll (void)
 {
-  /* signed char p; */
-  /* int t; */
-  /* FILE* aux; */
-  /* char flag; */
-
   scroll_buffer = malloc (XBUF * YBUF);
   page = malloc (320 * 220);
   if (scroll_buffer == NULL || page == NULL)
@@ -120,5 +113,4 @@ end_scroll (void)
   free (page);
   free (scroll_buffer);
   free (jumps);
-  free (colors);
 }
