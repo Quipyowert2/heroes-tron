@@ -2499,8 +2499,7 @@ help_menu (void)
     curmult += ((top << MULT_SHIFT) - curmult) / 8;
 
     draw_reader_data (help_text, corner[0] - 10 * xbuf,
-		      curmult >> MULT_SHIFT, (curmult >> MULT_SHIFT) + 340);
-
+		      curmult >> MULT_SHIFT, (curmult >> MULT_SHIFT) + 220);
     vsynch ();
     aff_buffer ();
 

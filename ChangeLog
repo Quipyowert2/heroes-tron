@@ -1,5 +1,10 @@
 2000-12-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/menus.c (help_menu): Draw only 220 row, no 340! This
+	caused segfaults, of course.
+
+2000-12-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Bug fix, --without-mikmod should
 	really disable libmikmod checks.
 
