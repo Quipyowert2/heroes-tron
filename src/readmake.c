@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------.
-| Copyright 2000, 2001  Alexandre Duret-Lutz <duret_g@epita.fr>           |
+| Copyright 2000, 2001, 2002  Alexandre Duret-Lutz <duret_g@epita.fr>     |
 |                                                                         |
 | This file is part of Heroes.                                            |
 |                                                                         |
@@ -96,39 +96,90 @@ readtok (char **src)
   return _src;
 }
 
-
 /* default margins */
 #define DEF_LM	5
 #define DEF_RM	315
 
-/* FIXME: get rid of this, use dynamically allocated buffers */
-#define MAX_LINES	64
+typedef struct a_margin_list_item a_margin_list_item;
+struct a_margin_list_item {
+  int lm;			    /* left margin */
+  int rm;			    /* right margin */
+  a_margin_list_item *next;	    /* pointer to next item in list */
+};
 
+typedef struct a_margin_list a_margin_list;
+struct a_margin_list {
+  int glm;			    /* global left margin */
+  int lines;			    /* Number of lines we track margins for */
+  a_margin_list_item *first, *last;  /* pointers to first and last list item */
+};
+
+/* Inititalize margin list and default item.  */
 static void
-compute_widths (a_width *wid, const int *lm, const int *rm, int glm)
+init_margins (a_margin_list *margins)
 {
-  unsigned int line;
-  /* compute widths */
-  for (line = 0; line < MAX_LINES; ++line)
-    wid[line] = rm[line] - lm[line] - glm;
-  /* put a 0 where the widths start to be equal */
-  for (line = MAX_LINES - 2; line > 1; --line)
-    if (wid[line] != wid[line - 1])
-      break;
-  wid[line + 1] = 0;
+  XMALLOC_VAR (margins->first);
+  margins->last = margins->first;
+  margins->first->next = 0;
+  margins->first->lm = DEF_LM;
+  margins->first->rm = DEF_RM;
+  margins->lines = 1;
 }
 
-static void
-shift_margins (int *lm, int *rm)
+/* add (lm, rm) to the list of line margins.  */
+static a_margin_list_item*
+add_margin (a_margin_list *margins, int lm, int rm)
 {
-  unsigned int line;
-  /* shift the margin array */
-  for (line = 0; line + 1 < MAX_LINES; ++line) {
-    lm[line] = lm[line + 1];
-    rm[line] = rm[line + 1];
+  XMALLOC_VAR (margins->last->next);
+  margins->last = margins->last->next;
+  margins->last->next = 0;
+  margins->last->lm = lm;
+  margins->last->rm = rm;
+  margins->lines++;
+  return margins->last;
+}
+
+/* Remove margin list from memory.  */
+static void
+free_margins (a_margin_list *margins)
+{
+  while (margins->first) {
+    margins->last = margins->first;
+    margins->first = margins->first->next;
+    free (margins->last);
   }
-  lm[line] = DEF_LM;
-  rm[line] = DEF_RM;
+  margins->first = margins->last = 0;
+  margins->lines = 0;
+}
+
+/* Set wid with the computed width of each line in margins.  */
+static void
+compute_widths (a_margin_list *margins, a_width *wid)
+{
+  a_margin_list_item *m;
+  a_width *w;
+  if (!margins->first)
+    init_margins (margins);
+  m = margins->first;
+  w = wid;
+  while (m) {
+    *w++ = m->rm - m->lm - margins->glm;
+    m = m->next;
+  }
+  *w = 0;	/* end of array marker */
+}
+
+static void	/* progress one line */
+shift_margins (a_margin_list *margins)
+{
+  a_margin_list_item *m = margins->first;
+  margins->first = margins->first->next;
+  free (m);
+  margins->lines--;
+  /* The while loops in compile_reader_data needs this
+     for their abort conditions. */
+  if (!margins->first)
+    init_margins (margins);
 }
 
 static void
@@ -140,29 +191,21 @@ flag_error (int flag, const char *cmd)
 a_read_data *
 compile_reader_data (a_read_data *head, const char *str)
 {
-  int lm[MAX_LINES];		/* left margin */
-  int glm;			/* global left margin */
-  int rm[MAX_LINES];		/* right margin */
-  a_width wid[MAX_LINES];	/* width (= rm - lm) */
+  a_margin_list margins;
+  a_width *wid = 0;		/* array of linewidths (= rm - lm) */
   char *curstr;
   char *curstr_allocated;
-  int line;
   int voffset = 0;
   a_pcx_image help_pics_img;
 
   pcx_load_from_rsc ("help-pictures-img", &help_pics_img);
-
-  /* initilialize lm and rm */
-  for (line = 0; line < MAX_LINES; ++line) {
-    lm[line] = DEF_LM;
-    rm[line] = DEF_RM;
-  }
+  init_margins (&margins);
 
   while (*str) {
     const char *start;
     enum text_option topt = T_JUSTIFIED;
 
-    glm = 0;
+    margins.glm = 0;
 
     /* get a line */
     start = str;
@@ -192,8 +235,9 @@ compile_reader_data (a_read_data *head, const char *str)
 	bool gl = false;
 	bool redgl = false;
 	int offset = 0;
-	int i, j;
-	for (;*flags ;++flags) {
+	a_margin_list_item *m;
+	int i;
+	for (; *flags; ++flags) {
 	  switch (*flags) {
 	  case 'B':
 	    bg = true;
@@ -205,19 +249,28 @@ compile_reader_data (a_read_data *head, const char *str)
 	    redgl = true;
 	    break;
 	  case 'C':		/* centered */
-	    offset = glm + lm[0] + (rm[0] - glm - lm[0] - w) / 2;
+	    m = margins.first;
+	    offset = margins.glm + m->lm + (m->rm-margins.glm-m->lm-w) / 2;
 	    break;
 	  case 'R':		/* right */
-	    offset = rm[0] - w;
+	    offset = margins.first->rm - w;
+	    m = margins.first;
 	    if (!bg)
-	      for (j = 0, i = h; i > 0; i -= 10, ++j)
-		rm[j] -= w;
+	      for (i = h; i > 0; i -= 10) {
+		m->rm = offset;
+		if (!(m = m->next))
+		  m = add_margin (&margins, DEF_LM, DEF_RM);
+	      }
 	    break;
 	  case 'L':		/* left */
-	    offset = glm + lm[0];
+	    offset = margins.glm + margins.first->lm;
+	    m = margins.first;
 	    if (!bg)
-	      for (j = 0, i = h; i > 0; i -= 10, ++j)
-		lm[j] += w;
+	      for (i = h; i > 0; i -= 10) {
+		m->lm = offset - margins.glm + w;
+		if (!(m = m->next))
+		  m = add_margin (&margins, DEF_LM, DEF_RM);
+	      }
 	    break;
 	  case 'V':
 	    offset -= (h - 10) / 2 * xbuf;
@@ -305,7 +358,7 @@ compile_reader_data (a_read_data *head, const char *str)
 	goto next_line;
       } else {
 	if (cmd[0] == '>') {
-	  glm += 5 * strlen (cmd);
+	  margins.glm += 5 * strlen (cmd);
 	}
       }
     }
@@ -314,13 +367,14 @@ compile_reader_data (a_read_data *head, const char *str)
     if (!*curstr) {
       do {
 	voffset += xbuf * (help_font->line_skip + help_font->height);
-	shift_margins (lm, rm);
-      } while (lm[0] != DEF_LM || rm[0] != DEF_RM);
+	shift_margins (&margins);
+      } while (margins.first->lm != DEF_LM || margins.first->rm != DEF_RM);
       goto next_line;
     }
 
     /* format the paragraph */
-    compute_widths (wid, lm, rm, glm);
+    XMALLOC_ARRAY (wid, margins.lines + 1);
+    compute_widths (&margins, wid);
     {
       char **p = parafmt_var (curstr, help_font->width, wid,
 			      help_font->min_space_width);
@@ -328,8 +382,7 @@ compile_reader_data (a_read_data *head, const char *str)
 
       while (*l) {
 	int offset;
-
-	compute_widths (wid, lm, rm, glm);
+	compute_widths (&margins, wid);
 
 	if (!l[1] && (topt & T_JUSTIFIED) == T_JUSTIFIED)
 	  topt = T_FLUSHED_LEFT;
@@ -337,13 +390,14 @@ compile_reader_data (a_read_data *head, const char *str)
 	switch (topt) {
 	case T_FLUSHED_LEFT:
 	case T_JUSTIFIED:
-	  offset = glm + lm[0];
+	  offset = margins.glm + margins.first->lm;
 	  break;
 	case T_FLUSHED_RIGHT:
-	  offset = rm[0];
+	  offset = margins.first->rm;
 	  break;
 	case T_CENTERED:
-	  offset = glm + lm[0] + (rm[0] - glm - lm[0]) / 2;
+	  offset = margins.glm + margins.first->lm +
+	    (margins.first->rm - margins.glm - margins.first->lm) / 2;
 	  break;
 	default:
 	  assert (0);
@@ -355,18 +409,20 @@ compile_reader_data (a_read_data *head, const char *str)
 				 voffset, false);
 	voffset += xbuf * (help_font->line_skip + help_font->height);
 	++l;
-	shift_margins (lm, rm);
+	shift_margins (&margins);
       }
+      free (wid);
       free_pararray (p);
 
-      while (lm[0] != DEF_LM || rm[0] != DEF_RM) {
+      while (margins.first->lm != DEF_LM || margins.first->rm != DEF_RM) {
 	voffset += xbuf * (help_font->line_skip + help_font->height);
-	shift_margins (lm, rm);
+	shift_margins (&margins);
       }
     }
   next_line:
     free (curstr_allocated);
   }
+  free_margins (&margins);
   img_free (&help_pics_img);
   return head;
 }
