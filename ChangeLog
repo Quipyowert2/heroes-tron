@@ -1,5 +1,11 @@
 2000-07-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.in: Ensure that -DNDEBUG gets added to CFLAGS even
+	when the user has specified its own CFLAGS (unless
+	--enable-debug).
+
+2000-07-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* doc/heroes.texi (Overview): Rewords the description of the game
 	using Daniel Burrow's input.
 	* README: Likewise.

@@ -354,6 +354,10 @@ dnl Setup the correct compiler options whether the
 dnl user enabled debug or not.  (Adapted from Zsh's configure.in)
 dnl =============================================================
 
+if test "x${enable_debug}" != xyes && test -n "$GCC"; then
+  CFLAGS="$CFLAGS -DNDEBUG"
+fi
+
 if test -n "$auto_cflags"; then
   if test "x${enable_debug}" = xyes; then
     if test -n "$GCC"; then
@@ -363,7 +367,7 @@ if test -n "$auto_cflags"; then
     fi
   else
     if test -n "$GCC"; then
-      CFLAGS="$CFLAGS -DNDEBUG -ffast-math -fstrict-aliasing -fomit-frame-pointer -O3"
+      CFLAGS="$CFLAGS -ffast-math -fstrict-aliasing -fomit-frame-pointer -O3"
     else
       CFLAGS="$CFLAGS -O"
     fi
