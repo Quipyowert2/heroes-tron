@@ -735,14 +735,14 @@ the following list shows the driver which was used.
 
 @table @asis
 @item Linux/i386 (SDL or GGI)
-Should build out of the box.  Packages for Debian and Red Hat
+Should build out of the box.  Packages for some Linux distributions
 are available from the web pages.
 
 @cartouche
 Red Hat 7.0 users, the compiler shipped with your distribution (packaged
 as @samp{gcc-2.96-54.i386.rpm}) is an experimental version which is
 still @emph{bugged} despite the pile of fixes applied.  It actually
-produces unfaithful code for Heroes, so wplease use another compiler.
+produces unfaithful code for Heroes, so please use another compiler.
 Either upgrade to a new version (@samp{gcc-2.96-64.i386.rpm} is known to
 work) or use the one provided by the @samp{kgcc} package.
 @end cartouche
@@ -779,11 +779,11 @@ to use the result of @samp{sdl-config --static-libs} instead of
 @samp{sdl-config --libs}.
 
 @item IRIX 6.5 (SDL)
-Heroes 0.7 has been reported to compile and runs with SDL 1.1.3 and
+Heroes 0.7 has been reported to compile and run with SDL 1.1.3 and
 @samp{gcc} + libraries from @samp{freeware.sgi.com} on IRIX 6.5.
 
 @item BeOS (SDL)
-Heroes 0.9 has been reported to compile and runs out of the box.
+Heroes 0.9 has been reported to compile and run out of the box.
 
 @end table
 
@@ -1294,7 +1294,7 @@ everybody would be allowed to damage the file.
 A cleaner idea is to create a special user or group to own that file,
 and grant @samp{heroes} the appropriate rights (set-user-id or
 set-group-id).  Setting @samp{heroes} as a set-user-id program is
-a security, because if someone manage to get @samp{heroes} to execute
+a security problem, because if someone manage to get @samp{heroes} to execute
 arbitrary code, he can have the game overwriting itself.  So the correct
 solution is to set @samp{heroes} as a set-group-id program, and make the
 score file writable only by that group.  At worse, if someone manage
@@ -1315,16 +1315,16 @@ Note that @file{/var/games/heroes} is not writable by group @samp{games},
 so you have to create the file @samp{scores} before Heroes can use it.
 
 When @samp{heroes} is run as a set-group-id or set-user-id program, it
-execute some code to drop this privilege as more as possible.
-Basically, it will revert its effective-group-id and effective-user-id
-to the player's group-id and user-id on startup and only switch back to
-it's file-group-id and file-user-id when it needs to write to a file in
-the @samp{$(sys-dir)} directory.  This is what the @samp{$(sys-dir)}
+executes some code to drop this privilege whenever possible.  Basically,
+it will revert its effective-group-id and effective-user-id to the
+player's group-id and user-id on startup and only switch back to it's
+file-group-id and file-user-id when it needs to write to a file in the
+@samp{$(sys-dir)} directory.  This is what the @samp{$(sys-dir)}
 resource is for: a file which is beyond that directory is opened with
-the file-group&user-id (i.e. group `games' in the above example),
-any other file is opened using the player's groups&user-id.  The visible
-consequence is that files created in the @samp{~/.heroes} directory
-won't be owned by group @samp{games} (or whatever you chose).
+the file-group&user-id (i.e. group `games' in the above example), any
+other file is opened using the player's group(s) and user-id.  The
+visible consequence is that files created in the @samp{~/.heroes}
+directory won't be owned by group @samp{games} (or whatever you chose).
 
 Finally, note that Heroes does keep track of how a resource has been
 setup, and wont switch persona when @samp{$(sys-dir)} or
