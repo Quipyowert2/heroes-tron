@@ -1,5 +1,10 @@
 2000-08-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/intro.c (play_intro): Set a black palette in ONE call,
+	not 768!
+ 
+2000-08-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
+ 
 	Add a dperror, a wrapper to perror.
 
 	* src/debugmsg.c [DEBUG] (dmsg): Use progname.

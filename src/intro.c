@@ -325,8 +325,8 @@ play_intro (void)
       set_pal ((char *) &temppal, 0, 768);
     }
   }
-  for (i = 0; i < 768; i++)
-    set_color (i, 0, 0, 0);
+  memset ((char *) &pal, 0, 768);  
+  set_pal ((char *) &pal, 0, 768);
   free (erase_data);
   unload_soundtrack ();
   while (key_or_joy_ready ())
