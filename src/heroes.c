@@ -32,7 +32,6 @@
 #include "savegame.h"
 #include "intro.h"
 #include "menus.h"
-#include "draw.h"
 #include "extras.h"
 #include "visuals.h"
 #include "render.h"

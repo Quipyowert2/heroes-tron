@@ -23,7 +23,6 @@
 #include "renderdata.h"
 #include "const.h"
 #include "heroes.h"
-#include "draw.h"
 #include "sfx.h"
 #include "txts.h"
 #include "argv.h"

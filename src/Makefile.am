@@ -39,8 +39,6 @@ debugmsg.c \
 debugmsg.h \
 display.c \
 display.h \
-draw.c \
-draw.h \
 endian.h \
 endscroll.c \
 endscroll.h \

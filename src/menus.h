@@ -40,6 +40,7 @@ void editor_first_menu (void);
 
 
 extern sprite_t *saverec_name[10];
+extern sprite_t *player_logo[4];
 void draw_saved_games_info (int decal, int l, bool save);
 
 void jukebox_menu (void);

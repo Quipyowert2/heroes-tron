@@ -23,7 +23,6 @@
 #include "const.h"
 #include "options.h"
 #include "fastmem.h"
-#include "draw.h"
 #include "render.h"
 #include "argv.h"
 #include "timer.h"
@@ -33,6 +32,7 @@
 #include "explosions.h"
 #include "items.h"
 #include "sprglenz.h"
+#include "menus.h"
 
 char tutor = 0;
 static sprite_t *clock_anim;
@@ -761,8 +761,7 @@ draw_logo_info (int c, int nbr, pixel_t* dest)
     }
     for (x = 50; x != 0; x--)
       *src++ = glenz[0][*src];
-    copy_rect_4 (main_font_img.buffer + 196 + c * 28 + 72 * 320,
-		 dest + xbuf + 21, 28, 11);
+    DRAW_SPRITE (player_logo[c], dest + xbuf + 21);
 
     src = main_font_img.buffer + 50 * 320 + (nbr / 10) * 10;
     for (y = 11; y != 0; y--) {
@@ -799,8 +798,7 @@ draw_logo_info (int c, int nbr, pixel_t* dest)
     }
     for (x = 60; x != 0; x--)
       *src++ = glenz[0][*src];
-    copy_rect_4 (main_font_img.buffer + 196 + c * 28 + 72 * 320,
-		 dest + xbuf + 31, 28, 11);
+    DRAW_SPRITE (player_logo[c], dest + xbuf + 31);
 
     src = main_font_img.buffer + 50 * 320 + (nbr / 100) * 10;
     for (y = 11; y != 0; y--) {

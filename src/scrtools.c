@@ -117,3 +117,16 @@ clear_scr_area (pixel_t *dest)
     dest += xbuf;
   }
 }
+
+void
+aff_buffer (void)
+{
+  unsigned row;
+  const pixel_t *src = corner[0];
+  pixel_t *dest = screen;
+  for (row = 200; row; --row) {
+    fastmem4 (src, dest, 320/4);
+    src += xbuf;
+    dest += 320;
+  }
+}

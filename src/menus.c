@@ -25,7 +25,6 @@
 #include "keyb.h"
 #include "keys_heroes.h"
 #include "keysdef.h"
-#include "draw.h"
 #include "heroes.h"
 #include "structs.h"
 #include "extras.h"
@@ -130,7 +129,7 @@ static sprite_t* radar_ico[2] = { 0, 0 };
 static sprite_t* infos_ico[2] = { 0, 0 };
 static sprite_t* inertia_ico[2] = { 0, 0 };
 static sprite_t* luminance_ico[7] = { 0, 0, 0, 0, 0, 0, 0 };
-static sprite_t* player_logo[4] = { 0, 0, 0, 0}; /* for end level info */
+sprite_t* player_logo[4] = { 0, 0, 0, 0}; /* for end level info and game */
 static sprite_t* player_ico[4] = { 0, 0, 0, 0}; /* for menus */
 static sprite_t* speed_ico[5] = { 0, 0, 0, 0, 0};
 static sprite_t* deck_digits[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };

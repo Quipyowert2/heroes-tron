@@ -23,7 +23,6 @@
 
 #include "sprite.h"
 #include "sprprog.h"
-#include "draw.h"
 #include "const.h"
 
 /*-------------------------------------------------------------------.

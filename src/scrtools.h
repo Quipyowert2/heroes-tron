@@ -32,4 +32,6 @@ void copy_scr_area (const pixel_t *src, pixel_t *dest);
 void copy_image_to_scr_area (const pcx_image_t *src, pixel_t *dest);
 void clear_scr_area (pixel_t *dest);
 
+void aff_buffer (void);
+
 #endif /* HEROES__SCRTOOLS__H */

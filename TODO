@@ -27,9 +27,6 @@ Maybe left for 0.8
 Before 0.8
 ----------
 
-  draw.c and draw.h should disappear, and be replaced by the sprtext.h
-  interface.
-
   txts.c, txts.h, and txti.cfg should be removed, the strings are
   better hardcoded in the source (use `_()' empty macros to prepare
   for gettext).
