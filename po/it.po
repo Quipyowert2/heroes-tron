@@ -12,6 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1\n"
 
 #: lib/error.c:117
 msgid "Unknown system error"
@@ -102,7 +103,6 @@ msgstr ""
 "o LA RISPOSTA AD UNO SCOPO PRECISO."
 
 #: src/argv.c:71
-#, fuzzy
 msgid ""
 "Use `-lWORD' or `--list=WORD' where WORD can be:\n"
 "  debug                 display all debugging channels\n"
@@ -112,10 +112,11 @@ msgid ""
 "  sound-tracks\t\tprint the sound track list"
 msgstr ""
 "Usa `-lWORD' oppure `--list=WORD' dove WORD può essere:\n"
-"  debug \t\tmostra i canali di debugging\n"
-"  resources \t\telenca le risorse\n"
-"  sound-drivers \telenca i driver sonori\n"
-"  sond-tracks\t\telenca le tracce sonore"
+"  debug            mostra i canali di debugging\n"
+"  preferences      visualizza le preferenze\n"
+"  resources        elenca le risorse\n"
+"  sound-drivers    elenca i driver sonori\n"
+"  sond-tracks      elenca le tracce sonore"
 
 #: src/argv.c:112
 #, c-format
@@ -405,6 +406,50 @@ msgid ""
 "\n"
 "\n"
 msgstr ""
+"\n"
+"%{img C 444 0 40 320}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"%{center}%pUsa le frecce per muoverti.\n"
+"\n"
+"%{head 1}CONTROLLI & INDICATORI\n"
+"\n"
+"%{img BC 357 55 80 205}\n"
+"%{textat cL -9 -81}%yPAUSA\n"
+"%{textat cR -9 97}%yESCI\n"
+"%{textat cR 26 -62}%yCONTROLLI\n"
+"%{textat cL 30 74}%ySTOP\n"
+"%{textat cL 52 68}%yTURBO\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"%{img BCG 486 0 140 320}\n"
+"%{textat cR -7 -82}%yPUNTEGGIO\n"
+"%{textat cR 1 8}%yCOMMENTI\n"
+"%{textat cL 16 29}%yHEROES\n"
+"%{textat cL 33 29}%yMURI\n"
+"%{textat cL 55 29}%yBONUS\n"
+"%{textat cL 29 -102}%yVITE\n"
+"%{textat cL 51 -109}%yTURBO\n"
+"%{textat cL 72 -104}%yTEMPO\n"
+"%{textat cR 96 40}%yCOLORE DEL GIOCATORE\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
 
 #: src/helptext.c:72
 msgid ""
@@ -749,6 +794,7 @@ msgstr "FERMATO %d"
 msgid "LAST LIFE"
 msgid_plural "%d LIVES LEFT"
 msgstr[0] "ULTIMA VITA"
+msgstr[1] "%d VITE RIMASTE"
 
 #: src/heroes.c:3147
 msgid "Error during level loading"
@@ -1157,7 +1203,7 @@ msgid "HIGHER SCORES"
 msgstr "PUNTEGGI MIGLIORI"
 
 #: src/menus.c:1233
-#, fuzzy, c-format
+#, c-format
 msgid "%d ROUND"
 msgid_plural "%d ROUNDS"
 msgstr[0] "%d ROUND"
@@ -1212,52 +1258,52 @@ msgstr "Impossibile aprire %s"
 
 #: src/people.c:39
 msgid "%{center}You owe this game to the following people"
-msgstr ""
+msgstr "%{center}Questo gioco e' merito delle seguenti persone"
 
 #: src/people.c:41
 msgid "Authors\n"
-msgstr ""
+msgstr "Autori\n"
 
 #: src/people.c:49
 msgid "Contributors\n"
-msgstr ""
+msgstr "Contributori\n"
 
 #: src/people.c:55
 msgid "Translators\n"
-msgstr ""
+msgstr "Traduttori\n"
 
 #: src/people.c:58
 msgid "German"
-msgstr ""
+msgstr "Tedesco"
 
 #: src/people.c:61
 msgid "Dutch"
-msgstr ""
+msgstr "Olandese"
 
 #: src/people.c:64
 msgid "Italian"
-msgstr ""
+msgstr "Italiano"
 
 #: src/people.c:67
 msgid "French"
-msgstr ""
+msgstr "Francese"
 
 #: src/people.c:71
 msgid "Packagers\n"
-msgstr ""
+msgstr "Pacchettizzatori\n"
 
 #: src/people.c:80
 msgid "Porters\n"
-msgstr ""
+msgstr "Chi ha fatto il port\n"
 
 #: src/people.c:87
 msgid "Other people we wish to thanks\n"
-msgstr ""
+msgstr "Altre persone che vorremmo ringraziare\n"
 
 #: src/readmake.c:138
 #, c-format
 msgid "Unknown option '%c' for command '%s'."
-msgstr ""
+msgstr "Opzione sconosciuta '%c' per il comando '%s'."
 
 #: src/relocate.c:71
 msgid "HOME variable not found in environment, defaulting to `.'"
@@ -1274,6 +1320,15 @@ msgid ""
 "HEROES_DEBUG=system to see what files Heroes is looking after.\n"
 "If none of this helps, contact <heroes-bugs@lists.sourceforge.net>\n"
 msgstr ""
+"Sembra che il gioco no sia correttamente installato.\n"
+"Forse il file dati non e' stato installato con le stesse opzioni "
+"di configurazione dell'eseguibile, o forse il file dati e' stato\n"
+"spostato altrove.\n"
+"Nel secondo caso probabilmente e' sufficiente impostare la variabile\n"
+"di ambiente HEROES_PREFIX con la nuova posizione. Puoi inoltre impostare\n"
+"HEROES_DEBUG=system per vedere quali file Heroes ricerca.\n"
+"Se nulla di tutto cio' e' di aiuto, contattate:\n"
+"<heroes-bugs@lists.sourceforge.net>\n"
 
 #: src/rsc_files.c:32
 #, c-format
@@ -1296,24 +1351,24 @@ msgid "%s: empty resource"
 msgstr "%s: risorsa vuota"
 
 #: src/savegame.c:77 src/scores.c:91
-#, fuzzy, c-format
+#, c-format
 msgid "cannot write %s"
-msgstr "Impossibile aprire %s"
+msgstr "Impossibile salvare %s"
 
 #: src/savegame.c:83 src/scores.c:97
 #, c-format
 msgid "%s: truncate error"
-msgstr ""
+msgstr "%s: errore di troncamento"
 
 #: src/savegame.c:113
 #, c-format
 msgid "%s:%d: parse error.  Clearing saved-games table."
-msgstr ""
+msgstr "%s:%d: errore di analisi. Cancello l'elenco delle partite salvate."
 
 #: src/scores.c:135
 #, c-format
 msgid "%s:%d: parse error.  Clearing score table."
-msgstr ""
+msgstr "%s:%d: errore di analisi. cancello la tabella dei punteggi."
 
 #: src/sfx.c:148
 #, c-format
