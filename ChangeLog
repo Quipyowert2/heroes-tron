@@ -1,5 +1,16 @@
 2000-11-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/menus.c (load_select_txt, save_select_txt, savrec_name): New.
+	(init_menus_sprites, uninit_menus_sprites): handle the above sprites.
+	(draw_saved_games_info): Use them. Rename and retype 3rd arg.
+	* src/menus.h (draw_saved_games_info): Change 3rd arg.
+	(saverec_name): Export.
+	* src/heroes.c (play_menu, play_game): Adapt calls to
+	draw_saved_games_info.
+	(play_game): Clear saverec_name[l] when needed.
+
+2000-11-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/const.h (two_players): Declare as boolean.
 	* src/const.c (two_players): Likewise.
 	* src/heroes.c: Adapt all most refences to two_players.

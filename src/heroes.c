@@ -1207,7 +1207,7 @@ play_menu (void)
       std_white_fadein (&tile_set_img.palette);
       do {
 	background_menu ();
-	draw_saved_games_info (0, u, 0);
+	draw_saved_games_info (0, u, false);
 	vsynch ();
 	aff_buffer ();
 	if (key_or_joy_ready ()) {
@@ -1246,7 +1246,7 @@ play_menu (void)
       draw_play_menu (l);
     else {
       background_menu ();
-      draw_saved_games_info (0, u, 0);
+      draw_saved_games_info (0, u, false);
     }
     flip_pos = -read_htimer (flip_timer);
     if (flip_pos < -256)
@@ -3689,16 +3689,16 @@ play_game (char cont)
 	editflag = 0;
 	do {
 	  if (two_players == false) {
-	    draw_saved_games_info (0, l, 1);
+	    draw_saved_games_info (0, l, true);
 	    vsynch ();
 	    aff_buffer ();
 	  } else {
 	    pixel_t *tmp;
 
 	    tmp = corner[0];
-	    draw_saved_games_info (swapside ? -160 : 0, l, 1);
+	    draw_saved_games_info (swapside ? -160 : 0, l, true);
 	    corner[0] = corner[1];
-	    draw_saved_games_info (swapside ? 0 : -160, l, 1);
+	    draw_saved_games_info (swapside ? 0 : -160, l, true);
 	    corner[0] = tmp;
 	    vsynch ();
 	    display_two_buffers ();
@@ -3718,10 +3718,11 @@ play_game (char cont)
 		((l > 0) ? (l--) : (l = 9));
 		event_sfx (120);
 	      }
-	      if (t == 0x0e7f) {
+	      if (t == 0x0e7f) { /* FIXME: chose a keysym to use */
 		saverec[l].used = 0;
 		saverec[l].name[0] = 0;
 		event_sfx (128);
+		FREE_SPRITE0 (saverec_name[l]); /* force recompilation */
 	      }
 	      if (t == HK_Enter) {
 		editflag = 1;
@@ -3730,6 +3731,7 @@ play_game (char cont)
 		saverec[l].name[pos] = '^';
 		saverec[l].name[pos + 1] = 0;
 		event_sfx (125);
+		FREE_SPRITE0 (saverec_name[l]); /* force recompilation */
 	      }
 	      if (t == HK_Escape)
 		event_sfx (123);
@@ -3745,23 +3747,24 @@ play_game (char cont)
 		  saverec[l].name[pos] = '^';
 		  saverec[l].name[pos + 1] = 0;
 		  event_sfx (121);
+		  FREE_SPRITE0 (saverec_name[l]); /* force recompilation */
 		}
 	      if ((t == HK_BackSpace || t == HK_Delete) && (pos > 1)) {
 		saverec[l].name[pos - 1] = 0;
 		saverec[l].name[pos - 2] = '^';
 		event_sfx (122);
-	      }
-	      if (t == 0x1c0a) {
+		FREE_SPRITE0 (saverec_name[l]); /* force recompilation */
+	      } else if (t == 0x1c0a) { /* FIXME: chose a keysym to use */
 		saverec[l].name[pos - 1] = 0;
 		event_sfx (127);
 		editflag = 2;
-	      }
-	      if (t == HK_Escape) {
+		FREE_SPRITE0 (saverec_name[l]); /* force recompilation */
+	      } else if (t == HK_Escape) {
 		strcpy (saverec[l].name, tmpname);
 		event_sfx (123);
 		editflag = 2;
-	      }
-	      if (t == HK_Enter) {
+		FREE_SPRITE0 (saverec_name[l]); /* force recompilation */
+	      } else if (t == HK_Enter) {
 		saverec[l].name[pos - 1] = 0;
 		saverec[l].level = current_quest_level /*+1 */ ;
 /*                saverec[l].questmode=questmode; */
@@ -3773,6 +3776,7 @@ play_game (char cont)
 		saverec[l].used = 1;
 		editflag = 0;
 		event_sfx (124);
+		FREE_SPRITE0 (saverec_name[l]); /* force recompilation */
 	      }
 	    }
 	  }

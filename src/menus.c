@@ -96,6 +96,9 @@ static sprite_t* playmenu_players_txt[2] = { 0, 0 };
 static sprite_t* playmenu_goback_txt = 0;
 static sprite_t* playmenu_load_txt = 0;
 static sprite_t* gamemode_txt[5] = { 0, 0, 0, 0, 0 };
+static sprite_t* load_select_txt = 0;
+static sprite_t* save_select_txt = 0;
+sprite_t* saverec_name[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 static sprite_t* jukebox_frame = 0;
 static sprite_t* jukebox_back = 0;
@@ -407,6 +410,11 @@ init_menus_sprites (void)
     for (i = 0; i < 5; ++i)
       gamemode_txt[i] = compile_menu_text (mode_name[i], T_CENTERED, 0, 159);
   }
+  /* saved game selection */
+  save_select_txt = compile_menu_text (txti[185],
+				       T_CENTERED|T_WAVING, 10, 159);
+  load_select_txt = compile_menu_text (txti[186],
+				       T_CENTERED|T_WAVING, 10, 159);
 }
 
 void
@@ -480,6 +488,13 @@ uninit_menus_sprites (void)
     int i;
     for (i = 4; i >= 0; --i)
       FREE_SPRITE0 (gamemode_txt[i]);
+  }
+  FREE_SPRITE0 (load_select_txt);
+  FREE_SPRITE0 (save_select_txt);
+  {
+    int i;
+    for (i = 0; i < 10; ++i)
+      FREE_SPRITE0 (saverec_name[i]);
   }
 }
 
@@ -1693,20 +1708,20 @@ editor_first_menu (void)
 }
 
 void
-draw_saved_games_info (int decal, int l, char h)
+draw_saved_games_info (int decal, int l, bool save)
 {
   int i;
   char c;
-  if (h)
-    draw_text_waving (txti[185], 159 + decal, 15, 1);
 
+  if (save)
+    DRAW_SPRITE (save_select_txt, corner[0] + decal);
   else
-    draw_text_waving (txti[186], 159 + decal, 15, 1);
+    DRAW_SPRITE (load_select_txt, corner[0] + decal);
+
   for (i = 0; i < 10; i++) {
     if (saverec[i].used != 0) {
       if ((in_menu == 0) && (saverec[i].magic == game_magic))
 	c = 5;
-
       else
 	c = 3;
     } else
@@ -1714,8 +1729,12 @@ draw_saved_games_info (int decal, int l, char h)
     draw_glenz_box (corner[0] + decal + (40 + i * 14) * xbuf + 2 * xbuf, c,
 		    320, 6);
   }
-  for (i = 0; i < 10; i++)
-    draw_text (saverec[i].name, 159 + decal, 40 + i * 14, 1);
+  for (i = 0; i < 10; i++) {
+    if (!saverec_name[i])
+      saverec_name[i] = compile_menu_text (saverec[i].name,
+					   T_CENTERED, 40 + i * 14, 159);
+    DRAW_SPRITE (saverec_name[i], corner[0] + decal);
+  }
 
   DRAW_SPRITE (left_arrow, corner[0] + decal + (35 + l * 14) * xbuf + 1);
   DRAW_SPRITE (right_arrow,

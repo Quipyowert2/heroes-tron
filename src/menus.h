@@ -38,7 +38,9 @@ void draw_main_menu (int l);
 void draw_quit_menu (int l);
 void editor_first_menu (void);
 
-void draw_saved_games_info (int decal, int l, char h);
+
+extern sprite_t *saverec_name[10];
+void draw_saved_games_info (int decal, int l, bool save);
 
 void jukebox_menu (void);
 void pause_menu (void);
