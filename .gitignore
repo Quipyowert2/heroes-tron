@@ -19,3 +19,5 @@ ABOUT-NLS
 AUTHORS
 THANKS
 autom4te.cache
+*.patch
+.deps

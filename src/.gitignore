@@ -18,3 +18,4 @@ debugchn.h
 debughash.gperf
 keysdefs-inc.h
 people.c
+parafmt-check
