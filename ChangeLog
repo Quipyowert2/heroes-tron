@@ -1,5 +1,12 @@
 2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/const.c (icons_img, jukebox_img): Remove.
+	* src/const.h (icons_img, jukebox_img): Remove.
+	* src/heroes.c (main): Don't handle icons_img and jukebox_img here ...
+	* src/menus.c (init_menus_sprites): ... but do it there.
+
+2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/const.c (trailimg): Remove.
 	* src/const.h (trailimg): Remove.
 	* src/heroes.c (main): Don't handle trailimg here ...

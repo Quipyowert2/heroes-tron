@@ -3835,9 +3835,7 @@ main (int argc, char *argv[])
   init_bonuses ();
 
   pcx_load_from_rsc ("main-font", &main_font_img);
-  pcx_load_from_rsc ("menu-pictures-img", &icons_img);
   pcx_load_from_rsc ("vehicles-img", &vehicles_img);
-  pcx_load_from_rsc ("jukebox-img", &jukebox_img);
   pcx_load_from_rsc ("jukebox-font", &font_deck_img);
 
   init_fonts ();
@@ -3872,9 +3870,7 @@ main (int argc, char *argv[])
   free_htimer (blink_htimer);
 
   img_free (&font_deck_img);
-  img_free (&jukebox_img);
   img_free (&vehicles_img);
-  img_free (&icons_img);
   img_free (&main_font_img);
   free_all_sfx ();
   close_sfx_handle ();

@@ -248,6 +248,11 @@ free_menu (menu_t *menu)
 void
 init_menus_sprites (void)
 {
+  pcx_image_t icons_img, jukebox_img;
+
+  pcx_load_from_rsc ("menu-pictures-img", &icons_img);
+  pcx_load_from_rsc ("jukebox-img", &jukebox_img);
+
   lemming_htimer = new_htimer (T_GLOBAL, HZ (18));
 
   left_arrow = compile_sprrle (IMGPOS (main_font_img, 50, 134), 0,
@@ -554,6 +559,8 @@ init_menus_sprites (void)
   /* higher scores */
   higher_scores_txt = compile_menu_text (txti[10],
 					 T_CENTERED|T_WAVING, 10, 159);
+  img_free (&icons_img);
+  img_free (&jukebox_img);
 }
 
 void
