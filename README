@@ -300,13 +300,13 @@ architectures.  Since Heroes can use SDL or GGI as display driver, the
 following list shows the driver which was used.
 
 Linux/i386 (SDL or GGI)
-     Should build out of the box.  Packages for Debian and Red Hat are
-     available from the web pages.
+     Should build out of the box.  Packages for some Linux distributions
+     are available from the web pages.
 
      Red Hat 7.0 users, the compiler shipped with your distribution
      (packaged as `gcc-2.96-54.i386.rpm') is an experimental version
      which is still _bugged_ despite the pile of fixes applied.  It
-     actually produces unfaithful code for Heroes, so wplease use
+     actually produces unfaithful code for Heroes, so please use
      another compiler.  Either upgrade to a new version
      (`gcc-2.96-64.i386.rpm' is known to work) or use the one provided
      by the `kgcc' package.
@@ -343,11 +343,11 @@ NetBSD (SDL)
      of `sdl-config --libs'.
 
 IRIX 6.5 (SDL)
-     Heroes 0.7 has been reported to compile and runs with SDL 1.1.3 and
+     Heroes 0.7 has been reported to compile and run with SDL 1.1.3 and
      `gcc' + libraries from `freeware.sgi.com' on IRIX 6.5.
 
 BeOS (SDL)
-     Heroes 0.9 has been reported to compile and runs out of the box.
+     Heroes 0.9 has been reported to compile and run out of the box.
 
    If you got Heroes working on a platform which is not listed here,
 please send a notice to <heroes-discuss@lists.sourceforge.net>.

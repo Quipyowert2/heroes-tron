@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.9\n"
-"POT-Creation-Date: 2001-05-08 14:11+0200\n"
+"POT-Creation-Date: 2001-05-21 09:15+0200\n"
 "PO-Revision-Date: 2001-03-18 18:27GMT\n"
 "Last-Translator: Hermann J. Beckers <beckers@st-oneline.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -293,6 +293,72 @@ msgstr "UNBESIEGBAR!"
 #: src/bonus.c:387
 msgid "EXTRA-LIFE!"
 msgstr "EXTRA-LEBEN!"
+
+#: src/debughash.c:93 src/debughash.gperf:45
+msgid "all messages"
+msgstr "Alle Meldungen"
+
+#: src/debughash.c:94 src/debughash.gperf:49
+msgid "files and directories handling"
+msgstr "Datei- und Verzeichnisbehandlung"
+
+#: src/debughash.c:95 src/debughash.gperf:50
+msgid "levels handling"
+msgstr "Ebenenbearbeitung"
+
+#: src/debughash.c:96 src/debughash.gperf:47
+msgid "system related messages"
+msgstr "Systembezogene Meldungen"
+
+#: src/debughash.c:98 src/debughash.gperf:48
+msgid "filename resources handling"
+msgstr "Datei-Ressourcen-Bearbeitung"
+
+#: src/debughash.c:99 src/debughash.gperf:56
+msgid "miscellaneous events"
+msgstr "sonstige Ereignisse"
+
+#: src/debughash.c:100 src/debughash.gperf:58
+msgid "bonus"
+msgstr "Bonus"
+
+#: src/debughash.c:101 src/debughash.gperf:51
+msgid "sound track events"
+msgstr "Klang-Ereignisse"
+
+#: src/debughash.c:102 src/debughash.gperf:46
+msgid "different parts of the game"
+msgstr "verschiedene Teile des Spieles"
+
+#: src/debughash.c:103 src/debughash.gperf:54
+msgid "joystick initialization"
+msgstr "Joystick-Initialisierung"
+
+#: src/debughash.c:105 src/debughash.gperf:55
+msgid "timer handling"
+msgstr "Zeitgeber-Bearbeitung"
+
+#: src/debughash.c:107 src/debughash.gperf:57
+msgid "palette fade events"
+msgstr "Paletten-Ereignisse"
+
+#: src/debughash.c:109 src/debughash.gperf:52
+msgid "sound effects events"
+msgstr "Klangeffekt-Ereignisse"
+
+#: src/debughash.c:111 src/debughash.gperf:53
+msgid "communication with the display driver"
+msgstr "Kommunikation mit dem Bildschirmtreiber"
+
+#: src/debughash.c:161 src/debughash.gperf:87
+#, c-format
+msgid "%s: no such channel, assuming you meant '%s'."
+msgstr "%s: Kein solcher Kanal, ich vermute, Du meinst '%s'."
+
+#: src/debughash.c:164 src/debughash.gperf:90
+#, c-format
+msgid "%s: no such channel (--list=debug will list all known channels)"
+msgstr "%s: Kein solcher Kanal (--list=debug zeigt alle bekannten Kanaele an)"
 
 #. FIXME: ask to send a bug report with a trace
 #: src/display.c:353
@@ -731,43 +797,43 @@ msgstr "Fehler %d beim Level-Laden"
 msgid "Error %d occured while loading level %s"
 msgstr "Fehler %d beim Laden von Level %s"
 
-#: src/heroes.c:2122
+#: src/heroes.c:2121
 #, c-format
 msgid "INVERTED %d"
 msgstr "invertiert %d"
 
-#: src/heroes.c:2153
+#: src/heroes.c:2152
 #, c-format
 msgid "STOPPED %d"
 msgstr "gestoppt %d"
 
 #. TRANS: %d, the number of remaining lives, is always
 #. positive.
-#: src/heroes.c:2440
+#: src/heroes.c:2439
 msgid "LAST LIFE"
 msgid_plural "%d LIVES LEFT"
 msgstr[0] "Letztes Leben"
 
-#: src/heroes.c:3147
+#: src/heroes.c:3146
 msgid "Error during level loading"
 msgstr "Fehler beim Level-Laden"
 
-#: src/heroes.c:3187
+#: src/heroes.c:3186
 #, c-format
 msgid "-LEVEL %d-"
 msgstr "-LEVEL %d-"
 
-#: src/heroes.c:3189
+#: src/heroes.c:3188
 #, c-format
 msgid "-ROUND %d/%d-"
 msgstr "-Runde %d/%d-"
 
-#: src/heroes.c:3584
+#: src/heroes.c:3583
 #, c-format
 msgid "Cannot open %s."
 msgstr "Kann %s nicht oeffnen."
 
-#: src/heroes.c:3699
+#: src/heroes.c:3708
 msgid "error in sfx.cfg"
 msgstr "Fehler in sfx.cfg"
 
@@ -1255,11 +1321,11 @@ msgstr ""
 msgid "Unknown option '%c' for command '%s'."
 msgstr ""
 
-#: src/relocate.c:71
+#: src/relocate.c:72
 msgid "HOME variable not found in environment, defaulting to `.'"
 msgstr "Variable HOME nicht gesetzt, Fehlwert '.'."
 
-#: src/relocate.c:175
+#: src/relocate.c:184
 msgid ""
 "It looks like the game is not correctly installed.\n"
 "Maybe the data files have not been installed with the same configure "
@@ -1291,22 +1357,22 @@ msgstr "%s: Null-Ressource"
 msgid "%s: empty resource"
 msgstr "%s: Ressource leer"
 
-#: src/savegame.c:77 src/scores.c:91
+#: src/savegame.c:91 src/scores.c:104
 #, fuzzy, c-format
 msgid "cannot write %s"
 msgstr "Kann %s nicht oeffnen"
 
-#: src/savegame.c:83 src/scores.c:97
+#: src/savegame.c:96 src/scores.c:108
 #, c-format
 msgid "%s: truncate error"
 msgstr ""
 
-#: src/savegame.c:113
+#: src/savegame.c:124
 #, c-format
 msgid "%s:%d: parse error.  Clearing saved-games table."
 msgstr ""
 
-#: src/scores.c:135
+#: src/scores.c:148
 #, c-format
 msgid "%s:%d: parse error.  Clearing score table."
 msgstr ""
@@ -1421,72 +1487,6 @@ msgstr "%s:%d: Ressourcen-Name fehlt"
 #, c-format
 msgid "%s:%d: unknown keyword `%s'"
 msgstr "%s:%d: unbekanntes Schluesselwort `%s'"
-
-#: src/debughash.gperf:45
-msgid "all messages"
-msgstr "Alle Meldungen"
-
-#: src/debughash.gperf:46
-msgid "different parts of the game"
-msgstr "verschiedene Teile des Spieles"
-
-#: src/debughash.gperf:47
-msgid "system related messages"
-msgstr "Systembezogene Meldungen"
-
-#: src/debughash.gperf:48
-msgid "filename resources handling"
-msgstr "Datei-Ressourcen-Bearbeitung"
-
-#: src/debughash.gperf:49
-msgid "files and directories handling"
-msgstr "Datei- und Verzeichnisbehandlung"
-
-#: src/debughash.gperf:50
-msgid "levels handling"
-msgstr "Ebenenbearbeitung"
-
-#: src/debughash.gperf:51
-msgid "sound track events"
-msgstr "Klang-Ereignisse"
-
-#: src/debughash.gperf:52
-msgid "sound effects events"
-msgstr "Klangeffekt-Ereignisse"
-
-#: src/debughash.gperf:53
-msgid "communication with the display driver"
-msgstr "Kommunikation mit dem Bildschirmtreiber"
-
-#: src/debughash.gperf:54
-msgid "joystick initialization"
-msgstr "Joystick-Initialisierung"
-
-#: src/debughash.gperf:55
-msgid "timer handling"
-msgstr "Zeitgeber-Bearbeitung"
-
-#: src/debughash.gperf:56
-msgid "miscellaneous events"
-msgstr "sonstige Ereignisse"
-
-#: src/debughash.gperf:57
-msgid "palette fade events"
-msgstr "Paletten-Ereignisse"
-
-#: src/debughash.gperf:58
-msgid "bonus"
-msgstr "Bonus"
-
-#: src/debughash.gperf:87
-#, c-format
-msgid "%s: no such channel, assuming you meant '%s'."
-msgstr "%s: Kein solcher Kanal, ich vermute, Du meinst '%s'."
-
-#: src/debughash.gperf:90
-#, c-format
-msgid "%s: no such channel (--list=debug will list all known channels)"
-msgstr "%s: Kein solcher Kanal (--list=debug zeigt alle bekannten Kanaele an)"
 
 #~ msgid ""
 #~ "\n"

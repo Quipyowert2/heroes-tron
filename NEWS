@@ -1,3 +1,23 @@
+Heroes 0.10b	May 21, 2001
+
+	* Open the global score/saved-game file once the game start,
+	  drop all privileges immediately afterward, and keep the file open
+	  until exit; instead of opening them many time, and switching
+	  persona for each opening.
+	* Bug fixes:
+	  - Misc. errors in documentation.
+	  - Fix display of the bottommost line in the `waves' effect.
+	  - Two typos in code that prevent compilation on non-Unix systems.
+	  - Build intl/ before other subdirectories so that libintl.h
+	    is available if needed.
+	  - Fix relocation process under MinGW by
+	     o supporting semicolon-separated PATHs
+	     o supporting \ as a directory separator
+	     o stripping trailing slashes before stat()ing directories
+	  - Heroes is now aware that gettext installs locales into
+	    $datadir/locale rather that $prefix/share/locale.  See the
+	    comment in m4/h-path.m4 for details.
+
 Heroes 0.10a	May 8, 2001
 
 	* This version requires heroes-data-1.0a.
@@ -31,7 +51,7 @@ Heroes 0.9b	May 2, 2001
 Heroes 0.9a	April 21, 2001
 
 	* German translations.
-	* Support for system-wide score/save(/preferences) files,
+	* Support for system-wide score&save files,
 	  this includes:
 	  - file locking
 	  - handling of process persona (when Heroes has the sgid or suid bits)

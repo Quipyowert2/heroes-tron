@@ -1,3 +1,9 @@
+2001-05-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.in: Bump version number to 0.10b.
+	* NEWS: Update for 0.10b.
+	* HACKING: Update fetish files.
+
 2001-05-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/etc/heroesrc (soundconf): Don't say preferences can be global.
