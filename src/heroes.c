@@ -1181,7 +1181,7 @@ play_menu (void)
       if (t == HK_Enter)
 	flagload = 1;
     }
-  } while (l == 0 || /*l==5 || l==6 || */ (l == 6 && flagload == 0));
+  } while (l == 0 || (l == 6 && flagload == 0));
   event_sfx (9);
 
   flip_timer = new_htimer (T_GLOBAL, HZ (280));
@@ -1210,9 +1210,9 @@ play_menu (void)
     if (l == 1 )
       game_mode = M_QUEST;
     else if (l == 2)
-      game_mode = M_KILLEM;
-    else if (l == 3)
       game_mode = M_DEATHM;
+    else if (l == 3)
+      game_mode = M_KILLEM;
     else if (l == 4)
       game_mode = M_TCASH;
     else if (l == 5)

@@ -1,5 +1,10 @@
 2000-11-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/heroes.c (play_menu): Reverse M_DEATHM and M_KILLEM selection
+	since their name are swaped in draw_play_menu.
+
+2000-11-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/items.c: New file.
 	* src/items.h: New file.
 	* src/Makefile.am: Add them.
