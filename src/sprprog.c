@@ -71,8 +71,8 @@ static sprite_prog_list_t* prog = 0;
 static sprite_prog_list_t** last = 0;
 
 /* we need to save these two state, to allow recursive calls */
-NEW_LIST (prog, sprite_prog_list_t*, STD_EQUAL, NULL_DESTRUCTOR);
-NEW_LIST (last, sprite_prog_list_t**, STD_EQUAL, NULL_DESTRUCTOR);
+NEW_LIST (prog, sprite_prog_list_t*, STD_EQUAL, free);
+NEW_LIST (last, sprite_prog_list_t**, STD_EQUAL, free);
 prog_list_t prog_save = 0;
 last_list_t last_save = 0;
 
@@ -123,4 +123,5 @@ free_sprprog (sprite_t *sprite)
     free (list);
     list = next;
   }
+  free (sprite);
 }
