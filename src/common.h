@@ -151,4 +151,17 @@
 int strcasecmp (const char *s1, const char *s2);
 #endif
 
+/* Define S_ISDIR if it isn't already defined in sys/stat.h */
+#if defined(S_IFDIR) && !defined(S_ISDIR)
+# define S_ISDIR(mode) (((mode) & S_IFMT) == S_IFDIR)
+#endif
+
+/* Re-define S_ISDIR if the native implementation is broken. According to
+   the autoconf info-file this is the case for Tektronix UTekV, Amdahl UTS
+   and Motorola System V/88 */
+#if defined(STAT_MACROS_BROKEN)
+# undef S_ISDIR
+# define S_ISDIR(mode) (((mode) & S_IFMT) == S_IFDIR)
+#endif
+
 #endif /* HEROES__COMMON__H */

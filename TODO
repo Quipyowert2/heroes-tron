@@ -23,8 +23,6 @@ Before 0.7
 
   Rewrite sleep() for lib/.
 
-  Check for S_ISDIR, what should be done if absent?
-
   generic_list.h: *_clear should be given a pointer to the cell destructor
   to be useful.
 

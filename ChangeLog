@@ -1,3 +1,11 @@
+2000-09-14  Uwe Hermann  <uh1763@bingo-ev.de>
+
+	* configure.in: Added AC_HEADER_STAT which defines STAT_MACROS_BROKEN
+	if S_ISDIR etc. are broken.
+	* TODO: Removed item about absent S_ISDIR.
+	* src/common.h: Define/re-define S_ISDIR in the native
+	implementation is broken or not existing.
+
 2000-09-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/display.c (init_video): Enable SDL_QUIT events.
