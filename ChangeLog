@@ -1,3 +1,11 @@
+2001-09-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/media/allegro/video.c (screen_rv): New variable.
+	(init_video_low, uninit_video_low, vsynchro_low,
+	vsynchro2_low):	Use it.
+	(set_pal): Fix buffer overrun.
+	(set_pal_entry): Supply p.filter value to suppress compiler warning.
+
 2001-09-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/media/README: New file.

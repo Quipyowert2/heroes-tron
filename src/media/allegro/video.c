@@ -29,6 +29,8 @@
 static int scr_w, scr_h;	/* rendering buffer width and height */
 static int scr_stretch;
 
+BITMAP *screen_rv;	/* Rendering buffer.  */
+
 void
 set_display_params (const char *str)
 {
@@ -70,6 +72,8 @@ init_video_low (int stretch_, int *pitch)
   *pitch = VIRTUAL_W;
 
   dmsg (D_VIDEO, "video mode is %dx%d",	SCREEN_W, SCREEN_H);
+
+  screen_rv = create_bitmap (SCREEN_W, SCREEN_H);
 }
 
 void
@@ -77,13 +81,14 @@ uninit_video_low (void)
 {
   dmsg (D_VIDEO, "setup text mode");
   set_gfx_mode (GFX_TEXT, 0, 0, 0, 0);
+  destroy_bitmap (screen_rv);
 }
 
 void
 set_pal_entry (unsigned char c,
 	       unsigned char r, unsigned char g, unsigned char b)
 {
-  RGB p = { r, g, b };
+  RGB p = { r, g, b, 0 };
   dmsg (D_VIDEO, "set color %d=(%d,%d,%d)", c, r, g, b);
   set_color (c, &p);
 }
@@ -93,12 +98,11 @@ set_pal (const unsigned char *ptr, int p, int n)
 {
   PALETTE pal;
   int i;
-  for (i = 0; i < 768; ++i) {
+  for (i = 0; i < 256; ++i) {
     pal[i].r = *ptr++;
     pal[i].g = *ptr++;
     pal[i].b = *ptr++;
   }
-  dmsg (D_VIDEO, "%d %d", p, n);
   dmsg (D_VIDEO, "set %d colors (%d - %d)", n/3, p/3, p/3 + n/3 - 1);
   set_palette_range (pal, p/3, p/3 + n/3 - 1, 0);
 }
@@ -107,10 +111,10 @@ void
 vsynchro_low (const pixel_t *s, copy_function_t f)
 {
   acquire_screen ();
-  bmp_select (screen);
+  bmp_select (screen_rv);
+  f (s, screen_rv->line[0], 320);
   vsync ();
-  dmsg (D_VIDEO, "%p", screen->line[0]);
-  f (s, screen->line[0], 320);
+  blit (screen_rv, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
   release_screen ();
 }
 
@@ -118,9 +122,10 @@ void
 vsynchro2_low (const pixel_t *s1, const pixel_t *s2, copy_function_t f)
 {
   acquire_screen ();
-  bmp_select (screen);
+  bmp_select (screen_rv);
+  f (s1, screen_rv->line[0], 160);
+  f (s2, screen_rv->line[0] + 160 * scr_stretch, 160);
   vsync ();
-  f (s1, screen->line[0], 160);
-  f (s2, screen->line[0] + 160 * scr_stretch, 160);
+  blit (screen_rv, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
   release_screen ();
 }
