@@ -25,6 +25,8 @@
 #include "errors.h"
 #include "isdir.h"
 #include "rsc_files.h"
+#include "dirname.h"
+#include "misc.h"
 
 static void
 check_localedir_env (void)
@@ -99,9 +101,63 @@ check_installation (void)
   return ok;
 }
 
+/* Compute prefix from argv0, if possible.  */
+static bool
+try_to_derive_argv0 (const char *argv0)
+{
+  /* Compute PREFIX using argv0.  */
+  char *path = dir_name (argv0);
+  if (path) {
+    path = strappend (path, "/" BACKWARD_RELATIVE_BINDIR);
+    set_rsc_file ("prefix", path, false);
+    dmsg (D_SYSTEM, "trying $(prefix)='%s'", path);
+  }
+  free (path);
+  return check_installation ();
+}
+
+static bool
+try_backward_relative_bindir (void)
+{
+  /* BACKWARD_RELATIVE_BINDIR is in case the binary has been
+     run from the current directory.  */
+  dmsg (D_SYSTEM, "trying $(prefix)='%s'", BACKWARD_RELATIVE_BINDIR);
+  set_rsc_file ("prefix", BACKWARD_RELATIVE_BINDIR, false);
+  return check_installation ();
+}
+
+static bool
+try_to_explore_path (void)
+{
+  char *path_env = getenv ("PATH");
+  char *path;
+  char *last;
+  bool curdir_is_ok = false;
+
+  if (!path_env)
+    return false;
+
+  path = strdup (path_env);
+  /* FIXME: ':' is not always the right caracter to look for.  */
+  last = strtok (path, ":");
+  for (;;) {
+    char *dir = strcat_alloc (last, "/" BACKWARD_RELATIVE_BINDIR);
+    dmsg (D_SYSTEM, "trying $(prefix)='%s'", dir);
+    set_rsc_file ("prefix", dir, false);
+    free (dir);
+    if (check_installation ()) {
+      curdir_is_ok = true;
+      break;
+    }
+    /* FIXME: ':' is not always the right caracter to look for.  */
+    last = strtok (0, ":");
+  }
+  free (path);
+  return curdir_is_ok;
+}
 
 bool
-relocate_data (void)
+relocate_data (const char *argv0)
 {
   /* Check whether the user has set some environment variables to
      override internal paths.  */
@@ -110,13 +166,13 @@ relocate_data (void)
   check_homedir_env ();
   if (!check_prefix_env ()) {
     if (!check_installation ()) {
-      /* BACKWARD_RELATIVE_BINDIR is in case the binary has been
-	 run from the current directory.  */
-      dmsg (D_SYSTEM, "default prefix looks wrong, trying '%s'",
-	    BACKWARD_RELATIVE_BINDIR);
-      set_rsc_file ("prefix", BACKWARD_RELATIVE_BINDIR, false);
-      if (!check_installation ())
-	emsg (_("\
+      /* IF the user has not set HEROES_PREFIX and Heroes can't find
+	 its files, try to guess the prefix.  */
+      dmsg (D_SYSTEM, "default prefix looks wrong");
+      if (!try_to_derive_argv0 (argv0)) {
+	if (!try_to_explore_path ()) {
+	  if (!try_backward_relative_bindir ())
+	    emsg (_("\
 It looks like the game is not correctly installed.\n\
 Maybe the data files have not been installed with the same configure options\n\
 as the executable, or maybe the data files have been moved elsewhere.\n\
@@ -124,6 +180,8 @@ In the latter case it's probably enough to set the environment variable\n\
 HEROES_PREFIX to the new location.  You may also want to set\n\
 HEROES_DEBUG=system to see what files Heroes is looking after.\n\
 If none of this helps, contact <heroes-bugs@lists.sourceforge.net>\n"));
+	}
+      }
     }
   }
   return false;

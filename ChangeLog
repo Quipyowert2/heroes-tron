@@ -1,5 +1,23 @@
 2001-05-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Better relocation: use argv0 and PATH to guess the location
+	of data files.
+
+	* configure.in: Check for memrchr.
+	* lib/dirname.c: New file.
+	* lib/dirname.h: New file.
+	* lib/memrchr.c: New file.
+	* lib/Makefile.am (EXTRA_DIST): Add memrchr.
+	(noinst_HEADERS): Add dirname.h.
+	(libheroes_a_SOURCES): Add dirname.c.
+	* src/relocate.c (try_to_derive_argv0, try_backward_relative_bindir,
+	try_to_explore_path): New functions.
+	(relocate_data): Call this function.  Take a argv0 argument.
+	* src/relocate.h (relocate_data): Take a argv0 argument.
+	* src/heroes.c (main): Adjust call to relocate_data.
+
+2001-05-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	From Alessandro Dotti <alessandro.dotti@libero.it>.
 
 	* po/it.po: New revision.

@@ -118,7 +118,7 @@ AC_TYPE_UID_T     dnl This checks for gid_t too.
 # Checks for library functions.
 # =============================
 
-AC_CHECK_DECLS([malloc, realloc, calloc, free])
+AC_CHECK_DECLS([malloc, realloc, calloc, free, memrchr])
 AC_CHECK_FUNCS([gettimeofday memcpy sleep getegid setegid setregid])
 
 adl_FUNC_READDIR
@@ -126,7 +126,7 @@ adl_FUNC_READDIR
 AC_FUNC_VPRINTF
 AC_FUNC_MKDIR
 
-AC_REPLACE_FUNCS([strcasecmp])
+AC_REPLACE_FUNCS([memrchr strcasecmp])
 jm_FUNC_MALLOC
 
 # KLUDGE: clear LIBS to work around a bug (?) on alphaev56-dec-osf4.0d

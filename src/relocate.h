@@ -24,6 +24,6 @@
 
 /* Find Heroes's data and adapt all paths.
    Return true on error.  */
-bool relocate_data (void);
+bool relocate_data (const char *argv0);
 
 #endif /* HEROES_RELOCATE_H */

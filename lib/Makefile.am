@@ -24,6 +24,7 @@ ftruncate.c \
 getopt.c \
 getopt1.c \
 malloc.c \
+memrchr.c \
 realloc.c \
 strcasecmp.c \
 strndup.c \
@@ -31,6 +32,7 @@ w_dirent.c
 
 noinst_HEADERS= \
 basename.h \
+dirname.h \
 error.h \
 fopenlock.h \
 fstrcmp.h \
@@ -47,6 +49,7 @@ INCLUDES = -I.. -I$(srcdir) -I../intl -I$(top_srcdir)/src
 # These files are always compiled
 libheroes_a_SOURCES= \
 basename.c \
+dirname.c \
 error.c \
 fopenlock.c \
 fstrcmp.c \

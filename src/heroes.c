@@ -3626,7 +3626,7 @@ main (int argc, char *argv[])
   var_initialize ();		/* Needed by init_persona.  */
   init_persona ();
 
-  relocate_data ();
+  relocate_data (argv[0]);
 
   setlocale (LC_ALL, "");
   bindtextdomain (PACKAGE, get_non_null_rsc_file ("locale-dir"));
