@@ -36,6 +36,7 @@
 #include "misc.h"
 #include "userdir.h"
 #include "endian.h"
+#include "debugmsg.h"
 
 #define N_MAGICS 40
 saved_game saverec[10];
@@ -140,6 +141,9 @@ write_save_records (void)
   saved_game savetmp[10];
 
   fs = fopen (saves_file (), "wb");
+
+  dmsg (D_FILE, "saving games to %s", saves_file ());
+
   i = check_save_records ();
 
   /* convert endianess */
@@ -159,9 +163,13 @@ load_save_records (void)
   saved_game savetmp[10];
 
   fs = fopen (saves_file (), "rb");
-  if (fs == NULL)
+
+  dmsg (D_FILE, "reading saved games from %s", saves_file ());
+
+  if (fs == NULL) {
     clear_save_records ();
-  else {
+    dmsg (D_FILE, "cannot open %s", saves_file ());
+  } else {
     fread (savetmp, sizeof (saved_game), 10, fs);
     fread ((int *) &i, 4, 1, fs);
 

@@ -840,13 +840,72 @@ when heroes start.
 @comment node-name,  next,  previous,  up
 @section Environment variables
 @cindex  environment
-@cindex  @samp{HEROES_DATA_DIR}
+
+@subsection @samp{HEROES_DEBUG}
+@cindex @samp{HEROES_DEBUG}
 
 The very first action of Heroes when it starts is to look the
-environment for a @samp{HEROES_DATA_DIR} variable.  This variable may
-specify the path were the data files are located.  It thus allows you to
-relocate the data file.  If this variable is not found the default path
-(configured at build time) will be used.
+environment for a @samp{HEROES_DATA_DIR} variable.  If Heroes
+has been compiled with the @samp{--enable-debug} configure option, this
+variable specify the kind of debug messages that should be printed out.
+Possible values are the following.
+
+@table @samp
+@item SECTION
+The different parts of the game (introduction, demonstration, menus, ...).
+
+@item SYSTEM
+Handling of environment variables, creation of directories, initialization
+of libraries.
+
+@item RESOURCE
+Handling of file name resources.
+
+@item FILE
+File or directory handling.
+
+@item LEVEL
+Level handling.
+
+@item SOUND_TRACK
+Sound track handling.
+
+@item SOUND_EFFECT
+Sound effect handling.
+
+@item VIDEO
+Events related to display interface.
+
+@item JOYSTICK
+Joystick initialization.
+
+@item TIMER
+Timer handling.
+
+@item MISC
+Miscellaneous.
+
+@item ALL
+All of the above.
+
+@end table
+
+Multiple values can be separated by @samp{:}, and a value is negated if
+prefixed by @samp{-}.  For example the following command line sets
+@samp{HEROES_DEBUG} so that all messages get printed except those
+related to timer handling.
+
+@example
+export HEROES_DEBUG=all:-timer
+@end example
+
+@subsection @samp{HEROES_DATA_DIR}
+@cindex @samp{HEROES_DATA_DIR}
+
+The @samp{HEROES_DATA_DIR} variable may specify the path were the data
+files are located.  It thus allows you to relocate the data file.  If
+this variable is not found the default path (configured at build time)
+will be used.
 
 Common people don't need to set this variable.  This is only useful if
 you got Heroes as a binary distribution and want to move files around.

@@ -32,15 +32,18 @@
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
+#include "debugmsg.h"
 
 int
 set_rsc_file (const char* rsc_name, const char* file_name)
 {
   struct rsc_file* res = in_rsc_set (rsc_name, strlen(rsc_name));
+  
   if (res == 0) {
     fprintf (stderr, "%s: no such resource.\n", rsc_name);
     return 1;
   }
+  dmsg (D_RESOURCE, "set resource $(%s)=%s", rsc_name, file_name);
   if (res->modified)
     free (res->value);
   res->value = strdup (file_name);
@@ -109,7 +112,9 @@ get_rsc_file (const char* rsc_name)
     return 0;
   res->expanded = 1;
   tmp = strdup (res->value);	/* rsc_expand will modify tmp */
+  dmsg (D_RESOURCE, "get resource $(%s)=%s", rsc_name, tmp);
   result = rsc_expand (tmp);
+  dmsg (D_RESOURCE, "expanded resource $(%s)=%s", rsc_name, result);
   free (tmp);
   res->expanded = 0;
   return result;

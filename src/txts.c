@@ -30,6 +30,7 @@
 #include "errors.h"
 #include "txts.h"
 #include "rsc_files.h"
+#include "debugmsg.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
@@ -65,8 +66,9 @@ read_txti_cfg (void)
   unsigned int nbr;
   char *t = get_non_null_rsc_file ("text-conf-txt");
 
+  dmsg (D_SECTION|D_FILE, "parsing text configuration file: %s ...", t);
   if ((fconf = fopen (t, "rt")) == NULL)
-    fatal_error ("Can't read txti");
+    fatal_error ("Can't read text configuration file.\n");
   free (t);
   while (fgets (tmpptr, 256, fconf) != NULL) {
     c = toupper (tmp[0]);
@@ -88,4 +90,5 @@ read_txti_cfg (void)
     }
   }
   fclose (fconf);
+  dmsg (D_SECTION|D_FILE, "... done.");
 }

@@ -36,6 +36,7 @@
 #include "options.h"
 #include "argv.h"
 #include "musicfiles.h"
+#include "debugmsg.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
@@ -54,6 +55,7 @@ set_volume (void)
     md_musicvolume = (13 - opt.music_volume) * 128 / 13;
   else
     md_musicvolume = 0;
+  dmsg (D_SOUND_TRACK, "set volume to %d/128", md_musicvolume);
   /* 
      This doesn't want to work.  I'm changing the volume of each sample
      as a work around, see event_sfX() in sfx.c.
@@ -70,6 +72,7 @@ halve_volume (void)
 {
   md_musicvolume /= 2;
   md_sndfxvolume /= 2;
+  dmsg (D_SOUND_TRACK|D_SOUND_EFFECT,"halve volume");
 }
 
 int
@@ -80,12 +83,16 @@ init_sound_engine (void)
     return 0;
   }
 
+  dmsg (D_SYSTEM|D_SOUND_TRACK, "initialize libMikMod");
+
   /* register all the drivers */
   MikMod_RegisterAllDrivers ();
+  dmsg (D_SOUND_TRACK, "libMikMod driver registered");
 
   /* register the all module loader 
      (the user can use something else than .xm) */
   MikMod_RegisterAllLoaders ();
+  dmsg (D_SOUND_TRACK, "libMikMod loader registered");
 
   /* initialize the library */
   md_device = nth_driver;
@@ -96,6 +103,12 @@ init_sound_engine (void)
     md_mode &= ~DMODE_16BITS;
   if (hqmix)
     md_mode |= DMODE_HQMIXER;
+  dmsg (D_SOUND_TRACK, "Opening audio device #%d, with %dbits, %s%s", 
+	nth_driver, (md_mode & DMODE_16BITS)?16:8, 
+	(md_mode & DMODE_STEREO)?"stereo":"mono",
+	(md_mode & DMODE_HQMIXER)?"":", high quality mixer");
+  if (driver_options)
+    dmsg (D_SOUND_TRACK, "MikMod user options: %s", driver_options);
   if (MikMod_Init (driver_options?driver_options:"")) {
     fprintf (stderr, "Could not initialize sound, reason: %s\n"
 	     "Disabling sound output (use -S to suppress this message).\n",
@@ -105,6 +118,7 @@ init_sound_engine (void)
     return 0;
   }
 
+  dmsg (D_SOUND_TRACK,"initialize MikMod thread");
   if (MikMod_InitThreads () != 1) {
     fprintf (stderr, "Could not initialize sound, reason: "
 	     "LibMikMod is not thread safe.\n"
@@ -123,8 +137,10 @@ init_sound_engine (void)
 void
 uninit_sound_engine (void)
 {
-  if (!nosound)
+  if (!nosound) {
     MikMod_Exit ();
+    dmsg (D_SOUND_TRACK, "libMikMod exited");
+  }
 }
 
 void
@@ -132,6 +148,7 @@ load_soundtrack (char *ptr)
 {
   if (nosound)
     return;
+  dmsg (D_FILE|D_SOUND_TRACK,"loading sound track: %s", ptr);
   module = Player_Load (ptr, 16, 0);
   if (!module) {
     fprintf (stderr, "Could not load %s, reason: %s\n", ptr,
@@ -146,8 +163,10 @@ unload_soundtrack (void)
     return;
   if (!module)
     return;
+  dmsg (D_SOUND_TRACK, "joining playing thread");
   pthread_mutex_unlock (&playing);
   pthread_join (polling_thread, 0);
+  dmsg (D_SOUND_TRACK, "unloading sound track");
   Player_Stop ();
   //  MikMod_DisableOutput ();
   Player_Free (module);
@@ -175,6 +194,7 @@ play_soundtrack (void)
     return;
   if (!module)
     return;
+  dmsg (D_SOUND_TRACK, "launching sound track playing thread");
   pthread_mutex_lock (&playing);
   MikMod_SetNumVoices (-1, 6);
   /* MikMod_EnableOutput (); */
@@ -242,6 +262,8 @@ load_soundtrack_from_alias (char* alias)
 {
   if (!nosound) {
     sound_track_t* st = get_sound_track_from_alias (alias);
+
+    dmsg (D_SOUND_TRACK, "loading sound track from alias %s", alias);
     
     if (st) {
       load_soundtrack (st->filename);
@@ -264,6 +286,7 @@ load_soundtrack_from_alias (char* alias)
 #include "argv.h"
 #include "options.h"
 #include "musicfiles.h"
+#include "debugmsg.h"
 
 static Mix_Music *music = NULL;
 
@@ -275,19 +298,27 @@ int audio_buffers;
 void
 set_volume (void)
 {
-  if (opt.music)
+  if (opt.music) {
     Mix_VolumeMusic ((13 - opt.music_volume) * MIX_MAX_VOLUME / 13);
-  else
+    dmsg (D_SOUND_TRACK, "set volume to %d/%d\n",
+	  (13 - opt.music_volume) * MIX_MAX_VOLUME / 13, MIX_MAX_VOLUME);
+  } else {
     Mix_VolumeMusic (0);
+    dmsg (D_SOUND_TRACK, "set volume to 0/%d\n", MIX_MAX_VOLUME);
+  }
 }
 
 void
 halve_volume (void)
 {
-  if (opt.music)
+  if (opt.music) {
     Mix_VolumeMusic ((13 - opt.music_volume) * MIX_MAX_VOLUME / 13 / 2);
-  else
+    dmsg (D_SOUND_TRACK, "set volume to %d/%d\n",
+	  (13 - opt.music_volume) * MIX_MAX_VOLUME / 13 / 2, MIX_MAX_VOLUME);
+  } else {
     Mix_VolumeMusic (0);
+    dmsg (D_SOUND_TRACK, "set volume to 0/%d\n", MIX_MAX_VOLUME);
+  }
 }
 
 extern void init_SDL (void);
@@ -309,6 +340,12 @@ init_sound_engine (void)
   
   init_SDL ();
   /* Open the audio device */
+  dmsg (D_SOUND_TRACK, 
+	"opening audio at %d Hz %d bit %s, %d bytes audio buffer\n", 
+	audio_rate,
+	(audio_format&0xFF),
+	(audio_channels > 1) ? "stereo" : "mono", 
+	audio_buffers);
   if (Mix_OpenAudio (audio_rate, audio_format, audio_channels, audio_buffers) 
       < 0) {
     fprintf(stderr, "Couldn't open audio: %s\n"
@@ -317,13 +354,12 @@ init_sound_engine (void)
     nosfx = nosound = 1;
   } else {
     Mix_QuerySpec(&audio_rate, &audio_format, &audio_channels);
-    /*
-    printf("Opened audio at %d Hz %d bit %s, %d bytes audio buffer\n", 
-	   audio_rate,
-	   (audio_format&0xFF),
-	   (audio_channels > 1) ? "stereo" : "mono", 
-	   audio_buffers );
-    */
+    dmsg (D_SOUND_TRACK, 
+	  "opened audio at %d Hz %d bit %s, %d bytes audio buffer\n", 
+	  audio_rate,
+	  (audio_format&0xFF),
+	  (audio_channels > 1) ? "stereo" : "mono", 
+	  audio_buffers);
   }
   set_volume ();
 
@@ -333,8 +369,10 @@ init_sound_engine (void)
 void
 uninit_sound_engine (void)
 {
-  if (!nosound)
+  if (!nosound) {
     Mix_CloseAudio ();
+    dmsg (D_SOUND_TRACK, "closed audio");
+  }
 }
 
 void
@@ -342,6 +380,7 @@ load_soundtrack (char *ptr)
 {
   if (nosound)
     return;
+  dmsg (D_SOUND_TRACK|D_FILE,"loading sound-track: %s", ptr);
   music = Mix_LoadMUS(ptr);
   if (!music) {
     fprintf (stderr, "Could not load %s, reason: %s\n", ptr,
@@ -355,6 +394,8 @@ unload_soundtrack (void)
   if (nosound)
     return;
   if (music) {
+    dmsg (D_SOUND_TRACK,"halt and unload sound track");
+    Mix_HaltMusic ();
     Mix_FreeMusic (music);
     music = NULL;
   }
@@ -365,8 +406,10 @@ play_soundtrack (void)
 {
   if (nosound)
     return;
-  if (music)
+  if (music) {
+    dmsg (D_SOUND_TRACK, "start playing sound track");
     Mix_PlayMusic (music, -1);
+  }
 }
 
 void
@@ -387,6 +430,9 @@ load_soundtrack_from_alias (char* alias)
 {
   if (!nosound) {
     sound_track_t* st = get_sound_track_from_alias (alias);
+
+    dmsg (D_SOUND_TRACK, "loading sound track from alias %s", alias);
+    
     if (st) {
       load_soundtrack (st->filename);
       soundtrack_title = st->title;

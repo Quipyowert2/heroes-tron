@@ -27,6 +27,7 @@
 #include <errno.h>
 #include <stdio.h>
 #include "userdir.h"
+#include "debugmsg.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
@@ -62,9 +63,11 @@ setup_userdir (void)
 {
   char* home = getenv ("HOME");
 
+  dmsg (D_SECTION,"user directory setup");
+
   if (!home) {
-    fprintf (stderr, "No $HOME found in environment.\n");
-    return 1;
+    fprintf (stderr, "No $HOME found in environment, using `.'\n");
+    home = ".";
   }
   userdir = malloc (strlen (home) + 1 + sizeof (DIR_NAME));
   if (!userdir) {
@@ -87,8 +90,10 @@ setup_userdir (void)
 	perror ("while creating ~/" DIR_NAME);
 	return 1;
       } else {
-	fprintf(stderr, "directory ~/" DIR_NAME " created.\n");      
+	fprintf(stderr, "directory %s/ created.\n", userdir);      
       }
+    } else {
+      dmsg (D_SYSTEM, "directory %s/ already exists", userdir);
     }
   }
   return 0;

@@ -31,6 +31,7 @@
 #include "generic_list.h"
 #include "misc.h"
 #include "rsc_files.h"
+#include "debugmsg.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
@@ -108,9 +109,12 @@ read_sound_config_file (char* filename)
   char* expfilename = rsc_expand (filename);
   char* dir = dir_name (expfilename);
 
+  dmsg (D_SECTION|D_FILE,"reading sound config file: %s ...", filename);
+
   fs = fopen (expfilename, "r");
 
   if (!fs) {
+    dmsg (D_SECTION|D_FILE,"... could not open.");
     free (expfilename);
     free (dir);
     return 0;
@@ -147,6 +151,7 @@ read_sound_config_file (char* filename)
   free (buf);
   free (dir);
   free (expfilename);
+  dmsg (D_SECTION|D_FILE,"... done.");
 
   return 0;
 }

@@ -404,6 +404,7 @@ AC_C_CONST
 # =============================
 
 AC_CHECK_FUNCS(gettimeofday)
+AC_FUNC_VPRINTF
 
 AC_CACHE_CHECK([whether mkdir takes two arguments],[ac_cv_two_args_mkdir],
 [AC_TRY_LINK([#include <unistd.h>],[mkdir (".", 0777);],

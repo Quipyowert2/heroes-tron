@@ -1,5 +1,49 @@
 2000-08-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Setup facility for printing debug messages.
+
+	* src/debugmsg.h: New file.
+	* src/debugmsg.c: New file.
+	* src/Makefile.am (heroes_SOURCES): Add debugmsg.h and debugmsg.c.
+	* doc/heroes.texi (Environment): Move the existing paragraphe in
+	subsection HEROES_DATA_DIR.  Add a subsection for HEROES_DEBUG and
+	fill it.
+
+	Output debug messages from various places.
+
+	* src/display.c [HAVE_PKG_GGI] (init_video, uninit_video, 
+	set_color, set_pal): Call dmsg.
+	[HAVE_SDL] (set_display_params, init_SDL, init_video, set_color,
+	set_pal): Likewise.
+	* src/extras.c (browse_extra_directory, 
+	add_extra_in_user_directory): Likewise.
+	* src/gfx_reader.h (graphic_reader): Likewise.
+	* src/heroes.c (erase_player, reinit_player, load_level, save_pcx,
+	load_level_from_number, compute_level_full_list, 
+	load_random_wrapped_level, load_random_level, play_menu, play_demo,
+	load_demo, main_menu, pause_menu, quit_yes_no, play_game, 
+	read_level_list, main): Likewise.
+	* src/intro.c (play_intro): Likewise.
+	* src/joystick.c (joyinit): Likewise.
+	* src/musicfiles.c (read_sound_config_file): Likewise.
+	* src/options.c (write_options,load_options): Likewise.
+	* src/pcx.c (pcx_load): Likewise.
+	* src/rsc_files.c (set_rsc_file,get_rsc_file): Likewise.
+	* src/savegame.c (write_save_records,load_save_records: Likewise.
+	* src/scores.c (write_scores, load_scores): Likewise.
+	* src/sfx.c (read_sfx_conf, free_all_sfx, load_sfx_mode,
+	event_sfx): Likewise.
+	* src/sound.c [HAVE_LIBMIKMOD,HAVE_LIBSDL_MIXER] (set_volume, 
+	halve_volume, init_sound_engine, uninit_sound_engine, 
+	load_soundtrack, play_soundtrack): Likewise.
+	* src/timer.c (new_htimer, free_htimer, read_htimer, shift_htimer):
+	Likewise.
+	* src/txts.c (read_txti_cfg): Likewise.
+	* src/userconf.c (read_userconf): Likewise.
+	* src/userdir.c (setup_userdir): Likewise.
+
+2000-08-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	OSF already defines dirname
 
 	* src/musicfiles.c (dirname): Rename to...

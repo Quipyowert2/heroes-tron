@@ -22,6 +22,7 @@
 #include "config.h"
 #include "timer.h"
 #include "display.h"
+#include "debugmsg.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
@@ -58,12 +59,15 @@ new_htimer (enum htimer_kind kind, long slice_duration)
   result->kind = kind;
   result->slice_duration = slice_duration;
   reset_htimer (result);
+  dmsg (D_TIMER, "created new timer (kind=%d, slice_duration=%d)=%p",
+	kind, slice_duration, &result);
   return result;
 }
 
 void
 free_htimer (htimer_t timer)
 {
+  dmsg (D_TIMER, "free timer %p", timer);
   free (timer);
 }
 
@@ -135,6 +139,7 @@ read_htimer (htimer_t timer)
     goto blocking_loop;
   }
 #endif
+  dmsg (D_TIMER, "read timer %p, return %ld", timer, res);
   return res;
 }
 
@@ -164,4 +169,5 @@ shift_htimer (htimer_t to_shift, htimer_t amount)
 
   to_shift->orig_time += current_time - amount->orig_time;
 #endif
+  dmsg (D_TIMER, "timer %p shifted", to_shift);
 }

@@ -25,10 +25,11 @@
 #include "pcx.h"
 #include "rsc_files.h"
 #include "config.h"
+#include "endian.h"
+#include "debugmsg.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
-#include "endian.h"
 
 static void
 img_init (image_ * image)
@@ -62,6 +63,8 @@ pcx_load (const char *file, image_ * image)
   int nbrbytes, i;
   unsigned char data;
 
+  dmsg (D_FILE, "opening image file: %s", file);
+
   if ((fptr = fopen (file, "rb")) == NULL) {
     puts (file);
 #ifndef __HEDIT__
@@ -85,6 +88,9 @@ pcx_load (const char *file, image_ * image)
   image->width = (image->header.width - image->header.x + 1);
   image->height = (image->header.height - image->header.y + 1);
   image->size = image->width * image->height;
+
+  dmsg (D_FILE, "size=(%d,%d) rle=%d", 
+	image->header.width + 1, image->header.height + 1, image->header.rle);
 
   img_init (image);
 
@@ -121,6 +127,7 @@ pcx_load_from_rsc (const char *rsc, image_ * image)
 {
   char* res = get_rsc_file (rsc);
   char error;
+
   if (res == 0) 
     fatal_error ("Empty resource.\n");
   error = pcx_load (res, image);

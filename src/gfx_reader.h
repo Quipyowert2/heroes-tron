@@ -33,6 +33,7 @@
 #include "display.h"
 #include "config.h"
 #include "rsc_files.h"
+#include "debugmsg.h"
 
 static int nbr_lines;
 static unsigned char *txtptr;
@@ -406,6 +407,8 @@ graphic_reader ()
   int adresse;
   unsigned char tmp1[10], tmp2[10];
 
+  dmsg (D_SECTION, "graphic reader");
+
   nbr_lines = 0;
 
   pcx_load_from_rsc ("help-font", &font_help_img);
@@ -416,6 +419,7 @@ graphic_reader ()
 #else
     char *t = get_non_null_rsc_file ("end-scroller-txt");
 #endif
+    dmsg (D_FILE, "open file %s", t);
     f = fopen (t, "rb");
     free (t);
   }

@@ -37,6 +37,7 @@
 #include "extras.h"
 #include "musicfiles.h"
 #include "rsc_files.h"
+#include "debugmsg.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
@@ -56,9 +57,12 @@ read_userconf (const char* file, const char* argv0)
   else
     filename = (char *) file; /* const_cast */
 
+  dmsg (D_SECTION|D_FILE, "reading configuration file: %s ...", filename);
+
   fs = fopen (filename, "r");
 
   if (!fs) {
+    dmsg (D_SECTION|D_FILE, "... could not open.");
     if (!file)
       free (filename);
     return 0;
@@ -137,6 +141,7 @@ read_userconf (const char* file, const char* argv0)
   } 
   free (buf);
   fclose (fs);
+  dmsg (D_SECTION|D_FILE, "... finished reading %s.", filename);
   if (!file)
     free (filename);
   return 0;

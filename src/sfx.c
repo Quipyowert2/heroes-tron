@@ -38,6 +38,7 @@
 #include "misc.h"
 #include "argv.h"
 #include "rsc_files.h"
+#include "debugmsg.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
@@ -153,6 +154,7 @@ read_sfx_conf (void)
       nosfx = 1;
       return 0;
     }
+    dmsg (D_SOUND_EFFECT|D_FILE, "reading sound effects config: %s", conf);
     if ((*conf == 0) || (fconf = fopen (conf, "rt")) == NULL) {
       fprintf(stderr, "Cannot open %s, disabling sound-effects\n"
 	      "(run with -X to supress this message).\n", conf);
@@ -242,6 +244,8 @@ free_all_sfx (void)
   int i;
   if (nosfx)
     return;
+
+  dmsg (D_SOUND_EFFECT, "freeing all sound effects");
   for (i = 1; i < max_sfx; i++)
     if (sfx_loaded[i]) {
       _free_sfx (sfx_handles[i]);
@@ -256,6 +260,8 @@ load_sfx_mode (signed char mode)
 
   if (nosfx)
     return;
+
+  dmsg (D_SOUND_EFFECT,"switching to sound effect mode %d", mode);
 
   free_all_sfx ();
 
@@ -315,6 +321,7 @@ load_sfx_mode (signed char mode)
 
   for (i = 1; i < max_sfx; i++)
     if (sfx_loaded[i]) {
+      dmsg (D_FILE|D_SOUND_EFFECT,"loading sound effect: %s", sfx_names[i]);
       if (!(sfx_handles[i] = _load_sfx (sfx_names[i]))) {
 	fprintf(stderr,"%s: ",sfx_names[i]);
 	fatal_error ("Unable to load that sample.\n");
@@ -328,6 +335,7 @@ event_sfx (int event)
 {
   if (nosfx)
     return;
+  dmsg (D_SOUND_EFFECT, "sound effect event %d", event);
   assert (event < max_events);
   assert (event_handle[event] < max_sfx);
   if (event_handle[event] != 0) {

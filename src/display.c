@@ -22,6 +22,7 @@
 #include "config.h"
 #include "misc.h"
 #include "argv.h"
+#include "debugmsg.h"
 
 unsigned char *screen_rv;	/* A pointer to the screen buffer associated
 				   to the render visual. */
@@ -145,16 +146,22 @@ init_video (void)
 {
   const ggi_directbuffer *db;
 
-  if (ggiInit ())
+  dmsg (D_VIDEO|D_SYSTEM, "initialize GGI");
+  if (ggiInit ()) {
+    dmsg (D_VIDEO, "failed");
     exit (EXIT_FAILURE);
+  }
 
+  dmsg (D_VIDEO, "open main visual (%s)",
+	display_params ? display_params : "null"); 
   visu = ggiOpen (display_params);
   if (!visu) {
     fprintf (stderr, "Failed to open visual.\n");
     exit (EXIT_FAILURE);
   }
 
-  render_visu = ggiOpen ("display-memory",NULL);
+  dmsg (D_VIDEO, "open display-memory visual");  
+  render_visu = ggiOpen ("display-memory", NULL);
   if (!render_visu) {
     fprintf (stderr, "Failed to open an internal `display-memory' visual.\n");
     exit (EXIT_FAILURE);
@@ -170,6 +177,7 @@ init_video (void)
   vid_mode.dpp.x = vid_mode.dpp.y = GGI_AUTO;
   vid_mode.graphtype = GT_8BIT;
 
+  dmsg (D_VIDEO, "negociate video mode");  
   if (ggiSetMode (render_visu, &vid_mode) ||
       /* Try to get a 8bit display */
       ((ggiCheckGraphMode (visu, GGI_AUTO, GGI_AUTO, scr_w, scr_h, GT_8BIT,
@@ -188,8 +196,10 @@ init_video (void)
       exit (EXIT_FAILURE);
     }
   }
-
-
+  dmsg (D_VIDEO, "video mode is %dx%dx%d", 
+	vid_mode.visible.x, vid_mode.visible.y, GT_DEPTH (vid_mode.graphtype));
+  
+  dmsg (D_VIDEO, "ask for a direct-buffer");
   db = ggiDBGetBuffer (render_visu, 0);
   if (!db || !(db->type & GGI_DB_SIMPLE_PLB)) {
     //    printf ("%p\n", db);
@@ -203,6 +213,7 @@ init_video (void)
   else
     screen = screen_rv;
 
+  dmsg (D_VIDEO, "set display flags");
   ggiAddFlags (visu, GGIFLAG_ASYNC);
   ggiSetColorfulPalette (visu);
   ggiSetColorfulPalette (render_visu);
@@ -211,8 +222,11 @@ init_video (void)
 void
 uninit_video (void)
 {
+  dmsg (D_VIDEO, "close memory visual");
   ggiClose (render_visu);  
+  dmsg (D_VIDEO, "close real visual");
   ggiClose (visu);
+  dmsg (D_VIDEO, "exit GGI");
   ggiExit ();
 }
 
@@ -224,6 +238,7 @@ set_color (unsigned char c, unsigned char r, unsigned char g, unsigned char b)
   cmap[c].r = r * 1024;
   cmap[c].g = g * 1024;
   cmap[c].b = b * 1024;
+  dmsg (D_VIDEO, "set color %d=(%d,%d,%d)",c,r,g,b);
   ggiSetPalette (visu, c, 1, cmap);
   ggiSetPalette (render_visu, c, 1, cmap);
 }
@@ -239,6 +254,7 @@ set_pal (unsigned char *ptr, int p, int n)
     cmap[i].g = *ptr++ * 1024;
     cmap[i].b = *ptr++ * 1024;
   }
+  dmsg (D_VIDEO, "set %d colors", n/3);
   ggiSetPalette (visu, p / 3, n / 3, cmap);
   ggiSetPalette (render_visu, p / 3, n / 3, cmap);
 }
@@ -271,6 +287,7 @@ int visu_options = SDL_HWPALETTE | SDL_DOUBLEBUF;
 void set_display_params (const char* str)
 {
   char* s = strcat_alloc ("SDL_VIDEODRIVER=", str);
+  dmsg (D_SYSTEM|D_VIDEO,"put `%s' in environment", str);
   putenv (s);
   free (s);
 }
@@ -290,6 +307,8 @@ init_SDL (void)
 
   if (done)
     return;
+  dmsg (D_SYSTEM|D_VIDEO|D_JOYSTICK|D_SOUND_TRACK|D_SOUND_EFFECT,
+	"initialize SDL");
   SDL_Init (SDL_INIT_VIDEO 
 #ifdef HAVE_LIBSDL_MIXER
 	    | SDL_INIT_AUDIO
@@ -311,6 +330,7 @@ init_video (void)
   scr_h = 200 * stretch;
 
   init_SDL ();
+  dmsg (D_VIDEO, "set video mode");
   visu = SDL_SetVideoMode (scr_w, scr_h, 8, visu_options);
   if (!visu) {
     fprintf (stderr, "Failed to open visual: %s\n", SDL_GetError());
@@ -322,6 +342,8 @@ init_video (void)
     screen = malloc (320*200);
   else
     screen = screen_rv;
+
+  dmsg (D_VIDEO, "set misc. video parameters");
 
   SDL_ShowCursor (0);
   SDL_WM_SetCaption ("Heroes " VERSION,"Heroes");
@@ -350,6 +372,7 @@ set_color (unsigned char c, unsigned char r, unsigned char g, unsigned char b)
   cmap[c].r = r * 4;
   cmap[c].g = g * 4;
   cmap[c].b = b * 4;
+  dmsg (D_VIDEO, "set color %d=(%d,%d,%d)",c,r,g,b);
   SDL_SetColors (visu, cmap, c, 1); 
 }
 
@@ -364,6 +387,7 @@ set_pal (unsigned char *ptr, int p, int n)
     cmap[i].g = *ptr++ * 4;
     cmap[i].b = *ptr++ * 4;
   }
+  dmsg (D_VIDEO, "set %d colors", n/3);
   SDL_SetColors (visu, cmap, p/3, n/3);
 }
 

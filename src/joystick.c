@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "joystick.h"
+#include "debugmsg.h"
 
 int joystick_x[2] = { 0, 0 };	// coord. X
 int joystick_y[2] = { 0, 0 };	//        Y
@@ -109,6 +110,7 @@ _get_joystick_state (void)
 char
 joyinit (void)
 {
+  dmsg (D_JOYSTICK, "initialize joystick");
   giiInit ();
   joystick = giiOpen ("linux-joy",NULL);
   if (!joystick) {
@@ -143,12 +145,18 @@ char joyinit (void)
   int nbr;
 
   init_SDL ();
+
+  dmsg (D_JOYSTICK, "initialize joystick");
+
   nbr = SDL_NumJoysticks ();
 
   if (nbr <= 0) {
     puts ("No joystick found (run with `-J' to suppress this message).");
     return joystick_detected = 0;
   }
+
+  dmsg (D_JOYSTICK, "%d joystick found", nbr);
+
   joystick[0] = SDL_JoystickOpen (0);
   if (nbr >= 2)
     joystick[1] = SDL_JoystickOpen(1);

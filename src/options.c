@@ -29,6 +29,7 @@
 #include "userdir.h"
 #include "keys_heroes.h"
 #include "endian.h"
+#include "debugmsg.h"
 
 options_t opt;
 char extrasel = 0;
@@ -118,6 +119,8 @@ write_options (void)
   FILE *fs;
   fs = fopen (options_file (), "wb");
 
+  dmsg (D_FILE, "writing option to %s", options_file ());
+
   /* convert endianess */
   bswap_options ();
 
@@ -133,8 +136,13 @@ load_options (void)
 {
   FILE *fs;
   fs = fopen (options_file (), "rb");
-  if (fs == NULL)
+
+  dmsg (D_FILE, "reading option from %s", options_file ());
+
+  if (fs == NULL) {
+    dmsg (D_FILE, "cannot open %s", options_file ());
     reinit_options ();
+  }
   else {
     if (fread (&opt, 1, sizeof (opt), fs) != sizeof (opt))
       reinit_options ();

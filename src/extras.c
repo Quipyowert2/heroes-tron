@@ -37,6 +37,7 @@
 #include "hedlite.h"
 #include "misc.h"
 #include "rsc_files.h"
+#include "debugmsg.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
@@ -97,6 +98,7 @@ browse_extra_directory (const char* directory, char is_in_user_dir)
   struct dirent **tmp_list;
   int extra_nbr_here, old_nbr;
 
+  dmsg (D_FILE, "browsing directory %s ...", directory);
   /* get the files list of the directory */
   extra_nbr_here = scandir (directory, &tmp_list, select_file, alphasort);
 
@@ -105,6 +107,8 @@ browse_extra_directory (const char* directory, char is_in_user_dir)
     perror (directory);
     return;
   }
+
+  dmsg (D_FILE, "... %d files", extra_nbr_here);
 
   old_nbr = extra_nbr;
   extra_nbr += extra_nbr_here;
@@ -167,7 +171,9 @@ add_extra_in_user_directory (filename_t fn)
 void
 add_default_extra_directories (void)
 {
-  char* t = get_rsc_file ("extra-levels-dir");
+  char* t;
+  dmsg (D_SECTION, "setup default extra directory");
+  t = get_rsc_file ("extra-levels-dir");
   if (t) {
     add_extra_directory (t);
     free (t);

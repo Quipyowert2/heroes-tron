@@ -29,6 +29,8 @@ argv.c \
 argv.h \
 const.c \
 const.h \
+debugmsg.c \
+debugmsg.h \
 display.c \
 display.h \
 draw.c \

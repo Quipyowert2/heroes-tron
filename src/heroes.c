@@ -57,6 +57,7 @@
 #include "txts.h"
 #include "misc.h"
 #include "argv.h"
+#include "debugmsg.h"
 
 #include "sound.h"
 #include "endscroll.h"
@@ -259,6 +260,8 @@ add_cash (char oui)
 static void
 erase_player (int i)
 {
+  dmsg (D_MISC, "erase player %d", i);
+
   if (!in_menu)
     square_occupied[player[i].x2 + player[i].y2 * map_info_2xt] = 0xff;
   if (player[i].way == w_left)
@@ -284,6 +287,9 @@ reinit_player (int i)
   int j, m, d;
   char unusable;
   unsigned char k, l;
+
+  dmsg (D_MISC, "initialize player %d", i);
+
   j = 4;
   k = (unsigned char) (i - 1);
   do {
@@ -428,6 +434,8 @@ load_level (char *nomlvl, char cont)
   int b;
   lemming_t *ptir;
 
+  dmsg (D_FILE|D_LEVEL, "loading level: %s", nomlvl);
+
   bonus_proba_sum = 0;
   for (i = 0; i < 17; i++)
     bonus_proba_sum = bonus_proba[i] =
@@ -453,24 +461,35 @@ load_level (char *nomlvl, char cont)
 
   clean_buffers ();
 
-  if ((ftmp = fopen (nomlvl, "rb")) == NULL)
+  if ((ftmp = fopen (nomlvl, "rb")) == NULL) {
+    dmsg (D_LEVEL|D_FILE, "cannot open %s", nomlvl);
     return (1);
-
+  }
   { 
     char* tmp = get_non_null_rsc_file ("tiles-sets-dir");
     strcpy (tile_set_name, tmp);
     strcpy (glenz_name, tmp);
     free (tmp);
   }
+  dmsg (D_FILE|D_LEVEL, "read level header");
   if (fread (&map_info, sizeof (level_header_t), 1, ftmp) != 1)
     return (2);
 
   /* convert map_info to local endianess */
   bswap_level_header (&map_info);
 
+  dmsg (D_LEVEL, "size=(%lu,%lu) wrap=(%lx,%lx) tile=%s soundtrack=%s",
+	map_info.xt, map_info.yt,
+	map_info.xwrap, map_info.ywrap,
+	map_info.tile_set_name, map_info.soundtrack_name);
+
   level_map = (tile_t *) malloc (map_info.xt * map_info.yt * sizeof (tile_t));
   if (level_map == NULL)
     return (3);
+
+  dmsg (D_LEVEL, "reading full level map (%d bytes)", 
+	map_info.xt * map_info.yt * sizeof(tile_t));
+  
   i = fread (level_map, sizeof (tile_t), map_info.xt * map_info.yt, ftmp);
   if (i != (int)(map_info.xt * map_info.yt))
     return (4);
@@ -500,6 +519,9 @@ load_level (char *nomlvl, char cont)
     else
       soundtrack_current_nbr = map_info.soundtrack_name[7] - '0';
   }
+
+  dmsg (D_LEVEL, "initialize variables and maps associated to the level");
+
   map_info_2xt = map_info.xt << 1;
   map_info_2yt = map_info.yt << 1;
   map_info_2xwrap = (map_info.xwrap << 1) + 1;
@@ -917,6 +939,8 @@ load_level (char *nomlvl, char cont)
 static void
 unload_level (void)
 {
+  dmsg (D_LEVEL, "unloading level");
+
   img_free (&tile_set_img);
   free (level_map);
   free (square_occupied);
@@ -1097,6 +1121,9 @@ save_pcx (char q)
   }
 
   sprintf (nompcx, "snap%.4d.pcx", pcxnbr++);
+
+  dmsg (D_MISC|D_FILE, "save pcx: %s", nompcx);
+
   if ((fpcx = fopen (nompcx, "wb")) == NULL)
     return;
   fwrite ((char *) &headpcx, 1, sizeof (header_), fpcx);
@@ -1292,6 +1319,9 @@ load_level_from_number (int nbr, char cont)
 {
   char tmp[64];
   char e;
+
+  dmsg (D_SECTION, "load level #%d", nbr);
+
   { 
     char* t = get_non_null_rsc_file ("levels-dir");
     strcat (strcpy ((char *) tmp, t), level_list + nbr * levellstchunk);
@@ -1320,6 +1350,9 @@ static void
 compute_level_full_list (void)
 {
   int i, j;
+
+  dmsg (D_SECTION, "compute level full list");
+
   level_full_list_size = level_list_nbr + extra_nbr;
   level_full_list = malloc (level_full_list_size * sizeof (int));
   assert (level_full_list != NULL);
@@ -1371,6 +1404,9 @@ load_random_wrapped_level (char c, char cont)
   int t;
   char tmp[64];
   char e;
+
+  dmsg (D_SECTION, "load random wrapped level");
+
   do {
     t = rand () % level_list_nbr;
   } while (c == 1 && levelinf[t] != 1);
@@ -1394,6 +1430,8 @@ load_random_level (char cont)
   char e;
   t = random_level ();
 //  t=1;
+
+  dmsg (D_SECTION, "load random wrapped");
 
   if (t & 0x10000) {
     strcpy (tmp, extra_list[t & 0xffff].full_name);
@@ -1657,10 +1695,13 @@ play_menu (void)
   /* END OF THE GAME */
 
   if ((game_mode == M_QUEST) && (current_quest_level >= level_list_nbr)) {
-    if (level_is_finished != 15) {	
+    if (level_is_finished != 15) {  
       /* End scroller */
-      char* tmp = get_non_null_rsc_file ("tiles-sets-dir");
-      char* tmp2 = strcat_alloc (tmp, "level02.glz");
+      char* tmp;
+      char* tmp2;
+      dmsg (D_SECTION, "-- end scroller --");
+      tmp = get_non_null_rsc_file ("tiles-sets-dir");
+      tmp2 = strcat_alloc (tmp, "level02.glz");
       free (tmp);
       ftmp = fopen (tmp2, "rb");
       free (tmp2);
@@ -1674,6 +1715,8 @@ play_menu (void)
     }
   }
 /* ************ */
+
+  dmsg (D_SECTION, "-- (back to) menu (from game) --");
 
   game_mode = M_QUEST;
 // free_all_sfx();
@@ -3276,6 +3319,8 @@ play_demo (void)
   char notbyebye = 1;
   htimer_t demo_htimer = new_htimer (T_GLOBAL, HZ (1));
 
+  dmsg (D_SECTION, "-- play demo --");
+
   in_menu = 0;
   tutor = 0;
   load_random_wrapped_level (0, 0);
@@ -3342,6 +3387,8 @@ play_demo (void)
 /* * * * * * * * * * *\
 * MAIN LOOP in demos  *
 \* * * * * * * * * * */
+  dmsg (D_SECTION, "demo main loop");
+
   do {
     event_time = read_htimer (event_htimer);
     update_text_waving_step ();
@@ -3404,6 +3451,8 @@ load_demo (void)
   char olddeuxplr;
   char gamemodeh;
   int i;
+
+  dmsg (D_SECTION, "-- load demo --");
 
   for (i = 3; i >= 0; i--)
     col2plr[i] = opt.player_color[i];
@@ -3556,6 +3605,8 @@ main_menu (void)
   int t;
   char flag = 0;
 
+  dmsg (D_SECTION, "-- menu --");
+
   load_random_wrapped_level (1, 0);
   load_sfx_mode (-1);
 
@@ -3622,6 +3673,7 @@ main_menu (void)
 	      p--;
 	  };
 	  load_demo ();
+	  dmsg (D_SECTION, "-- (back to) menu (from demo) --");
 	  p = 64;
 	  demo_ready = 0;
 	  event_sfx (131);
@@ -3697,7 +3749,11 @@ pause_menu (void)
   char l = 0;
   int t, t2, dp;
   unsigned char *src = render_buffer[0];
-  htimer_t pause_htimer = new_htimer (T_GLOBAL, 1);
+  htimer_t pause_htimer;
+
+  dmsg (D_SECTION, "pause menu");
+
+  pause_htimer = new_htimer (T_GLOBAL, 1);
 
   halve_volume ();
   event_sfx (58);
@@ -3812,6 +3868,7 @@ pause_menu (void)
   shift_htimer (event_htimer, pause_htimer);
 
   free_htimer (pause_htimer);
+  dmsg (D_SECTION, "exit pause menu");
 }
 
 
@@ -3823,7 +3880,11 @@ quit_yes_no (void)
   char l = 0;
   unsigned char *src = render_buffer[1];
   int t;
-  htimer_t pause_htimer = new_htimer (T_GLOBAL, 1);
+  htimer_t pause_htimer;
+
+  dmsg (D_SECTION, "quit y/n menu");
+  
+  pause_htimer = new_htimer (T_GLOBAL, 1);
 
   fastmem4 ((char *) screen, src, 64000 / 4);
   for (i = 64000; i != 0; i--)
@@ -3881,6 +3942,7 @@ quit_yes_no (void)
   reset_htimer (background_htimer);
   reset_htimer (fading_htimer);
   free_htimer (pause_htimer);
+  dmsg (D_SECTION, "exit quit menu");
   return (1 - l);
 }
 
@@ -4159,6 +4221,8 @@ play_game (char cont)
   static char tmpname[20];
   char bufstr[32];
 
+  dmsg (D_SECTION, "-- play game --");
+
   in_menu = 0;
   tutor = (char) (game_mode == M_QUEST && current_quest_level == 0);
   if (loadulevel == 1) {
@@ -4172,7 +4236,6 @@ play_game (char cont)
 // else if (game_mode==M_QUEST /*&& questmode==1*/) loadlvlpasrandq2(current_quest_level++,cont);
   else
     load_random_level (cont);
-
 
   play_soundtrack ();
   reset_htimer (sound_track_htimer);
@@ -4203,6 +4266,8 @@ play_game (char cont)
   reset_htimer (tiles_anim_htimer);
   reset_htimer (blink_htimer);
   reset_htimer (update_htimer);
+
+  dmsg (D_SECTION, "introduce game");
 
   output_screen ((char) n);	/* update corner[] */
   process_input_events ();
@@ -4269,6 +4334,8 @@ play_game (char cont)
 * MAIN LOOP during the games *
 \* * * * * * * * * * * * * * */
 
+  dmsg (D_SECTION, "game main loop");
+
   do {
     event_time = read_htimer (event_htimer);
     update_text_waving_step ();
@@ -4295,11 +4362,16 @@ play_game (char cont)
       notbyebye = quit_yes_no ();
   } while (notbyebye && level_is_finished == 0);
 
+  dmsg (D_SECTION, "game finished");
+
   if (level_is_finished >= 1 && level_is_finished <= 4)
     player[level_is_finished - 1].wins++;
 
   radar_target_pos = 81;
   if (notbyebye) {
+
+    dmsg (D_SECTION, "print end level info");
+
     uninit_keyboard_map ();
     l = 0;
     if (level_is_finished != 15)
@@ -4505,6 +4577,8 @@ play_game (char cont)
       }
     } else {
 /* round info !!!! */
+      dmsg (D_SECTION, "print round info");
+
       l = 0;
       flag = 1;
 
@@ -4588,6 +4662,7 @@ play_game (char cont)
   camera_center_x = 873813;
   in_menu = 1;
 // if (l!=0) cont=0;
+
   return (l);
 }
 
@@ -4598,6 +4673,8 @@ read_level_list (void)
   int i = 0;
   char string[32];
   char* t = get_non_null_rsc_file ("levels-list-txt");
+
+  dmsg (D_FILE|D_SECTION, "read level list: %s ...", t);
   if ((f = fopen (t, "rt")) == NULL) {
     fprintf (stderr, "Could not open %s.\n", t);
     fatal_error ("Giving up.\n");
@@ -4631,6 +4708,7 @@ read_level_list (void)
     }
   }
   fclose (f);
+  dmsg (D_FILE|D_SECTION, "... done");
 }
 
 /*
@@ -4664,13 +4742,20 @@ main (int argc, char *argv[])
 {
   int i;
 
+  dmsg_init (argv[0]);
+  dmsg (D_SECTION,"initialization");
+
   {
     char* data_dir;
+    dmsg (D_SYSTEM,"looking for HEROES_DATA_DIR or HEROES_DATADIR...");
     if ((data_dir = getenv ("HEROES_DATA_DIR")) || 
-	(data_dir = getenv ("HEROES_DATADIR")))
+	(data_dir = getenv ("HEROES_DATADIR"))) {
+      dmsg (D_SYSTEM,"... found: %s", data_dir);
       set_rsc_file ("data-dir", data_dir);
-    else 
+    } else {
+      dmsg (D_SYSTEM, "... not found.");
       set_rsc_file ("data-dir", datadir);
+    }
   }
 
   init_sound_track_list ();
@@ -4678,6 +4763,7 @@ main (int argc, char *argv[])
   /* Read the system-wide configuration file. */
   { 
     char* tmp;
+    
     tmp = get_rsc_file ("heroesrc-txt");
     if (tmp) {
       read_userconf (tmp, argv[0]);
@@ -4693,11 +4779,13 @@ main (int argc, char *argv[])
   if (read_userconf (0, argv[0]))
     exit (1);
 
+  dmsg (D_SYSTEM, "parsing command line");
   if (parse_argv (argc, argv))
     exit (1);
 
   read_txti_cfg ();
 
+  dmsg (D_SYSTEM, "randomize");
   srand (time (0));
 
 #ifdef PORT

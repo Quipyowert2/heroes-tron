@@ -34,6 +34,7 @@
 #include "misc.h"
 #include "userdir.h"
 #include "endian.h"
+#include "debugmsg.h"
 
 top_score highs[5][10];
 
@@ -110,6 +111,9 @@ write_scores (void)
   unsigned int i;
 
   fs = fopen (scores_file (), "wb");
+  
+  dmsg (D_FILE, "writing scores to %s", scores_file ());
+
   i = check_scores ();
   
   /* convert from local endianess to little-endian */
@@ -131,9 +135,13 @@ load_scores (void)
   FILE *fs;
   unsigned long int i;
   fs = fopen (scores_file (), "rb");
-  if (fs == NULL)
+
+  dmsg (D_FILE, "reading scores from %s", scores_file ());
+
+  if (fs == NULL) {
     clear_scores ();
-  else {
+    dmsg (D_FILE, "cannot open %s", scores_file ());
+  } else {
     /* read the score from disk */
     fread (highs, sizeof (top_score), 50, fs);
     fread ((int *) &i, 4, 1, fs);

@@ -37,6 +37,7 @@
 #include "sound.h"
 
 #include "intro.h"
+#include "debugmsg.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
@@ -308,6 +309,8 @@ void
 play_intro (void)
 {
   int i;
+
+  dmsg (D_SECTION, "-- game introduction --");
   
   intro_frame_htimer = new_htimer (T_LOCAL|T_BLOCKING, HZ (70)); 
   intro_global_htimer = new_htimer (T_GLOBAL, HZ (2)); 

@@ -33,6 +33,7 @@
 #include "sound.h"
 #include "display.h"
 #include "misc.h"
+#include "debugmsg.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
