@@ -1,5 +1,9 @@
 2000-11-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.in: Bump version to 0.6f.
+
+2000-11-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* NEWS: Mention the new icons.
 
 2000-11-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
