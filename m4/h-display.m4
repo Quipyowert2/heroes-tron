@@ -13,5 +13,5 @@ $allegro_config_major_version.dnl
 $allegro_config_minor_version.dnl
 $allegro_config_micro_version], [], [$ALLEGRO_LIBS])],
      [# Set to `no' so that we don't check for joystick support
-with_sdl=no])
+with_allegro=no])
 ])

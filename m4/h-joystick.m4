@@ -7,6 +7,10 @@ if test "${enable_joystick-yes}" = yes; then
   # -- check for Joystick support in SDL
 
   if test "${with_sdl-yes}" != no;  then
+    if test "${with_sdl-no}" != no; then
+       user_selection_list_j="$user_selection_list_j sdlj"
+    fi
+
     OLIBS="$LIBS"
     LIBS="$LIBS $SDL_LIBS"
     AC_CHECK_FUNCS([SDL_JoystickOpen], [

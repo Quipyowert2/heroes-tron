@@ -1,3 +1,17 @@
+2001-09-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* m4/h-display.m4 (heroes_CHECK_DISPLAY_LIB): Typo preventing
+	SDL_mixer to be checked for when Allegro is not used.
+	Reported by Daniel Burrows <dburrows@brown.edu>.
+
+	* m4/h-sdl.m4 (heroes_CHECK_SDL): Don't force-append sdlj and sdls
+	in the user selections (so that for instance --with-sdl does still
+	allow giij or miks to be used without user hints)
+	* m4/h-sdlmixer.m4 (heroes_CHECK_SDL_MIXER): Don't append sdlvkm
+	and sdlj for similar reason.
+	* m4/h-joystick.m4 (heroes_CHECK_JOYSTICK_LIB) <with_sdl>: Add
+	sdlj to the user selection.
+
 2001-09-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.ac: Bump version to 0.13.

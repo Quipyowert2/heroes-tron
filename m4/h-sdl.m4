@@ -4,18 +4,16 @@ AC_DEFUN([heroes_CHECK_SDL],
 AC_HELP_STRING([--without-sdl],[disables SDL usage completely])])
 
  # --with-sdl-exec-prefix should imply --with-sdl, and vice-versa
-  
+
  test "${with_sdl_exec_prefix-no}" != no &&
   test "${with_sdl-yes}" = yes && with_sdl="$with_sdl_exec_prefix"
-  
+
  test "${with_sdl-yes}" != yes &&
   test "${with_sdl_exec_prefix-yes}" = yes && with_sdl_exec_prefix="$with_sdl"
-  
+
  if test "${with_sdl-yes}" != no; then
   if test "${with_sdl-no}" != no; then
      user_selection_list_vkm="$user_selection_list_vkm sdlvkm"
-     user_selection_list_j="$user_selection_list_j sdlj"
-     user_selection_list_s="$user_selection_list_s sdls"
   fi
 
   AC_adl_PKG_GENERIC(sdl,[1.0.1],[SDL_Init],
