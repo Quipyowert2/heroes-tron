@@ -1,5 +1,10 @@
 2000-10-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/render.c (draw_level): Use correct source buffer width
+	when drawing sprites.
+
+2000-10-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Move bonuses handling in separate files.
 
 	* src/bonus.c: New file.

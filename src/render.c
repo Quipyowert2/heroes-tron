@@ -717,7 +717,7 @@ draw_level (int p)
       if (fg_data[pos].big_dollar)
 	draw_dollar (dest);
       if (fg_data[pos].sprite)
-	copy_tile_transp (fg_data[pos].sprite, dest, bonus_a_img.width);
+	copy_tile_transp (fg_data[pos].sprite, dest, tile_set_img.width);
       dest += 24;
     }
     dest += xbuf * 20 - 24 * (nbr_tiles_cols - camera_stop_x[p]);
