@@ -57,7 +57,7 @@ unsigned int tempd = DONT_WRAP;
 unsigned int xplandec = 0;
 unsigned int yplandec = 0;
 unsigned int sprhide = 0;
-unsigned int afftests = 0;
+unsigned int draw_collide_tests = 0;
 
 static level_header_t hplaninfo = {
   0, 0, -1, -1,
@@ -566,7 +566,7 @@ update_middle_panel (void)
 }
 
 static void
-affplan (int xloc, int yloc, char c)
+draw_level_map (int xloc, int yloc, char c)
 {
   int j;
   unsigned int i, k, m;
@@ -588,7 +588,7 @@ affplan (int xloc, int yloc, char c)
 	if (level_map[i + m].sprite != 0)
 	  copy_tile_transp (level_map[i + m].sprite, dest);
       }
-      if (afftests) {
+      if (draw_collide_tests) {
 	if (level_map[i + m].type == t_outway)
 	  transpa (heditrsc.buffer + 10 * 320 + 222, dest, 24, 20, 0);
 	else
@@ -677,7 +677,7 @@ curdalled (void)
 static void
 update_left_panel (void)
 {
-  affplan (xplan, yplan, 0);
+  draw_level_map (xplan, yplan, 0);
   {
     copy_tile (level_map
 	       [((xplan + xplandec / 24) & hplaninfo.xwrap) +
@@ -770,7 +770,7 @@ departfix (void)
 	  if (flag == 0) {
 	    hplaninfo.start[c] = d;
 	    hplaninfo.start_way[c] = (m << 4) + l;
-	    affplan (xplan, yplan, 0);
+	    draw_level_map (xplan, yplan, 0);
 	  }
 	  while (mouse12 () != 0);
 	}
@@ -873,7 +873,7 @@ save_pcx (void)
 	if (level_map[i1 + j3].sprite != 0)
 	  copy_tile_transp_pcx (level_map[i1 + j3].sprite, dest);
       }
-      if (afftests) {
+      if (draw_collide_tests) {
 	if (level_map[i1 + j3].type == t_outway)
 	  transpac (heditrsc.buffer + 10 * 320 + 222, dest, 24, 20, 0);
 	else
@@ -899,7 +899,7 @@ save_pcx (void)
 }
 
 static void
-planfull (void)
+display_level_map_fullscreen (void)
 {
   int t;
   int x, y, xm = 128, ym = 100;
@@ -907,10 +907,10 @@ planfull (void)
   memset (hedit_buffer, 0, xbuf * 200);
   if (xplan > (hplaninfo.xt - 13) && hplaninfo.xwrap == DONT_WRAP)
     xplan = hplaninfo.xt - 13;
-  affplan (xplan, yplan, 7);
+  draw_level_map (xplan, yplan, 7);
   while (mouse12 () != 0);
   do {
-    affplan (xplan, yplan, 7);
+    draw_level_map (xplan, yplan, 7);
 
     t = 0;
     while (key_ready () == 0 && (xm - mouse_x ()) <= 1
@@ -1141,7 +1141,7 @@ outwayclose (void)
 }
 
 static void
-joueanim (void)
+display_level_map_animated (void)
 {
   unsigned int i, m;
   int k, l, j, n;
@@ -1191,7 +1191,7 @@ joueanim (void)
 	    if (level_map[i + m].sprite != 0)
 	      copy_tile_transp (level_map[i + m].sprite, dest);
 	  }
-	  if (afftests)
+	  if (draw_collide_tests)
 	    for (n = 0; n < 4; n++)
 	      copy_square_transp (heditrsc.buffer + 10 * 320 + 30 +
 				  level_map[i + m].collision[n] * 12,
@@ -1339,9 +1339,9 @@ gestclav (int i, int mod)
     break;
   case HK_Enter:
     if (mod & HK_MOD_Ctrl) {
-      joueanim ();
+      display_level_map_animated ();
     } else {
-      planfull ();
+      display_level_map_fullscreen ();
     }
     break;
   case HK_Space:
@@ -1437,7 +1437,7 @@ gestclav (int i, int mod)
     update_left_panel ();
     break;
   case HK_F6:
-    afftests ^= 1;
+    draw_collide_tests ^= 1;
     update_left_panel ();
     break;
   case HK_s:
@@ -1679,7 +1679,7 @@ hmain (const char* lname, const char* tset_name,
   xplandec = 0;
   yplandec = 0;
   sprhide = 0;
-  afftests = 0;
+  draw_collide_tests = 0;
 
   strcpy (levelnomshort, lname);
   strlwr (levelnomshort);
