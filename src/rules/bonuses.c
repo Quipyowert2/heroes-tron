@@ -44,17 +44,9 @@ int bonus_points[2][17] =
   {-15, 10, 0, 10, 5, -5, 0, 8, 8, -5, 5, -20, -5, 9, -10, 9, -25} /* peach */
 };
 
-/* FIXME: Move most of these to state->private.  */
-
 static int bonus_proba[17];	/* FIXME: What's the english for
 				   "fonction de r\'epartition"? */
 static int bonus_proba_sum = 0;
-
-int *bonus_time;
-int *bonus_list;
-
-static int bonus_total_nbr, bonus_real_nbr;
-static int next_bonus_to_update;
 
 static unsigned char
 random_bonus (void)
@@ -79,14 +71,15 @@ add_bonus (a_level_state *state, int pos_in_list, unsigned char what)
   while (state->tile_bonus[pos] != 0);
 
   state->tile_bonus[pos] = what;
-  bonus_list[pos_in_list] = pos;
-  bonus_time[pos_in_list] = event_time + (rand () % 511) - 256;
+  state->private->bonus_list[pos_in_list] = pos;
+  state->private->bonus_time[pos_in_list] = event_time + (rand () % 511) - 256;
 
   dmsg (D_BONUS, "Add bonus: type=%u, pos=%u, pos_in_list=%u",
 	what, pos, pos_in_list);
 
   --what;
   /* update foreground data for rendering */
+  /* FIXME: This should no be done in rules/.  */
   if (what == 16)
     fg_data[pos].big_dollar = 1;
   else {
@@ -113,14 +106,14 @@ add_random_bonus (a_level_state *state, int pos_in_list)
 void
 rem_bonus (a_level_state *state, int pos)
 {
-  int i = bonus_real_nbr;
+  int i = state->private->bonus_real_nbr;
 
   dmsg (D_BONUS, "Remove bonus: pos = %d", pos);
 
   /* find the bonus position in the list of bonuses */
   do
     i--;
-  while (bonus_list[i] != pos);
+  while (state->private->bonus_list[i] != pos);
 
   /* remove the bonus */
   state->tile_bonus[pos] = 0;
@@ -166,6 +159,7 @@ mark_unreachable_places (a_level_state *state)
 int
 init_bonuses_level (a_level_state *state)
 {
+  int btn;
   const a_level *lvl = state->level;
   uninit_bonuses_level (state);	/* just in case */
 
@@ -176,15 +170,17 @@ init_bonuses_level (a_level_state *state)
   XCALLOC_ARRAY (state->tile_bonus, lvl->tile_count);
   XCALLOC_ARRAY (state->private->tile_bonus_cpu, lvl->tile_count);
 
-  bonus_total_nbr = (lvl->tile_count / 90) + 3;
-  bonus_real_nbr = bonus_total_nbr - 2;
-  next_bonus_to_update = 0;
+  btn = (lvl->tile_count / 90) + 3;
+  state->private->bonus_total_nbr = btn;
+  /* Reserve 2 bonus to add the "exit level" at the end.  */
+  state->private->bonus_real_nbr = btn - 2;
+  state->private->next_bonus_to_update = 0;
 
   dmsg (D_BONUS, "bonus_total_nbr=%d, bonus_real_nbr=%d",
-	bonus_total_nbr, bonus_real_nbr);
+	btn, state->private->bonus_real_nbr);
 
-  XMALLOC_ARRAY (bonus_time, bonus_total_nbr);
-  XMALLOC_ARRAY (bonus_list, bonus_total_nbr);
+  XMALLOC_ARRAY (state->private->bonus_time, btn);
+  XMALLOC_ARRAY (state->private->bonus_list, btn);
 
   mark_unreachable_places (state);
 
@@ -199,8 +195,8 @@ uninit_bonuses_level (a_level_state *state)
 
   XFREE0 (state->tile_bonus);
   XFREE0 (state->private->tile_bonus_cpu);
-  XFREE0 (bonus_time);
-  XFREE0 (bonus_list);
+  XFREE0 (state->private->bonus_time);
+  XFREE0 (state->private->bonus_list);
 }
 
 void
@@ -210,20 +206,20 @@ spread_bonuses (a_level_state *state)
 
   dmsg (D_BONUS, "Spread bonuses over level.");
 
-  for (i = bonus_real_nbr - 1; i >= 0; i--)
+  for (i = state->private->bonus_real_nbr - 1; i >= 0; i--)
     add_random_bonus (state, i);
 }
 
 void
 add_end_level_bonuses (a_level_state *state)
 {
-  if (bonus_real_nbr != bonus_total_nbr) {
+  if (state->private->bonus_real_nbr != state->private->bonus_total_nbr) {
     int i;
 
     dmsg (D_BONUS, "Add end-level bonuses.");
 
-    add_bonus (state, bonus_real_nbr++, 12);
-    add_bonus (state, bonus_real_nbr++, 12 + 128);
+    add_bonus (state, state->private->bonus_real_nbr++, 12);
+    add_bonus (state, state->private->bonus_real_nbr++, 12 + 128);
     for (i = 11; i < 17; i++)
       bonus_proba[i] += 16;
     bonus_proba_sum += 16;
@@ -337,11 +333,12 @@ apply_bonus (a_level_state *state, int pl, char bonus)
 void
 update_bonuses (a_level_state *state)
 {
-  if (bonus_time[next_bonus_to_update] + 25 * 70 <= event_time) {
-    int bonus_pos = bonus_list[next_bonus_to_update];
+  a_level_state_bits *bits = state->private;
+  if (bits->bonus_time[bits->next_bonus_to_update] + 25 * 70 <= event_time) {
+    int bonus_pos = bits->bonus_list[bits->next_bonus_to_update];
 
     dmsg (D_BONUS, "Expired bonus: pos=%u, pos_in_list=%u",
-	  bonus_pos, next_bonus_to_update);
+	  bonus_pos, bits->next_bonus_to_update);
 
     /* erase the bonus */
     state->tile_bonus[bonus_pos] = 0;
@@ -349,9 +346,9 @@ update_bonuses (a_level_state *state)
     fg_data[bonus_pos].bonus = 0;
     fg_data[bonus_pos].big_dollar = 0;
     /* add a new bonus, at the same position in the list */
-    add_random_bonus (state, next_bonus_to_update);
+    add_random_bonus (state, bits->next_bonus_to_update);
   }
-  next_bonus_to_update++;
-  if (next_bonus_to_update >= bonus_real_nbr)
-    next_bonus_to_update = 0;
+  ++bits->next_bonus_to_update;
+  if (bits->next_bonus_to_update >= bits->bonus_real_nbr)
+    bits->next_bonus_to_update = 0;
 }

@@ -63,6 +63,13 @@ struct a_level_state_bits {
      It should NOT be defined here. */
   a_u8 *tile_bonus_cpu;
 
+  int *bonus_time;
+  int *bonus_list;
+  int bonus_total_nbr;
+  int bonus_real_nbr;
+  int next_bonus_to_update;
+
+
   a_timer update_timer;
   bool players_started;
 };
@@ -76,9 +83,6 @@ extern void erase_trail (a_level_state *state, int c);
 
 extern int bonus_points[2][17];	/* interest of bonuses,
 				   for CPU controled vehicles */
-
-extern int *bonus_time;
-extern int *bonus_list;
 
 extern void add_random_bonus (a_level_state *state, int pos_in_list);
 extern void rem_bonus (a_level_state *state, int pos);

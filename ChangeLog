@@ -1,3 +1,13 @@
+2002-02-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/rules/bonuses.c (bonus_time, bonus_list, bonus_total_nbr,
+	bonus_real_nbr, next_bonus_to_update): Move these variables ....
+	* src/rules/statepriv.h (bonus_time, bonus_list): ... and these ...
+	(a_level_state): ... in this struct.
+	* src/rules/bonuses.c (add_bonus, rem_bonus, init_bonuses_leel,
+	uninit_bonuses_level, spread_bonus, add_end_level_bonuses,
+	update_bonuses): Adjust.
+
 2002-02-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Move the main "update" function into rules/, allows to remove
