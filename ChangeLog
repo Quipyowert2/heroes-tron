@@ -1,3 +1,15 @@
+2001-04-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* m4/checkpkg.m4: Prepend new libraries, instead of appending them.
+	* m4/ftruncate.m4: Check for chsize and define HAVE_CHSIZE,
+	always link ftruncate.o if ftruncate() is missing.
+	* lib/fopenlock.c (fopenlock): Don't lock the file if fcntl locking
+	is not available.
+	* NEWS: Prepare for 0.9a.
+	* arch/mingw32/cross.sh (BUILDNAME): s/i386/i586/ to follow Debian
+	change.
+	* HACKING: Needs autogen.
+
 2001-04-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/persona.c (user_persona, sys_persona): Typo.

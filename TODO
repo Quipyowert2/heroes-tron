@@ -53,6 +53,8 @@ Before 1.0.0
   them. `something' may be using a different level format, in which case
   the `heroeslvl' above would be helpful.
 
+  lib/fopenlock.c only know about fcntl locking, and don't perform any
+  locking otherwise.  Other kind of locking should be implemented.
 
 Left for a 1.1.x development branch
 -----------------------------------

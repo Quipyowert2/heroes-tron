@@ -63,7 +63,7 @@ if test "${with_[]DOWN}" != no ; then
 	no_good=no
 	dnl pass a third argument to AC_CHECK_LIB to
 	dnl prevent HAVE_LIB$3 to be defined.
-        AC_CHECK_LIB([$3],[$2],[LIBS="$LIBS -l$3"],[no_good=yes])
+        AC_CHECK_LIB([$3],[$2],[LIBS="-l$3 $LIBS"],[no_good=yes])
         AC_CHECK_HEADER([$4],,[no_good=yes])
         if test "$no_good" = yes; then
 dnl     broken

@@ -38,17 +38,21 @@ FILE *
 fopenlock (const char *path, const char *mode)
 {
   FILE *f;
-  struct flock lock;
-
   f = fopen (path, mode);
   if (f == 0)
     return 0;
 
-  lock.l_type = (*mode == 'r' && mode[1] != '+' ? F_RDLCK : F_WRLCK);
-  lock.l_whence = SEEK_SET;
-  lock.l_start = 0;
-  lock.l_len = 0;		/* Lock the whole file.  */
-  fcntl (fileno (f), F_SETLKW, &lock);
-
+  /* FIXME: implement other kind of locking for system
+     which doesn't have fcntl locking.  */
+#ifdef F_SETLKW
+  {
+    struct flock lock;
+    lock.l_type = (*mode == 'r' && mode[1] != '+' ? F_RDLCK : F_WRLCK);
+    lock.l_whence = SEEK_SET;
+    lock.l_start = 0;
+    lock.l_len = 0;		/* Lock the whole file.  */
+    fcntl (fileno (f), F_SETLKW, &lock);
+  }
+#endif
   return f;
 }

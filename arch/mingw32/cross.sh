@@ -24,7 +24,7 @@
 #
 
 # system to compile for
-BUILDNAME="i386-mingw32msvc"
+BUILDNAME="i586-mingw32msvc"
 
 # path where the package should unpack
 PREFIX="/heroes"

@@ -1,3 +1,27 @@
+Heroes 0.9a	April 21, 2001
+
+	* German translations.
+	* Support for system-wide score/save(/preferences) files,
+	  this includes:
+	  - file locking
+	  - handling of process persona (when Heroes has the sgid or suid bits)
+	  - "tainting" of filename resources
+	  See node 'Global score file' of the manual.
+	* Save score/save/preferences files as text.
+	* Record keyboard preferences for SDL and GGI separately, so one
+	  can use both heroes-sdl and heroes-ggi without key conflicts.
+	* Better support for relocation
+	  - support for the HEROES_PREFIX environment variable
+	  - all paths are now relative to this prefix
+	  - if the default prefix is incorrect, Heroes will try to
+	    set it to the relative path from $bindir to $prefix (as
+	    supplied to the configure --prefix and --bindir option),
+	    i.e., it assumes the current directory is the executable's
+	    directory.  Not yet documented, can be improved.
+	* Bug fixes:
+	  - fix handling of extended keys in the "enter your name" screen
+	  - output debug messages to stdout
+
 Heroes 0.9	February 24, 2001
 
 	* Misc typos.
