@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.8c\n"
-"POT-Creation-Date: 2001-02-07 09:04+0100\n"
-"PO-Revision-Date: 2001-02-05 23:35+01:00\n"
+"POT-Creation-Date: 2001-02-08 19:25+0100\n"
+"PO-Revision-Date: 2001-02-08 20:13+01:00\n"
 "Last-Translator: Jos Boersema <joshb@sourceforge.net>\n"
 "Language-Team: none <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -57,7 +57,7 @@ msgid "%s: illegal option -- %c\n"
 msgstr "%s: ongeldige optie -- %c\n"
 
 # "illegal" and "invalid" both translate as `ongeldig'.
-# if you want difference: take above `verkeerde optie' ("wrong option")
+# if you want difference: make the above `verkeerde optie' ("wrong option")
 # (or email me/someone-nl ofcource...)
 #: lib/getopt.c:796
 #, c-format
@@ -246,9 +246,9 @@ msgid ""
 "\n"
 "  Options: -gs -d3,buffer=11,count=4\n"
 msgstr ""
-"Deze opties kunnen gezet worden in uw bestand ~/.heroes/heroesrc (dat "
+"Deze opties kunnen gezet worden in je bestand ~/.heroes/heroesrc (dat "
 "gelezen\n"
-"wordt vóór het verwerken van andere opdracht-regel opties) met een regel "
+"wordt voordat andere opdrachtregel opties worden verwerkt) met een regel "
 "zoals de volgende:\n"
 "  Options: -gs -d3,buffer=11,count=4\n"
 
@@ -265,7 +265,7 @@ msgstr "Raporteer bugs aan <heroes-bugs@lists.sourceforge.net>."
 
 #: src/argv.c:261
 msgid "-n is an obsolete option, you should use --list=sound-drivers"
-msgstr "-n is een verouderde optie, u moet nu --list=sound-drivers gebruiken"
+msgstr "-n is een verouderde optie, je moet nu --list=sound-drivers gebruiken"
 
 #: src/bonus.c:323 src/bonus.c:328
 #, c-format
@@ -405,7 +405,7 @@ msgstr "communicatie met de weergave driver"
 #: src/debughash.c:153 src/debughash.gperf:79
 #, c-format
 msgid "%s: no such channel, assuming you meant '%s'."
-msgstr "%s: niet zo'n kanaal, neem aan je bedoeld '%s'."
+msgstr "%s: niet zo'n kanaal, neem aan je bedoeld `%s'."
 
 #: src/debughash.c:156 src/debughash.gperf:82
 #, c-format
@@ -444,6 +444,11 @@ msgstr "Openen van `visual' mislukt: %s"
 #: src/endscroll.c:113
 msgid "THE END"
 msgstr "EINDE"
+
+#: src/fontdata.c:236
+#, c-format
+msgid "character '%c' is not drawable (in message '%s')"
+msgstr ""
 
 #: src/hedlite.c:1648
 #, c-format
@@ -554,8 +559,8 @@ msgstr ""
 "\n"
 "%{head 2}BONUS\n"
 "\n"
-"%{img L 60 0 20 22}Beïnvloed de speler die het item krijgt\n"
-"%{img L 60 22 20 22}Beïnvloed alle spelers behalve degene die de bonus "
+"%{img L 60 0 20 22}Beinvloed de speler die het item krijgt\n"
+"%{img L 60 22 20 22}Beinvloed alle spelers behalve degene die de bonus "
 "krijgt\n"
 "\n"
 "%{img L 0 0 20 22}%{>}%{img L 0 22 20 22}%{>>>}Spoor +1\n"
@@ -576,7 +581,7 @@ msgstr ""
 "\n"
 
 # At "kill 'em all" (`jaag ze hun graf in') you talk about controling
-# multiple subjects?
+# multiple subjects, controlled by one oponent?
 # "TIME CA$H" -> `TIJD IS GELD'
 # FIXME: there is an English typo in `TIME CA$H' line ("..the the..")
 #: src/helptext.c:85
@@ -628,10 +633,9 @@ msgstr ""
 "\n"
 "%{>>}%yTOCHT\n"
 "\n"
-"%{>>>}De %yTOCHT%w modus laat je alle 100 levels spelen die HEROES biedt "
-"you.  Your aim is to collect a given number (10) of Trail+1 bonuses and then "
-"Je doel is om een gegeven aantal (10) Spoor+1 bonussen te verzamelen en dan  "
-"de Einde-van-Level bonus die je naar het volgende level zal sturen.\n"
+"%{>>>}De %yTOCHT%w modus laat je alle 100 levels spelen die HEROES biedt Je "
+"doel is om een gegeven aantal (10) Spoor+1 bonussen te verzamelen en dan  de "
+"Einde-van-Level bonus die je naar het volgende level zal sturen.\n"
 "%{>>>}%{img L 20 176 20 22}Einde-van-level\n"
 "%{img R 0 0 20 22}%{flushright}Spoor+1\n"
 "%{>>>}Spoor+1 heeft het gevolg dat je spoor groeit. Er zijn twee manieren om "
@@ -646,8 +650,8 @@ msgstr ""
 "\n"
 "%{img BLVr 130 9 30 57}%{>>}%yJAAG ZE HUN GRAF IN\n"
 "\n"
-"%{>>>}De %yJAAG ZE HUN GRAF IN%w modus heeft één regel: overspoel alle "
-"mensen van je tegenstanders. Zoals werd gezegd \"Er kan maar één bestaan\", "
+"%{>>>}De %yJAAG ZE HUN GRAF IN%w modus heeft 1 regel: overspoel alle mensen "
+"van je tegenstanders. Zoals werd gezegd \"Er kan maar er maar 1 bestaan\", "
 "zorg ervoor dat het de jouwe zijn!\n"
 "\n"
 "%{img LG 131 70 20 100}\n"
@@ -851,7 +855,7 @@ msgstr "Fout %d tijdens laden level"
 #: src/heroes.c:963 src/heroes.c:987
 #, c-format
 msgid "Error %d occured while loading level %s"
-msgstr "Fout %d trad op terwijl laden level %s"
+msgstr "Fout %d trad op tijdens laden level %s"
 
 #: src/heroes.c:2097
 #, c-format
@@ -890,7 +894,7 @@ msgstr "-RONDE %d/%d-"
 #: src/heroes.c:3557
 #, c-format
 msgid "Cannot open %s."
-msgstr "Kan `%s' niet openen"
+msgstr "Kan `%s' niet openen."
 
 #: src/heroes.c:3627
 msgid "HOME variable not found in environment, defaulting to `.'"
@@ -1211,7 +1215,7 @@ msgstr "LAAD LEVEL"
 
 #: src/menus.c:536
 msgid "ONE PLAYER"
-msgstr "ÉÉN SPELER"
+msgstr "1 SPELER"
 
 #: src/menus.c:538
 msgid "TWO PLAYER"
@@ -1230,7 +1234,7 @@ msgstr "KIES EEN BEWAAR POSITIE"
 msgid "CHOSE A LOAD SLOT"
 msgstr "KIES EEN LAAD POSITIE"
 
-# vous/tu problem: here: vous. (let me know what you want so I can re-edit
+# vous/tu problem: here: `tu'. (let me know what you want so I can re-edit
 # everything)
 #. enter your name
 #: src/menus.c:557
@@ -1249,19 +1253,21 @@ msgid "PTS  LIVES"
 msgstr "PUNTEN LEVENS"
 
 # "MEN" as in male-people?
+# "lives" translates to plural: `levens', cut `s' leaves "life"
 #. TRANS: this is for KILL'EM ALL mode, and MEN is the number
 #. of lemmings killed by one player
 #: src/menus.c:569
+#, fuzzy
 msgid " MEN  PTS  LIVES"
-msgstr " MANNEN PUNTEN LEVENS"
+msgstr " MAN  PNT  LEVEN"
 
 #: src/menus.c:571
 msgid "CA$H  PTS  LIVES"
-msgstr "CONTANTEN PUNTEN LEVENS"
+msgstr "CA$H  PNT  LEVEN"
 
 #: src/menus.c:573
 msgid "COLORS  PTS  LIVES"
-msgstr "KLEUREN PUNTEN LEVENS"
+msgstr "KLEUR   PNT  LEVEN"
 
 #: src/menus.c:575
 msgid "NEXT LEVEL"
@@ -1280,7 +1286,7 @@ msgstr "DRUK OP ENTER"
 
 #: src/menus.c:590
 msgid "WINS  PTS  LIVES"
-msgstr "WINST PUNTEN LEVENS"
+msgstr "WINS  PNT  LEVEN"
 
 #. higher scores
 #: src/menus.c:601
@@ -1336,8 +1342,9 @@ msgstr "%s:%d: titel mist"
 msgid "%s:%d: missing author"
 msgstr "%s:%d: auteur mist"
 
+# %s is a filename, right?
 #: src/pcx.c:61
-#, c-format
+#, fuzzy, c-format
 msgid "Cannot open %s"
 msgstr "Kan `%s' niet openen"
 
@@ -1354,7 +1361,7 @@ msgstr "Onbekende beeld vlag '%c'."
 #: src/rsc_files.c:32
 #, c-format
 msgid "%s: no such resource, possible misspelling of '%s'."
-msgstr "%s: niet zo'n hulpbron, mogelijk foute gespelling voor '%s'."
+msgstr "%s: niet zo'n hulpbron, mogelijk foute gespelling voor `%s'."
 
 #: src/rsc_files.c:35
 #, c-format
@@ -1371,19 +1378,21 @@ msgstr "%s: nul hulpbron"
 msgid "%s: empty resource"
 msgstr "%s: lege hulpbron"
 
+# %s is taken to be an item
 #: src/sfx.c:148
 #, c-format
 msgid ""
 "Cannot open %s, disabling sound-effects\n"
 "(run with -X to supress this message)."
 msgstr ""
-"Kan %s niet openen, zet geluids-effecten uit\n"
+"Kan `%s' niet openen, zet geluids-effecten uit\n"
 "(draai met -X om dit bericht te onderdrukken)."
 
+# %s is taken to be an item
 #: src/sfx.c:314
 #, c-format
 msgid "Unable to load sample %s"
-msgstr "Niet in staat om voorproefje %s te laden"
+msgstr "Niet in staat om voorproefje `%s' te laden"
 
 #: src/sound.c:111
 #, c-format
@@ -1402,10 +1411,11 @@ msgstr ""
 "Kon geluid niet starten, reden: LibMikMod is niet 'thread' veilig.\n"
 "Geluid uitvoer wordt uitgezet (gebruik -S om dit bericht te onderdrukken)."
 
+# %s(1) is taken to be an item (intead of a short sentence, whatever)
 #: src/sound.c:156 src/sound.c:371
 #, c-format
 msgid "Could not load %s, reason: %s"
-msgstr "Kon %s niet laden, reden: %s"
+msgstr "Kon `%s' niet laden, reden: %s"
 
 #: src/sound.c:220
 #, c-format
@@ -1429,9 +1439,10 @@ msgid ""
 "Argument '%s' out of bounds, must be between %d and %d.\n"
 "Use '%s --help' for more information."
 msgstr ""
-"Argument '%s' buiten begrenzingen, moet binnen %d en %d zijn.\n"
-"Gebruik '%s --help' voor meer informatie."
+"Argument `%s' buiten begrenzingen, moet binnen %d en %d zijn.\n"
+"Gebruik `%s --help' voor meer informatie."
 
+# %s taken to be an item
 #: src/sound.c:333
 #, c-format
 msgid ""

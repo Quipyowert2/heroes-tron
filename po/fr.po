@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.8d\n"
-"POT-Creation-Date: 2001-02-07 09:04+0100\n"
+"POT-Creation-Date: 2001-02-08 19:25+0100\n"
 "PO-Revision-Date: 2001-02-06 21:21+01:00\n"
 "Last-Translator: Alexandre Duret-Lutz <duret_g@epita.fr>\n"
 "Language-Team: none <LL@li.org>\n"
@@ -423,6 +423,11 @@ msgstr "Impossible d'ouvrir le visuel : %s"
 #: src/endscroll.c:113
 msgid "THE END"
 msgstr "FIN"
+
+#: src/fontdata.c:236
+#, c-format
+msgid "character '%c' is not drawable (in message '%s')"
+msgstr ""
 
 #: src/hedlite.c:1648
 #, c-format
