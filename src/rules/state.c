@@ -23,6 +23,7 @@
 #include "statepriv.h"
 
 #include "prefs.h"		/* FIXME: Get rid of this include. */
+#include "ai.h"
 
 void
 state_init (a_level_state *state, const a_level *lvl, char cont,
@@ -160,6 +161,8 @@ state_init (a_level_state *state, const a_level *lvl, char cont,
   if (!in_menu)
     spread_bonuses (state);
 
+  ai_level_initialize (state);
+
   bits->players_started = false;
   bits->update_timer = new_htimer (T_LOCAL, HZ (70));
 }
@@ -167,6 +170,8 @@ state_init (a_level_state *state, const a_level *lvl, char cont,
 void
 state_free (a_level_state *state)
 {
+  ai_level_finalize (state);
+
   uninit_bonuses_level (state);
   release_explosions (state);
 

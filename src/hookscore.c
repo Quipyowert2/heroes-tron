@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------.
-| Copyright 2001  Alexandre Duret-Lutz <duret_g@epita.fr>           |
+| Copyright 2002  Alexandre Duret-Lutz <duret_g@epita.fr>           |
 |                                                                   |
 | This file is part of Heroes.                                      |
 |                                                                   |
@@ -18,20 +18,27 @@
 | 02111-1307 USA                                                    |
 `------------------------------------------------------------------*/
 
-#ifndef HEROES__AI__H
-#define HEROES__AI__H
+#include "system.h"
+#include "hookscore.h"
 
-void ai_level_initialize (a_level_state *state);
-void ai_level_finalize (a_level_state *state);
+a_hook hooks_core[] = {
+  /* These hooks are called whenever a bonus is added or removed from the
+     board.  The HOOK_DATA pointer, as received by the functions registered
+     for this hook, is a pointer to a `a_tile_index' variable holding the
+     position of the changed (removed or added) bonus.  */
+  HOOK_DEF ("bonus-add"),
+  HOOK_DEF ("bonus-rem"),
+};
 
-void ai_throttle (a_level_state *state, const a_level *lvl, int c);
 
-char ia_goto_target (a_level_state *state, const a_level *lvl,
-		     int c, int targetx_, int targety_);
-char ia_goto_nearest_bonus (a_level_state *state, const a_level *lvl,
-			    int c);
-char ia_goto_nearest_lemming (a_level_state *state, const a_level *lvl, int c);
-char ia_goto_nearest_color (a_level_state *state, const a_level *lvl, int c);
-char ia_goto_nearest_cash (a_level_state *state, const a_level *lvl, int c);
+void
+hooks_core_initialize (void)
+{
+  hook_define_many (hooks_core, sizeof(hooks_core)/sizeof(a_hook));
+}
 
-#endif /* HEROES__AI__H */
+void
+hooks_core_finalize (void)
+{
+  hook_undefine_many (hooks_core, sizeof(hooks_core)/sizeof(a_hook));
+}

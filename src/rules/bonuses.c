@@ -22,6 +22,7 @@
 #include "sfx.h"
 #include "argv.h"
 #include "debugmsg.h"
+#include "hookscore.h"
 
 #include "bonus.h"		/* FIXME: Get rid of this.  */
 #include "heroes.h"		/* FIXME: Get rid of this.  */
@@ -36,12 +37,6 @@ const int bonus_density[5][17] =
   {25, 10, 12, 8, 8, 40,  6, 8, 10, 16, 16, 0, 8, 7, 4, 7, 0},	/* killem */
   {25, 10, 12, 8, 8, 20,  6, 8, 10, 16, 16, 0, 8, 7, 4, 7, 25},	/* tcash */
   {25, 10, 12, 8, 8, 30,  6, 8, 10, 16, 16, 0, 8, 7, 4, 7, 0}    /* color */
-};
-
-/* interest of each bonus, for the CPU controled vehicles */
-int bonus_points[2][17] =
-{ {20, -15, 15, -10, 5, 18, 19, -10, 0, 0, -5, 50, 5, 0, 8, 0, 25}, /* orchid */
-  {-15, 10, 0, 10, 5, -5, 0, 8, 8, -5, 5, -20, -5, 9, -10, 9, -25} /* peach */
 };
 
 static int bonus_proba[17];	/* FIXME: What's the english for
@@ -64,7 +59,7 @@ static void
 add_bonus (a_level_state *state, int pos_in_list, unsigned char what)
 {
   const a_level *lvl = state->level;
-  int pos;
+  a_tile_index pos;
 
   do
     pos = rand () % lvl->tile_count;
@@ -76,6 +71,9 @@ add_bonus (a_level_state *state, int pos_in_list, unsigned char what)
 
   dmsg (D_BONUS, "Add bonus: type=%u, pos=%u, pos_in_list=%u",
 	what, pos, pos_in_list);
+
+  /* Inform other interested parties.  */
+  hook_run (BONUS_ADD_HOOK, &pos);
 
   --what;
   /* update foreground data for rendering */
@@ -104,7 +102,7 @@ add_random_bonus (a_level_state *state, int pos_in_list)
 }
 
 void
-rem_bonus (a_level_state *state, int pos)
+rem_bonus (a_level_state *state, a_tile_index pos)
 {
   int i = state->private->bonus_real_nbr;
 
@@ -117,6 +115,9 @@ rem_bonus (a_level_state *state, int pos)
 
   /* remove the bonus */
   state->tile_bonus[pos] = 0;
+
+  /* Inform other interested parties.  */
+  hook_run (BONUS_REM_HOOK, &pos);
 
   /* don't draw it anymore */
   fg_data[pos].bonus = 0;
@@ -168,7 +169,6 @@ init_bonuses_level (a_level_state *state)
   reset_bonus_mode (state->game_mode);
 
   XCALLOC_ARRAY (state->tile_bonus, lvl->tile_count);
-  XCALLOC_ARRAY (state->private->tile_bonus_cpu, lvl->tile_count);
 
   btn = (lvl->tile_count / 90) + 3;
   state->private->bonus_total_nbr = btn;
@@ -194,7 +194,6 @@ uninit_bonuses_level (a_level_state *state)
   dmsg (D_BONUS, "Uninitialize bonuses for level.");
 
   XFREE0 (state->tile_bonus);
-  XFREE0 (state->private->tile_bonus_cpu);
   XFREE0 (state->private->bonus_time);
   XFREE0 (state->private->bonus_list);
 }

@@ -59,12 +59,8 @@ struct a_level_state_bits {
   long explo_time;		/* Updated from explo_timer on each call
 				   to update_explosion.  */
 
-  /* FIXME: tile_bonus_cpu is a temporary array used by ai.c.
-     It should NOT be defined here. */
-  a_u8 *tile_bonus_cpu;
-
   int *bonus_time;
-  int *bonus_list;
+  a_tile_index *bonus_list;
   int bonus_total_nbr;
   int bonus_real_nbr;
   int next_bonus_to_update;
@@ -81,11 +77,8 @@ extern void grow_trail (a_level_state *state, int pl, int size);
 extern void shrink_trail (a_level_state *state, int pl, int size);
 extern void erase_trail (a_level_state *state, int c);
 
-extern int bonus_points[2][17];	/* interest of bonuses,
-				   for CPU controled vehicles */
-
 extern void add_random_bonus (a_level_state *state, int pos_in_list);
-extern void rem_bonus (a_level_state *state, int pos);
+extern void rem_bonus (a_level_state *state, a_tile_index pos);
 
 /* reset and allocate bonus data for a given level */
 extern int init_bonuses_level (a_level_state *state);

@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------.
-| Copyright 2001  Alexandre Duret-Lutz <duret_g@epita.fr>           |
+| Copyright 2002  Alexandre Duret-Lutz <duret_g@epita.fr>           |
 |                                                                   |
 | This file is part of Heroes.                                      |
 |                                                                   |
@@ -18,20 +18,17 @@
 | 02111-1307 USA                                                    |
 `------------------------------------------------------------------*/
 
-#ifndef HEROES__AI__H
-#define HEROES__AI__H
+#ifndef HEROES__HOOKSCORE__H
+#define HEROES__HOOKSCORE__H
 
-void ai_level_initialize (a_level_state *state);
-void ai_level_finalize (a_level_state *state);
+#include "hooks.h"
 
-void ai_throttle (a_level_state *state, const a_level *lvl, int c);
+extern a_hook hooks_core[];
+#define BONUS_ADD_HOOK (hooks_core + 0)
+#define BONUS_REM_HOOK (hooks_core + 1)
 
-char ia_goto_target (a_level_state *state, const a_level *lvl,
-		     int c, int targetx_, int targety_);
-char ia_goto_nearest_bonus (a_level_state *state, const a_level *lvl,
-			    int c);
-char ia_goto_nearest_lemming (a_level_state *state, const a_level *lvl, int c);
-char ia_goto_nearest_color (a_level_state *state, const a_level *lvl, int c);
-char ia_goto_nearest_cash (a_level_state *state, const a_level *lvl, int c);
 
-#endif /* HEROES__AI__H */
+void hooks_core_initialize (void);
+void hooks_core_finalize (void);
+
+#endif /* HEROES__HOOKS__H */

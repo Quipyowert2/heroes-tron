@@ -1,3 +1,39 @@
+2002-03-02  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/Makefile.am (heroes_SOURCES): Add hookscore.c and hookscore.h.
+	* src/debugchn.def (hooks): New.
+	* src/heroes.c (heroes_main): Call hooks_core_initialize, and
+	hooks_core_uninitialize.
+	* src/hooks.c: Rewrite using a hand-written singly-linked list to
+	keep track of functions for each hook.
+	(hook_define, hook_run, hook_add_fun, hook_rem_fun_if): Adjust.
+	Call dmsg.
+	(a_hook_fun_list_item): Remove.
+	(a_hook_fun_list): New struct.
+	(hook_define_many, hook_undefine, hook_undefine_many): New functions.
+	(hook_find): Ahem, iterate over the list.
+	* src/hooks.h (a_hook_fun_list): New.
+	(a_hook): Use it.
+	(HOOK_DEF): Remove stray `;'.
+	(hook_define_many, hook_undefine, hook_undefine_many): Declare.
+	* src/hookscore.c, src/hookscore.h: New files.
+
+	* src/rules/ai.c (ia_targer_y): Rename as ...
+	(ia_target_y): ... this.
+	(ai_level_initialize, ai_level_finalize): New functions.
+	* src/rules/ai.h (ai_level_initialize, ai_level_finalize): Declare.
+	* src/rules/bonus (bonus_points): Move ...
+	* src/rules/ai.c (bonus_points): ... here.
+	* src/rules/bonus (add_bonus, rem_bonus): Run BONUS_ADD_HOOK and
+	BONUS_REM_HOOK.
+	* src/rules/bonuses.c (init_bonuses_level,
+	uninit_bonuses_level): Don't alloc and free the tile_bonus
+	array.
+	* src/rules/state.c (state_init, state_free): Call
+	ai_level_initialize and ai_level_finalize;
+	* src/rules/statepriv.h (a_level_state_bits.tile_bonus_cpu) Move ..
+	* src/rules/ai.c (tile_bonus_cpu): ... here.
+
 2002-02-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Add functions to handle hooks (to be used by modules to hook

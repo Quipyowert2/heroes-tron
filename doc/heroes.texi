@@ -1301,6 +1301,9 @@ Palette Fade Events.
 @item BONUS
 Bonus handling.
 
+@item HOOKS
+Hooks Handling.
+
 @item ALL
 All of the above.
 @end table

@@ -22,10 +22,13 @@
 #define HEROES__HOOKS__H
 
 /* Modules can "hook" some functions which must be called back
-   whenever a "hook point" is encountered.  */
+   whenever a "hook point" is encountered.
 
+   This implementation is heavily inspired from the one found in Zsh.
+   */
 
 typedef struct a_hook a_hook;
+typedef struct a_hook_fun_list a_hook_fun_list;
 typedef void (*a_hook_fun)(const a_hook *hook,
 			   void *hook_data,
 			   void *callback_data);
@@ -33,10 +36,10 @@ typedef void (*a_hook_fun)(const a_hook *hook,
 struct a_hook {
   a_hook *next;
   const char *name;
-  void *list;
+  a_hook_fun_list *list;
 };
 
-#define HOOK_DEF(name)  { 0, name, 0 };
+#define HOOK_DEF(name)  { 0, name, 0 }
 
 /* The code which provide a hook should define a hook structure as
    follow
@@ -59,6 +62,13 @@ struct a_hook {
    the supplied data).  */
 void hook_define (a_hook *hook);
 void hook_run (a_hook *hook, void *hook_data);
+
+/* Same a hook_define, but works on an array of hooks.  */
+void hook_define_many (a_hook *hook, int size);
+
+void hook_undefine (a_hook *hook);
+void hook_undefine_many (a_hook *hook, int size);
+
 
 /* One can subscribe to a hook using the hook_add_fun function, and
    unsubscribe using the hook_rem_fun function.

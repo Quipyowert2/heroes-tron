@@ -72,6 +72,7 @@
 #include "locales.h"
 #include "main.h"
 #include "pendulum.h"
+#include "hookscore.h"
 
 char tile_set_name[128];
 char glenz_name[128];
@@ -1616,6 +1617,8 @@ heroes_main (int argc, char *argv[])
   var_initialize ();		/* Needed by init_persona.  */
   init_persona ();
 
+  hooks_core_initialize ();
+
   relocate_data (argv[0]);
   init_locales ();
   init_sound_track_list ();
@@ -1802,6 +1805,9 @@ heroes_main (int argc, char *argv[])
   uninit_video ();
   var_uninitialize ();
   uninit_sound_track_list ();
+
+  hooks_core_finalize ();
+
   free_extra_list ();
   free_extra_directories ();
   save_preferences ();

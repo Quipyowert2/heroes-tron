@@ -24,6 +24,7 @@
 #include "system.h"
 #include "statepriv.h"
 #include "ai.h"
+#include "hooks.h"
 
 #include "explosions.h"		/* FIXME: Get rid of this.  */
 #include "bonus.h"		/* FIXME: Get rid of this.  */
@@ -32,9 +33,31 @@ char ia_max_depth;
 char ia_cur_depth;
 char ia_is_invincible;
 char ia_player;
-a_square_coord ia_target_x, ia_targer_y;
+a_square_coord ia_target_x, ia_target_y;
 a_square_coord ia_wrap_x, ia_wrap_y;
 char ia_wrap_left, ia_wrap_right;
+
+a_u8 *tile_bonus_cpu = 0;
+
+/* interest of each bonus, for the CPU controled vehicles */
+int bonus_points[2][17] =
+{ {20, -15, 15, -10, 5, 18, 19, -10, 0, 0, -5, 50, 5, 0, 8, 0, 25}, /* orchid */
+  {-15, 10, 0, 10, 5, -5, 0, 8, 8, -5, 5, -20, -5, 9, -10, 9, -25} /* peach */
+};
+
+
+void
+ai_level_initialize (a_level_state *state)
+{
+  XCALLOC_ARRAY (tile_bonus_cpu, state->level->tile_count);
+}
+
+void
+ai_level_finalize (a_level_state *state)
+{
+  (void) state;
+  XFREE0 (tile_bonus_cpu);
+}
 
 /* Adjust speed of AI-player C.  */
 void
@@ -135,18 +158,18 @@ ia_eval_dist (a_level_state *state, const a_level *lvl, int pos)
   }
   if (ia_wrap_right) {
     if (cury <= ia_wrap_y)
-      disty = cury + lvl->square_height - ia_targer_y;
-    else if (cury <= ia_targer_y)
-      disty = ia_targer_y - cury;
+      disty = cury + lvl->square_height - ia_target_y;
+    else if (cury <= ia_target_y)
+      disty = ia_target_y - cury;
     else
-      disty = cury - ia_targer_y;
+      disty = cury - ia_target_y;
   } else {
     if (cury >= ia_wrap_y)
-      disty = ia_targer_y + lvl->square_height - cury;
-    else if (cury <= ia_targer_y)
-      disty = ia_targer_y - cury;
+      disty = ia_target_y + lvl->square_height - cury;
+    else if (cury <= ia_target_y)
+      disty = ia_target_y - cury;
     else
-      disty = cury - ia_targer_y;
+      disty = cury - ia_target_y;
   }
   return (distx + disty);
 }
@@ -415,10 +438,10 @@ ia_eval_dir_bonus (a_level_state *state, const a_level *lvl,
     a_square_index idx;
     int tmp;
     state->square_occupied[pos] = 128;
-    if (state->private->tile_bonus_cpu[d] == 0) {
+    if (tile_bonus_cpu[d] == 0) {
       tmp = state->tile_bonus[d];
       if ((tmp != 0) && (tmp != 0xff)) {
-	state->private->tile_bonus_cpu[d] = 1;
+	tile_bonus_cpu[d] = 1;
 	if (tmp < 128)
 	  tmp2 = bonus_points[0][tmp - 1];
 	else
@@ -433,7 +456,7 @@ ia_eval_dir_bonus (a_level_state *state, const a_level *lvl,
     mindist += tmp2 * (5 + ia_cur_depth) /* /ia_max_depth */ ;
 
     if (tmp2)
-      state->private->tile_bonus_cpu[state->square_tile[pos]] = 0;
+      tile_bonus_cpu[state->square_tile[pos]] = 0;
     state->square_occupied[pos] = SQOC_VACANT;
     ia_cur_depth++;
     return mindist;
@@ -533,14 +556,14 @@ ia_goto_target (a_level_state *state, const a_level *lvl,
   ia_player = c;
   ia_max_depth = state->player[c].ia_max_depth;
   ia_target_x = targetx_;
-  ia_targer_y = targety_;
+  ia_target_y = targety_;
   ia_wrap_x = ia_target_x + lvl->tile_width;
   if (ia_wrap_x >= lvl->square_width) {
     ia_wrap_x -= lvl->square_width;
     ia_wrap_left = 1;
   } else
     ia_wrap_left = 0;
-  ia_wrap_y = ia_targer_y + lvl->tile_height;
+  ia_wrap_y = ia_target_y + lvl->tile_height;
   if (ia_wrap_y >= lvl->square_height) {
     ia_wrap_y -= lvl->square_height;
     ia_wrap_right = 1;

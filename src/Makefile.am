@@ -94,6 +94,8 @@ heroes.c \
 heroes.h \
 hooks.c \
 hooks.h \
+hookscore.c \
+hookscore.h \
 intro.c \
 intro.h \
 items.c \

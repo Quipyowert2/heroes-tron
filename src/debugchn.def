@@ -100,3 +100,8 @@ channel = {
 	descr = "bonus";
 	doc   = "Bonus handling.";
 };
+
+channel = {
+	name = hooks;
+	descr = "hooks handling";
+};
