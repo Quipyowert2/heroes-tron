@@ -1,5 +1,15 @@
 2000-08-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/timer.c (reset_timer_with_offset,read_timer): Fix 
+	computation formula.
+	(shift_timer): New.
+	* src/timer.h (shift_timer): New.
+	* src/heroes (pause_menu,quit_yes_no): Use a pause_timer to
+	account the time used in the pause, and shift update_timer and
+	event_timer on exit.
+
+2000-08-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/heroes.c (play_demo,play_game): Call update_timers
 	before reseting them.
 

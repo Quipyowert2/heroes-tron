@@ -43,7 +43,7 @@ reset_timer_with_offset (timer_t timer, long sec, long usec)
   timer->orig_time.tv_sec -= sec;
   if (timer->orig_time.tv_usec < 0) {
     timer->orig_time.tv_usec += SEC;
-    ++timer->orig_time.tv_sec;
+    --timer->orig_time.tv_sec;
   }
 }
 
@@ -96,7 +96,7 @@ read_timer (timer_t timer)
     timer->orig_time.tv_usec -= (((s*(SEC%d))%d)+u)%d;
     while (timer->orig_time.tv_usec < 0) {
       timer->orig_time.tv_usec += SEC;
-      ++timer->orig_time.tv_sec;
+      --timer->orig_time.tv_sec;
     }
   }
 
@@ -110,3 +110,24 @@ read_timer (timer_t timer)
   return res;
 }
 
+void
+shift_timer (timer_t to_shift, timer_t amount)
+{
+  long u,s;
+
+  /* compute the amount to shift the timer with */
+  s = current_time.tv_sec - amount->orig_time.tv_sec;
+  u = current_time.tv_usec - amount->orig_time.tv_usec;
+  if (u < 0) {
+    u += SEC;
+    --s;
+  }
+  
+  /* add this amount from the timer's origin */
+  to_shift->orig_time.tv_usec += u;
+  to_shift->orig_time.tv_sec += s;
+  if (to_shift->orig_time.tv_usec >= SEC) {
+    to_shift->orig_time.tv_usec -= SEC;
+    ++to_shift->orig_time.tv_sec;
+  }
+}

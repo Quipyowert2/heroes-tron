@@ -56,5 +56,6 @@ void reset_timer_with_offset (timer_t timer, long sec, long usec);
 long read_timer (timer_t timer); /* return elapsed time in slices */
 void update_timers (void);
 void init_timer (void);
+void shift_timer (timer_t to_shift, timer_t amount);
 
 #endif

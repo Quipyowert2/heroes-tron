@@ -3696,8 +3696,7 @@ pause_menu (void)
   char l = 0;
   int t, t2, dp;
   unsigned char *src = render_buffer[0];
-
-  /* FIXME: timers will continue running as the game is stopped */
+  timer_t pause_timer = new_timer (T_GLOBAL, 1);
 
   halve_volume ();
   event_sfx (58);
@@ -3806,6 +3805,12 @@ pause_menu (void)
   set_volume ();
   enable_blit = 0;
   event_sfx (59);
+
+  /* delay important timers that continued running during the pause */
+  shift_timer (update_timer, pause_timer);
+  shift_timer (event_timer, pause_timer);
+
+  free_timer (pause_timer);
 }
 
 
@@ -3817,8 +3822,7 @@ quit_yes_no (void)
   char l = 0;
   unsigned char *src = render_buffer[1];
   int t;
-
-  /* FIXME: timers will continue running as the game is stopped */
+  timer_t pause_timer = new_timer (T_GLOBAL, 1);
 
   fastmem4 ((char *) screen, src, 64000 / 4);
   for (i = 64000; i != 0; i--)
@@ -3868,8 +3872,14 @@ quit_yes_no (void)
     event_sfx (88);
   else
     event_sfx (87);
+
+  /* delay important timers that continued running during the pause */
+  shift_timer (update_timer, pause_timer);
+  shift_timer (event_timer, pause_timer);
+
   reset_timer (background_timer);
   reset_timer (fading_timer);
+  free_timer (pause_timer);
   return (1 - l);
 }
 
