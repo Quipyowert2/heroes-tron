@@ -118,7 +118,7 @@ relocate_data (void)
       if (!check_installation ())
 	emsg (_("\
 It looks like the game is not correctly installed.\n\
-Maybe the data files has not been installed with the same configure options\n\
+Maybe the data files have not been installed with the same configure options\n\
 as the executable, or maybe the data files have been moved elsewhere.\n\
 In the latter case it's probably enough to set the environment variable\n\
 HEROES_PREFIX to the new location.  You may also want to set\n\

@@ -1,5 +1,9 @@
 2001-04-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/relocate.c (relocate_data): Typo.
+
+2001-04-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/menus.c (game_menu): Use ngettext to handle plural.
 	* src/heroes.c (update_player): Likewise.
 	* src/system.h (ngettext): Define replacement macro.
