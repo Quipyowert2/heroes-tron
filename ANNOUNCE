@@ -1,4 +1,4 @@
-I am pleased to announce the release of Heroes 0.19
+I am pleased to announce the release of Heroes 0.20
 
 Heroes is similar to the "Tron" and "Nibbles" games of yore, but
 includes many graphical improvements and new game features.
@@ -18,11 +18,7 @@ You are invited to visit the following links:
   screenshots:  http://heroes.sourceforge.net/screenshots.html
   download:     http://heroes.sourceforge.net/download.html
 
-NEWS in this version include:
-  - Brazilian Portuguese translations (thanks Luzemario Dantas Rocha!),
-  - computer players will stop and speed up (thanks Ingo van Lil!),
-  - Alt+Enter toggles full screen mode when using SDL (thanks Ingo van Lil!),
-  - `-G not8' will work around a bug in GGI.
+This is a bug fix release.  See NEWS for details.
 
 This version requires at least Heroes-data-1.4.
 

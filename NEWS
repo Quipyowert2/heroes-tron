@@ -1,3 +1,13 @@
+Heroes 0.20	February 7, 2002
+
+	* Bug fixes:
+	  - Improve responsiveness by not delaying input processing for
+	    one iteration of the main loop.
+	  - Support the new behavior of the libmikmod-config script installed
+	    by LibMikMod 3.1.10.
+	  - Fix the sorting of levels for Quest mode. (Since 0.12d)
+	  - Fix computation of walls for tile #0 in the level editor.
+
 Heroes 0.19	January 28, 2002
 
 	* Minor portability tweaks for MinGW.
