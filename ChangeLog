@@ -1,5 +1,16 @@
 2000-10-08  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Fix signedness warnings in visuals.[hc].
+	
+	* src/visuals.h (srcroto): Declare as pixel_t*.
+	* src/visuals.c (srcroto): Likewise.
+	(rotozoom_buffer, rotozoom_half_buffer,	horizontal_zoom_wave, 
+	horizontal_zoom_flip, vertical_zoom_wave, wave_buffer,
+	wave_half_buffer, corner_buffer_begin, corner_buffer_middle,
+	corner_buffer_end): Adapt to use pixel_t, u8_t and u32_t. 
+
+2000-10-08  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/keysdef.h (keyname_s): Fix constness. 
 	* src/structs.h (type_name): Likewise.
 	* src/hedlite.c (draw_text,fatalog): Likewise.

@@ -28,7 +28,7 @@ extern int rotocosinus2[256];
 extern signed char moyensinus[512];
 extern int mulxbuf[200];
 extern int angle;
-extern char *srcroto;
+extern pixel_t *srcroto;
 
 void rotozoom_buffer (void);	/* rotozoom */
 void rotozoom_half_buffer (int c);

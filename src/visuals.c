@@ -34,12 +34,12 @@ int rotocosinus2[256];
 signed char moyensinus[512];
 int mulxbuf[200];
 int angle;
-char *srcroto;
+pixel_t *srcroto;
 
 void
 rotozoom_buffer (void)
 {
-  char *dest = render_buffer[1] + xbuf;
+  pixel_t *dest = render_buffer[1] + xbuf;
   int x, y = 200;
   int debutx, debuty;
   int inx, iny;
@@ -95,7 +95,7 @@ rotozoom_buffer (void)
 void
 rotozoom_half_buffer (int c)
 {
-  unsigned char *dest = render_buffer[c] + xbuf - 180 + xbuf;
+  pixel_t *dest = render_buffer[c] + xbuf - 180 + xbuf;
   int x, y = 200;
   int debutx, debuty;
   int inx, iny;
@@ -154,14 +154,14 @@ rotozoom_half_buffer (int c)
 }
 
 static void
-horizontal_zoom_wave (char *src, char *dest, int oldsize, int newsize)
+horizontal_zoom_wave (pixel_t *src, pixel_t *dest, int oldsize, int newsize)
 {
   unsigned long int x = 0, deltax = ((1 + oldsize) << 16) / (newsize);
-  int *ad;
-  int tmp;
-  char tmp1;
-  int *adest;
-/*     newsize-=4; */
+  u32_t *ad;
+  u32_t tmp;
+  pixel_t tmp1;
+  u32_t *adest;
+
   if (((int) dest) & 3)
     do {
       tmp1 = *(src + (x >> 16));
@@ -169,40 +169,29 @@ horizontal_zoom_wave (char *src, char *dest, int oldsize, int newsize)
       *dest++ = tmp1;
       newsize--;
     } while (((int) dest) & 3);
-  ad = (int *) (src + (x >> 16));
-  tmp = GETWORD((unsigned char *)ad);
-  adest = (int *) dest;		/* adest utilisé dans cette boucle seulement
+  ad = (u32_t*) (src + (x >> 16));
+  tmp = GETWORD((u8_t*)ad);
+  adest = (u32_t*) dest;	/* adest utilisé dans cette boucle seulement
 				   pour que Watcom le garde dans un registre */
   do {
     *adest = tmp;
     adest++;
     x += deltax * 4;
-    ad = (int *) (src + (x >> 16));
+    ad = (u32_t*) (src + (x >> 16));
     newsize -= 4;
-    tmp = GETWORD((unsigned char *)ad);
+    tmp = GETWORD((u8_t*)ad);
   } while (newsize > 0);
-/*
-     if (newsize!=0) {
-      dest=(char*)adest;
-      do {
-	  tmp1=*(src+(x>>16));
-	  x+=deltax;
-	  *dest++=tmp1;
-	  newsize--;
-      } while (newsize>=-3);
-     }
-*/
 }
 
 static void
-horizontal_zoom_flip (char *src, char *dest, int oldsize, int newsize)
+horizontal_zoom_flip (pixel_t *src, pixel_t *dest, int oldsize, int newsize)
 {
   unsigned long int x = 0, deltax = ((1 + oldsize) << 16) / (newsize);
-  short int *ad;
-  int tmp;
-  char tmp1;
-  short int *adest;
-/*     newsize-=2; */
+  u16_t *ad;
+  u32_t tmp;
+  pixel_t tmp1;
+  u16_t *adest;
+
   if (((int) dest) & 1)
     do {
       tmp1 = *(src + (x >> 16));
@@ -210,43 +199,43 @@ horizontal_zoom_flip (char *src, char *dest, int oldsize, int newsize)
       *dest++ = tmp1;
       newsize--;
     } while (((int) dest) & 1);
-  ad = (short int *) (src + (x >> 16));
-  tmp = GETWORD((unsigned char *)ad);
-  adest = (short int *) dest;	/* adest utilisé dans cette boucle seulement
+  ad = (u16_t *) (src + (x >> 16));
+  tmp = GETWORD((u8_t *)ad);
+  adest = (u16_t *) dest;	/* adest utilisé dans cette boucle seulement
 				   pour que Watcom le garde dans un registre */
   do {
     *adest = tmp;
     adest++;
     x += deltax * 2;
-    ad = (short int *) (src + (x >> 16));
+    ad = (u16_t *) (src + (x >> 16));
     newsize -= 2;
-    tmp = GETWORD((unsigned char *)ad);
+    tmp = GETWORD((u8_t *)ad);
   } while (newsize > 0);
 }
 
 static void
-vertical_zoom_wave (char *src, char *dest, int oldsize, int newsize)
+vertical_zoom_wave (pixel_t *src, pixel_t *dest, int oldsize, int newsize)
 {
-  unsigned long int y = 0, deltay =
-    ((1 + oldsize) << 16) / (newsize), tmp1, tmp2;
+  unsigned long int y = 0, deltay = ((1 + oldsize) << 16) / (newsize);
+  u32_t tmp1, tmp2;
   newsize--;
   do {
-    unsigned char *p;
+    pixel_t *p;
     p = src + ((y >> 16) * 3 << 7);
     tmp1 = GETWORD(p);
     p = src + (((y + deltay) >> 16) * 3 << 7);
     tmp2 = GETWORD(p);
     y += deltay << 1;
-    *(int *) dest = tmp1;
-    *(int *) (dest + xbuf) = tmp2;
+    *(u32_t *) dest = tmp1;
+    *(u32_t *) (dest + xbuf) = tmp2;
     dest += xbuf * 2;
     newsize -= 2;
   } while (newsize > 0);
   if (newsize == 0) {
-    unsigned char *p;
+    pixel_t *p;
     p = src + ((y >> 16) * 3 << 7);
     tmp1 = GETWORD(p);
-    *(int *) dest = tmp1;
+    *(u32_t *) dest = tmp1;
   }
 }
 
@@ -285,11 +274,11 @@ wave_buffer (void)
     gauche = ((16 + moyensinus[(i * 2 + p) & 511]) * waves_begin) / 128;
     droite = ((16 + moyensinus[(i + p) & 511]) * waves_begin) / 128;
     for (j = 0; j < gauche; j++)
-      *(long int *) (render_buffer[1] + i + j * xbuf) = 0;
+      *(u32_t *) (render_buffer[1] + i + j * xbuf) = 0;
     vertical_zoom_wave (corner[0] + i, render_buffer[1] + i + gauche * xbuf,
 			200, 200 - droite - gauche);
     for (j = 0; j < droite; j++)
-      *(long int *) (render_buffer[1] + i + (200 - j) * xbuf) = 0;
+      *(u32_t *) (render_buffer[1] + i + (200 - j) * xbuf) = 0;
   }
   for (i = 0; i < 200; i++) {
     gauche = ((16 + moyensinus[(i * 2 + p) & 511]) * waves_begin) / 128;
@@ -302,7 +291,6 @@ wave_buffer (void)
     for (j = 0; j < droite; j++)
       *(render_buffer[0] + i * xbuf + 319 - j) = 0;
   }
-
 }
 
 void
@@ -314,12 +302,12 @@ wave_half_buffer (int c)
     gauche = ((16 + moyensinus[(i * 2 + p) & 511]) * waves_begin) / 128;;
     droite = ((16 + moyensinus[(i + p) & 511]) * waves_begin) / 128;;
     for (j = 0; j < gauche; j++)
-      *(long int *) (render_buffer[c] + 200 + i + j * xbuf) = 0;
+      *(u32_t *) (render_buffer[c] + 200 + i + j * xbuf) = 0;
     vertical_zoom_wave (corner[c] + i,
 			render_buffer[c] + 200 + i + gauche * xbuf, 200,
 			200 - droite - gauche);
     for (j = 0; j < droite; j++)
-      *(long int *) (render_buffer[c] + 200 + i + (200 - j) * xbuf) = 0;
+      *(u32_t *) (render_buffer[c] + 200 + i + (200 - j) * xbuf) = 0;
   }
   for (i = 0; i < 200; i++) {
     gauche = ((16 + moyensinus[(i * 2 + p) & 511]) * waves_begin) / 128;;
@@ -332,7 +320,6 @@ wave_half_buffer (int c)
     for (j = 0; j < droite; j++)
       *(render_buffer[c] + i * xbuf + 159 - j) = 0;
   }
-
 }
 
 void
@@ -370,11 +357,11 @@ static void
 corner_buffer_begin (int i)
 {
   int j, k, l;
-  unsigned char *src;
-  unsigned char *dest;
-  unsigned char *dest2;
-  unsigned char *glenzl = glenz[corner_buffer_glenz];
-  unsigned char *glenzd = glenz[0];
+  pixel_t *src;
+  pixel_t *dest;
+  pixel_t *dest2;
+  pixel_t *glenzl = glenz[corner_buffer_glenz];
+  pixel_t *glenzd = glenz[0];
 
   dest2 = corner[0] + xbuf * (200 - i - 1);
   for (j = 200 - i - 1, l = 0; j < 200; j++, l++) {
@@ -388,22 +375,22 @@ corner_buffer_begin (int i)
       dest++;
     }
     if (l > 9) {
-      *dest = glenzd[*dest];
-      *(dest + 1) = glenzd[*(dest + 1)];
-      *(dest + 2) = glenzd[*(dest + 2)];
-      *(dest + 3) = glenzd[*(dest + 3)];
-      *(dest + 4) = glenzd[*(dest + 4)];
-      *(dest + 5) = glenzd[*(dest + 5)];
-      *(dest + 6) = glenzd[*(dest + 6)];
-      *(dest + 7) = glenzd[*(dest + 7)];
-      *(dest + 8) = glenzd[*(dest + 8)];
-      *(dest + 9) = glenzd[*(dest + 9)];
-      *(dest + 10) = glenzd[*(dest + 10)];
+      dest[0] = glenzd[dest[0]];
+      dest[1] = glenzd[dest[1]];
+      dest[2] = glenzd[dest[2]];
+      dest[3] = glenzd[dest[3]];
+      dest[4] = glenzd[dest[4]];
+      dest[5] = glenzd[dest[5]];
+      dest[6] = glenzd[dest[6]];
+      dest[7] = glenzd[dest[7]];
+      dest[8] = glenzd[dest[8]];
+      dest[9] = glenzd[dest[9]];
+      dest[10] = glenzd[dest[10]];
     }
     i--;
   }
   for (j = 200 - i - 1, l = 0; j <= 200; j++, l++) {
-    *(dest2 - xbuf) = glenzd[*(dest2 - xbuf)];
+    dest2[-xbuf] = glenzd[dest2[-xbuf]];
     *dest2 = glenzd[glenzd[*dest2]];
     dest2 += xbuf + 1;
   }
@@ -413,11 +400,11 @@ static void
 corner_buffer_middle (int i)
 {
   int j, k, l;
-  unsigned char *src;
-  unsigned char *dest;
-  unsigned char *dest2;
-  unsigned char *glenzl = glenz[corner_buffer_glenz];
-  unsigned char *glenzd = glenz[0];
+  pixel_t *src;
+  pixel_t *dest;
+  pixel_t *dest2;
+  pixel_t *glenzl = glenz[corner_buffer_glenz];
+  pixel_t *glenzd = glenz[0];
 
   i -= 199;
   dest2 = corner[0] + i;
@@ -432,21 +419,21 @@ corner_buffer_middle (int i)
       dest++;
     }
     if (l > 9) {
-      *dest = glenzd[*dest];
-      *(dest + 1) = glenzd[*(dest + 1)];
-      *(dest + 2) = glenzd[*(dest + 2)];
-      *(dest + 3) = glenzd[*(dest + 3)];
-      *(dest + 4) = glenzd[*(dest + 4)];
-      *(dest + 5) = glenzd[*(dest + 5)];
-      *(dest + 6) = glenzd[*(dest + 6)];
-      *(dest + 7) = glenzd[*(dest + 7)];
-      *(dest + 8) = glenzd[*(dest + 8)];
-      *(dest + 9) = glenzd[*(dest + 9)];
-      *(dest + 10) = glenzd[*(dest + 10)];
+      dest[0] = glenzd[dest[0]];
+      dest[1] = glenzd[dest[1]];
+      dest[2] = glenzd[dest[2]];
+      dest[3] = glenzd[dest[3]];
+      dest[4] = glenzd[dest[4]];
+      dest[5] = glenzd[dest[5]];
+      dest[6] = glenzd[dest[6]];
+      dest[7] = glenzd[dest[7]];
+      dest[8] = glenzd[dest[8]];
+      dest[9] = glenzd[dest[9]];
+      dest[10] = glenzd[dest[10]];
     }
   }
   for (l = 0; l < 200; l++) {
-    *(dest2 + 1) = glenzd[*(dest2 + 1)];
+    dest2[2] = glenzd[dest2[2]];
     *dest2 = glenzd[glenzd[*dest2]];
     dest2 += xbuf + 1;
   }
@@ -456,11 +443,11 @@ static void
 corner_buffer_end (int i)
 {
   int j, k, l;
-  unsigned char *src;
-  unsigned char *dest;
-  unsigned char *dest2;
-  unsigned char *glenzl = glenz[corner_buffer_glenz];
-  unsigned char *glenzd = glenz[0];
+  pixel_t *src;
+  pixel_t *dest;
+  pixel_t *dest2;
+  pixel_t *glenzl = glenz[corner_buffer_glenz];
+  pixel_t *glenzd = glenz[0];
 
   i -= 319;
   dest2 = corner[0] + i + 120;
@@ -483,7 +470,7 @@ corner_buffer_end (int i)
     }
   }
   for (l = 0; i + l < 200; l++) {
-    *(dest2 + 1) = glenzd[*(dest2 + 1)];
+    dest2[1] = glenzd[dest2[1]];
     *dest2 = glenzd[glenzd[*dest2]];
     dest2 += xbuf + 1;
   }
