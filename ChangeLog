@@ -1,5 +1,16 @@
 2000-10-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Draw horiwontal rules using hrule.
+
+	* src/menus.c (horizontal_rule): New.
+	(init_menus_sprites): Initialize horizontal_rule.
+	(uninit_menus_sprites): Uninitialize it.
+	(hrule): New.
+	(background_menu,extra_menu,option_menu,draw_play_menu,
+	draw_main_menu,editor_selector): Use hrule.
+	
+2000-10-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	rletextize the extra menu.
 	
 	* src/menus.c (extra_menu_txt,extra_modes_txt,extra_combine_txt): New.

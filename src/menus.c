@@ -50,6 +50,7 @@ rleprog_t* right_arrow = 0;
 rleprog_t* checked_box[2] = {0, 0};
 rleprog_t* cursor_bg = 0;
 rleprog_t* cursor_fg = 0;
+rleprog_t* horizontal_rule = 0;
 
 rleprog_t* control_menu_txt = 0;
 rleprog_t* sound_menu_txt = 0;
@@ -79,6 +80,8 @@ init_menus_sprites (void)
 			       10, 37, main_font_img.width, xbuf);
   cursor_fg = compile_rleprog (IMGPOS (main_font_img, 51, 174), 0,
 			       14, 7, main_font_img.width, xbuf);
+  horizontal_rule = compile_rleprog (IMGPOS (main_font_img, 61, 0), 0,
+				     3, 120, main_font_img.width, xbuf);
 
   /* control menu */
   control_menu_txt = compile_menu_text (txti[90], T_CENTERED|T_WAVING, 5, 159);
@@ -199,6 +202,8 @@ uninit_menus_sprites (void)
   cursor_bg = 0;
   free_rleprog (cursor_fg);
   cursor_fg = 0;
+  free_rleprog (horizontal_rule);
+  horizontal_rule = 0;
 
   free_rleprog (control_menu_txt);
   control_menu_txt = 0;
@@ -257,6 +262,12 @@ cursor (unsigned int row, unsigned int col,
   exec_rleprog (cursor_fg, corner[0] + row * xbuf + col + 2 + (25*value/max));
 }
 
+static void
+hrule (unsigned int row)
+{
+  exec_rleprog (horizontal_rule, corner [0] + row * xbuf + 100);
+}
+
 void
 background_menu (void)
 {
@@ -296,8 +307,7 @@ control_menu (void)
     arrows (35 + l * 35 - 2 * (l == 1) + 2 * (l == 2 || l == 4), 1);
     chkbox (69, 260, opt.autopilot_one);
     chkbox (141, 260, opt.autopilot_two);
-    copy_rect_transp (main_font_img.buffer + 61 * 320,
-		      corner[0] + 95 * xbuf + 100, 120, 3);
+    hrule (95);
     exec_rleprog (control_menu_txt, corner[0]);
     vsynch ();
     aff_buffer ();
@@ -876,10 +886,8 @@ extra_menu (void)
       exec_rleprog (extra_combine_txt[(extrasel == 0)?1:2], corner[0]);
     
     if (extrasel && opt.extras != 0) {
-      copy_rect_transp (main_font_img.buffer + 61 * 320,
-			corner[0] + (72) * xbuf + 100, 120, 3);
-      copy_rect_transp (main_font_img.buffer + 61 * 320,
-			corner[0] + (169) * xbuf + 100, 120, 3);
+      hrule (72);
+      hrule (169);
       for (i = -3; i <= 3; i++)
 	if ((i + ll) >= 0 && (unsigned int)(i + ll) < extra_nbr) {
 	  if (!levelnames[3 + i]) {
@@ -1019,18 +1027,12 @@ option_menu (void)
       draw_text_array[l == 4] (txti[134], 159, 135, 1);
       draw_text_array[l == 5] (txti[136], 159, 155, 1);
       draw_text_array[l == 6] (txti[94], 159, 175, 1);
-      copy_rect_transp (main_font_img.buffer + 61 * 320,
-			corner[0] + (68 /*+j */ ) * xbuf + 100, 120, 3);
-      copy_rect_transp (main_font_img.buffer + 61 * 320,
-			corner[0] + (88 /*+j */ ) * xbuf + 100, 120, 3);
-      copy_rect_transp (main_font_img.buffer + 61 * 320,
-			corner[0] + (108 /*+j */ ) * xbuf + 100, 120, 3);
-      copy_rect_transp (main_font_img.buffer + 61 * 320,
-			corner[0] + (128 /*+j */ ) * xbuf + 100, 120, 3);
-      copy_rect_transp (main_font_img.buffer + 61 * 320,
-			corner[0] + (148 /*+j */ ) * xbuf + 100, 120, 3);
-      copy_rect_transp (main_font_img.buffer + 61 * 320,
-			corner[0] + (168 /*+j */ ) * xbuf + 100, 120, 3);
+      hrule (68);
+      hrule (88);
+      hrule (108);
+      hrule (128);
+      hrule (148);
+      hrule (168);
       arrows (50 + l * 20, 70 + j);
       vsynch ();
       aff_buffer ();
@@ -1136,15 +1138,13 @@ draw_play_menu (char l)
   background_menu ();
   j = minisinus[read_htimer (waving_htimer) & 31];
   draw_text_waving (txti[145], 159, 4, 1);
-  copy_rect_transp (main_font_img.buffer + 61 * 320,
-		    corner[0] + 21 * xbuf + 100, 120, 3);
+  hrule (21);
   if (two_players)
     draw_text_array[l == 0] (txti[146], 159, 31, 1);
 
   else
     draw_text_array[l == 0] (txti[147], 159, 31, 1);
-  copy_rect_transp (main_font_img.buffer + 61 * 320,
-		    corner[0] + 48 * xbuf + 100, 120, 3);
+  hrule (48);
   draw_text_array[l == 1] (mode_name[0], 159, 60, 1);
 
   /* draw_text_array[l==2](mode_name[1],159,73,1); */
@@ -1152,11 +1152,9 @@ draw_play_menu (char l)
   draw_text_array[l == 3] (mode_name[1], 159, 99, 1);
   draw_text_array[l == 4] (mode_name[3], 159, 115, 1);
   draw_text_array[l == 5] (mode_name[4], 159, 131, 1);
-  copy_rect_transp (main_font_img.buffer + 61 * 320,
-		    corner[0] + 150 * xbuf + 100, 120, 3);
+  hrule (150);
   draw_text_array[l == 6] (txti[148], 159, 160, 1);
-  copy_rect_transp (main_font_img.buffer + 61 * 320,
-		    corner[0] + 177 * xbuf + 100, 120, 3);
+  hrule (177);
   draw_text_array[l == 7] (txti[94], 159, 187, 1);
   arrows (41 + l * 16 + 5 * (l > 1) - 15 * (l == 0) + 
 	  13 * (l == 6) + 23 * (l == 7), 30 + j);
@@ -1175,18 +1173,12 @@ draw_main_menu (char l)
   draw_text_array[l == 4] (txti[155], 159, 135, 1);
   draw_text_array[l == 5] (txti[157], 159, 155, 1);
   draw_text_array[l == 6] (txti[158], 159, 175, 1);
-  copy_rect_transp (main_font_img.buffer + 61 * 320,
-		    corner[0] + 68 * xbuf + 100, 120, 3);
-  copy_rect_transp (main_font_img.buffer + 61 * 320,
-		    corner[0] + 88 * xbuf + 100, 120, 3);
-  copy_rect_transp (main_font_img.buffer + 61 * 320,
-		    corner[0] + 108 * xbuf + 100, 120, 3);
-  copy_rect_transp (main_font_img.buffer + 61 * 320,
-		    corner[0] + 128 * xbuf + 100, 120, 3);
-  copy_rect_transp (main_font_img.buffer + 61 * 320,
-		    corner[0] + 148 * xbuf + 100, 120, 3);
-  copy_rect_transp (main_font_img.buffer + 61 * 320,
-		    corner[0] + 168 * xbuf + 100, 120, 3);
+  hrule (68);
+  hrule (88);
+  hrule (108);
+  hrule (128);
+  hrule (148);
+  hrule (168);
   arrows (50 + l * 20, 75 + j);
 }
 
@@ -1222,10 +1214,8 @@ editor_selector (void)
     background_menu ();
     j = minisinus[read_htimer (waving_htimer) & 31];
     draw_text_waving (txti[170], 159, 10, 1);
-    copy_rect_transp (main_font_img.buffer + 61 * 320,
-		      corner[0] + (30) * xbuf + 100, 120, 3);
-    copy_rect_transp (main_font_img.buffer + 61 * 320,
-		      corner[0] + (187) * xbuf + 100, 120, 3);
+    hrule (30);
+    hrule (187);
     for (i = -5; i <= 5; i++)
       if ((i + l) >= 0 && (unsigned int) (i + l) < extra_user_nbr) {
 	strcpy (lname, extra_list[i + l].level_name);
