@@ -80,6 +80,7 @@ render.h \
 rsc_files.c \
 rsc_files.h \
 rsc_files_hash.c \
+rsc_files_hash.h \
 savegame.c \
 savegame.h \
 scores.c \
