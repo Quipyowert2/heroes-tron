@@ -62,27 +62,39 @@ void get_joystick_state (void)
       joystick_b[1] = (joystick_b[1] & ~1) | (joy[0].button[2].b ? 1 : 0);
       joystick_b[1] = (joystick_b[1] & ~2) | (joy[0].button[3].b ? 2 : 0);
     }
+
     if (joy[0].stick[0].axis[0].d1)
       joystick_x[0] = -10000;
     else if (joy[0].stick[0].axis[0].d2)
       joystick_x[0] = +10000;
+    else
+      joystick_x[0] = 0;
+
     if (joy[0].stick[0].axis[1].d1)
       joystick_y[0] = -10000;
     else if (joy[0].stick[0].axis[1].d2)
       joystick_y[0] = +10000;
+    else
+      joystick_y[0] = 0;
   }
 
   if (num_joysticks >= 2) {
     joystick_b[1] = (joystick_b[1] & ~1) | (joy[1].button[0].b ? 1 : 0);
     joystick_b[1] = (joystick_b[1] & ~2) | (joy[1].button[1].b ? 2 : 0);
+
     if (joy[1].stick[0].axis[0].d1)
       joystick_x[1] = -10000;
     else if (joy[1].stick[0].axis[0].d2)
       joystick_x[1] = +10000;
+    else
+      joystick_x[1] = 0;
+
     if (joy[1].stick[0].axis[1].d1)
       joystick_y[1] = -10000;
     else if (joy[1].stick[0].axis[1].d2)
       joystick_y[1] = +10000;
+    else
+      joystick_y[1] = 0;
   }
 
   if (num_joysticks >= 1)
