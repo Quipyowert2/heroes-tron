@@ -99,11 +99,15 @@ visuals.c \
 visuals.h
 
 BUILT_SOURCES = keysdef-inc.h
+CLEANFILES = keysdef-inc.h
 
+# keysdef-inc depends on config.h in order to be regenerated each time
+# config.h change (in case the game is reconfigured with another display
+# engine).
 if GGI
-keysdef-inc.h:; @AWK@ '							     \
+keysdef-inc.h: config.h; @AWK@ '					     \
 BEGIN { print "/* Do not edit!  This is generated automaticaly */\n"	     \
-              "#ifndef __KEYSDEF_GII_H__\n" 				     \
+              "#ifndef __KEYSDEF_GII_H__\n"				     \
               "#define __KEYSDEF_GII_H__\n"				     \
               "#include \"keysdef.h\"\n"				     \
               "#include <ggi/keyboard.h>\n\n"				     \
@@ -114,7 +118,7 @@ END { print "\t{ 0, 0 }};\n#endif\n" }' < @GGI_KEYBOARD_H@ > $@
 endif
 
 if SDL
-keysdef-inc.h:; @AWK@ '							     \
+keysdef-inc.h: config.h; @AWK@ '					     \
 BEGIN { print "/* Do not edit!  This is generated automaticaly */\n"	     \
               "#ifndef __KEYSDEF_SDL_H__\n"				     \
               "#define __KEYSDEF_SDL_H__\n"				     \
