@@ -53,6 +53,7 @@
 #include "pixelize.h"
 #include "scores.h"
 
+static htimer_t lemming_htimer;
 static sprite_t* left_arrow = 0;
 static sprite_t* right_arrow = 0;
 static sprite_t* checked_box[2] = {0, 0};
@@ -233,6 +234,8 @@ free_menu (menu_t *menu)
 void
 init_menus_sprites (void)
 {
+  lemming_htimer = new_htimer (T_GLOBAL, HZ (18));
+
   left_arrow = compile_sprrle (IMGPOS (main_font_img, 50, 134), 0,
 			       20, 13, main_font_img.width, xbuf);
   right_arrow = compile_sprrle (IMGPOS (main_font_img, 50, 121), 0,
@@ -474,6 +477,7 @@ init_menus_sprites (void)
 void
 uninit_menus_sprites (void)
 {
+  free_htimer (lemming_htimer);
   FREE_SPRITE0 (left_arrow);
   FREE_SPRITE0 (right_arrow);
   FREE_SPRITE0 (checked_box[0]);
@@ -1860,6 +1864,15 @@ jukebox_draw (int pos)
   copy_rect_2 (jukebox_img.buffer + 19 * 320 + 227 + (t / 10) * 6,
 	       corner[0] + 186 * xbuf + 8 + 227, 6, 5);
 
+  {
+    int lempos = read_htimer (lemming_htimer);
+    copy_rect_transp (main_font_img.buffer +
+		      81 * 320 + 132 + 6 * (lempos & 7),
+		      corner[0] + (190) * xbuf + (lempos / 2) - 6, 6, 10);
+    if ((lempos / 2) >= 332)
+      reset_htimer (lemming_htimer);
+  }
+
   vsynch ();
   aff_buffer ();
 }
@@ -1910,7 +1923,6 @@ jukebox_menu (void)
 {
   signed char sinl;
   int l = 0;
-  htimer_t lemming_htimer = new_htimer (T_GLOBAL, HZ (18));
 
   in_jokebox = 1;
   std_white_fadein (&tile_set_img.palette);
@@ -1926,20 +1938,11 @@ jukebox_menu (void)
     hrule (28);
     hrule (109);
     hrule (171);
-    {
-      int lempos = read_htimer (lemming_htimer);
-      copy_rect_transp (main_font_img.buffer +
-			81 * 320 + 132 + 6 * (lempos & 7),
-			corner[0] + (190) * xbuf + (lempos / 2) - 6, 6, 10);
-      if ((lempos / 2) >= 332)
-	reset_htimer (lemming_htimer);
-    }
     jukebox_draw (l);
   } while (jukebox_keys (&l));
 
   event_sfx (76);
   in_jokebox = 0;
-  free_htimer (lemming_htimer);
 }
 
 void

@@ -1,5 +1,17 @@
 2000-11-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Ensure that the lemming is draw on top of the deck (not behind),
+	by moving the drawing code into jukebox_draw.  As a side effect
+	this also draws the lemmings in the pause screen.
+
+	* src/draw.c (jukebox_menu): Move the lemming_htimer definition ...
+	(lemming_htimer): ... here (global).
+	(jukebox_menu): Move the lemming drawing code to ...
+	(jukebox_draw): ... here.
+	(init_menu_sprites,uninit_menus_sprites): Take care of lemming_htimer.
+
+2000-11-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Adapt the deck_text font to the new sprtext functions.
 
 	* src/draw.c (deck_text_conv, draw_deck_text): Remove.
