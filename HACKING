@@ -22,7 +22,7 @@ Required to bootstrap a CVS checkout:
 
 Optionally needed if you change some specific parts of the game:
 
- help2man	 (http://www.ozemail.com.au/~bod)
+ help2man	 (http://www.gnu.org/software/help2man/)
  texinfo	 (from ftp.gnu.org)
  zip		 (ftp://ftp.cdrom.com/pub/infozip/src/zip23.tar.gz)
  unzip		 (ftp://ftp.cdrom.com/pub/infozip/src/unzip540.tar.gz)

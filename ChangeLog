@@ -1,5 +1,9 @@
 2001-09-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* HACKING: Update help2man URL.
+
+2001-09-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/people.def (Romuald Genevois): Update www.
 
 2001-09-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
