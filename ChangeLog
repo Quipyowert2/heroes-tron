@@ -1,5 +1,9 @@
 2000-12-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.in: Bump to 0.7b.
+
+2000-12-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* NEWS: Update for 0.7a.
 
 2000-12-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
