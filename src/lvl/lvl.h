@@ -338,7 +338,7 @@ int lvl_create (a_level *lvl, a_tile_coord height, a_tile_coord width,
 int lvl_load_tileset (a_level *lvl);
 
 /* assign a tile from the tileset to the level */
-int lvl_assign_tile (a_level *lvl, a_tile_index dest, a_tile_index src);
+void lvl_assign_tile (a_level *lvl, a_tile_index dest, a_tile_index src);
 
 /* delete the level's tileset */
 void lvl_free_tileset (a_level *lvl);
@@ -347,10 +347,10 @@ void lvl_free_tileset (a_level *lvl);
 void lvl_set_soundtrack (a_level *lvl, const char* sound_track_alias);
 
 /* Set starting position and direction for player */
-int lvl_set_start (a_level *lvl, int player, a_square_index idx, a_dir dir);
+void lvl_set_start (a_level *lvl, int player, a_square_index idx, a_dir dir);
 
 /* Locate a tunnel's start and end squares */
-int lvl_setup_tunnel (a_level *lvl, a_square_index start, a_square_index end);
+void lvl_setup_tunnel (a_level *lvl, a_square_index start, a_square_index end);
 
 /* set the animation speed */
 void lvl_set_anim_delay (a_level *lvl, a_tile_index idx, unsigned int delay);

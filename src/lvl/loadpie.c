@@ -182,5 +182,49 @@ lvl_load_tileset (a_level *lvl)
   }
 #endif
 
+  /* reset all walls to the defaults given in the tileset. This is
+     necessary before map-editing to get rid of walls that are raised
+     only to mark T_OUTWAY squares in level files */
+  if (err == 1) {
+    a_tile_index tile;
+    a_square_index square;
+    a_square_coord x, y;
+
+    for (square = 0; square < lvl->square_count; ++square) {
+      x = SQR_INDEX_TO_COORD_X (lvl, square);
+      y = SQR_INDEX_TO_COORD_Y (lvl, square);
+      lvl->square_walls_out[square] = 0;
+      lvl->square_move[D_UP][square] =
+        SQR_COORDS_TO_INDEX (lvl, SQR_COORD_UP (lvl, y), x);
+      lvl->square_move[D_RIGHT][square] =
+        SQR_COORDS_TO_INDEX (lvl, y, SQR_COORD_RIGHT (lvl, x));
+      lvl->square_move[D_DOWN][square] =
+        SQR_COORDS_TO_INDEX (lvl, SQR_COORD_DOWN (lvl, y), x);
+      lvl->square_move[D_LEFT][square] =
+        SQR_COORDS_TO_INDEX (lvl, y, SQR_COORD_LEFT (lvl, x));
+    }
+
+    if (lvl->square_width_wrap == DONT_WRAP)
+      for (y = 0; y < lvl->square_height; ++y) {
+	lvl->square_move[D_LEFT][SQR_COORDS_TO_INDEX (lvl, y, 0)]
+	  = INVALID_INDEX;
+	lvl->square_move[D_RIGHT][SQR_COORDS_TO_INDEX (lvl, y,
+						lvl->square_width - 1)]
+	  = INVALID_INDEX;
+      }
+
+    if (lvl->square_height_wrap == DONT_WRAP)
+      for (x = 0; x < lvl->square_width; ++x) {
+	lvl->square_move[D_UP][SQR_COORDS_TO_INDEX (lvl, 0, x)]
+	  = INVALID_INDEX;
+	lvl->square_move[D_DOWN][SQR_COORDS_TO_INDEX (lvl,
+						lvl->square_height - 1, x)]
+	  = INVALID_INDEX;
+      }
+
+    for (tile = 0; tile < lvl->tile_count; ++tile)
+      rebuild_walls (lvl, tile);
+  }
+
   return err;
 }

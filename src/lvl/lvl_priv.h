@@ -79,6 +79,8 @@ void initialize_level_body (a_level *out);
 void initialize_empty_level_body (a_level *lvl);
 void encode_level_header (a_u8 *data, const a_level *lvl);
 void encode_level_body (a_u8 *data, const a_level *lvl);
+a_tile_index sprite_offset_to_tileset_index (a_tileset *tset, int spr_ofs);
+void rebuild_walls (a_level *lvl, a_tile_index idx);
 
 a_dir dir_mask_to_dir (a_dir_mask dm);
 extern const int tunnel_square_io[4][2];

@@ -32,6 +32,13 @@ en_reverse_walls (const a_level *lvl, a_dir_mask8 *square_walls_in)
   for (idx = 0; idx < lvl->square_count; ++idx) {
     a_square_coord this_x = SQR_INDEX_TO_COORD_X (lvl, idx);
     a_square_coord this_y = SQR_INDEX_TO_COORD_Y (lvl, idx);
+
+    /* T_OUTWAY squares are marked by raising walls on every side */
+    if (lvl->square_type[idx] == T_OUTWAY) {
+      square_walls_in[idx] |= DM_ALL;
+      continue;
+    }
+
     {
       a_square_coord dest_y = SQR_COORD_UP (lvl, this_y);
       if (SQR_COORD_Y_VALID (lvl, dest_y)) {
@@ -121,9 +128,13 @@ encode_level_body (a_u8 *data, const a_level *lvl)
 	a_tile_index dti;
 
 	/* find a square that's part of the tunnel */
-	s = 0;
-	while (lvl->square_type[SQRX (lvl, si, s)] != T_TUNNEL) ++s;
+	for (s = 0; s < 4; ++s) {
+	  if (lvl->square_type[SQRX (lvl, si, s)] == T_TUNNEL)
+	    break;
+	}
+
 	tsi = SQRX (lvl, si, s);
+	assert (lvl->square_type[tsi] == T_TUNNEL);
 
 	td = lvl->square_direction[tsi];
 	dti = SQR_INDEX_TO_TILE_INDEX (lvl, lvl->square_move[td][tsi]);

@@ -1,3 +1,17 @@
+2002-02-11  Ingo van Lil  <inguin@gmx.de>
+
+	* src/lvl/en_body.c (en_reverse_walls): Set DM_ALL on T_OUTWAY squares.
+	(encode_level_body): Make sure tunnel outputs are T_TUNNEL.
+	* src/lvl/loadpie.c (lvl_load_tileset): Reset walls of T_OUTWAY
+	squares.
+	* src/lvl/lvl.h (lvl_assign_tile, lvl_set_start, lvl_setup_tunnel):
+	Return void.
+	* src/lvl/lvl_priv.h (rebuild_walls,
+	sprite_offset_to_tileset_index): Declare.
+	* src/lvl/mapedit.c (sprite_offset_to_tileset_index): Simplify.
+	(lvl_assign_tile, lvl_set_start, lvl_setup_tunnel): Add
+	assertions for bad conditions.
+
 2002-02-08  Ingo van Lil  <inguin@gmx.de>
 
 	* src/lvl/mapedit.c (mark_outway): New function.
