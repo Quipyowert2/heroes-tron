@@ -1,5 +1,10 @@
 2001-02-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/sprtext.c (compile_sprtext, compile_sprtext_color): Don't
+	compile undrawable letters.
+
+2001-02-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* po/fr.po: Update for 0.8d.
 	* po/nl.po: Merge.
 
