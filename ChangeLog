@@ -1,5 +1,9 @@
 2001-05-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/menus.c (handle_reader_keys): Typo.
+
+2001-05-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/relocate.c (try_to_explore_path): Support semicolon
 	separated paths.
 

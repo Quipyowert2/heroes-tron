@@ -2036,7 +2036,7 @@ jukebox_draw (int pos)
 }
 
 static bool
-handle_reader_keys (key_t t, int *top, read_data_t *text)
+handle_reader_keys (keycode_t t, int *top, read_data_t *text)
 {
   switch (t) {
   case HK_Down:
