@@ -341,6 +341,13 @@ AC_C_CONST
 
 AC_CHECK_FUNCS(gettimeofday)
 
+AC_CACHE_CHECK([whether mkdir takes two arguments],[ac_cv_two_args_mkdir],
+[AC_TRY_LINK([#include <unistd.h>],[mkdir (".", 0777);],
+[ac_cv_two_args_mkdir=yes],[ac_cv_two_args_mkdir=no])])
+if test $ac_cv_two_args_mkdir = yes; then
+  AC_DEFINE(TWO_ARGS_MKDIR,1,[Define if mkdir take two arguments.])
+fi
+
 # AC_CHECK_FUNCS(mkdir)
 # test "$ac_cv_func_mkdir" = yes || LIBOBJS="$LIBOBJS mkdir.o"
 

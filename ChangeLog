@@ -1,3 +1,15 @@
+2000-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Under DOS, mkdir doesn't take a second argument.
+
+	* configure.in: Check whether mkdir takes two arguments and define
+	TWO_ARGS_MKDIR.
+	* src/hedlite.c (create_levels_output_dir): Do not use
+	the second mkdir argument if !TWO_ARGS_MKDIR.
+	* src/userdir.c (setup_userdir): Likewise.
+	
+	* fastmem.h: Add missing "config.h" include.
+
 2000-08-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Use clock when gettimeofday isn't available.

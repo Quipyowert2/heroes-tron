@@ -22,6 +22,7 @@
 #ifndef _FASTMEM_H_plx_
 #define _FASTMEM_H_plx_
 
+#include "config.h"
 #ifdef HAVE_STRING_H
 #  include <string.h>
 #else

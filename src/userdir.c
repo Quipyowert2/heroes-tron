@@ -18,7 +18,7 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
+#include "config.h"
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
@@ -79,7 +79,11 @@ setup_userdir (void)
     if (err < 0)
       return 1;
     if (err == 0) {
-      if (mkdir (userdir, 0700)) {
+      if (mkdir (userdir
+#if TWO_ARGS_MKDIR
+		 , 0700
+#endif
+		 )) {
 	perror ("while creating ~/" DIR_NAME);
 	return 1;
       } else {
