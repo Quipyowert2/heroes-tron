@@ -1314,9 +1314,9 @@ play_menu (void)
 static void
 output_screen (char n)
 {
-  unsigned char *src;
+  pixel_t *src;
   int i;
-  char loginf[4];
+  int loginf[4];		/* values for counters */
 
   if (game_mode == M_DEATHM)
     for (i = 0; i < 4; i++)

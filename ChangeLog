@@ -1,5 +1,11 @@
 2000-12-02  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/heroes.c (output_screen): Declare loginf as ints ratherr
+	than chars, prevent wrapping of counter after 127.
+	Reported by Jean Delvare.
+
+2000-12-02  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Adapt config stuffs to the upcoming autoconf 2.49b.
 
 	* m4/ac_adl_find_header.m4 (AC_adl_FIND_HEADER): Don't use
