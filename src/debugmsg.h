@@ -40,7 +40,7 @@ enum debug_lvl { D_SECTION = 1,
 
 extern enum debug_lvl debug_level;
 
-#ifndef DEBUG
+#ifndef USE_HEROES_DEBUG
 # define dmsg while (0) while
 # define dperror while (0) while
 #else

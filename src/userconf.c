@@ -107,9 +107,7 @@ read_userconf (const char* file, const char* argv0)
 	goto non_fatal_error;
       }
       argv[2] = strtok (0, "\n");
-#ifdef DEBUG
-      printf ("setenv(%s,%s)\n", argv[1], argv[2]);
-#endif
+      dmsg (D_SYSTEM, "setenv(%s,%s)", argv[1], argv[2]);
       s = malloc (strlen (argv[1]) + strlen (argv[2]) + 2);
       sprintf (s, "%s=%s", argv[1], argv[2]);
       putenv (s);

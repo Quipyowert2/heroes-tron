@@ -99,7 +99,7 @@ dmsg_init (const char* prgname)
 
   opt = getenv ("HEROES_DEBUG");
   if (opt) {
-#ifndef DEBUG
+#ifndef USE_HEROES_DEBUG
     puts ("Ignoring value of HEROES_DEBUG: recompile Heroes with\n"
 	  "the --enable-debug configure option if you want that feature.");
 #else
@@ -158,6 +158,6 @@ dmsg_init (const char* prgname)
       free (buf);
     }
     dmsg (D_MISC, "set debug level to %x", debug_level);
-#endif /* DEBUG */
+#endif /* HEROES_DEBUG */
   }
 }

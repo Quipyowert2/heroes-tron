@@ -50,8 +50,8 @@ Getting Heroes
    The web page of Heroes is `http://www.realtech.scene.org/heroes/'.
 This page has been designed by Romuald Genevois
 <rgenevois@besancon.net>.  More up to date information about recent
-versions are can be found on the Heroes project home page on
-SourceForge: `http://sourceforge.net/projects/heroes/'.
+versions can be found on the Heroes project home page on SourceForge:
+`http://sourceforge.net/projects/heroes/'.
 
    The latest version of Heroes is always uploaded to
 `ftp://download.sourceforge.net/pub/sourceforge/heroes/' and announced
@@ -60,11 +60,11 @@ on the `heroes-announce' mailing list (*note Mailing lists::).
    Heroes is also uploaded to MetaLab (sunsite) in `/pub/linux/games';
 see the MetaLab mirror list
 (http://metalab.unc.edu/pub/linux/MIRRORS.html) to find your nearest
-mirror. You will have to wait three or four days to have files
+mirror. You will have to wait three or four days to have the files
 available on MetaLab after a release.
 
    Heroes is distributed as four packages with independent version
-numbering.  Be sure to get them four:
+numbering and release schedule.  Be sure to get them four:
 
 `heroes'
      The source code, info file, and man page.
@@ -188,7 +188,13 @@ help it, or to configure special features of Heroes.
 `--enable-debug'
      Turn on debugging options: compile and link with debugging symbols,
      enable assertions, and debug code.  This is disabled by default
-     because it slow down the code and produce a bigger binary.
+     because it slow down the code and produce a bigger binary.  This
+     also turn off optimization options.
+
+`--disable-heroes-debug'
+     Turn off tracing support.  See the description of the
+     `HEROES_DEBUG' variable (*note Environment::).  This is enabled by
+     default to facilitate bug reporting.
 
 `--enable-mem-debug'
      Turn on support for malloc debugging libraries such as electric

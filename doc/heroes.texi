@@ -312,6 +312,11 @@ good description) and of the behavior you are expecting (this
 is not always obvious for everyone)
 
 @item
+a trace of the game, as given by running Heroes with the
+@samp{HEROES_DEBUG} environment variable set (to @samp{all}, for
+instance).
+
+@item
 a stack trace of the crash, if you compiled the game with debugging
 options (see below).
 
@@ -593,7 +598,14 @@ imply --with-sdl.
 @cindex --enable-debug
 Turn on debugging options: compile and link with debugging symbols,
 enable assertions, and debug code.  This is disabled by default because
-it slow down the code and produce a bigger binary.
+it slow down the code and produce a bigger binary.  This also turn off
+optimization options.
+
+@item --disable-heroes-debug
+@cindex --disable-heroes-debug
+Turn off tracing support.  See the description of the @samp{HEROES_DEBUG}
+variable (@pxref{Environment}).  This is enabled by default to facilitate
+bug reporting.
 
 @item --enable-mem-debug
 @cindex --enable-mem-debug
@@ -851,10 +863,10 @@ when heroes start.
 @cindex @samp{HEROES_DEBUG}
 
 The very first action of Heroes when it starts is to look the
-environment for a @samp{HEROES_DATA_DIR} variable.  If Heroes
-has been compiled with the @samp{--enable-debug} configure option, this
-variable specify the kind of debug messages that should be printed out.
-Possible values are the following.
+environment for a @samp{HEROES_DATA_DIR} variable.  If Heroes has been
+compiled with the @samp{--enable-heroes-debug} configure option (which
+is the default), this variable specify the kind of debug messages that
+should be printed out.  Possible values are the following.
 
 @table @samp
 @item SECTION

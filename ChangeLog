@@ -1,5 +1,21 @@
 2000-08-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Add --enable-heroes-debug option to compile HEROES_DEBUG
+	support or not.
+
+	* configure.in: Add --enable-heroes-debug option.
+	Move the definition of DEBUG in another place, it was wrong.
+	* src/debugmsg.h (DEBUG): Rename to ... 
+	(USE_HEROES_DEBUG): ... this.
+	* src/debugmsg.c: Likewise.
+	* src/userconf.c (read_userconf): Transform a fprintf in a call
+	to dmsg.
+	* doc/heroes.texi (Bug Reporting): Ask for HEROES_DEBUG trace.
+	(configure options): Describe --disable-heroes-debug.
+	* README: Adjust accordingly.
+
+2000-08-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* doc/heroes.texi (Getting Heroes): Missing word.
 
 2000-08-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
