@@ -1,5 +1,11 @@
 2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* doc/heroes.texi (Machines): New section.
+	* tools/readme.sed: List the Machines section in the summary.
+	* TODO: Update.
+
+2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	New sprite kind, used to draw the "Get this bonus" arrows.
 
 	* src/sprunish.c: New.

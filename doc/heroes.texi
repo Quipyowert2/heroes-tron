@@ -124,6 +124,7 @@ Installation of Heroes
 * Libraries::                   Libraries Heroes can link with.
 * configure::                   Generic configure instructions.
 * configure options::           Configure options specific to heroes.
+* Machines::                    Architectures where Heroes is known to work.
 
 Running Heroes
 
@@ -533,6 +534,7 @@ going to sell the game anymore I don't know how many levels there will be.
 * Libraries::                   Libraries Heroes can link with.
 * configure::                   Generic configure instructions.
 * configure options::           Configure options specific to heroes.
+* Machines::                    Architectures where Heroes is known to work.
 @end menu
 
 @c ======================================================================
@@ -607,7 +609,7 @@ Heroes also supports memory debugging libraries, such as @samp{dmalloc} or
 To be filled.
 
 @c ======================================================================
-@node    configure options,  , configure, Installation
+@node    configure options, Machines, configure, Installation
 @comment node-name,  next,  previous,  up
 @section configure options for Heroes
 @cindex  configure options for Heroes
@@ -692,6 +694,54 @@ Build and install html documentation in directory @samp{DIR}.
 If @samp{DIR} is not given, install in @file{$datadir/heroes/doc}.
 
 @end table
+
+@c ======================================================================
+@node    Machines,  , configure options, Installation
+@comment node-name,     next,           previous, up
+@section Machines
+@cindex machines
+@cindex architecture
+
+Heroes has been reported to compile and run on the following
+architectures.  Since Heroes can use SDL or GGI as display driver,
+the following list shows the driver which was used.
+
+@table @asis
+@item Linux/i386 (SDL or GGI)
+Should build out of the box.  Packages for Debian and Red Hat
+are available from the web pages.
+
+@item Linux/ppc (SDL)
+Is reported to work when the sound (@samp{SDL_mixer}) is disabled
+(@samp{configure --disable-sound} or @samp{heroes -S}).  Any feedback on
+this issue is welcome.  See also the @file{BUGS} file.
+
+@item FreeBSD (SDL)
+Should build out of the box.
+Packages are available from the web pages.
+
+@item Solaris (SDL)
+Should build out of the box.
+
+@item Win32/MinGW32 (SDL)
+Can be cross-compiled from Linux (native compilation untested).
+Packages are available from the web pages.
+
+@item Win32/VisualC (SDL)
+See the files in the @file{arch/VisualC} subdirectory.
+
+@item Digital Unix (GGI)
+Should build out of the box.
+
+@item NetBSD (SDL)
+I had to tweak SDL 1.1.6 to get it working, and also force Heroes' configure
+to use the result of @samp{sdl-config --static-libs} instead of
+@samp{sdl-config --libs}.
+
+@end table
+
+If you got Heroes working on a platform which is not listed here, please
+send a notice to @email{heroes-discuss@@lists.sourceforge.net}.
 
 @c ======================================================================
 @node    Running, Index, Installation, Top

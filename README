@@ -16,6 +16,7 @@ Summary
     - Needed Libraries
     - configure generic instructions
     - configure options for Heroes
+    - Machines
 
 Overview of Heroes
 ******************
@@ -226,4 +227,45 @@ help it, or to configure special features of Heroes.
 `--enable-html-doc[=DIR]'
      Build and install html documentation in directory `DIR'.  If `DIR'
      is not given, install in `$datadir/heroes/doc'.
+
+Machines
+========
+
+   Heroes has been reported to compile and run on the following
+architectures.  Since Heroes can use SDL or GGI as display driver, the
+following list shows the driver which was used.
+
+Linux/i386 (SDL or GGI)
+     Should build out of the box.  Packages for Debian and Red Hat are
+     available from the web pages.
+
+Linux/ppc (SDL)
+     Is reported to work when the sound (`SDL_mixer') is disabled
+     (`configure --disable-sound' or `heroes -S').  Any feedback on
+     this issue is welcome.  See also the `BUGS' file.
+
+FreeBSD (SDL)
+     Should build out of the box.  Packages are available from the web
+     pages.
+
+Solaris (SDL)
+     Should build out of the box.
+
+Win32/MinGW32 (SDL)
+     Can be cross-compiled from Linux (native compilation untested).
+     Packages are available from the web pages.
+
+Win32/VisualC (SDL)
+     See the files in the `arch/VisualC' subdirectory.
+
+Digital Unix (GGI)
+     Should build out of the box.
+
+NetBSD (SDL)
+     I had to tweak SDL 1.1.6 to get it working, and also force Heroes'
+     configure to use the result of `sdl-config --static-libs' instead
+     of `sdl-config --libs'.
+
+   If you got Heroes working on a platform which is not listed here,
+please send a notice to <heroes-discuss@lists.sourceforge.net>.
 

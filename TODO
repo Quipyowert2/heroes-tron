@@ -2,30 +2,12 @@ Tasks for Heroes.  If you think something is missing here,
 please send a note to <heroes-discuss@lists.sourceforge.net>.
 
 
-Before 0.7
+Before 0.8
 ----------
-
-  adapt all sprite drawing places to the new sprite.h interface.
-
-  Change each place where the screen in draw in a 320*200 buffer,
-  to use a xbuf*200 buffer like the other (the sprite drawing
-  functions assume that, and it make things more uniform).
-
-  Set xbuf to 512, for easier multiplications.  This is expected to
-  break the many things that didn't used the xbuf constant but its
-  hardcoded value.
-
-
-Maybe left for 0.8
-------------------
 
   Blitting `corner[0]' to `screen', and then blitting `screen' to the
   video memory is somewhat expensive.  Better blitting directly from
   `corner[0]' to the video memory, when possible.
-
-
-Before 0.8
-----------
 
   txts.c, txts.h, and txti.cfg should be removed, the strings are
   better hardcoded in the source (use `_()' empty macros to prepare
@@ -38,6 +20,8 @@ Before 0.8
   gfx_reader.h is a crap and should be rewritten, using the sprtext.h
   interface.  Using a paragraph formating algorithm would also be nice
   (fmt.c from textutils may provide fruitful hints).
+
+  hedlite.c should be cleaned and use a xbuf-wide buffer.
 
 
 Before 1.0.0

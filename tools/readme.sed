@@ -18,6 +18,7 @@ Summary\
     - Needed Libraries\
     - configure generic instructions\
     - configure options for Heroes\
+    - Machines\
 
 }
 
