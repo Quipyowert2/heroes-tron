@@ -38,15 +38,15 @@ extern pixel_t radar_wall_color[16];
 
 extern int rounds_nbr_values[16];
 
-extern unsigned long int camera_x[2];	/* fixed point 16b,16b */
-extern unsigned long int camera_y[2];	/* idem */
-extern unsigned long int corner_x[2];	/* in pixels */
-extern unsigned long int corner_y[2];	/* idem */
+extern int camera_x[2];		/* fixed point 16b,16b */
+extern int camera_y[2];		/* idem */
+extern unsigned int corner_x[2];	/* in pixels */
+extern unsigned int corner_y[2];	/* idem */
 extern pixel_t *(corner[2]);	        /* topleft of the camera vision */
 
-extern unsigned long int corner_dx[2];	/* coordinate of the first tile */
-extern unsigned long int corner_dy[2];	/* idem */
-extern unsigned long int inert_x[2], inert_y[2];
+extern unsigned int corner_dx[2];	/* coordinate of the first tile */
+extern unsigned int corner_dy[2];	/* idem */
+extern int inert_x[2], inert_y[2];
 extern unsigned int nbr_tiles_cols;	/* # of tiles columns to display */
 extern unsigned int nbr_tiles_rows;	/*        ... rows ... */
 extern char camera_stop_x[2];

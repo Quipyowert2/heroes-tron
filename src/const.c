@@ -76,15 +76,15 @@ char kbjoy[6] = { 0, 0, 0, 0, 0, 0 };
 char kbjoyold[6] = { 0, 0, 0, 0, 0, 0 };
 palette_t temppal;
 
-unsigned long int camera_x[2];
-unsigned long int camera_y[2];
-unsigned long int corner_x[2];
-unsigned long int corner_y[2];
+int camera_x[2];
+int camera_y[2];
+unsigned int corner_x[2];
+unsigned int corner_y[2];
 pixel_t *(corner[2]);
 
-unsigned long int corner_dx[2];
-unsigned long int corner_dy[2];
-unsigned long int inert_x[2], inert_y[2];
+unsigned int corner_dx[2];
+unsigned int corner_dy[2];
+int inert_x[2], inert_y[2];
 unsigned int nbr_tiles_cols = 15;
 unsigned int nbr_tiles_rows = 11;
 char camera_stop_x[2];

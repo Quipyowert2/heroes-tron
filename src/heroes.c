@@ -797,11 +797,15 @@ compute_corner (int p, int n)
   int d1, d2, d3;
 
   if (opt.inertia) {
+    /* when the framerate is too low, don't do inerta */
+    if (n > 16)
+      n = 16;
+
     if (map_info.xwrap == DONT_WRAP)
       inert_x[p] = camera_x[p] =
-	inert_x[p] + n * ((int)camera_x[p] - (int)inert_x[p]) / 16;
+	inert_x[p] + n * (camera_x[p] - inert_x[p]) / 16;
     else {
-      d1 = ((int)camera_x[p] - (int)inert_x[p]);
+      d1 = camera_x[p] - inert_x[p];
       d3 = abs (d1);
       d2 = (map_info.xt << 16) - d3;
       if (d3 <= d2)
@@ -815,9 +819,9 @@ compute_corner (int p, int n)
     }
     if (map_info.ywrap == DONT_WRAP)
       inert_y[p] = camera_y[p] =
-	inert_y[p] + n * ((int)camera_y[p] - (int)inert_y[p]) / 16;
+	inert_y[p] + n * (camera_y[p] - inert_y[p]) / 16;
     else {
-      d1 = ((int)camera_y[p] - (int)inert_y[p]);
+      d1 = camera_y[p] - inert_y[p];
       d3 = abs (d1);
       d2 = (map_info.yt << 16) - d3;
       if (d3 <= d2)

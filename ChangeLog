@@ -1,5 +1,14 @@
 2000-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/const.c (camera_x, camera_y, corner_x, corner_y, corner_dx,
+	corner_dy, inert_x, inert_y): Declare as int (not long). Change
+	signedness.
+	* src/const.h: Likewise.
+	* src/heroes.c (compute_corner): Suppress useless casts.  Disable
+	inertia when the framerate does not allow it.
+
+2000-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Add a new kind of sprite (S_RLE_GLENZ) and use it to draw the
 	trails.
 
