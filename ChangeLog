@@ -1,5 +1,9 @@
 2001-02-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* lib/xmalloc.c: Update from fileutils-4.0.39.
+
+2001-02-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/display.c (set_color, set_pal): Don't set palette on visu if
 	it is not palletized.
 
