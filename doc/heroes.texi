@@ -24,6 +24,12 @@
 
 @include version.texi
 
+@c register Heroes in the info directory
+@dircategory Games
+@direntry
+* Heroes: (heroes).     A Nibbles clone, just better.
+@end direntry
+
 @ifinfo
 This file documents Heroes, a Nibbles clone, just better.
 
@@ -128,7 +134,7 @@ Installation of Heroes
 
 Running Heroes
 
-* Options::                     Heroes launch-time options.
+* Invoking::                    Heroes launch-time options.
 * Environment::                 Environment variables used by Heroes.
 * heroesrc::                    Heroes configuration file.
 * Global score file::           Sharing a global score file.
@@ -754,7 +760,7 @@ send a notice to @email{heroes-discuss@@lists.sourceforge.net}.
 @cindex running
 
 @menu
-* Options::                     Heroes launch-time options.
+* Invoking::                    Heroes launch-time options.
 * Environment::                 Environment variables used by Heroes.
 * heroesrc::                    Heroes configuration file.
 * Global score file::           Sharing a global score file.
@@ -764,7 +770,7 @@ send a notice to @email{heroes-discuss@@lists.sourceforge.net}.
 @end menu
 
 @c ======================================================================
-@node    Options, Environment, Running, Running
+@node    Invoking, Environment, Running, Running
 @comment node-name,  next,  previous,  up
 @section Heroes options
 @cindex  options
@@ -998,7 +1004,7 @@ when heroes start.
 @end table
 
 @c ======================================================================
-@node    Environment, heroesrc, Options, Running
+@node    Environment, heroesrc, Invoking, Running
 @comment node-name,  next,  previous,  up
 @section Environment variables
 @cindex  environment

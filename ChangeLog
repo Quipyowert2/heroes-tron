@@ -1,5 +1,11 @@
 2000-11-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* doc/heroes.texi: Add @dircategory and @direntry commands.
+	(Options): Rename as ...
+	(Invoking): ... this.
+
+2000-11-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/heroes.c (find_free_way): Forbid turn back.  This
 	prevents old_way and way to be opposed (a configuration
 	which is not drawable and cause segfault).  The last patch
