@@ -147,8 +147,6 @@ jm_FUNC_FTRUNCATE
 adl_FUNC_GETOPT_LONG
 adl_FILELOCK
 
-AC_SUBST([LIBOBJS])
-
 # ====================
 # Check for endianess.
 # ====================
