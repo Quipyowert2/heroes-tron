@@ -61,8 +61,10 @@ if test "${with_[]DOWN}" != no ; then
         fi
 
 	no_good=no
-        AC_CHECK_LIB($3,$2,,no_good=yes)
-        AC_CHECK_HEADER($4,,no_good=yes)
+	dnl pass a third argument to AC_CHECK_LIB to
+	dnl prevent HAVE_LIB$3 to be defined.
+        AC_CHECK_LIB([$3],[$2],[LIBS="$LIBS -l$3"],[no_good=yes])
+        AC_CHECK_HEADER([$4],,[no_good=yes])
         if test "$no_good" = yes; then
 dnl     broken
                 ifelse([$6], , , [$6])
@@ -75,7 +77,8 @@ dnl     broken
 dnl     fixed
                 ifelse([$5], , , [$5])
 
-                AC_DEFINE(HAVE_PKG_[]UP)
+                AC_DEFINE(HAVE_LIB[]UP, 1,
+			  [Define if you have the $3 library installed.])
         fi
 
 fi

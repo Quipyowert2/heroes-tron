@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------.
-| Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>                 |
+| Copyright 2000, 2001  Alexandre Duret-Lutz <duret_g@epita.fr>           |
 |                                                                         |
 | This file is part of Heroes.                                            |
 |                                                                         |
@@ -26,7 +26,7 @@
 
 /* Define keys hard coded into heroes code */
 
-#ifdef HAVE_PKG_GGI
+#ifdef HAVE_LIBGGI
 
 #define	HK_MOD_None	0
 #define	HK_MOD_Shift	GII_MOD_SHIFT
@@ -94,7 +94,7 @@
 #define HK_T		GIIUC_T
 #define HK_Up		GIIK_Up
 
-#endif /* HAVE_PKG_GGI */
+#endif /* HAVE_LIBGGI */
 
 #ifdef HAVE_SDL
 

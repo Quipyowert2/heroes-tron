@@ -20,8 +20,6 @@ $sdl_config_major_version.$sdl_config_minor_version.$sdl_config_micro_version"
 
   gii_joystick=no
   if test $sdl_joystick = no && test "${with_gii-yes}" != no;  then
-    # Provide a config.h help string, as AC_caolan_CHECK_PACKAGE does not.
-    AH_TEMPLATE([HAVE_PKG_GII],[Define if you have libgii.])
     AC_caolan_CHECK_PACKAGE([GII],[giiOpen],[gii],[ggi/gii.h],[
 gii_joystick=yes
 joystick_lib='LibGII'

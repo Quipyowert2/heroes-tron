@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------.
-| Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>                 |
+| Copyright 2000, 2001  Alexandre Duret-Lutz <duret_g@epita.fr>           |
 |                                                                         |
 | This file is part of Heroes.                                            |
 |                                                                         |
@@ -156,10 +156,10 @@
 
 /* display-keyboard-mouse library */
 
-#if defined HAVE_PKG_GGI && defined HAVE_SDL
-# error "HAVE_PKG_GGI and HAVE_SDL can't be defined both"
+#if defined HAVE_LIBGGI && defined HAVE_SDL
+# error "HAVE_LIBGGI and HAVE_SDL can't be defined both"
 #endif
-#ifdef HAVE_PKG_GGI
+#ifdef HAVE_LIBGGI
 # include <ggi/ggi.h>
 typedef uint32		keycode_t;
 #endif
@@ -171,10 +171,10 @@ typedef SDLKey		keycode_t;
 /* joystick library */
 
 #ifdef JOYSTICK_SUPPORT
-# if defined HAVE_PKG_GII && defined HAVE_SDL_JOYSTICKOPEN
-#  error "HAVE_PKG_GII and HAVE_SDL_JOYSTICKOPEN can't be defined both"
+# if defined HAVE_LIBGII && defined HAVE_SDL_JOYSTICKOPEN
+#  error "HAVE_LIBGII and HAVE_SDL_JOYSTICKOPEN can't be defined both"
 # endif
-# ifdef HAVE_PKG_GII
+# ifdef HAVE_LIBGII
 #  include <ggi/gii.h>
 # endif
 # ifdef HAVE_SDL_JOYSTICKOPEN

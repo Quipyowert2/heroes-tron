@@ -5,8 +5,6 @@ if test "${with_sdl-yes}" = no; then
 fi # with_sdl
 
 if test "${with_sdl_mixer-yes}" != no; then
-  # Provide a config.h help string, as AC_caolan_CHECK_PACKAGE does not.
-  AH_TEMPLATE([HAVE_PKG_SDL_MIXER],[Define if you have libSDL_mixer.])
   # temporaly put the CFLAGS for SDL in CPPFLAGS
   # so that AC_caolan_CHECK_PACKAGE can find SDL_mixer.h in the same directory.
   tmp_CPPFLAGS="$CPPFLAGS"

@@ -1,22 +1,24 @@
-/*------------------------------------------------------------------------.
-| Copyright 1997, 1998, 2000  Alexandre Duret-Lutz <duret_g@epita.fr>     |
-|                                                                         |
-| This file is part of Heroes.                                            |
-|                                                                         |
-| Heroes is free software; you can redistribute it and/or modify it under |
-| the terms of the GNU General Public License as published by the Free    |
-| Software Foundation; either version 2 of the License, or (at your       |
-| option) any later version.                                              |
-|                                                                         |
-| Heroes is distributed in the hope that it will be useful, but WITHOUT   |
-| ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or   |
-| FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   |
-| for more details.                                                       |
-|                                                                         |
-| You should have received a copy of the GNU General Public License along |
-| with this program; if not, write to the Free Software Foundation, Inc., |
-| 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
-`------------------------------------------------------------------------*/
+/*------------------------------------------------------------------.
+| Copyright 1997, 1998, 2000, 2001  Alexandre Duret-Lutz            |
+|                                    <duret_g@epita.fr>             |
+|                                                                   |
+| This file is part of Heroes.                                      |
+|                                                                   |
+| Heroes is free software; you can redistribute it and/or modify it |
+| under the terms of the GNU General Public License as published by |
+| the Free Software Foundation; either version 2 of the License, or |
+| (at your option) any later version.                               |
+|                                                                   |
+| Heroes is distributed in the hope that it will be useful, but     |
+| WITHOUT ANY WARRANTY; without even the implied warranty of        |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU |
+| General Public License for more details.                          |
+|                                                                   |
+| You should have received a copy of the GNU General Public License |
+| along with this program; if not, write to the Free Software       |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA          |
+| 02111-1307 USA                                                    |
+`------------------------------------------------------------------*/
 
 #include "system.h"
 #include "keyb.h"
@@ -44,42 +46,42 @@ init_keyboard_map (void)
   keyboard_modifiers = 0;
 }
 
-int 
+int
 mouse_x (void)
 {
   update_mouse_state ();
   return mouse_pos_x / stretch;
 }
 
-int 
+int
 mouse_y (void)
 {
   update_mouse_state ();
   return mouse_pos_y / stretch;
 }
 
-char 
+char
 mouse1 (void)
 {
   update_mouse_state ();
   return mouse_button_left;
 }
 
-char 
+char
 mouse2 (void)
 {
   update_mouse_state ();
   return mouse_button_right;
 }
 
-char 
+char
 mouse12 (void)
 {
   update_mouse_state ();
   return mouse_button_left || mouse_button_right;
 }
 
-#ifdef HAVE_PKG_GGI
+#ifdef HAVE_LIBGGI
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -113,7 +115,7 @@ process_input_events (void)
 
   unsigned int mask = emKeyPress | emKeyRelease | emKeyRepeat;
 
-  if (ggiEventPoll (visu, mask, &t) 
+  if (ggiEventPoll (visu, mask, &t)
       != emZero) {
     int nbr;
     ggi_event ev;
@@ -158,7 +160,7 @@ update_mouse_state (void)
     return;
   */
 
-  if (ggiEventPoll (visu, mask, &t) 
+  if (ggiEventPoll (visu, mask, &t)
       != emZero) {
     int nbr;
     ggi_event ev;
@@ -182,13 +184,13 @@ update_mouse_state (void)
 	if (ev.pbutton.button == GII_PBUTTON_LEFT)
 	  mouse_button_left = 1;
 	else if (ev.pbutton.button == GII_PBUTTON_RIGHT)
-	  mouse_button_right = 1;	  
+	  mouse_button_right = 1;
 	break;
       case evPtrButtonRelease:
 	if (ev.pbutton.button == GII_PBUTTON_LEFT)
 	  mouse_button_left = 0;
 	else if (ev.pbutton.button == GII_PBUTTON_RIGHT)
-	  mouse_button_right = 0;	  
+	  mouse_button_right = 0;
 	break;
 
       default:
@@ -222,7 +224,7 @@ key_ready (void)
   return ggiKbhit (visu);
 }
 
-#endif 
+#endif
 #ifdef HAVE_SDL
 
 #include <assert.h>
@@ -252,7 +254,7 @@ mouse_show (void)
   SDL_EventState (SDL_MOUSEMOTION, SDL_ENABLE);
   SDL_EventState (SDL_MOUSEBUTTONUP, SDL_ENABLE);
   SDL_EventState (SDL_MOUSEBUTTONDOWN, SDL_ENABLE);
-  SDL_ShowCursor (1);  
+  SDL_ShowCursor (1);
 }
 
 void
@@ -265,7 +267,7 @@ mouse_hide (void)
   enable_mouse = 0;
 }
 
-static int 
+static int
 handle_mouse_events (const SDL_Event *ev)
 {
   if (ev->type == SDL_MOUSEMOTION) {
@@ -294,7 +296,7 @@ update_mouse_state (void)
   SDL_Event ev;
 
   SDL_PumpEvents ();
-  while (SDL_PeepEvents (&ev, 1, SDL_GETEVENT, 
+  while (SDL_PeepEvents (&ev, 1, SDL_GETEVENT,
 			 SDL_MOUSEMOTIONMASK|
 			 SDL_MOUSEBUTTONDOWNMASK|
 			 SDL_MOUSEBUTTONUPMASK)) {
@@ -305,7 +307,7 @@ void
 process_input_events (void)
 {
   SDL_Event ev;
-  
+
   while (SDL_PollEvent (&ev)) {
     if (ev.type == SDL_KEYDOWN) {
       assert (ev.key.keysym.sym <= KEY_MAX);
@@ -350,7 +352,7 @@ get_key (void)
 	exit_heroes (0);
     }
   } while (!SDL_PeepEvents (&e, 1, SDL_GETEVENT, SDL_KEYDOWNMASK));
-  
+
   keyboard_modifiers = SDL_GetModState ();
   return e.key.keysym.sym;
 }
@@ -360,7 +362,7 @@ key_ready (void)
 {
   SDL_PumpEvents ();
   return SDL_PeepEvents (0, 1, SDL_GETEVENT, SDL_KEYDOWNMASK|SDL_QUITMASK);
-  /* return true if there is a pending SDL_QUIT event: the next call to 
+  /* return true if there is a pending SDL_QUIT event: the next call to
      get_key will process it */
 }
 

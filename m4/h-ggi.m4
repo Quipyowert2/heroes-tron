@@ -1,8 +1,5 @@
 AC_DEFUN([heroes_CHECK_GGI],
 [if test "${with_ggi-yes}" != no; then
-   # Provide a config.h help string, as AC_caolan_CHECK_PACKAGE does not.
-   AH_TEMPLATE([HAVE_PKG_GGI],[Define if you have libggi.])
-
    AC_caolan_CHECK_PACKAGE([GGI],[ggiOpen],[ggi],[ggi/ggi.h],,[with_ggi=no])
  fi
  if test "${with_ggi-yes}" != no; then

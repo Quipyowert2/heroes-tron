@@ -1,3 +1,21 @@
+2001-01-08  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Rename HAVE_PKG_GGI as HAVE_LIBGGI, HAVE_PKG_GII as HAVE_LIBGII,
+	HAVE_PKG_SDK_MIXER as HAVE_LIBSDL_MIXER, originally all these six
+	macros were definied.
+
+	* m4/checkpkg.m4: Use AC_CHECK_LIB's third argument to
+	prvent definition of HAVE_LIBxxx. Define HAVE_LIBxxx instead
+	of HAVE_PKGxxx, and provide a template help string for config.h.
+	* m4/h-ggi.m4: Suppress AH_TEMPLATE call.
+	* m4/h-joystick.m4: Likewise.
+	* m4/h-sdlmixer.m4: Likewise.
+	* src/display.c: Rename macros as stated above.
+	* src/joystick.c: Likewise.
+	* src/keyb.c: Likewise.
+	* src/keys_heroes.h: Likewise.
+	* src/system.h: Likewise.
+
 2001-01-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* doc/heroes.texi (configure options): Describe --enable-devel.
