@@ -288,19 +288,15 @@ AC_CHECK_LIB(m,sin)
 # Check for LibMikMod.
 # ====================
 
-musicdir=""
 if test "${enable_sound-yes}" != no; then
 AC_PATH_GENERIC(libmikmod,3.1.7,[
 CFLAGS="$LIBMIKMOD_CFLAGS $CFLAGS"
 LIBS="$LIBMIKMOD_LIBS $LIBS"
-musicdir="mod sfx"
 sound_lib="libmikmod dnl
 $libmikmod_config_major_version.$libmikmod_config_minor_version.dnl
 $libmikmod_config_micro_version"
 ]AC_DEFINE(HAVE_LIBMIKMOD,1,[Define if you have the LibMikMod library]))
 fi
-AC_SUBST(musicdir)
-AM_CONDITIONAL(NOSOUND, test "x${musicdir}" = x)
 
 # ==================
 # Check for dmalloc.
@@ -403,11 +399,9 @@ confdir=${datadir}/heroes/txt_cfg/
 extradir=${datadir}/heroes/extralvl/
 heddir=${datadir}/heroes/hedit/
 introdir=${datadir}/heroes/intro/
-moddir=${datadir}/heroes/mod/
 nivdir=${datadir}/heroes/level/
 rscdir=${datadir}/heroes/rsc/
 scoresdir=${datadir}/heroes/txt_cfg/
-sfxdir=${datadir}/heroes/sfx/
 spritedir=${datadir}/heroes/sprites/
 textdir=${datadir}/heroes/txt_cfg/
 etcdir=${datadir}/heroes/etc/
@@ -417,11 +411,9 @@ AC_SUBST(confdir)
 AC_SUBST(extradir)
 AC_SUBST(heddir)
 AC_SUBST(introdir)
-AC_SUBST(moddir)
 AC_SUBST(nivdir)
 AC_SUBST(rscdir)
 AC_SUBST(scoresdir)
-AC_SUBST(sfxdir)
 AC_SUBST(spritedir)
 AC_SUBST(textdir)
 AC_SUBST(etcdir)
@@ -436,7 +428,7 @@ AM_CONFIG_HEADER(src/config.h)
 AC_OUTPUT(Makefile src/Makefile src/etc/Makefile src/extralvl/Makefile
 	src/hedit/Makefile src/intro/Makefile
 	src/level/Makefile src/rsc/Makefile src/sprites/Makefile
-	src/txt_cfg/Makefile src/mod/Makefile src/sfx/Makefile
+	src/txt_cfg/Makefile
 	man/Makefile doc/Makefile)
 
 # ====================

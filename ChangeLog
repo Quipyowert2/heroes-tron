@@ -1,5 +1,13 @@
 2000-07-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/sfx/: Delete recursively (files are going to 
+	the heroes-sound-effects package).
+	* src/mod/: Delete recursively (heroes-sound-tracks package).
+	* src/Makefile.am: Remove sfx and mod directory handling.
+	* configure.in: Likewise.
+
+2000-07-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* doc/heroes.texi: Write Nibbles with an s in more places.
 	Allow heroes.texi to produce dvi files.  Insert line breaks
 	in some places. Markup all keys with @keys{}.

@@ -17,11 +17,7 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 # 
 
-SUBDIRS = etc extralvl intro sprites rsc level txt_cfg hedit @musicdir@
-
-# Ensure that we get sfx/ and mod/ into the dist, even of not configure
-# with sound support.
-DIST_SUBDIRS = etc extralvl intro sprites rsc level txt_cfg hedit sfx mod
+SUBDIRS = etc extralvl intro sprites rsc level txt_cfg hedit
 
 bin_PROGRAMS = heroes
 
@@ -103,16 +99,6 @@ userdir.c \
 userdir.h \
 visuals.c \
 visuals.h
-
-if NOSOUND
-# These files are cleaned from this directory because if you configure
-# the package without sound support these two Makefiles are generated
-# by ./configure but are not be removed on `make distclean'.  (The
-# case when src/sound.conf would not removed is harder to find: you
-# need to compile with sound support, and reconfigure without sound
-# support before doing a `make distclean'...).
-DISTCLEANFILES = mod/Makefile sfx/Makefile sfx/sound.conf
-endif
 
 BUILT_SOURCES = keysdef-inc.h rsc_files_hash.c
 CLEANFILES = keysdef-inc.h
