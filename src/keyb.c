@@ -343,8 +343,8 @@ get_key (void)
     SDL_PumpEvents ();
     /* remove all events until we get a KEYDOWN event */
     while (SDL_PeepEvents (&e, 1, SDL_GETEVENT, ~SDL_KEYDOWNMASK)) {
-      /* we might need the handle mouse events, and Quit events */
-      if (enable_mouse)		
+      /* we might need to handle mouse and quit events */
+      if (enable_mouse)
 	handle_mouse_events (&e);
       if (e.type == SDL_QUIT)
 	exit_heroes (0);
