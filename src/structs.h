@@ -207,31 +207,6 @@ lemming_t;
 #define M_KILLEM 2
 #define M_TCASH  3
 #define M_COLOR  4
-/*------------------------------ HighScores -------------------------------*/
 
-#define PLAYER_NAME_SIZE 8
-typedef struct
-{
-  char name[PLAYER_NAME_SIZE + 1];
-  u8_t magic;
-  u8_t unused1, unused2;
-  u32_t points;
-}
-ATTRIBUTE_PACKED top_score;
-
-
-/*------------------------------ SavedGames -------------------------------*/
-typedef struct
-{
-  char name[16];
-  u32_t level;
-  u32_t points[4];
-  u32_t lifes[4];
-  u8_t magic;
-  char used;
-}
-ATTRIBUTE_PACKED saved_game;
-
-/*------------------------------ ---------- -------------------------------*/
 
 #endif /* HEROES__STRUCTS__H */

@@ -1,3 +1,32 @@
+2001-03-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Adapt score and save records loading/saving to locking.
+	Not perfect yet.
+
+	* src/heroes.c (play_menu): Adapt to use load_scores_and_keep_locked.
+	(play_game): Adapt to use load_save_records_and_keep_locked.
+	(main): Don't load scores and save records, but save them right
+	after clearing them if it was requested.
+	* src/menus.c (scores_menu): Load scores to be up to date.
+	* src/savegame.c (compute_magic): Likewise.
+	(load_save_records): Move the x10sav cheat to ...
+	(clear_save_records): ... here.
+	(load_save_records): Split into ...
+	(load_save_records_open, load_save_records_read): ... these new
+	functions.
+	(load_save_records_and_keep_locked): New function.
+	(write_save_records): Adjust.
+	* src/struct.h (save_game): Move ...
+	* src/savegame.h (save_game): ... here.
+	(load_save_records_and_keep_locked): New function.
+	* src/scores.c (load_scores): Split into ...
+	(load_scores_open, load_scores_read): ... these new functions.
+	(load_scores_and_keep_locked): New function.
+	(write_scores): Adjust.
+	* src/struct.h (top_scores): Move ...
+	* src/scores.h (top_scores): ... here.
+	(load_scores_and_keep_locked): New function.
+
 2001-03-23  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Introduce file locking support (as well as portability

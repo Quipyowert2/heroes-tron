@@ -21,13 +21,23 @@
 #ifndef HEROES__SAVEGAME__H
 #define HEROES__SAVEGAME__H
 
-#include "structs.h"
+typedef struct
+{
+  char name[16];
+  u32_t level;
+  u32_t points[4];
+  u32_t lifes[4];
+  u8_t magic;
+  char used;
+}
+ATTRIBUTE_PACKED saved_game;
 
 extern saved_game saverec[10];
 
 void clear_save_records (void);
 void write_save_records (void);
 void load_save_records (void);
+void load_save_records_and_keep_locked (void);
 unsigned char compute_magic (void);
 signed char find_magic (unsigned char m);
 void free_save_records (void);

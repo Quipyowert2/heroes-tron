@@ -51,14 +51,11 @@
 #include "userconf.h"
 #include "musicfiles.h"
 #include "bytesex.h"
+#include "structs.h"
 #include "hendian.h"
 #include "rsc_files.h"
 #include "rsc_files_hash.h"
 #include "fader.h"
-
-#define __HEROES__
-
-#include "structs.h"
 #include "const.h"
 #include "scrtools.h"
 #include "fontdata.h"
@@ -1065,6 +1062,7 @@ play_menu (void)
       return;
     }
     if (l == 6) {
+      load_save_records ();
       std_white_fadein (&tile_set_img.palette);
       do {
 	background_menu ();
@@ -1204,6 +1202,10 @@ play_menu (void)
 
   play_soundtrack ();
   reset_htimer (sound_track_htimer);
+  /* FIXME: Ideally, we should only lock the file if there
+     are a score update planned.  And not when the user
+     is interacting.  */
+  load_scores_and_keep_locked ();
   for (t = 0; t < 4; t++)
     if (player[t].cpu == 2) {
       mag = find_magic (game_magic);
@@ -1216,9 +1218,9 @@ play_menu (void)
 	highs[gamemodeh][mag].magic = game_magic;
 	highs[gamemodeh][mag].points = player[t].score;
 	sort_scores ();
-	write_scores ();
       }
     }
+  write_scores ();
 }
 
 static void
@@ -3321,6 +3323,12 @@ play_game (char cont)
       }
       if (l == 1 && (t == HK_Enter || flag == 0) && game_mode == M_QUEST) {
 	event_sfx (67);
+	/* FIXME: The whole process here need to be rethought, keeping
+	   in mind that several process can access this save file.  Presently
+	   the file is locked until the menu exits, this is bad because
+	   other processes will block until the user eventually exits
+	   the menu.  */
+	load_save_records_and_keep_locked ();
 	t = 0;
 	l = 0;
 	editflag = 0;
@@ -3687,15 +3695,15 @@ main (int argc, char *argv[])
   else
     load_options ();
 
-  if (reinitsco)
+  if (reinitsco) {
     clear_scores ();
-  else
-    load_scores ();
+    write_scores ();
+  }
 
-  if (reinitsav)
+  if (reinitsav) {
     clear_save_records ();
-  else
-    load_save_records ();
+    write_save_records ();
+  }
 
   if (read_sfx_conf ())
     emsg (_("error in sfx.cfg"));
@@ -3786,8 +3794,6 @@ main (int argc, char *argv[])
   uninit_sound_track_list ();
   free_extra_list ();
   free_extra_directories ();
-  write_save_records ();
-  write_scores ();
   write_options ();
   free_save_records ();
   free_scores ();

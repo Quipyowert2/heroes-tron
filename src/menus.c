@@ -2441,6 +2441,8 @@ scores_menu (void)
   sprite_t *points_txt[5][10];
   sprite_t *highs_txt[5][10];
 
+  load_scores ();
+
   for (i = 0; i < 5; ++i)
     for (j = 0; j < 10; ++j) {
       char points[32];

@@ -26,10 +26,12 @@
 #include "bytesex.h"
 #include "debugmsg.h"
 #include "rsc_files.h"
+#include "fopenlock.h"
 
 top_score highs[5][10];
 
-static char* name = 0;
+static char *name = 0;
+static FILE *fscores = 0;
 
 static char*
 scores_file (void)
@@ -90,10 +92,10 @@ bswap_scores (void)
 void
 write_scores (void)
 {
-  FILE *fs;
   unsigned int i;
 
-  fs = fopen (scores_file (), "wb");
+  if (fscores == 0)
+    fscores = fopenlock (scores_file (), "wb");
 
   dmsg (D_FILE, "writing scores to %s", scores_file ());
 
@@ -104,41 +106,66 @@ write_scores (void)
   i = BSWAP32 (i);
 
   /* write scores down to disk */
-  fwrite (highs, sizeof (top_score), 50, fs);
-  fwrite ((int *) &i, 4, 1, fs);
-  fclose (fs);
+  fwrite (highs, sizeof (top_score), 50, fscores);
+  fwrite ((int *) &i, 4, 1, fscores);
+  fclose (fscores);
+  fscores = 0;
 
   /* revert scores endianess */
   bswap_scores ();
 }
 
-void
-load_scores (void)
+static void
+load_scores_open (const char *mode)
 {
-  FILE *fs;
-  unsigned long int i;
-  fs = fopen (scores_file (), "rb");
-
+  fscores = fopenlock (scores_file (), mode);
   dmsg (D_FILE, "reading scores from %s", scores_file ());
 
-  if (fs == NULL) {
+  if (fscores == 0) {
     dmsg (D_FILE, "cannot open %s", scores_file ());
     dperror ("fopen");
     clear_scores ();
-  } else {
-    /* read the score from disk */
-    fread (highs, sizeof (top_score), 50, fs);
-    fread ((int *) &i, 4, 1, fs);
-    fclose (fs);
-
-    /* convert from little-endian to local endianess */
-    bswap_scores ();
-    i = BSWAP32 (i);
-
-    /* check score CRC */
-    if (check_scores () != i)
-      clear_scores ();
   }
+}
+
+static void
+load_scores_read (void)
+{
+  unsigned long int i;
+
+  if (fscores == 0) {
+    clear_scores ();
+    return;
+  }
+
+  /* Read the score from disk.  */
+  fread (highs, sizeof (top_score), 50, fscores);
+  fread ((int *) &i, 4, 1, fscores);
+
+  /* Convert from little-endian to local endianess.  */
+  bswap_scores ();
+  i = BSWAP32 (i);
+
+  /* Check score CRC.  */
+  if (check_scores () != i)
+    clear_scores ();
+}
+
+void
+load_scores (void)
+{
+  load_scores_open ("rb");
+  load_scores_read ();
+  fclose (fscores);
+  fscores = 0;
+}
+
+void
+load_scores_and_keep_locked (void)
+{
+  load_scores_open ("r+b");
+  load_scores_read ();
+  fseek (fscores, 0L, SEEK_SET);
 }
 
 void
