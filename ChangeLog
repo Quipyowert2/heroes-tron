@@ -1,5 +1,10 @@
 2001-05-08  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.in: Bump version to 0.10a.
+	* NEWS: Update for 0.10a.
+
+2001-05-08  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/relocate.c (try_to_derive_argv0): Don't free path if null.
 
 2001-05-08  Alexandre Duret-Lutz  <duret_g@epita.fr>

@@ -1,6 +1,12 @@
+Heroes 0.10a	May 8, 2001
+
+	* This version requires heroes-data-1.0a.
+	* The labels in pictures of the help reader are translatable.
+	* Use a new eye-catching `tutorial arrow', without text.
+
 Heroes 0.10	May 7, 2001
 
-	* Obsolete Visual C files are not longuer distributed.
+	* Obsolete Visual C files are not longer distributed.
 	* The CREDITS screen now thanks everybody.  By the way
           the THANKS and AUTHORS files, the related section of the
 	  documentation, and the CREDITS screen are maintained
