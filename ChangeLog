@@ -1,3 +1,8 @@
+2002-07-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.ac: Bump version to 0.29b.
+	* NEWS: Update.
+
 2002-07-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/misc.c (strcat_alloc): Use stpcpy.

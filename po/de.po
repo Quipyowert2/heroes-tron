@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.17a\n"
-"POT-Creation-Date: 2002-03-21 20:29+0100\n"
+"POT-Creation-Date: 2002-07-15 21:51+0200\n"
 "PO-Revision-Date: 2001-12-15 12:17+0100\n"
 "Last-Translator: Ingo van Lil <inguin@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -785,26 +785,26 @@ msgstr ""
 "Alexandre Liverneaux und Philippe Meisburger.\n"
 "\n"
 
-#: src/heroes.c:229 src/heroes.c:315
+#: src/heroes.c:212 src/heroes.c:298
 #, c-format
 msgid "Cannot load level %s (error %d)"
 msgstr "Kann Level %s nicht laden (Fehler %d)"
 
-#: src/heroes.c:1182
+#: src/heroes.c:1170
 msgid "Error during level loading"
 msgstr "Fehler beim Laden des Levels"
 
-#: src/heroes.c:1218
+#: src/heroes.c:1206
 #, c-format
 msgid "-LEVEL %d-"
 msgstr "-LEVEL %d-"
 
-#: src/heroes.c:1220
+#: src/heroes.c:1208
 #, c-format
 msgid "-ROUND %d/%d-"
 msgstr "-RUNDE %d/%d-"
 
-#: src/heroes.c:1735
+#: src/heroes.c:1724
 msgid "error in sfx.cfg"
 msgstr "Fehler in sfx.cfg"
 
@@ -1411,45 +1411,45 @@ msgid_plural "%d ROUNDS"
 msgstr[0] "%d RUNDE"
 msgstr[1] "%d RUNDEN"
 
-#: src/menus.c:2220
+#: src/menus.c:2216
 #, c-format
 msgid "PLAYER %d, YOU CAME IN THE TOP 10"
 msgstr "SPIELER %d, DU HAST DIE TOP 10 ERREICHT"
 
-#: src/menus.c:2288
+#: src/menus.c:2284
 #, c-format
 msgid "PLAYER %d WON!"
 msgstr "SPIELER %d GEWINNT!"
 
-#: src/menus.c:2293
+#: src/menus.c:2289
 msgid "EVERYONE LOST!"
 msgstr "ALLE HABEN VERLOREN!"
 
-#: src/menus.c:2295
+#: src/menus.c:2291
 msgid "YOU LOST!"
 msgstr "DU HAST VERLOREN!"
 
-#: src/menus.c:2374
+#: src/menus.c:2372
 #, c-format
 msgid "ROUND %d/%d"
 msgstr "RUNDE %d/%d"
 
-#: src/musicfiles.c:155
+#: src/musicfiles.c:174
 #, c-format
 msgid "%s:%d: missing alias name"
 msgstr "%s:%d: fehlender Alias-Name"
 
-#: src/musicfiles.c:157
+#: src/musicfiles.c:176
 #, c-format
 msgid "%s:%d: missing file name"
 msgstr "%s:%d: fehlender Dateiname"
 
-#: src/musicfiles.c:159
+#: src/musicfiles.c:178
 #, c-format
 msgid "%s:%d: missing title"
 msgstr "%s:%d: Titel fehlt"
 
-#: src/musicfiles.c:161
+#: src/musicfiles.c:180
 #, c-format
 msgid "%s:%d: missing author"
 msgstr "%s:%d: Autor fehlt"
@@ -1577,27 +1577,27 @@ msgstr "%s:%d: Parser-Fehler.  Lösche Savegame-Tabelle."
 msgid "%s:%d: parse error.  Clearing score table."
 msgstr "%s:%d: Parser-Fehler.  Lösche Highscore-Tabelle."
 
-#: src/userconf.c:82 src/userconf.c:109
+#: src/userconf.c:82 src/userconf.c:115
 #, c-format
 msgid "%s:%d: missing variable name"
 msgstr "%s:%d: Variablenname fehlt"
 
-#: src/userconf.c:101
+#: src/userconf.c:107
 #, c-format
 msgid "%s:%d: missing resource name"
 msgstr "%s:%d: Ressourcen-Name fehlt"
 
-#: src/userconf.c:125 src/userconf.c:139
+#: src/userconf.c:131 src/userconf.c:145
 #, c-format
 msgid "%s:%d: %s: can only be used from the system configuration file"
 msgstr "%s:%d: %s: Kann nur in globaler Config-Datei verwendet werden."
 
-#: src/userconf.c:134 src/userconf.c:148
+#: src/userconf.c:140 src/userconf.c:154
 #, c-format
 msgid "%s:%d: %s: unknown value: %s"
 msgstr "%s:%d: %s: unbekannter Wert: `%s'"
 
-#: src/userconf.c:152
+#: src/userconf.c:158
 #, c-format
 msgid "%s:%d: unknown keyword `%s'"
 msgstr "%s:%d: unbekanntes Schlüsselwort `%s'"
@@ -1641,6 +1641,7 @@ msgid "cannot setup a correct display."
 msgstr "Kann keine korrekte Anzeige einrichten."
 
 #: src/media/ggi/video.c:211
+#, c-format
 msgid "negotiated video mode is too small (width=%d, height=%d)"
 msgstr "Videomodus ist zu klein (Breite=%d, Hoehe=%d)"
 

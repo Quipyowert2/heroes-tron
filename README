@@ -80,8 +80,8 @@ available on Ibiblio after a release.
 What to download?
 -----------------
 
-   Heroes is distributed as four packages with independent version
-numbering and release schedule.  Be sure to get them four:
+   Heroes is distributed as five packages with independent version
+numbering and release schedule.
 
 `heroes'
      The source code, info file, and man page.
@@ -89,11 +89,17 @@ numbering and release schedule.  Be sure to get them four:
 `heroes-data'
      The level data (level maps, sprites, etc.)
 
-`heroes-sound-track'
-     The scores for the game (.xm files).
+`heroes-sound-tracks'
+     Sound tracks for the game (.xm files).
 
 `heroes-sound-effects'
      The sound effects for the game (.wav files).
+
+`heroes-hq-sound-tracks'
+     High quality sound tracks (.xm files), they will replace some
+     sound-tracks from `heroes-sound-track'.
+
+   The two first packages are required, the others are optional.
 
    The game has been so split because the data and sound files are big
 and don't evolve as often as the code does.  It would therefore be

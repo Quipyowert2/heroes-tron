@@ -1,3 +1,8 @@
+Heroes 0.29b	July 15, 2002
+
+	* Initial sketch of the API documentation (for plug-ins).
+	* More cleanups.
+
 Heroes 0.29a	March 21, 2002
 
 	* Preliminary and experimental plug-in support (option -p).

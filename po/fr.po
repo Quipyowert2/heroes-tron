@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.17a\n"
-"POT-Creation-Date: 2002-03-21 20:29+0100\n"
+"POT-Creation-Date: 2002-07-15 21:51+0200\n"
 "PO-Revision-Date: 2002-07-05 20:48+0200\n"
 "Last-Translator: Alexandre Duret-Lutz <duret_g@epita.fr>\n"
 "Language-Team: none <LL@li.org>\n"
@@ -790,26 +790,26 @@ msgstr ""
 "Alexandre Liverneaux et Philippe Meisburger.\n"
 "\n"
 
-#: src/heroes.c:229 src/heroes.c:315
+#: src/heroes.c:212 src/heroes.c:298
 #, c-format
 msgid "Cannot load level %s (error %d)"
 msgstr "Impossible de charger le niveau %s (erreur %d)"
 
-#: src/heroes.c:1182
+#: src/heroes.c:1170
 msgid "Error during level loading"
 msgstr "Erreur pendant le chargement du niveau"
 
-#: src/heroes.c:1218
+#: src/heroes.c:1206
 #, c-format
 msgid "-LEVEL %d-"
 msgstr "-NIVEAU %d-"
 
-#: src/heroes.c:1220
+#: src/heroes.c:1208
 #, c-format
 msgid "-ROUND %d/%d-"
 msgstr "-MANCHE %d/%d-"
 
-#: src/heroes.c:1735
+#: src/heroes.c:1724
 msgid "error in sfx.cfg"
 msgstr "erreur dans sfx.cfg"
 
@@ -1419,45 +1419,45 @@ msgid_plural "%d ROUNDS"
 msgstr[0] "%d MANCHE"
 msgstr[1] "%d MANCHES"
 
-#: src/menus.c:2220
+#: src/menus.c:2216
 #, c-format
 msgid "PLAYER %d, YOU CAME IN THE TOP 10"
 msgstr "JOUEUR %d, VOUS FIGUREZ PARMI LES 10 MEILLEURS"
 
-#: src/menus.c:2288
+#: src/menus.c:2284
 #, c-format
 msgid "PLAYER %d WON!"
 msgstr "LE JOUEUR %d GAGNE !"
 
-#: src/menus.c:2293
+#: src/menus.c:2289
 msgid "EVERYONE LOST!"
 msgstr "TOUT LE MONDE PERD"
 
-#: src/menus.c:2295
+#: src/menus.c:2291
 msgid "YOU LOST!"
 msgstr "VOUS AVEZ PERDU !"
 
-#: src/menus.c:2374
+#: src/menus.c:2372
 #, c-format
 msgid "ROUND %d/%d"
 msgstr "MANCHE %d/%d"
 
-#: src/musicfiles.c:155
+#: src/musicfiles.c:174
 #, c-format
 msgid "%s:%d: missing alias name"
 msgstr "%s:%d: nom d'alias manquant"
 
-#: src/musicfiles.c:157
+#: src/musicfiles.c:176
 #, c-format
 msgid "%s:%d: missing file name"
 msgstr "%s:%d: nom de fichier manquant"
 
-#: src/musicfiles.c:159
+#: src/musicfiles.c:178
 #, c-format
 msgid "%s:%d: missing title"
 msgstr "%s:%d: titre manquant"
 
-#: src/musicfiles.c:161
+#: src/musicfiles.c:180
 #, c-format
 msgid "%s:%d: missing author"
 msgstr "%s:%d: auteur manquant"
@@ -1586,27 +1586,27 @@ msgstr "%s:%d: erreur de syntaxe.  La table des sauvegarde a été vidée."
 msgid "%s:%d: parse error.  Clearing score table."
 msgstr "%s:%d: erreur de syntaxe.  La table des scores a été vidée."
 
-#: src/userconf.c:82 src/userconf.c:109
+#: src/userconf.c:82 src/userconf.c:115
 #, c-format
 msgid "%s:%d: missing variable name"
 msgstr "%s:%d: il manque le nom de la variable"
 
-#: src/userconf.c:101
+#: src/userconf.c:107
 #, c-format
 msgid "%s:%d: missing resource name"
 msgstr "%s:%d: il manque le nom de la ressource"
 
-#: src/userconf.c:125 src/userconf.c:139
+#: src/userconf.c:131 src/userconf.c:145
 #, c-format
 msgid "%s:%d: %s: can only be used from the system configuration file"
 msgstr "%s:%d: %s: can only be used from the system configuration file"
 
-#: src/userconf.c:134 src/userconf.c:148
+#: src/userconf.c:140 src/userconf.c:154
 #, c-format
 msgid "%s:%d: %s: unknown value: %s"
 msgstr "%s:%d: %s: valeur inconnue: %s"
 
-#: src/userconf.c:152
+#: src/userconf.c:158
 #, c-format
 msgid "%s:%d: unknown keyword `%s'"
 msgstr "%s:%d: mot clef inconnu `%s'"

@@ -18,7 +18,7 @@ dnl
 
 AC_PREREQ(2.52)
 
-AC_INIT([heroes], [0.29a], [heroes-bugs@lists.sourceforge.net])
+AC_INIT([heroes], [0.29b], [heroes-bugs@lists.sourceforge.net])
 AC_CONFIG_AUX_DIR(tools)
 AC_CONFIG_SRCDIR([src/heroes.c])
 AM_INIT_AUTOMAKE([1.6 gnits dist-bzip2])
