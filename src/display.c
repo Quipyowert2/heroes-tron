@@ -528,13 +528,14 @@ pixel_t *screen_rv = 0;		/* A pointer to the screen buffer associated
 SDL_Surface *visu = 0;
 int visu_options = SDL_HWPALETTE | SDL_DOUBLEBUF;
 char SDL_initialized = 0;
+#define SDL_VIDEODRIVER "SDL_VIDEODRIVER"
+char *sdl_videodriver = 0;
 
-void set_display_params (const char* str)
+void set_display_params (const char *str)
 {
-  char* s = strcat_alloc ("SDL_VIDEODRIVER=", str);
-  dmsg (D_SYSTEM|D_VIDEO,"put `%s' in environment", str);
-  putenv (s);
-  free (s);
+  sdl_videodriver = strcat_alloc (SDL_VIDEODRIVER "=", str);
+  dmsg (D_SYSTEM | D_VIDEO, "put `%s' in environment", sdl_videodriver);
+  putenv (sdl_videodriver);
 }
 
 void set_full_screen_mode (void)
@@ -613,6 +614,13 @@ uninit_video (void)
   if (SDL_initialized) {
     SDL_Quit ();
     SDL_initialized = 0;
+  }
+  if (sdl_videodriver) {
+    /* Remove `SDL_VIDEODRIVER=mumble' from environment before freeing
+       sdl_videodriver.  FIXME: This is not const-correct as putenv()
+       usually takes a mutable string argument.  */
+    putenv (SDL_VIDEODRIVER);
+    XFREE0 (sdl_videodriver);
   }
 }
 

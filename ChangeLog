@@ -1,3 +1,14 @@
+2001-07-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	``heroes-sdl -G mumble'' didn't work because the string put in
+	environment (SDL_VIDEODRIVER=mumble) was immediatly freed
+	afterward.
+
+	* src/display.c [HAVE_LIBSDL] (sdl_videodriver): New variable.
+	[HAVE_LIBSDL] (set_display_params): Set sdl_videodriver,
+	putenv() it, but don't free it.
+	[HAVE_LIBSDL] (uninit_video): Free sdl_videodriver here.
+
 2001-07-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/camera.c (compute_corner): Cleanup.
