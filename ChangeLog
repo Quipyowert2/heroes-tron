@@ -1,5 +1,11 @@
 2001-09-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.ac: Bump version to 0.13.
+	* NEWS: Update for 0.13.
+	* HACKING (Typenames): New section.
+
+2001-09-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/lvl/README: Update typenames.
 
 2001-09-18  Alexandre Duret-Lutz  <duret_g@epita.fr>

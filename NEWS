@@ -1,3 +1,10 @@
+Heroes 0.13	September 19, 2001
+
+	* Bug fixes:
+	  - Dummy keyboard driver doesn't need GGI (0.12e).
+	  - Rename all type names to prevent clashes with POSIX types.
+	  - Fix segfault in (incomplete) Allegro support.
+
 Heroes 0.12f	August 26, 2001
 
 	* Document heroeslvl.
@@ -84,7 +91,7 @@ Heroes 0.12	July 10, 2001
 Heroes 0.11	May 23, 2001
 
 	* Bug fixes:
-	  - strip trailing slahes before creating directories.
+	  - strip trailing slashes before creating directories.
 	  - don't install charset.alias on glibc 2.1 systems.
 
 Heroes 0.10b	May 21, 2001

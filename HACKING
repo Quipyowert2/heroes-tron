@@ -97,6 +97,20 @@ same line as the flow-control keywords, as in
 
 The corresponding indent options are `-br' and `-ce'.
 
+** Typenames
+
+Typenames used in Heroes code used to be suffixed by `_t'.
+Unfortunatelly, all such typenames (ending with `_t') are reserved by
+POSIX, and OS vendors usually add new types using this convention.
+Therefore using the same naming was not a really great idea: name
+clashes occured twice (`timer_t' happened to be already defined on
+NetBSD, `level_t' was defined on OSF) before I decide to use another
+convention.
+
+Typenames in Heroes now starts with a_ or an_ (e.g. `a_level',
+`an_option').  This idea came from
+http://gcc.gnu.org/ml/gcc/2001-06/msg01006.html.
+
 ** Includes
 
 Any .c-file should include "system.h" as the first included file.
