@@ -677,6 +677,11 @@ Turn on support for malloc debugging libraries such as electric fence or
 dmalloc (dmalloc will be preferred if both libraries are installed).
 This is disabled by default.
 
+@item --enable-gprof
+@cindex --enable-gprof
+Enable profiling support with @samp{gcc}, you need @samp{gprof} to
+inspect the file resulting from a run of Heroes.
+
 @item --enable-html-doc[=DIR]
 @cindex --enable-html-doc[=DIR]
 Build and install html documentation in directory @samp{DIR}.
