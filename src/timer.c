@@ -39,7 +39,7 @@ reset_htimer (htimer_t timer)
   timer->orig_time.tv_sec = current_time.tv_sec;
   timer->orig_time.tv_usec = current_time.tv_usec;
 #else
-  timer = current_time;
+  timer->orig_time = current_time;
 #endif
 }
 

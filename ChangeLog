@@ -1,3 +1,8 @@
+2001-01-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/timer.c (reset_htimer) [!HAVE_GETTIMEOFDAY]: Typo from
+	2000-12-31's patch.
+
 2001-01-11  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	mtrace() support.
