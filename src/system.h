@@ -177,6 +177,14 @@ typedef SDLKey		keycode_t;
 # include <SDL_mixer.h>
 #endif
 
+/* boolean type */
+
+#if HAVE_STDBOOL_H
+# include <stdbool.h>
+#else
+typedef enum {false = 0, true = 1} bool;
+#endif
+
 /* common integer sizes */
 
 #ifdef HAVE_STDINT_H

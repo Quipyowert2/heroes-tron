@@ -28,16 +28,13 @@ typedef struct sound_track_s {
   char* author;
 } sound_track_t;
 
-sound_track_t* sound_track_cons (char* alias, char* filename, 
-				 char* title, char* author);
-void sound_track_delete (sound_track_t* st);
-
 sound_track_t* get_sound_track_from_alias (const char* alias);
-void add_sound_track (sound_track_t* st);
-void add_sound_track_cons (char* alias, char* filename, 
+void add_sound_track_cons (char* alias, char* filename,
 			   char* title, char* author);
 int read_sound_config_file (char* filename);
-int init_sound_track_list (void);
+void init_sound_track_list (void);
 void uninit_sound_track_list (void);
+void print_sound_track_list (void);
+void print_sound_track_list_stat (void);
 
 #endif /* HEROES__MUSICFILES__H */

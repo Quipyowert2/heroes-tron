@@ -352,9 +352,11 @@ AC_CHECK_HEADERS(
  [getopt.h] dnl
  [io.h] dnl
  [memory.h] dnl
+ [stdbool.h] dnl
  [stdint.h] dnl
  [string.h] dnl
  [strings.h] dnl
+ [stdlib.h] dnl
  [sys/time.h] dnl
  [unistd.h] dnl
  [windows.h] dnl
@@ -373,6 +375,7 @@ AC_C_CONST
 # Checks for library functions.
 # =============================
 
+AC_CHECK_DECLS([malloc, realloc, calloc, free])
 AC_CHECK_FUNCS([gettimeofday memcpy sleep])
 
 # Heroes needs opendir, readdir and closedir.  We check only for

@@ -21,18 +21,42 @@
 #include "system.h"
 #include "getshline.h"
 #include "musicfiles.h"
-#include "generic_list.h"
 #include "misc.h"
 #include "rsc_files.h"
 #include "debugmsg.h"
 #include "errors.h"
+#include "hash.h"
 
-NEW_LIST(st, sound_track_t*, STD_EQUAL, sound_track_delete);
+Hash_table *st_hash;
 
-static st_list_t sound_track_list;
+static bool
+st_cmp (const void *left, const void *right)
+{
+  const sound_track_t *l = left;
+  const sound_track_t *r = right;
+  return !strcasecmp (l->alias, r->alias);
+}
 
-sound_track_t*
-sound_track_cons (char* alias, char* filename, char* title, char* author)
+static unsigned
+st_hasher (const void *data, unsigned size)
+{
+  const sound_track_t *d = data;
+  return hash_string (d->alias, size);
+}
+
+static void
+st_free (void *data)
+{
+  sound_track_t *st = data;
+  free (st->alias);
+  free (st->filename);
+  free (st->title);
+  free (st->author);
+  free (st);
+}
+
+static sound_track_t*
+st_cons (char* alias, char* filename, char* title, char* author)
 {
   NEW (sound_track_t, st);
   st->alias = xstrdup (alias);
@@ -43,37 +67,28 @@ sound_track_cons (char* alias, char* filename, char* title, char* author)
 }
 
 void
-sound_track_delete (sound_track_t* st)
-{
-  free (st->alias);
-  free (st->filename);
-  free (st->title);
-  free (st->author);
-  free (st);
-}
-
-void
-add_sound_track (sound_track_t* st)
-{
-  st_push(&sound_track_list, st);
-}
-
-void
 add_sound_track_cons (char* alias, char* filename, char* title, char* author)
 {
-  add_sound_track (sound_track_cons (alias, filename, title, author));
+  if (!hash_insert (st_hash, st_cons (alias, filename, title, author)))
+    xalloc_die ();
 }
 
 sound_track_t*
 get_sound_track_from_alias (const char* alias)
 {
-  st_list_t list = sound_track_list;
+  struct hash_entry *bucket
+    = st_hash->bucket + hash_string (alias, st_hash->n_buckets);
+  struct hash_entry *cursor;
 
-  while (list) {
-    if (!strcasecmp (list->car->alias, alias))
-      return list->car;
-    list = list->cdr;
-  }
+  assert (bucket < st_hash->bucket_limit);
+
+  if (!bucket->data)
+    return 0;
+
+  for (cursor = bucket; cursor; cursor = cursor->next)
+    if (!strcasecmp (((sound_track_t*)(cursor->data))->alias, alias))
+      return cursor->data;
+
   return 0;
 }
 
@@ -144,21 +159,35 @@ read_sound_config_file (char* filename)
   return 0;
 }
 
-int
+void
 init_sound_track_list (void)
 {
-  /* No soundtrack by default */
-  /*
-  add_sound_track_cons ("MENU", moddir "menu.xm",
-			"Heroes Menu", "Alexel");
-	...
-  */
-  return 0;
+  dmsg (D_MISC, "initialize sound track hash");
+
+  st_hash = hash_initialize (17, NULL, st_hasher, st_cmp, st_free);
+  if (!st_hash)
+    xalloc_die ();
 }
 
 void
 uninit_sound_track_list (void)
 {
-  dmsg (D_MISC, "free sound track list");
-  st_clear (&sound_track_list);
+  dmsg (D_MISC, "free sound track hash");
+  hash_free (st_hash);
+}
+
+void
+print_sound_track_list (void)
+{
+  sound_track_t *s = hash_get_first (st_hash);
+  while (s) {
+    printf ("%s:%s:%s:%s\n", s->alias, s->filename, s->title, s->author);
+    s = hash_get_next (st_hash, s);
+  }
+}
+
+void
+print_sound_track_list_stat (void)
+{
+  hash_print_statistics (st_hash, stdout);
 }

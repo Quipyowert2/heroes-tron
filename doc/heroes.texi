@@ -752,7 +752,7 @@ values as @samp{HEROES_DEBUG} (@pxref{Environment}).
 @cindex -lWORD
 @cindex --list=WORD
 
-Show various internal information.  @samp{WORD} can be @samp{debug} or @samp{sound-drivers} or @samp{resources}.
+Show various internal information.  @samp{WORD} can be @samp{debug} or @samp{sound-drivers}, @samp{resources} or @samp{sound-tracks}.
 
 @samp{--list=debug} will list the available debugging channel, to be used
 with @samp{--verbose} or @samp{HEROES_DEBUG} (@pxref{Environment}).
@@ -779,6 +779,10 @@ resources are kinds of aliases used internaly to name files and
 directories.  They can be overwritten in you configuration file using
 the @samp{setrsc:} command.  This command will also list the original
 (default) value of the resource if it has been overwritten.
+
+@samp{--list=sound-tracks} will print the list of sound-tracks used
+in the game in a format compatible with the @samp{soundconf:} command
+(@pxref{heroesrc})
 
 @comment sound options:
 
@@ -1115,6 +1119,10 @@ All that sound configuration stuff should allow you to make drop-in
 remplacement for heroes modules.  You just make a set of modules
 available whith a config file that any user can get read from its
 @samp{~/.heroes/heroesrc}.
+
+You can run @samp{heroes --list=sound-tracks} to print the list of
+sound-tracks used by heroes, and hence verify the correctness of your
+configuration.
 
 @subsection @samp{setrsc:}
 @cindex setrsc:

@@ -1,5 +1,33 @@
 2000-11-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Rewrite musicfile.c: use a hash instead of a list to hold the
+	sound-track aliases.  Dump the hash content on --list=sound-tracks.
+
+	* configure.in: Check for stdlib.h and stdbool.h.  Check
+	for malloc, calloc, realloc, and free definitions.
+	* doc/heroes.texi: (Options): Document --list=sound-tracks.
+	(heroesrc): Mention --list=sound-tracks.
+	* lib/hash.c: New file (from textutils, with fix).
+	* lib/hash.h: New file.
+	* lib/Makefile.am (noinst_HEADERS): Add hash.h.
+	(libheroes_a_SOURCES): Add hash.c.
+	* src/argv.c (list): Handle sound-tracks.
+	(print_help): Mention sound-tracks.
+	* src/musicfiles.c (sound_track_list, sound_track_cons,
+	sound_track_delete, add_sound_track): Remove.
+	(st_hash, st_cmp, st_hasher, st_free, st_cons,
+	print_sound_track_list, print_sound_track_list_stat) New.
+	(add_sound_track_cons, get_sound_track_from_alias,
+	init_sound_track_list): Rewrite to use the hash.
+	(init_sound_track_list): Return void.
+	* src/musicfiles.h (sound_track_cons, sound_track_delete,
+	add_sound_track): Remove.
+	(init_sound_track_list): Return void.
+	(print_sound_track_list, print_sound_track_list): New
+	* src/system.h: Define bool or include stdbool.h.
+
+2000-11-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Rewrite the sprite interface, cleaner and clever.
 	Remove the RLE-program stuff, install the brand new system.
 

@@ -33,6 +33,7 @@ error.h \
 fstrcmp.h \
 gnugetopt.h \
 getshline.h \
+hash.h \
 w_dirent.h \
 xalloc.h
 
@@ -44,6 +45,7 @@ libheroes_a_SOURCES= \
 error.c \
 fstrcmp.c \
 getshline.c \
+hash.c \
 xmalloc.c \
 xstrdup.c
 

@@ -28,6 +28,7 @@
 #include "errors.h"
 #include "rsc_files_hash.h"
 #include "debughash.h"
+#include "musicfiles.h"
 
 int snap = 0;
 int cpuon = 1;
@@ -70,7 +71,8 @@ list (char *word)
 Use `-lWORD' or `--list=WORD' where WORD can be:\n\
   debug                 display all debugging channels\n\
   resources             print the resources list\n\
-  sound-drivers         print the sound driver lists");
+  sound-drivers         print the sound driver list\n\
+  sound-tracks		print the sound track list");
     return;
   }
   if (!strcasecmp (word,"resources") ||
@@ -82,6 +84,12 @@ Use `-lWORD' or `--list=WORD' where WORD can be:\n\
   } else if (!strcasecmp (word,"debug") ||
 	     !strcasecmp (word,"channels")) {
     print_debug_channels ();
+  } else if (!strcasecmp (word,"sound-tracks") ||
+	     !strcasecmp (word,"st")) {
+    print_sound_track_list ();
+  } else if (!strcasecmp (word,"sound-tracks-stat") || /* undocumented */
+	     !strcasecmp (word,"sts")) {
+    print_sound_track_list_stat ();
   } else {
     /* Unknown WORD, print usage. */
     list (0);
@@ -107,7 +115,8 @@ General options:\n\
   -v, --verbose=CHANNELS      enable or disable debugging channels\n\
                                 (see --list=debug for available channels)\n\
   -l, --list=WORD             show some internal information; WORD can be\n\
-                                'debug', 'resources', or 'sound-drivers' \n");
+                                'debug', 'resources', 'sound-drivers' or\n\
+                                'sound-tracks'\n");
   puts ("\
 Sound options:\n\
   -d, --driver=N[,OPTIONS]    use Nth driver for sound output (0:autodetect)\n\
