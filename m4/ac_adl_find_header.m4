@@ -20,7 +20,7 @@ echo "#include <$1>" > nametmp.c
 afh_file_list="`$CPP $2 nametmp.c 2> /dev/null |
 sed -n 's/^#[ 	].*\"\(.*\)\"/\1/p' |
 sed 's/\\\\\\\\/\//g' |
-$AWK '{ if (\@S|@1 ~ \"$1\") files[[\@S|@1]] = \@S|@1 } 
+$AWK '{ if (\@S|@1 ~ \"$1\") files[[\@S|@1]] = \@S|@1 }
   END { for (var in files) print var }'`"
 dnl Note: `@S|@' will be translated into `$' by autoconf.
 rm -f nametmp.c
@@ -39,5 +39,9 @@ do
   test "x$ash_nmatch" != x && test "$ash_nmatch" -ge $5 && break
 done
 AC_VAR_SET(ac_adl_Header,[$ASH_FILE_H])
-AC_SHELL_IFELSE([test $ASH_FILE_H != "/dev/null"],[$6],[$7])])
+if test "$ASH_FILE_H" = "/dev/null"; then
+  ifelse([$7], , [:], [$7])
+else
+  ifelse([$6], , [:], [$6])
+fi])
 AC_VAR_POPDEF([ac_adl_Header])])

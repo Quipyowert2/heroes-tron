@@ -1,3 +1,13 @@
+2000-12-02  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Adapt config stuffs to the upcoming autoconf 2.49b.
+
+	* m4/ac_adl_find_header.m4 (AC_adl_FIND_HEADER): Don't use
+	AC_SHELL_IFELSE (it has be renamed as AS_IFELSE), prefer
+	plain shell if/then/else instead.
+	* configure.in: Use AC_CONFIG_FILES to specify parameters
+	of AC_OUPUT.
+
 2000-12-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Introduce xgettimeofday to prevent successive calls to

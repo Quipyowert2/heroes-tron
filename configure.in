@@ -505,7 +505,7 @@ AM_CONDITIONAL(MAKE_HTML, [test "${enable_html_doc-no}" != no])
 # ============
 
 AM_CONFIG_HEADER(src/config.h) dnl DO NOT quote, this is parsed by automake.
-AC_OUTPUT([
+AC_CONFIG_FILES([
  Makefile
  arch/Makefile
  doc/Makefile
@@ -517,6 +517,7 @@ AC_OUTPUT([
  src/txt_cfg/Makefile
  tools/Makefile
 ])
+AC_OUTPUT
 
 # ====================
 # Configuration report
