@@ -1,5 +1,10 @@
 2000-11-23  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* ANNOUNCE: New file.
+	* Makefile.am (EXTRA_DIST): Add ANNOUNCE.
+
+2000-11-23  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/render.c (draw_vehicle_head): The head of the vehicle should
 	be drawn using the way of the output of a tunnel, not the input.
 

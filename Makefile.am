@@ -24,7 +24,7 @@
 AUTOMAKE_OPTIONS = 1.4 gnits # dist-bzip2
 ACLOCAL_AMFLAGS = -I m4
 
-EXTRA_DIST = BUGS HACKING \
+EXTRA_DIST = ANNOUNCE BUGS HACKING \
 misc/heroes-1.xpm \
 misc/heroes-2.xpm \
 misc/heroes-3.xpm \
