@@ -20,7 +20,6 @@
 `------------------------------------------------------------------*/
 
 #include "system.h"
-#include <ggi/ggi.h>
 #include "keyvalues.h"
 
 const keycode_t key_modifiers[HK_MOD__MAX] = {

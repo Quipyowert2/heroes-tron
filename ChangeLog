@@ -1,3 +1,7 @@
+2001-09-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/media/dummy/keyvalues.c: Don't include ggi.h.
+
 2001-09-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* m4/h-allegro.m4: Hide Allegro support.  Do not check for it
