@@ -1,5 +1,11 @@
 2001-08-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/camera.c (compute_corner) <camera_width, camera_height>: New
+	variables.  Fix computation of the maximum possition for the
+	camera on non-wrapped levels.
+
+2001-08-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/const.h (radar_target_pos, radar_current_pos): Delete.
 	* src/const.c (radar_target_pos, radar_current_pos): Move ...
 	* src/heroes.c (radar_target_pos, radar_current_pos): ... here.

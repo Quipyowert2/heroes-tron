@@ -41,6 +41,8 @@ void
 compute_corner (int p, int n)
 {
   s32_t x, y;
+  s32_t camera_width;
+  s32_t camera_height;
   s32_t camera_center_x;
   s32_t camera_center_y;
 
@@ -106,10 +108,12 @@ compute_corner (int p, int n)
      mode, the screen is split vertically, hence we only account for
      half of the width.  */
   if (two_players)
-    camera_center_x = (((320 / 2) << 16) / 24) / 2;
+    camera_width = (320 << 16) / 24 / 2;
   else
-    camera_center_x = ((320 << 16) / 24) / 2;
-  camera_center_y = (200 << 16) / 20 / 2;
+    camera_width = (320 << 16) / 24;
+  camera_height = (200 << 16) / 20;
+  camera_center_x = camera_width / 2;
+  camera_center_y = camera_height / 2;
   x = camera_x[p] - camera_center_x;
   y = camera_y[p] - camera_center_y;
 
@@ -118,17 +122,15 @@ compute_corner (int p, int n)
   if (lvl.tile_width_wrap == DONT_WRAP) {
     if (x < 0) {
       x = 0;
-    } else {
-      if (x > tw - camera_center_x)
-	x = tw - camera_center_x;
+    } else if (x + camera_width > tw) {
+      x = tw - camera_width;
     }
   }
   if (lvl.tile_height_wrap == DONT_WRAP) {
     if (y < 0) {
       y = 0;
-    } else {
-      if (y > th - camera_center_y)
-	y = th - camera_center_y;
+    } else if (y + camera_height > th) {
+      y = th - camera_height;
     }
   }
 
