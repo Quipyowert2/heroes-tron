@@ -1,5 +1,23 @@
 		      User visible changes in Heroes.
 
+Heroes 0.6a	September 19, 2000
+
+        * Better support for Win32:
+          - more accurate timing
+          - working full screen
+          - should be easier to compile without any Unix layer
+	* Closing window is now handled with SDL
+	* Stronger checks for libMikMod and SDL
+	* New option:
+          -e: display only even lines (try -2e !)
+	* Bugs fixed:
+	  - correct usage of --host for cross-compiling
+	  - --double and --triple were not handled correctly
+	  - memory leaks
+	  - the "Quit yes/no" screen was called in a loop on some machines
+	  - src/etc/heroesrc was doubled
+	  - building of html files was not handled correctly
+
 Heroes 0.6	September 2, 2000
 
 	* heroes has been split in four packages, with different

@@ -22,9 +22,9 @@ info_TEXINFOS = heroes.texi
 
 CLEANFILES = heroes.html
 
-htmldir = @htmldir@
 if MAKE_HTML
-html_DATA = heroes.html
+hdir = @htmldir@
+h_DATA = heroes.html
 endif
 
 SUFFIXES = .html

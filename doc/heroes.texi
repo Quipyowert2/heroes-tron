@@ -194,7 +194,7 @@ support) can be done.
 * Mailing lists::               
 * Bug Reporting::               Sending bugs, suggestions, contributions.
 * Authors::                     Who made Heroes.
-* Contributors::                Contributed to Heroes.
+* Contributors::                Contributions to Heroes.
 * History::                     History of the DOS version.
 @end menu
 
@@ -350,7 +350,7 @@ however large, than many small ones.
 
   Do not hesitate to contribute.  This is YOUR game and the GPL allows you to
 apply any modifications you want to the game (provided that you keep
-those modifications under the GPL).  There are numerous places were you
+those modifications under the GPL).  There are numerous places where you
 can contribute: you can hack the code (take a glance at the TODO file),
 design new levels, create new drawings (e.g. new sets of tiles), track
 some new music or add your personal touch here and there.
@@ -411,9 +411,19 @@ Reported numerous errors, suggested various improvements, and built
 RPMs.
 
 @item
+St@'ephane Denis @email{S.Denis@@darkworks.com}
+
+Gave valuable advices regarding the Win32 port.
+
+@item
 Mattias Engdeg@aa{}rd @email{f91-men@@nada.kth.se}
 
 Ported Heroes to Solaris.
+
+@item
+Uwe Hermann @email{uh1763@@bingo-ev.de}
+
+Is hacking happily.
 
 @item
 Maxim Sobolev @email{sobomax@@FreeBSD.org}
@@ -450,7 +460,7 @@ some songs from Clawz just to vary. These were 'overtaking' and
 'hibakusha2' and gave a better taste to the game.  So we removed old
 Tnk's songs and he was asked to make some more Clawz-like musics. By the
 time, Alexel joined and came with 10 channels XM, thus all tunes are now
-8 or 10 channels XM... There was 13 tunes in the game (for a total of
+8 or 10 channels XM... There were 13 tunes in the game (for a total of
 2.88Mb unpacked), these are the introtune, the menutune, the 10 levels,
 and the endtune (you can't hear the later without finishing the quest
 game); most of them have been done by Alexel.
@@ -602,7 +612,7 @@ Link with SDL_mixer (note the underscore in the option name).
 This is the default if SDL_mixer is installed
 and SDL has been selected.  You may specify where SDL_mixer is
 installed using the optional argument.  Using this option
-implies --with-sdl.
+implies @samp{--with-sdl}.
 
 @item --enable-debug
 @cindex --enable-debug
@@ -631,7 +641,7 @@ If @samp{DIR} is not given, install in @file{$datadir/heroes/doc}.
 @item --disable-user-config
 @cindex --disable-user-config
 Don't use a per-user configuration file, but a system wide file instead.
-This configuration file record keyboard configuration, colors of
+This configuration file records keyboard configuration, colors of
 players, speed of the game, volume, etc. (everything that can be
 configured from the OPTIONS menu of the game).  If you save this as a
 global file, you will want to give special rights to that file and to the

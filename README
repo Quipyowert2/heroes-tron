@@ -22,7 +22,7 @@ powerups while avoiding obstacles, your opponents' trails, and even
 your own trail.
 
    There are five game modes available. Quest is the classical Nibbles,
-in Death Match you start with very long tails and you must kill your
+in Death Match you start with very long tails a must kill your
 opponents, in Kill'em All you must run over lemmings moving on the
 ground, in Color or Time Cash you must collect money or pyramids of
 color.
@@ -63,7 +63,7 @@ mirror. You will have to wait three or four days to have the files
 available on MetaLab after a release.
 
    Heroes is distributed as four packages with independent version
-numbering and release schedule.  Be sure to get them all:
+numbering and release schedule.  Be sure to get them four:
 
 `heroes'
      The source code, info file, and man page.
@@ -77,8 +77,8 @@ numbering and release schedule.  Be sure to get them all:
 `heroes-sound-effects'
      The sound effects for the game (.wav files).
 
-   The game has been so split because the data and sound files are big and
-don't evolve as often as the code does.
+   The game has been so split because the data and sound files are big
+and don't evolve as often as the code does.
 
    A public CVS server is accessible.  See
 `http://sourceforge.net/cvs/?group_id=7982' for details.
@@ -90,7 +90,6 @@ Reporting bugs, sending suggestions or contribution
 documentation).  Please email them to <heroes-bugs@lists.sourceforge.net>
 or <heroes-discuss@lists.sourceforge.net>.  Please, see the Texinfo 
 documentation of Heroes for guidelines regarding bug reporting.
-
 
 Installation of Heroes
 **********************
@@ -110,11 +109,11 @@ subset).
      (the game can be compiled without).  Get it from
      `http://www.ggi-project.org/'.  It is needed by LibGGI, by the way.
 
-   * SDL can be used as a display and keyboard driver.  Recent revisions
-     will also provide support for joysticks.  Get it from
+   * SDL can be used as a display and keyboard driver.  Recent
+     revisions will also provide support for joysticks.  Get it from
      `http://www.libsdl.org/'.
 
-   * LibMikMod is a sound engine. You don't need it if you want to
+   * LibMikMod is a sound library. You don't need it if you want to
      compile Heroes without sound support.  Get it from
      `http://mikmod.darkorb.net/'.  If you install LibMikMod from
      sources you may want to compile LibMikMod without Alsa support.
@@ -145,7 +144,7 @@ configure generic instructions
 configure options for Heroes
 ============================
 
-   `configure' will do its best to find the library and functions
+   `configure' will do its best to find the libraries and functions
 needed by the game.  Still, you may give several options to `configure'
 help it, or to configure special features of Heroes.
 
@@ -180,7 +179,7 @@ help it, or to configure special features of Heroes.
 
 `--with-sdl_mixer[=DIR]'
      Link with SDL_mixer (note the underscore in the option name).
-     This is the default if SDL_mixer is installed and SDL have been
+     This is the default if SDL_mixer is installed and SDL has been
      selected.  You may specify where SDL_mixer is installed using the
      optional argument.  Using this option implies --with-sdl.
 
@@ -200,14 +199,18 @@ help it, or to configure special features of Heroes.
      fence or dmalloc (dmalloc will be preferred if both libraries are
      installed).  This is disabled by default.
 
+`--enable-html-doc[=DIR]'
+     Build and install html documentation in directory `DIR'.  If `DIR'
+     is not given, install in `$datadir/heroes/doc'.
+
 `--disable-user-config'
      Don't use a per-user configuration file, but a system wide file
      instead.  This configuration file records keyboard configuration,
      colors of players, speed of the game, volume, etc. (everything
      that can be configured from the OPTIONS menu of the game).  If you
-     save this as a global file, you will want to give special right to
-     that file and to the heroes binary so that it can read and write
-     that file whoever ran it; this could lead to security issues.
+     save this as a global file, you will want to give special rights
+     to that file and to the heroes binary so that it can read and
+     write that file whoever ran it; this could lead to security issues.
 
      The default is to save those options in `~/.heroes/options.dat', if
      you specify this option they will be saved in
@@ -235,4 +238,3 @@ help it, or to configure special features of Heroes.
      The default is to save the games in `~/.heroes/savegame.dat', if
      you specify this option they will be saved in
      `DATADIR/heroes/txt_cfg/savegame.dat'.
-

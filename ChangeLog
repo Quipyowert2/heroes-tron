@@ -1,5 +1,22 @@
 2000-09-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.in: Set version to 0.6a.
+	* README-alpha: New.
+	* THANKS: Add Stéphane and Uwe.
+	* doc/heroes.texi (Contributors): Likewise.
+	(Bug Reporting): Typo.
+	(History): Fix spelling.
+	(configure options): Mark --with-sdl as @samp. Fix spelling.
+	* README: Update from Texinfo documentation.
+	* NEWS: Update.
+	
+	There is something strange with automake 1.4a.
+
+	* doc/Makefile.am (htmldir): Rename to ...
+	(hdir): ... this.  And include back in the MAKE_HTML conditional.
+	
+2000-09-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Temporaly kluge	hopping to work around MSVC (untested).
 	
 	* src/draw.c (Id): New.
