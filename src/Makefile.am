@@ -32,7 +32,7 @@ AUTOMAKE_OPTIONS = subdir-objects
 
 bin_PROGRAMS = heroes heroeslvl
 
-AM_CPPFLAGS = -I$(top_srcdir)/lib -I../lib -I../intl -I$(srcdir)/lvl -I$(srcdir)/media -I$(srcdir)/rules -I$(srcdir)/sys -I.. -I.
+AM_CPPFLAGS = $(LTDLINCL) -I$(top_srcdir)/lib -I../lib -I../intl -I$(srcdir)/lvl -I$(srcdir)/media -I$(srcdir)/rules -I$(srcdir)/sys -I.. -I.
 
 AM_CFLAGS = $(MORE_WARNINGS_CFLAGS)
 
@@ -41,15 +41,16 @@ heroeslvl_SOURCES = heroeslvl.c
 
 heroes_LDADD = lvl/libhlvl.a rules/libhrules.a media/libhmcommon.a \
 	       ../lib/libheroes.a \
-	       $(INTLLIBS) $(LIBALT_LOCAL_XLDADD) $(LIBALT_XLDADD)
-heroes_LDFLAGS = $(LIBALT_XLDFLAGS)
+	       $(INTLLIBS) $(LIBALT_LOCAL_XLDADD) $(LIBALT_XLDADD) \
+	       $(LIBLTDL) -dlopen plugins/stdai.la
+heroes_LDFLAGS = $(LIBALT_XLDFLAGS) -export-dynamic
 
 ## Depend upon Makefile because the value of LIBALT_LOCAL_LDADD might
 ## change from one instantiation to the other (in which case heroes
 ## needs to be re-linked).
 heroes_DEPENDENCIES = lvl/libhlvl.a rules/libhrules.a media/libhmcommon.a \
 	       ../lib/libheroes.a \
-	       $(LIBALT_LOCAL_XLDADD) Makefile
+	       $(LIBALT_LOCAL_XLDADD) Makefile $(pkglib_LTLIBRARIES)
 heroes_SOURCES = \
 argv.c \
 argv.h \
@@ -126,6 +127,8 @@ persona.c \
 persona.h \
 pixelize.c \
 pixelize.h \
+plugins.c \
+plugins.h \
 prefs.c \
 prefs.def \
 prefs.h \
@@ -248,3 +251,5 @@ EXTRA_DIST += media/Makefile.inc
 include media/Makefile.inc
 EXTRA_DIST += sys/Makefile.inc
 include sys/Makefile.inc
+EXTRA_DIST += plugins/Makefile.inc
+include plugins/Makefile.inc

@@ -73,7 +73,7 @@
 #include "main.h"
 #include "pendulum.h"
 #include "hookscore.h"
-#include "ai.h"
+#include "plugins.h"
 
 char tile_set_name[128];
 char glenz_name[128];
@@ -1622,6 +1622,9 @@ heroes_main (int argc, char *argv[])
 
   relocate_data (argv[0]);
   init_locales ();
+
+  plugins_initialize ();
+
   init_sound_track_list ();
 
   /* Allow to override system-conf.  That's especially used by the
@@ -1683,8 +1686,6 @@ heroes_main (int argc, char *argv[])
 
   dmsg (D_SYSTEM, "randomize");
   srand (time (0));
-
-  standard_ai_initialize();
 
   read_level_list ();
   if (showlevels) {
@@ -1776,8 +1777,6 @@ heroes_main (int argc, char *argv[])
   update_htimers ();
   main_menu ();
 
-  standard_ai_finalize();
-
   dummy_moving_background_uninit ();
   uninit_menus_sprites ();
   uninit_fader ();
@@ -1811,6 +1810,7 @@ heroes_main (int argc, char *argv[])
   var_uninitialize ();
   uninit_sound_track_list ();
 
+  plugins_finalize ();
   hooks_core_finalize ();
 
   free_extra_list ();

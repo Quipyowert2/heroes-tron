@@ -1,3 +1,28 @@
+2002-03-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.ac: Define AC_PROVIDE_AC_LIBTOOL_DLOPEN (kludge).
+	* m4/h-paths.m4: Compute FORWARD_RELATIVE_PLUGINDIR.
+	* src/plugins.c, src/plugins.c: New files.
+	* src/Makefile.am: Include plugins/Makefile.inc.
+	(AM_CPPFLAGS): Add $(LTDLINC).
+	(heroes_LDFLAGS): Add libltdl, and -dlopen stdai.la.
+	(heroes_SOURCES): Add plugins.c and plugins.h.
+	* src/argv.c (print_help): Document -p and --plug-in.
+	(long_options): Add --plug-in.
+	(parse_argv): Handle them.
+	* src/heroes.c (heroes_main): Call plugins_initialize and
+	plugins_finalize.
+	* src/relocate.c (check_plugindir_env): New function.
+	(relocate_data): Call it.
+	* src/rsc_files.gperf (plug-in-dir): New.
+	* src/etc/heroesrc: Load the stdai module.
+	* src/plugins/Makefile.inc: New file.
+	* src/rules/ai.c: Move ...
+	* src/plugins/stdai.c: ... here.
+	* src/rules/ai.h: Delete.
+	* src/rules/Makefile.inc (rules_libhrules_a_SOURCES): Remove ai.c
+	and ai.h.
+
 2002-03-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/opponents.c: New file.

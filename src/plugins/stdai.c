@@ -19,11 +19,8 @@
 | 02111-1307 USA                                                    |
 `------------------------------------------------------------------*/
 
-/* FIXME: Move this file elsewhere, in a separate directory.  */
-
 #include "system.h"
 #include "statepriv.h"
-#include "ai.h"
 #include "hooks.h"
 #include "opponents.h"
 
@@ -752,8 +749,9 @@ an_opponent_sig ai_standard_tcash = {
 };
 
 
+void stdai_LTX_initialize (void);
 void
-standard_ai_initialize (void)
+stdai_LTX_initialize (void)
 {
   opponent_register (&ai_standard_quest);
   opponent_register (&ai_standard_deathm);
@@ -762,8 +760,9 @@ standard_ai_initialize (void)
   opponent_register (&ai_standard_tcash);
 }
 
+void stdai_LTX_finalize (void);
 void
-standard_ai_finalize (void)
+stdai_LTX_finalize (void)
 {
   opponent_unregister (&ai_standard_quest);
   opponent_unregister (&ai_standard_deathm);

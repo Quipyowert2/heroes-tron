@@ -50,6 +50,7 @@ locale-dir,	        "$(prefix)/"FORWARD_RELATIVE_LOCALEDIR, 0,0,true
 main-font,		"$(data-dir)/pics/fontem.pcx",		0,0,true
 menu-pictures-img,	"$(data-dir)/pics/fontem2.pcx",		0,0,true
 new-level-menu-img,	"$(data-dir)/pics/newlevel.pcx",	0,0,true
+plug-in-dir,		"$(prefix)/"FORWARD_RELATIVE_PLUGINDIR, 0,0,true
 pref-file,		"$(user-dir)/preferences",		0,0,true
 prefix,			PREFIX,					0,0,true
 purple-bonus-img,	"$(data-dir)/pics/bonusa.pcx",		0,0,true

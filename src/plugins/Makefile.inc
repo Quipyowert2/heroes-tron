@@ -1,4 +1,5 @@
-## Copyright 2002  Alexandre Duret-Lutz <duret_g@epita.fr>
+##                                                        -*- Makefile -*-
+## Copyright 2001  Alexandre Duret-Lutz <duret_g@epita.fr>
 ##
 ## This file is part of Heroes.
 ##
@@ -16,17 +17,7 @@
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 ##
 
-noinst_LIBRARIES += rules/libhrules.a
+pkglib_LTLIBRARIES = plugins/stdai.la
 
-rules_libhrules_a_SOURCES= \
-  rules/bonuses.c \
-  rules/explosions.c \
-  rules/lemmings.c \
-  rules/objects.c \
-  rules/player.h \
-  rules/player.c \
-  rules/state.h \
-  rules/state.c \
-  rules/statepriv.h \
-  rules/trail.c \
-  rules/update.c
+plugins_stdai_la_SOURCES = plugins/stdai.c
+plugins_stdai_la_LDFLAGS = -module -release $(VERSION)

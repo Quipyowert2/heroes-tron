@@ -36,3 +36,7 @@ soundconf: $(data-dir)/mod/sound.conf
 ## its whole life.
 #keepsuid: yes
 #keepsgid: yes
+
+
+# Load standard plug-ins.
+Options: -p stdai

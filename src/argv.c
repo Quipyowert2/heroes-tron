@@ -29,6 +29,7 @@
 #include "debughash.h"
 #include "musicfiles.h"
 #include "vars.h"
+#include "plugins.h"
 
 int cpuon = 1;
 bool nosfx = false;
@@ -197,6 +198,8 @@ Miscellaneous options:\n\
   -g, --go                    skip the introduction\n\
   -J, --no-joystick           disable joystick handling\n"));
   puts (_("\
+  -p, --plug-in=NAME	      load plug-in NAME\n"));
+  puts (_("\
 These options can be set in your file ~/.heroes/heroesrc (which is read\n\
 before parsing other command line options) using a line like the following:\n\
 \n\
@@ -231,6 +234,7 @@ const struct option long_options[] = {
   {"no-joystick",	no_argument,       NULL,	'J'},
   {"no-sfx",		no_argument,       NULL,	'X'},
   {"no-sound",		no_argument,       NULL,	'S'},
+  {"plug-in",		required_argument, NULL,	'p'},
   {"quadruple",		no_argument,       NULL,	'4'},
   {"quiet",		no_argument,	   NULL,	'q'},
   {"really-quiet",	no_argument,	   NULL,	'Q'},
@@ -263,7 +267,7 @@ parse_argv (int argc, char **argv, const char *from_file, int from_line)
   for (;;) {
     int option_index = 0;
 
-    c = getopt_long (argc, argv, "2348d:eFgG:hiJl::L:mnqQsSv::X",
+    c = getopt_long (argc, argv, "2348d:eFgG:hiJl::L:mnp:qQsSv::X",
 		     long_options, &option_index);
 
     /* Detect the end of the options. */
@@ -347,6 +351,9 @@ parse_argv (int argc, char **argv, const char *from_file, int from_line)
       /* getopt_long already printed an error message. */
       print_help (1);
     case 0:
+      break;
+    case 'p':
+      plugin_load (optarg);
       break;
     case 'Q':
       disable_emsg = true;

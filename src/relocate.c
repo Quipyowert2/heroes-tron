@@ -56,6 +56,22 @@ check_datadir_env (void)
 }
 
 static void
+check_plugindir_env (void)
+{
+  char* data_dir;
+  dmsg (D_SYSTEM, "looking for HEROES_PLUG_IN_DIR or HEROES_PLUGIN_DIR or"
+	" HEROES_PLUGINDIR ...");
+  if ((data_dir = getenv ("HEROES_PLUG_IN_DIR")) ||
+      (data_dir = getenv ("HEROES_PLUGIN_DIR")) ||
+      (data_dir = getenv ("HEROES_PLUGINDIR"))) {
+    dmsg (D_SYSTEM,"... found: %s", data_dir);
+    set_rsc_file ("plug-in-dir", data_dir, false);
+  } else {
+    dmsg (D_SYSTEM, "... not found.");
+  }
+}
+
+static void
 check_homedir_env (void)
 {
   char* home_dir;
@@ -169,6 +185,7 @@ relocate_data (const char *argv0)
   /* Check whether the user has set some environment variables to
      override internal paths.  */
   check_datadir_env ();
+  check_plugindir_env ();
   check_localedir_env ();
   check_homedir_env ();
   if (!check_prefix_env ()) {

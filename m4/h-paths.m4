@@ -37,9 +37,11 @@ AC_DEFUN([heroes_COMPUTE_PATHS],
 localedir='${datadir}'/locale
 
 pkgdatadir="$datadir/heroes"
+pkglibdir="$libdir/heroes"
 adl_COMPUTE_RELATIVE_PATHS([dnl
 bindir:prefix:backward_relative_bindir dnl
 prefix:pkgdatadir:forward_relative_pkgdatadir dnl
+prefix:pkglibdir:forward_relative_plugindir dnl
 prefix:localedir:forward_relative_localedir dnl
 ])
 
@@ -49,6 +51,9 @@ AC_DEFINE_UNQUOTED([BACKWARD_RELATIVE_BINDIR],
 AC_DEFINE_UNQUOTED([FORWARD_RELATIVE_PKGDATADIR],
                    ["$forward_relative_pkgdatadir"],
                    [Relative path from PREFIX to PKGDATADIR.])
+AC_DEFINE_UNQUOTED([FORWARD_RELATIVE_PLUGINDIR],
+                   ["$forward_relative_plugindir"],
+                   [Relative path from PREFIX to PLUGINDIR.])
 AC_DEFINE_UNQUOTED([FORWARD_RELATIVE_LOCALEDIR],
                    ["$forward_relative_localedir"],
                    [Relative path from PREFIX to LOCALEDIR.])

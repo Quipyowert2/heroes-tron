@@ -18,10 +18,47 @@
 | 02111-1307 USA                                                    |
 `------------------------------------------------------------------*/
 
-#ifndef HEROES__AI__H
-#define HEROES__AI__H
+#include "system.h"
+#include "plugins.h"
+#include "ltdl.h"
+#include "rsc_files.h"
+#include "errors.h"
 
-void standard_ai_initialize (void);
-void standard_ai_finalize (void);
+void
+plugins_initialize (void)
+{
+  char *name = get_rsc_file ("plug-in-dir");
+  int err = lt_dlinit ();
+  if (err)
+    emsg (_("libltdl:lt_dlinit reported %d errors"), err);
+  lt_dladdsearchdir (name);
+  free (name);
+}
 
-#endif /* HEROES__AI__H */
+void
+plugins_finalize (void)
+{
+  int err = lt_dlexit ();
+  if (err)
+    emsg (_("libltdl:lt_dlexit reported %d errors"), err);
+}
+
+void
+plugin_load (const char *name)
+{
+  void (*initialize)(void);
+  lt_dlhandle hdl = lt_dlopenext (name);
+  if (!hdl)
+    emsg (_("failed to dlopen plug-in `%s'"), name);
+  initialize = (void (*)(void)) lt_dlsym (hdl, "initialize");
+  if (!initialize)
+    emsg (_("no `initialize' symbol in plug-in `%s'"), name);
+
+  initialize();
+}
+
+void
+plugin_unload (const char *name)
+{
+  (void) name;
+}

@@ -1,0 +1,5 @@
+.libs
+.dirstamp
+.deps
+stdai.la
+stdai.lo

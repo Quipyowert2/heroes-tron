@@ -171,6 +171,9 @@ AC_SUBST([LTDLINCL])
 AC_SUBST([LIBLTDL])
 dnl Check for dlopen support
 AC_LIBTOOL_DLOPEN
+m4_define([AC_PROVIDE_AC_LIBTOOL_DLOPEN],[]) dnl a bit of a hack, to workaround
+                                             dnl something which looks like a
+					     dnl bug in libtool
 dnl Configure libtool
 AC_PROG_LIBTOOL
 dnl Configure libltdl
