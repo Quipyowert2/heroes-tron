@@ -192,13 +192,13 @@ horizontal_zoom_flip (pixel_t *src, pixel_t *dest, int oldsize, int newsize)
   pixel_t tmp1;
   u16_t *adest;
 
-  if (((int) dest) & 1)
+  if (PTR_TO_INT (dest) & 1)
     do {
       tmp1 = *(src + (x >> 16));
       x += deltax;
       *dest++ = tmp1;
       newsize--;
-    } while (((int) dest) & 1);
+    } while (PTR_TO_INT (dest) & 1);
   ad = (u16_t *) (src + (x >> 16));
   tmp = GETWORD((u8_t *)ad);
   adest = (u16_t *) dest;	/* adest utilisé dans cette boucle seulement

@@ -1,5 +1,9 @@
 2000-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/visuals.c (horizontal_zoom_flip): Use PTR_TO_INT.
+
+2000-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/system.h (PTR_TO_INT, INT_TO_PTR): New.
 	* src/visuals.c (horizontal_zoom_wave): Use PTR_TO_INT.
 
