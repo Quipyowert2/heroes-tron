@@ -89,9 +89,9 @@ draw_trail_real (int c, unsigned char s, pixel_t* dest,
 
   if (fixe) {
     if (s & 1)
-      d = player[c].d.e / 5461;
+      d = player[c].d.h.l / 5461;
     else
-      d = player[c].d.e / 6554;
+      d = player[c].d.h.l / 6554;
   }
   spr = trails[s][d];
   draw_sprglenz_custom (spr, dest, glenz[c + 2]);
@@ -106,10 +106,10 @@ draw_vehicle_tail (int c, pixel_t* dest)
   const sprite_t *spr;
 
   if (s & 4) {
-    d = player[c].d.e / 5461;
+    d = player[c].d.h.l / 5461;
     spr = trails[s][12 - (d + 12) / 2];
   } else {
-    d = player[c].d.e / 6554;
+    d = player[c].d.h.l / 6554;
     spr = trails[s][10 - (d + 10) / 2];
   }
   draw_sprglenz_custom (spr, dest, glenz[c + 2]);

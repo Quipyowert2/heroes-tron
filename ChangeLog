@@ -1,5 +1,13 @@
 2000-11-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/render.c (draw_trail_real, draw_vehicle_tail): Use only the
+	lower part of the players' positions to make sure `d' is never
+	greater than 12 (or 10).
+	* src/structs.h (hl, ehl): Use u16_t and u32_t to make bit width of
+	members explicit.
+
+2000-11-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/menus.c (init_menus_sprites): Typo.
 
 2000-11-20  Alexandre Duret-Lutz  <duret_g@epita.fr>

@@ -66,7 +66,7 @@ static const char *type_name[] =
   "OUTWAY"
 };
 
-static char spd_test[9][12] = { 
+static char spd_test[9][12] = {
 {2, 2, 4, 4, 4, 4, 4, 4, 4, 4, 8, 8},
 {2, 2, 2, 4, 4, 4, 4, 4, 4, 8, 8, 8},
 {2, 2, 2, 2, 4, 4, 4, 4, 8, 8, 8, 8},
@@ -78,7 +78,7 @@ static char spd_test[9][12] = {
 {2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 8, 8}
 };
 
-static char dir_test[9][12] = { 
+static char dir_test[9][12] = {
 {1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3},
 {1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3},
 {1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3},
@@ -96,15 +96,15 @@ typedef struct
 {
   u32_t output;
   /* tempo was never used with tunnels.  The original
-     purpose was to delay the player underground (for the time 
+     purpose was to delay the player underground (for the time
      given by delay, computed by the level editor from the
      length of the tunnel).  Its has been abandoned because
      handling of vehicles "out of the map" would complexify
      the game internals.
 
-     FIXME: If we can make sure that tempo is 0 in 
-     *all* level files, the two fields below should better 
-     be replaced by        
+     FIXME: If we can make sure that tempo is 0 in
+     *all* level files, the two fields below should better
+     be replaced by
         u8_t direction;
   */
 #ifdef WORDS_BIGENDIAN
@@ -171,17 +171,17 @@ ATTRIBUTE_PACKED level_header_t; /* 64 bytes */
 /*------------------ player records -------------------*/
 
 /* these two structures are used to access
-   the higher and lower part of a long int */
+   the higher and lower part of a u32_t */
 typedef struct {
 #ifdef WORDS_BIGENDIAN
-  short int h, l;
+  u16_t h, l;
 #else
-  short int l, h;
+  u16_t l, h;
 #endif
 } hl;
 
 typedef union {
-  long int e;
+  u32_t e;
   hl h;
 } ehl;
 
@@ -208,7 +208,7 @@ typedef struct
   int speedup;			/* bonus speedup or speeddown */
   int rotozoom;			/* roto */
   int rotozoom_direction;
-  int waves;			
+  int waves;
   int waves_begin;
   int invincible;		/* blinking */
   int lifes;			/* lifes LEFT */
@@ -218,7 +218,7 @@ typedef struct
   char autopilot;
   char cpu;			/* 0: local CPU    [1: remote CPU] */
 				   /* 2: player local [,3: player distant] */
-  int ia_max_depth;		/* recusrion depth for CPU (keep <= 7, 
+  int ia_max_depth;		/* recusrion depth for CPU (keep <= 7,
 				   or it will be slow) */
   int behaviour;		/* 0.follower 1.bonus eater 2.squisher 3...*/
   int target;			/* target to follow */
