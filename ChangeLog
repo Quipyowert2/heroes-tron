@@ -1,5 +1,9 @@
 2001-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* ANNOUNCE, NEWS: Update for 0.17.
+
+2001-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* tests/demo.test, tests/intro.test, tests/defs,
 	tests/Makefile.am: New file.
 	* Makefile.am (SUBDIRS): Add tests.

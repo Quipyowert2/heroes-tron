@@ -1,3 +1,10 @@
+Heroes 0.17	November 19, 2001
+
+	* Bug fix:
+	  - Segfault introduced by previous bug fix. (Ahem.)
+	* Very basic testsuite (it just runs the game in demo mode -- but
+	  that would have been enough to caught the aforementioned segfault).
+
 Heroes 0.16	November 18, 2001
 
 	* Bug fixes:
