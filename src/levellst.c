@@ -82,12 +82,24 @@ read_level_dir (const char *dirname)
   dmsg (D_FILE, "... %d files", n);
 }
 
+static int
+cmp_levels (const void *a, const void *b)
+{
+  const level_info_t *la = a;
+  const level_info_t *lb = b;
+  return strcasecmp (la->name, lb->name);
+}
+
 int
 read_level_list (void)
 {
   char *dirname = get_non_null_rsc_file ("levels-dir");
   read_level_dir (dirname);
   free (dirname);
+
+  /* Sort the levels array (files are numbered and we really
+     want to play them in the right order).  */
+  qsort (level_list, level_list_size, sizeof (*level_list), cmp_levels);
   return 0;
 }
 

@@ -1,3 +1,8 @@
+2001-08-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/levellst.c (cmp_levels): New function.
+	(read_level_list): Sort the levels.
+
 2001-08-02  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Fix issues observed on OpenBSD 2.9.
