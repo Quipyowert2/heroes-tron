@@ -1,3 +1,8 @@
+2001-12-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* po/de.po: Update copying/warranty message.
+	From Ingo van Lil <inguin@gmx.de>.
+
 2001-12-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* po/fr.po: Update (use new latin-1 characters).
