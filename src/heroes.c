@@ -1831,9 +1831,9 @@ find_free_way (int c)
       o[i] = square_occupied[idx];
 
     /* Forbid turn back.  This is usually not needed because the
-       square behind the vehicle is aleady occupied, but on some
+       square behind the vehicle is already occupied, but in some
        tunnel configurations this may not be the case. */
-    o[player[c].way ^ 2] = c;
+    o[REVERSE_DIR (player[c].way)] = c;
 
     if (o[i] != 0xff || idx == INVALID_INDEX)
       d |= e;
@@ -1841,6 +1841,18 @@ find_free_way (int c)
   }
 
   f = player[c].next_way;
+
+  /* Since the auto pilot is deactivated in case a player runs into a
+     fire trail, it's possible for a human player to do a one-eighty
+     turn and crash into his own tail. That can be quite annoying in
+     case you want to go back one square left or right of your current
+     lane and you're too fast pressing the buttons.
+
+     Explicitly ignore the new direction in this case.  */
+  if (f == REVERSE_DIR (player[c].way))
+    player[c].next_way = player[c].way;
+
+  /* If the way is free the autopilot has nothing to do.  */
   if (!(d & (1 << f)))
     return;
 
