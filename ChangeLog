@@ -1,5 +1,10 @@
 2001-09-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* m4/h-allegro.m4: Hide Allegro support.  Do not check for it
+	unless explicitly requested.
+
+2001-09-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/media/allegro/video.c (screen_rv): New variable.
 	(init_video_low, uninit_video_low, vsynchro_low,
 	vsynchro2_low):	Use it.

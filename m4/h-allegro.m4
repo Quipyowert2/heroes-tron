@@ -1,7 +1,8 @@
 AC_DEFUN([heroes_CHECK_ALLEGRO],
-[AC_ARG_WITH([allegro],
-  [AC_HELP_STRING([--with-allegro=DIR],[root directory of Allegro installation])
-AC_HELP_STRING([--without-allegro],[disables Allegro usage completely])])
+[## Allegro support is hidden until it is better supported.
+##AC_ARG_WITH([allegro],
+##  [AC_HELP_STRING([--with-allegro=DIR],[root directory of Allegro installation])
+##AC_HELP_STRING([--without-allegro],[disables Allegro usage completely])])
 
  test "${with_allegro_exec_prefix-no}" != no &&
    test "${with_allegro-yes}" = yes && with_allegro="$with_allegro_exec_prefix"
@@ -9,7 +10,10 @@ AC_HELP_STRING([--without-allegro],[disables Allegro usage completely])])
  test "${with_allegro-yes}" != yes &&
    test "${with_allegro_exec_prefix-yes}" = yes && with_allegro_exec_prefix="$with_allegro"
 
- if test "${with_allegro-yes}" != no; then
+ ## Change -no into -yes (on the first line only) once Allegro support is
+ ## good enough, so that Allegro is always checked for.  Presently we only
+ ## want to check for it on explicit request.
+ if test "${with_allegro-no}" != no; then
   if test "${with_allegro-no}" != no; then
      user_selection_list_vkm="$user_selection_list_vkm allvkm"
 #     user_selection_list_j="$user_selection_list_j allj"
@@ -22,7 +26,8 @@ AC_HELP_STRING([--without-allegro],[disables Allegro usage completely])])
   AC_adl_PKG_GENERIC(allegro, [3.9.33], [], [],
    [with_allegro=no])
  fi
- if test "${with_allegro-yes}" != no; then
+ ## Also change -no to -yes.  See above.
+ if test "${with_allegro-no}" != no; then
    AC_adl_FIND_HEADER([allegro.h],[$ALLEGRO_CFLAGS],
     [/usr/include/allegro.h] dnl
     [/usr/local/include/allegro.h],
