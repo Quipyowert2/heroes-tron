@@ -17,22 +17,6 @@
 /* Define if you want debuging code and symbols. */
 /* #undef DEBUG */
 
-/* Define to 1 if you have the declaration of `calloc', and to 0 if you don't.
-   */
-#define HAVE_DECL_CALLOC 1
-
-/* Define to 1 if you have the declaration of `free', and to 0 if you don't.
-   */
-#define HAVE_DECL_FREE 1
-
-/* Define to 1 if you have the declaration of `malloc', and to 0 if you don't.
-   */
-#define HAVE_DECL_MALLOC 1
-
-/* Define to 1 if you have the declaration of `realloc', and to 0 if you
-   don't. */
-#define HAVE_DECL_REALLOC 1
-
 /* Define if you have the <direct.h> header file. */
 #define HAVE_DIRECT_H 1
 
@@ -42,20 +26,8 @@
 /* Define if you link with the dmalloc library. */
 /* #undef HAVE_DMALLOC */
 
-/* Define if the malloc check has been performed. */
-#define HAVE_DONE_WORKING_MALLOC_CHECK 1
-
-/* Define if the realloc check has been performed. */
-#define HAVE_DONE_WORKING_REALLOC_CHECK 1
-
 /* Define if you don't have `vprintf' but do have `_doprnt.' */
 /* #undef HAVE_DOPRNT */
-
-/* Define if you have the <getopt.h> header file. */
-/* #undef HAVE_GETOPT_H */
-
-/* Define if you have the `getopt_long' function. */
-/* #undef HAVE_GETOPT_LONG */
 
 /* Define if you have the `gettimeofday' function. */
 /* #undef HAVE_GETTIMEOFDAY */
@@ -77,9 +49,6 @@
 
 /* Define if you have the `gii' library (-lgii). */
 /* #undef HAVE_LIBGII */
-
-/* Define if you have the `gnugetopt' library (-lgnugetopt). */
-/* #undef HAVE_LIBGNUGETOPT */
 
 /* Define if you have the `m' library (-lm). */
 #define HAVE_LIBM 1
@@ -105,15 +74,6 @@
 /* Define if you have the <ndir.h> header file, and it defines `DIR'. */
 /* #undef HAVE_NDIR_H */
 
-/* Define if you have libggi. */
-/* #undef HAVE_PKG_GGI */
-
-/* Define if you have libgii. */
-/* #undef HAVE_PKG_GII */
-
-/* Define if you have libSDL_mixer. */
-#undef HAVE_PKG_sdl_mixer
-
 /* Define if you have readdir and friends. */
 /* #undef HAVE_READDIR */
 
@@ -132,17 +92,8 @@
 /* Define if you have the <stdint.h> header file. */
 /* #undef HAVE_STDINT_H */
 
-/* Define if you have the <stdlib.h> header file. */
-/* #undef HAVE_STDLIB_H */
-
 /* Define if you have the `strcasecmp' function. */
 /* #undef HAVE_STRCASECMP */
-
-/* Define if you have the `strerror' function. */
-/* #undef HAVE_STRERROR */
-
-/* Define if you have the `strerror_r' function. */
-/* #undef HAVE_STRERROR_R */
 
 /* Define if you have the <strings.h> header file. */
 /* #undef HAVE_STRINGS_H */
@@ -167,9 +118,6 @@
 
 /* Define if you have the <windows.h> header file. */
 #define HAVE_WINDOWS_H 1
-
-/* Define to 1 if `strerror_r' returns a string. */
-/* #undef HAVE_WORKING_STRERROR_R */
 
 /* Define if you have the `_mkdir' function. */
 #define HAVE__MKDIR 1
@@ -202,7 +150,7 @@
 #define USE_HEROES_DEBUG 1
 
 /* Version number of package */
-#define VERSION "0.6d"
+#define VERSION "0.6e"
 
 /* whether byteorder is bigendian */
 /* #undef WORDS_BIGENDIAN */
@@ -212,9 +160,3 @@
 
 /* Path to the data directory. */
 #define datadir "../share/heroes"
-
-/* Define to rpl_malloc if the replacement function should be used. */
-#define malloc rpl_malloc
-
-/* Define to rpl_realloc if the replacement function should be used. */
-#define realloc rpl_malloc

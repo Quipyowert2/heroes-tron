@@ -1,3 +1,18 @@
+2000-11-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	New icons from Jean Delvare <delvare@ensicaen.ismra.fr>.
+
+	* misc/heroes.xpm: Delete.
+	* misc/heroes-1.xpm: New file.
+	* misc/heroes-2.xpm: New file.
+	* misc/heroes-3.xpm: New file.
+	* misc/heroes-4.xpm: New file.
+	* misc/heroes-5.xpm: New file.
+	* misc/heroes-6.xpm: New file.
+	* misc/heroes-7.xpm: New file.
+	* misc/heroes-8.xpm: New file.
+	* Makefile.am (EXTRA_DIST): Adjust accordingly.
+
 2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/sound.c (sound_initialized, sound_track_loaded,

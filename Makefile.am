@@ -24,7 +24,16 @@
 AUTOMAKE_OPTIONS = 1.4 gnits # dist-bzip2
 ACLOCAL_AMFLAGS = -I m4
 
-EXTRA_DIST = BUGS misc/heroes.xpm HACKING
+EXTRA_DIST = BUGS HACKING \
+misc/heroes-1.xpm \
+misc/heroes-2.xpm \
+misc/heroes-3.xpm \
+misc/heroes-4.xpm \
+misc/heroes-5.xpm \
+misc/heroes-6.xpm \
+misc/heroes-7.xpm \
+misc/heroes-8.xpm
+
 SUBDIRS = arch tools lib src m4 man doc
 
 README: $(top_srcdir)/doc/heroes.texi $(top_srcdir)/tools/readme.sed
