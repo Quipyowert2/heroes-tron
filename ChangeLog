@@ -1,3 +1,27 @@
+2000-10-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Support for generating RLE-programs from strings to display.
+	Try it in control menu.
+
+	* src/fontdata.h: New file.
+	* src/fontdata.c: New file.
+	* src/rletext.h: New file.
+	* src/rletext.c: New file.
+	* src/Makefile.am (heroes_SOURCES): Add fontdata.h, fontdata.c,
+	rletext.c, and rletext.h.
+	* arch/VisualC/heroes.dsp: Likewise. Fix to use getshline.c from
+	../lib/.  Use gnugetopt.h instead of getopt.h.
+	* src/heroes.c (main): Call init_fonts and uninit_fonts.
+	* src/menus.c (init_menus_sprites): Generate a RLE-program for the
+	control menu text.
+	(uninit_menus_sprites): Free it.
+	(control_menu): Use it.
+	* src/rleprog.h (rleprog_s): Add attribute latest_known.
+	(concat_rleprog): New.
+	* src/rleprog.c (compile_rleprog): Zero latest_known.
+	(free_rleprog): Cosmetic.
+	(concat_rleprog): New.
+	
 2000-10-11  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Remove most warning from src/intro.c.

@@ -187,15 +187,15 @@ SOURCE=..\src\font_menu.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\src\fontdata.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\fontdata.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\src\generic_list.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\src\getshline.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\src\getshline.h
 # End Source File
 # Begin Source File
 
@@ -331,6 +331,14 @@ SOURCE=..\src\rleprog.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\src\rletext.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\rletext.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\src\rsc_files.c
 # End Source File
 # Begin Source File
@@ -463,6 +471,14 @@ SOURCE=..\lib\gnugetopt.h
 # Begin Source File
 
 SOURCE=..\lib\getopt1.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\getshline.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\getshline.h
 # End Source File
 # Begin Source File
 
