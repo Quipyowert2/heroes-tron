@@ -22,8 +22,6 @@
 #include "const.h"
 #include "timer.h"
 #include "fastmem.h"
-#include "font_menu.h"
-#include "font_deck.h"
 #include "options.h"
 #include "display.h"
 #include "draw.h"

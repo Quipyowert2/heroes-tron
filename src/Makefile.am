@@ -54,9 +54,7 @@ fader.c \
 fader.h \
 fastmem.h \
 font.h \
-font_deck.h \
 font_help.h \
-font_menu.h \
 fontdata.h \
 fontdata.c \
 generic_list.h \
