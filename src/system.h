@@ -271,6 +271,9 @@ Array = xrealloc ((Array), sizeof (*(Array)) * (N_items))
 # define DMALLOC_FUNC_CHECK
 # include <dmalloc.h>
 #endif
+#if HAVE_MPATROL_H
+# include <mpatrol.h>
+#endif
 
 /* miscellaneous prototypes for replacement functions */
 

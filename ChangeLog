@@ -1,3 +1,13 @@
+2001-01-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.in: Call adl_WITH_MPATROL.
+	* m4/memdebug.m4 (adl_WITH_MPATROL, adl_CHECK_MEMORY_USAGE,
+	adl_CHECK_MPATROL_LIBS, adl_CHECK_MPATROL, adl_WITH_MPATROL): New.
+	(adl_ENABLE_MEM_DEBUG): Call adl_CHECK_MPATROL too.
+	(adl_CHECK_DMALLOC): Use AC_CHECK_HEADERS, not AC_CHECK_HEADER.
+	* src/system.h [HAVE_MPATROL_H]: Include mpatrol.h.
+	* doc/heroes.texi (configure options): Describle --with-mpatrol.
+
 2001-01-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* doc/heroes.texi (Machines): Document the existence of arch/mingw32.

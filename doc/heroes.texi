@@ -708,6 +708,11 @@ This can slow down things a bit.
 @cindex --enable-devel
 Is a shorthand for @samp{--enable-debug --disable-optimizations --enable-warnings --enable-assert}.
 
+@item --with-mpatrol
+@cindex --with-mpatrol
+@cindex mpatrol
+Link with MPatrol, a @samp{malloc()} debugger.
+
 @item --with-mtrace
 @cindex --with-mtrace
 @cindex mtrace
