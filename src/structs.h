@@ -95,8 +95,25 @@ static char dir_test[9][12] = {
 typedef struct
 {
   u32_t output;
+  /* tempo was never used with tunnels.  The original
+     purpose was to delay the player underground (for the time 
+     given by delay, computed by the level editor from the
+     length of the tunnel).  Its has been abandoned because
+     handling of vehicles "out of the map" would complexify
+     the game internals.
+
+     FIXME: If we can make sure that tempo is 0 in 
+     *all* level files, the two fields below should better 
+     be replaced by        
+        u8_t direction;
+  */
+#ifdef WORDS_BIGENDIAN
+  u8_t tempo:4;
+  u8_t direction:4;
+#else
   u8_t direction:4;
   u8_t tempo:4;
+#endif
 }
 __attribute__ ((packed)) tunnel_t;
 

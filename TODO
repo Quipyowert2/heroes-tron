@@ -7,8 +7,6 @@ Before 0.7
 
   Get rid of GETWORD, SETWORD and Cie, see src/endian.h.
 
-  Try to fix the tunnel bug on Solaris.
-
   Try to fix the initialization crash on Linux/m68k
 
 

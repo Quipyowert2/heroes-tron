@@ -229,48 +229,6 @@ http://master.debian.org/~cts/packages.html
 
 ======================================================================
 
-From: "Mattias Engdegård" <f91-men@nada.kth.se>
-Date: Sat, 2 Sep 2000 22:50:58 +0200 (MET DST)
-Version: 0.6
-
-It's often hard to enter tunnels on the Solaris version of Heroes --- the
-player is bounced away as if it was an obstacle. And sometimes the player
-can enter the tunnel but is shifted sideways, and it looks strange.
-I've put some screenshots at ftp://ptah.lnf.kth.se/pub/misc/hbug[0-2].png
-
-I suspect that the endianness might have something to do with it, or maybe
-the use of an uninitialised variable somewhere.
-
-----------
-
-From: "Mattias Engdegård" <f91-men@nada.kth.se>
-Date: Mon, 4 Sep 2000 22:10:50 +0200 (MET DST)
-Version: 0.6
-
->>Just to narrow my search: does tunnels always behave identicaly?
->>E.g. is the bug of hbug1.png persistant across different runs of
->>the game?  Or can the same tunnel behave differently in the same
->>conditions?
-
-Yes, it seems to behave randomly. It always deflects the vehicle and forces
-a 90-degree turn, but sometimes the vehicle manages to pass through anyway
-(essentially variations of hbug1.png - sometimes even more bizarre).
-
->>Does the problem only occur when you take a tunnel from right
->>to left?
-
-No, it occurs from both directions.
-
->>On one tunnel tile (the blocks used to build the level) there is
->>usually two tunnel-entry squares (squares are the size of the
->>vehicle, there is 4 squares per tile), have you noticed if
->>*both* entries for the same tile were not working or if only one
->>wasn't and the other worked fine?
-
-No, there seems to be no such difference.
-
-======================================================================
-
 From: "Stéphane Denis" <S.Denis@darkworks.com>
 Date: Fri, 8 Sep 2000 15:08:07 +0200
 Version: 0.6

@@ -1,3 +1,12 @@
+2000-09-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Fix the tunnel bug noticed on Solaris
+	by Mattias Engdegård <f91-men@nada.kth.se>.
+	
+	* src/structs.h [WORDS_BIGENDIAN] (tunnel_t): Reverse the
+	bitfields.
+	* BUGS: Remove the report.
+
 2000-09-19  Uwe Hermann  <uh1763@bingo-ev.de>
 
 	* configure.in [$GCC]: Add lots of gcc warning options.
