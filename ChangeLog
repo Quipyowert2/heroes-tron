@@ -1,5 +1,13 @@
 2001-06-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/menus.c (init_menus_sprites): Reverse the strings
+	"NEW LEVEL" and "EXISTING LEVEL".
+	Reported by Jean.
+	(editor_menu): Lowercasify the level name before
+	trying to open the file for preview.  Add debug messages.
+
+2001-06-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Rewrite editor_first_menu using the compile_menu machinery.  This
 	also get rid of a bug reported by Jean where the french
 	translation for "NEW LEVEL" would have been larger than the

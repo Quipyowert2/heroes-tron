@@ -498,9 +498,9 @@ init_menus_sprites (void)
   quit_yes_txt = compile_menu_text (_("YES"), T_CENTERED, 95, 159);
 
   /* editor menu */
-  ed_new_level_txt = compile_menu_text (_("EXISTING LEVEL"),
+  ed_new_level_txt = compile_menu_text (_("NEW LEVEL"),
 					T_CENTERED|T_WAVING, 7, 159);
-  ed_existing_level_txt = compile_menu_text (_("NEW LEVEL"),
+  ed_existing_level_txt = compile_menu_text (_("EXISTING LEVEL"),
 					     T_CENTERED|T_WAVING, 7, 159);
   ed_name_txt = compile_menu_text (_("NAME"), T_FLUSHED_LEFT, 54, 8);
   /* TRANS: in wrapped levels are unbounded level, e.g. whenever the
@@ -1793,7 +1793,11 @@ editor_menu (void)
 
 	  XMALLOC_ARRAY (filename, (strlen (levels_output_dir) + 1
 				    + strlen (lname) + 5));
-	  sprintf(filename, "%s/%s.lvl", levels_output_dir, lname);
+	  sprintf (filename, "%s/%s.lvl", levels_output_dir, lname);
+	  /* Lowercasify the level name, because it's displayed
+	     uppercase but stored lowercase. */
+	  strlwr (filename + strlen (levels_output_dir) + 1);
+	  dmsg (D_FILE, "trying to open %s for preview ...", filename);
 	  tmphdl = fopen (filename, "rb");
 	  if (tmphdl != NULL) {
 	    if (fread ((void *) &plinfo, sizeof (level_header_t), 1, tmphdl)
@@ -1809,14 +1813,19 @@ editor_menu (void)
 		memcpy (frmenu.buffer + 217 + 74 * 320 + i * 320,
 			tilesprev.buffer + i * 62, 62);
 	      set_pal_with_luminance (&tilesprev.palette);
+	      dmsg (D_FILE, "... reading successful");
 	      flaglock = 1;
 	      event_sfx (117);
-	    } else
+	    } else {
+	      dmsg (D_FILE, "... reading failed");
 	      flaglock = 0;
+	    }
 	    fclose (tmphdl);
 	    free (filename);
-	  } else
+	  } else {
+	    dmsg (D_FILE, "... opening failed");
 	    flaglock = 0;
+	  }
 	  flag = 0;
 	}
       } else if (l == 2 && (t == HK_Right || t == HK_Left || t == HK_Enter)) {
