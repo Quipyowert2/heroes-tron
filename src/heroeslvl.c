@@ -61,10 +61,10 @@ static void
 version (void)
 {
   puts ("heroeslvl (Heroes) " VERSION "\n");
-  printf ("Copyright (C) %d  Alexandre Duret-Lutz.\n", 2001);
-  puts ("This is free software; see the source for copying conditions.  "
-	"There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS"
-	" FOR A PARTICULAR PURPOSE.");
+  printf (_("Copyright (C) %d  Alexandre Duret-Lutz.\n"), 2001);
+  puts (_("This is free software; see the source for copying conditions.  "
+	  "There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS"
+	  " FOR A PARTICULAR PURPOSE."));
   exit (0);
 }
 
@@ -72,33 +72,35 @@ static void
 usage (int status)
 {
   if (status) {
-    fprintf (stderr, "Try '%s --help' for more information.\n", program_name);
+    fprintf (stderr, _("Try '%s --help' for more information.\n"),
+	     program_name);
     exit (status);
   }
 
-  printf ("Usage: %s [OPTIONS]... level\n\n", program_name);
-  puts ("Heroeslvl is a tool used to inspect Heroes' level files.\n");
-  puts ("\
-Mandatory arguments to long options are mandatory for short options too.\n");
-  puts ("\
-  -v, --version               display version number\n\
-  -h, --help                  display this help");
-  puts ("\
+  printf (_("Usage: %s [OPTIONS]... levels\n\n"), program_name);
+  puts (_("Heroeslvl is a tool used to inspect Heroes' level files.\n"));
+  puts (_("\
+Mandatory arguments to long options are mandatory for short options too.\n"));
+  puts (_("\
+  -v, --version               display version number"));
+  puts (_("\
+  -h, --help                  display this help"));
+  puts (_("\
   -p, --print=WHAT            select information to display.  WHAT should be\n\
-                                one or more of these characters:\n\
-                                  d   print square directions\n\
-                                  f   print filename\n\
-                                  h   print header\n\
-                                  i   print tile details\n\
-                                  t   print square type map\n\
-                                  T   print type keys\n\
-                                  w   print square wall map\n\
-                                  @   print tunnels");
-  puts ("\
-  -i, --indent                indent everything but the filename");
+                                one or more of these characters:"));
+  printf ("%34s%s\n", "", _("d   print square directions"));
+  printf ("%34s%s\n", "", _("f   print filename"));
+  printf ("%34s%s\n", "", _("h   print header"));
+  printf ("%34s%s\n", "", _("i   print tile details"));
+  printf ("%34s%s\n", "", _("t   print square type map"));
+  printf ("%34s%s\n", "", _("T   print type keys"));
+  printf ("%34s%s\n", "", _("w   print square wall map"));
+  printf ("%34s%s\n", "", _("@   print tunnels"));
+  puts (_("\
+  -i, --indent                indent everything but the filename"));
   puts ("");
-  puts ("When no options are given, the default is -ipfh.");
-  puts ("Report bugs to <heroes-bugs@lists.sourceforge.net>.");
+  puts (_("When no options are given, the default is -ipfh."));
+  puts (_("Report bugs to <heroes-bugs@lists.sourceforge.net>."));
   exit (status);
 }
 
@@ -197,25 +199,25 @@ dir_to_string (dir_t dir)
 static void
 print_header (const level_t *lvl)
 {
-  printf ("%sheight:\t%d tiles\t(%d squares)\n", options.indent,
-	  lvl->tile_height, lvl->square_height);
-  printf ("%swidth:\t%d tiles\t(%d squares)\n", options.indent,
-	  lvl->tile_width, lvl->square_width);
+  printf (_("%sheight:\t%d tiles\t(%d squares)\n"),
+	  options.indent, lvl->tile_height, lvl->square_height);
+  printf (_("%swidth:\t%d tiles\t(%d squares)\n"),
+	  options.indent, lvl->tile_width, lvl->square_width);
   if (lvl->tile_height_wrap == DONT_WRAP)
-    printf ("%sY-wrap:\tno\n", options.indent);
+    printf (_("%sY-wrap:\tno\n"), options.indent);
   else
-    printf ("%sY-wrap:\t%d tiles\t(%d squares)\n", options.indent,
-	    lvl->tile_height_wrap, lvl->square_height_wrap);
+    printf (_("%sY-wrap:\t%d tiles\t(%d squares)\n"),
+	    options.indent, lvl->tile_height_wrap, lvl->square_height_wrap);
   if (lvl->tile_width_wrap == DONT_WRAP)
-    printf ("%sX-wrap:\tno\n", options.indent);
+    printf (_("%sX-wrap:\tno\n"), options.indent);
   else
-    printf ("%sX-wrap:\t%d tiles\t(%d squares)\n", options.indent,
-	    lvl->tile_width_wrap, lvl->square_width_wrap);
-  printf ("%ssound track alias:\t%s\n",
+    printf (_("%sX-wrap:\t%d tiles\t(%d squares)\n"),
+	    options.indent, lvl->tile_width_wrap, lvl->square_width_wrap);
+  printf (_("%ssound track alias:\t%s\n"),
 	  options.indent, lvl_sound_track (lvl));
-  printf ("%stile map basename:\t%s\n",
+  printf (_("%stile map basename:\t%s\n"),
 	  options.indent, lvl_tile_sprite_map_basename (lvl));
-  printf ("%sstarting squares and directions (y x dir):\n", options.indent);
+  printf (_("%sstarting squares and directions (y x dir):\n"), options.indent);
   {
     int i;
     for (i = 0; i < 4; ++i) {
@@ -257,15 +259,15 @@ type_to_char (dir_t dir)
 }
 
 const char *type_names[T_MAXTYPE] = {
-  "none",
-  "stop",
-  "speed",
-  "tunnel",
-  "boom",
-  "anim",
-  "ice",
-  "dust",
-  "outway"
+  N_("none"),
+  N_("stop"),
+  N_("speed"),
+  N_("tunnel"),
+  N_("boom"),
+  N_("anim"),
+  N_("ice"),
+  N_("dust"),
+  N_("outway")
 };
 
 static void
@@ -277,7 +279,7 @@ print_type_keys (void)
   for (i = 0; i < T_MAXTYPE; ++i) {
     if (i % ncols == 0)
       printf ("%s", options.indent);
-    printf ("'%c' %-20s", type_to_char (i), type_names[i]);
+    printf ("'%c' %-20s", type_to_char (i), _(type_names[i]));
     if (i % ncols == ncols - 1)
       puts ("");
   }
@@ -385,8 +387,13 @@ print_tunnels (const level_t *lvl)
     if (lvl->square_type[idx] == T_TUNNEL)
       outputs[curtun++] = idx;
 
-  printf ("%sTunnels:\n", options.indent);
-  printf ("%s  NBR  SRCIDX   Y   X  DIR      DESTIDX\n", options.indent);
+  printf (_("%sTunnels:\n"), options.indent);
+  /* TRANS: This is the header of an array (output by heroeslvl -p@),
+     so the position of these words is important.
+
+     SRCIDX is a short for 'source index' (entrance of a tunnel) and
+     DESTIDX means 'destination index' (output of the tunnel).  */
+  printf (_("%s  NBR  SRCIDX   Y   X  DIR      DESTIDX\n"), options.indent);
 
   for (curtun = 0, y = 0, idx = 0; y < lvl->square_height; ++y)
     for (x = 0; x < lvl->square_width; ++x, ++idx)
@@ -416,11 +423,17 @@ anim_kind_to_str (anim_kind_t k)
 {
   switch (k) {
   case A_NONE:
-    return "still";
+    /* TRANS: `still' is used to describe tiles which are not animated.  */
+    return _("still");
   case A_LOOP:
-    return "loop";
+    /* TRANS: `loop' is for animated tiles where frames are displayed
+       from 1 to n, and then again from 1 to n, etc.  */
+    return _("loop");
   case A_PINGPONG:
-    return "pingpong";
+    /* TRANS: `pingpong' is for tiles animated in loop where frame
+       displayed from 1 to n, then from n to 1, and then again from 1
+       to n, etc.  */
+    return _("pingpong");
   }
   assert (0);
 }
@@ -430,7 +443,16 @@ print_tile_details (level_t *lvl)
 {
   tile_index_t i;
 
-  printf ("%sTILE  Y  X    TYPE      SPRITE    OVERLAY  ANIM-TYPE FRM DEL\n",
+  /* TRANS: This is the header of an array (output by heroeslvl -pi) so
+     the position of these word is important.
+
+     SPRITE is the address of the sprite used to render the tile.  OVERLAY
+     is the address of a sprite that should be displayed on top
+     of the players (e.g. trees).  ANIM-TYPE is the kind of animation used
+     for the tile, FRM the number of frame to display, DEL the delay
+     between each frame.  */
+  printf (_("\
+%sTILE  Y  X    TYPE      SPRITE    OVERLAY  ANIM-TYPE FRM DEL\n"),
 	  options.indent);
   for (i = 0; i < lvl->tile_count; ++i) {
     unsigned int o, c, d;
@@ -479,11 +501,11 @@ process (const char *filename)
 
   err = lvl_load_file (filename, &lvl, load_full);
   if (err) {
-    error (0, err, "cannot load %s", filename);
+    error (0, err, _("cannot load %s"), filename);
     exit_status = 3;
   } else {
     if (options.print_filename)
-      printf ("File:\t%s\n", filename);
+      printf (_("File:\t%s\n"), filename);
     if (options.print_header)
       print_header (&lvl);
     if (options.print_type_keys)
@@ -508,9 +530,14 @@ main (int argc, char *argv[])
   mtrace (); /* GNU libc's malloc debugging facility */
   program_name = argv[0];
 
+  setlocale (LC_ALL, "");
+  /* FIXME: Use $(locale-dir) as in Heroes.  */
+  bindtextdomain (PACKAGE, PREFIX "/" FORWARD_RELATIVE_LOCALEDIR);
+  textdomain (PACKAGE);
+
   decode_switches (argc, argv);
   if (optind == argc) {
-    error (0, 0, "Missing filename.");
+    error (0, 0, _("Missing filename."));
     usage (1);
   }
 

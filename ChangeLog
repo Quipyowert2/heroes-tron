@@ -1,5 +1,11 @@
 2001-08-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/heroeslvl.c (version, usage, dir_to_string, type_to_char,
+	print_type_keys, print_tunnels, anim_kind_to_str, print_tile_details,
+	process, main): Use gettext.
+
+2001-08-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* doc/heroes.texi (direntry): Add heroeslvl.
 	(heroeslvl): New chapter.
 
