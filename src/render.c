@@ -89,7 +89,7 @@ draw_trail_real (int c, unsigned char s, pixel_t* dest,
 
   if (fixe) {
     if (s & 1)
-      d = player[c].d.h.l / 5461;
+      d = player[c].d.h.l / 5462;
     else
       d = player[c].d.h.l / 6554;
   }
@@ -106,7 +106,7 @@ draw_vehicle_tail (int c, pixel_t* dest)
   const sprite_t *spr;
 
   if (s & 4) {
-    d = player[c].d.h.l / 5461;
+    d = player[c].d.h.l / 5462;
     spr = trails[s][12 - (d + 12) / 2];
   } else {
     d = player[c].d.h.l / 6554;
