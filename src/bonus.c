@@ -282,7 +282,7 @@ void
 show_txt_bonus (int pl, pixel_t *dest)
 {
   if (txt_bonus_tempo[pl] > 0)
-    DRAW_SPRITE (txt_bonus[0], dest);
+    DRAW_SPRITE (txt_bonus[pl], dest);
 }
 
 void

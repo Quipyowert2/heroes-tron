@@ -1,5 +1,10 @@
 2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/bonus.c (show_txt_bonus): Bug fix, display the text
+	for the given player, not always the first player.
+
+2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Get rid of draw.c and draw.h, hurrah!
 
 	* src/draw.c (aff_buffer): Move to ...
