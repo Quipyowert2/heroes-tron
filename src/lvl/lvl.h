@@ -195,7 +195,7 @@ void lvl_start_position (const a_level *lvl, unsigned int player,
 `--------------------------------------------------------------------*/
 
 /* Return the type of tile TILE on level LVL.  */
-a_tile_type lvl_tile_type (const a_level *lvl, a_tile_type tile);
+a_tile_type lvl_tile_type (const a_level *lvl, a_tile_index tile);
 
 /* Return the output direction of a tunnel on tile TILE.  This function
    should only be called on tiles of type T_TUNNEL.  */

@@ -37,7 +37,7 @@
 #define READ_U16(p, res)			\
   do {						\
     res = GET_U16 (p);				\
-    p += 4;					\
+    p += 2;					\
   } while (0)
 
 /* Likewise with a_u8, for completness.  */

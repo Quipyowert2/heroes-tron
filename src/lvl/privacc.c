@@ -44,7 +44,7 @@ lvl_start_position (const a_level *lvl, unsigned int player,
 }
 
 a_tile_type
-lvl_tile_type (const a_level *lvl, a_tile_type tile)
+lvl_tile_type (const a_level *lvl, a_tile_index tile)
 {
   return lvl->private->tile[tile].type;
 }
