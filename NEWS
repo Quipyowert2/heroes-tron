@@ -1,3 +1,16 @@
+Heroes 0.9b	May 2, 2001
+
+	* Italian translations.
+	* Drop fetish's gettext and use the latest gettext (0.10.37)
+	  - use ngettext() to handle plural forms
+	  - gettext now works under MinGW
+	* Support for conditionals in config files
+	  (undocumented, but used in src/etc/heroesrc)
+	* Improve relocation magic:
+	  - also try to use argv[0] or $PATH to compute $prefix.
+	  - document (see README)
+	* Better handling of locked files in two `dangerous' places.
+
 Heroes 0.9a	April 21, 2001
 
 	* German translations.

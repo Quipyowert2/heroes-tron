@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.8c\n"
-"POT-Creation-Date: 2001-04-30 09:27+0200\n"
+"POT-Creation-Date: 2001-05-02 17:10+0200\n"
 "PO-Revision-Date: 2001-02-23 22:37+01:00\n"
 "Last-Translator: Jos Boersema <joshb@FIXME>\n"
 "Language-Team: none <LL@li.org>\n"
@@ -1361,11 +1361,11 @@ msgstr "Kan `%s' niet openen"
 msgid "Unknown image flag '%c'."
 msgstr "Onbekende `image' vlag '%c'."
 
-#: src/relocate.c:69
+#: src/relocate.c:71
 msgid "HOME variable not found in environment, defaulting to `.'"
 msgstr "HOME variabele niet gevonden in omgeving, neem `.'"
 
-#: src/relocate.c:119
+#: src/relocate.c:175
 msgid ""
 "It looks like the game is not correctly installed.\n"
 "Maybe the data files have not been installed with the same configure "
