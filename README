@@ -216,12 +216,12 @@ configuration should be suitable for end users (i.e. players) but people
 attempting to hack the code may want debugging symbols or compiler
 warning.
 
-`--disable-debug'
+`--enable-debug'
      Turn on debugging options: compile with debugging symbols and
      debugging code.  This is disabled by default because it produce
      bigger binaries.
 
-`--disable-optimization'
+`--disable-optimizations'
      Turn off compiler optimizations options.  This can ease debugging.
 
 `--enable-warnings'
@@ -230,6 +230,10 @@ warning.
 `--enable-assert'
      Turn on some assertions squattered over the source code.  This can
      slow down things a bit.
+
+`--enable-devel'
+     Is a shorthand for `--enable-debug --disable-optimizations
+     --enable-warnings --enable-assert'.
 
 `--with-dmalloc'
      Link with Dmalloc, a `malloc()' debugger.

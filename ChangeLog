@@ -1,5 +1,16 @@
 2001-01-09  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Distribute the html documentation.  Check that Heroes
+	can build with SDL and GGI before making a distribution.
+
+	* Makefile.am (distcheck-hook, null_AM_MAKEFLAGS, t,
+	my-distcheck-ggi, my-distcheck-sdl): New.
+	* doc/Makefile.am (CLEANFILE): Rename as ...
+	(EXTRA_DIST): ... this, to ship heroes.html.
+	* m4/h-obsolete.m4: Remove test for with-sdl_mixer.
+
+2001-01-09  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* m4/h-sdl.m4: Rename HAVE_SDL into HAVE_LIBSDL.
 	* src/display.c: Likewise.
 	* src/keyb.c: Likewise.

@@ -43,3 +43,50 @@ README: $(top_srcdir)/doc/heroes.texi $(top_srcdir)/tools/readme.sed
 	LC_ALL=C $(MAKEINFO) --no-header -I $(top_srcdir)/doc heroes.texi | \
 	sed -n -f $(top_srcdir)/tools/readme.sed > README.tmp
 	mv README.tmp README
+
+# additional checks to perform during distcheck.
+# this is heavily inspired from Jim Meyring's setup
+# in Fileutils & Shellutils & Textutils.
+
+distcheck-hook: my-distcheck-ggi my-distcheck-sdl
+
+# Use this to make sure we don't run these programs when building
+# from a virgin tgz file, below.
+null_AM_MAKEFLAGS = \
+  ACLOCAL=false \
+  AUTOCONF=false \
+  AUTOMAKE=false \
+  AUTOHEADER=false \
+  MAKEINFO=false
+
+t=./=test
+# build with libggi and mikmod (VPATH build)
+my-distcheck-ggi:
+	-rm -rf $(t)
+	mkdir $(t)
+	cd $(t) \
+	  && ../$(distdir)/configure --disable-nls --with-ggi --with-gii \
+			             --with-mikmod \
+	  && $(MAKE) AM_MAKEFLAGS='$(null_AM_MAKEFLAGS)'
+	-rm -rf $(t)
+
+# build with libsdl and sdl_mixer (build in current directory, then
+# ensure that no files were modified).
+my-distcheck-sdl:
+	-rm -rf $(t)
+	mkdir $(t)
+	GZIP=$(GZIP) $(AMTAR) -C $(t) -zxf $(distdir).tar.gz
+	cd $(t)/$(distdir) \
+	  && ./configure --disable-nls --with-sdl --with-sdl-mixer \
+			 --enable-html-doc \
+	  && $(MAKE) AM_MAKEFLAGS='$(null_AM_MAKEFLAGS)' \
+	  && $(MAKE) dvi \
+	  && $(MAKE) check \
+	  && $(MAKE) distclean \
+	  && rm -rf $(DEPDIR)
+# Removing $(DEPDIR) like this is a gross kludge to work around a bug
+# in automake.  Remove that line once it's fixed.
+	cd $(t) && mv $(distdir) $(distdir).new \
+	  && $(AMTAR) -zxf ../$(distdir).tar.gz
+	diff -ur $(t)/$(distdir) $(t)/$(distdir).new
+	-rm -rf $(t)

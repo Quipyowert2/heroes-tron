@@ -12,7 +12,9 @@ fi])
 AC_DEFUN([heroes_CHECK_OBSOLETE_OPTIONS],
 [# check for opsolete or erroneous options
 heroes_aux_ERROPT([with-SDL],[with-sdl])
-heroes_aux_OBSOPT([with-sdl_mixer],[with-sdl-mixer])
+dnl It's not possible to test for the next one:
+dnl because both sides maps to the same shell variable :o(
+dnl heroes_aux_OBSOPT([with-sdl_mixer],[with-sdl-mixer])
 heroes_aux_OBSOPT([with-GGI],[with-ggi])
 heroes_aux_OBSOPT([with-GII],[with-gii])
 ])
