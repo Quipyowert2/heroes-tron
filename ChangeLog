@@ -1,3 +1,39 @@
+2002-01-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Extract the update_player() and ai functions from heroes.c, and
+	move them to libhrules.a.  Note that the rules/ai.c and rules/ai.h
+	files are temporary.  When programmable vehicles are available,
+	they should move in the relevant directory.
+
+	* src/rules/ai.c, src/rules/ai.h, src/rules/update.c: New files.
+	* src/rules/Makefile.inc (rules_libhrules_a_SOURCES): Add them.
+	* src/rules/state.c (state_level_exit_code,
+	state_level_set_exit_code): New functions.
+	* src/rules/state.h (state_level_exit_code,
+	state_level_set_exit_code, update_player): New functions.
+	* src/bonus.c (apply_bonus): Use state_level_set_exit_code().
+	* src/menus.c (draw_end_level_info): Use state_level_exit_code().
+	* src/heroes.c (output_screen, play_menu, play_demo,
+	play_game): Likewise.
+	(update_all): Adjust call to update_player.
+	(level_is_finished): Move ...
+	* src/rules/statepriv.h (a_level_bits.level_is_finished): ... here.
+	* src/heroes.h (level_is_finished): Delete.
+	* src/heroes.c (ia_max_depth, ia_cur_depth, ia_is_invincible,
+	ia_player, ia_target_x, ia_targer_y, ia_wrap_x, ia_wrap_y,
+	ia_wrap_left, ia_wrap_right, ai_throttle, ia_eval_dist,
+	ia_eval_dir_target_inline, ia_eval_dir_bonus_inline,
+	ia_eval_dir_lemming_inline, ia_eval_dir_cash_inline,
+	ia_eval_dir_color_inline, ia_eval_neighb_pos, ia_eval_dir_target,
+	ia_eval_dir_lemming, ia_eval_dir_color, ia_eval_dir_bonus,
+	ia_goto_target_inline, ia_goto_bonus_inline,
+	ia_goto_lemming_inline, ia_goto_color_inline, ia_goto_cash_inline,
+	ia_goto_target, ia_goto_nearest_bonus, ia_goto_nearest_lemming,
+	ia_goto_nearest_color, ia_goto_nearest_cash): Move ...
+	* src/ia.c: ... here.
+	* src/heroes.c (find_free_way, update_player): Move ...
+	* src/update.c: ... here.
+
 2002-01-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	This is the first step towards grouping all the level state

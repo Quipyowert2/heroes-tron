@@ -373,7 +373,7 @@ apply_bonus (int pl, char bonus)
     break;
   case 12:
     if (state_trail_size (&state, pl) >= 10)
-      level_is_finished = (char) (pl + 1);
+      state_level_set_exit_code (&state, pl + 1);
     break;
   case 13:
     state.player[pl].invincible = 350;

@@ -40,7 +40,6 @@ extern a_timer update_htimer;
 extern void compute_corner (int p, int n);
 extern void play_demo (void);
 
-extern int level_is_finished;
 extern char enable_blit;
 extern int rounds;
 

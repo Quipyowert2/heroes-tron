@@ -2281,13 +2281,13 @@ draw_end_level_info (int decal, char l)
 			    { 0, 0, 0 },
 			    { 0, 0, 0 },
 			    { 0, 0, 0 } };
+  int exit_code = state_level_exit_code (&state);
 
   if (!winner_txt) {
-    if (level_is_finished != 15) {
-      sprintf (winner, _("PLAYER %d WON!"),
-	       state.plr2col[level_is_finished - 1] + 1);
+    if (exit_code != 15) {
+      sprintf (winner, _("PLAYER %d WON!"), state.plr2col[exit_code - 1] + 1);
       draw_glenz_box (corner[0] + decal + 22 * xbuf,
-		      level_is_finished + 1, 320, 6);
+		      exit_code + 1, 320, 6);
     } else {
       if (two_players)
 	sprintf (winner, _("EVERYONE LOST!"));
@@ -2310,7 +2310,7 @@ draw_end_level_info (int decal, char l)
   else if (state.game_mode == M_COLOR)
     DRAW_SPRITE (info_mode_color_txt, corner[0] + decal);
 
-  if ((level_is_finished != 15) && (state.game_mode == M_QUEST)) {
+  if ((exit_code != 15) && (state.game_mode == M_QUEST)) {
     draw_sprprogwav_if (l == 0, info_mode_next_txt, corner[0] + decal);
     draw_sprprogwav_if (l == 1, info_mode_save_txt, corner[0] + decal);
     waving_arrows (145 + l * 20, info_mode_next_save_arrow_pos);

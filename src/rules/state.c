@@ -72,6 +72,8 @@ state_init (a_level_state *state, const a_level *lvl, char cont)
     XMALLOC_ARRAY (state->square_object, lvl->square_count);
   }
 
+  bits->level_is_finished = 0;
+
   /* init of players  */
   if (!in_menu) {
     unsigned i;
@@ -174,4 +176,16 @@ state_set_player_color (a_level_state *state, unsigned player, unsigned color)
 {
   state->col2plr[color] = player;
   state->plr2col[player] = color;
+}
+
+int
+state_level_exit_code (const a_level_state *state)
+{
+  return state->private->level_is_finished;
+}
+
+void
+state_level_set_exit_code (a_level_state *state, int code)
+{
+  state->private->level_is_finished = code;
 }

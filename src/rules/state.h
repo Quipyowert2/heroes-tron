@@ -120,4 +120,9 @@ void state_set_player_color (a_level_state *state,
 
 void update_lemmings (a_level_state *state, const a_level *lvl);
 
+void update_player (a_level_state *state, const a_level *lvl, unsigned c);
+
+int state_level_exit_code (const a_level_state *state);
+void state_level_set_exit_code (a_level_state *state, int code);
+
 #endif /* HEROES__STATE__H */

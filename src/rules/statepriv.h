@@ -61,6 +61,7 @@ struct a_level_state_bits {
   a_lemming lemmings_support[lemmings_total];
   int objects_nbr;
 
+  int level_is_finished;
 };
 
 void add_color (a_level_state *state, const a_level *lvl, bool allow_clocks);

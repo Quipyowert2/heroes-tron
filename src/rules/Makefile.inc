@@ -19,6 +19,8 @@
 noinst_LIBRARIES += rules/libhrules.a
 
 rules_libhrules_a_SOURCES= \
+  rules/ai.c \
+  rules/ai.h \
   rules/lemmings.c \
   rules/objects.c \
   rules/player.h \
@@ -26,4 +28,5 @@ rules_libhrules_a_SOURCES= \
   rules/state.h \
   rules/state.c \
   rules/statepriv.h \
-  rules/trail.c
+  rules/trail.c \
+  rules/update.c
