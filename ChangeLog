@@ -1,5 +1,12 @@
 2001-04-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* tools/upgettext.sh: Fix function declarations, the `function'
+	keyword is not portable.
+	* tools/cvsboot.sh: Likewise.
+	* tools/autogen.sh: Likewise.
+
+2001-04-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* misc/01-intl.patch: New file.
 	* misc/04-intl.patch: New file.
 	* misc/04-m4.patch: New file.

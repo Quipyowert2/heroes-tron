@@ -18,18 +18,18 @@
 verb=':'
 moreverb=''
 
-function usage ()
+usage ()
 {
   echo "Usage: autogen.sh [-h] [-v] [-V]"
 }
 
-function die ()
+die ()
 {
   echo ${1+"$@"}
   exit 1
 }
 
-function saferun ()
+saferun ()
 {
   $verb $@
   $@ || die "*** Error '${1+\"$@\"}' exited with bad status."

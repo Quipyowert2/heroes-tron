@@ -50,7 +50,7 @@ m4/progtest.m4
 m4/realloc.m4
 m4/strerror_r.m4'
 
-function check_syntax ()
+check_syntax ()
 {
   if test -z $1; then
     echo "fetish-sync.sh [-f] FETISHDIR [DESTDIR]"
