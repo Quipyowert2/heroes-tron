@@ -1,3 +1,17 @@
+ *******************************************************************
+ *                                                                 *
+ *  These are bugs which have been reported but never acted upon,  *
+ *  because they are unreproducible, obscure, or whatever.         *
+ *                                                                 *
+ *  If you are experiencing one of these bug, please REPORT IT,    *
+ *  even if it is alredy listed here.  The more reports we get     *
+ *  about a bug, the more details we have, and the greater the     *
+ *  chances to understand it are.                                  *
+ *                                                                 *
+ *******************************************************************
+
+======================================================================
+
 From: Benjamin Preidecker <bpreidecker@gmx.de>
 Date: Thu, 03 Aug 2000 19:17:45 +0200
 Version: 0.5
@@ -345,3 +359,97 @@ make[2]: Leaving directory `/boot/realtech/Heroes/src/etc'
 make[1]: *** [install-recursive] Error 1
 make[1]: Leaving directory `/boot/realtech/Heroes/src'
 make: *** [install-recursive] Error 1
+
+======================================================================
+
+From: raven <mfilep@fbi.hu>
+Date: 05 Dec 2000
+Version: 0.6
+
+hello I've compiled heroes recently on my linux system.  everything
+runs fine, but I do have a problem with the controls. I mean, that the
+reaction of the vehicle is too slow (it turns too slow) .  This
+shouldn't depend on my machine configuration (350 mhz k6-2 128 MB
+RAM).
+
+----------
+
+From: mat <mfilep@fbi.hu>
+Date: Wed, 06 Dec 2000 09:52:27 +0100
+Version: 0.6
+
+I've compiled it with SDL. I have a SUSE linux 6.4 distribution (with
+a "few" changes (ie: newer ver. of make a few newer and updated
+libs...))
+
+by too slow I mean that the vehicle doesn't turn at that moment when I
+press the key. This delay is not long enough to be mesureable, but it
+disturbs, so that the gameplay isn't fluent enough...
+
+----------
+
+From: Alexandre Duret-Lutz <duret_g@lrde.epita.fr>
+Date: 21 Feb 2001 20:16:23 +0100
+Version: 0.8
+
+Just a notice to say I have seen what you describe on a laptop
+running FreeBSD, a couple of week ago.  And no, that's not
+the *standard* behaviour as I answered you :).
+
+Still I have no idea what the reason is.  (For the records that
+was an Heroes 0.8, compiled against SDL too; I don't even know
+if GGI works on FreeBSD.)
+
+======================================================================
+
+From: Jean Delvare <delvare@ensicaen.ismra.fr>
+Date: Sat, 2 Dec 2000 15:30:37 +0100 (MET)
+Version: 0.7
+
+1* There is a level where all four players may be spawned in a closed
+zone. There is a y-wrap but no x-wrap and we were all condamned to live in
+the first two "cells" of the width (see the ASCII-art picture if I'm not
+clear).
+
+
+        +------------------------+
+        |  |                     |
+        |  |                     |
+        |  |                     |
+        |  |                     |
+        |  |                     |
+        |  |                     |
+zone   --> |                     |
+we      |  |                     |
+were    |  |                     |
+blocked |  |                     |
+in      |  |                     |
+        +------------------------+
+
+I suppose we better find that level and correct this. Playing 'Kill'em
+all' on such a level could take very long ;)
+
+Do we have a way of displaying a given level (by file) or to display the
+name of the map in use ? It would help in such cases.
+
+
+2* I had no sound nor music during a whole round. Sound came back
+in the next round. I can't remember if it was the same map or not.
+
+======================================================================
+
+From: Jean Delvare <delvare@ensicaen.ismra.fr>
+Date: Sun, 11 Feb 2001 13:29:41 +0100 (MET)
+Version: 0.8c
+
+Sometimes, I have no music nor sound in a level. The sound doesn't come
+back in the 'Quit ? Yes/No' menu, but comes back next, in the main menu.
+I ran a lot of Cash&Time games to get precisions on the levels it was
+happening in. Using 'ls -lu', I checked the last maps used. The last one
+would be any map, but the previous one was always 67 or 108. What do this
+map have special?
+
+I am using ALSA drivers 0.5.10 on a SB Live! soundcard, with libmikmod
+3.1.9. Anyone ever experienced that problem? If someone could try to
+reproduce it, it would demonstrate it is not dependant from my
+configuration.

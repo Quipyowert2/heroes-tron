@@ -1,3 +1,7 @@
+2001-02-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* BUGS: Sync up with the recent bug reports from the lists.
+
 2001-02-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* Makefile.am (distcheck-hook): Add my-distcheck-nodisplay.
