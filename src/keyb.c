@@ -25,11 +25,12 @@
 #include "argv.h"
 #include "errors.h"
 
-int enable_mouse = 0;
-int mouse_pos_x = 0;
-int mouse_pos_y = 0;
-char mouse_button_left = 0;
-char mouse_button_right = 0;
+static int enable_mouse = 0;
+static int mouse_pos_x = 0;
+static int mouse_pos_y = 0;
+static char mouse_button_left = 0;
+static char mouse_button_right = 0;
+static char mouse_button_middle = 0;
 
 unsigned int keyboard_modifiers;
 unsigned char keyboard_map[KEY_MAX + 1];
@@ -75,10 +76,18 @@ mouse2 (void)
 }
 
 char
+mouse3 (void)
+{
+  update_mouse_state ();
+  return mouse_button_middle;
+}
+
+/* FIXME: this should be renamed */
+char
 mouse12 (void)
 {
   update_mouse_state ();
-  return mouse_button_left || mouse_button_right;
+  return mouse_button_left || mouse_button_right || mouse_button_middle;
 }
 
 #ifdef HAVE_LIBGGI
@@ -185,12 +194,16 @@ update_mouse_state (void)
 	  mouse_button_left = 1;
 	else if (ev.pbutton.button == GII_PBUTTON_RIGHT)
 	  mouse_button_right = 1;
+	else if (ev.pbutton.button == GII_PBUTTON_MIDDLE)
+	  mouse_button_middle = 1;
 	break;
       case evPtrButtonRelease:
 	if (ev.pbutton.button == GII_PBUTTON_LEFT)
 	  mouse_button_left = 0;
 	else if (ev.pbutton.button == GII_PBUTTON_RIGHT)
 	  mouse_button_right = 0;
+	else if (ev.pbutton.button == GII_PBUTTON_MIDDLE)
+	  mouse_button_middle = 0;
 	break;
 
       default:
@@ -279,12 +292,16 @@ handle_mouse_events (const SDL_Event *ev)
       mouse_button_left = 0;
     else if (ev->button.button == SDL_BUTTON_RIGHT)
       mouse_button_right = 0;
+    else if (ev->button.button == SDL_BUTTON_MIDDLE)
+      mouse_button_middle = 0;
     return 1;
   } else if (ev->type == SDL_MOUSEBUTTONDOWN) {
     if (ev->button.button == SDL_BUTTON_LEFT)
       mouse_button_left = 1;
     else if (ev->button.button == SDL_BUTTON_RIGHT)
       mouse_button_right = 1;
+    else if (ev->button.button == SDL_BUTTON_MIDDLE)
+      mouse_button_middle = 1;
     return 1;
   }
   return 0;

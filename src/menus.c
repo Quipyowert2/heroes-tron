@@ -919,7 +919,7 @@ keyboard_menu (void)
 {
   int l = 0, testing = 0;
   int i;
-  keycode_t t;
+  keycode_t t = 0;
   int unconfigured_keys = -1;
   /* line for each keyname */
   int keyline[12] = { 38, 49, 60, 71, 82, 93, 121, 132, 143, 154, 165, 176 };
@@ -2381,7 +2381,7 @@ scores_menu (void)
   keycode_t t;
   int i, j;
   char flag = 0;
-  int rolldec;
+  int rolldec = 0;
   signed char rollflag = 0;
   sprite_t *points_txt[5][10];
   sprite_t *highs_txt[5][10];

@@ -1421,8 +1421,8 @@ You can select a tiles by clicking on it with the left mouse button.
 Keeping this button pulled down will allow you to move the map without using
 the keyboard.
 
-@c The center button (if you have one) used in the left side will
-@c temporally select a tile, as if you were using the @kbd{t} key.
+The middle button (if you have one) used in the left side will
+temporally select a tile, as if you were using the @kbd{t} key.
 
 The right button, used in the left side, will copy a tile to the pointed
 tile, in a way it behaves like the space key.

@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------.
-| Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>                 |
+| Copyright 2000, 2001  Alexandre Duret-Lutz <duret_g@epita.fr>           |
 |                                                                         |
 | This file is part of Heroes.                                            |
 |                                                                         |
@@ -41,7 +41,7 @@ compile_sprtext (const fontdata_t *font, const char *text,
 		 int offset)
 {
   unsigned int nspaces;
-  unsigned int text_width;
+  unsigned int text_width = 0;
 
   if (topt & T_FLUSHED_LEFT) {	/* FLUSHED_LEFT or JUSTIFIED */
     if (topt & T_FLUSHED_RIGHT) { /* JUSTIFIED */
@@ -93,7 +93,7 @@ compile_sprtext_color (const fontdata_t *font, const char *text,
 		       int offset)
 {
   unsigned int nspaces;
-  unsigned int text_width;
+  unsigned int text_width = 0;
   unsigned int colors[] = { 255, 111, 127, 143, 159, 16 };
   unsigned int c = colors[0];
 

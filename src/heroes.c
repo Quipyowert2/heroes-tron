@@ -1489,6 +1489,7 @@ ia_eval_dist (int pos)
     if ((square_occupied[d]==0xff) &&				\
        ((square_explosion[d]>=(NBR_EXPLOSION_FRAMES-1)*8+12) 	\
         || ia_is_invincible)) {					\
+            tmp=ia_eval_dir_bonus(d);				\
 	    if (tmp>mindist) mindist=tmp;			\
     }
 
@@ -1709,15 +1710,13 @@ ia_eval_dir_cash (int pos)
 static int
 ia_eval_dir_bonus (int pos)
 {
-  int mindist, d;
-  int tmp, tmp2;
-
   ia_cur_depth--;
   if (ia_cur_depth != 0) {
+    int tmp2 = 0;
+    int mindist = 0;
+    int d = square2tile[pos];
+    int tmp;
     square_occupied[pos] = 128;
-    mindist = 0;
-    d = square2tile[pos];
-    tmp2 = 0;
     if (tile_bonus_cpu[d] == 0) {
       tmp = tile_bonus[d];
       if ((tmp != 0) && (tmp != 0xff)) {
@@ -1741,6 +1740,7 @@ ia_eval_dir_bonus (int pos)
     ia_cur_depth++;
     return (mindist);
   } else {
+    int tmp;
     ia_cur_depth++;
     tmp = ia_eval_neighb_pos (w_up, pos) + ia_eval_neighb_pos (w_right, pos)
       + ia_eval_neighb_pos (w_down, pos) + ia_eval_neighb_pos (w_left, pos);

@@ -253,10 +253,10 @@ framept (int x, int y, int xd, int yd, pixel_t col1, pixel_t col2)
   for (i = (yd >> 1); i > 0; i--) {
     dest[-xd] = col2;
     *dest = col1;
-    dest += 320;
+    dest += xbuf;
     dest[-xd] = col1;
     *dest = col2;
-    dest += 320;
+    dest += xbuf;
   };
 }
 
@@ -1681,7 +1681,6 @@ gestsrs3 (void)
     yplandec = b;
     majg ();
   }
-
 }
 
 char* levels_output_dir = 0;
@@ -1720,7 +1719,6 @@ int
 hmain (const char* lname, const char* tset_name,
        u32_t xsize, u32_t ysize, u32_t xwrap, u32_t ywrap)
 {
-  int i;
   char* lvl_name;
 
   if (create_levels_output_dir ())
@@ -1819,25 +1817,26 @@ hmain (const char* lname, const char* tset_name,
     get_key ();
   mouse_show ();
 
-  do {
-    while (key_ready () == 0 && mouse12 () == 0);
-    if (key_ready ()) {
-      i = get_key ();
-      gestclav (i, keyboard_modifiers);
-    } else {
-      if (mouse1 ()) {
-	gestsrs1 ();
-      } else if (mouse2 ()) {
-	gestsrs2 ();
+  {
+    keycode_t k = 0;
+    do {
+      while (key_ready () == 0 && mouse12 () == 0);
+      if (key_ready ()) {
+	k = get_key ();
+	gestclav (k, keyboard_modifiers);
+      } else {
+	if (mouse1 ()) {
+	  gestsrs1 ();
+	} else if (mouse2 ()) {
+	  gestsrs2 ();
+	} else if (mouse3 ()) {
+	  gestsrs3 ();
+	}
+	while (mouse12 () != 0);
+	notestmouse = 0;
       }
-      /* else if (mouse3 ()) {
-	 gestsrs3 ();
-	 }
-      */
-      while (mouse12 () != 0);
-      notestmouse = 0;
-    }
-  } while (i != HK_Escape);
+    } while (k != HK_Escape);
+  }
   mouse_hide ();
   outwayclose ();
   free (hedit_buffer);

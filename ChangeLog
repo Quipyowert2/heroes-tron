@@ -1,5 +1,32 @@
 2001-01-31  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Handle the middle button if the level editor, fix some compiler
+	warning as well as two bugs.
+
+	* src/keyb.c (enable_mouse, mouse_pos_x, mouse_pos_y,
+	mouse_button_left, mouse_button_right): Mark as static.
+	(mouse3): New function.
+	(mouse_button_middle): New variable.
+	(mous12): Also test for mouse_button_middle.
+	[HAVE_LIBGGI] (update_mouse_state): Update mouse_button_middle.
+	[HAVE_LIBSDL] (handle_mouse_events): Likewise.
+	* src/keyb.h (mouse3): New.
+	* src/heroes.c (ia_eval_dir_bonus_inline): Add back missing call
+	to ia_eval_dir_bonus, removed by mistake on 2000-11-14 (0.6d).
+	(ia_eval_dir_bonus): Move variable around.
+	* src/hedlite.c (hmain): Rename variable i as k, and move it
+	in near the event loop.  Enable the third mouse button.
+	(framept): s/320/xbuf/ (bugfix).
+	* src/menus.c (keyboard_menu): Supply initial value for t.
+	(scores_menu): Supply initial value for rolldec.
+	* src/sfx.c (read_sfx_conf): Don't test for fconf in error
+	handling, it's not always set.
+	* src/sprtext.c (compile_sprtext, compile_sprtext_color): Supply
+	initial value for text_width.
+	* doc/heroes.texi (editor-clicks): Document the middle button.
+
+2001-01-31  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* HACKING: Strip down.
 
 2001-01-31  Alexandre Duret-Lutz  <duret_g@epita.fr>
