@@ -206,7 +206,7 @@
 #define USE_HEROES_DEBUG 1
 
 /* Version number of package */
-#define VERSION "0.7b"
+#define VERSION "0.8"
 
 /* whether byteorder is bigendian */
 /* #undef WORDS_BIGENDIAN */

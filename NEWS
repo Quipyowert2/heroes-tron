@@ -1,3 +1,11 @@
+Heroes 0.8	December 20, 2000
+
+	* Bug fixes:
+	  - --without-mikmod was not always taken into account (since 0.6)
+	  - the key configurator was not working properly (since 0.6c)
+	  - memory leaks (since 0.7b)
+	  - segfault due to the help reader (since 0.7b)
+
 Heroes 0.7b	December 18, 2000
 
 	* full rewrite of the help reader
