@@ -2109,6 +2109,9 @@ find_free_way (int c)
  * bonus effects, lemmings dies, etc.     *
  \* * * * * * * * * * * * * * * * * * * **/
 
+/* FIXME: there are many things here that should be moved in
+   a separate function (e.g. `update_game') in order to be run only
+   once per update, and not four times. */
 static void
 update_player (int c)
 {
@@ -2154,6 +2157,16 @@ update_player (int c)
 	     || ((player[2].cpu & 2) && (player[2].time))
 	     || ((player[3].cpu & 2) && (player[3].time))))
 	  || (objects_nbr == 0)) {
+	/* KLUGE: mark all players whose time is 0 as dead.  This is
+	   needed because many players can reach 0 simultaneously but
+	   this block is only run for the first player when this is
+	   discovered.  */
+	for (i = 0; i < 4; ++i)
+	  if (player[i].time == 0) {
+	    player[i].spec = 0xde;
+	    erase_trail (i);
+	  }
+	/* find out the richest player and set level_is_finished accordingly */
 	level_is_finished = 0;
 	for (i = 1; i < 4; i++)
 	  if (player[i].cash > player[level_is_finished].cash)
