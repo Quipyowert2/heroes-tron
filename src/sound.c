@@ -31,9 +31,11 @@ char* soundtrack_title = 0;
 sprite_t* soundtrack_author_sprite = 0;
 sprite_t* soundtrack_title_sprite = 0;
 
+#if (HAVE_LIBSDL_MIXER || HAVE_LIBMIKMOD)
 static char sound_initialized = 0;
 static char sound_track_loaded = 0;
 static char sound_track_playing = 0;
+#endif
 
 #ifdef HAVE_LIBMIKMOD
 

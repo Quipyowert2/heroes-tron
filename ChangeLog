@@ -1,5 +1,11 @@
 2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/sound.c (sound_initialized, sound_track_loaded,
+	sound_track_playing): Declare only if (HAVE_LIBSDL_MIXER ||
+	HAVE_LIBMIKMOD).
+
+2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* NEWS: Update.
 	* arch/VisualC/heroes.dsp: Remove font_deck.h and font_menu.h.
 
