@@ -86,7 +86,6 @@ extern int radar_current_pos;
 extern int game_mode;
 extern gameid_t game_id;
 
-extern int camera_center_x;
 extern int lemmings_anim_offset;
 extern int lemmings_move_offset;
 

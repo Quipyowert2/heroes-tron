@@ -41,7 +41,8 @@ void
 compute_corner (int p, int n)
 {
   s32_t x, y;
-  s32_t d1, d2, d3;
+  s32_t camera_center_x;
+  s32_t camera_center_y;
 
   s32_t tw = (s32_t)(lvl.tile_width << 16);
   s32_t th = (s32_t)(lvl.tile_height << 16);
@@ -51,62 +52,95 @@ compute_corner (int p, int n)
     if (n > 16)
       n = 16;
 
+    /* inert_x[p] is the actual position of the camera,
+       camera_x[p] is the target position of the camera.
+
+       The plan is to move the camera from inert_x to camera_x,
+       but only one 16th of the distance per frame.
+
+       When the level is NOT wrapped, this is easy to do:
+    */
     if (lvl.tile_width_wrap == DONT_WRAP)
       inert_x[p] = camera_x[p] =
 	inert_x[p] + n * (camera_x[p] - inert_x[p]) / 16;
     else {
+      /* When the level is wrapped, this is harder, because there is
+	 two way to go from inert_x[p] to camera_x[p].  */
+      s32_t d1, d2, d3;
       d1 = camera_x[p] - inert_x[p];
       d3 = abs (d1);
       d2 = tw - d3;
       if (d3 <= d2)
-	inert_x[p] = camera_x[p] = inert_x[p] + n * (d1) / 16;
+	inert_x[p] = camera_x[p] = inert_x[p] + n * d1 / 16;
       else if (d1 <= 0)
-	inert_x[p] = camera_x[p] =
-	  inert_x[p] + n * d2 / 16 - tw;
+	inert_x[p] = camera_x[p] = inert_x[p] + n * d2 / 16 - tw;
       else
-	inert_x[p] = camera_x[p] =
-	  inert_x[p] - n * d2 / 16 + tw;
+	inert_x[p] = camera_x[p] = inert_x[p] - n * d2 / 16 + tw;
     }
+    /* Likewise for the Y-axis.  */
     if (lvl.tile_height_wrap == DONT_WRAP)
       inert_y[p] = camera_y[p] =
 	inert_y[p] + n * (camera_y[p] - inert_y[p]) / 16;
     else {
+      s32_t d1, d2, d3;
       d1 = camera_y[p] - inert_y[p];
       d3 = abs (d1);
       d2 = th - d3;
       if (d3 <= d2)
-	inert_y[p] = camera_y[p] = inert_y[p] + n * (d1) / 16;
+	inert_y[p] = camera_y[p] = inert_y[p] + n * d1 / 16;
       else if (d1 <= 0)
-	inert_y[p] = camera_y[p] =
-	  inert_y[p] + n * d2 / 16 - th;
+	inert_y[p] = camera_y[p] = inert_y[p] + n * d2 / 16 - th;
       else
-	inert_y[p] = camera_y[p] =
-	  inert_y[p] - n * d2 / 16 + th;
+	inert_y[p] = camera_y[p] = inert_y[p] - n * d2 / 16 + th;
     }
   }
 
-  camera_x[p] += 81920 * 2 / 3;
-  camera_y[p] += 49152;
-  x = (camera_x[p] - (nbr_tiles_cols << 15));
-  y = (camera_y[p] - (nbr_tiles_rows << 15));
+  /* The vehicle take one square and we want to center the camera on
+     this square.  Hence advance by half a square on both directions.
+     */
+  camera_x[p] += (1 << 14);
+  camera_y[p] += (1 << 14);
+
+  /* Now the top left corner can be computed from the camera position
+     by moving half of the screen size.  Note that in two players
+     mode, the screen is split vertically, hence we only account for
+     half of the width.  */
+  if (two_players)
+    camera_center_x = (((320 / 2) << 16) / 24) / 2;
+  else
+    camera_center_x = ((320 << 16) / 24) / 2;
+  camera_center_y = (200 << 16) / 20 / 2;
+  x = camera_x[p] - camera_center_x;
+  y = camera_y[p] - camera_center_y;
+
+  /* If the level is not wrapped, make sure the camera doesn't show
+     something off the edge of the level.  */
   if (lvl.tile_width_wrap == DONT_WRAP) {
     if (x < 0) {
       x = 0;
-    } else if (x > tw - camera_center_x) {
-      x = tw - camera_center_x;
+    } else {
+      if (x > tw - camera_center_x)
+	x = tw - camera_center_x;
     }
   }
   if (lvl.tile_height_wrap == DONT_WRAP) {
     if (y < 0) {
       y = 0;
-    } else if (y > th - 655360) {
-      y = th - 655360;
+    } else {
+      if (y > th - camera_center_y)
+	y = th - camera_center_y;
     }
   }
+
+  /* Compute the top left tile to start drawing with.  */
   corner_dx[p] = (x >> 16) & lvl.tile_width_wrap;
   corner_dy[p] = (y >> 16) & lvl.tile_height_wrap;
+  /* Compute the offset of the top left pixel of the screen in this
+     tile.  */
   corner_x[p] = ((x & 0xffff) * 24) >> 16;
   corner_y[p] = ((y & 0xffff) * 20) >> 16;
+  /* corner[p] is now a pointer to the pixel in the render_buffer
+     which will be draw on the top left of the screen.  */
   corner[p] = render_buffer[p] + sbuf + corner_y[p] * xbuf + corner_x[p];
 }
 

@@ -87,7 +87,6 @@ int radar_current_pos;
 
 int game_mode = 0;
 gameid_t game_id;
-int camera_center_x = 873813;
 int lemmings_anim_offset;
 int lemmings_move_offset;
 

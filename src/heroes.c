@@ -2295,7 +2295,6 @@ play_demo (void)
 /* .... game .... */
   if (two_players) {
     nbr_tiles_cols = 8;
-    camera_center_x = 436800;
   }
   init_camera ();
   init_keyboard_map ();
@@ -2386,7 +2385,6 @@ play_demo (void)
   uninit_keyboard_map ();
   unload_level ();
   nbr_tiles_cols = 15;
-  camera_center_x = 873813;
   in_menu = 1;
   reset_htimer (background_htimer);
 }
@@ -2763,7 +2761,6 @@ play_game (char cont)
 /* . ... game ... . */
   if (two_players) {
     nbr_tiles_cols = 8;
-    camera_center_x = 436800;
   }
   init_camera ();
   init_keyboard_map ();
@@ -3162,7 +3159,6 @@ play_game (char cont)
   uninit_keyboard_map ();
   unload_level ();
   nbr_tiles_cols = 15;
-  camera_center_x = 873813;
   in_menu = 1;
 /* if (l!=0) cont=0; */
 

@@ -1,3 +1,10 @@
+2001-07-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/camera.c (compute_corner): Cleanup.
+	* src/const.c (camera_center_x): Remove.
+	* src/const.h (camera_center_x): Remove.
+	* src/heroes.c (play_demo, play_game): Don't set camera_center_x.
+
 2001-07-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/const.h (square2offset, invincible): Delete.
