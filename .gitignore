@@ -1,12 +1,13 @@
+.deps
 Makefile
 Makefile.in
-configure
 aclocal.m4
-config.log
 config.cache
-config.status
 config.cross.cache
+config.h
+config.log
+config.status
+configure
 music.raw
 music.wav
-.deps
 stamp-h

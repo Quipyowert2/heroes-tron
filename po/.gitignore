@@ -1,0 +1,6 @@
+POTFILES
+Makefile.in
+Makefile
+cat-id-tbl.c
+heroes.pot
+stamp-cat-id

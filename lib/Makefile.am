@@ -38,7 +38,7 @@ w_dirent.h \
 xalloc.h
 
 # path for config.h and system.h
-INCLUDES = -I../src -I$(top_srcdir)/src
+INCLUDES = -I.. -I$(srcdir) -I../intl -I$(top_srcdir)/src
 
 # These files are always compiled
 libheroes_a_SOURCES= \
@@ -50,5 +50,5 @@ xmalloc.c \
 xstrdup.c
 
 # Additional files to compile, when functions are missing.
-libheroes_a_LIBADD = @LIBOBJS@
+libheroes_a_LIBADD = @LIBOBJS@ @ALLOCA@
 libheroes_a_DEPENDENCIES = $(libheroes_a_LIBADD)

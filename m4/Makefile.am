@@ -27,7 +27,10 @@ ac_define_dir.m4 \
 ac_func_mkdir.m4 \
 gccwarn.m4 \
 generic-config.m4 \
+lcmessage.m4 \
+libintl.m4 \
 malloc.m4 \
+progtest.m4 \
 realloc.m4 \
 runcheck.m4 \
 strerror_r.m4

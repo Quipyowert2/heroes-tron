@@ -34,7 +34,10 @@ misc/heroes-6.xpm \
 misc/heroes-7.xpm \
 misc/heroes-8.xpm
 
-SUBDIRS = arch tools lib src m4 man doc
+SUBDIRS = arch tools lib intl src m4 man po doc
+
+# Remove this file here (it is created via configure), not from within intl.
+DISTCLEANFILES = intl/libintl.h
 
 README: $(top_srcdir)/doc/heroes.texi $(top_srcdir)/tools/readme.sed
 	LC_ALL=C $(MAKEINFO) --no-header -I $(top_srcdir)/doc heroes.texi | \

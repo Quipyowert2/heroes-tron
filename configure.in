@@ -139,6 +139,7 @@ malloc_lib='<disabled>'
 # ===================
 
 AC_PROG_CC
+AC_ISC_POSIX
 AC_PROG_CC_STDC
 AC_PROG_CPP
 AC_PROG_AWK
@@ -439,6 +440,14 @@ AC_SUBST([LIBOBJS])
 
 AC_C_BIGENDIAN_CROSS
 
+# =====================
+# Internationalization.
+# =====================
+
+ALL_LINGUAS=""
+
+AM_GNU_GETTEXT
+
 # =============================================================
 # Setup the correct compiler options whether the
 # user enabled debug or not.  (Adapted from Zsh's configure.in)
@@ -514,14 +523,21 @@ AM_CONDITIONAL(MAKE_HTML, [test "${enable_html_doc-no}" != no])
 # Output files
 # ============
 
-AM_CONFIG_HEADER(src/config.h) dnl DO NOT quote, this is parsed by automake.
+# Put config.h in the base directory because libintl expects it here,
+# but keep src/config.h.in in the src/ directory to keep the base directory
+# as clean as possible.
+dnl Don't quote the following argument, it is parsed by automake.
+AM_CONFIG_HEADER(config.h:src/config.h.in)
+
 AC_CONFIG_FILES([
  Makefile
  arch/Makefile
  doc/Makefile
+ intl/Makefile
  lib/Makefile
  m4/Makefile
  man/Makefile
+ po/Makefile.in
  src/Makefile
  src/etc/Makefile
  tools/Makefile

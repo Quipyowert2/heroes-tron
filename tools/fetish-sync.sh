@@ -15,9 +15,78 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-if test -z $1; then
-  echo "fetish-sync.sh FETISHDIR [DESTDIR]"
-  exit 1
+
+# This script is used to synchronize (i.e. just copy, presently) various
+# files from the lib/, m4/, and intl/ directories with the latest
+# fetish release (fetish = textutils | fileutils | shellutils).
+# These files come from various sources, but since Jim Meyering does
+# the painful job to track all changes and keep the files up to date it
+# would be overkill to maintain them separately.  Let's upgrade our
+# files whenever a new fetish is released.
+
+files='
+intl/ChangeLog
+intl/Makefile.in
+intl/VERSION
+intl/bindtextdom.c
+intl/cat-compat.c
+intl/dcgettext.c
+intl/dgettext.c
+intl/explodename.c
+intl/finddomain.c
+intl/gettext.c
+intl/gettext.h
+intl/gettextP.h
+intl/hash-string.h
+intl/intl-compat.c
+intl/l10nflist.c
+intl/libgettext.h
+intl/linux-msg.sed
+intl/loadinfo.h
+intl/loadmsgcat.c
+intl/localealias.c
+intl/po2tbl.sed.in
+intl/textdomain.c
+intl/xopen-msg.sed
+lib/alloca.c
+lib/error.c
+lib/error.h
+lib/getopt.c
+lib/getopt1.c
+lib/getopt.h:lib/gnugetopt.h
+lib/hash.c
+lib/hash.h
+lib/malloc.c
+lib/realloc.c
+lib/strcasecmp.c
+lib/strndup.c
+lib/xalloc.h
+lib/xmalloc.c
+lib/xstrdup.c
+m4/lcmessage.m4
+m4/libintl.m4
+m4/malloc.m4
+m4/progtest.m4
+m4/realloc.m4
+m4/strerror_r.m4
+po/Makefile.in.in'
+
+function check_syntax ()
+{
+  if test -z $1; then
+    echo "fetish-sync.sh [-f] FETISHDIR [DESTDIR]"
+    exit 1
+  fi
+}
+
+check_syntax "$@"
+
+if test "$1" = "-f"; then
+  force=:
+  shift
+  check_syntax "$@"
+else
+  force=false
 fi
 
 if test -d $1/lib; then
@@ -44,24 +113,6 @@ else
   exit 3
 fi
 
-files='lib/error.c
-lib/error.h
-lib/getopt.c
-lib/getopt1.c
-lib/getopt.h:lib/gnugetopt.h
-lib/hash.c
-lib/hash.h
-lib/malloc.c
-lib/realloc.c
-lib/strcasecmp.c
-lib/strndup.c
-lib/xalloc.h
-lib/xmalloc.c
-lib/xstrdup.c
-m4/malloc.m4
-m4/realloc.m4
-m4/strerror_r.m4'
-
 for f in $files; do
   case $f in
   *:*)
@@ -71,6 +122,10 @@ for f in $files; do
     dest=$f
     src=$f ;;
   esac
-  echo "$fetsrc/$src -> $topsrc/$dest"
-  cp $fetsrc/$src $topsrc/$dest
+  dest=$topsrc/$dest
+  src=$fetsrc/$src
+  if $force || test ! -f $dest || (cmp $src $dest; test $? = 1); then
+    echo "$src -> $dest"
+    cp $src $dest
+  fi
 done

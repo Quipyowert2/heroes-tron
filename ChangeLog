@@ -1,3 +1,54 @@
+2000-12-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Gettextize the package.
+
+	* HACKING: Update.
+	* Makefile.am (SUBDIRS): Add intl and po.
+	(DISTCLEANFILES): New.
+	* configure.in: Test for ISC UNIX.  Check for gettext.  Create
+	config.h in base directory.  Create intl/Makefile and po/Makefile.in.
+	* intl/Changelog: New file (from textutils-2.0.10).
+	* intl/Makefile.in: Likewise.
+	* intl/VERSION: Likewise.
+	* intl/bindtextdom.c: Likewise.
+	* intl/cat-compat.c: Likewise.
+	* intl/dcgettext.c: Likewise.
+	* intl/dgettext.c: Likewise.
+	* intl/explodename.c: Likewise.
+	* intl/finddomain.c: Likewise.
+	* intl/gettext.c: Likewise.
+	* intl/gettext.h: Likewise.
+	* intl/gettextP.h: Likewise.
+	* intl/hash-string.h: Likewise.
+	* intl/intl-compat.c: Likewise.
+	* intl/l10nflist.c: Likewise.
+	* intl/libgettext.h: Likewise.
+	* intl/linux-msg.sed: Likewise.
+	* intl/loadinfo.h: Likewise.
+	* intl/loadmsgcat.c: Likewise.
+	* intl/localealias.c: Likewise.
+	* intl/po2tbl.sed.in: Likewise.
+	* intl/textdomain.c: Likewise.
+	* intl/xopen-msg.sed: Likewise.
+	* lib/alloca.c: Likewise.
+	* m4/lcmessage.m4: Likewise.
+	* m4/libintl.m4: Likewise.
+	* m4/progtest.m4: Likewise.
+	* po/Makefile.in.in: Likewise.
+	* lib/Makefile.am (INCLUDES): Add ../intl, and search config.h
+	in the upper directory.
+	(libheroes_a_LDADD): Add @ALLOCA@.
+	* m4/Makefile.am (EXTRA_DIST): Add lcmessage.m4, libintl.m4,
+	progtest.m4.
+	* src/Makefile.am (INCLUDE): Add ../intl.
+	(LDADD): Add @INTLIBS@.
+	(keysdef-inc.h): Use $(CONFIG_HEADER) instead of config.h.
+	* src/system.h: Include locale.h.
+	* tools/Makfefile.am (EXTRA_DIST): Add genpotfiles.sh.
+	* tools/fetishsync.sh: Fetch all the above new files and
+	display only updated files.  Add an -f switch.
+	* tools/genpotfiles.sh: New file.
+
 2000-12-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.in: Set version to 0.8a.
