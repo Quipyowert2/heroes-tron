@@ -130,6 +130,7 @@ Installation of Heroes
 * Libraries::                   Libraries Heroes can link with.
 * configure::                   Generic configure instructions.
 * configure options::           Configure options specific to heroes.
+* Relocatable package::
 * Machines::                    Architectures where Heroes is known to work.
 
 Running Heroes
@@ -550,6 +551,7 @@ going to sell the game anymore I don't know how many levels there will be.
 * Libraries::                   Libraries Heroes can link with.
 * configure::                   Generic configure instructions.
 * configure options::           Configure options specific to heroes.
+* Relocatable package::         Building a relocatable package.
 * Machines::                    Architectures where Heroes is known to work.
 @end menu
 
@@ -625,7 +627,7 @@ Heroes also supports memory debugging libraries, such as @samp{dmalloc} or
 To be filled.
 
 @c ======================================================================
-@node    configure options, Machines, configure, Installation
+@node    configure options, Relocatable package, configure, Installation
 @comment node-name,  next,  previous,  up
 @section configure options for Heroes
 @cindex  configure options for Heroes
@@ -765,7 +767,36 @@ checkergcc.
 @end table
 
 @c ======================================================================
-@node    Machines,  , configure options, Installation
+@node    Relocatable package, Machines, configure options, Installation
+@comment node-name,     next,           previous, up
+@section Building a relocatable package
+@cindex relocation
+
+@dfn{Relocation} refers to the ability to install or move the
+game in a directory which is different from the one it has been configured
+for.  This usually happens if you create a binary package for Heroes and
+don't know in advance where the user will unpack it.  This section
+describe how Heroes find for his files, in order to allow relocatable
+packages.  Most people don't need to read this section, only packagers
+might be interested.
+
+The values of the @samp{./configure} options you used to specify
+directories (such as @samp{--prefix}, @samp{--bindir}, or
+@samp{--datadir}) are all transformed into paths relative to
+@var{prefix} and then hardcoded into the Heroes binary.  Because
+Heroes uses only paths relative to @var{prefix}, the relocation
+process is just a matter of guessing the correct value of @var{prefix}
+at runtime.  This guess is done using various informations
+available: first the original value of @var{prefix} is tried, then
+@var{prefix} is computed from the path to the current binary
+(@code{argv[0]}) when available, then the content of the environment
+variable @samp{PATH} is used to find the binary and derive @var{prefix},
+finally Heroes assumes it is running from the @var{bindir} directory.
+The whole process is not garanteed to succeed, but you can also
+override those paths with some enivronment variables (@pxref{Environment}).
+
+@c ======================================================================
+@node    Machines,  , Relocatable package, Installation
 @comment node-name,     next,           previous, up
 @section Machines
 @cindex machines

@@ -16,6 +16,7 @@ Summary
     - Needed Libraries
     - configure generic instructions
     - configure options for Heroes
+    - Building a relocatable package
     - Machines
 
 Overview of Heroes
@@ -265,6 +266,31 @@ warnings.
      This suppress decencies over third party libraries like GGI or SDL,
      therefore you may find it useful with some debugging tools like
      checkergcc.
+
+Building a relocatable package
+==============================
+
+   "Relocation" refers to the ability to install or move the game in a
+directory which is different from the one it has been configured for.
+This usually happens if you create a binary package for Heroes and
+don't know in advance where the user will unpack it.  This section
+describe how Heroes find for his files, in order to allow relocatable
+packages.  Most people don't need to read this section, only packagers
+might be interested.
+
+   The values of the `./configure' options you used to specify
+directories (such as `--prefix', `--bindir', or `--datadir') are all
+transformed into paths relative to PREFIX and then hardcoded into the
+Heroes binary.  Because Heroes uses only paths relative to PREFIX, the
+relocation process is just a matter of guessing the correct value of
+PREFIX at runtime.  This guess is done using various informations
+available: first the original value of PREFIX is tried, then PREFIX is
+computed from the path to the current binary (`argv[0]') when
+available, then the content of the environment variable `PATH' is used
+to find the binary and derive PREFIX, finally Heroes assumes it is
+running from the BINDIR directory.  The whole process is not garanteed
+to succeed, but you can also override those paths with some enivronment
+variables (*note Environment::).
 
 Machines
 ========

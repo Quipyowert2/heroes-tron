@@ -1,5 +1,10 @@
 2001-05-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* doc/heroes.texi (Relocatable package): New section.
+	* tools/readme.sed: Adjust summary.
+
+2001-05-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Better relocation: use argv0 and PATH to guess the location
 	of data files.
 
