@@ -11,7 +11,7 @@
 
 @c  Be careful when adding or renaming nodes into this manual.  Texinfo is
 @c  a kind of preprocessed language in the sense that it requires that
-@c  you preprocess some part of the document before submiting it to Texinfo.
+@c  you preprocess some part of the document before submitting it to Texinfo.
 @c  For example the nodes needs to be hard linked together in the input file.
 @c  This preprocessing can be done automatically under Emacs' Texinfo mode
 @c  after you press the magic key sequence "C-u C-c C-u C-a" (this will
@@ -138,7 +138,7 @@ Running Heroes
 Level editor
 
 * editor-keys::                 Key used in the level editor.
-* editor-clics::                How mouse is used in the editor.
+* editor-clicks::                How mouse is used in the editor.
 * tunnels::                     How to setup a tunnel.
 * sprites::                     How to setup a sprite.
 * animations::                  How to setup animations.
