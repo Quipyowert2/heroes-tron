@@ -183,7 +183,7 @@ AC_CONFIG_SUBDIRS([libltdl])
 # Internationalization.
 # =====================
 
-ALL_LINGUAS="de fr it nl pt_BR"
+ALL_LINGUAS="de fr es_AR it nl pt_BR"
 AM_GNU_GETTEXT(,[need-ngettext])
 
 # ===================================

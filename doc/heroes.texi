@@ -482,6 +482,8 @@ Latin-1 characters in fonts.
 @item
 @email{duret_g@@epita.fr,Alexandre Duret-Lutz} (French)
 @item
+@email{the_end@@bbs.frc.utn.edu.ar,Ariel Fermani} (Spanish (Argentina))
+@item
 @email{inguin@@gmx.de,Ingo van Lil} (German)
 @end itemize
 
@@ -1263,11 +1265,11 @@ be printed using the @samp{--list=debug} option).
 
 @table @samp
 @item SECTION
-The different parts of the game (introduction,
+The different parts of the game (introduction, 
 demonstration, menus, ...).
 
 @item SYSTEM
-Handling of environment variables, creation of
+Handling of environment variables, creation of 
 directories, initialization of libraries.
 
 @item RESOURCE

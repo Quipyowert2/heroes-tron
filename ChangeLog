@@ -1,3 +1,9 @@
+2002-07-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.ac (ALL_LINGUAS): Add es_AR.
+	* po/es_AR.po: New file.
+	From Ariel Fermani <the_end@bbs.frc.utn.edu.ar>.
+
 2002-07-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.ac: Bump version to 0.29b.

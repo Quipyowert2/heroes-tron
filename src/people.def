@@ -120,6 +120,12 @@ person = {
 };
 
 person = {
+  name    = "Ariel Fermani";
+  email   = the_end@bbs.frc.utn.edu.ar;
+  i18n    = "Spanish for Argentina";
+};
+
+person = {
   name    = "Romual Genevois";
   aka     = Guen;
   email   = rgenevois@besancon.net;
