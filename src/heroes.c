@@ -571,6 +571,7 @@ unload_level (void)
   }
   if (game_mode >= M_TCASH && !in_menu)
     free (square_object);
+  lvl_free (&lvl);
   unload_soundtrack ();
 }
 

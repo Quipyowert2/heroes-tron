@@ -75,5 +75,6 @@ struct level_bits_t {
 void decode_level_header (const u8_t *data, level_t *lvl);
 void decode_level_body (const u8_t *data, level_t *lvl);
 void initialize_level_body (level_t *out);
+void initialize_empty_level_body (level_t *lvl);
 
 #endif /* HEROES__LVL_PRIV__H */

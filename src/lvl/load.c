@@ -133,12 +133,16 @@ lvl_load_file (const char *filename, level_t *out, bool load_body)
     err = lvl_load_header_file (fd, out);
     if (!err && load_body)
       err = lvl_load_body_file (fd, out);
+    else
+      initialize_empty_level_body (out);
     close (fd);
 #ifdef HAVE_MMAP
   } else {
     err = lvl_load_header_mem (data, out);
     if (!err && load_body)
       err = lvl_load_body_mem (data + LVL_HEADER_SIZE, out);
+    else
+      initialize_empty_level_body (out);
     munmap (data, st.st_size);
   }
 #endif

@@ -73,3 +73,16 @@ initialize_level_body (level_t *lvl)
 	= INVALID_INDEX;
     }
 }
+
+void
+initialize_empty_level_body (level_t *lvl)
+{
+  lvl->private->tile = 0;
+  lvl->square_type = 0;
+  lvl->square_walls_out = 0;
+  lvl->square_direction = 0;
+  lvl->square_move[D_UP] = 0;
+  lvl->square_move[D_RIGHT] = 0;
+  lvl->square_move[D_DOWN] = 0;
+  lvl->square_move[D_LEFT] = 0;
+}

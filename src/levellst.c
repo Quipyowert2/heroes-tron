@@ -73,7 +73,7 @@ read_level_dir (const char *dirname)
       level_list[level_list_size].wrapped =
 	(tmp_lvl.tile_width_wrap != DONT_WRAP
 	 && tmp_lvl.tile_height_wrap != DONT_WRAP);
-      /* FIXME: lvl_free (&tmp_lvl);  */
+      lvl_free (&tmp_lvl);
 
       ++level_list_size;
     }

@@ -499,6 +499,7 @@ process (const char *filename)
     if (options.print_tile_details)
       print_tile_details (&lvl);
   }
+  lvl_free (&lvl);
 }
 
 int
