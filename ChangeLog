@@ -1,5 +1,13 @@
 2000-12-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Memory leaks.
+
+	* src/readmake.c (compile_reader_data): Free curstr_allocated.
+	Free the formated array.
+	(readtok): Don't strdup the returned token.
+
+2000-12-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/menus.c (help_menu): Draw only 220 row, no 340! This
 	caused segfaults, of course.
 

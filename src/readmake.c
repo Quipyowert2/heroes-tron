@@ -78,7 +78,7 @@ insert_read_data (read_data_t *rd, sprite_t *spr, int line, bool bg)
   return rd;
 }
 
-/* strdup the head of a string, stop on the character ' ' (or '\0' or '}').
+/* return the head of a string, cut on character ' ' (or '\0' or '}')
    and advance the input pointer to the character after that delimiter
    (unless '\0' is encountered in which case *STR is set to 0). */
 static char *
@@ -94,7 +94,7 @@ readtok (char **src)
   } else
     *src = 0;
   ++size;
-  return CCLONE (_src, size);
+  return _src;
 }
 
 
@@ -197,7 +197,7 @@ compile_reader_data (read_data_t *head, const char *str)
 	    gl = true;
 	    break;
 	  case 'r' :
-	    redgl =true;
+	    redgl = true;
 	    break;
 	  case 'C':		/* centered */
 	    offset = glm + lm[0] + (rm[0] - glm - lm[0] - w) / 2;
@@ -320,6 +320,7 @@ compile_reader_data (read_data_t *head, const char *str)
 	++l;
 	shift_margins (lm, rm);
       }
+      free_pararray (p);
 
       while (lm[0] != DEF_LM || rm[0] != DEF_RM) {
 	voffset += xbuf * (help_font->line_skip + help_font->height);
@@ -327,6 +328,7 @@ compile_reader_data (read_data_t *head, const char *str)
       }
     }
   next_line:
+    free (curstr_allocated);
   }
   img_free (&help_pics_img);
   return head;
