@@ -283,8 +283,8 @@ ia_eval_dir_lemming (a_level_state *state, const a_level *lvl,
     mindist = 0;
     tmppti = state->square_lemmings_list[pos];
     if (tmppti >= state->private->lemmings_support
-	&& tmppti < (state->private->lemmings_support + lemmings_total)) {
-      if (tmppti->couleur == ia_player)
+	&& tmppti < (state->private->lemmings_support + LEMMINGS_TOTAL)) {
+      if (tmppti->color == ia_player)
 	tmp2 = -100;
       else
 	tmp2 = 20;

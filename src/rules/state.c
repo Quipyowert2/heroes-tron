@@ -69,7 +69,7 @@ state_init (a_level_state *state, const a_level *lvl, char cont,
     XCALLOC_ARRAY (state->square_lemmings_list, lvl->square_count);
     XCALLOC_ARRAY (state->square_dead_lemmings_list, lvl->square_count);
     memset (bits->lemmings_support, 0,
-	    lemmings_total * sizeof (*state->private->lemmings_support));
+	    LEMMINGS_TOTAL * sizeof (*state->private->lemmings_support));
   } else if (state->game_mode >= M_TCASH) {
     XMALLOC_ARRAY (state->square_object, lvl->square_count);
   }

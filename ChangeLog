@@ -1,5 +1,17 @@
 2002-02-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/rules/state.h: More comments.
+	(a_lemming) <min, next_dead, couleur>: Rename as ...
+	(a_lemming) <puddle_offset, next_puddle, color>: ... these.
+	(lemmings_per_player): Rename as ...
+	(LEMMINGS_PER_PLAYER): ... this.
+	* src/rultes/statepriv.h (lemmings_total): Rename as ...
+	(LEMMINGS_TOTAL): ... this.
+	* src/render.c, src/rules/lemmings.c, src/rules/update.c,
+	src/rules/ai.c, src/rules/state.c: Adjust for renamings.
+
+2002-02-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* NEWS, ANNOUNCE, configure.ac: Update with the files from
 	version 0.20.
 

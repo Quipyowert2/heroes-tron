@@ -44,8 +44,8 @@ struct a_level_state_bits {
   unsigned trail_offset[4];
   unsigned trail_size[4];	/* size of trails, minus one */
 
-#define lemmings_total (lemmings_per_players*4)
-  a_lemming lemmings_support[lemmings_total];
+#define LEMMINGS_TOTAL (LEMMINGS_PER_PLAYERS*4)
+  a_lemming lemmings_support[LEMMINGS_TOTAL];
   int objects_nbr;
   int lemmings_move_offset;
 

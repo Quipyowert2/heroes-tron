@@ -250,7 +250,7 @@ draw_lemming (a_pixel *dest, const a_lemming *lem, unsigned int pos)
   const a_pixel *src;
 
   if (pos == lem->pos_tail) {
-    int c = lem->couleur;
+    int c = lem->color;
     a_dir d = lem->dir;
     src = vehicles_img.buffer + 164 * 320;
     src += 64 * c;
@@ -296,18 +296,18 @@ draw_dead_lemming (a_pixel *dest_, const a_lemming *lem)
     dest = dest_;
     d = lem->dir;
     if (d == w_up)
-      dest -= (lem->min / 6553) * xbuf;
+      dest -= (lem->puddle_offset / 6553) * xbuf;
     if (d == w_right)
-      dest += lem->min / 5461;
+      dest += lem->puddle_offset / 5461;
     if (d == w_down)
-      dest += (lem->min / 6553) * xbuf;
+      dest += (lem->puddle_offset / 6553) * xbuf;
     if (d == w_left)
-      dest -= lem->min / 5461;
+      dest -= lem->puddle_offset / 5461;
 
     copy_dead_lemming_transp (IMGPOS (vehicles_img,
 				      181, (lem->dead << 4) - 16),
-			      dest, 6 - (lem->couleur));
-    lem = lem->next_dead;
+			      dest, 6 - lem->color);
+    lem = lem->next_puddle;
   } while (lem);
 }
 

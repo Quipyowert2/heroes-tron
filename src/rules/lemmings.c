@@ -130,7 +130,7 @@ state_init_lemmings (a_level_state *state, const a_level *lvl)
   a_lemming *ptir = state->private->lemmings_support;
   unsigned i, j;
   for (i = 0; i < 4; i++) {
-    for (j = lemmings_per_players; j != 0; j--) {
+    for (j = LEMMINGS_PER_PLAYERS; j != 0; j--) {
       /* Drop the lemming randomly on an accessible unoccupied
 	 square.  The lemmings might still not be able to move,
 	 but it's unimportant: it should just stay still until
@@ -144,15 +144,15 @@ state_init_lemmings (a_level_state *state, const a_level *lvl)
 	       || state->square_lemmings_list[k] != NULL);
       ptir->pos_head = k;
       find_lemming_direction (state, lvl, ptir);
-      ptir->min = 0;
-      ptir->next_dead = NULL;
-      ptir->couleur = i;
+      ptir->puddle_offset = 0;
+      ptir->next_puddle = NULL;
+      ptir->color = i;
       ptir->dead = 0;
       ptir++;
     }
-    state->player[i].lemmings_nbr = lemmings_per_players;
+    state->player[i].lemmings_nbr = LEMMINGS_PER_PLAYERS;
   }
-  assert (ptir == state->private->lemmings_support + 4 * lemmings_per_players);
+  assert (ptir == state->private->lemmings_support + 4 * LEMMINGS_PER_PLAYERS);
   state->private->lemmings_move_offset = 0;
 }
 
@@ -170,7 +170,7 @@ update_lemmings (a_level_state *state, const a_level *lvl)
 
     lem = bits->lemmings_support;
     state->private->lemmings_move_offset &= 0xffff;
-    for (j = lemmings_total; j != 0; j--, lem++)
+    for (j = LEMMINGS_TOTAL; j != 0; j--, lem++)
       if (lem->dead == 0) {
 	find_lemming_direction (state, lvl, lem);
       }

@@ -23,39 +23,78 @@
 # include "lvl.h"
 # include "player.h"
 
-/* Dynamic state of a level.  */
-typedef struct a_level_state a_level_state;
-/* Hidden details in a_level_state */
-typedef struct a_level_state_bits a_level_state_bits;
-
+/* Information about a lemming.  */
 typedef struct a_lemming a_lemming;
 struct a_lemming {
-  unsigned int pos_head, pos_tail; /* positions */
-  unsigned int min;		/* position in the tile */
-  a_lemming *next_dead;		/* next stain in the tile */
+  /* Position of the lemming.
+
+     Lemmings are always astride on two squares when moving.  If
+     pos_head == pos_tail, then the lemmings is stopped.
+
+     When the lemming is moving, the offset within the current square
+     is common with all lemmings (they move synchornously) and
+     returned by the state_lemmings_move_offset() function.  */
+  a_square_index pos_head, pos_tail;
+
+  /* Direction the lemming looks towards.  */
   a_dir dir;
-  int couleur;
-  char dead;
+
+  /* Color of the lemmings.  */
+  int color;
+
+  /* True iff the lemming is dead.  */
+  bool dead;
+
+  /* For dead lemmings, i.e. blood stains, the position within the
+     square is NOT the one given by state_lemmings_move_offset(),
+     otherwise the stains would be moving... */
+  unsigned int puddle_offset;
+
+  /* Several puddle can be accumulated on the same square.  */
+  a_lemming *next_puddle;
 };
 
+/* When playing "Kill'em All", each player start with
+   LEMMINGS_PER_PLAYERS lemmings.  */
+#define LEMMINGS_PER_PLAYERS 50
+
+/* The game modes, as selected in the PLAY menu.  */
 typedef enum a_game_mode a_game_mode;
 enum a_game_mode {
-  M_QUEST = 0,
-  M_DEATHM = 1,
-  M_KILLEM = 2,
-  M_TCASH = 3,
-  M_COLOR = 4,
+  M_QUEST = 0,			/* Quest */
+  M_DEATHM = 1,			/* Death-match */
+  M_KILLEM = 2,			/* Kill'em all */
+  M_TCASH = 3,			/* Time-ca$h */
+  M_COLOR = 4,			/* Color */
 };
 
+/* An explosions is displayed using NBR_EXPLOSION_FRAMES intermediate
+   sprites.  There is NBR_EXPLOSION_KINDS different set of explosions
+   sprites (the set is chosen randomly before an explosion is displayed,
+   mixing them make large flames looks better).
+   It should be easy the add new kinds of explosions.  Adding more
+   frame however would need several timing adjustement in the code.  */
 #define NBR_EXPLOSION_FRAMES 15
 #define NBR_EXPLOSION_KINDS   2
 
+/* Number of time slices for each frames.  Changing this affects
+   the speed of the explosions.  */
 #define EXPLOSION_SLICES_PER_FRAMES 8
+/* Number of frames between the moment an explosions is triggered, and
+   the moment it actually explodes.  */
 #define EXPLOSION_DELAY 8
 
+/*
+ *  Various constants, used for the an_explosion type.
+ */
+
+/* The explosion will explode immediately.  */
 #define EXPLOSION_IMMEDIATE (NBR_EXPLOSION_FRAMES - 1)
+/* The explosion is triggered, it will explode later.  */
 #define EXPLOSION_TRIGGERED (EXPLOSION_IMMEDIATE + EXPLOSION_DELAY)
+/* It's time for the explosion to trigger neighbors.  */
 #define EXPLOSION_TRIGGER_NEIGHBORS (EXPLOSION_TRIGGERED - 3)
+/* The explosion is not triggered (it's also triggerable).  */
 #define EXPLOSION_UNTRIGGERED (EXPLOSION_TRIGGERED + 1)
 
 /*
@@ -80,9 +119,14 @@ typedef a_u8 an_explosion;
 # define LVL_STATE_MUTABLE const
 #endif
 
+/* Dynamic state of a level.  */
+typedef struct a_level_state a_level_state;
+/* Hidden details in a_level_state */
+typedef struct a_level_state_bits a_level_state_bits;
 
 struct a_level_state {
-  a_player player[4];		/* Informations about each player.  */
+  /* Informations about each player.  */
+  a_player player[4];
 
   /* State of each square.
      0xFF: free
@@ -113,7 +157,7 @@ struct a_level_state {
   /* Fast conversion between a_square_index and a_square_coord_pair.  */
   a_square_coord_pair *square_coord;
 
-  /* Objet lying on the levle (pyramids, dollars, clocks, ...).
+  /* Objet lying on the level (pyramids, dollars, clocks, ...).
       -1: nothing
       -2: can't drive here
      In TIME CASH mode:
@@ -132,13 +176,28 @@ struct a_level_state {
 
   a_game_mode game_mode;
 
+  /* The state of the explosion for each square.  See the EXPLOSION_*
+     constants above.  */
   LVL_STATE_MUTABLE an_explosion *square_explo_state;
+  /* The type of each explosion, smaller than NBR_EXPLOSION_KINDS
+     for each square.   This is really usefull only to render
+     the level; all explosions have the same effect on the players. */
   LVL_STATE_MUTABLE a_u8 *square_explo_type;
 
+  /* For each tile, the number of the bonus present, if any.
+     FIXME: Document bonus values.  */
   LVL_STATE_MUTABLE a_u8 *tile_bonus;
 
-#define lemmings_per_players 50
+  /* For each square occupied by a lemming, this holds a pointer to
+     the lemming data.  If the square is empty, the pointer is NULL.  */
   a_lemming **square_lemmings_list;
+
+  /* For each square occupied by a puddle, this holds a pointer to the
+     lemmings data.  Several puddles might be chained with the
+     next_puddle fieds of this structure.  The pointer is NULL if
+     there is no puddle.  Blood puddles have no effect on the players
+     (as far the rules of the game are concerned), so this array
+     should be useful only to the renderer.  */
   a_lemming **square_dead_lemmings_list;
 
   /* Private data.  Use the state_* functions to access them.  */

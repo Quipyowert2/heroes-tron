@@ -362,20 +362,20 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
       if (tmppti) {
 	int lemmings_move_offset = state_lemmings_move_offset (state);
 	assert (tmppti >= state->private->lemmings_support
-		&& tmppti < state->private->lemmings_support + lemmings_total);
+		&& tmppti < state->private->lemmings_support + LEMMINGS_TOTAL);
 	if ((tmppti->pos_tail == d2 && lemmings_move_offset < 38000)
 	    || (tmppti->pos_head == d2 && lemmings_move_offset > 28000)) {
 	  if (!state->private->level_is_finished) {
 	    state->player[c].score += 10;
-	    state->player[tmppti->couleur].lemmings_nbr--;
+	    state->player[tmppti->color].lemmings_nbr--;
 	  }
 	  tmppti->dead = (rand () & 15) + 1;
 	  if (rand () & 63) {
-	    tmppti->couleur = 0;
+	    tmppti->color = 0;
 	    if (state->player[c].cpu == 2)
 	      event_sfx (90 + ((tmppti->dead - 1) >> 1));
 	  } else {
-	    tmppti->couleur = 1;
+	    tmppti->color = 1;
 	    if (!state->private->level_is_finished)
 	      state->player[c].score += 140;
 	    state->player[c].martians_nbr++;
@@ -385,19 +385,19 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
 	  /* We will assign the dead lemming to the nearest square.  */
 	  if (lemmings_move_offset < 32536) {
 	    /* If it's the tail square, the offset can be kept as-is.  */
-	    tmppti->min = lemmings_move_offset;
+	    tmppti->puddle_offset = lemmings_move_offset;
 	    i = tmppti->pos_tail;
 	  } else {
 	    /* If it's the head square, the offset and the
 	       direction needs to be inverted.  */
-	    tmppti->min = 65536 - lemmings_move_offset;
-	    assert (tmppti->min < 65536);
+	    tmppti->puddle_offset = 65536 - lemmings_move_offset;
+	    assert (tmppti->puddle_offset < 65536);
 	    i = tmppti->pos_head;
 	    tmppti->dir = REVERSE_DIR (tmppti->dir);
 	  }
 	  state->square_lemmings_list[tmppti->pos_tail] = NULL;
 	  state->square_lemmings_list[tmppti->pos_head] = NULL;
-	  tmppti->next_dead = state->square_dead_lemmings_list[i];
+	  tmppti->next_puddle = state->square_dead_lemmings_list[i];
 	  state->square_dead_lemmings_list[i] = tmppti;
 	}
       }
