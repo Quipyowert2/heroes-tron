@@ -68,11 +68,15 @@ process_input_events (void)
   poll_keyboard ();
 
   /* KEY_MAX is from Allegro, HKEY_MAX is from Heroes.  */
-  for (i = 0; i < KEY_MAX; ++i) {
+  for (i = 0; i < KEY_MAX; ++i)
     keyboard_map[i] = key[i];
-  }
 
   keyboard_modifiers = key_shifts;
+
+  /* Apparently we have to clear the keybuf here, otherwise the next
+     call to get_key() will still see the event polled here.  (At
+     least that's what I can see under X.)  */
+  clear_keybuf ();
 }
 
 a_keycode

@@ -3052,7 +3052,7 @@ play_game (char cont)
 		event_sfx (123);
 	    } else {
 	      t = get_key_or_joy ();
-	      u = t & 255;
+	      u = keycode_to_ascii (t);
 	      pos = strlen (saverec[l].name);
 	      if (u >= 'a' && u <= 'z')
 		u -= 'a' - 'A';

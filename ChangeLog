@@ -1,3 +1,8 @@
+2001-12-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/media/allegro/keyb.c (process_input_events): Call	clear_keybuf().
+	* src/heroes.c (play_game): Call keycode_to_ascii().
+
 2001-12-09  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/media/allegro/video.c (init_allegro): Call install_mouse ().
