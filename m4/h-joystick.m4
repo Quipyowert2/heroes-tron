@@ -21,7 +21,7 @@ $sdl_config_micro_version], [], [], [sdlvkm])])
 
   if test "${with_gii-yes}" != no;  then
     if test "${with_gii-no}" != no; then
-      user_selection_list_j="$user_selection_list_j gii"
+      user_selection_list_j="$user_selection_list_j giij"
     fi
     AC_caolan_CHECK_PACKAGE([GII], [giiOpen], [gii], [ggi/gii.h],
        [adl_LIBALT_OK([giij], [LibGII], [$GII_LDFLAGS], [$GII_LIBS])])
