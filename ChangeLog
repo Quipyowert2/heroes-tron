@@ -1,5 +1,11 @@
 2000-07-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/intro.c (show_intro): At stratup, fill the black side of the
+	screen.  Do not display the buffer until the palette is set, or
+	the buffer updated.
+
+2000-07-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Use `#' for comments, not `dnl', so they can
 	be read in the configure script.
 

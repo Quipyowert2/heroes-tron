@@ -165,15 +165,16 @@ show_intro (void)
 
   play_soundtrack ();
   frame_old = frame_cur;
-  memset (&color_nbr, 0, 256 * 4);
+  memset (color_nbr, 0, 256 * sizeof(*color_nbr));
   set_color (255, 0, 0, 0);
   memset (screen, 255, 32000);
+  memset (screen + 32000, 0, 32000);
   for (i = 0; i <= 63; i++) {
-    vsynch ();
     set_color (255, i, i, i);
     fade_pal.indiv[255].r = i;
     fade_pal.indiv[255].g = i;
     fade_pal.indiv[255].b = i;
+    vsynch ();
     if (key_or_joy_ready ()) {
       img_free (&intro_img);
       return (1);
@@ -195,8 +196,8 @@ show_intro (void)
   for (i = 0; i <= 64; i++) {
     pal2pal ((palette_ *) & pal, &intro_img.palette, i);
     fastmem4 ((char *) &temppal, (char *) &fade_pal, 768 / 4);
-    vsynch ();
     set_pal ((char *) &temppal, 0, 768);
+    vsynch ();
     if (key_or_joy_ready ()) {
       img_free (&intro_img);
       return (1);
@@ -216,10 +217,10 @@ show_intro (void)
   for (i = 128; i >= 0; i--) {
     pal2pal ((palette_ *) & pal, &intro_img.palette, i >> 1);
     fastmem4 ((char *) &temppal, (char *) &fade_pal, 768 / 4);
-    vsynch ();
     set_pal ((char *) &temppal, 0, 768);
     antialias (screen + 85 * 320, 13 * 320);
     antialias (screen + 103 * 320, 13 * 320);
+    vsynch ();
     if (key_or_joy_ready ()) {
       img_free (&intro_img);
       return (1);
@@ -238,13 +239,13 @@ show_intro (void)
   set_pal ((char *) &intro_img.palette, 0, 768);
   frame_old = frame_cur;
   for (i = 0; i < 568; /*i+=4 */ ) {
-    vsynch ();
     copy_vehicle_1 (i);
     copy_vehicle_2 (567 - i);
     do {
       i += 4;
       frame_old++;
     } while (frame_old < frame_cur);
+    vsynch ();
     if (key_or_joy_ready ()) {
       img_free (&intro_img);
       return (1);
@@ -257,9 +258,9 @@ show_intro (void)
   set_pal ((char *) &pal, 0, 768);
   fastmem4 ((char *) &pal, (char *) &fade_pal, 768 / 4);
   img2vram (&intro_img);
-  intro_img.palette.global[254 * 3] = 0;
-  intro_img.palette.global[254 * 3 + 1] = 0;
-  intro_img.palette.global[254 * 3 + 2] = 0;
+  intro_img.palette.indiv[254].r = 0;
+  intro_img.palette.indiv[254].g = 0;
+  intro_img.palette.indiv[254].b = 0;
   img_free (&intro_img);	/*libère l'image mais pas la palette */
   for (i = 0; i <= 64; i++) {
     pal2pal ((palette_ *) & pal, &intro_img.palette, i);
