@@ -26,7 +26,6 @@
 #include "rsc_files.h"
 #include "dirname.h"
 #include "misc.h"
-#include "stripslash.h"
 
 static void
 check_localedir_env (void)

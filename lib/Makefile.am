@@ -42,7 +42,6 @@ gnugetopt.h \
 getshline.h \
 hash.h \
 isdir.h \
-stripslash.h \
 w_dirent.h \
 xalloc.h \
 xstrduplwr.h

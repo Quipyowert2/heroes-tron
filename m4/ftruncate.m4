@@ -1,8 +1,8 @@
-#serial 2
+#serial 4
 
-# See if we need to emulate a missing ftruncate function using fcntl.
+# See if we need to emulate a missing ftruncate function using fcntl or chsize.
 
-AC_DEFUN(jm_FUNC_FTRUNCATE,
+AC_DEFUN([jm_FUNC_FTRUNCATE],
 [
   AC_CHECK_FUNCS(ftruncate, , [ftruncate_missing=yes])
 

@@ -27,6 +27,8 @@
 files='
 lib/alloca.c
 lib/basename.c
+lib/dirname.c
+lib/dirname.h
 lib/error.c
 lib/error.h
 lib/ftruncate.c

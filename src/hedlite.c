@@ -42,7 +42,7 @@
 #include "rsc_files.h"
 #include "debugmsg.h"
 #include "const.h"
-#include "stripslash.h"
+#include "dirname.h"
 
 static a_pcx_image heditrsc;
 static a_pcx_image tile_set_img;

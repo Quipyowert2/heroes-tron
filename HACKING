@@ -226,6 +226,8 @@ Avoid any change to these files, if possible.
 
  lib/alloca.c	   (from fetish)
  lib/basename.c    (from fetish)
+ lib/dirname.c     (from fetish)
+ lib/dirname.h     (from fetish)
  lib/ftruncate.c   (from fetish)
  lib/getopt.c	   (from glibc)
  lib/getopt1.c	   (from glibc)

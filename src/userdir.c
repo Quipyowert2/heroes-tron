@@ -22,7 +22,7 @@
 #include "debugmsg.h"
 #include "errors.h"
 #include "rsc_files.h"
-#include "stripslash.h"
+#include "dirname.h"
 
 char* userdir = 0;
 

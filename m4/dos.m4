@@ -1,17 +1,17 @@
-# serial 3
+#serial 5
 
 # Define some macros required for proper operation of code in lib/*.c
 # on MSDOS/Windows systems.
 
 # From Jim Meyering.
 
-AC_DEFUN(jm_AC_DOS,
+AC_DEFUN([jm_AC_DOS],
   [
     AC_CACHE_CHECK([whether system is Windows or MSDOS], [ac_cv_win_or_dos],
       [
         AC_TRY_COMPILE([],
         [#if !defined _WIN32 && !defined __WIN32__ && !defined __MSDOS__
-not MSDOS nor Windows
+neither MSDOS nor Windows
 #endif],
         [ac_cv_win_or_dos=yes],
         [ac_cv_win_or_dos=no])
