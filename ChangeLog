@@ -1,3 +1,7 @@
+2001-03-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* Makefile.am (AUTOMAKE_OPTIONS): Add dist-bzip2.
+
 2001-03-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/system.h (KEYCODE_MAX): New macro.
