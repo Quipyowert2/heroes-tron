@@ -16,9 +16,9 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-man_MANS = heroes.6
+man_MANS = heroes.6 heroeslvl.6
 EXTRA_DIST = $(man_MANS)
-MAINTAINERCLEANFILES = heroes.6
+MAINTAINERCLEANFILES = $(man_MANS)
 
 heroes.6 : $(srcdir)/../src/argv.c $(top_srcdir)/configure.ac
 	@if test -f $(top_builddir)/src/heroes; then \
@@ -27,6 +27,16 @@ heroes.6 : $(srcdir)/../src/argv.c $(top_srcdir)/configure.ac
 	    -s6 $(top_builddir)/src/heroes | sed -e 's/ FSF//' > heroes.6; \
 	else \
 	  echo "WARNING: The man page heroes.6 cannot be updated yet."; \
+	  echo "         Retry once the corresponding executable is built."; \
+	fi
+
+heroeslvl.6 : $(srcdir)/../src/heroeslvl.c $(top_srcdir)/configure.ac
+	@if test -f $(top_builddir)/src/heroeslvl; then \
+	  echo "Updating man page heroeslvl.6"; \
+	  $(HELP2MAN) -N -n "inspect Heroes' level files" \
+	    -s6 $(top_builddir)/src/heroeslvl | sed -e 's/ FSF//' > heroeslvl.6; \
+	else \
+	  echo "WARNING: The man page heroeslvl.6 cannot be updated yet."; \
 	  echo "         Retry once the corresponding executable is built."; \
 	fi
 

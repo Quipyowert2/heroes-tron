@@ -1,5 +1,13 @@
 2001-07-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Build a man page for heroeslvl.
+
+	* man/Makefile.am (heroeslvl.6): New target.
+	(man_MANS): Add heroeslvl.6.
+	(MAINTAINERCLEANFILES): Rewrite as $(man_MANS).
+
+2001-07-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.ac: Show a summary of CFLAGS and LIBS for each
 	libraries.
 	* m4/checkpkg.m4: Typo, s/_LDALL/_LDFLAGS/.
