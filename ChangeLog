@@ -1,5 +1,11 @@
 2000-07-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/heroes.c (main): Search the environment for HEROES_DATA_DIR
+	or HEROES_DATADIR to set the value of the data-dir resource, or
+	fail back to the default value if no variable is found.
+
+2000-07-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Check for gperf.
 	* src/Makefile.am: Don't define a rule for rsc_files_hash.c if
 	gperf is not available.

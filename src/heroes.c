@@ -4609,7 +4609,14 @@ main (int argc, char *argv[])
 {
   int i;
 
-  set_rsc_file ("data-dir", datadir);
+  {
+    char* data_dir;
+    if ((data_dir = getenv ("HEROES_DATA_DIR")) || 
+	(data_dir = getenv ("HEROES_DATADIR")))
+      set_rsc_file ("data-dir", data_dir);
+    else 
+      set_rsc_file ("data-dir", datadir);
+  }
 
   init_sound_track_list ();
 
