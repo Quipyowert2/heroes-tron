@@ -40,7 +40,7 @@ lvl_save_header_file (int fd, const a_level *out)
 static int
 lvl_save_body_file (int fd, const a_level *out)
 {
-  size_t length = out->tile_count * LVL_RECORD_SIZE;
+  ssize_t length = out->tile_count * LVL_RECORD_SIZE;
   a_u8 *data = xmalloc (length);
   memset (data, 0, length);
 
@@ -60,7 +60,6 @@ lvl_save_file (const char *filename, const a_level *out)
 {
   int fd;
   int err;
-  a_u8 *data;
 
   fd = open (filename, O_WRONLY | O_CREAT | O_TRUNC | O_BINARY,
 	     S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);

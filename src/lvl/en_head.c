@@ -59,7 +59,6 @@ encode_level_header (a_u8 *data, const a_level *lvl)
   }
   for (player = 0; player < 4; ++player) {
     a_u8 starting_dir;
-    a_square_coord y, x;
 
     starting_dir = lvl->private->start_dir[player] << 4;
     if (lvl->private->start_pos[player].x & 1)

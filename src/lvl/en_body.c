@@ -125,7 +125,7 @@ en_reverse_walls (const a_level *lvl, a_dir_mask8 *square_walls_in)
     dest_x = this_x;
     dest_y = SQR_COORD_UP (lvl, this_y);
     dest = SQR_COORDS_TO_INDEX (lvl, dest_y, dest_x);
-    if (dest_y < 0)
+    if ((this_y == 0) && (lvl->square_height_wrap == DONT_WRAP))
       square_walls_in[idx] |= DM_DOWN;
     else if (lvl->square_walls_out[dest] & DM_DOWN)
       square_walls_in[idx] |= DM_DOWN;
@@ -158,7 +158,7 @@ en_reverse_walls (const a_level *lvl, a_dir_mask8 *square_walls_in)
     dest_x = SQR_COORD_LEFT (lvl, this_x);
     dest_y = this_y;
     dest = SQR_COORDS_TO_INDEX (lvl, dest_y, dest_x);
-    if (dest_x < 0)
+    if ((this_x == 0) && (lvl->square_width_wrap == DONT_WRAP))
       square_walls_in[idx] |= DM_RIGHT;
     else if (lvl->square_walls_out[dest] & DM_RIGHT)
       square_walls_in[idx] |= DM_RIGHT;
@@ -172,7 +172,6 @@ en_reverse_walls (const a_level *lvl, a_dir_mask8 *square_walls_in)
 void
 encode_level_body (a_u8 *data, const a_level *lvl)
 {
-  a_u8 *base_data = data;
   a_tile_index ti;		/* Current tile index. */
   a_square_index si;		/* Current square index. */
   a_tile_index tcount;		/* Total tile count to write.  */
