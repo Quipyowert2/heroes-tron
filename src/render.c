@@ -649,51 +649,26 @@ draw_level (int p)
   /* Draw tutorial arrows */
 
   if (tutor) {
+    int bonus_to_show = trail_size[col2plr[p]] < 55 ? 1 : 12;
+
     sinl = (signed char) minisinus[read_htimer (waving_htimer) & 31];
     dest = render_buffer[p] + sbuf - (7 + sinl) * xbuf + 15 + sinl - 48;
-    if (trail_size[col2plr[p]] < 55)
-      for (k = corner_dy[p] - 0, l = 1 + 11 - camera_stop_y[p]; l > 0;
-	   l--, k++) {
-	k &= map_info.ywrap;
-	m = k * map_info.xt;
-	for (i = corner_dx[p] - 2, j = 2 + nbr_tiles_cols - camera_stop_x[p];
-	     j > 0; j--, i++) {
-	  i &= map_info.xwrap;
-	  if (tile_bonus[i + m] == 1) {
-	    if (j != 1)
-	      copy_rect_transp_8 (main_font_img.buffer + 17 + 91 * 320, dest,
-				  49, 13, 10 + sinl);
-	    else
-	      copy_rect_transp_8 (main_font_img.buffer + 17 + 91 * 320, dest,
-				  20, 13, 10 + sinl);
-	  }
-	  dest += 24;
-	}
-	dest += xbuf * 20 - 24 * (2 + nbr_tiles_cols - camera_stop_x[p]);
-    } else
-      for (k = corner_dy[p] - 0, l = 1 + 11 - camera_stop_y[p]; l > 0;
-	   l--, k++) {
-	k &= map_info.ywrap;
-	m = k * map_info.xt;
-	for (i = corner_dx[p] - 2, j = 2 + nbr_tiles_cols - camera_stop_x[p];
-	     j > 0; j--, i = (i + 1)) {
-	  i &= map_info.xwrap;
-	  if (tile_bonus[i + m] == 12) {
-	    if (j != 1)
-	      copy_rect_transp_8 (main_font_img.buffer + 17 + 91 * 320, dest,
-				  49, 13, 10 + sinl);
-	    else
-	      copy_rect_transp_8 (main_font_img.buffer + 17 + 91 * 320, dest,
-				  20, 13, 10 + sinl);
-	  }
-	  dest += 24;
-	}
-	dest += xbuf * 20 - 24 * (2 + nbr_tiles_cols - camera_stop_x[p]);
+
+    for (k = corner_dy[p] - 0, l = 1 + 11 - camera_stop_y[p]; l > 0;
+	 l--, k++) {
+      k &= map_info.ywrap;
+      m = k * map_info.xt;
+      for (i = corner_dx[p] - 2, j = 2 + nbr_tiles_cols - camera_stop_x[p];
+	   j > 0; j--, i++) {
+	i &= map_info.xwrap;
+	if (tile_bonus[i + m] == bonus_to_show)
+	  DRAW_SPRITE (catch_this, dest);
+	dest += 24;
       }
+      dest += xbuf * 20 - 24 * (2 + nbr_tiles_cols - camera_stop_x[p]);
+    }
   }
-
 }
-
 
 
 void
@@ -931,7 +906,7 @@ display_buffer_tmp1 (void)
   const pixel_t* src = render_buffer[1];
   pixel_t* dest = screen;
   int i;
-  draw_demo_stick (src);
+
   for (i = 200; i > 0; i--, src += xbuf, dest += 320)
     fastmem4 (src, dest, 320 / 4);
 }
@@ -943,7 +918,7 @@ display_buffer_moving (int x)
   pixel_t *dest = screen;
   int *desti;
   int i, j;
-  draw_demo_stick (src);
+
   for (i = 200; i > 0; i--, src += xbuf, dest += 320) {
     fastmem4 (src + (x << 2), dest, 160 / 4 - x);
     desti = ((int *) dest) + 40 - x;
@@ -959,7 +934,7 @@ display_two_buffers (void)
   const pixel_t* src2 = corner[1 - swapside];
   pixel_t *dest = screen;
   int i;
-  draw_demo_stick (src2 - 160);
+
   for (i = 200; i > 0; i--, src1 += xbuf, src2 += xbuf, dest += 320) {
     fastmem4 (src1, dest, 160 / 4);
     fastmem4 (src2, dest + 160, 160 / 4);
@@ -972,9 +947,8 @@ display_two_buffers_moving (int x)
   const pixel_t* src1 = corner[swapside];
   const pixel_t* src2 = corner[1 - swapside];
   pixel_t *dest = screen;
-
   int i;
-  draw_demo_stick (src2 - 160);
+
   for (i = 200; i > 0; i--, src1 += xbuf, src2 += xbuf, dest += 320) {
     fastmem4 (src1 + (x << 2), dest, 160 / 4 - x);
     fastmem4 (src2, dest + 160 + (x << 2), 160 / 4 - x);
@@ -990,7 +964,7 @@ display_two_buffers_moving_and_clear (int x)
   pixel_t* dest = screen;
   int *desti;
   int i, j;
-  draw_demo_stick (src2 - 160);
+
   for (i = 200; i > 0; i--, src1 += xbuf, src2 += xbuf, dest += 320) {
     fastmem4 (src1 + (x << 2), dest, 160 / 4 - x);
     desti = ((int *) dest) + 40 - x;

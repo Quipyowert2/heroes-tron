@@ -27,6 +27,7 @@ sprite_t *big_dollar = 0;
 sprite_t *small_dollar = 0;
 sprite_t *clocks[NBR_CLOCK_FRAMES];
 sprite_t *pyramids[NBR_PYRAMIDS];
+sprite_t *catch_this = 0;
 
 void
 init_items (void)
@@ -47,6 +48,9 @@ init_items (void)
     pyramids[i] = compile_sprshade (IMGPOS (main_font_img, 64, i * 16),
 				    0, 1, glenz[0],
 				    7, 9, main_font_img.width, xbuf);
+  catch_this = compile_sprshade (IMGPOS (main_font_img, 91, 17),
+				 0, 82 , glenz[0],
+				 13, 49, main_font_img.width, xbuf);
 }
 
 void
@@ -59,4 +63,5 @@ uninit_items (void)
     FREE_SPRITE0 (clocks[i]);
   for (i = 0; i < NBR_PYRAMIDS; ++i)
     FREE_SPRITE0 (pyramids[i]);
+  FREE_SPRITE0 (catch_this);
 }

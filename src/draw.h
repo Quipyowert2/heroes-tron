@@ -23,15 +23,11 @@
 
 void copy_rect_transp_red (const unsigned char *src, unsigned char *dest,
 			   int xt, int yt);
-void copy_rect_transp_8 (const unsigned char *src, unsigned char *dest,
-			 int xt, int yt, char coul);
-
 void copy_rect_4 (const unsigned char *src, unsigned char *dest, int xt,
 		  int yt);
 void copy_rect_2 (const unsigned char *src, unsigned char *dest, int xt,
 		  int yt);
 
-void draw_demo_stick (const pixel_t* dest);
 void aff_buffer (void);
 
 #endif /* HEROES__DRAW__H */

@@ -26,29 +26,6 @@
 #include "draw.h"
 
 void
-copy_rect_transp_8 (const unsigned char *src, unsigned char *dest, int xt,
-		    int yt, char coul)
-{
-  int j, k;
-  char c;
-
-  for (j = yt; j != 0; j--) {
-    for (k = xt; k != 0; k--) {
-      c = *src++;
-      if (c != 0) {
-	if (c == 8)
-	  *dest = coul;
-	else
-	  *dest = c;
-      }
-      dest++;
-    }
-    src += 320 - xt;
-    dest += xbuf - xt;
-  }
-}
-
-void
 copy_rect_transp_red (const unsigned char *src, unsigned char *dest, int xt,
 		      int yt)
 {
@@ -100,28 +77,12 @@ copy_rect_2 (const unsigned char *src, unsigned char *dest, int xt, int yt)
 }
 
 void
-draw_demo_stick (const pixel_t* dest ATTRIBUTE_UNUSED)
-{
-#ifdef PORT
-  signed char sinl;
-  /* FIXME: may be useful */
-  if (demoversion) {
-    sinl = (signed char) minisinus[(frame_old + 2) & 31];
-    copy_rect_transp_8 (main_font_img.buffer + 66 + 91 * 320,
-			dest + 185 * xbuf + 280 - /*sinl* */ (xbuf + 1), 37,
-			12,
-			10 - sinl);
-  }
-#endif
-}
-
-void
 aff_buffer (void)
 {
   unsigned char *src = corner[0];
   unsigned char *dest = (char *) screen;
   int i;
-  draw_demo_stick (src);
+
   for (i = 200; i > 0; i--, src += xbuf, dest += 320)
     fastmem4 (src, dest, 320 / 4);
 }

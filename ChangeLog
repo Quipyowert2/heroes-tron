@@ -1,5 +1,26 @@
 2000-11-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Draw "Take this bonus" using a S_RLE_SHADE sprite.  This has
+	two side effects: the yellow color is not blinking any more,
+	a text printed on the rightmost tile can wrap on the left of
+	the screen (this will disappear when xbuf is widened).
+
+	* src/items.c (catch_this): New.
+	(init_items, uninit_items): Use catch_this.
+	* src/items.h (catch_this): New.
+	* src/render.c (draw_level): Use catch_this and simplify the loops.
+
+	Remove useless functions.
+
+	* src/draw.c (copy_rect_transp_8, draw_demo_stick): Remove.
+	(aff_buffer): Don't call draw_demo_stick.
+	* src/draw.h (copy_rect_transp_8, draw_demo_stick): Remove.
+	* src/render.c (display_buffer_tmp1, display_buffer_moving,
+	display_two_buffers_moving, display_two_buffers_moving_and_clear):
+	Remove.
+
+2000-11-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/draw.c (copy_rect_transp): Remove.
 	* src/draw.h (copy_rect_transp): Remove.
 	* src/menus.c (lemming): New.

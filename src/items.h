@@ -34,6 +34,7 @@ extern sprite_t *small_dollar;
 extern sprite_t *clocks[NBR_CLOCK_FRAMES];
 #define NBR_PYRAMIDS 5
 extern sprite_t *pyramids[NBR_PYRAMIDS];
+extern sprite_t *catch_this;
 
 void init_items (void);
 void uninit_items (void);
