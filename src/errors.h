@@ -22,6 +22,7 @@
 #ifndef HEROES__ERRORS__H
 #define HEROES__ERRORS__H
 
-void fatal_error (const char message[]);
+void fatal_error (const char* message);
+void exit_heroes (int code);
 
 #endif  /* HEROES__ERRORS__H */

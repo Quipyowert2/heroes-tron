@@ -19,13 +19,21 @@
 `------------------------------------------------------------------------*/
 
 #include "common.h"
-#include "display.h"
 #include "errors.h"
+#include "display.h"
+#include "sound.h"
 
 void
-fatal_error (const char *message)
+fatal_error (const char* message)
 {
+  fprintf (stderr, message);
+  exit_heroes (33);
+}
+
+void
+exit_heroes (int code)
+{
+  uninit_sound_engine ();
   uninit_video ();
-  printf (message);
-  exit (33);
+  exit (code);
 }

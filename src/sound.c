@@ -25,6 +25,10 @@
 #include "musicfiles.h"
 #include "debugmsg.h"
 
+char sound_initialized = 0;
+char sound_track_loaded = 0;
+char sound_track_playing = 0;
+
 #ifdef HAVE_LIBMIKMOD
 
 MODULE* module;
@@ -114,6 +118,8 @@ init_sound_engine (void)
     return 0;
   }
 
+  sound_initialized = 1;
+
   pthread_mutex_init (&playing, 0);
   set_volume ();
 
@@ -123,9 +129,11 @@ init_sound_engine (void)
 void
 uninit_sound_engine (void)
 {
-  if (!nosound) {
+  if (sound_initialized) {
+    unload_soundtrack ();
     MikMod_Exit ();
     dmsg (D_SOUND_TRACK, "libMikMod exited");
+    sound_initialized = 0;
   }
 }
 
@@ -139,7 +147,8 @@ load_soundtrack (char *ptr)
   if (!module) {
     fprintf (stderr, "Could not load %s, reason: %s\n", ptr,
 	     MikMod_strerror (MikMod_errno));
-  }
+  } else
+    sound_track_loaded = 1;
 }
 
 void
@@ -147,19 +156,21 @@ unload_soundtrack (void)
 {
   if (nosound)
     return;
-  if (!module)
-    return;
-  dmsg (D_SOUND_TRACK, "joining playing thread");
-  pthread_mutex_unlock (&playing);
-  pthread_join (polling_thread, 0);
-  dmsg (D_SOUND_TRACK, "unloading sound track");
-  Player_Stop ();
-  //  MikMod_DisableOutput ();
-  Player_Free (module);
-
-  module = 0;
-  soundtrack_title = 0;
-  soundtrack_author = 0;
+  if (sound_track_playing) {
+    dmsg (D_SOUND_TRACK, "joining playing thread");
+    pthread_mutex_unlock (&playing);
+    pthread_join (polling_thread, 0);
+    Player_Stop ();
+    sound_track_playing = 0;
+  }
+  if (sound_track_loaded) {
+    dmsg (D_SOUND_TRACK, "unloading sound track");
+    Player_Free (module);
+    module = 0;
+    soundtrack_title = 0;
+    soundtrack_author = 0;
+    sound_track_loaded = 0;
+  }
 }
 
 static void *
@@ -178,7 +189,7 @@ play_soundtrack (void)
 {
   if (nosound)
     return;
-  if (!module)
+  if (!sound_track_loaded)
     return;
   dmsg (D_SOUND_TRACK, "launching sound track playing thread");
   pthread_mutex_lock (&playing);
@@ -186,6 +197,7 @@ play_soundtrack (void)
   /* MikMod_EnableOutput (); */
   Player_Start (module);
   pthread_create (&polling_thread, 0, update_thread, 0);
+  sound_track_playing = 1;
 }
 
 void
@@ -341,6 +353,8 @@ init_sound_engine (void)
 	  (audio_format&0xFF),
 	  (audio_channels > 1) ? "stereo" : "mono", 
 	  audio_buffers);
+
+    sound_initialized = 1;
   }
   set_volume ();
 
@@ -350,7 +364,8 @@ init_sound_engine (void)
 void
 uninit_sound_engine (void)
 {
-  if (!nosound) {
+  if (sound_initialized) {
+    unload_soundtrack ();
     Mix_CloseAudio ();
     dmsg (D_SOUND_TRACK, "closed audio");
   }
@@ -366,7 +381,8 @@ load_soundtrack (char *ptr)
   if (!music) {
     fprintf (stderr, "Could not load %s, reason: %s\n", ptr,
 	     SDL_GetError ());
-  }
+  } else
+    sound_track_loaded = 1;
 }
 
 void
@@ -374,11 +390,16 @@ unload_soundtrack (void)
 {
   if (nosound)
     return;
-  if (music) {
-    dmsg (D_SOUND_TRACK,"halt and unload sound track");
+  if (sound_track_playing) {
+    dmsg (D_SOUND_TRACK, "halt sound track playing");
     Mix_HaltMusic ();
+    sound_track_playing = 0;
+  }
+  if (sound_track_loaded) {
+    dmsg (D_SOUND_TRACK, "unload sound track");
     Mix_FreeMusic (music);
     music = NULL;
+    sound_track_loaded = 0;
   }
 }
 
@@ -387,9 +408,10 @@ play_soundtrack (void)
 {
   if (nosound)
     return;
-  if (music) {
+  if (sound_track_loaded) {
     dmsg (D_SOUND_TRACK, "start playing sound track");
     Mix_PlayMusic (music, -1);
+    sound_track_playing = 1;
   }
 }
 

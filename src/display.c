@@ -49,8 +49,10 @@ char screen_allocated = 0;	/* Whether screen has been mallocated */
    today) the stretching should be performed *during* the crossblit to
    be efficient. */
 
-static int scr_w, scr_h;	/* screen_rv width and height */
-static int scr_pitch;		/* screen_rv pitch */
+int scr_w, scr_h;		/* screen_rv width and height */
+int scr_pitch;			/* screen_rv pitch */
+
+char video_initialized = 0;	/* has the driver been initialized? */
 
 /* slow stretching routines */
 
@@ -211,9 +213,9 @@ copy_display (void)
 
 #ifdef HAVE_PKG_GGI
 
-ggi_visual_t visu;		/* The real display, which receive events. */
-static ggi_visual_t render_visu; /* A 8bit memory-display on which the game 
-				    is drawn */
+ggi_visual_t visu = 0;		/* The real display, which receive events. */
+static ggi_visual_t render_visu = 0; /* A 8bit memory-display on which 
+					the game is drawn */
 
 static ggi_mode vid_mode;
 static char*	display_params = 0;
@@ -242,6 +244,8 @@ init_video (void)
     dmsg (D_VIDEO, "failed");
     exit (EXIT_FAILURE);
   }
+
+  video_initialized = 1;
 
   dmsg (D_VIDEO, "open main visual (%s)",
 	display_params ? display_params : "null"); 
@@ -318,17 +322,28 @@ uninit_video (void)
   if (display_params) {
     dmsg (D_MISC, "free display_params");
     free (display_params);
+    display_params = 0;
   }
   if (screen_allocated) {
     dmsg (D_MISC, "free screen buffer");
     free (screen);
+    screen = 0;
   }
-  dmsg (D_VIDEO, "close memory visual");
-  ggiClose (render_visu);  
-  dmsg (D_VIDEO, "close real visual");
-  ggiClose (visu);
-  dmsg (D_VIDEO, "exit GGI");
-  ggiExit ();
+  if (render_visu) {
+    dmsg (D_VIDEO, "close memory visual");
+    ggiClose (render_visu);  
+    render_visu = 0;
+  }
+  if (visu) {
+    dmsg (D_VIDEO, "close real visual");
+    ggiClose (visu);
+    visu = 0;
+  }
+  if (video_initialized) {
+    dmsg (D_VIDEO, "exit GGI");
+    ggiExit ();
+    video_initialized = 0;
+  }
 }
 
 
@@ -373,9 +388,9 @@ vsynchro (void)
 #endif
 #ifdef HAVE_SDL
 
-SDL_Surface* visu;
-unsigned char* screen;
+SDL_Surface* visu = 0;
 int visu_options = SDL_HWPALETTE | SDL_DOUBLEBUF;
+char SDL_initialized = 0;
 
 void set_display_params (const char* str)
 {
@@ -396,9 +411,7 @@ void  init_SDL (void);
 void 
 init_SDL (void)
 {
-  static int done = 0;
-
-  if (done)
+  if (SDL_initialized)
     return;
   dmsg (D_SYSTEM|D_VIDEO|D_JOYSTICK|D_SOUND_TRACK|D_SOUND_EFFECT,
 	"initialize SDL");
@@ -413,7 +426,7 @@ init_SDL (void)
 	    | SDL_INIT_NOPARACHUTE
 #endif
 	    );
-  done = 1;
+  SDL_initialized = 1;
 }
 
 void
@@ -430,6 +443,9 @@ init_video (void)
     fprintf (stderr, "Failed to open visual: %s\n", SDL_GetError());
     exit (EXIT_FAILURE);
   }
+
+  video_initialized = 1;
+
   if (SDL_MUSTLOCK (visu))
     dmsg (D_VIDEO, "visual require locking");
   else
@@ -465,11 +481,16 @@ init_video (void)
 void
 uninit_video (void)
 {
-  if (stretch > 1) {
+  if (screen_allocated) {
     dmsg (D_MISC, "free screen buffer");
     free (screen);
+    screen = 0;
+    screen_allocated = 0;
   }
-  SDL_Quit ();  
+  if (SDL_initialized) {
+    SDL_Quit ();
+    SDL_initialized = 0;
+  }
 }
 
 void

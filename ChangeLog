@@ -1,5 +1,40 @@
 2000-09-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Record the state of libraries (initialized or not) and
+	sound tracks (loaded, playing, none).  This allow to exit
+	the game anywhere, because we know what to uninitialize.
+
+	* src/display.c (scr_w,scr_h,scr_pitch): Remove static tag.
+	(video_initialized): New.
+	[HAVE_PKG_GGI] (visu,render_visu): Initialize to 0.
+	[HAVE_PKG_GGI,HAVE_SDL] (init_video): Set video_initialized.
+	[HAVE_PKG_GGI] (uninit_video): Clear display_param.  Close
+	visu, render_visu, if needed.  Exit GGI if initialized.
+	[HAVE_SDL] (visu): Initialize to 0.
+	[HAVE_SDL] (screen): Remove (useless declaration).
+	[HAVE_SDL] (SDL_initialized): New.
+	[HAVE_SDL] (init_SDL): Use SDL_initialized instead of the
+	static variable `done'
+	[HAVE_SDL] (uninit_video): Use screen_allocated and 
+	SDL_initialized to know what to uninitialize.
+	* src/errors.h (exit_heroes): New.
+	* src/errors.c (exit_heroes): New.
+	(fatal_error): Call exit_heroes.
+	* src/sound.c (sound_initialized,sound_track_loaded,
+	sound_track_playing): New.
+	[HAVE_LIBMIKMOD,HAVE_PKG_sdl_mixer] (init_sound_engine): Set 
+	sound_initialized.
+	[HAVE_LIBMIKMOD,HAVE_PKG_sdl_mixer] (uninit_sound_engine): Use
+	sound_initialized.
+	[HAVE_LIBMIKMOD,HAVE_PKG_sdl_mixer] (load_soundtrack): Set
+	sound_track_loaded.
+	[HAVE_LIBMIKMOD,HAVE_PKG_sdl_mixer] (unload_soundtrack): Use
+	sound_track_playing and sound_track_loaded.
+	[HAVE_LIBMIKMOD,HAVE_PKG_sdl_mixer] (play_soundtrack): Use
+	sound_track_loaded.  Set sound_track_playing.
+
+2000-09-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/display.c (init_video): Typo.
 
 2000-09-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
