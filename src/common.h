@@ -113,6 +113,9 @@
 # ifndef HAVE_READDIR
 #  include "w_dirent.h"
 # endif
+# ifndef HAVE_SLEEP
+#  define sleep(x) (Sleep ((x) * 1000))
+# endif
 #endif
 
 /* display-keyboard-mouse library */

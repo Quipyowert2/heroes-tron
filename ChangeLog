@@ -1,5 +1,11 @@
 2000-09-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.in: Check for sleep.		
+	* src/common.h [HAVE_WINDOWS] [!HAVE_SLEEP]: Use Sleep as a
+	replacement for sleep (untested).
+
+2000-09-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Use $host, not $target, when cross-compiling.
 
 2000-09-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
