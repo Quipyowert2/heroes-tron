@@ -1,3 +1,10 @@
+2002-01-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/lvl/lvl.h (SQR_COORD_X_HOLD, SQR_COORD_Y_HOLD): Rename as ...
+	(SQR_COORD_X_VALID, SQR_COORD_Y_VALID): ... these.
+	(SQR_COORD_VALIDE): New macro.
+	* src/lvl/en_body.c (en_reverse_walls): Adjust.
+
 2002-01-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/lvl/lvl.h (SQR_COORD_X_HOLD, SQR_COORD_Y_HOLD): New macros.

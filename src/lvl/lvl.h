@@ -239,10 +239,13 @@ void lvl_animation_info (const a_level *lvl, a_tile_index tile,
   (((sqr_y_coord) + 1) & (lvl_ptr)->square_height_wrap)
 
 /* Checking square coordinates.  */
-#define SQR_COORD_X_HOLD(lvl_ptr, sqr_coord_x) \
+#define SQR_COORD_X_VALID(lvl_ptr, sqr_coord_x) \
   (((sqr_coord_x) < (lvl_ptr)->square_width))
-#define SQR_COORD_Y_HOLD(lvl_ptr, sqr_coord_y) \
+#define SQR_COORD_Y_VALID(lvl_ptr, sqr_coord_y) \
   (((sqr_coord_y) < (lvl_ptr)->square_height))
+#define SQR_COORD_VALID(lvl_ptr, sqr_coord_y, sqr_coord_x) \
+  (SQR_COORD_Y_VALID (lvl_ptr, sqr_coord_y) \
+   && SQR_COORD_X_VALID (lvl_ptr, sqr_coord_x))
 
 /* Index to coordinate conversions.  */
 #define SQR_INDEX_TO_COORD_X(lvl_ptr, sqr_index) \
