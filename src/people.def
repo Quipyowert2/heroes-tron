@@ -187,6 +187,12 @@ person = {
 };
 
 person = {
+  name    = "Raphaël Poss";
+  email   = raphael.poss@epita.fr;
+  bugs;
+};
+
+person = {
   name    = "Benjamin Preidecker";
   email   = bpreidecker@gmx.de;
   bugs;

@@ -81,6 +81,28 @@ read_level_dir (const char *dirname)
   dmsg (D_FILE, "... %d files", n);
 }
 
+
+/*  Level should be played in the following order:
+
+    niv010.lvl
+    niv020.lvl
+    niv030.lvl
+    ...
+    niv100.lvl
+    niv011.lvl
+    niv021.lvl
+    niv031.lvl
+    ...
+    niv101.lvl
+    niv019.lvl
+    niv029.lvl
+    niv039.lvl
+    ...
+    niv109.lvl
+
+    I.e, sorted on the last digit first.
+*/
+
 static int
 cmp_levels (const void *a, const void *b)
 {
@@ -98,8 +120,8 @@ cmp_levels (const void *a, const void *b)
     if (ret)
       return ret;
     else
-      /* Then use the remaingin of the name.  */
-      return strncmp (lia->name, lib->name, la - 6);
+      /* Then use the remaining of the name.  */
+      return strncmp (lia->name, lib->name, la - 5);
   }
 }
 
