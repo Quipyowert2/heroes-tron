@@ -131,6 +131,10 @@ unload_soundtrack (void)
   Player_Stop ();
   //  MikMod_DisableOutput ();
   Player_Free (module);
+
+  module = 0;
+  soundtrack_title = 0;
+  soundtrack_author = 0;
 }
 
 static void *
@@ -216,10 +220,15 @@ load_soundtrack_from_alias (char* alias)
 {
   sound_track_t* st = get_sound_track_from_alias (alias);
 
-  if (st)
+  if (st) {
     load_soundtrack (st->filename);
-  else
+    soundtrack_title = st->title;
+    soundtrack_author = st->author;
+  } else {
     module = 0;
+    soundtrack_title = 0;
+    soundtrack_author = 0;
+  }
 }
 
 #else // not HAVE_LIBMIKMOD

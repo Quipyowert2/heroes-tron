@@ -157,9 +157,9 @@ unsigned long int map_info_2xt, map_info_2yt;
 signed long int map_info_2xwrap, map_info_2ywrap;
 palette_ pal;
 
-image_ main_font_img, icons_img, vehicles_img, trailimg, bonus_a_img,
-  bonus_b_img, bonus_font_img, jukebox_img;
-image_ tile_set_img;
+image_ main_font_img, icons_img, vehicles_img, trailimg;
+image_ bonus_a_img, bonus_b_img, bonus_font_img, jukebox_img;
+image_ tile_set_img, font_deck_img;
 
 char tmp1[512];
 char tmp2[512];

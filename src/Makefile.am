@@ -41,6 +41,7 @@ extras.c \
 extras.h \
 fastmem.h \
 font.h \
+font_deck.h \
 font_help.h \
 font_menu.h \
 getshline.h \

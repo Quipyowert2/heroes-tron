@@ -49,6 +49,9 @@ extern void (*draw_text_array_320[2]) (const unsigned char *, int, int, char);
 
 void draw_text_bonus (const unsigned char *texte, int posx, int posy, int p);
 
+void draw_deck_text (const unsigned char *texte, int posx, int posy, 
+		     char cent);
+
 void copy_rect_transp (const unsigned char *src, unsigned char *dest, int xt,
 		       int yt);
 void copy_rect_transp_red (const unsigned char *src, unsigned char *dest,

@@ -102,9 +102,9 @@ extern unsigned long int map_info_2xt, map_info_2yt;
 extern signed long int map_info_2xwrap, map_info_2ywrap;
 extern palette_ pal;
 
-extern image_ main_font_img, icons_img, vehicles_img, trailimg, bonus_a_img,
-  bonus_b_img, bonus_font_img, jukebox_img;
-extern image_ tile_set_img;
+extern image_ main_font_img, icons_img, vehicles_img, trailimg;
+extern image_ bonus_a_img, bonus_b_img, bonus_font_img, jukebox_img;
+extern image_ tile_set_img, font_deck_img;
 
 extern char tmp1[512];
 extern char tmp2[512];

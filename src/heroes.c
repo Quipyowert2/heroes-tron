@@ -95,8 +95,6 @@ char soundtrack_list[11][9] = { "MENU", "HEROES01", "HEROES02", "HEROES03",
   "HEROES04", "HEROES05", "HEROES06", "HEROES07",
   "HEROES08", "HEROES09", "HEROES10"
 };
-int soundtrack_author_list[11] =
-  { 0, 0, 6 * 320, 0, 0, 6 * 320, 6 * 320, 6 * 320, 0 /*6*320 */ , 0, 0 };
 
 //unsigned autochannels[6]={0,1,2,3,4,5};
 signed char soundtrack_current_nbr = 0;
@@ -1192,12 +1190,12 @@ jukebox_menu (void)
       else if (l == 2)
 	copy_rect_4 (jukebox_img.buffer + 19 * 320 + 24,
 		     corner[0] + 184 * xbuf + 8 + 274, 16, 9);
-      copy_rect_4 (jukebox_img.buffer + 19 * 320 + 56 +
-		   soundtrack_current_nbr * 6 * 320,
-		   corner[0] + 186 * xbuf + 8 + 56, 80, 5);
-      copy_rect_4 (jukebox_img.buffer + 19 * 320 + 164 +
-		   soundtrack_author_list[soundtrack_current_nbr],
-		   corner[0] + 186 * xbuf + 8 + 164, 48, 5);
+      
+      if (soundtrack_title)
+	draw_deck_text (soundtrack_title, 110, 186, 1);
+      if (soundtrack_author)
+	draw_deck_text (soundtrack_author, 197, 186, 1);
+
       t2 = t % 60;
       t /= 60;
       copy_rect_2 (jukebox_img.buffer + 19 * 320 + 227 + (t2 % 10) * 6,
@@ -3685,12 +3683,12 @@ pause (void)
     else if (l == 2)
       copy_rect_4_320 (jukebox_img.buffer + 19 * 320 + 24,
 		       corner[0] + 184 * 320 + 8 + 274, 16, 9);
-    copy_rect_4_320 (jukebox_img.buffer + 19 * 320 + 56 +
-		     soundtrack_current_nbr * 6 * 320,
-		     corner[0] + 186 * 320 + 8 + 56, 80, 5);
-    copy_rect_4_320 (jukebox_img.buffer + 19 * 320 + 164 +
-		     soundtrack_author_list[soundtrack_current_nbr],
-		     corner[0] + 186 * 320 + 8 + 164, 48, 5);
+
+    if (soundtrack_title)
+      draw_deck_text (soundtrack_title, 110, 186, 1);
+    if (soundtrack_author)
+      draw_deck_text (soundtrack_author, 197, 186, 1);
+
     t2 = t % 60;
     t /= 60;
     copy_rect_2_320 (jukebox_img.buffer + 19 * 320 + 227 + (t2 % 10) * 6,
@@ -4668,6 +4666,7 @@ main (int argc, char *argv[])
   pcx_load (spritedir "bonusb.pcx", &bonus_b_img);
   pcx_load (spritedir "typonus.pcx", &bonus_font_img);
   pcx_load (spritedir "jukebox.pcx", &jukebox_img);
+  pcx_load (spritedir "fontdeck.pcx", &font_deck_img);
   for (i = nfrexplo1 - 1; i >= 0; i--) {
     fst_explo_list[i] += (int) vehicles_img.buffer;
     snd_explo_list[i] += (int) vehicles_img.buffer;
@@ -4683,6 +4682,7 @@ main (int argc, char *argv[])
   main_menu ();
   uninit_timer ();
 
+  img_free (&font_deck_img);
   img_free (&jukebox_img);
   img_free (&bonus_font_img);
   img_free (&bonus_b_img);

@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------.
-| Copyright (C) 1997,1998,2000 Alexandre Duret-Lutz <duret_g@epita.fr>    |
+| Copyright (C) 2000 Alexandre Duret-Lutz <duret_g@epita.fr>              |
 |                                                                         |
 | This file is part of Heroes.                                            |
 |                                                                         |
@@ -19,23 +19,14 @@
 `------------------------------------------------------------------------*/
 
 
-#ifndef __SOUND_H_plx__
-#define __SOUND_H_plx__
+static char font_deck_width[63] = 
+{ 
+  /* */ 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 2, 5, 5, 5, 
+  /*       !  "  #  $  %  &  '  (  )  *  +  ,  -  .  /  0  1  2  3  4 */
 
-char* soundtrack_author;
-char* soundtrack_title;
+  /* */ 5, 5, 5, 5, 5, 1, 2, 0, 0, 0, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 1,
+  /*    5  6  7  8  9  :  ;  <  =  >  ?  @  A  B  C  D  E  F  G  H  I */
 
-void set_volume (void);
-void halve_volume (void);
-int init_sound_engine (void);
-void uninit_sound_engine (void);
-void load_soundtrack (char *ptr);
-void unload_soundtrack (void);
-void play_soundtrack (void);
-void print_drivers_list (void);
-void decode_sound_options (char* optarg, char* argv0);
-
-void load_soundtrack_from_alias (char* alias);
-
-
-#endif
+  /* */ 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 0, 0, 0, 0
+  /*    J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z  [  \  ]  ^ */
+};

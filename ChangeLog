@@ -1,5 +1,24 @@
 2000-07-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Use authors and titles from the config file in the CD deck.
+
+	* src/const.c (font_deck_img): New.
+	* src/const.h (font_deck_img): New.
+	* src/draw.c (deck_text_conv,draw_deck_text): New.
+	* src/draw.h (draw_deck_text): New.
+	* src/heroes.c (soundtrack_author_list): Remove.
+	(jukebox_menu,pause): Display title and author using draw_deck_text.
+	(main): Load and unload font_deck_img.
+	* src/sound.c (soundtrack_author,soundtrack_title): New.
+	(unload_soundtrack,load_soundtrack_from_alias): Update 
+	soundtrack_author and soundtrack_title.
+	* src/sound.h (soundtrack_author,soundtrack_title): New.
+	* src/font_deck.h: New file.
+	* src/Makefile.am (heroes_SOURCES): Add font_deck.h.
+	* src/sprites/fontdeck.pcx: New file (binary).
+
+2000-07-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/Makefile.am (DISTCLEANFILES): Remove mod/Makefile,
 	sfx/Makefile and sfx/sound.conf.
 
