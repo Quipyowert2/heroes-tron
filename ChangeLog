@@ -1,5 +1,15 @@
 2000-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Update to latest versions from subversion.gnu.org.
+
+	* lib/getopt.c: Fresh version from glibc CVS.
+	* lib/getopt1.c: Fresh version from glibc CVS.
+	* lib/getopt.h: Fresh version from glibc CVS.
+	* config.sub:  Fresh version from config CVS.
+	* config.guess:  Fresh version from config CVS.
+
+2000-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Preliminary support for SDL_mixer.
 
 	* acconfig.h: Add HAVE_PKG_sdl_mixer.
