@@ -1,3 +1,9 @@
+Heroes 0.18a	January 09, 2002
+
+	* Brazilian Portuguese translations.
+	* Computer players will stop and speed up.
+	* `-G not8' should work around a bug in GGI.
+
 Heroes 0.18	December 15, 2001
 
 	* Bug fixes:

@@ -18,12 +18,12 @@ dnl
 
 AC_PREREQ(2.50)
 
-AC_INIT([heroes], [0.18], [heroes-bugs@lists.sourceforge.net])
+AC_INIT([heroes], [0.18a], [heroes-bugs@lists.sourceforge.net])
 AC_CONFIG_AUX_DIR(tools)
 AC_CONFIG_SRCDIR([src/heroes.c])
-AM_INIT_AUTOMAKE([heroes], [0.18])
+AM_INIT_AUTOMAKE([heroes], [0.18a])
 
-AC_COPYRIGHT([Copyright 2000, 2001  Alexandre Duret-Lutz])
+AC_COPYRIGHT([Copyright 2000, 2001, 2002  Alexandre Duret-Lutz])
 
 heroes_CHECK_OBSOLETE_OPTIONS
 

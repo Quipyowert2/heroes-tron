@@ -59,7 +59,7 @@ version (void)
   puts ("Heroes " VERSION "\n");
   printf (_("Copyright (C) %d  "
 	    "Alexandre Duret-Lutz, Romuald Genevois,\n"
-	    "Alexandre Liverneaux and Philippe Meisburger.\n"), 2001);
+	    "Alexandre Liverneaux and Philippe Meisburger.\n"), 2002);
   puts (_("This is free software; see the source for copying conditions.  "
 	  "There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS"
 	  " FOR A PARTICULAR PURPOSE."));

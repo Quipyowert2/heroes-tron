@@ -1,3 +1,14 @@
+2002-01-09  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.ac: Bump version to 0.18a.
+	* NEWS: Update.
+	* src/argv.c (version): Bump copyright year to 2002.
+
+	* m4/libalt.m4 (LIBALT_LDFLAGS, LIBALT_LDADD, LIBALT_LOCAL_LDADD):
+	Rename as ...
+	(LIBALT_XLDFLAGS, LIBALT_XLDADD, LIBALT_LOCAL_XLDADD): ... these.
+	* src/Makefile.am: Adjust.
+
 2002-01-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/heroes.c (ai_throttle): Use player[c].invincible instead of

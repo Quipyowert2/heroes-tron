@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.8c\n"
-"POT-Creation-Date: 2001-12-15 17:32+0100\n"
+"POT-Creation-Date: 2002-01-09 19:34+0100\n"
 "PO-Revision-Date: 2001-02-23 22:37+01:00\n"
 "Last-Translator: Jos Boersema <joshb@FIXME>\n"
 "Language-Team: none <LL@li.org>\n"
@@ -786,43 +786,43 @@ msgstr ""
 "Alexandre Liverneaux en Philippe Meisburger.\n"
 "\n"
 
-#: src/heroes.c:675 src/heroes.c:761
+#: src/heroes.c:676 src/heroes.c:762
 #, c-format
 msgid "Cannot load level %s (error %d)"
 msgstr ""
 
-#: src/heroes.c:1915
+#: src/heroes.c:1991
 #, c-format
 msgid "INVERTED %d"
 msgstr "OMGEKEERD %d"
 
-#: src/heroes.c:1946
+#: src/heroes.c:2025
 #, c-format
 msgid "STOPPED %d"
 msgstr "GESTOPT %d"
 
 #. TRANS: %d, the number of remaining lives, is always
 #. positive.
-#: src/heroes.c:2243
+#: src/heroes.c:2322
 msgid "LAST LIFE"
 msgid_plural "%d LIVES LEFT"
 msgstr[0] "LAATSTE LEVEN"
 
-#: src/heroes.c:2817
+#: src/heroes.c:2896
 msgid "Error during level loading"
 msgstr "Fout tijdens level laden"
 
-#: src/heroes.c:2853
+#: src/heroes.c:2932
 #, c-format
 msgid "-LEVEL %d-"
 msgstr "-LEVEL %d-"
 
-#: src/heroes.c:2855
+#: src/heroes.c:2934
 #, c-format
 msgid "-ROUND %d/%d-"
 msgstr "-RONDE %d/%d-"
 
-#: src/heroes.c:3360
+#: src/heroes.c:3439
 msgid "error in sfx.cfg"
 msgstr "fout in sfx.cfg"
 
@@ -1515,7 +1515,7 @@ msgstr ""
 msgid "Translators\n"
 msgstr ""
 
-#: src/people.c:59 src/people.c:71
+#: src/people.c:59 src/people.c:74
 msgid "German"
 msgstr ""
 
@@ -1524,22 +1524,26 @@ msgid "Dutch"
 msgstr ""
 
 #: src/people.c:65
-msgid "Italian"
+msgid "Brazilian Portuguese"
 msgstr ""
 
 #: src/people.c:68
+msgid "Italian"
+msgstr ""
+
+#: src/people.c:71
 msgid "French"
 msgstr ""
 
-#: src/people.c:75
+#: src/people.c:78
 msgid "Packagers\n"
 msgstr ""
 
-#: src/people.c:84
+#: src/people.c:87
 msgid "Porters\n"
 msgstr ""
 
-#: src/people.c:91
+#: src/people.c:94
 msgid "Other people we wish to thanks\n"
 msgstr ""
 
@@ -1651,42 +1655,42 @@ msgid "Heroes has been compiled without sound support."
 msgstr "Heroes werd zonde geluidsondersteuning gecompileerd"
 
 #. FIXME: ask to send a bug report with a trace
-#: src/media/ggi/video.c:154
+#: src/media/ggi/video.c:173
 msgid "failed to get any direct buffer for this visual"
 msgstr ""
 
 #. TRANS: a `visual' is associated by LibGGI to a display.  You can
 #. actually call it a `display', this makes no big difference.
-#: src/media/ggi/video.c:176
+#: src/media/ggi/video.c:195
 msgid "failed to open visual."
 msgstr "openen van scherm mislukt."
 
-#: src/media/ggi/video.c:184
+#: src/media/ggi/video.c:203
 msgid "cannot setup a correct display."
 msgstr "kon geen correct scherm opzetten."
 
-#: src/media/ggi/video.c:191
+#: src/media/ggi/video.c:210
 #, c-format
 msgid "negociated video mode is too small (width=%d, height=%d)"
 msgstr ""
 
 #. TRANS: `display-memory' is the name of a LibGGI driver and
 #. make no sense to translate.
-#: src/media/ggi/video.c:204
+#: src/media/ggi/video.c:223
 #, fuzzy
 msgid "Failed to open an internal `display-memory' visual."
 msgstr "Openen van intern scherm-geheugen voor scherm mislukt."
 
-#: src/media/ggi/video.c:206
+#: src/media/ggi/video.c:225
 #, fuzzy
 msgid "Failed to set 320x200x8 mode on display-memory"
 msgstr "Openen van intern scherm-geheugen voor scherm mislukt."
 
-#: src/media/ggi/video.c:284
+#: src/media/ggi/video.c:303
 msgid "failed to acquire direct-buffer"
 msgstr ""
 
-#: src/media/ggi/video.c:301
+#: src/media/ggi/video.c:320
 msgid "failed to release direct-buffer"
 msgstr ""
 

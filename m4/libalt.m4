@@ -54,7 +54,8 @@ The supported libraries are listed in README.])
      eval adl_tmp_libalt_name='$adl_libalt_'"$$3"'_name'
      AC_MSG_NOTICE([Selected $2: $adl_tmp_libalt_name])
   fi
-  AC_SUBST([LIBALT_LDFLAGS])
-  AC_SUBST([LIBALT_LDADD])
-  AC_SUBST([LIBALT_LOCAL_LDADD])
+  # Use _XLDLAGS, _XLDADS, etc. because Automake reserves _LDFLAGS, etc.
+  AC_SUBST([LIBALT_XLDFLAGS], [$LIBALT_LDFLAGS])
+  AC_SUBST([LIBALT_XLDADD], [$LIBALT_LDADD])
+  AC_SUBST([LIBALT_LOCAL_XLDADD], [$LIBALT_LOCAL_LDADD])
 ])
