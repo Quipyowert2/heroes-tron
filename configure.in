@@ -414,6 +414,17 @@ AC_CHECK_HEADERS(string.h sys/time.h)
 AM_C_PROTOTYPES
 AC_C_CONST
 
+# dirent.d_name is a pointer under mingw32!
+AC_CACHE_CHECK([whether dirent.d_name is a pointer],
+[ac_cv_d_name_is_pointer],
+[AC_TRY_COMPILE([#include <dirent.h>],
+[char* p; struct dirent s; s.d_name = p;],
+[ac_cv_d_name_is_pointer=yes],[ac_cv_d_name_is_pointer=no])])
+if test $ac_cv_d_name_is_pointer = yes; then
+  AC_DEFINE(D_NAME_IS_POINTER,1,
+            [Define if dirent.d_name is a pointer (not an array).])
+fi
+
 # =============================
 # Checks for library functions.
 # =============================
@@ -422,7 +433,7 @@ AC_CHECK_FUNCS(gettimeofday)
 AC_FUNC_VPRINTF
 
 AC_CACHE_CHECK([whether mkdir takes two arguments],[ac_cv_two_args_mkdir],
-[AC_TRY_LINK([#include <unistd.h>],[mkdir (".", 0777);],
+[AC_TRY_COMPILE([#include <unistd.h>],[mkdir (".", 0777);],
 [ac_cv_two_args_mkdir=yes],[ac_cv_two_args_mkdir=no])])
 if test $ac_cv_two_args_mkdir = yes; then
   AC_DEFINE(TWO_ARGS_MKDIR,1,[Define if mkdir take two arguments.])

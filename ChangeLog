@@ -1,5 +1,18 @@
 2000-08-31  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Mingw32 defines dirent.d_name as a pointer, so copying
+	a struct dirent needs some additional massaging.
+
+	* configure.in: Check wether dirent.d_name is a pointer, define
+	D_NAME_IS_POINTER if so.  Also replace the AC_TRY_LINK for
+	the mkdir check by AC_TRY_COMPILE.
+	* lib/scandir.c (scandir): Handle the D_NAME_IS_POINTER case (will
+	strdup d_name).
+	* src/extras.c (browse_extra_directory): If D_NAME_IS_POINTER,
+	d_name has already been strduped there is no need to do it again.
+
+2000-08-31  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in (data_dir): Support --enable-html-doc option.
 	* doc/heroes.texi (configure options): Document it.
 	* doc/Makefile.am (htmldir): Add rules to build and install

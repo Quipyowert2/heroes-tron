@@ -123,7 +123,12 @@ browse_extra_directory (const char* directory, char is_in_user_dir)
   for (i = 0; i < extra_nbr_here; ++i) {
     char* fn = malloc (strlen (directory) + 1 + 
 		       strlen(tmp_list[i]->d_name) + 1);
+#if !defined HAVE_SCANDIR && defined D_NAME_IS_POINTER
+    /* d_name has been allocated by the scandir replacement */
+    extra_list[old_nbr + i].level_name = tmp_list[i]->d_name;
+#else
     extra_list[old_nbr + i].level_name = strdup (tmp_list[i]->d_name);
+#endif
     sprintf(fn, "%s/%s", directory, tmp_list[i]->d_name);
     extra_list[old_nbr + i].full_name = fn;
     extra_list[old_nbr + i].is_in_user_dir = is_in_user_dir;

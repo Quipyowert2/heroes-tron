@@ -1,5 +1,11 @@
+#include "config.h"
 #include <stdlib.h>
 #include <dirent.h>
+#ifdef HAVE_STRING_H
+#  include <string.h>
+#else
+#  include <strings.h>
+#endif
 
 /* From Mattias Engdegård <f91-men@nada.kth.se>. */
 /* reimplementation of scandir, a BSDism */
@@ -18,8 +24,14 @@ scandir (const char *dir, struct dirent ***namelist,
     if (select (de)) {
       if (n == nalloc)
 	list = realloc (list, (nalloc += 8) * sizeof (struct dirent *));
+#ifdef D_NAME_IS_POINTER
+      list[n] = malloc (sizeof (struct dirent));
+      memcpy (list[n], de, sizeof (struct dirent));
+      list[n]->d_name = strdup (de->d_name);
+#else
       list[n] = malloc (de->d_reclen);
       memcpy (list[n], de, de->d_reclen);
+#endif
       n++;
     }
   }
