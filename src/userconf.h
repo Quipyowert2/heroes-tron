@@ -21,6 +21,6 @@
 #ifndef HEROES__USERCONF__H
 #define HEROES__USERCONF__H
 
-int read_userconf (const char* file, const char* argv0);
+int read_userconf (const char* file);
 
 #endif /* HEROES__USERCONF__H */

@@ -31,7 +31,7 @@
 #include "errors.h"
 
 int
-read_userconf (const char* file, const char* argv0)
+read_userconf (const char* file)
 {
   FILE* fs;
   int firstline = 0, endline = 0;
@@ -67,14 +67,9 @@ read_userconf (const char* file, const char* argv0)
       }
       /* process the options */
       {
-	char* pname;
 	int err;
-	XMALLOC_ARRAY (pname, (strlen (file) + strlen (argv0)
-			       + strlen ("::999999") + 1));
-	sprintf (pname, "%s:%s:%d", argv0, file, firstline);
-	argv[0] = pname;
-	err = parse_argv (argc, argv);
-	free (pname);
+	argv[0] = 0;
+	err = parse_argv (argc, argv, file, firstline);
 	if (err)
 	  return err;
       }

@@ -46,7 +46,7 @@ set_pal_with_luminance (const palette_t* palsrc)
   } else if (opt.luminance > 3) {
     for (i = 767; i >= 0; i--)
       paldest.global[i] =
-	(unsigned char) ((palsrc->global[i] * 64) / (64 + lum));
+	(unsigned char) ((palsrc->global[i] * 64) / (64 - lum));
   }
   set_pal (paldest.global, 0, 768);
 }

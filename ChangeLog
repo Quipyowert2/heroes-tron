@@ -1,5 +1,26 @@
 2000-11-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/sound.c: Remove trailing '\n' in all warning or debug messages.
+	* src/scrtools.c (set_pal_with_luminance): Fix computation.
+
+	Fix warning messages output on wrong sound options (for
+	SDL_mixer).  Also use program_name whenever possible.
+
+	* src/argv.c (print_help): Don't take argv0 as argument, use
+	program_name instead.
+	(parse_argv): Take from_file and from_line arguments, build
+	argv[0] from them.  Use from_file when calling
+	decode_sound_options.
+	* src/argv.h (parse_argv): Adjust accordingly.
+	* src/debugmsg.h (program_name): Export.
+	* src/heroes.c (main): Adapt calls to read_userconf and
+	parse_argv.
+	* src/userconf.c (read_userconf): Don't take argv0 as argument
+	and don't pass it to parse_argv.
+	* src/userconf.h (read_userconf): Adjust accordingly.
+
+2000-11-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Bump version to 0.6f.
 
 2000-11-20  Alexandre Duret-Lutz  <duret_g@epita.fr>

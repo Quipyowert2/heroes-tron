@@ -3736,7 +3736,7 @@ main (int argc, char *argv[])
     char* tmp;
     tmp = get_rsc_file ("system-conf");
     if (tmp) {
-      read_userconf (tmp, argv[0]);
+      read_userconf (tmp);
       free (tmp);
     }
   }
@@ -3751,7 +3751,7 @@ main (int argc, char *argv[])
     char* tmp;
     tmp = get_rsc_file ("user-conf");
     if (tmp) {
-      read_userconf (tmp, argv[0]);
+      read_userconf (tmp);
       free (tmp);
     }
   }
@@ -3759,7 +3759,7 @@ main (int argc, char *argv[])
   freeze_sound_track_list ();
 
   dmsg (D_SYSTEM, "parsing command line");
-  if (parse_argv (argc, argv))
+  if (parse_argv (argc, argv, 0, 0))
     exit (1);
 
   read_txti_cfg ();

@@ -21,7 +21,10 @@
 #ifndef HEROES__ARGV__H
 #define HEROES__ARGV__H
 
-int parse_argv (int argc, char **argv);
+/* If the option are beeing read from a file, set from_file to
+   the filename so the error message can show it.
+   Otherwise set from_file to 0.*/
+int parse_argv (int argc, char **argv, const char *from_file, int from_line);
 
 extern int snap;
 extern int cpuon;

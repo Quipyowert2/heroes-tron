@@ -41,6 +41,7 @@ enum debug_lvl { D_SECTION =	DEBUG_CHANNEL (0),
 };
 
 extern enum debug_lvl debug_level;
+extern const char* program_name;
 
 #ifndef USE_HEROES_DEBUG
 # define dmsg while (0) while

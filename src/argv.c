@@ -97,9 +97,9 @@ Use `-lWORD' or `--list=WORD' where WORD can be:\n\
 }
 
 static void
-print_help (char* argv0)
+print_help (void)
 {
-  printf ("Usage: %s [OPTIONS]...\n\n", argv0);
+  printf ("Usage: %s [OPTIONS]...\n\n", program_name);
   /* append '\n' to all lines, even the last in a puts (we
      want an empty line between paragraphs) */
   puts ("\
@@ -188,9 +188,19 @@ const struct option long_options[] = {
 };
 
 int
-parse_argv (int argc, char **argv)
+parse_argv (int argc, char **argv, const char *from_file, int from_line)
 {
   int c;
+
+  if (from_file) {
+    /* Build a fake argv[0], so that the error message from getopt
+       looks nice */
+    char* pname;
+    XMALLOC_ARRAY (pname, (strlen (from_file) + strlen (program_name)
+			   + strlen (": :999999") + 1));
+    sprintf (pname, "%s: %s:%d", program_name, from_file, from_line);
+    argv[0] = pname;
+  }
 
   /* Reset optind so that getopt is reinitialized. */
   optind = 0;
@@ -215,7 +225,7 @@ parse_argv (int argc, char **argv)
 	break;
       }
     case 'h':
-      print_help (argv[0]);
+      print_help ();
       return 1;
     case 's':
       swapside = false;
@@ -248,7 +258,7 @@ parse_argv (int argc, char **argv)
       print_drivers_list ();
       return 1;
     case 'd':
-      decode_sound_options (optarg, argv[0]);
+      decode_sound_options (optarg, from_file ? from_file : argv[0]);
       break;
     case 'G':
       set_display_params (optarg);
@@ -289,5 +299,8 @@ parse_argv (int argc, char **argv)
       abort ();
     }
   }
+  if (from_file)
+    free (argv[0]);
+
   return 0;
 }

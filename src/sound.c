@@ -109,7 +109,7 @@ init_sound_engine (void)
     dmsg (D_SOUND_TRACK, "MikMod user options: %s", driver_options);
   if (MikMod_Init (driver_options?driver_options:"")) {
     wmsg ("Could not initialize sound, reason: %s\n"
-	  "Disabling sound output (use -S to suppress this message).\n",
+	  "Disabling sound output (use -S to suppress this message).",
 	  MikMod_strerror (MikMod_errno));
     nosfx = nosound = 1;
     MikMod_Exit ();
@@ -120,7 +120,7 @@ init_sound_engine (void)
   if (MikMod_InitThreads () != 1) {
     wmsg ("Could not initialize sound, reason: "
 	  "LibMikMod is not thread safe.\n"
-	  "Disabling sound output (use -S to suppress this message).\n");
+	  "Disabling sound output (use -S to suppress this message).");
     nosfx = nosound = 1;
     MikMod_Exit ();
     return 0;
@@ -153,7 +153,7 @@ load_soundtrack (char *ptr)
   dmsg (D_FILE|D_SOUND_TRACK,"loading sound track: %s", ptr);
   module = Player_Load (ptr, 16, 0);
   if (!module) {
-    wmsg ("Could not load %s, reason: %s\n", ptr,
+    wmsg ("Could not load %s, reason: %s", ptr,
 	  MikMod_strerror (MikMod_errno));
   } else
     sound_track_loaded = 1;
@@ -237,7 +237,7 @@ get_int (char *arg, int *value, int min, int max, char* argv0)
     *value = t;
   else
     wmsg ("Argument '%s' out of bounds, must be between %d and %d.\n"
-	  "Use '%s --help' for more information.\n",
+	  "Use '%s --help' for more information.",
 	  arg?arg:"(not given)", min, max, argv0);
 }
 
@@ -280,11 +280,11 @@ set_volume (void)
 {
   if (opt.music) {
     Mix_VolumeMusic ((13 - opt.music_volume) * MIX_MAX_VOLUME / 13);
-    dmsg (D_SOUND_TRACK, "set volume to %d/%d\n",
+    dmsg (D_SOUND_TRACK, "set volume to %d/%d",
 	  (13 - opt.music_volume) * MIX_MAX_VOLUME / 13, MIX_MAX_VOLUME);
   } else {
     Mix_VolumeMusic (0);
-    dmsg (D_SOUND_TRACK, "set volume to 0/%d\n", MIX_MAX_VOLUME);
+    dmsg (D_SOUND_TRACK, "set volume to 0/%d", MIX_MAX_VOLUME);
   }
 }
 
@@ -293,11 +293,11 @@ halve_volume (void)
 {
   if (opt.music) {
     Mix_VolumeMusic ((13 - opt.music_volume) * MIX_MAX_VOLUME / 13 / 2);
-    dmsg (D_SOUND_TRACK, "set volume to %d/%d\n",
+    dmsg (D_SOUND_TRACK, "set volume to %d/%d",
 	  (13 - opt.music_volume) * MIX_MAX_VOLUME / 13 / 2, MIX_MAX_VOLUME);
   } else {
     Mix_VolumeMusic (0);
-    dmsg (D_SOUND_TRACK, "set volume to 0/%d\n", MIX_MAX_VOLUME);
+    dmsg (D_SOUND_TRACK, "set volume to 0/%d", MIX_MAX_VOLUME);
   }
 }
 
@@ -323,7 +323,7 @@ init_sound_engine (void)
   init_SDL ();
   /* Open the audio device */
   dmsg (D_SOUND_TRACK,
-	"opening audio at %d Hz %d bit %s, %d bytes audio buffer\n",
+	"opening audio at %d Hz %d bit %s, %d bytes audio buffer",
 	audio_rate,
 	(audio_format&0xFF),
 	(audio_channels > 1) ? "stereo" : "mono",
@@ -331,13 +331,13 @@ init_sound_engine (void)
   if (Mix_OpenAudio (audio_rate, audio_format, audio_channels, audio_buffers)
       < 0) {
     wmsg ("Couldn't open audio: %s\n"
-	  "Disabling sound output (use -S to suppress this message).\n",
+	  "Disabling sound output (use -S to suppress this message).",
 	  SDL_GetError());
     nosfx = nosound = 1;
   } else {
     Mix_QuerySpec(&audio_rate, &audio_format, &audio_channels);
     dmsg (D_SOUND_TRACK,
-	  "opened audio at %d Hz %d bit %s, %d bytes audio buffer\n",
+	  "opened audio at %d Hz %d bit %s, %d bytes audio buffer",
 	  audio_rate,
 	  (audio_format&0xFF),
 	  (audio_channels > 1) ? "stereo" : "mono",
@@ -368,8 +368,7 @@ load_soundtrack (char *ptr)
   dmsg (D_SOUND_TRACK|D_FILE,"loading sound-track: %s", ptr);
   module = Mix_LoadMUS(ptr);
   if (!module) {
-    wmsg ("Could not load %s, reason: %s\n", ptr,
-	  SDL_GetError ());
+    wmsg ("Could not load %s, reason: %s", ptr, SDL_GetError ());
   } else
     sound_track_loaded = 1;
 }
@@ -408,7 +407,7 @@ void
 print_drivers_list (void)
 {
   wmsg ("Heroes has been compiled with SDL_mixer,"
-	" there is no driver list available.\n");
+	" there is no driver list available.");
 }
 
 void
@@ -431,7 +430,7 @@ decode_sound_options (char* optarg, char* argv0)
 	else
 	  wmsg ("%s: missing parameter for `buffers'", argv0);
       } else
-	wmsg ("%s: recognized sound options"
+	wmsg ("%s: recognized sound options "
 	      "are freq=nnn and buffers=nnn", argv0);
       optarg = strtok (0, " \t:=,;");
     }
@@ -444,7 +443,7 @@ decode_sound_options (char* optarg, char* argv0)
 void
 print_drivers_list (void)
 {
-  wmsg ("Heroes has been compiled without sound support.\n");
+  wmsg ("Heroes has been compiled without sound support.");
 }
 
 #endif /* not HAVE_LIBSDL_MIXER */
