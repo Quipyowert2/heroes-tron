@@ -1014,7 +1014,6 @@ play_menu (void)
   char flagload = 0;
   keycode_t t;
   int i;
-  int mag;
   htimer_t flip_timer;
   long flip_pos;
 
@@ -1206,22 +1205,26 @@ play_menu (void)
 
   play_soundtrack ();
   reset_htimer (sound_track_htimer);
-  /* FIXME: Ideally, we should only lock the file if there
-     are a score update planned.  And not when the user
-     is interacting.  */
-  load_scores_and_keep_locked ();
+  /* The logic is quite convolued here because we instert the score in
+     a file which might be shared by several process.
+
+     First we load the scores (to get up-to-date informations) and
+     then if the current score deserve an insertion we ask for the
+     player's name, and finally lock the file for insertion.
+
+     Note that if the scores file is updated while the player enter
+     his names, the current scores might not deserve an insertion in
+     the file anymore.  The only consequence is that the player has
+     entered his name for nothing.  */
+  load_scores ();
   for (t = 0; t < 4; t++)
     if (player[t].cpu == 2) {
-      mag = find_score_by_gameid (game_id);
-      if (mag == -1)
-	mag = 9;
-      if (highs[gamemodeh][mag].points >= player[t].score)
-	mag = -1;
-      if (mag != -1) {
-	enter_your_name (plr2col[t] + 1, highs[gamemodeh][mag].name);
-	copy_gameid (highs[gamemodeh][mag].gid, game_id);
-	highs[gamemodeh][mag].points = player[t].score;
-	sort_scores ();
+      if (insert_scores (gamemodeh, 0, game_id, player[t].score)) {
+	char player_name[PLAYER_NAME_SIZE + 1];
+	enter_your_name (plr2col[t] + 1, player_name);
+	load_scores_and_keep_locked ();
+	insert_scores (gamemodeh, player_name, game_id, player[t].score);
+	write_scores ();
       }
     }
   write_scores ();

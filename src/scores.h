@@ -38,6 +38,8 @@ extern top_score highs[5][10];
 void sort_scores (void);
 void clear_scores (void);
 void write_scores (void);
+bool insert_scores (int gamemode, const char *player_name,
+		    gameid_t gid, u32_t points);
 void load_scores (void);
 void load_scores_and_keep_locked (void);
 void free_scores (void);

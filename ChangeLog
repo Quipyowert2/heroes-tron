@@ -1,5 +1,11 @@
 2001-04-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/scores.c (insert_scores): New function.
+	* src/scores.h (insert_scores): Likewise.
+	* src/heroes.c (play_menu): Use it.
+
+2001-04-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* po/fr.po: Update.
 
 2001-04-29  Alexandre Duret-Lutz  <duret_g@epita.fr>

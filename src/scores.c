@@ -207,3 +207,31 @@ free_scores (void)
     free (name);
   name = 0;
 }
+
+/* Insert an score entry in the score table.
+   If NAME is NULL, we just return true or false, whether
+   the score would have been inserted or not (if it's too low).  */
+bool
+insert_scores (int gamemode, const char *player_name,
+	       gameid_t gid, u32_t points)
+{
+  int mag = find_score_by_gameid (gid);
+  /* If we are not goiing to override the score for an existing game,
+     override the last entry of the game...  */
+  if (mag == -1)
+    mag = 9;
+  /* ... unless the score is too low, of course.  */
+  if (highs[gamemode][mag].points >= points)
+    mag = -1;
+
+  if (mag == -1)
+    return false;
+
+  if (player_name) {
+    copy_gameid (highs[gamemode][mag].gid, gid);
+    highs[gamemode][mag].points = points;
+    strcpy (highs[gamemode][mag].name, player_name);
+    sort_scores ();
+  }
+  return true;
+}
