@@ -1,3 +1,7 @@
+2000-09-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/display.c (init_video): Typo.
+
 2000-09-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Handle video pitch (SDL windx5 driver is now usable).

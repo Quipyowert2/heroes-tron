@@ -260,7 +260,7 @@ init_video (void)
 
   scr_w = 320 * stretch;
   scr_h = 200 * stretch;
-  scr_pitch = src_w;
+  scr_pitch = scr_w;
 
   vid_mode.frames = 1;
   vid_mode.visible.x = scr_w;
