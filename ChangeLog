@@ -1,5 +1,14 @@
 2000-11-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Kludgy bug fix: for some unknown reason, read_timer
+	can return negative values.  This is not expected and
+	leads to very large (MAX_INT wide) loops in the code.
+
+	* src/timer.c (read_htimer): Ensure that res cannot be negative
+	(simply return 0 if this happens).
+
+2000-11-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/menus.c (load_select_txt, save_select_txt, savrec_name): New.
 	(init_menus_sprites, uninit_menus_sprites): handle the above sprites.
 	(draw_saved_games_info): Use them. Rename and retype 3rd arg.

@@ -94,7 +94,7 @@ read_htimer (htimer_t timer)
        overflow (obviously `s*SECOND+u' is likely to be too big) */
     res = (s*(SECOND/d)) + ((s*(SECOND%d))/d) + ((((s*(SECOND%d))%d)+u)/d);
 
-    if ((res != 0) || (((timer->kind & T_BLOCKING) == 0)))
+    if ((res > 0) || (((timer->kind & T_BLOCKING) == 0)))
       break;
     else {			/* The timer is blocking */
       struct timeval present_time;
@@ -102,6 +102,14 @@ read_htimer (htimer_t timer)
       s = present_time.tv_sec - timer->orig_time.tv_sec;
       u = present_time.tv_usec - timer->orig_time.tv_usec;
     }
+  }
+
+  /* KLUDGE: For some unknown reason the current time can be older
+     that the origin of a timer (FIXME: find why!).  This
+     means that `res' can negative, which we can accept. */
+  if (res < 0) {
+    dmsg (D_TIMER, "read timer %p, return 0 (res = %ld)", timer, res);
+    return 0;
   }
 
   if (timer->kind & T_LOCAL) {
@@ -122,7 +130,7 @@ read_htimer (htimer_t timer)
   for (;;) {
     res = c / d;
 
-    if ((res != 0) || (((timer->kind & T_BLOCKING) == 0)))
+    if ((res > 0) || (((timer->kind & T_BLOCKING) == 0)))
       break;
     else			/* The timer is blocking */
       c = get_current_time () - timer->orig_time;
