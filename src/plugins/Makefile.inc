@@ -52,8 +52,3 @@ plugins/pconf.h: plugins/extrconf.sh $(CONFIG_HEADER)
 DISTCLEANFILES += \
   plugins/pconf.h \
   plugins/extrconf.sh
-
-# Workaround an Automake 1.6 bug.
-distclean-local:
-	rm -Rf plugins/.libs plugins/_libs
-	rm -f plugins/plugins_stdai_la-*
