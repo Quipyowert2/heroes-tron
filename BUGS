@@ -51,7 +51,7 @@ extradir: /usr/share/games/heroes/extralvl/: No such file or directory
 Cannot open /usr/share/games/heroes/sfx/sfx.conf, disabling sound-effects
 (run with -X to supress this message).
 Fatal signal: Segmentation Fault (SDL Parachute Deployed)
-Failed to open visual: 
+Failed to open visual:
 
 extradir: /usr/share/games/heroes/extralvl/: No such file or directory
 Cannot open /usr/share/games/heroes/sfx/sfx.conf, disabling sound-effects
@@ -80,7 +80,7 @@ extradir: /usr/share/games/heroes/extralvl/: No such file or directory
 Cannot open /usr/share/games/heroes/sfx/sfx.conf, disabling sound-effects
 (run with -X to supress this message).
 Fatal signal: Segmentation Fault (SDL Parachute Deployed)
-Failed to open visual: 
+Failed to open visual:
 
 extradir: /usr/share/games/heroes/extralvl/: No such file or directory
 Cannot open /usr/share/games/heroes/sfx/sfx.conf, disabling sound-effects
@@ -250,9 +250,8 @@ So there is another problem, but not as bad, as I first thought.
 ----------
 
 From: "Christian T. Steigies" <cts@debian.org>
-Subject: Re: [Heroes] todo before release
-To: Alexandre Duret-Lutz <duret_g@lrde.epita.fr>
 Date: Thu, 21 Sep 2000 13:28:16 +0200
+Version: 0.6pre3
 
 On Thu, Sep 21, 2000 at 11:20:49AM +0200, Alexandre Duret-Lutz wrote:
 
@@ -260,12 +259,12 @@ On Thu, Sep 21, 2000 at 11:20:49AM +0200, Alexandre Duret-Lutz wrote:
 > is to run the game with sound but without sound effects (-X); or
 > to link with libMikMod instead of SDL_mixer.  This may help to
 > narrow the bug.
-Can try that. 
+Can try that.
 >  cts> It runs so good, the gameplay is
 >  cts> much too fast, I thought it would be much too
 >  cts> slow... maybe there is a problem with calculating
->  cts> game/machine speed? 
-> 
+>  cts> game/machine speed?
+>
 > By "too fast", do you mean "so fast that the camera is
 > not quick enough to follow the vehicles"?  This was
 The vehicles are running much too fast, the camera could follow (most of the
@@ -273,268 +272,35 @@ time) which I find very astonishing for such an old machine.
 > a bug reported by Mattias Engdegård (on Solaris), and have
 > been fixed between the 0.6-pre3 and 0.6 versions.  Are you
 > still using 0.6-pre3?
-Yup... will change that. 
+Yup... will change that.
 
-======================================================================
+----------
 
-From: "Stéphane Denis" <S.Denis@darkworks.com>
-Date: Fri, 8 Sep 2000 15:08:07 +0200
+From: "Christian T. Steigies" <cts@debian.org>
+Date: Fri, 22 Sep 2000 19:16:30 +0200
 Version: 0.6
 
-Warnings from VC++6
+On Thu, Sep 21, 2000 at 11:20:49AM +0200, Alexandre Duret-Lutz wrote:
+>
+> Great, thanks for tracking this down.  Other things you can try
+> is to run the game with sound but without sound effects (-X); or
+> to link with libMikMod instead of SDL_mixer.  This may help to
+> narrow the bug.
+Didnt work, but I did not spend much time on it. I think the debian
+maintainer should update the package to support other arches as well, maybe I
+did something wrong while building the package. I couldn't build a complete
+package, since on m68k I can only build for sdl, not for ggi. Thats one
+thing I was not able to get into the debian files, but thats Daniel's jobs,
+isn't it? ;-)
 
-argv.c
-const.c
-c:\heroes\src\src\const.c(88) : warning C4305: 'initializing' : =
-truncation from 'const int ' to 'char '
-c:\heroes\src\src\const.c(88) : warning C4305: 'initializing' : =
-truncation from 'const int ' to 'char '
-c:\heroes\src\src\const.c(88) : warning C4305: 'initializing' : =
-truncation from 'const int ' to 'char '
-c:\heroes\src\src\const.c(88) : warning C4305: 'initializing' : =
-truncation from 'const int ' to 'char '
-c:\heroes\src\src\const.c(88) : warning C4305: 'initializing' : =
-truncation from 'const int ' to 'char '
-c:\heroes\src\src\const.c(88) : warning C4305: 'initializing' : =
-truncation from 'const int ' to 'char '
-c:\heroes\src\src\const.c(88) : warning C4305: 'initializing' : =
-truncation from 'const int ' to 'char '
-c:\heroes\src\src\const.c(90) : warning C4305: 'initializing' : =
-truncation from 'const int ' to 'char '
-debugmsg.c
-display.c
-c:\heroes\src\src\display.c(385) : warning C4305: 'function' : =
-truncation from 'const unsigned int ' to 'unsigned char '
-draw.c
-c:\heroes\src\src\draw.c(56) : warning C4003: not enough actual =
-parameters for macro 'JUSTIF_CALC'
-c:\heroes\src\src\draw.c(87) : warning C4003: not enough actual =
-parameters for macro 'JUSTIF_CALC'
-c:\heroes\src\src\draw.c(119) : warning C4003: not enough actual =
-parameters for macro 'JUSTIF_CALC'
-c:\heroes\src\src\draw.c(160) : warning C4244: '+=3D' : conversion from =
-'long ' to 'unsigned char ', possible loss of data
-c:\heroes\src\src\draw.c(172) : warning C4003: not enough actual =
-parameters for macro 'JUSTIF_CALC'
-endscroll.c
-c:\heroes\src\src\gfx_reader.h(354) : warning C4244: '+=3D' : conversion =
-from 'long ' to 'char ', possible loss of data
-c:\heroes\src\src\gfx_reader.h(469) : warning C4244: 'initializing' : =
-conversion from 'long ' to 'unsigned short ', possible loss of data
-c:\heroes\src\src\gfx_reader.h(470) : warning C4244: '=3D' : conversion =
-from 'unsigned short ' to 'unsigned char ', possible loss of data
-errors.c
-extras.c
-c:\heroes\src\src\extras.c(109) : warning C4013: 'scandir' undefined; =
-assuming extern returning int
-getshline.c
-hedlite.c
-c:\heroes\src\src\getshline.c(171) : warning C4761: integral size =
-mismatch in argument; conversion supplied
-c:\heroes\src\src\getshline.c(181) : warning C4761: integral size =
-mismatch in argument; conversion supplied
-c:\heroes\src\src\hedlite.c(1027) : warning C4244: '=3D' : conversion =
-from 'unsigned long ' to 'short ', possible loss of data
-c:\heroes\src\src\hedlite.c(1028) : warning C4244: '=3D' : conversion =
-from 'unsigned long ' to 'short ', possible loss of data
-c:\heroes\src\src\hedlite.c(1029) : warning C4244: '=3D' : conversion =
-from 'unsigned long ' to 'short ', possible loss of data
-c:\heroes\src\src\hedlite.c(1030) : warning C4244: '=3D' : conversion =
-from 'unsigned long ' to 'short ', possible loss of data
-c:\heroes\src\src\hedlite.c(1084) : warning C4244: '=3D' : conversion =
-from 'unsigned long ' to 'unsigned short ', possible loss of data
-c:\heroes\src\src\hedlite.c(1100) : warning C4244: '=3D' : conversion =
-from 'unsigned long ' to 'unsigned short ', possible loss of data
-c:\heroes\src\src\hedlite.c(1105) : warning C4244: '=3D' : conversion =
-from 'unsigned long ' to 'unsigned short ', possible loss of data
-c:\heroes\src\src\hedlite.c(1110) : warning C4244: '=3D' : conversion =
-from 'unsigned long ' to 'unsigned short ', possible loss of data
-c:\heroes\src\src\hedlite.c(1115) : warning C4244: '=3D' : conversion =
-from 'unsigned long ' to 'unsigned short ', possible loss of data
-c:\heroes\src\src\hedlite.c(1508) : warning C4244: '=3D' : conversion =
-from 'unsigned long ' to 'unsigned short ', possible loss of data
-c:\heroes\src\src\hedlite.c(1513) : warning C4244: '=3D' : conversion =
-from 'unsigned long ' to 'unsigned short ', possible loss of data
-c:\heroes\src\src\hedlite.c(1532) : warning C4244: '=3D' : conversion =
-from 'unsigned long ' to 'unsigned short ', possible loss of data
-c:\heroes\src\src\hedlite.c(1537) : warning C4244: '=3D' : conversion =
-from 'unsigned long ' to 'unsigned short ', possible loss of data
-c:\heroes\src\src\hedlite.c(1550) : warning C4244: '=3D' : conversion =
-from 'unsigned long ' to 'unsigned short ', possible loss of data
-c:\heroes\src\src\hedlite.c(1555) : warning C4244: '=3D' : conversion =
-from 'unsigned long ' to 'unsigned short ', possible loss of data
-c:\heroes\src\src\hedlite.c(1568) : warning C4244: '=3D' : conversion =
-from 'unsigned long ' to 'unsigned short ', possible loss of data
-c:\heroes\src\src\hedlite.c(1573) : warning C4244: '=3D' : conversion =
-from 'unsigned long ' to 'unsigned short ', possible loss of data
-c:\heroes\src\src\hedlite.c(1950) : warning C4013: 'mkdir' undefined; =
-assuming extern returning int
-hendian.c
-heroes.c
-c:\heroes\src\src\gfx_reader.h(469) : warning C4244: 'initializing' : =
-conversion from 'long ' to 'unsigned short ', possible loss of data
-c:\heroes\src\src\gfx_reader.h(470) : warning C4244: '=3D' : conversion =
-from 'unsigned short ' to 'unsigned char ', possible loss of data
-c:\heroes\src\src\heroes.c(1919) : warning C4244: 'return' : conversion =
-from 'double ' to 'int ', possible loss of data
-c:\heroes\src\src\heroes.c(4319) : warning C4013: 'sleep' undefined; =
-assuming extern returning int
-c:\heroes\src\src\heroes.c(4885) : warning C4244: '=3D' : conversion =
-from 'double ' to 'char ', possible loss of data
-intro.c
-c:\heroes\src\src\heroes.c(3407) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\heroes.c(3002) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\heroes.c(3737) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\heroes.c(1543) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\heroes.c(1589) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\heroes.c(1632) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\heroes.c(1635) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\heroes.c(1680) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\heroes.c(1742) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\heroes.c(3486) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\heroes.c(4395) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\heroes.c(4400) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\heroes.c(4402) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\heroes.c(4442) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\heroes.c(4448) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\heroes.c(4451) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\heroes.c(4554) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\heroes.c(4560) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\heroes.c(4563) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\heroes.c(4573) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\heroes.c(4579) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\heroes.c(4582) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-joystick.c
-c:\heroes\src\src\intro.c(323) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\intro.c(179) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\intro.c(179) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\intro.c(179) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\intro.c(203) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\intro.c(226) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\intro.c(278) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-keyb.c
-keysdef.c
-menus.c
-c:\heroes\src\src\menus.c(74) : warning C4244: '=3D' : conversion from =
-'double ' to 'unsigned long ', possible loss of data
-c:\heroes\src\src\menus.c(75) : warning C4244: '=3D' : conversion from =
-'double ' to 'unsigned long ', possible loss of data
-misc.c
-musicfiles.c
-options.c
-pcx.c
-pixelize.c
-render.c
-rsc_files.c
-c:\heroes\src\src\render.c(820) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\render.c(823) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\render.c(839) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-c:\heroes\src\src\render.c(842) : warning C4761: integral size mismatch =
-in argument; conversion supplied
-rsc_files_hash.c
-savegame.c
-scores.c
-sfx.c
-sound.c
-timer.c
-c:\heroes\src\src\timer.c(172) : warning C4101: 'c' : unreferenced local =
-variable
-txts.c
-userconf.c
-userdir.c
-c:\heroes\src\src\userdir.c(52) : warning C4013: 'S_ISDIR' undefined; =
-assuming extern returning int
-c:\heroes\src\src\userdir.c(72) : warning C4013: 'strlen' undefined; =
-assuming extern returning int
-c:\heroes\src\src\userdir.c(85) : warning C4013: 'mkdir' undefined; =
-assuming extern returning int
-visuals.c
-c:\heroes\src\src\visuals.c(260) : warning C4244: '=3D' : conversion =
-from 'double ' to 'float ', possible loss of data
-c:\heroes\src\src\visuals.c(261) : warning C4244: 'return' : conversion =
-from 'double ' to 'int ', possible loss of data
-c:\heroes\src\src\visuals.c(269) : warning C4244: '=3D' : conversion =
-from 'double ' to 'float ', possible loss of data
-c:\heroes\src\src\visuals.c(270) : warning C4244: 'return' : conversion =
-from 'double ' to 'int ', possible loss of data
-c:\heroes\src\src\visuals.c(277) : warning C4244: '=3D' : conversion =
-from 'double ' to 'float ', possible loss of data
-c:\heroes\src\src\visuals.c(278) : warning C4244: 'return' : conversion =
-from 'double ' to 'int ', possible loss of data
-c:\heroes\src\src\visuals.c(515) : warning C4244: '=3D' : conversion =
-from 'double ' to 'int ', possible loss of data
-c:\heroes\src\src\visuals.c(516) : warning C4244: '=3D' : conversion =
-from 'double ' to 'int ', possible loss of data
-c:\heroes\src\src\visuals.c(518) : warning C4244: '=3D' : conversion =
-from 'double ' to 'int ', possible loss of data
-c:\heroes\src\src\visuals.c(520) : warning C4244: '=3D' : conversion =
-from 'double ' to 'int ', possible loss of data
-c:\heroes\src\src\visuals.c(523) : warning C4244: '=3D' : conversion =
-from 'double ' to 'char ', possible loss of data
-Linking...
-argv.obj : error LNK2001: unresolved external symbol _optarg
-argv.obj : error LNK2001: unresolved external symbol _getopt_long
-argv.obj : error LNK2001: unresolved external symbol _optind
-extras.obj : error LNK2001: unresolved external symbol _scandir
-extras.obj : error LNK2001: unresolved external symbol _alphasort
-heroes.obj : error LNK2001: unresolved external symbol _sleep
-userdir.obj : error LNK2001: unresolved external symbol _S_ISDIR
-LIBCD.lib(wincrt0.obj) : error LNK2001: unresolved external symbol =
-_WinMain@16
-Debug/hrwin32.exe : fatal error LNK1120: 8 unresolved externals
-Error executing link.exe.
-
-hrwin32.exe - 9 error(s), 93 warning(s)
-
-======================================================================
-
-From: Stéphane Denis <S.Denis@darkworks.com>
-Date: Tue, 19 Sep 2000 15:37:11 +0200
-Version: 0.6a
-
-Unfreed memory blocks after launching and quiting the game.
-
- 16B strdup  rsc_files.c (39)
- 27B malloc  misc.c (45)
-136B calloc  sfx.c (166)
-136B calloc  sfx.c (165)
- 34B calloc  sfx.c (164)
-136B calloc  sfx.c (163)
-  0B realloc extras.c (169)
-  0B realloc extras.c (156)
-
+> By "too fast", do you mean "so fast that the camera is
+> not quick enough to follow the vehicles"?  This was
+> a bug reported by Mattias Engdegård (on Solaris), and have
+> been fixed between the 0.6-pre3 and 0.6 versions.  Are you
+> still using 0.6-pre3?
+With 0.6 I get the right speed. So its working pretty well (besides the
+sound problem) on m68k. Maybe a note in the readme (Daniel: its working for
+me on m68k only with -S) but otherwise its fine for non-i386 I think.
 
 ======================================================================
 
@@ -579,4 +345,3 @@ make[2]: Leaving directory `/boot/realtech/Heroes/src/etc'
 make[1]: *** [install-recursive] Error 1
 make[1]: Leaving directory `/boot/realtech/Heroes/src'
 make: *** [install-recursive] Error 1
-

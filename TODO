@@ -5,17 +5,50 @@ please send a note to <heroes-discuss@lists.sourceforge.net>.
 Before 0.7
 ----------
 
-  Get rid of GETWORD, SETWORD and Cie, see src/endian.h.
+  adapt all sprite drawing places to the new sprite.h interface.
 
-  Try to fix the initialization crash on Linux/m68k
+  Change each place where the screen in draw in a 320*200 buffer,
+  to use a xbuf*200 buffer like the other (the sprite drawing
+  functions assume that, and it make things more uniform).
 
-  a few memory leaks can be removed (see BUGS).
+  Set xbuf to 512, for easier multiplications.  This is expected to
+  break the many things that didn't used the xbuf constant but its
+  hardcoded value.
 
-  the default installation path on BeOS should not be /usr/local (?)
+
+Maybe left for 0.8
+------------------
+
+  Blitting `corner[0]' to `screen', and then blitting `screen' to the
+  video memory is somewhat expensive.  Better blitting directly from
+  `corner[0]' to the video memory, when possible.
+
+
+Before 0.8
+----------
+
+  draw.c and draw.h should disappear, and be replaced by the sprtext.h
+  interface.
+
+  txts.c, txts.h, and txti.cfg should be removed, the strings are
+  better hardcoded in the source (use `_()' empty macros to prepare
+  for gettext).
+
+  Use gettext.  This appear to be easy for strings, but does it scales
+  well to files? The graphical help is stored in a file, perhaps it will
+  have to be defined in C.
+
+  gfx_reader.h is a crap and should be rewritten, using the sprtext.h
+  interface.  Using a paragraph formating algorithm would also be nice
+  (fmt.c from textutils may provide fruitful hints).
 
 
 Before 1.0.0
 ------------
+
+  If possible, Get rid of GETWORD, SETWORD and Cie, see src/endian.h.
+
+  the default installation path on BeOS should not be /usr/local (?)
 
   Replace all C++-style comments (//foo) with C-style comments (/* foo */)
 
@@ -35,14 +68,6 @@ Before 1.0.0
 
   Save games/options/scores files in text format.
 
-  Add ./configure options to configure data paths.
-
-  Use gettext.
-
-  __attribute__ ((packed)) are gcc-isms
-
-  gfx_reader.h is a crap
-
   Perform real gamma correction, not basic lightening or shading of colors.
 
   Use {u,s}{8,16,32}_t types where it's important.
@@ -51,6 +76,10 @@ Before 1.0.0
   on the level files (such modification of the header fields, automatic
   generation of level.lst -- or maybe conversion of level format, should
   we need to do this a day).
+
+  __attribute__ ((packed)) are gcc-isms, something must be done to avoid
+  them. `something' may be using a different level format, in which case
+  the `heroeslvl' above would be helpful.
 
 
 Left for a 1.1.x development branch
@@ -63,7 +92,7 @@ Left for a 1.1.x development branch
   Programmable vehicles (for CPU controlled ones) would be nice.  It
   would be fun to link with Guile and control the vehicles in scheme.
 
-  Network support.        
+  Network support.
 
 
 Miscellaneous

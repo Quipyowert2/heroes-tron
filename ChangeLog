@@ -1,5 +1,10 @@
 2000-11-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* TODO: Update.
+	* BUGS: Update.
+
+2000-11-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* m4/gccwarn.m4: New file (adapted from a2ps).
 	* m4/Makefile.am (EXTRA_DIST): Add gccwarn.m4.
 	* configure.in: Use ad_GCC_WARNINGS.
