@@ -24,7 +24,7 @@ bin_PROGRAMS = heroes
 INCLUDES = -I$(top_srcdir)/lib
 LDADD = ../lib/libheroes.a
 
-EXTRADIST = rsc_files.gperf
+EXTRA_DIST = rsc_files.gperf
 
 heroes_SOURCES = \
 argv.c \

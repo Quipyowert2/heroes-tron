@@ -1,5 +1,12 @@
 2000-08-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Typo
+
+	* src/Makefile.am (EXTRADIST): Rename to ...
+	(EXTRA_DIST): ... this.
+
+2000-08-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/Makefile.am (EXTRADIST): Add rsc_files.gperf.
 
 2000-08-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
