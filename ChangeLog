@@ -1,5 +1,10 @@
 2001-08-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/heroes.c (find_free_way): Autopilot still work against
+	file trails for invincible players.
+
+2001-08-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/structs.h (lemming_t) <pos1, pos2, way, nexttache>: Rename as ...
 	(lemming_t) <pos_tail, pos_head, dir, next_dead>: ... these.
 	* src/heroes.c (update_lemmings): Eve out most of the code to ...

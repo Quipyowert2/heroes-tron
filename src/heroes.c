@@ -1759,10 +1759,6 @@ find_free_way (int c)
     e += e;
   }
 
-/* if (player[c].spec==t_tunnel*8) {player[c].spec=0;* return;*} */
-/* if (player[c].spec==t_tunnel*4) {player[c].spec=t_tunnel*8; return;} */
-
-
   f = player[c].next_way;
   if (!(d & (1 << f)))
     return;
@@ -1774,10 +1770,13 @@ find_free_way (int c)
   if (player[c].cpu & 2) {
     /* The autopilot for human players does not work against fire trails,
        that would be too easy :).
-       If NEXT_WAY would lead to a fired square, return immediately.  */
+       If NEXT_WAY would lead to a fired square, return immediately,
+       unless the player is invincible, in which case the autopilot still
+       apply.  */
     square_index_t idx = lvl.square_move[f][m];
     if (idx != INVALID_INDEX
-	&& square_explo_state[idx] <= EXPLOSION_IMMEDIATE)
+	&& square_explo_state[idx] <= EXPLOSION_IMMEDIATE
+	&& !player[c].invincible)
       return;
   }
 
