@@ -1,4 +1,4 @@
-# Copyright 2000, 2001  Alexandre Duret-Lutz <duret_g@epita.fr>
+# Copyright 2000, 2001, 2002  Alexandre Duret-Lutz <duret_g@epita.fr>
 #
 # This file is part of Heroes.
 #
@@ -15,18 +15,6 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 #
-
-# The following definitions are not generated automatically by
-# Automake because these variable are created by generic m4 macros.
-# When automake is changed to use autoconf --trace, it will
-# declare them automatically.
-GGI_CFLAGS = @GGI_CFLAGS@
-GII_CFLAGS = @GII_CFLAGS@
-LIBMIKMOD_CFLAGS = @LIBMIKMOD_CFLAGS@
-SDL_CFLAGS = @SDL_CFLAGS@
-SDL_MIXER_CFLAGS = @SDL_MIXER_CFLAGS@
-ALLEGRO_CFLAGS = @ALLEGRO_CFLAGS@
-# ---
 
 AUTOMAKE_OPTIONS = subdir-objects
 
@@ -240,15 +228,9 @@ parafmt_check_SOURCES = parafmt.c
 parafmt_check_CFLAGS = $(MORE_WARNINGS_CFLAGS) -DTEST
 parafmt_check_LDADD = ../lib/libheroes.a
 
-EXTRA_DIST += etc/Makefile.inc
 include etc/Makefile.inc
-EXTRA_DIST += lvl/Makefile.inc
 include lvl/Makefile.inc
-EXTRA_DIST += rules/Makefile.inc
 include rules/Makefile.inc
-EXTRA_DIST += media/Makefile.inc
 include media/Makefile.inc
-EXTRA_DIST += sys/Makefile.inc
 include sys/Makefile.inc
-EXTRA_DIST += plugins/Makefile.inc
 include plugins/Makefile.inc

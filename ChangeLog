@@ -1,3 +1,13 @@
+2002-10-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* Makefile.am, src/Makfile.am: Don't EXTRA_DIST included Makefile
+	fragments, Automake >= 1.7 does this for us.  Remove useless
+	VAR = @VAR@ definitions for the same reason.
+	* po/Makevars, po/LINGUAS: New files.
+	* configure.ac: Require Automake 1.7.1.
+	Don't define ALL_LINGUAS (replaced by po/LINGUAS).
+	* HACKING: Adjust to mention po/LINGUAS.
+
 2002-10-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Upgrade to Gettext 0.11.5 and CVS Libtool branch-1-4.

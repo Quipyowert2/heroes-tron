@@ -1,4 +1,4 @@
-# Copyright 2000, 2001  Alexandre Duret-Lutz <duret_g@epita.fr>
+# Copyright 2000, 2001, 2002  Alexandre Duret-Lutz <duret_g@epita.fr>
 #
 # This file is part of Heroes.
 #
@@ -156,7 +156,6 @@ man-distcheck:
 dist-hook:
 	-chmod -R a-s $(distdir)
 
-EXTRA_DIST += arch/Makefile.inc m4/Makefile.inc tools/Makefile.inc
 include arch/Makefile.inc
 include m4/Makefile.inc
 include tools/Makefile.inc

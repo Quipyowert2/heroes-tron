@@ -45,21 +45,12 @@ help,...).  The former cause no particular problem.  The latter use
 home-made fonts (coming with the heroes-data package) and those fonts
 do not always implement the full Latin-1 character set.
 
+If you have done a new translation and want to try it, add your
+translation to po/LINGUAS, and run ./configure, make, make install.
+
 You ought to configure Heroes with --enable-debug.  When configured
 like this, Heroes will check most messages at startup and report those
 who contains non-drawable characters.
-
-
-If you have done a new translation, want to try it, but don't want to
-install all the above tools (autoconf, automake, etc.), do the
-following: open the file `configure' in your favorite editor, locate
-the line starting with `ALL_LINGUAS=' and add your language here, then
-rerun configure and reinstall the game, your catalog should be
-installed with the others.  Note that you will still need gettext
-installed.  (For people who have the latest autoconf and automake, the
-correct way to add a new catalog is to edit the same line in
-configure.ac, of course).
-
 
 * Sending patches
 

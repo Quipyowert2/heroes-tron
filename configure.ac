@@ -21,7 +21,7 @@ AC_PREREQ(2.52)
 AC_INIT([heroes], [0.29b], [heroes-bugs@lists.sourceforge.net])
 AC_CONFIG_AUX_DIR(tools)
 AC_CONFIG_SRCDIR([src/heroes.c])
-AM_INIT_AUTOMAKE([1.6 gnits dist-bzip2])
+AM_INIT_AUTOMAKE([1.7.1 gnits dist-bzip2])
 
 AC_COPYRIGHT([Copyright 2000, 2001, 2002  Alexandre Duret-Lutz])
 
@@ -183,7 +183,6 @@ AC_CONFIG_SUBDIRS([libltdl])
 # Internationalization.
 # =====================
 
-ALL_LINGUAS="de fr es_AR it nl pt_BR"
 AM_GNU_GETTEXT(,[need-ngettext])
 AM_GNU_GETTEXT_VERSION(0.11.5)
 
