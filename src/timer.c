@@ -26,7 +26,11 @@
 #include <dmalloc.h>
 #endif
 
+#ifdef HAVE_GETTIMEOFDAY
 struct timeval current_time;
+#else
+clock_t current_time;
+#endif
 
 void
 reset_timer (timer_t timer)
@@ -35,16 +39,15 @@ reset_timer (timer_t timer)
 }
 
 void
-reset_timer_with_offset (timer_t timer, long sec, long usec)
+reset_timer_with_offset (timer_t timer, long sec)
 {
   reset_timer (timer);
 
-  timer->orig_time.tv_usec -= usec;
+#ifdef HAVE_GETTIMEOFDAY
   timer->orig_time.tv_sec -= sec;
-  if (timer->orig_time.tv_usec < 0) {
-    timer->orig_time.tv_usec += SEC;
-    --timer->orig_time.tv_sec;
-  }
+#else
+  timer->orig_time -= sec * SEC;
+#endif
 }
 
 timer_t
@@ -67,7 +70,11 @@ free_timer (timer_t timer)
 void
 update_timers (void)
 {
+#ifdef GETTIMEOFDAY
   gettimeofday (&current_time, 0);
+#else
+  current_time = clock ();
+#endif
 }
 
 void
@@ -79,6 +86,7 @@ init_timer (void)
 long
 read_timer (timer_t timer)
 {
+#if HAVE_GETTIMEOFDAY
   long s, u, d, res;
 
   s = current_time.tv_sec - timer->orig_time.tv_sec;
@@ -107,12 +115,33 @@ read_timer (timer_t timer)
     u = present_time.tv_usec - timer->orig_time.tv_usec;
     goto blocking_loop;
   }
+#else
+  long c, d, res;
+
+  c = current_time - timer->orig_time;
+  d = timer->slice_duration;
+
+ blocking_loop:
+  res = c / d;
+
+  if (timer->kind & T_LOCAL) {
+    reset_timer (timer);
+    /* account for the time remaining from the last unfinished slice */
+    timer->orig_time -= c % d;
+  }
+
+  if ((res == 0) && (timer->kind & T_BLOCKING)) {
+    c = clock () - timer->orig_time;
+    goto blocking_loop;
+  }
+#endif
   return res;
 }
 
 void
 shift_timer (timer_t to_shift, timer_t amount)
 {
+#if HAVE_GETTIMEOFDAY
   long u,s;
 
   /* compute the amount to shift the timer with */
@@ -130,4 +159,9 @@ shift_timer (timer_t to_shift, timer_t amount)
     to_shift->orig_time.tv_usec -= SEC;
     ++to_shift->orig_time.tv_sec;
   }
+#else
+  clock_t c;
+
+  to_shift->orig_time += current_time - amount->orig_time;
+#endif
 }

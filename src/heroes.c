@@ -3302,7 +3302,7 @@ play_demo (void)
   n = 1;
 
   update_timers ();
-  reset_timer_with_offset (event_timer, 4, 0);
+  reset_timer_with_offset (event_timer, 4);
   reset_timer (clock_timer);
   reset_timer (bonus_anim_timer);
   reset_timer (tiles_anim_timer);
@@ -3565,7 +3565,7 @@ main_menu (void)
   reset_timer (background_timer);
   reset_timer (fading_timer);
   reset_timer (demo_trigger_timer);
-  reset_timer_with_offset (event_timer, 4, 0);
+  reset_timer_with_offset (event_timer, 4);
   event_time = read_timer (event_timer); 
   do {
     p = 64;
@@ -4198,7 +4198,7 @@ play_game (char cont)
   n = 1;
 
   update_timers ();
-  reset_timer_with_offset (event_timer, 4, 0);
+  reset_timer_with_offset (event_timer, 4);
   reset_timer (clock_timer);
   reset_timer (bonus_anim_timer);
   reset_timer (tiles_anim_timer);

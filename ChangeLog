@@ -1,5 +1,19 @@
 2000-08-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Use clock when gettimeofday isn't available.
+
+	* configure.in: Check for gettimeofday.
+	* src/timer.h: Adapt to use struct timeval or clock_t 
+	whether GETTIMEOFDAY is	defined or not.
+	(reset_timer_with_offset): Remove the usec argument.  
+	* src/timer.c: Likewise.
+	(reset_timer_with_offset,update_timers,read_timer,shift_timer): 
+	Write the !GETTIMEOFDAY version.
+	* src/heroes.c (play_demo,play_game,main_menu): Adapt call to 
+	reset_timer_with_offset.
+
+2000-08-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Create a lib/ directory for compatibility and utility functions.
 
 	* src/getshline.c, src/getshline.h: Move to ...

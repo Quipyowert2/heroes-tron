@@ -30,19 +30,30 @@
 # include <time.h>
 #endif
 
-#define SEC 1000000
+/* If gettimeofday does not exists, we use clock() */
+
+#if HAVE_GETTIMEOFDAY
+#  define SEC 1000000
+#else
+#  define SEC CLOCKS_PER_SEC
+#endif
+
 #define HZ(x)   (SEC/(x))
 
-/* global timer return durations between the reset of the timer and
-   the current time, local timer return durations between two
-   successive reads.  Blocking timers will wait until they can
-   return on non null number of slices on read_timer. */
+/* A global timer returns durations between the reset of the timer and
+   the current time, a local timer returns durations between two
+   successive reads.  Blocking timers will wait until they can return
+   on non null number of slices on read_timer. */
 enum timer_kind { T_GLOBAL = 0, 
 		  T_LOCAL = 1,
 		  T_BLOCKING = 2};
 
 typedef struct {
+#if HAVE_GETTIMEOFDAY
   struct timeval orig_time;
+#else
+  clock_t orig_time;
+#endif;
   enum timer_kind kind;
   long slice_duration;		/* duration of a slice in microseconds */
 } timer_s;
@@ -52,7 +63,7 @@ typedef timer_s* timer_t;
 timer_t new_timer (enum timer_kind kind, long slice_duration);
 void free_timer (timer_t timer);
 void reset_timer (timer_t timer);
-void reset_timer_with_offset (timer_t timer, long sec, long usec); 
+void reset_timer_with_offset (timer_t timer, long sec); 
 long read_timer (timer_t timer); /* return elapsed time in slices */
 void update_timers (void);
 void init_timer (void);
