@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.8c\n"
-"POT-Creation-Date: 2001-02-02 09:04+0100\n"
+"POT-Creation-Date: 2001-02-06 21:18+0100\n"
 "PO-Revision-Date: 2001-02-05 23:35+01:00\n"
 "Last-Translator: Jos Boersema <joshb@sourceforge.net>\n"
 "Language-Team: none <LL@li.org>\n"
@@ -139,8 +139,8 @@ msgstr ""
 msgid ""
 "Mandatory arguments to long options are mandatory for short options too.\n"
 msgstr ""
-"Verplichte argumenten voor lange opties zijn ook verplicht voor korte"
-" opties.\n"
+"Verplichte argumenten voor lange opties zijn ook verplicht voor korte "
+"opties.\n"
 
 #: src/argv.c:107
 msgid ""
@@ -162,7 +162,8 @@ msgstr ""
 "  -Q, --really-quiet          druk zelfs geen foutmeldingen af\n"
 "  -v, --verbose=KANALEN       zet debugging kanalen aan of uit\n"
 "                                (zie --list=debug voor beschikbare kanalen)\n"
-"  -l, --list=WOORD            toon enige interne informatie; WOORD kan zijn:\n"
+"  -l, --list=WOORD            toon enige interne informatie; WOORD kan "
+"zijn:\n"
 "                                'debug', 'resources', 'sound-drivers' or\n"
 "                                'sound-tracks'\n"
 
@@ -210,7 +211,13 @@ msgstr ""
 
 # disable superposition of rotozoom and waves\n"
 #         ^^^^^^^^^^^^^^^^^^^^^^^^^ ? what does that mean ;)
-#: src/argv.c:135
+#. TRANS: rotozoom is a graphical effect used in the demo of yore
+#. where the screen rotate and zoom (actually it doesn't zoom in Heroes);
+#. waves is another effect where the screen is agitated like some
+#. jelly (this was also called the `mushroom effect' in game like
+#. Death Rally).
+#: src/argv.c:140
+#, fuzzy
 msgid ""
 "Miscellaneous options:\n"
 "      --cpu-off               disable computer opponents\n"
@@ -218,7 +225,7 @@ msgid ""
 "      --default-options       restore default options file\n"
 "      --default-saves         restore default saves file\n"
 "  -s, --swap-sides            swap sides in two player mode\n"
-"      --no-double-fx          disable superposition of rotozoom and waves\n"
+"      --no-double-fx          disable combination of rotozoom and waves\n"
 "  -g, --go                    skip the introduction\n"
 "  -J, --no-joystick           disable joystick handling\n"
 msgstr ""
@@ -232,31 +239,31 @@ msgstr ""
 "  -g, --go                    sla de intro over\n"
 "  -J, --no-joystick           zet joystick uit\n"
 
-#: src/argv.c:145
+#: src/argv.c:150
 msgid ""
 "These options can be set in your file ~/.heroes/heroesrc (which is read\n"
 "before parsing other command line options) using a line like the following:\n"
 "\n"
 "  Options: -gs -d3,buffer=11,count=4\n"
 msgstr ""
-"Deze opties kunnen gezet worden in uw bestand ~/.heroes/heroesrc (dat"
-" gelezen\n"
-"wordt vóór het verwerken van andere opdracht-regel opties) met een regel"
-" zoals de volgende:\n"
+"Deze opties kunnen gezet worden in uw bestand ~/.heroes/heroesrc (dat "
+"gelezen\n"
+"wordt vóór het verwerken van andere opdracht-regel opties) met een regel "
+"zoals de volgende:\n"
 "  Options: -gs -d3,buffer=11,count=4\n"
 
-#: src/argv.c:150
+#: src/argv.c:155
 msgid ""
 "Visit http://heroes.sourceforge.net/ for news, documentation, and updates."
 msgstr ""
 "Bezoek http://heroes.sourceforg.net/ voor nieuws, documentatie, en\n"
 "bijwerkingen."
 
-#: src/argv.c:152
+#: src/argv.c:157
 msgid "Report bugs to <heroes-bugs@lists.sourceforge.net>."
 msgstr "Raporteer bugs aan <heroes-bugs@lists.sourceforge.net>."
 
-#: src/argv.c:256
+#: src/argv.c:261
 msgid "-n is an obsolete option, you should use --list=sound-drivers"
 msgstr "-n is een verouderde optie, u moet nu --list=sound-drivers gebruiken"
 
@@ -297,55 +304,139 @@ msgstr "EXTRA-LEVEN!"
 # "quest" as in "journey": `TOCHT'
 # "quest" as in "search": `ZOEK', "searching": `ZOEKEN'
 # "quest" as in "adventure": "AVONTUUR" ;)
-#: src/const.c:56
-#,fuzzy
+#. TRANS: in QUEST mode, the player goes throught all the levels, but
+#. have to search for specific powerups in order to jump to the next
+#. level.  Hence this is a `quest' for those powerups.
+#: src/const.c:60
+#, fuzzy
 msgid "QUEST"
 msgstr "TOCHT"
 
-#: src/const.c:56
+#. TRANS: in DEATH MATCH mode, the user has to kill all other players.
+#: src/const.c:62
 msgid "DEATH MATCH"
 msgstr "DOODS STRIJD"
 
 # Technically it's more "VERMOORD ZE ALLEMAAL", but that's a bit dry in Dutch
 # I think...; "jaag ze hun graf in" translates as "hunt them down into their
 #   graves", but its word-of-say (?) so not really translatable.
-#: src/const.c:56
+#. TRANS: in KILL'EM ALL mode there are lemmings moving on the ground
+#. and the player must run over them all.  You may want to translate
+#. `kill' as `run over', `squash', `mash' or something among those
+#. lines.
+#: src/const.c:67
 msgid "KILL'EM ALL"
 msgstr "JAAG ZE HUN GRAF IN"
 
 # Technically should be "TIJD CONTANT-GELD" but that sound like nothing in
 # Dutch.
 # "tijd is geld" translates to "time is money"
-#: src/const.c:57
-#,fuzzy
+#. TRANS: in TIME CA$H mode, the player must collect dollars with
+#. restricted time.
+#: src/const.c:70
+#, fuzzy
 msgid "TIME CA$H"
 msgstr "TIJD IS GELD"
 
-#: src/const.c:57
+#. TRANS: in COLOR mode, the player must collect some colored gems
+#. with restricted time.
+#: src/const.c:73
 msgid "COLORS"
 msgstr "KLEUREN"
 
+#: src/debughash.c:85 src/debughash.gperf:37
+msgid "all messages"
+msgstr "alle berichten"
+
+#: src/debughash.c:86 src/debughash.gperf:41
+msgid "files and directories handling"
+msgstr "bestanden en directories behandeling"
+
+#: src/debughash.c:87 src/debughash.gperf:42
+msgid "levels handling"
+msgstr "levels behandeling"
+
+#: src/debughash.c:88 src/debughash.gperf:39
+msgid "system related messages"
+msgstr "systeem gerelateerde berichten"
+
+#: src/debughash.c:90 src/debughash.gperf:40
+msgid "filename resources handling"
+msgstr "bestandsnaam hulpbronnen behandeling"
+
+#: src/debughash.c:91 src/debughash.gperf:48
+msgid "miscellaneous events"
+msgstr "diverse gebeurtenissen"
+
+#: src/debughash.c:92 src/debughash.gperf:50
+msgid "bonus"
+msgstr "bonus"
+
+#: src/debughash.c:93 src/debughash.gperf:43
+msgid "sound track events"
+msgstr "muziek-nummers gebeurtenissen"
+
+#: src/debughash.c:94 src/debughash.gperf:38
+msgid "different parts of the game"
+msgstr "verschillende delen van het spel"
+
+#: src/debughash.c:95 src/debughash.gperf:46
+msgid "joystick initialization"
+msgstr "joystick initialisatie"
+
+# anybody?
+#: src/debughash.c:97 src/debughash.gperf:47
+#, fuzzy
+msgid "timer handling"
+msgstr "wekker behandeling"
+
+#: src/debughash.c:99 src/debughash.gperf:49
+msgid "palette fade events"
+msgstr "palet vervaag gebeurtenissen"
+
+#: src/debughash.c:101 src/debughash.gperf:44
+msgid "sound effects events"
+msgstr "geluid-effecten gebeurtenissen"
+
+#: src/debughash.c:103 src/debughash.gperf:45
+msgid "communication with the display driver"
+msgstr "communicatie met de weergave driver"
+
+#: src/debughash.c:153 src/debughash.gperf:79
+#, c-format
+msgid "%s: no such channel, assuming you meant '%s'."
+msgstr "%s: niet zo'n kanaal, neem aan je bedoeld '%s'."
+
+#: src/debughash.c:156 src/debughash.gperf:82
+#, c-format
+msgid "%s: no such channel (--list=debug will list all known channels)"
+msgstr "%s: niet zo'n kanaal (--list=debug zal alle bekende kanalen geven)"
+
 # What's a `visual' ??
-#: src/display.c:279
-#,fuzzy
+#. TRANS: a `visual' is associated by LibGGI to a display.  You can
+#. actually call it a `display', this makes no big difference.
+#: src/display.c:281
+#, fuzzy
 msgid "Failed to open visual."
 msgstr "Openen van `visual' mislukt."
 
 # What's a `visual' ??
-#: src/display.c:284
-#,fuzzy
+#. TRANS: `display-memory' is the name of a LibGGI driver and
+#. make no sense to translate.
+#: src/display.c:288
+#, fuzzy
 msgid "Failed to open an internal `display-memory' visual."
 msgstr "Openen van intern `weergave-geheugen' voor `visual' mislukt."
 
-#: src/display.c:312
+#: src/display.c:316
 msgid "Couldn't setup a correct display."
 msgstr "Kon geen correct scherm opzetten."
 
-#: src/display.c:321
+#: src/display.c:325
 msgid "Can't get correct direct-buffer."
 msgstr "Kan geen correcte directe-buffer krijgen."
 
-#: src/display.c:459
+#: src/display.c:463
 #, c-format
 msgid "Failed to open visual: %s"
 msgstr "Openen van `visual' mislukt: %s"
@@ -354,10 +445,15 @@ msgstr "Openen van `visual' mislukt: %s"
 msgid "THE END"
 msgstr "EINDE"
 
-#: src/hedlite.c:1684
+#: src/hedlite.c:1648
 #, c-format
 msgid "Cannot create directory `%s'."
 msgstr "Kan directorie `%s' niet maken."
+
+#: src/hedlite.c:1705 src/hedlite.c:1712
+#, c-format
+msgid "%s: invalid level file"
+msgstr ""
 
 #: src/helptext.c:25
 msgid ""
@@ -398,7 +494,8 @@ msgstr ""
 "\n"
 "\n"
 "\n"
-"%{center}%pGebruik de pijltjestoetsen om omhoog en naar beneden te schuiven.\n"
+"%{center}%pGebruik de pijltjestoetsen om omhoog en naar beneden te "
+"schuiven.\n"
 "\n"
 "%{head 1}CONTROLE & BORD\n"
 "\n"
@@ -458,8 +555,8 @@ msgstr ""
 "%{head 2}BONUS\n"
 "\n"
 "%{img L 60 0 20 22}Beïnvloed de speler die het item krijgt\n"
-"%{img L 60 22 20 22}Beïnvloed alle spelers behalve degene die de bonus"
-" krijgt\n"
+"%{img L 60 22 20 22}Beïnvloed alle spelers behalve degene die de bonus "
+"krijgt\n"
 "\n"
 "%{img L 0 0 20 22}%{>}%{img L 0 22 20 22}%{>>>}Spoor +1\n"
 "%{img L 0 44 20 22}%{>}%{img L 0 66 20 22}%{>>>}Spoor -1\n"
@@ -533,8 +630,8 @@ msgstr ""
 "\n"
 "%{>>>}De %yTOCHT%w modus laat je alle 100 levels spelen die HEROES biedt "
 "you.  Your aim is to collect a given number (10) of Trail+1 bonuses and then "
-"Je doel is om een gegeven aantal (10) Spoor+1 bonussen te verzamelen en dan "
-" de Einde-van-Level bonus die je naar het volgende level zal sturen.\n"
+"Je doel is om een gegeven aantal (10) Spoor+1 bonussen te verzamelen en dan  "
+"de Einde-van-Level bonus die je naar het volgende level zal sturen.\n"
 "%{>>>}%{img L 20 176 20 22}Einde-van-level\n"
 "%{img R 0 0 20 22}%{flushright}Spoor+1\n"
 "%{>>>}Spoor+1 heeft het gevolg dat je spoor groeit. Er zijn twee manieren om "
@@ -543,9 +640,9 @@ msgstr ""
 "\n"
 "%{>>}%yDOODS STRIJD\n"
 "\n"
-"%{>>>}De %yDOODS STRIJD%w modus laat je tegen de andere spelers vechten tot "
-" in de dood. Het doel van het spel is om de laatste overlevende te zijn. "
-"Voel je vrij om wat dan ook te doen. Niets is verboden.\n"
+"%{>>>}De %yDOODS STRIJD%w modus laat je tegen de andere spelers vechten tot  "
+"in de dood. Het doel van het spel is om de laatste overlevende te zijn. Voel "
+"je vrij om wat dan ook te doen. Niets is verboden.\n"
 "\n"
 "%{img BLVr 130 9 30 57}%{>>}%yJAAG ZE HUN GRAF IN\n"
 "\n"
@@ -558,18 +655,18 @@ msgstr ""
 "\n"
 "%{>>}%yKLEUR\n"
 "\n"
-"%{>>>}De %yKLEUR%w modus is heel simpel. Je hebt een bepaalde hoeveelheid tijd"
-" om maximaal veel edelstenen van je kleur te pakken. Pas op dat je niet over"
-" de edelstenen van de competitie heen gaat want dan worden zijn/haar"
-" edelstenen vermeerderd. Zorg er ook voor dat je niet over gekruiste"
-" edelstenen heen gaat want dan verlies je al verzamelde edelstenen."
-" Grijze edelstenen geven edelstenen aan iedereen behalve degene die eroverheen"
-" gaat. De Klok geeft je extra tijd.\n"
+"%{>>>}De %yKLEUR%w modus is heel simpel. Je hebt een bepaalde hoeveelheid "
+"tijd om maximaal veel edelstenen van je kleur te pakken. Pas op dat je niet "
+"over de edelstenen van de competitie heen gaat want dan worden zijn/haar "
+"edelstenen vermeerderd. Zorg er ook voor dat je niet over gekruiste "
+"edelstenen heen gaat want dan verlies je al verzamelde edelstenen. Grijze "
+"edelstenen geven edelstenen aan iedereen behalve degene die eroverheen gaat. "
+"De Klok geeft je extra tijd.\n"
 "\n"
 "%{>>}%yTIJD IS GELD\n"
 "\n"
-"%{>>>}In %yTIJD IS GELD%w modus de winnaar is de speler die het meeste geld"
-" pakt.\n"
+"%{>>>}In %yTIJD IS GELD%w modus de winnaar is de speler die het meeste geld "
+"pakt.\n"
 "\n"
 
 #: src/helptext.c:131
@@ -624,8 +721,8 @@ msgstr ""
 "%{img L 293 165 20 134}\n"
 "%{>>}%gKIES KLEUR\n"
 "\n"
-"%{>>>}Deze optie laat je een kleur kiezen voor je voertuig uit: "
-"%pROZE%w, %yGEEL%w, %bBLAUW%w and %gGROEN%w.\n"
+"%{>>>}Deze optie laat je een kleur kiezen voor je voertuig uit: %pROZE%w, "
+"%yGEEL%w, %bBLAUW%w and %gGROEN%w.\n"
 "\n"
 "%{img L 335 165 20 32}\n"
 "%{>>}%gSPEL SNELHEID\n"
@@ -810,7 +907,8 @@ msgstr "onverwachte gebeurtenis %d\n"
 
 #: src/joystick.c:115 src/joystick.c:151
 msgid "No joystick found (run with `-J' to suppress this message)."
-msgstr "Geen joystick gevonden (draai met `-J' om dit bericht te onderdrukken)."
+msgstr ""
+"Geen joystick gevonden (draai met `-J' om dit bericht te onderdrukken)."
 
 #: src/menus.c:170
 msgid "GAME"
@@ -838,17 +936,17 @@ msgid "EXTRAS"
 msgstr "EXTRAS"
 
 #: src/menus.c:176 src/menus.c:353 src/menus.c:363 src/menus.c:377
-#: src/menus.c:389 src/menus.c:399 src/menus.c:422 src/menus.c:527
+#: src/menus.c:389 src/menus.c:399 src/menus.c:422 src/menus.c:540
 msgid "GO BACK"
 msgstr "GA TERUG"
 
 #. play menu
-#: src/menus.c:183 src/menus.c:521
+#: src/menus.c:183 src/menus.c:534
 msgid "PLAY"
 msgstr "SPEEL"
 
 #. options menu
-#: src/menus.c:184 src/menus.c:503
+#: src/menus.c:184 src/menus.c:516
 msgid "OPTIONS"
 msgstr "OPTIES"
 
@@ -860,7 +958,7 @@ msgstr "INFO"
 
 # "credits" doens't really exist in Dutch (?), used "THANKS"
 #: src/menus.c:186 src/menus.c:439
-#,fuzzy
+#, fuzzy
 msgid "CREDITS"
 msgstr "DANK"
 
@@ -870,7 +968,7 @@ msgstr "SCORES"
 
 # `editor' would do fine too though
 #. editor first menu
-#: src/menus.c:188 src/menus.c:513
+#: src/menus.c:188 src/menus.c:526
 msgid "EDITOR"
 msgstr "TEXTVERWERKER"
 
@@ -1007,194 +1105,213 @@ msgid "EXTRAS: SELECT"
 msgstr "EXTRAS: KIES"
 
 # what does "gfx" (and "idea") mean?
-#: src/menus.c:441
-#,fuzzy
+#. TRANS: GFX stands for `graphics' (i.e. artwork, pictures),
+#. and IDEA is just `idea' :)
+#: src/menus.c:443
+#, fuzzy
 msgid "GFX AND IDEA:"
 msgstr "GFX EN IDEA:"
 
-#: src/menus.c:444
+#: src/menus.c:446
 msgid "MUSIC:"
 msgstr "MUZIEK"
 
-#: src/menus.c:449
+#: src/menus.c:451
 msgid "CODE:"
 msgstr "CODE:"
 
 # exceeds 80 columns
-#: src/menus.c:453
+#: src/menus.c:455
 msgid "PLEASE READ THE LIST OF OTHER CONTRIBUTORS IN THE FILE 'THANKS'"
-msgstr "LEES ALSTUBLIEFT DE LIJST VAN ANDERE `SCHENKERS' IN HET 'THANKS' "
-" BESTAND"
+msgstr ""
+"LEES ALSTUBLIEFT DE LIJST VAN ANDERE `SCHENKERS' IN HET 'THANKS'  BESTAND"
 
 #. pause menu
-#: src/menus.c:479
+#: src/menus.c:481
 msgid "PAUSE"
 msgstr "PAUZE"
 
 #. quit y/n menus
-#: src/menus.c:483
+#: src/menus.c:485
 msgid "QUIT THIS GAME?"
 msgstr "STOP DIT SPEL?"
 
-#: src/menus.c:485
+#: src/menus.c:487
 msgid "REALLY QUIT?"
 msgstr "ECHT STOPPEN?"
 
-#: src/menus.c:487
+#: src/menus.c:489
 msgid "NO"
 msgstr "NEE"
 
-#: src/menus.c:488
+#: src/menus.c:490
 msgid "YES"
 msgstr "JA"
 
 #. editor menu
-#: src/menus.c:491
+#: src/menus.c:493
 msgid "EXISTING LEVEL"
 msgstr "BESTAAND LEVEL"
 
-#: src/menus.c:493 src/menus.c:515
+#: src/menus.c:495 src/menus.c:528
 msgid "NEW LEVEL"
 msgstr "NIEUW LEVEL"
 
-#: src/menus.c:495
+#: src/menus.c:497
 msgid "NAME"
 msgstr "NAAM"
 
 # hmmm...
-#: src/menus.c:496
-#,fuzzy
+#. TRANS: in wrapped levels are unbounded level, e.g. whenever the
+#. player reach the left border it continue its way from the right border
+#. (except that the player doesn't even know there are borders, because
+#. the level is tiled infinitely).  In unwrapped levels there are explicit
+#. bounds that you cannot cross.  X-WRAP is a check box used to specified
+#. whether a level must be wrapped horizontally or not when creating a
+#. new level.
+#: src/menus.c:505
+#, fuzzy
 msgid "X-WRAP"
 msgstr "X-OMVOUWEN"
 
-#: src/menus.c:497
-#,fuzzy
+#. TRANS: Y-WRAP is a check box used to specified whether a level
+#. must be wrapped horizontally or not.
+#: src/menus.c:508
+#, fuzzy
 msgid "Y-WRAP"
 msgstr "Y-OMVOUWEN"
 
-#: src/menus.c:498
+#. TRANS: width of the level
+#: src/menus.c:510
 msgid "X-SIZE"
 msgstr "X-GROOTTE"
 
-#: src/menus.c:499
+#. TRANS: height of the level
+#: src/menus.c:512
 msgid "Y-SIZE"
 msgstr "Y-GROOTTE"
 
-#: src/menus.c:500
+#: src/menus.c:513
 msgid "EDIT"
 msgstr "BEWERKEN"
 
 #. main menu
-#: src/menus.c:506
+#: src/menus.c:519
 msgid "HEROES"
 msgstr "HELDEN"
 
 #. editor selector
-#: src/menus.c:509
+#: src/menus.c:522
 msgid "SELECT A LEVEL"
 msgstr "KIES EEN LEVEL"
 
-#: src/menus.c:517
+#: src/menus.c:530
 msgid "LOAD LEVEL"
 msgstr "LAAD LEVEL"
 
-#: src/menus.c:523
+#: src/menus.c:536
 msgid "ONE PLAYER"
 msgstr "ÉÉN SPELER"
 
-#: src/menus.c:525
+#: src/menus.c:538
 msgid "TWO PLAYER"
 msgstr "TWEE SPELERS"
 
-#: src/menus.c:529
+#: src/menus.c:542
 msgid "LOAD..."
 msgstr "LADEN..."
 
 #. saved game selection
-#: src/menus.c:538
+#: src/menus.c:551
 msgid "CHOSE A SAVE SLOT"
 msgstr "KIES EEN BEWAAR POSITIE"
 
-#: src/menus.c:540
+#: src/menus.c:553
 msgid "CHOSE A LOAD SLOT"
 msgstr "KIES EEN LAAD POSITIE"
 
 # vous/tu problem: here: vous. (let me know what you want so I can re-edit
 # everything)
 #. enter your name
-#: src/menus.c:544
+#: src/menus.c:557
 msgid "ENTER YOUR NAME:"
 msgstr "GEEF UW NAAM:"
 
 #. end level info
-#: src/menus.c:548
+#. TRANS: SIZE is the size of the player trail, PTS the
+#. number of PoinTS
+#: src/menus.c:563
 msgid "SIZE  PTS  LIVES"
 msgstr "GROOTTE PUNTEN LEVENS"
 
-#: src/menus.c:550
+#: src/menus.c:565
 msgid "PTS  LIVES"
 msgstr "PUNTEN LEVENS"
 
 # "MEN" as in male-people?
-#: src/menus.c:552
+#. TRANS: this is for KILL'EM ALL mode, and MEN is the number
+#. of lemmings killed by one player
+#: src/menus.c:569
 msgid " MEN  PTS  LIVES"
 msgstr " MANNEN PUNTEN LEVENS"
 
-#: src/menus.c:554
+#: src/menus.c:571
 msgid "CA$H  PTS  LIVES"
 msgstr "CONTANTEN PUNTEN LEVENS"
 
-#: src/menus.c:556
+#: src/menus.c:573
 msgid "COLORS  PTS  LIVES"
 msgstr "KLEUREN PUNTEN LEVENS"
 
-#: src/menus.c:558
+#: src/menus.c:575
 msgid "NEXT LEVEL"
 msgstr "VOLGENDE LEVEL"
 
 # "the act of saving" would be `bewaren...'
-#: src/menus.c:560
+#. TRANS: this is a button that introduce the user to another
+#. menu.  This is NOT displayed during saving.
+#: src/menus.c:579
 msgid "SAVE..."
 msgstr "BEWAAR..."
 
-#: src/menus.c:562
+#: src/menus.c:581
 msgid "PRESS RETURN"
 msgstr "DRUK OP ENTER"
 
-#: src/menus.c:571
+#: src/menus.c:590
 msgid "WINS  PTS  LIVES"
 msgstr "WINST PUNTEN LEVENS"
 
 #. higher scores
-#: src/menus.c:582
+#: src/menus.c:601
 msgid "HIGHER SCORES"
 msgstr "HOGERE SCORES"
 
 #. FIXME: handle plural
-#: src/menus.c:1195
+#: src/menus.c:1214
 #, c-format
 msgid "%d ROUNDS"
 msgstr "%d RONDES"
 
-#: src/menus.c:2175
+#: src/menus.c:2194
 #, c-format
 msgid "PLAYER %d, YOU CAME IN THE TOP 10"
 msgstr "SPELER %d, U STAAT IN DE TOP 10"
 
-#: src/menus.c:2244
+#: src/menus.c:2263
 #, c-format
 msgid "PLAYER %d WON!"
 msgstr "SPELER %d WINT!"
 
-#: src/menus.c:2250
+#: src/menus.c:2269
 msgid "EVERYONE LOST!"
 msgstr "IEDEREEN VERLIEST!"
 
-#: src/menus.c:2252
+#: src/menus.c:2271
 msgid "YOU LOST!"
 msgstr "JIJ VERLIEST!"
 
-#: src/menus.c:2331
+#: src/menus.c:2350
 #, c-format
 msgid "ROUND %d/%d"
 msgstr "RONDE %d/%d"
@@ -1225,9 +1342,12 @@ msgid "Cannot open %s"
 msgstr "Kan `%s' niet openen"
 
 # "image" as in picture `beeld' (for instance...).
-#: src/readmake.c:221
-#, c-format
-#,fuzzy
+#. TRANS: image is the name of an internal command (hence
+#. maybe not worth to translate) used to display pictures
+#. in the help reader; `flag' is just a synonym for `option'
+#. here.
+#: src/readmake.c:225
+#, fuzzy, c-format
 msgid "Unknown image flag '%c'."
 msgstr "Onbekende beeld vlag '%c'."
 
@@ -1360,71 +1480,3 @@ msgstr "%s:%d: missende hulpbron naam"
 #, c-format
 msgid "%s:%d: unknown keyword `%s'"
 msgstr "%s:%d: onbekend sleutelwoord `%s'"
-
-#: src/debughash.gperf:37
-msgid "all messages"
-msgstr "alle berichten"
-
-#: src/debughash.gperf:38
-msgid "different parts of the game"
-msgstr "verschillende delen van het spel"
-
-#: src/debughash.gperf:39
-msgid "system related messages"
-msgstr "systeem gerelateerde berichten"
-
-#: src/debughash.gperf:40
-msgid "filename resources handling"
-msgstr "bestandsnaam hulpbronnen behandeling"
-
-#: src/debughash.gperf:41
-msgid "files and directories handling"
-msgstr "bestanden en directories behandeling"
-
-#: src/debughash.gperf:42
-msgid "levels handling"
-msgstr "levels behandeling"
-
-#: src/debughash.gperf:43
-msgid "sound track events"
-msgstr "muziek-nummers gebeurtenissen"
-
-#: src/debughash.gperf:44
-msgid "sound effects events"
-msgstr "geluid-effecten gebeurtenissen"
-
-#: src/debughash.gperf:45
-msgid "communication with the display driver"
-msgstr "communicatie met de weergave driver"
-
-#: src/debughash.gperf:46
-msgid "joystick initialization"
-msgstr "joystick initialisatie"
-
-# anybody?
-#: src/debughash.gperf:47
-#,fuzzy
-msgid "timer handling"
-msgstr "wekker behandeling"
-
-#: src/debughash.gperf:48
-msgid "miscellaneous events"
-msgstr "diverse gebeurtenissen"
-
-#: src/debughash.gperf:49
-msgid "palette fade events"
-msgstr "palet vervaag gebeurtenissen"
-
-#: src/debughash.gperf:50
-msgid "bonus"
-msgstr "bonus"
-
-#: src/debughash.gperf:79
-#, c-format
-msgid "%s: no such channel, assuming you meant '%s'."
-msgstr "%s: niet zo'n kanaal, neem aan je bedoeld '%s'."
-
-#: src/debughash.gperf:82
-#, c-format
-msgid "%s: no such channel (--list=debug will list all known channels)"
-msgstr "%s: niet zo'n kanaal (--list=debug zal alle bekende kanalen geven)"

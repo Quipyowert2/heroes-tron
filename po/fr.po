@@ -1,12 +1,12 @@
 # Messages francais pour Heroes.
-# Copyright 2000  Alexandre Duret-Lutz
-# Alexandre Duret-Lutz <duret_g@epita.fr>, 2000.
+# Copyright 2000, 2001  Free Software Foundation, Inc.
+# Alexandre Duret-Lutz <duret_g@epita.fr>, 2000, 2001.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Heroes 0.8b\n"
-"POT-Creation-Date: 2001-02-02 09:04+0100\n"
-"PO-Revision-Date: 2001-01-10 20:23+01:00\n"
+"Project-Id-Version: Heroes 0.8d\n"
+"POT-Creation-Date: 2001-02-06 21:18+0100\n"
+"PO-Revision-Date: 2001-02-06 21:21+01:00\n"
 "Last-Translator: Alexandre Duret-Lutz <duret_g@epita.fr>\n"
 "Language-Team: none <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -204,7 +204,12 @@ msgstr ""
 "  -4, --quadruple             aggrandit l'affichage quatre fois\n"
 "  -e, --even-lines            affiche seulement les lignes paires\n"
 
-#: src/argv.c:135
+#. TRANS: rotozoom is a graphical effect used in the demo of yore
+#. where the screen rotate and zoom (actually it doesn't zoom in Heroes);
+#. waves is another effect where the screen is agitated like some
+#. jelly (this was also called the `mushroom effect' in game like
+#. Death Rally).
+#: src/argv.c:140
 msgid ""
 "Miscellaneous options:\n"
 "      --cpu-off               disable computer opponents\n"
@@ -212,23 +217,22 @@ msgid ""
 "      --default-options       restore default options file\n"
 "      --default-saves         restore default saves file\n"
 "  -s, --swap-sides            swap sides in two player mode\n"
-"      --no-double-fx          disable superposition of rotozoom and waves\n"
+"      --no-double-fx          disable combination of rotozoom and waves\n"
 "  -g, --go                    skip the introduction\n"
 "  -J, --no-joystick           disable joystick handling\n"
 msgstr ""
 "Options diverses :\n"
-"      --cpu-off               désactive les opposants gérés par "
-"l'ordinateur\n"
+"      --cpu-off               désactive les opposants gérés par l'ordinateur\n"
 "      --default-scores        restaure les scores par défaut\n"
 "      --default-options       restaure les options par défaut\n"
 "      --default-saves         restaure les sauvegardes par défaut\n"
 "  -s, --swap-sides            permute les côtés and mode deux joueurs\n"
-"      --no-double-fx          interdit la supperposition des ondes et \n"
+"      --no-double-fx          interdit la combinaison des ondes et \n"
 "                                des rotations\n"
 "  -g, --go                    saute l'introduction\n"
 "  -J, --no-joystick           désactive la gestion des manettes de jeu\n"
 
-#: src/argv.c:145
+#: src/argv.c:150
 msgid ""
 "These options can be set in your file ~/.heroes/heroesrc (which is read\n"
 "before parsing other command line options) using a line like the following:\n"
@@ -241,18 +245,18 @@ msgstr ""
 "\n"
 "  Options: -gs -d3,buffer=11,count=4\n"
 
-#: src/argv.c:150
+#: src/argv.c:155
 msgid ""
 "Visit http://heroes.sourceforge.net/ for news, documentation, and updates."
 msgstr ""
 "Visitez http://heroes.sourceforge.net/ pour information, documentation, et\n"
 "mises à jour."
 
-#: src/argv.c:152
+#: src/argv.c:157
 msgid "Report bugs to <heroes-bugs@lists.sourceforge.net>."
 msgstr "Rapporter toutes anomalies à <heroes-bugs@lists.sourceforge.net>."
 
-#: src/argv.c:256
+#: src/argv.c:261
 msgid "-n is an obsolete option, you should use --list=sound-drivers"
 msgstr "-n est une option obsolète, vous devriez utiliser --list=sound-drivers"
 
@@ -290,43 +294,59 @@ msgstr "INVINCIBLE !"
 msgid "EXTRA-LIFE!"
 msgstr "NOUVELLE VIE"
 
-#: src/const.c:56
+#. TRANS: in QUEST mode, the player goes throught all the levels, but
+#. have to search for specific powerups in order to jump to the next
+#. level.  Hence this is a `quest' for those powerups.
+#: src/const.c:60
 msgid "QUEST"
 msgstr "QUETE"
 
-#: src/const.c:56
+#. TRANS: in DEATH MATCH mode, the user has to kill all other players.
+#: src/const.c:62
 msgid "DEATH MATCH"
 msgstr "COMBAT A MORT"
 
-#: src/const.c:56
+#. TRANS: in KILL'EM ALL mode there are lemmings moving on the ground
+#. and the player must run over them all.  You may want to translate
+#. `kill' as `run over', `squash', `mash' or something among those
+#. lines.
+#: src/const.c:67
 msgid "KILL'EM ALL"
 msgstr "TUE LES TOUS"
 
-#: src/const.c:57
+#. TRANS: in TIME CA$H mode, the player must collect dollars with
+#. restricted time.
+#: src/const.c:70
 msgid "TIME CA$H"
 msgstr "TEMPS & ARGENT"
 
-#: src/const.c:57
+#. TRANS: in COLOR mode, the player must collect some colored gems
+#. with restricted time.
+#: src/const.c:73
 msgid "COLORS"
 msgstr "COULEURS"
 
-#: src/display.c:279
+#. TRANS: a `visual' is associated by LibGGI to a display.  You can
+#. actually call it a `display', this makes no big difference.
+#: src/display.c:281
 msgid "Failed to open visual."
 msgstr "Echec lors de l'ouverture du visuel."
 
-#: src/display.c:284
+#. TRANS: `display-memory' is the name of a LibGGI driver and
+#. make no sense to translate.
+#: src/display.c:288
 msgid "Failed to open an internal `display-memory' visual."
 msgstr "Echec lors de l'ouverture du visuel interne `display-memory'."
 
-#: src/display.c:312
+#: src/display.c:316
 msgid "Couldn't setup a correct display."
 msgstr "Impossible de configurer un affichage correct."
 
-#: src/display.c:321
+#: src/display.c:325
 msgid "Can't get correct direct-buffer."
 msgstr "Impossible d'obtenir un accès direct au tampon d'affichage."
 
-#: src/display.c:459
+#: src/display.c:463
 #, c-format
 msgid "Failed to open visual: %s"
 msgstr "Impossible d'ouvrir le visuel : %s"
@@ -335,10 +355,15 @@ msgstr "Impossible d'ouvrir le visuel : %s"
 msgid "THE END"
 msgstr "FIN"
 
-#: src/hedlite.c:1684
+#: src/hedlite.c:1648
 #, c-format
 msgid "Cannot create directory `%s'."
 msgstr "Impossible de créer les répertoire `%s'."
+
+#: src/hedlite.c:1705 src/hedlite.c:1712
+#, c-format
+msgid "%s: invalid level file"
+msgstr "%s: carte de niveau invalide"
 
 #: src/helptext.c:25
 msgid ""
@@ -812,17 +837,17 @@ msgid "EXTRAS"
 msgstr "EXTRAS"
 
 #: src/menus.c:176 src/menus.c:353 src/menus.c:363 src/menus.c:377
-#: src/menus.c:389 src/menus.c:399 src/menus.c:422 src/menus.c:527
+#: src/menus.c:389 src/menus.c:399 src/menus.c:422 src/menus.c:540
 msgid "GO BACK"
 msgstr "RETOUR"
 
 #. play menu
-#: src/menus.c:183 src/menus.c:521
+#: src/menus.c:183 src/menus.c:534
 msgid "PLAY"
 msgstr "JOUER"
 
 #. options menu
-#: src/menus.c:184 src/menus.c:503
+#: src/menus.c:184 src/menus.c:516
 msgid "OPTIONS"
 msgstr "OPTIONS"
 
@@ -839,7 +864,7 @@ msgid "SCORES"
 msgstr "SCORES"
 
 #. editor first menu
-#: src/menus.c:188 src/menus.c:513
+#: src/menus.c:188 src/menus.c:526
 msgid "EDITOR"
 msgstr "EDITEUR"
 
@@ -973,184 +998,203 @@ msgstr "EXTRAS: TOUS"
 msgid "EXTRAS: SELECT"
 msgstr "EXTRAS: CHOIX"
 
-#: src/menus.c:441
+#. TRANS: GFX stands for `graphics' (i.e. artwork, pictures),
+#. and IDEA is just `idea' :)
+#: src/menus.c:443
 msgid "GFX AND IDEA:"
 msgstr "GRAPH & IDEE:"
 
-#: src/menus.c:444
+#: src/menus.c:446
 msgid "MUSIC:"
 msgstr "MUSIQUE:"
 
-#: src/menus.c:449
+#: src/menus.c:451
 msgid "CODE:"
 msgstr "CODE:"
 
-#: src/menus.c:453
+#: src/menus.c:455
 msgid "PLEASE READ THE LIST OF OTHER CONTRIBUTORS IN THE FILE 'THANKS'"
 msgstr "LES AUTRES CONTRIBUTEURS SONT LISTES DANS LE FICHIER 'THANKS'"
 
 #. pause menu
-#: src/menus.c:479
+#: src/menus.c:481
 msgid "PAUSE"
 msgstr "PAUSE"
 
 #. quit y/n menus
-#: src/menus.c:483
+#: src/menus.c:485
 msgid "QUIT THIS GAME?"
 msgstr "QUITTER LA PARTIE ?"
 
-#: src/menus.c:485
+#: src/menus.c:487
 msgid "REALLY QUIT?"
 msgstr "QUITTER LE JEU ?"
 
-#: src/menus.c:487
+#: src/menus.c:489
 msgid "NO"
 msgstr "NON"
 
-#: src/menus.c:488
+#: src/menus.c:490
 msgid "YES"
 msgstr "OUI"
 
 #. editor menu
-#: src/menus.c:491
+#: src/menus.c:493
 msgid "EXISTING LEVEL"
 msgstr "NIVEAU EXISTANT"
 
-#: src/menus.c:493 src/menus.c:515
+#: src/menus.c:495 src/menus.c:528
 msgid "NEW LEVEL"
 msgstr "NOUVEAU NIVEAU"
 
-#: src/menus.c:495
+#: src/menus.c:497
 msgid "NAME"
 msgstr "NOM"
 
-#: src/menus.c:496
+#. TRANS: in wrapped levels are unbounded level, e.g. whenever the
+#. player reach the left border it continue its way from the right border
+#. (except that the player doesn't even know there are borders, because
+#. the level is tiled infinitely).  In unwrapped levels there are explicit
+#. bounds that you cannot cross.  X-WRAP is a check box used to specified
+#. whether a level must be wrapped horizontally or not when creating a
+#. new level.
+#: src/menus.c:505
 msgid "X-WRAP"
 msgstr "BOUCLE-X"
 
-#: src/menus.c:497
+#. TRANS: Y-WRAP is a check box used to specified whether a level
+#. must be wrapped horizontally or not.
+#: src/menus.c:508
 msgid "Y-WRAP"
 msgstr "BOUCLE-Y"
 
-#: src/menus.c:498
+#. TRANS: width of the level
+#: src/menus.c:510
 msgid "X-SIZE"
 msgstr "LARGEUR"
 
-#: src/menus.c:499
+#. TRANS: height of the level
+#: src/menus.c:512
 msgid "Y-SIZE"
 msgstr "HAUTEUR"
 
-#: src/menus.c:500
+#: src/menus.c:513
 msgid "EDIT"
 msgstr "EDIT"
 
 #. main menu
-#: src/menus.c:506
+#: src/menus.c:519
 msgid "HEROES"
 msgstr "HEROES"
 
 #. editor selector
-#: src/menus.c:509
+#: src/menus.c:522
 msgid "SELECT A LEVEL"
 msgstr "CHOISSEZ UN NIVEAU"
 
-#: src/menus.c:517
+#: src/menus.c:530
 msgid "LOAD LEVEL"
 msgstr "CHARGER"
 
-#: src/menus.c:523
+#: src/menus.c:536
 msgid "ONE PLAYER"
 msgstr "UN JOUEUR"
 
-#: src/menus.c:525
+#: src/menus.c:538
 msgid "TWO PLAYER"
 msgstr "DEUX JOUEURS"
 
-#: src/menus.c:529
+#: src/menus.c:542
 msgid "LOAD..."
 msgstr "CHARGER..."
 
 #. saved game selection
-#: src/menus.c:538
+#: src/menus.c:551
 msgid "CHOSE A SAVE SLOT"
 msgstr "CHOISISSEZ UN EMPLACEMENT"
 
-#: src/menus.c:540
+#: src/menus.c:553
 msgid "CHOSE A LOAD SLOT"
 msgstr "CHOISSISSEZ UN EMPLACEMENT"
 
 #. enter your name
-#: src/menus.c:544
+#: src/menus.c:557
 msgid "ENTER YOUR NAME:"
 msgstr "ENTREZ VOTRE NOM"
 
 #. end level info
-#: src/menus.c:548
+#. TRANS: SIZE is the size of the player trail, PTS the
+#. number of PoinTS
+#: src/menus.c:563
 msgid "SIZE  PTS  LIVES"
 msgstr "TAILLE PTS VIES"
 
-#: src/menus.c:550
+#: src/menus.c:565
 msgid "PTS  LIVES"
 msgstr "POINTS VIES"
 
-#: src/menus.c:552
+#. TRANS: this is for KILL'EM ALL mode, and MEN is the number
+#. of lemmings killed by one player
+#: src/menus.c:569
 msgid " MEN  PTS  LIVES"
 msgstr "LEMS  PTS  VIES"
 
-#: src/menus.c:554
+#: src/menus.c:571
 msgid "CA$H  PTS  LIVES"
 msgstr "SOUS  PTS  VIES"
 
-#: src/menus.c:556
+#: src/menus.c:573
 msgid "COLORS  PTS  LIVES"
 msgstr "COULEURS PTS  VIES"
 
-#: src/menus.c:558
+#: src/menus.c:575
 msgid "NEXT LEVEL"
 msgstr "NIVEAU SUIVANT"
 
-#: src/menus.c:560
+#. TRANS: this is a button that introduce the user to another
+#. menu.  This is NOT displayed during saving.
+#: src/menus.c:579
 msgid "SAVE..."
 msgstr "SAUVER..."
 
-#: src/menus.c:562
+#: src/menus.c:581
 msgid "PRESS RETURN"
 msgstr "FRAPPEZ ENTREE"
 
-#: src/menus.c:571
+#: src/menus.c:590
 msgid "WINS  PTS  LIVES"
 msgstr "GAINS PTS  VIES"
 
 #. higher scores
-#: src/menus.c:582
+#: src/menus.c:601
 msgid "HIGHER SCORES"
 msgstr "MEILLEURS SCORES"
 
 #. FIXME: handle plural
-#: src/menus.c:1195
+#: src/menus.c:1214
 #, c-format
 msgid "%d ROUNDS"
 msgstr "%d MANCHES"
 
-#: src/menus.c:2175
+#: src/menus.c:2194
 #, c-format
 msgid "PLAYER %d, YOU CAME IN THE TOP 10"
 msgstr "JOUEUR %d, VOUS FIGUREZ PARMI LES 10 MEILLEURS"
 
-#: src/menus.c:2244
+#: src/menus.c:2263
 #, c-format
 msgid "PLAYER %d WON!"
 msgstr "LE JOUEUR %d GAGNE !"
 
-#: src/menus.c:2250
+#: src/menus.c:2269
 msgid "EVERYONE LOST!"
 msgstr "TOUT LE MONDE PERD"
 
-#: src/menus.c:2252
+#: src/menus.c:2271
 msgid "YOU LOST!"
 msgstr "VOUS AVEZ PERDU !"
 
-#: src/menus.c:2331
+#: src/menus.c:2350
 #, c-format
 msgid "ROUND %d/%d"
 msgstr "MANCHE %d/%d"
@@ -1180,7 +1224,11 @@ msgstr "%s:%d: auteur manquant"
 msgid "Cannot open %s"
 msgstr "Impossible d'ouvrir %s"
 
-#: src/readmake.c:221
+#. TRANS: image is the name of an internal command (hence
+#. maybe not worth to translate) used to display pictures
+#. in the help reader; `flag' is just a synonym for `option'
+#. here.
+#: src/readmake.c:225
 #, c-format
 msgid "Unknown image flag '%c'."
 msgstr "Option d'image inconnue '%c'."
