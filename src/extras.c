@@ -49,8 +49,8 @@ NEW_LIST (level, extra_level_t*, STD_EQUAL, free);
 
 extradir_list_t edir;
 
-int extra_nbr = 0;		/* The total number of extra levels */
-int extra_user_nbr = 0;		/* The number of user levels from */
+unsigned int extra_nbr = 0;	/* the total number of extra levels */
+unsigned int extra_user_nbr = 0; /* The number of user levels from */
 
 extra_level_t *extra_list = 0;	/* The list of extra-levels, the user's
 				   extra-levels are at the beginning */
@@ -87,24 +87,23 @@ cmp_extralevels (const extra_level_t* l, const extra_level_t* r)
 /* Browse a directory, adds the levels found to ll.
    Update extra_nbr and extra_user_nbr. */
 static void
-browse_extra_directory (const char* directory, char is_in_user_dir, 
-			level_list_t* ll)
+browse_extra_directory (extradir_info_t* edi, level_list_t* ll)
 {
   DIR* dir;
   struct dirent* de;
   int n = 0;
 
-  dmsg (D_FILE, "browsing directory %s ...", directory);
+  dmsg (D_FILE, "browsing directory %s ...", edi->filename);
 
-  dir = opendir (directory);
+  dir = opendir (edi->filename);
   if (!dir) {
     /* Always output an error message when handling a user directory.
        If not, we are probably reading a default extra directory,
        maybe system wide configured or hard coded in the source;
        it's best to assume this is not an error (this allow the
        addition of extra levels as packages or such).  */
-    if (is_in_user_dir) 
-      perror (directory);
+    if (edi->is_in_user_dir) 
+      perror (edi->filename);
     dperror ("scandir");
     return;
   }
@@ -113,13 +112,13 @@ browse_extra_directory (const char* directory, char is_in_user_dir,
     if (select_file (de)) {
       /* add the file to the list */
       extra_level_t* tmp = malloc (sizeof (*tmp));
-      char* fn = malloc (strlen (directory) + 1 + 
+      char* fn = malloc (strlen (edi->filename) + 1 + 
 			 strlen (de->d_name) + 1);
 
       tmp->level_name = strdup (de->d_name);
-      sprintf (fn, "%s/%s", directory, tmp->level_name);
+      sprintf (fn, "%s/%s", edi->filename, tmp->level_name);
       tmp->full_name = fn;
-      tmp->is_in_user_dir = is_in_user_dir;
+      tmp->is_in_user_dir = edi->is_in_user_dir;
 
       strupr (tmp->level_name);
       if ((fn = strchr (tmp->level_name, '.')))
@@ -134,7 +133,7 @@ browse_extra_directory (const char* directory, char is_in_user_dir,
   dmsg (D_FILE, "... %d files", n);
 
   extra_nbr +=n;
-  if (is_in_user_dir)
+  if (edi->is_in_user_dir)
     extra_user_nbr += n;
 }
 
@@ -144,11 +143,11 @@ browse_extra_directories (void)
   extradir_list_t ed = edir;
   level_list_t ll = 0;
   level_list_t ll_cur;
-  int i;
+  unsigned int i;
 
   /* build the list of the files found in each directory */
   while (ed) {
-    browse_extra_directory (ed->car->filename, ed->car->is_in_user_dir, &ll);
+    browse_extra_directory (ed->car, &ll);
     ed = ed->cdr;
   }
   
@@ -218,7 +217,7 @@ add_default_extra_directories (void)
 void
 free_extra_list (void)
 {
-  int i;
+  unsigned int i;
 
   if (extra_nbr == 0)
     return;

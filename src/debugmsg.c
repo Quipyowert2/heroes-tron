@@ -28,12 +28,12 @@ const char* progname = 0;
 
 #if defined VA_START
 void 
-dmsg (enum debug_lvl dlvl, char* msg, ...)
+dmsg (enum debug_lvl dlvl, const char* msg, ...)
 #else
 void 
 dmsg (dlvl, msg, va_alist)
      enum debug_lvl dlvl;
-     char* msg;
+     const char* msg;
      va_dcl;
 #endif
 {

@@ -31,8 +31,8 @@ typedef struct {
 
 extern extra_level_t *extra_list;
 extern char *extra_selected_list;
-extern int extra_nbr;
-extern int extra_user_nbr;
+extern unsigned int extra_nbr;
+extern unsigned int extra_user_nbr;
 
 void browse_extra_directories (void);
 void add_extra_directory (filename_t fn);

@@ -47,6 +47,15 @@
 #define NULL_DESTRUCTOR(x) ;
 #define STD_EQUAL(a, b) ((a) == (b))
 
+/* Indenting rules of most editors require to put a semicolon after
+ * the call to these macros, as in
+ *    NEW_LIST_SPEC(foo,int);
+ *                         ^^^
+ * Therefore macros should arrange so that this trailing semicolon is
+ * legal (out of functions, a single semicolon left alone is 
+ * considered as an empty declaration which is not legal).
+ */
+
 #define NEW_LIST_SPEC(PREFIX,TYPE)					\
 									\
 struct PREFIX##_list_s {						\
@@ -61,7 +70,7 @@ void            PREFIX##_delete (PREFIX##_list_t* list);		\
 PREFIX##_list_t PREFIX##_member (PREFIX##_list_t list, TYPE value);	\
 void            PREFIX##_push   (PREFIX##_list_t* list, TYPE value);	\
 TYPE            PREFIX##_pop    (PREFIX##_list_t* list);		\
-void		PREFIX##_clear  (PREFIX##_list_t* list);
+void		PREFIX##_clear  (PREFIX##_list_t* list)
 
 #define NEW_LIST_BODY(PREFIX,TYPE,EQUAL_P,DESTRUCTOR)			\
 									\
@@ -118,8 +127,10 @@ PREFIX##_clear (PREFIX##_list_t* list)					\
     free (*list);							\
     *list = next;							\
   }									\
-}
+}									\
+									\
+extern void dummy_function_declaration_to_eat_ending_semicolon (void)
 
 #define NEW_LIST(PREFIX,TYPE,EQUAL_P,DESTRUCTOR)	\
-NEW_LIST_SPEC(PREFIX,TYPE)				\
+NEW_LIST_SPEC(PREFIX,TYPE);				\
 NEW_LIST_BODY(PREFIX,TYPE,EQUAL_P,DESTRUCTOR)

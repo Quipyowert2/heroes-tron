@@ -1,5 +1,23 @@
 2000-09-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Suppress some warnings.
+	
+	* src/debugmsg.c (dmsg): Take a constant message.
+	* src/debugmsg.h (dmsg): Likewise.
+	* configure.in (CFLAGS): Remove -ansi, for it is harmful.
+	* src/extras.h (extra_nbr,extra_user_nbr): Declare unsigned.
+	* src/extras.c (extra_nbr,extra_user_nbr): Likewise.
+	(browse_extra_directory): Take an extradir_info_t struct instead
+	of the first two arguments.
+	(browse_extra_directories): Adapt call to browse_extra_directory.
+	Declare i as unsigned.
+	(free_extra_list): Declare i as unsigned.
+	* src/generic_list.h (NEW_LIST_SPEC): Remove trailing semicolon.
+	(NEW_LIST_BODY): Ada a dummy function declaration to eat a trailing
+	semicolon.
+
+2000-09-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Fix memory handling in src/extras.c (was leaking, and reallocating
 	0 sized buffers).
 

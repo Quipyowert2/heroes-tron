@@ -514,11 +514,13 @@ fi
 if test -n "$auto_cflags"; then
   if test "x${enable_debug}" = xyes; then
     if test -n "$GCC"; then
-      CFLAGS="$CFLAGS -Wall -ansi -pedantic -W -Wtraditional -Wshadow \
+      CFLAGS="$CFLAGS -Wall -pedantic -W -Wtraditional -Wshadow \
 -Wpointer-arith -Wcast-qual -Wcast-align -Wwrite-strings \
 -Wconversion -Waggregate-return -Wstrict-prototypes \
 -Wmissing-prototypes -Wmissing-declarations -Wnested-externs \
 -Winline -ggdb"
+      # -ansi is not used since it prevents declaration of functions
+      #        like strdup, and because it makes warning in system headers.
     else
       CFLAGS="$CFLAGS -g"
     fi

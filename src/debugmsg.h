@@ -43,7 +43,7 @@ extern enum debug_lvl debug_level;
 # define dperror while (0) while
 #else
 # ifdef VA_START
-void dmsg (enum debug_lvl dlvl, char* msg, ...);
+void dmsg (enum debug_lvl dlvl, const char* msg, ...);
 # else
 void dmsg (void);
 # endif
