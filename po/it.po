@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.9\n"
-"POT-Creation-Date: 2001-07-23 19:16+0200\n"
+"POT-Creation-Date: 2001-07-30 09:54+0200\n"
 "PO-Revision-Date: 2001-04-27 21:15+01:00\n"
 "Last-Translator: Alessandro Dotti <alessandro.dotti@libero.it>\n"
 "Language-Team: none <LL@li.org>\n"
@@ -406,7 +406,7 @@ msgstr "impossibile acquisire il buffer diretto"
 msgid "failed to release direct-buffer"
 msgstr "impossibile rilasciare il buffer diretto"
 
-#: src/display.c:580
+#: src/display.c:581
 #, c-format
 msgid "Failed to open visual: %s"
 msgstr "Impossibile aprire lo schermo: %s"
@@ -842,44 +842,44 @@ msgstr ""
 "Alexandre Liverneaux e Philippe Meisburger.\n"
 "\n"
 
-#: src/heroes.c:586 src/heroes.c:674
+#: src/heroes.c:584 src/heroes.c:672
 #, c-format
 msgid "Cannot load level %s (error %d)"
 msgstr ""
 
-#: src/heroes.c:1815
+#: src/heroes.c:1813
 #, c-format
 msgid "INVERTED %d"
 msgstr "INVERTITO %d"
 
-#: src/heroes.c:1846
+#: src/heroes.c:1844
 #, c-format
 msgid "STOPPED %d"
 msgstr "FERMATO %d"
 
 #. TRANS: %d, the number of remaining lives, is always
 #. positive.
-#: src/heroes.c:2138
+#: src/heroes.c:2136
 msgid "LAST LIFE"
 msgid_plural "%d LIVES LEFT"
 msgstr[0] "ULTIMA VITA"
 msgstr[1] "%d VITE RIMASTE"
 
-#: src/heroes.c:2752
+#: src/heroes.c:2748
 msgid "Error during level loading"
 msgstr "Errore durante il caricamento del livello"
 
-#: src/heroes.c:2789
+#: src/heroes.c:2784
 #, c-format
 msgid "-LEVEL %d-"
 msgstr "-LIVELLO %d-"
 
-#: src/heroes.c:2791
+#: src/heroes.c:2786
 #, c-format
 msgid "-ROUND %d/%d-"
 msgstr "-ROUND %d/%d-"
 
-#: src/heroes.c:3266
+#: src/heroes.c:3272
 msgid "error in sfx.cfg"
 msgstr "errore in sfx.cfg"
 
@@ -893,6 +893,11 @@ msgid "No joystick found (run with `-J' to suppress this message)."
 msgstr ""
 "Joystick non trovato (esegui con l'opzione `-J' per eliminare questo "
 "messaggio)."
+
+#: src/levellst.c:54
+#, fuzzy, c-format
+msgid "cannot open directory %s"
+msgstr "Impossibile creare la directory `%s'."
 
 #. TRANS: in QUEST mode, the player goes throught all the levels, but
 #. have to search for specific powerups in order to jump to the next
@@ -1297,22 +1302,22 @@ msgstr "HAI PERSO!"
 msgid "ROUND %d/%d"
 msgstr "ROUND %d/%d"
 
-#: src/musicfiles.c:180
+#: src/musicfiles.c:166
 #, c-format
 msgid "%s:%d: missing alias name"
 msgstr "%s:%d: manca l'alias"
 
-#: src/musicfiles.c:182
+#: src/musicfiles.c:168
 #, c-format
 msgid "%s:%d: missing file name"
 msgstr "%s:%d: manca il nome del file"
 
-#: src/musicfiles.c:184
+#: src/musicfiles.c:170
 #, c-format
 msgid "%s:%d: missing title"
 msgstr "%s:%d: manca il titolo"
 
-#: src/musicfiles.c:186
+#: src/musicfiles.c:172
 #, c-format
 msgid "%s:%d: missing author"
 msgstr "%s:%d: manca l'autore"
@@ -1436,7 +1441,7 @@ msgstr "%s:%d: errore di analisi. Cancello l'elenco delle partite salvate."
 msgid "%s:%d: parse error.  Clearing score table."
 msgstr "%s:%d: errore di analisi. cancello la tabella dei punteggi."
 
-#: src/sfx.c:148
+#: src/sfx.c:153
 #, c-format
 msgid ""
 "Cannot open %s, disabling sound-effects\n"
@@ -1445,7 +1450,7 @@ msgstr ""
 "Impossibile aprire %s, disabilito gli effetti sonori\n"
 "(esegui con l'opzione -X per eliminare questo messaggio)."
 
-#: src/sfx.c:314
+#: src/sfx.c:319
 #, c-format
 msgid "Unable to load sample %s"
 msgstr "Impossibile caricare l'esempio %s"
@@ -1532,17 +1537,27 @@ msgstr "%s: le opzioni sonore riconosciute sono freq=nnn e buffers=nnn"
 msgid "Heroes has been compiled without sound support."
 msgstr "Heroes è stato compilato senza il supporto audio."
 
-#: src/userconf.c:82 src/userconf.c:109
+#: src/userconf.c:83 src/userconf.c:110
 #, c-format
 msgid "%s:%d: missing variable name"
 msgstr "%s:%d: nome di variabile assente"
 
-#: src/userconf.c:101
+#: src/userconf.c:102
 #, c-format
 msgid "%s:%d: missing resource name"
 msgstr "%s:%d: nome di risorsa assente"
 
-#: src/userconf.c:124
+#: src/userconf.c:126 src/userconf.c:140
+#, c-format
+msgid "%s:%d: %s: can only be used from the system configuration file"
+msgstr ""
+
+#: src/userconf.c:135 src/userconf.c:149
+#, fuzzy, c-format
+msgid "%s:%d: %s: unknown value: %s"
+msgstr "%s:%d: parola chiave sconosciuta `%s'"
+
+#: src/userconf.c:153
 #, c-format
 msgid "%s:%d: unknown keyword `%s'"
 msgstr "%s:%d: parola chiave sconosciuta `%s'"

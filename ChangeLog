@@ -1,5 +1,10 @@
 2001-07-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.ac: Bump version to 0.12c.
+	* NEWS: Update for 0.12c.
+
+2001-07-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/heroes.c (main): Switch to sys_persona() before calling
 	init_sound_engine() and init_video(), and back to user_persona() after.
 	* src/persona.h (keep_sgid, keepsuid): New variables.

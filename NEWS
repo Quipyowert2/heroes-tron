@@ -1,3 +1,15 @@
+Heroes 0.12c	July 30, 2001
+
+	* Compile flags handling revamped:
+	  - heroes and heroeslvl do not use the same libraries.
+	  - lib/ and intl/ use less strict -Woptions than src/.
+	* heroeslvl has a manpage.
+	* heroes can be configured to not drop s-bit privileges
+	  with the `keepsuid: yes' and `keepsgid: yes' system-wide settings.
+	* Bug fixes:
+	  - A couple of memory leaks.
+	  - ``heroes-sdl -G mumble'' didn't work.
+
 Heroes 0.12b	July 24, 2001
 
 	* heroes:

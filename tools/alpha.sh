@@ -52,7 +52,7 @@ rm ChangeLog.head
 clcommit
 )
 
-ssh shell.sf.net "cd $HTDOCS_DIR; cvs up; make -k"
+ssh shell.sf.net "cd $HTDOCS_DIR; cvs up; make -k; true"
 
 # Mail announcement.
 mail -s "$PACKAGE $VERSION uploaded" heroes-discuss@lists.sourceforge.net < mailtxt
