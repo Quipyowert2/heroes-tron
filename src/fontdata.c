@@ -27,6 +27,7 @@ fontdata_t *edit_font = 0;
 fontdata_t *menu_font = 0;
 fontdata_t *help_font = 0;
 fontdata_t *deck_font = 0;
+fontdata_t *bonus_font = 0;
 
 static void
 initialize_menu_font (void)
@@ -101,6 +102,39 @@ initialize_deck_font (void)
   }
 }
 
+static void
+initialize_bonus_font (void)
+{
+  pixel_t *upl;			/* upper left pixel of the character */
+  int ch;			/* current character */
+
+  XMALLOC_VAR (bonus_font);
+  bonus_font->height = 12;
+  bonus_font->line_size = bonus_font_img.width;
+  memset (bonus_font->width, 0, 256);
+
+  for (ch = ' '; ch <= 'd'; ++ch) {
+    unsigned int width, act_width;
+    unsigned int height;
+
+    upl = bonus_font_img.buffer +
+      ((int) (ch - ' ') % 26) * 12 +
+      ((int) (ch - ' ') / 26) * bonus_font_img.width * bonus_font->height;
+
+    /* detect the width of a character */
+    for (act_width = width = 0; width < 12; ++width)
+      for (height = 0; height < bonus_font->height; ++height) {
+	if (upl[width + height * bonus_font_img.width] != 0) {
+	  act_width = width + 1;
+	  break;
+	}
+      }
+    bonus_font->upper_left[ch] = upl;
+    bonus_font->width[ch] = act_width;
+  }
+  bonus_font->width[' '] = 5;
+}
+
 void
 init_fonts (void)
 {
@@ -110,6 +144,7 @@ init_fonts (void)
   edit_font = 0;
   help_font = 0;
   initialize_deck_font ();
+  initialize_bonus_font ();
 }
 
 void
@@ -121,6 +156,7 @@ uninit_fonts (void)
   XFREE0 (edit_font);
   XFREE0 (help_font);
   XFREE0 (deck_font);
+  XFREE0 (bonus_font);
 }
 
 unsigned int

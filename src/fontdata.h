@@ -27,7 +27,7 @@ typedef struct {
   unsigned int	width[256];	/* width of each character */
   unsigned int	height;		/* height common to each character */
   pixel_t*	upper_left[256]; /* upper left pixel of each character.
-				    DO NOT use this pointer if the 
+				    DO NOT use this pointer if the
 				    corresponding width is null. */
   unsigned int	line_size;	/* size of a line in the font buffer */
 } fontdata_t;
@@ -36,6 +36,7 @@ extern fontdata_t *edit_font;
 extern fontdata_t *menu_font;
 extern fontdata_t *help_font;
 extern fontdata_t *deck_font;
+extern fontdata_t *bonus_font;
 
 void init_fonts (void);
 void uninit_fonts (void);

@@ -29,6 +29,7 @@
 #include "argv.h"
 #include "debugmsg.h"
 #include "sprrle.h"
+#include "sprtext.h"
 
 /* density of bonuses in different modes */
 
@@ -69,7 +70,7 @@ static int next_bonus_to_update;
 htimer_t bonus_anim_htimer;
 int bonus_anim_offset;
 
-char txt_bonus[4][20];
+static sprite_t *txt_bonus[4] = { 0, 0, 0, 0 };
 int txt_bonus_tempo[4];
 
 void
@@ -273,15 +274,16 @@ spread_bonuses (void)
 void
 set_txt_bonus (int pl, char *txt, int tempo)
 {
-  strcpy (txt_bonus[pl], txt);
+  FREE_SPRITE0 (txt_bonus[pl]);
+  txt_bonus[pl] = compile_bonus_text (txt, T_FLUSHED_LEFT | T_WAVING, 0, 0);
   txt_bonus_tempo[pl] = tempo;
 }
 
 void
-show_txt_bonus (int pl, char align, int x, int y)
+show_txt_bonus (int pl, pixel_t *dest)
 {
   if (txt_bonus_tempo[pl] > 0)
-    draw_text_bonus (txt_bonus[pl], x, y, align);
+    DRAW_SPRITE (txt_bonus[0], dest);
 }
 
 void

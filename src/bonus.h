@@ -35,7 +35,6 @@ extern unsigned char *tile_bonus_cpu;
 extern int *bonus_time;
 extern int *bonus_list;
 
-extern char txt_bonus[4][20];
 extern int txt_bonus_tempo[4];
 
 extern void add_bonus (int pos_in_list, unsigned char what);
@@ -53,7 +52,7 @@ extern void uninit_bonuses_level (void);
 extern void spread_bonuses (void);
 
 extern void set_txt_bonus (int pl, char *txt, int tempo);
-extern void show_txt_bonus (int pl, char align, int x, int y);
+extern void show_txt_bonus (int pl, pixel_t *dest);
 
 extern void add_end_level_bonuses (void);
 extern void apply_bonus (int pl, char bonus);

@@ -1,5 +1,23 @@
 2000-11-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/bonus.c (txt_bonus): Use sprite_t and qualify as static.
+	(set_txt_bonus): Compile the bonus text as a sprite.
+	(show_txt_bonus): Use DRAW_SPRITE.  Change prototype and take
+	a destination argument.
+	* src/bonus.h (txt_bonus): Remove.
+	(show_txt_bonus): Change prototype and take a destination argument.
+	* src/fontdata.c (bonus_font, initialize_bonus_font): New.
+	(init_fonts): Call initialize_bonus_font.
+	(uninit_fonts): Free bonus_font.
+	* src/fontdata.h (bonus_font): New.
+	* src/heroes.c (output_screen): Adapt call to show_txt_bonus.
+	* src/sprtext.c (compile_bonus_text): New.
+	* src/sprtext.h (compile_bonus_text): New.
+	* src/draw.c (draw_text_bonus): Remove.
+	* src/draw.h (draw_text_bonus): Remove.
+
+2000-11-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/draw.c (text_waving_step, text_waving_htimer,
 	init_text_waving_step, uninit_text_waving_step,
 	update_text_waving_step): Move to ...

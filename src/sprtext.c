@@ -83,3 +83,10 @@ compile_deck_text (const char *text, enum text_option topt,
 {
   return compile_sprtext (deck_font, text, topt, 0, row * xbuf + col);
 }
+
+sprite_t *
+compile_bonus_text (const char *text, enum text_option topt,
+		    int row, int col)
+{
+  return compile_sprtext (bonus_font, text, topt, 0, row * xbuf + col);
+}

@@ -24,40 +24,6 @@
 #include "options.h"
 #include "display.h"
 #include "draw.h"
-#include "sprprogwav.h"
-
-void
-draw_text_bonus (const char* text, int posx, int posy, int p)
-{
-  char j, c;
-  int i, k, l, m;
-  unsigned char *dest = corner[p] + posx + posy * xbuf;
-  const unsigned char *src = text;
-  unsigned char sinl = text_waving_step;
-
-  for (; *text != 0; text++) {
-    i = (*text - 32);
-    src =
-      bonus_font_img.buffer + ((int) (i) % 26 * 12) +
-      ((int) (i) / 26) * 320 * 12;
-    for (j = 6; j != 0; j--) {
-      sinl++;
-      sinl &= 31;
-      m = ((signed char) minisinus[sinl]) * xbuf;
-      for (k = 320 * 10, l = xbuf * 10; k >= 0;) {
-	c = *(src + k);
-	k -= 320 * 2;
-	if (c != 0) {
-	  *(dest + m + l) = c;
-	  *(dest + m + l + xbuf) = 82;
-	}
-	l -= xbuf * 2;
-      }
-      dest += 2;
-      src += 2;
-    }
-  }
-}
 
 void
 copy_rect_transp (const unsigned char *src, unsigned char *dest, int xt,

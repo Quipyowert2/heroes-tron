@@ -1361,7 +1361,7 @@ output_screen (char n)
 			246);
     }
     if (player[col2plr[0]].spec != 0xde)
-      show_txt_bonus (col2plr[0], 0, 40, 5);
+      show_txt_bonus (col2plr[0], corner[0] + 40 + 5 * xbuf);
   } else {
     compute_corner (0, n);
     compute_corner (1, n);
@@ -1410,9 +1410,9 @@ output_screen (char n)
 			xbuf + 66);
     }
     if (player[col2plr[0]].spec != 0xde)
-      show_txt_bonus (col2plr[0], 0, 1, 185);
+      show_txt_bonus (col2plr[0], corner[0] + 1 + 185 * xbuf);
     if (player[col2plr[1]].spec != 0xde)
-      show_txt_bonus (col2plr[1], 1, 2, 185);
+      show_txt_bonus (col2plr[1], corner[1] + 2 + 185 * xbuf);
 
     src = corner[swapside] + 158;
     for (i = 200; i != 0; i--) {

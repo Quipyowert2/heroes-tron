@@ -21,8 +21,6 @@
 #ifndef HEROES__DRAW__H
 #define HEROES__DRAW__H
 
-void draw_text_bonus (const char *text, int posx, int posy, int p);
-
 void copy_rect_transp (const unsigned char *src, unsigned char *dest, int xt,
 		       int yt);
 void copy_rect_transp_red (const unsigned char *src, unsigned char *dest,
