@@ -1,5 +1,10 @@
 2001-12-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.ac: Bump version to 0.18.
+	* ANNOUNCE, NEWS: Update.
+
+2001-12-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* po/de.po: Update copying/warranty message.
 	From Ingo van Lil <inguin@gmx.de>.
 

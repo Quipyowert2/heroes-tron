@@ -1,3 +1,10 @@
+Heroes 0.18	December 15, 2001
+
+	* Bug fixes:
+	  - Display lowercase characters in deck font (introduced in 0.17a).
+	  - Fix background shift when switching from/to one player mode
+	    to/from two player mode in the "game" menu (since 0.12c).
+
 Heroes 0.17a	December 13, 2001
 
 	* This version requires heroes-data-1.4.

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.9\n"
-"POT-Creation-Date: 2001-12-13 09:31+0100\n"
+"POT-Creation-Date: 2001-12-15 17:32+0100\n"
 "PO-Revision-Date: 2001-04-27 21:15+01:00\n"
 "Last-Translator: Alessandro Dotti <alessandro.dotti@libero.it>\n"
 "Language-Team: none <LL@li.org>\n"
@@ -392,7 +392,7 @@ msgstr "%s: canale inesistente (--list=debug elenca tutti i canali)"
 msgid "THE END"
 msgstr "FINE"
 
-#: src/fontdata.c:245
+#: src/fontdata.c:243
 #, c-format
 msgid "character '%c' is not drawable (in message '%s')"
 msgstr "il carattere '%c' non può essere disegnato (nel messaggio '%s')"

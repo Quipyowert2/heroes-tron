@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.8c\n"
-"POT-Creation-Date: 2001-12-13 09:31+0100\n"
+"POT-Creation-Date: 2001-12-15 17:32+0100\n"
 "PO-Revision-Date: 2001-02-23 22:37+01:00\n"
 "Last-Translator: Jos Boersema <joshb@FIXME>\n"
 "Language-Team: none <LL@li.org>\n"
@@ -402,7 +402,7 @@ msgstr "%s: niet zo'n kanaal (--list=debug zal alle bekende kanalen geven)"
 msgid "THE END"
 msgstr "EINDE"
 
-#: src/fontdata.c:245
+#: src/fontdata.c:243
 #, c-format
 msgid "character '%c' is not drawable (in message '%s')"
 msgstr "karakter `%c' is niet afdrukbaar (in bericht `%s')"
