@@ -1,5 +1,10 @@
 2001-05-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/relocate.c (try_to_explore_path): Support semicolon
+	separated paths.
+
+2001-05-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/visuals.c: s/gauche/left/; s/droite/right/
 	(vertical_zoom_wave): Fix display of last line.
 	Reported by Jean.

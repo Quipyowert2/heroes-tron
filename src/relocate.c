@@ -133,13 +133,19 @@ try_to_explore_path (void)
   char *path;
   char *last;
   bool curdir_is_ok = false;
+  const char *pathsep;
 
   if (!path_env)
     return false;
 
+  /* If a semicolon is present in the PATH, assume it is the PATH
+     separator character, otherwise we'll use a colon.  */
+  pathsep = strchr (path, ';') ? ";" : ":";
+
+  /* Duplicate the string because it will be destroyed by strtok.  */
   path = strdup (path_env);
-  /* FIXME: ':' is not always the right caracter to look for.  */
-  last = strtok (path, ":");
+
+  last = strtok (path, pathsep);
   while (last) {
     char *dir = strcat_alloc (last, "/" BACKWARD_RELATIVE_BINDIR);
     dmsg (D_SYSTEM, "trying $(prefix)='%s'", dir);
@@ -149,8 +155,7 @@ try_to_explore_path (void)
       curdir_is_ok = true;
       break;
     }
-    /* FIXME: ':' is not always the right caracter to look for.  */
-    last = strtok (0, ":");
+    last = strtok (0, pathsep);
   }
   free (path);
   return curdir_is_ok;
