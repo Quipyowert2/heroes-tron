@@ -1,6 +1,7 @@
 2001-11-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* doc/heroes.texi (Machines): Add a notice for Suse 7.1 users.
+	* BUGS: Update.
 
 2001-11-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
