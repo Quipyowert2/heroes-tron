@@ -32,24 +32,24 @@
 
 int snap = 0;
 int cpuon = 1;
-int nosfx = 0;
-int joyoff = 0;
+bool nosfx = false;
+bool joyoff = false;
 int devparm = 0;
-int loadulevel = 0;
-int directmenu = 0;
+bool loadulevel = false;
+bool directmenu = false;
 int reinitsco = 0;
 int reinitopt = 0;
 int reinitsav = 0;
 int x10sav = 0;
 int doublefx = 1;
-int swapside = 1;
+bool swapside = true;
 char* level_name;
-int mono = 0;
-int bits8 = 0;
-int hqmix = 0;
+bool mono = false;
+bool bits8 = false;
+bool hqmix = false;
 int stretch = 1;
-int nosound = 0;
-int even_lines = 0;
+bool nosound = false;
+bool even_lines = false;
 
 static void
 version (void)
@@ -173,7 +173,7 @@ const struct option long_options[] = {
   {"load",		required_argument, NULL,	'L'},
   {"mono",		no_argument,       NULL,	'm'},
   {"no-double-fx",	no_argument,       &doublefx,	0},
-  {"no-joystick",	no_argument,       &joyoff,	'J'},
+  {"no-joystick",	no_argument,       NULL,	'J'},
   {"no-sfx",		no_argument,       NULL,	'X'},
   {"no-sound",		no_argument,       NULL,	'S'},
   {"quiet",		no_argument,	   NULL,	'q'},
@@ -218,19 +218,19 @@ parse_argv (int argc, char **argv)
       print_help (argv[0]);
       return 1;
     case 's':
-      swapside = 0;
+      swapside = false;
       break;
     case 'm':
-      mono = 1;
+      mono = true;
       break;
     case '8':
-      bits8 = 1;
+      bits8 = true;
       break;
     case 'a':
-      hqmix = 1;
+      hqmix = true;
       break;
     case 'X':
-      nosfx = 1;
+      nosfx = true;
       break;
     case 'l':
       list (optarg);
@@ -238,10 +238,10 @@ parse_argv (int argc, char **argv)
     case 'L':
       level_name = xstrdup (optarg);
       level_name = strappend (level_name, ".lvl");
-      loadulevel = 1;
+      loadulevel = true;
       break;
     case 'g':
-      directmenu = 1;
+      directmenu = true;
       break;
     case 'n':
       wmsg ("-n is an obsolete option, you should use --list=sound-drivers");
@@ -257,7 +257,7 @@ parse_argv (int argc, char **argv)
       set_full_screen_mode ();
       break;
     case 'J':
-      joyoff = 1;
+      joyoff = true;
       break;
     case '2':
       stretch = 2;
@@ -266,23 +266,23 @@ parse_argv (int argc, char **argv)
       stretch = 3;
       break;
     case 'e':
-      even_lines = 1;
+      even_lines = true;
       break;
     case 'i':
-      hqmix = 1;
+      hqmix = true;
       break;
     case 'S':
-      nosound = 1;
+      nosound = true;
       break;
     case '?':
       /* getopt_long already printed an error message. */
     case 0:
       break;
     case 'Q':
-      disable_emsg = 1;
+      disable_emsg = true;
       /* no break: 'Q' imply 'q' */
     case 'q':
-      disable_wmsg = 1;
+      disable_wmsg = true;
       break;
 
     default:

@@ -25,23 +25,23 @@ int parse_argv (int argc, char **argv);
 
 extern int snap;
 extern int cpuon;
-extern int nosfx;
-extern int joyoff;
+extern bool nosfx;
+extern bool joyoff;
 extern int devparm;
-extern int loadulevel;
-extern int directmenu;
+extern bool loadulevel;
+extern bool directmenu;
 extern int reinitsco;
 extern int reinitopt;
 extern int reinitsav;
 extern int x10sav;
 extern int doublefx;
-extern int swapside;
+extern bool swapside;
 extern char* level_name;
-extern int mono;
-extern int bits8;
-extern int hqmix;
+extern bool mono;
+extern bool bits8;
+extern bool hqmix;
 extern int stretch;
-extern int nosound;
-extern int even_lines;
+extern bool nosound;
+extern bool even_lines;
 
 #endif /* HEROES__ARGV__H */

@@ -1,5 +1,14 @@
 2000-11-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/argv.h (nosfx, joyoff, loadulevel, directmenu, swapside,
+	mono, bits8, hqmix, nosound, even_lines): Define as booleans.
+	* src.argv.c (nosfx, joyoff, loadulevel, directmenu, swapside,
+	mono, bits8, hqmix, nosound, even_lines): Likewise.
+	(long_options): Fix no-joystick lines (useless 3rd arg).
+	(parse_argv): Use true and false for boolean variables.
+
+2000-11-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/menu.c (playmenu_title_txt, playmenu_players_txt,
 	playmenu_goback_txt, playmenu_load_txt, gamemode_txt): New.
 	(init_menus_sprites, uninit_menus_sprites): Handle the above new
