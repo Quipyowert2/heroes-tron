@@ -865,7 +865,7 @@ extra_menu (void)
       if (t == HK_Up || t == HK_Down || t == HK_Escape)
 	event_sfx (1);
       if (l == 2) {
-	if (t == 0x4700 || t == 0x4f00 || t == 0x4900 || t == 0x5100)
+	if (t == HK_Home || t == HK_End || t == HK_PageUp || t == HK_PageDown)
 	  event_sfx (1);
 	if (t == HK_Up) {
 	  if (ll > 0)
@@ -879,13 +879,13 @@ extra_menu (void)
 	  else
 	    l = 3;
 	}
-	if (t == 0x4700)
+	if (t == HK_Home)
 	  ll = 0;
-	if (t == 0x4f00)
+	if (t == HK_End)
 	  ll = extra_nbr - 1;
-	if (t == 0x4900)
+	if (t == HK_PageUp)
 	  ll = (ll > 10) ? (ll - 10) : 0;
-	if (t == 0x5100)
+	if (t == HK_PageDown)
 	  ll = (ll < (extra_nbr - 11)) ? (ll + 10) : (extra_nbr - 1);
       } else {
 	if (t == HK_Up) {
@@ -1257,8 +1257,8 @@ editor_selector (void)
       p--;
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
-      if (t == HK_Up || t == HK_Down || t == HK_Escape || t == 0x4700
-	  || t == 0x4f00 || t == 0x4900 || t == 0x5100)
+      if (t == HK_Up || t == HK_Down || t == HK_Escape || t == HK_Home
+	  || t == HK_End || t == HK_PageUp || t == HK_PageDown)
 	event_sfx (1);
       if (t == HK_Up) {
 	if (l > 0)
@@ -1272,13 +1272,13 @@ editor_selector (void)
 	else
 	  l = 0;
       }
-      if (t == 0x4700)
+      if (t == HK_Home)
 	l = 0;
-      if (t == 0x4f00)
+      if (t == HK_End)
 	l = extra_nbr - 1;
-      if (t == 0x4900)
+      if (t == HK_PageUp)
 	l = (l > 10) ? (l - 10) : 0;
-      if (t == 0x5100)
+      if (t == HK_PageDown)
 	l = (l < (extra_nbr - 11)) ? (l + 10) : (extra_nbr - 1);
     } else
       t = 0;
