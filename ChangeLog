@@ -1,5 +1,16 @@
 2000-07-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Allow modification of `speed' and `stop' tile parameters in
+	level editor.
+
+	* src/hedlite.h (fnptr): Add speed_mod and stop_mod.
+	(speed_mod): New.
+	(stop_mod): New.
+	* src/structs.h (spd_test): Make visible by removing test 
+	for __HEDLITE__.
+	
+2000-07-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Support for key modifiers in level editor.
 	
 	* src/hedlite.c (gestclav): Add an extra parameter for

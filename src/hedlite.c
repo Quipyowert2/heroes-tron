@@ -60,7 +60,8 @@ unsigned sprhide = 0, afftests = 0;
 
 static unsigned char notestmouse = 0;
 static level_header_t hplaninfo = { 0, 0, -1, -1,
-				    {0, 0, 0, 0}, {0, 0, 0, 0}, "", "", "" };
+  {0, 0, 0, 0}, {0, 0, 0, 0}, "", "", ""
+};
 static char tile_set_name[128] = rscdir;
 static char dallepie[128] = rscdir;
 static char levelnom[128] = nivdir;
@@ -71,10 +72,11 @@ static FILE *ftmp;
 
 static int scdec320[4] = { 0, 12, 3200, 3212 };
 
+static int cote = 0;
+
 /****************************/
 
-static
-tile_t *level_map;
+static tile_t *level_map;
 static tile_info_t *ddef;	// tiles definitions
 static unsigned char *outwaymap;
 static unsigned char *hdradar;
@@ -84,9 +86,12 @@ static unsigned char *hdcolli;
 static void tunnel_mod (int, int, int);
 static void anim_mod (int, int, int);
 static void fn0 (int, int, int);
+static void speed_mod (int, int, int);
+static void stop_mod (int, int, int);
 
-void (*fnptr[type_nbr]) (int, int, int) = {
-  &fn0, &fn0, &fn0, &tunnel_mod, &fn0, &anim_mod, &fn0, &fn0, &fn0};
+void (*fnptr[type_nbr]) (int, int, int) = { 
+  &fn0, &stop_mod, &speed_mod, &tunnel_mod, &stop_mod,
+  &anim_mod, &stop_mod, &stop_mod, &fn0};
 
 static void
 fatalog (char *ptr)
@@ -433,9 +438,71 @@ affgt (int t)
 
 static void
 fn0 (int a __attribute__ ((unused)),
-     int b __attribute__ ((unused)),
-     int c __attribute__ ((unused)))
+     int b __attribute__ ((unused)), int c __attribute__ ((unused)))
 {
+}
+
+static void
+speed_mod (int i, int x, int y)
+{
+  int l = 0;
+  unsigned char m;
+
+  if (y < 112) {
+    if (y > 98) {
+      l = 2;
+      y = y - 99;
+    } else
+      y = y - 88;
+    if (x >= 305) {
+      l++;
+      x = x - 305;
+    } else
+      x = x - 293;
+    if (x > 11 || y > 8 || x < 0 || y < 0)
+      return;
+    m = spd_test[y][x] & 0xf;
+    if (cote)
+      ddef[i].info.param[l] ^= m;
+    else
+      level_map[i].info.param[l] ^= m;
+  } else {
+    m = 1 << ((y - 112) / 7);
+    for (l = 3; l >= 0; l--) {
+      if (cote)
+	ddef[i].info.param[l] ^= m;
+      else
+	level_map[i].info.param[l] ^= m;
+    }
+  }
+}
+
+static void
+stop_mod (int i, int x, int y)
+{
+  int l = 0;
+  if (y < 112) {
+    if (y > 98)
+      l = 2;
+    if (x >= 305)
+      l++;
+    if (cote)
+      ddef[i].info.param[l] ^= 1;
+    else
+      level_map[i].info.param[l] ^= 1;
+  } else {
+    if (y >= 112 && y < 119) {
+      if (cote)
+	ddef[i].info.tunnel.output = 0x1010101;
+      else
+	level_map[i].info.tunnel.output = 0x1010101;
+    } else if (y >= 119 && y < 126) {
+      if (cote)
+	ddef[i].info.tunnel.output = 0;
+      else
+	level_map[i].info.tunnel.output = 0;
+    }
+  }
 }
 
 static void
@@ -462,6 +529,8 @@ tunnel_mod (int i, int x __attribute__ ((unused)), int y)
     level_map[i].info.tunnel.output = tempd;
 // }
 }
+
+
 
 static void
 anim_mod (int i, int x, int y)
@@ -491,7 +560,7 @@ anim_mod_bcl (int i, int x, int y)
       if (m >= 2 && (level_map[i].info.param[4] >> 4) > 0)
 
 	level_map[i].info.param[4] =
-	  (level_map[i].info.param[4] & 0xf0) | 
+	  (level_map[i].info.param[4] & 0xf0) |
 	  ((level_map[i].info.param[4] + ((m == 2) ? +1 : -1)) & 0xf);
 //    else     level_map[i].info.param[4]=(level_map[i].info.param[4])&0x0f | (((level_map[i].info.param[4]+ ((m==0)?+16:-16))&0xf0));
     }
@@ -530,8 +599,8 @@ affplan (int xloc, int yloc, char c)
 	    copy_square_transp (heditrsc.buffer + (16 + (n << 4)) * 320 +
 				256 + (hplaninfo.start_way[n] & 0xf0),
 				dest +
-				square_offset_320[hplaninfo.
-						  start_way[n] & 0xf]);
+				square_offset_320[hplaninfo.start_way[n] &
+						  0xf]);
 	if (level_map[i + m].sprite != 0)
 	  copy_tile_transp (level_map[i + m].sprite, dest);
       }
@@ -685,6 +754,7 @@ departfix (void)
 		 (29 + i * 9) * 320, screen + 306 + 99 * 320, 10, 9, 71);
     partiel4 (90, 112, 30, 27, 290, 112, &heditrsc);
     partiel4 (96 + c * 5, 139, 4, 4, 296 + c * 5, 112, &heditrsc);
+    vsynchro ();
     while (mouse12 () == 0 && key_ready () == 0);
     if (mouse1 ()) {
       x = mouse_x ();
@@ -1007,7 +1077,7 @@ planfull (void)
   while (mouse12 () != 0);
   do {
     affplan (xplan, yplan, 7);
-    
+
     t = 0;
     while (key_ready () == 0 && (xm - mouse_x ()) <= 1
 	   && (mouse_x () - xm) <= 1 && (ym - mouse_y ()) <= 1
@@ -1036,7 +1106,7 @@ planfull (void)
 	yplan = ((yplan - 1) & hplaninfo.ywrap);
       ym = y;
     }
-  } while (t != HK_Enter && t != HK_Space && t != HK_Escape && 
+  } while (t != HK_Enter && t != HK_Space && t != HK_Escape &&
 	   mouse12 () == 0);
   memset (screen, 0, 64000);
   partiel2 (0, 0, 30, 200, 290, 0, &heditrsc);
@@ -1119,8 +1189,8 @@ outwayflag (void)
   }
   if (hplaninfo.ywrap != 0xffffffff) {
     for (i = 0; i < hplaninfo.xt * 2; i++) {
-      if (hdradar[(hplaninfo.ywrap * 2 + 1) * hplaninfo.xt * 2 + i] &
-	  c_down) hdcolli[i] |= d_up;
+      if (hdradar[(hplaninfo.ywrap * 2 + 1) * hplaninfo.xt * 2 + i] & c_down)
+	hdcolli[i] |= d_up;
       if (hdradar[i] & c_up)
 	hdcolli[(hplaninfo.ywrap * 2 + 1) * hplaninfo.xt * 2 + i] |= d_down;
     }
@@ -1131,8 +1201,8 @@ outwayflag (void)
     };
   if (hplaninfo.xwrap != 0xffffffff) {
     for (i = 0; i < hplaninfo.yt * 2; i++) {
-      if (hdradar[i * hplaninfo.xt * 2 + hplaninfo.xwrap * 2 + 1] &
-	  c_right) hdcolli[i * hplaninfo.xt * 2] |= d_left;
+      if (hdradar[i * hplaninfo.xt * 2 + hplaninfo.xwrap * 2 + 1] & c_right)
+	hdcolli[i * hplaninfo.xt * 2] |= d_left;
       if (hdradar[i * hplaninfo.xt * 2] & c_left)
 	hdcolli[hplaninfo.xwrap * 2 + 1 + i * hplaninfo.xt * 2] |= d_right;
     }
@@ -1316,8 +1386,10 @@ joueanim (void)
 	    tmp =
 	      ((t / ((level_map[i + m].info.param[4] & 15) + 1)) %
 	       ((level_map[i + m].info.param[4] >> 4) * 2));
-	    if (tmp > ((unsigned int)level_map[i + m].info.param[4] >> 4) /*+1 */ )
-	      tmp = ((level_map[i + m].info.param[4] >> 4) * 2) - tmp;
+	    if (tmp >
+		((unsigned int) level_map[i + m].
+		 info.param[4] >> 4) /*+1 */ )tmp =
+		((level_map[i + m].info.param[4] >> 4) * 2) - tmp;
 	    copy_tile (level_map[i + m].number + 24 * tmp, dest);
 	  }
 	  if (sprhide == 0) {
@@ -1326,8 +1398,8 @@ joueanim (void)
 		copy_square_transp (heditrsc.buffer + (16 + (n << 4)) * 320 +
 				    256 + (hplaninfo.start_way[n] & 0xf0),
 				    dest +
-				    square_offset_320[hplaninfo.
-						      start_way[n] & 0xf]);
+				    square_offset_320[hplaninfo.start_way[n] &
+						      0xf]);
 	    if (level_map[i + m].sprite != 0)
 	      copy_tile_transp (level_map[i + m].sprite, dest);
 	  }
@@ -1360,7 +1432,7 @@ gestclav (int i, int mod)
   int j, k;
   switch (i) {
   case HK_F1:
-#ifdef PORT /* help */
+#ifdef PORT			/* help */
     modevga (TEXT);
 //                  spawnl(P_WAIT,"READER.EXE","READER.EXE","HEDLITE.DOC",NULL);
 //                  spawnl(P_WAIT,"MEM.EXE",NULL);
@@ -1419,7 +1491,7 @@ gestclav (int i, int mod)
       } else if (xdallesdec < 120) {
 	xdallesdec += 24;
 	majd ();
-      } 
+      }
     } else if (mod & HK_MOD_Shift) {
       if (xplandec < 120)
 	xplandec += 24;
@@ -1504,11 +1576,12 @@ gestclav (int i, int mod)
       planfull ();
     }
     break;
-  case HK_Space: 
+  case HK_Space:
     //if (((*etatclav)&3)==0)
     //{
     j = curdallep ();
-    level_map[j].number = xdalles + xdallesdec + ydalles * (tile_set_img.width);
+    level_map[j].number =
+      xdalles + xdallesdec + ydalles * (tile_set_img.width);
     level_map[j].type = ddef[curdalled ()].type;
     level_map[j].info = ddef[curdalled ()].info;
     /*
@@ -1536,7 +1609,7 @@ gestclav (int i, int mod)
        if (tempd!=0xfffffff)
        level_map[curdallep()]=level_map[tempd];
      */
-    gestclav (HK_i, HK_MOD_None); 
+    gestclav (HK_i, HK_MOD_None);
     gestclav (HK_O, HK_MOD_None);
     majg ();
     break;
@@ -1552,7 +1625,7 @@ gestclav (int i, int mod)
     for (j = hplaninfo.xt * hplaninfo.yt - 1; j >= 0; j--) {
       k =
 	((level_map[j].number % tile_set_img.width) / 24) +
-	(level_map[j].number / (tile_set_img.width * 20)) * 
+	(level_map[j].number / (tile_set_img.width * 20)) *
 	(tile_set_img.width / 24);
       level_map[j].type = ddef[k].type;
       if (level_map[j].type != t_tunnel) {
@@ -1605,14 +1678,15 @@ gestclav (int i, int mod)
   case HK_F:
     if (mod & HK_MOD_Ctrl) {
       for (j = hplaninfo.xt * hplaninfo.yt - 1; j >= 0; j--) {
-	level_map[j].number = xdalles + xdallesdec + 
+	level_map[j].number = xdalles + xdallesdec +
 	  ydalles * (tile_set_img.width);
 	level_map[j].type = ddef[curdalled ()].type;
 	level_map[j].info = ddef[curdalled ()].info;
       }
-    } else if (mod & (HK_MOD_Alt|HK_MOD_Meta)) {
+      majg ();
+    } else if (mod & (HK_MOD_Alt | HK_MOD_Meta)) {
       for (j = hplaninfo.xt * hplaninfo.yt - 1; j >= 0; j--)
-	
+
 	level_map[j].number =
 	  (((j % hplaninfo.xt) + (j / hplaninfo.xt)) & 1) * 20 *
 	  tile_set_img.width;
@@ -1665,7 +1739,7 @@ gestclav (int i, int mod)
     goto handle_numbers;
   case HK_1:
     i = 1;
-    goto handle_numbers;    
+    goto handle_numbers;
   case HK_2:
     i = 2;
     goto handle_numbers;
@@ -1687,9 +1761,9 @@ gestclav (int i, int mod)
   case HK_8:
     i = 8;
     /*    goto handle_numbers;
-	  case HK_9:
-	  i = 9;
-    */
+       case HK_9:
+       i = 9;
+     */
   handle_numbers:
     level_map[curdallep ()].type = i;
     level_map[curdallep ()].info.tunnel.output = 0;
@@ -1734,7 +1808,7 @@ gestsrs1 (void)
       if (x > 305)
 	gestclav (HK_Right, HK_MOD_Ctrl);
       else
-	gestclav (HK_Left, HK_MOD_Ctrl); /* CtrlLeft */
+	gestclav (HK_Left, HK_MOD_Ctrl);	/* CtrlLeft */
     }
 /*            if (y>=71 && y<=84)
                                               { level_map[i].type=menutype(level_map[i].type);
@@ -1751,8 +1825,7 @@ gestsrs1 (void)
 	   level_map[i].type == t_ice ||
 	   level_map[i].type == t_stop ||
 	   level_map[i].type == t_dust ||
-	   level_map[i].type == t_outway
-	   || level_map[i].type == t_boom)) {
+	   level_map[i].type == t_outway || level_map[i].type == t_boom)) {
 	anim_mod_bcl (i, x, y);
 	majg ();
       }
@@ -1797,7 +1870,7 @@ gestsrs1 (void)
 	gestclav (HK_Left, HK_MOD_Ctrl);
       }
       if (y - y2 > 3) {
-        y = y2;
+	y = y2;
 	gestclav (HK_PageDown, HK_MOD_Ctrl);
       } else if (y2 - y > 3) {
 	y = y2;
@@ -1840,13 +1913,14 @@ gestsrs3 (void)
     b = yplandec;
     xplandec = (x / 24) * 24;
     yplandec = (y / 20) * 20;
-    gestclav (HK_t, HK_MOD_None); 
+    gestclav (HK_t, HK_MOD_None);
     xplandec = a;
     yplandec = b;
     majg ();
   }
 
 }
+
 #ifdef PORT
 static void
 select_ (char *quoi, char *resultat)
@@ -2009,10 +2083,11 @@ asknew ()
       qwritel (&levelnomshort, 42, 22, 10 + 112, 8);
       qwritel (&hplaninfo.tile_set_name, 42, 23, 10 + 112, 8);
       qwritel (&hplaninfo.soundtrack_name, 42, 24, 10 + 112, 8);
-      sprintf ( &nombre, "%u", hplaninfo.xt);
+      sprintf (&nombre, "%u", hplaninfo.xt);
       qwritel (&nombre, 42, 25, 10 + 112, 5);
-      qwrite (((hplaninfo.xwrap != 0xffffffff) ? "Yes" : "No "), 42, 26, 10 + 112);
-      sprintf ( &nombre, "%u", hplaninfo.yt);
+      qwrite (((hplaninfo.xwrap != 0xffffffff) ? "Yes" : "No "), 42, 26,
+	      10 + 112);
+      sprintf (&nombre, "%u", hplaninfo.yt);
       qwritel (&nombre, 42, 27, 10 + 112, 5);
       qwrite (((hplaninfo.ywrap != -1) ? "Yes" : "No "), 42, 28, 10 + 112);
       i = get_key ();
@@ -2040,7 +2115,7 @@ asknew ()
 	    strcpy (&hplaninfo.soundtrack_name, &entree);
 	  break;
 	case 3:
-	  sprintf ( &entree, "%u", hplaninfo.xt);
+	  sprintf (&entree, "%u", hplaninfo.xt);
 	  boiteask ("Enter X-Size:", &entree, 5);
 	  remove_comments (&entree);
 	  j = atol (&entree);
@@ -2060,13 +2135,13 @@ asknew ()
 	  break;
 	case 4:
 	  if (hplaninfo.xwrap == 0xffffffff
-	      && (hplaninfo.xt & (hplaninfo.xt - 1)) == 0) hplaninfo.xwrap =
-	      (hplaninfo.xt - 1);
+	      && (hplaninfo.xt & (hplaninfo.xt - 1)) == 0)
+	    hplaninfo.xwrap = (hplaninfo.xt - 1);
 	  else if (hplaninfo.xwrap != 0xffffffff && hplaninfo.xt >= 13)
 	    hplaninfo.xwrap = 0xffffffff;
 	  break;
 	case 5:
-	  sprintf ( &entree, "%u", hplaninfo.yt);
+	  sprintf (&entree, "%u", hplaninfo.yt);
 	  boiteask ("Enter Y-Size:", &entree, 5);
 	  remove_comments (&entree);
 	  j = atol (&entree);
@@ -2086,8 +2161,8 @@ asknew ()
 	  break;
 	case 6:
 	  if (hplaninfo.ywrap == 0xffffffff
-	      && (hplaninfo.yt & (hplaninfo.yt - 1)) == 0) hplaninfo.ywrap =
-	      (hplaninfo.yt - 1);
+	      && (hplaninfo.yt & (hplaninfo.yt - 1)) == 0)
+	    hplaninfo.ywrap = (hplaninfo.yt - 1);
 	  else if (hplaninfo.ywrap != -1 && hplaninfo.yt >= 10)
 	    hplaninfo.ywrap = 0xffffffff;
 	  break;
@@ -2155,8 +2230,8 @@ askold ()
 	  break;
 	case 3:
 	  if (hplaninfo.ywrap == 0xffffffff
-	      && (hplaninfo.yt & (hplaninfo.yt - 1)) == 0) hplaninfo.ywrap =
-	      (hplaninfo.yt - 1);
+	      && (hplaninfo.yt & (hplaninfo.yt - 1)) == 0)
+	    hplaninfo.ywrap = (hplaninfo.yt - 1);
 	  else if (hplaninfo.ywrap != -1 && hplaninfo.yt >= 11)
 	    hplaninfo.ywrap = 0xffffffff;
 	  break;
@@ -2176,26 +2251,26 @@ askold ()
 /****************************************************************************/
 /****************************************************************************/
 /****************************************************************************/
-int 
-hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2, 
+int
+hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2,
        char *argv3, char *argv4, char *argv5, char *argv6)
 {
   int i;
 
   /*
-  mkdir ("EXTRALVL");
-  if (argc != 7) {
-    if (mouseinit () != -1)
-      fatalog ("Geme a mousy mouse pleez.");
-    modevga (TEXT);
-    lines50 ();
-    cursor (0, 50);
-    if ((ftmp = fopen (heddir "HEDITFRM.BIN", "rb")) == NULL)
-      fatalog ("Can't open HEDITFRM.BIN");
-    fread (screentxt, 8000, 1, ftmp);
-    fclose (ftmp);
-  }
-  */
+     mkdir ("EXTRALVL");
+     if (argc != 7) {
+     if (mouseinit () != -1)
+     fatalog ("Geme a mousy mouse pleez.");
+     modevga (TEXT);
+     lines50 ();
+     cursor (0, 50);
+     if ((ftmp = fopen (heddir "HEDITFRM.BIN", "rb")) == NULL)
+     fatalog ("Can't open HEDITFRM.BIN");
+     fread (screentxt, 8000, 1, ftmp);
+     fclose (ftmp);
+     }
+   */
   for (;;) {
 #ifdef PORT
     decalx = 1;
@@ -2278,8 +2353,8 @@ hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2,
 	  }
 	}
       } while (okgo == 0);
-    } else
-      {};
+    } else {
+    };
 #endif
     {
       strcpy (tile_set_name, rscdir);
@@ -2322,9 +2397,10 @@ hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2,
 	fatalog ("Invalid level file.");
       /* convert hplaninfo to local endianess */
       bswap_level_header (&hplaninfo);
-      
+
       if ((level_map = malloc (hplaninfo.xt * hplaninfo.yt * sizeof (tile_t)))
-	  == NULL) fatalog ("Not enough memory to allocate for level info");
+	  == NULL)
+	fatalog ("Not enough memory to allocate for level info");
       if (fread
 	  (level_map, sizeof (tile_t), hplaninfo.xt * hplaninfo.yt,
 	   ftmp) != (hplaninfo.xt * hplaninfo.yt))
@@ -2334,7 +2410,8 @@ hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2,
       bswap_level_tiles (&hplaninfo, level_map);
     } else {
       if ((level_map = malloc (hplaninfo.xt * hplaninfo.yt * sizeof (tile_t)))
-	  == NULL) fatalog ("Not enough memory to allocate for level info");
+	  == NULL)
+	fatalog ("Not enough memory to allocate for level info");
       memset (level_map, 0, hplaninfo.xt * hplaninfo.yt * sizeof (tile_t));
       hplaninfo.start[0] = 0;
       hplaninfo.start[1] = 0;
@@ -2361,7 +2438,8 @@ hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2,
 
 /*   for (i=0;i<((tile_set_img.xt/24)*10);i++) ddef[i]=.type=0;ddef[i].type=0 */
     if (!((ftmp = fopen (dallepie, "rb")) == NULL))
-      fread (ddef, sizeof (tile_info_t), (tile_set_img.width / 24) * 10, ftmp);
+      fread (ddef, sizeof (tile_info_t), (tile_set_img.width / 24) * 10,
+	     ftmp);
     fclose (ftmp);
 /*************************************/
     if (outwayinit ())
@@ -2393,9 +2471,9 @@ hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2,
 	  gestsrs2 ();
 	}
 	/* else if (mouse3 ()) {
-	  gestsrs3 ();
-	}
-	*/
+	   gestsrs3 ();
+	   }
+	 */
 	while (mouse12 () != 0);
 	notestmouse = 0;
       }
@@ -2496,7 +2574,7 @@ hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2,
       fclose (ftmp);
     } else {
     };
-#endif 
+#endif
     {
       if (!((ftmp = fopen (levelnom, "wb")) == NULL)) {
 	/* convert hplaninfo to disk endianess */
