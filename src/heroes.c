@@ -65,6 +65,7 @@
 #include "items.h"
 #include "sprprogwav.h"
 #include "gameid.h"
+#include "persona.h"
 
 char tile_set_name[128];
 char glenz_name[128];
@@ -3620,6 +3621,8 @@ main (int argc, char *argv[])
 
   dmsg_init (argv[0]);
   dmsg (D_SECTION,"initialization");
+
+  init_persona ();
 
   setlocale (LC_ALL, "");
   bindtextdomain (PACKAGE, LOCALEDIR);

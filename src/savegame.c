@@ -29,9 +29,9 @@
 #include "userdir.h"
 #include "debugmsg.h"
 #include "rsc_files.h"
-#include "fopenlock.h"
 #include "getshline.h"
 #include "errors.h"
+#include "persona.h"
 
 saved_game saverec[10];
 
@@ -71,33 +71,40 @@ write_save_records (void)
 {
   int i;
 
-  if (fsave == 0)
-    fsave = fopenlock (saved_games_file (), "wb");
-  else {
+  if (fsave == 0) {
+    fsave = persona_fopenlock ("saved-games-file", "wt");
+    if (fsave == 0) {
+      wmsg (_("cannot write %s"), saved_games_file ());
+      dperror (saved_games_file ());
+    }
+  } else {
     fflush (fsave);
     if (ftruncate (fileno (fsave), 0) != 0)
       emsg (_("%s: truncate error"), saved_games_file ());
   }
 
-  dmsg (D_FILE, "saving games to %s", saved_games_file ());
+  if (fsave) {
+    dmsg (D_FILE, "saving games to %s", saved_games_file ());
 
-  for (i = 0; i < 10; ++i) {
-    saved_game *sg = saverec + i;
-    char *gidtxt = gameid_to_text (sg->gid);
-    fprintf (fsave, "%u %u %u %u %u %u %u %u %u %u\n %s\n  %s\n",
-	     sg->level,
-	     sg->points[0], sg->lifes[0],
-	     sg->points[1], sg->lifes[1],
-	     sg->points[2], sg->lifes[2],
-	     sg->points[3], sg->lifes[3],
-	     sg->used,
-	     gidtxt,
-	     sg->name);
-    free (gidtxt);
+    for (i = 0; i < 10; ++i) {
+      saved_game *sg = saverec + i;
+      char *gidtxt = gameid_to_text (sg->gid);
+      fprintf (fsave, "%u %u %u %u %u %u %u %u %u %u\n %s\n  %s\n",
+	       sg->level,
+	       sg->points[0], sg->lifes[0],
+	       sg->points[1], sg->lifes[1],
+	       sg->points[2], sg->lifes[2],
+	       sg->points[3], sg->lifes[3],
+	       sg->used,
+	       gidtxt,
+	       sg->name);
+      free (gidtxt);
+    }
+    fclose (fsave);
+    fsave = 0;
   }
 
-  fclose (fsave);
-  fsave = 0;
+  user_persona ();
 }
 
 static void
@@ -165,9 +172,9 @@ load_save_records_read (void)
 static void
 load_save_records_open (const char *mode)
 {
-  fsave = fopenlock (saved_games_file (), mode);
-
   dmsg (D_FILE, "reading saved games from %s", saved_games_file ());
+
+  fsave = persona_fopenlock ("saved-games-file", mode);
 
   if (fsave == 0) {
     dmsg (D_FILE, "cannot open %s", saved_games_file ());
@@ -195,7 +202,8 @@ load_save_records_and_keep_locked (void)
   load_save_records_read ();
   if (fsave == 0)
     load_save_records_open ("w+t");
-  fseek (fsave, 0L, SEEK_SET);
+  if (fsave)
+    fseek (fsave, 0L, SEEK_SET);
 }
 
 void

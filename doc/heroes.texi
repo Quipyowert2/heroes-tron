@@ -1315,13 +1315,64 @@ so it can be overwritten in an @file{heroesrc} configuration file.
 If you are the installer of Heroes, you can do this from the
 system wide @file{heroesrc} with a line like the following
 @example
-setrsc: scores-file /var/game/heroes/scores.dat
+setrsc: score-file $(sys-dir)/scores
 @end example
-Creating the needed directory and giving the correct rights to the
-Heroes binaries and the files is left to you.
 
-The same considerations apply to the saved games (@samp{games-file}) and
-the run-time options (@samp{options-file}).
+The same considerations apply to the saved games (@samp{saved-games-file})
+and the run-time preferences (@samp{pref-file}).
+
+@samp{$(sys-dir)} is another resource the value of which defaults
+to @samp{/var/games/heroes}.  According to the Filsystem Hierarchy
+Standard this is the place where you should store modifiables game files.
+If you need to change this, simply add another @samp{setrsc:} line:
+@example
+setrsc: sys-dir /site/var/games/heroes
+@end example
+By the way, you will have to create the @samp{$(sys-dir)} directory
+yourself, because Heroes is not smart enough (and probably doesn't have
+the right to create that directory anyway).
+
+Now you have to make several choices regarding the policy for granting
+access to that file.  This is a global score files, so you need to devise
+a setup which allows Heroes to write that file whoever run the game.
+The most straighforward way to allow this is to create the @file{scores} file
+with @samp{666} permission... you probably don't want to do this because
+everybody would be allowed to damage the file.
+
+A cleaner idea is to create a special user or group to own that file,
+and grant @samp{heroes} the appropriate rights (set-user-id or
+set-group-id).  Setting @samp{heroes} as a set-user-id program is
+a security, because if someone manage to get @samp{heroes} to execute
+arbitrary code, he can have the game overwriting itself.  So the correct
+solution is to set @samp{heroes} as a set-group-id program, and make the
+score file writable only by that group.  At worse, if someone manage
+to break into @samp{heroes}, s/he will only be able to damage the
+score file.
+
+Here is a sample setup where @samp{heroes} is configured as a
+set-group-id program for a group called `@samp{games}':
+@example
+% cd /usr/games && ls -l heroes
+-r-xr-sr-x    1 root     games     2074633 Mar 25 22:29 heroes
+% cd /var/games/heroes && ls -la
+drwxr-xr-x    2 root     games        4096 Mar 25 22:35 ./
+drwxr-xr-x    4 root     root         4096 Mar 25 19:59 ../
+-rw-rw-r--    1 root     games        2291 Mar 25 22:35 scores
+@end example
+Note that @file{/var/games/heroes} is not writable by group @samp{games},
+so you have to create the file @samp{scores} before Heroes can use it.
+
+When @samp{heroes} is run as a set-group-id or set-user-id program, it
+execute some code to drop this privilege as more as possible.
+Basically, it will revert its effective-group-id and effective-user-id
+to the player's group-id and user-id on startup and only switch back to
+it's file-group-id and file-user-id when it needs to write to a file in
+the @samp{${sys-dir}} directory.  This is what the @samp{${sys-dir}}
+resource is for: a file which is beyond that directory is opened with
+the file-group&user-id (i.e. group `games' in the above example),
+anyother file is opened using the player's groups&user-id.  The visiable
+consequence is that files created in the @samp{~/.heroes} directory
+won't be owned by group @samp{games} (or whatever you chose).
 
 @c ======================================================================
 @node    Game, Level editor, Global score file, Running

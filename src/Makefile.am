@@ -96,6 +96,8 @@ parafmt.c \
 parafmt.h \
 pcx.c \
 pcx.h \
+persona.c \
+persona.h \
 pixelize.c \
 pixelize.h \
 readmake.c \

@@ -27,9 +27,9 @@
 #include "userdir.h"
 #include "debugmsg.h"
 #include "rsc_files.h"
-#include "fopenlock.h"
 #include "getshline.h"
 #include "errors.h"
+#include "persona.h"
 
 top_score highs[5][10];
 
@@ -85,34 +85,42 @@ write_scores (void)
 {
   unsigned int i, j;
 
-  if (fscores == 0)
-    fscores = fopenlock (score_file (), "wb");
-  else {
+  if (fscores == 0) {
+    fscores = persona_fopenlock ("score-file", "wt");
+    if (fscores == 0) {
+      wmsg (_("cannot write %s"), score_file ());
+      dperror (score_file ());
+    }
+  } else {
     fflush (fscores);
     if (ftruncate (fileno (fscores), 0) != 0)
       emsg (_("%s: truncate error"), score_file ());
   }
 
-  dmsg (D_FILE, "writing scores to %s", score_file ());
+  if (fscores) {
+    dmsg (D_FILE, "writing scores to %s", score_file ());
 
-  /* Write down scores to disk.  */
-  for (i = 0; i < 5; ++i)
-    for (j = 0; j < 10; ++j) {
-      char *gidtxt = gameid_to_text (highs[i][j].gid);
-      fprintf (fscores, "%u %u %u\n %s\n  %s\n",
-	       i, j, highs[i][j].points, gidtxt, highs[i][j].name);
-      free (gidtxt);
-    }
+    /* Write down scores to disk.  */
+    for (i = 0; i < 5; ++i)
+      for (j = 0; j < 10; ++j) {
+	char *gidtxt = gameid_to_text (highs[i][j].gid);
+	fprintf (fscores, "%u %u %u\n %s\n  %s\n",
+		 i, j, highs[i][j].points, gidtxt, highs[i][j].name);
+	free (gidtxt);
+      }
 
-  fclose (fscores);
-  fscores = 0;
+    fclose (fscores);
+    fscores = 0;
+  }
+
+  user_persona ();
 }
 
 static void
 load_scores_open (const char *mode)
 {
-  fscores = fopenlock (score_file (), mode);
   dmsg (D_FILE, "reading scores from %s", score_file ());
+  fscores = persona_fopenlock ("score-file", mode);
 
   if (fscores == 0) {
     dmsg (D_FILE, "cannot open %s", score_file ());
@@ -182,11 +190,13 @@ load_scores (void)
 void
 load_scores_and_keep_locked (void)
 {
+  sys_persona ();
   load_scores_open ("r+t");
   load_scores_read ();
   if (fscores == 0)
     load_scores_open ("w+t");
-  fseek (fscores, 0L, SEEK_SET);
+  if (fscores)
+    fseek (fscores, 0L, SEEK_SET);
 }
 
 void

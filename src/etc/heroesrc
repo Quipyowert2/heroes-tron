@@ -7,7 +7,14 @@
 soundconf: $(data-dir)/mod/sound.conf
 
 # Uncomment the following lines if you want to share
-# global options, scores or games saves.
-#setrsc: options-file /var/game/heroes/options.dat
-#setrsc: scores-file  /var/game/heroes/scores.dat
-#setrsc: games-file   /var/game/heroes/games.dat
+# a global score file, or global game saves.
+# (You can also do this for the preferences, but it makes
+# less sense.)  The path must exists, Heroes is not smart
+# enough to create missing directories.  You will probably also
+# want to create the file yourself in order to set the file's
+# permissions and/or ownership.
+#setrsc: score-file $(sys-dir)/scores
+#setrsc: saved-games-file $(sys-dir)/savedgames
+
+# $(sys-dir) defaults to /var/games/heroes, is this what you want?
+#setrsc: sys-dir /another/path/heroes

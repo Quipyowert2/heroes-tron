@@ -1,5 +1,23 @@
 2001-03-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Support for set-group-id and set-user-id access to a
+	global score/savedgames file.
+
+	* src/persona.c: New file.
+	* src/persona.h: New file.
+	* src/Makefile.am (heroes_SOURCES): Add persona.c and persona.h.
+	* src/heroes.c (main): Call init_persona.
+	* src/rsc_files.gperf (sys-dir): New.
+	* src/savegame.c (write_save_records, load_save_records_open,
+	load_scores_and_keep_locked): Adapt to use persona_fopenlock.
+	And don't output the data unless the file has been succesfully opened.
+	* src/scores.c (write_scores, load_scores_open,
+	load_scores_and_keep_locked): Likewise.
+	* doc/heroes.texi (Sharing a global score file): Document more.
+	* src/etc/heroesrc: Adapt to new resources names.
+
+2001-03-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Truncate scores and saved-games files, before writing
 	to them.
 
