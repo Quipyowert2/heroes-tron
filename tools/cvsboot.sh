@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright 2000, 2001  Alexandre Duret-Lutz <duret_g@epita.fr>
+# Copyright 2000, 2001, 2002  Alexandre Duret-Lutz <duret_g@epita.fr>
 #
 # This file is free software; you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free
@@ -51,8 +51,7 @@ while test $# -gt 0 ; do
   esac
 done
 
-#saferun tools/uplibtool.sh $opts
-saferun tools/upgettext.sh $opts
 saferun tools/genpotfiles.sh $opts
 saferun tools/genm4mam.sh $opts
-saferun tools/autogen.sh $opts
+saferun autoreconf -v -f -i
+saferun rm -f intl/ChangeLog po/ChangeLog

@@ -1,6 +1,5 @@
 AC_DEFUN([heroes_COMPUTE_PATHS],
-[AC_REQUIRE([AM_WITH_NLS])dnl
-
+[
 ## With gettext <= 0.10.35, localedir used to be defined as
 ##   localedir='${prefix}'"/$DATADIRNAME/locale"
 ## DATADIRNAME being set to share (or lib) by AM_GNU_GETTEXT.  So this

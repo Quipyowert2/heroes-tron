@@ -19,7 +19,6 @@
 
 EXTRA_DIST += tools/README \
 tools/alpha.sh \
-tools/autogen.sh \
 tools/cvsboot.sh \
 tools/exnews.pl \
 tools/fetish-sync.sh \
@@ -27,5 +26,4 @@ tools/genm4mam.sh \
 tools/genpotfiles.sh \
 tools/pubhex.awk \
 tools/readme.sed \
-tools/scandefs.pl \
-tools/upgettext.sh
+tools/scandefs.pl

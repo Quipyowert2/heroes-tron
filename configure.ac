@@ -185,6 +185,7 @@ AC_CONFIG_SUBDIRS([libltdl])
 
 ALL_LINGUAS="de fr es_AR it nl pt_BR"
 AM_GNU_GETTEXT(,[need-ngettext])
+AM_GNU_GETTEXT_VERSION(0.11.5)
 
 # ===================================
 # Setup the correct compiler options.

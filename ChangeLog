@@ -1,3 +1,23 @@
+2002-10-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Upgrade to Gettext 0.11.5 and CVS Libtool branch-1-4.
+
+	* configure.ac: Call AM_GNU_GETTEXT_VERSION.
+	* arch/mingw32/cross.sh: Disable shared libraries.
+	* libltdl/ltdl.c: New upstream version.
+	* m4/codeset.m4, m4/gettext.m4, m4/glibc21.m4, m4/iconv.m4,
+	m4/isc-posix.m4, m4/lcmessage.m4, m4/progtest.m4: Delete,
+	they are installed by autopoint.
+	* m4/h-path.m4: Do not require AM_WITH_NLS, it doesn't
+	exist anymore.
+	* m4/libtool.m4, m4/ltdl.m4: New upstream versions.
+	* misc/01-intl.patch, misc/05-po.patch, misc/ltdlaux.patch:
+	Delete.
+	* Makefile.am (EXTRA_DIST): Remove these three patches.
+	* tools/autogen.sh, tools/upgettext.sh: Remove.
+	* tools/Makefile.inc (EXTRA_DIST): Remove these two scripts.
+	* tools/cvsboot.sh: Adjust to call autoreconf.
+
 2002-08-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/menus.c (editor_entries): Add missing trailing { 0, 0 }.

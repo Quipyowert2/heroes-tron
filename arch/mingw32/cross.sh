@@ -34,7 +34,7 @@ SDLPREFIX="/usr/local/$BUILDNAME"
 
 # configuration options
 CONFIGURE_OPTS="--host=$BUILDNAME --enable-html-doc=$PREFIX/doc \
---prefix=$PREFIX --with-sdl=$SDLPREFIX"
+--prefix=$PREFIX --with-sdl=$SDLPREFIX --disable-shared --enable-static"
 
 # top level directory
 TOPSRC_DIR=`cd ../..; pwd`

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.9\n"
-"POT-Creation-Date: 2002-07-15 21:51+0200\n"
+"POT-Creation-Date: 2002-09-22 21:35+0200\n"
 "PO-Revision-Date: 2001-04-27 21:15+01:00\n"
 "Last-Translator: Alessandro Dotti <alessandro.dotti@libero.it>\n"
 "Language-Team: none <LL@li.org>\n"
@@ -1089,23 +1089,23 @@ msgstr "TASTI"
 msgid "EXTRAS"
 msgstr "EXTRA"
 
-#: src/menus.c:198 src/menus.c:222 src/menus.c:385 src/menus.c:395
-#: src/menus.c:409 src/menus.c:421 src/menus.c:431 src/menus.c:454
-#: src/menus.c:545
+#: src/menus.c:198 src/menus.c:222 src/menus.c:386 src/menus.c:396
+#: src/menus.c:410 src/menus.c:422 src/menus.c:432 src/menus.c:455
+#: src/menus.c:546
 msgid "GO BACK"
 msgstr "INDIETRO"
 
 #. play menu
-#: src/menus.c:205 src/menus.c:539
+#: src/menus.c:205 src/menus.c:540
 msgid "PLAY"
 msgstr "GIOCA"
 
 #. options menu
-#: src/menus.c:206 src/menus.c:526
+#: src/menus.c:206 src/menus.c:527
 msgid "OPTIONS"
 msgstr "OPZIONI"
 
-#: src/menus.c:207 src/menus.c:406
+#: src/menus.c:207 src/menus.c:407
 msgid "INFOS"
 msgstr "INFO"
 
@@ -1118,7 +1118,7 @@ msgid "SCORES"
 msgstr "PUNTEGGI"
 
 #. editor first menu
-#: src/menus.c:210 src/menus.c:536
+#: src/menus.c:210 src/menus.c:537
 msgid "EDITOR"
 msgstr "EDITOR"
 
@@ -1127,7 +1127,7 @@ msgid "QUIT"
 msgstr "ABBANDONA"
 
 #. TRANS: Create a new level.
-#: src/menus.c:219 src/menus.c:503
+#: src/menus.c:219 src/menus.c:504
 msgid "NEW LEVEL"
 msgstr "NUOVO LIVELLO"
 
@@ -1136,159 +1136,159 @@ msgstr "NUOVO LIVELLO"
 msgid "LOAD LEVEL"
 msgstr "CARICA LIVELLO"
 
-#: src/menus.c:375
+#: src/menus.c:376
 msgid "CONTROL OPTIONS"
 msgstr "OPZIONI CONTROLLI"
 
 #. 1st player
-#: src/menus.c:377 src/menus.c:416 src/menus.c:433
+#: src/menus.c:378 src/menus.c:417 src/menus.c:434
 msgid "PLAYER 1"
 msgstr "GIOCATORE 1"
 
-#: src/menus.c:379 src/menus.c:383
+#: src/menus.c:380 src/menus.c:384
 msgid "AUTO PILOT"
 msgstr "AUTOPILOTA"
 
 #. 2nd player
-#: src/menus.c:381 src/menus.c:417 src/menus.c:441
+#: src/menus.c:382 src/menus.c:418 src/menus.c:442
 msgid "PLAYER 2"
 msgstr "GIOCATORE 2"
 
-#: src/menus.c:391
+#: src/menus.c:392
 msgid "SOUND OPTIONS"
 msgstr "OPZIONI SONORE"
 
-#: src/menus.c:393
+#: src/menus.c:394
 msgid "MUSIC"
 msgstr "MUSICA"
 
-#: src/menus.c:394
+#: src/menus.c:395
 msgid "SFX"
 msgstr "EFF. SONORI"
 
-#: src/menus.c:398
+#: src/menus.c:399
 msgid "MUSIC VOL"
 msgstr "VOL. AUDIO"
 
-#: src/menus.c:399
+#: src/menus.c:400
 msgid "SFX VOL"
 msgstr "VOL. EFFETTI"
 
-#: src/menus.c:403
+#: src/menus.c:404
 msgid "SCREEN OPTIONS"
 msgstr "OPZIONI SCHERMO"
 
-#: src/menus.c:405
+#: src/menus.c:406
 msgid "RADAR"
 msgstr "RADAR"
 
-#: src/menus.c:407
+#: src/menus.c:408
 msgid "LIGHTING"
 msgstr "LUMINOSITA'"
 
-#: src/menus.c:408
+#: src/menus.c:409
 msgid "INERTIA"
 msgstr "INERZIA"
 
-#: src/menus.c:414
+#: src/menus.c:415
 msgid "GAME OPTIONS"
 msgstr "OPZIONI DI GIOCO"
 
-#: src/menus.c:418
+#: src/menus.c:419
 msgid "PLAYER 3"
 msgstr "GIOCATORE 3"
 
-#: src/menus.c:419
+#: src/menus.c:420
 msgid "PLAYER 4"
 msgstr "GIOCATORE 4"
 
-#: src/menus.c:420
+#: src/menus.c:421
 msgid "SPEED"
 msgstr "VELOCITA'"
 
-#: src/menus.c:429
+#: src/menus.c:430
 msgid "KEYBOARD DEFS"
 msgstr "CONFIG TASTI"
 
-#: src/menus.c:434 src/menus.c:442
+#: src/menus.c:435 src/menus.c:443
 msgid "UP"
 msgstr "SU"
 
-#: src/menus.c:435 src/menus.c:443
+#: src/menus.c:436 src/menus.c:444
 msgid "LEFT"
 msgstr "SINISTRA"
 
-#: src/menus.c:436 src/menus.c:444
+#: src/menus.c:437 src/menus.c:445
 msgid "DOWN"
 msgstr "GIU"
 
-#: src/menus.c:437 src/menus.c:445
+#: src/menus.c:438 src/menus.c:446
 msgid "RIGHT"
 msgstr "DESTRA"
 
-#: src/menus.c:438 src/menus.c:446
+#: src/menus.c:439 src/menus.c:447
 msgid "TURBO"
 msgstr "TURBO"
 
-#: src/menus.c:439 src/menus.c:447
+#: src/menus.c:440 src/menus.c:448
 msgid "STOP"
 msgstr "STOP"
 
-#: src/menus.c:452
+#: src/menus.c:453
 msgid "EXTRAS LEVELS"
 msgstr "LIVELLI EXTRA"
 
-#: src/menus.c:456
+#: src/menus.c:457
 msgid "ORIGINAL LEVELS"
 msgstr "LIVELLI ORIGINALI"
 
-#: src/menus.c:458
+#: src/menus.c:459
 msgid "ORIGINAL+EXTRAS"
 msgstr "ORIGINALI+EXTRA"
 
-#: src/menus.c:460
+#: src/menus.c:461
 msgid "EXTRAS ONLY"
 msgstr "SOLO EXTRA"
 
-#: src/menus.c:462
+#: src/menus.c:463
 msgid "EXTRAS: NONE"
 msgstr "EXTRA: NESSUNO"
 
-#: src/menus.c:464
+#: src/menus.c:465
 msgid "EXTRAS: ALL"
 msgstr "EXTRA: TUTTI"
 
-#: src/menus.c:466
+#: src/menus.c:467
 msgid "EXTRAS: SELECT"
 msgstr "EXTRA: SCEGLI"
 
 #. pause menu
-#: src/menus.c:491
+#: src/menus.c:492
 msgid "PAUSE"
 msgstr "PAUSA"
 
 #. quit y/n menus
-#: src/menus.c:495
+#: src/menus.c:496
 msgid "QUIT THIS GAME?"
 msgstr "ESCI DAL GIOCO?"
 
-#: src/menus.c:497
+#: src/menus.c:498
 msgid "REALLY QUIT?"
 msgstr "ESCI DAVVERO?"
 
-#: src/menus.c:499
+#: src/menus.c:500
 msgid "NO"
 msgstr "NO"
 
-#: src/menus.c:500
+#: src/menus.c:501
 msgid "YES"
 msgstr "SI"
 
-#: src/menus.c:505
+#: src/menus.c:506
 msgid "EXISTING LEVEL"
 msgstr "LIVELLI ESISTENTI"
 
-#: src/menus.c:507
+#: src/menus.c:508
 msgid "NAME"
 msgstr "NOME"
 
@@ -1299,139 +1299,139 @@ msgstr "NOME"
 #. bounds that you cannot cross.  X-WRAP is a check box used to specified
 #. whether a level must be wrapped horizontally or not when creating a
 #. new level.
-#: src/menus.c:515
+#: src/menus.c:516
 msgid "X-WRAP"
 msgstr "X CONT."
 
 #. TRANS: Y-WRAP is a check box used to specified whether a level
 #. must be wrapped vertically or not.
-#: src/menus.c:518
+#: src/menus.c:519
 msgid "Y-WRAP"
 msgstr "Y CONT."
 
 #. TRANS: width of the level
-#: src/menus.c:520
+#: src/menus.c:521
 msgid "X-SIZE"
 msgstr "LAR. LIV."
 
 #. TRANS: height of the level
-#: src/menus.c:522
+#: src/menus.c:523
 msgid "Y-SIZE"
 msgstr "ALT. LIV."
 
-#: src/menus.c:523
+#: src/menus.c:524
 msgid "EDIT"
 msgstr "MOD."
 
 #. main menu
-#: src/menus.c:529
+#: src/menus.c:530
 msgid "HEROES"
 msgstr "HEROES"
 
 #. editor selector
-#: src/menus.c:532
+#: src/menus.c:533
 msgid "SELECT A LEVEL"
 msgstr "SCEGLI UN LIVELLO"
 
-#: src/menus.c:541
+#: src/menus.c:542
 msgid "ONE PLAYER"
 msgstr "UN GIOCATORE"
 
-#: src/menus.c:543
+#: src/menus.c:544
 msgid "TWO PLAYERS"
 msgstr "DUE GIOCATORI"
 
-#: src/menus.c:547
+#: src/menus.c:548
 msgid "LOAD..."
 msgstr "CARICA..."
 
 #. saved game selection
-#: src/menus.c:556
+#: src/menus.c:557
 msgid "CHOOSE A SAVE SLOT"
 msgstr "SLOT DI SALVATAGGIO"
 
-#: src/menus.c:558
+#: src/menus.c:559
 msgid "CHOOSE A LOAD SLOT"
 msgstr "SLOT DA CARICARE"
 
 #. enter your name
-#: src/menus.c:562
+#: src/menus.c:563
 msgid "ENTER YOUR NAME:"
 msgstr "INSERISCI IL NOME:"
 
 #. end level info
 #. TRANS: SIZE is the size of the player trail, PTS the
 #. number of PoinTS
-#: src/menus.c:568
+#: src/menus.c:569
 msgid "SIZE  PTS  LIVES"
 msgstr "DIM  PNT  VITE"
 
-#: src/menus.c:570
+#: src/menus.c:571
 msgid "PTS  LIVES"
 msgstr "PNT  VITE"
 
 #. TRANS: this is for KILL'EM ALL mode, and MEN is the number
 #. of lemmings killed by one player
-#: src/menus.c:574
+#: src/menus.c:575
 msgid " MEN  PTS  LIVES"
 msgstr " UCCISI  PNT  VITE"
 
-#: src/menus.c:576
+#: src/menus.c:577
 msgid "CA$H  PTS  LIVES"
 msgstr "DENARO  PNT  VITE"
 
-#: src/menus.c:578
+#: src/menus.c:579
 msgid "COLORS  PTS  LIVES"
 msgstr "COLORI  PNT  VITE"
 
-#: src/menus.c:583
+#: src/menus.c:584
 msgid "NEXT LEVEL"
 msgstr "PROX LIVELLO"
 
 #. TRANS: this is a menu entry that introduce the user to another
 #. menu.  This is NOT displayed DURING saving.
-#: src/menus.c:588
+#: src/menus.c:589
 msgid "SAVE..."
 msgstr "SALVATAGGIO..."
 
-#: src/menus.c:593
+#: src/menus.c:594
 msgid "PRESS RETURN"
 msgstr "PREMI INVIO"
 
-#: src/menus.c:602
+#: src/menus.c:603
 msgid "WINS  PTS  LIVES"
 msgstr "VINTE  PNT  VITE"
 
 #. higher scores
-#: src/menus.c:613
+#: src/menus.c:614
 msgid "HIGHER SCORES"
 msgstr "PUNTEGGI MIGLIORI"
 
-#: src/menus.c:1231
+#: src/menus.c:1232
 #, c-format
 msgid "%d ROUND"
 msgid_plural "%d ROUNDS"
 msgstr[0] "%d ROUND"
 
-#: src/menus.c:2216
+#: src/menus.c:2217
 #, c-format
 msgid "PLAYER %d, YOU CAME IN THE TOP 10"
 msgstr "GIOCATORE %d, SEI ENTRATO NEI PRIMI 10"
 
-#: src/menus.c:2284
+#: src/menus.c:2285
 #, c-format
 msgid "PLAYER %d WON!"
 msgstr "VINCE IL GIOCAT. %d"
 
-#: src/menus.c:2289
+#: src/menus.c:2290
 msgid "EVERYONE LOST!"
 msgstr "TUTTI SCONFITTI!"
 
-#: src/menus.c:2291
+#: src/menus.c:2292
 msgid "YOU LOST!"
 msgstr "HAI PERSO!"
 
-#: src/menus.c:2372
+#: src/menus.c:2373
 #, c-format
 msgid "ROUND %d/%d"
 msgstr "ROUND %d/%d"
@@ -1477,7 +1477,7 @@ msgstr "Contributori\n"
 msgid "Translators\n"
 msgstr "Traduttori\n"
 
-#: src/people.c:59 src/people.c:74
+#: src/people.c:59 src/people.c:77
 msgid "German"
 msgstr "Tedesco"
 
@@ -1497,15 +1497,19 @@ msgstr "Italiano"
 msgid "French"
 msgstr "Francese"
 
-#: src/people.c:78
+#: src/people.c:74
+msgid "Spanish for Argentina"
+msgstr ""
+
+#: src/people.c:81
 msgid "Packagers\n"
 msgstr "Pacchettizzatori\n"
 
-#: src/people.c:87
+#: src/people.c:90
 msgid "Porters\n"
 msgstr "Chi ha fatto il port\n"
 
-#: src/people.c:94
+#: src/people.c:97
 msgid "Other people we wish to thanks\n"
 msgstr "Altre persone che vorremmo ringraziare\n"
 
