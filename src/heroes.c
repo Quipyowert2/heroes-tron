@@ -2261,9 +2261,9 @@ update_player (int c)
 
     if (player[c].spec == t_tunnel) {
       player[c].way = player[c].tunnel_way;
+      player[c].old_way = player[c].way;
       player[c].spec = 0;
     }
-
 
     if (cpuon) {
       if (player[c].target < 16) {

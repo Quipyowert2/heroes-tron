@@ -1,5 +1,13 @@
 2000-11-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/heroes.c (update_player): When going out frmo a tunnel,
+	set old_way to the way of the tunnel (as way is also set to).
+	This avoid in try to draw oddities such as {old_way=up, way=down},
+	which would otherwise result in a segfault (easy to repoduce
+	by playing level 032).
+
+2000-11-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/heroes.c (play_game): Continue to update event_time
 	once the game is finished so that explosions from dead players
 	are updated.
