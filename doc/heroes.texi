@@ -683,13 +683,19 @@ resulting binary, and speed up the game by an indiscernible amount.
 The following options are for developing purpose.  The default
 configuration should be suitable for end users (i.e. players) but people
 attempting to hack the code may want debugging symbols or compiler
-warning.
+warnings.
 
 @table @samp
 @item --enable-debug
+@itemx --disable-debug
 @cindex --enable-debug
-Turn on debugging options: compile with debugging symbols and debugging
-code.  This is disabled by default because it produce bigger binaries.
+@cindex --disable-debug
+This is a three state option.  The default is to compile with
+debugging symbols: this produce bigger binaries but allow to get
+helpfull coredumps, without slowing down the game.  You may want to
+use @samp{--enable-debug} to include more debugging data and turn
+on some debugging code.  Use @samp{--disable-debug} to turn this
+off.
 
 @item --disable-optimizations
 @cindex --disable-optimizations

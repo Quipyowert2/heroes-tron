@@ -1,5 +1,11 @@
 2001-01-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* m4/debug.m4: Default to -g, use -ggdb3 if enabled, and nothing
+	if disabled.
+	* doc/heroes.texi: Update the corresponding documentation.
+
+2001-01-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* intl/ChangeLog: Update from fileutils-4.0.37.
 	* intl/gettextP.h: Likewise.
 	* lib/hash.c: Likewise.
