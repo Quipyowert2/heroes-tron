@@ -1,3 +1,8 @@
+2001-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* m4/generic.m4 (AC_PATH_GENERIC): Don't complain about a missing
+	mumble-config if the installer has not used --with-mumble.
+
 2001-08-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* doc/heroes.texi (Machines): Add OpenBSD, update MSVC.

@@ -123,7 +123,8 @@ DOWN[]_config_exec_prefix="$withval", DOWN[]_config_exec_prefix="")
      ifelse([$3], , :, [$3])
   else
      AC_MSG_RESULT(no)
-     if test "$UP[]_CONFIG" = "no" ; then
+     ## We won't display this warning unless the installer used --with-DOWN.
+     if test "$UP[]_CONFIG" = "no" && test "${with_[]DOWN[]-no}" != no ; then
        echo "*** The DOWN-config script installed by $1 could not be found"
        echo "*** If $1 was installed in PREFIX, make sure PREFIX/bin is in"
        echo "*** your path, or set the UP[]_CONFIG environment variable to the"
