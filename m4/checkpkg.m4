@@ -26,7 +26,7 @@ pushdef([UP], translit([$1], [a-z-], [A-Z_]))dnl
 pushdef([DOWN], translit([$1], [A-Z-], [a-z_]))dnl
 pushdef([DOWNALT], translit([$1], [A-Z_], [a-z-]))dnl
 
-AC_ARG_WITH([DOWNALT],
+AC_ARG_WITH(DOWNALT,
 [AC_HELP_STRING([--with-]DOWNALT[=DIR],[root directory of $1 installation])],
 [with_[]DOWN=$withval
 if test "${with_[]DOWN}" != yes; then
@@ -35,12 +35,12 @@ if test "${with_[]DOWN}" != yes; then
 fi]
 )
 
-AC_ARG_WITH([DOWNALT-include],
+AC_ARG_WITH(DOWNALT[-include],
 [AC_HELP_STRING([--with-]DOWNALT[-include=DIR],
                 [specify exact include dir for $1 headers])],
 [DOWN[]_include="$withval"])
 
-AC_ARG_WITH([DOWNALT-libdir],
+AC_ARG_WITH(DOWNALT[-libdir],
 [AC_HELP_STRING([--with-]DOWNALT[-libdir=DIR],
                 [specify exact library dir for $1 library])
 AC_HELP_STRING([--without-]DOWNALT,[disables ]DOWN[ usage completely])],
@@ -80,4 +80,7 @@ dnl     fixed
 
 fi
 
+  popdef([UP])
+  popdef([DOWN])
+  popdef([DOWNALT])
 ])

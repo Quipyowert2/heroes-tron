@@ -1,5 +1,10 @@
 2000-12-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* m4/pkgeneric.m4: Add missing popdefs.
+	* m4/checkpkg.m4: Likewise. Unquote DOWNALT.
+
+2000-12-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Typo.
 	* m4/checkpkg.m4 (UP,DOWN,DOWNLAT): New.
 	(AC_caolan_CHECK_PACKAGE): Use them.

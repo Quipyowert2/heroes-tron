@@ -19,10 +19,12 @@ AC_DEFUN([AC_adl_PKG_GENERIC],[
     AC_CHECK_FUNC([$3],,[jolly_good=false])
   fi
   if $jolly_good; then
-    ifelse([$4],,,[$4])    
+    ifelse([$4],,,[$4])
   else
     LIBS=$OLD_LIBS
     CFLAGS=$OLD_CFLAGS
-    ifelse([$5],,,[$5])    
+    ifelse([$5],,,[$5])
   fi
+
+  popdef([UP])
 ])
