@@ -1,5 +1,22 @@
 2000-10-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Support for waving strings in rletext.  Try it in control menu.
+
+	* src/draw.c (text_waving_htimer): Declare static.
+	* src/draw.h (text_waving_step): Declare extern.
+	* src/menus.c (control_menu_text): Rename into ...
+	(control_menu_txt): ... this.
+	(init_menus_sprites): Generate waving control_menu text.
+	(control_menu): Don't draw waving text (already done).
+	* src/rleprog.h (rleprog_s): Add line_size, func_offset, func_data.
+	Change signedness of dest_offset (now signed).
+	* src/rleprog.c (unclipped_run): Handle func_offset.
+	(compile_rleprog): Reset line_size, func_offset, and func_data.
+	* src/rletext.c (waving_offset): New.
+	(compile_rletext): Handle T_WAVING.
+
+2000-10-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Support for generating RLE-programs from strings to display.
 	Try it in control menu.
 

@@ -43,14 +43,25 @@ struct rleprog_s {
      beginning of the next one */
   unsigned int	line_skip;
 
+  /* the line size (in bytes) of the output buffer */
+  unsigned int	line_size;
+
   /* program can be chainned (use 0 otherwise) */
   rleprog_t*	next_prog;
 
-  /* offset to add to the destination pointer given to exec_relprog.
+  /* offset to add to the destination pointer given to exec_rleprog.
      This is usefull because the same pointer is used for all
      RLE-program in a chain, but we don't wont to output all blocs on
      the same places. */
-  unsigned int	dest_offset;
+  int		dest_offset;
+
+  /* This function is called (if non null) with the current prog as
+     argument, so the various fields can be read.
+     The value returned is added to the destination offset. */
+  int		(*func_offset)(const rleprog_t* prog);
+
+  /* Additional data, destined to be used by func_offset. */
+  int		func_data;
 
   /* latest program known in the chain, may not be the
      _actual_ latest (you still have to follow the next_prog pointer

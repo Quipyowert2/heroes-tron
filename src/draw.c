@@ -142,7 +142,7 @@ draw_text_clipped_right (const char *text, int posx, int posy,
 }
 
 unsigned char text_waving_step = 0;
-htimer_t text_waving_htimer = 0;
+static htimer_t text_waving_htimer = 0;
 
 void
 init_text_waving_step (void)

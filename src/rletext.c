@@ -22,6 +22,18 @@
 #include "rletext.h"
 #include "const.h"
 #include "debugmsg.h"
+#include "draw.h"
+
+
+/* used to alter the offset of waving strings */
+static int
+waving_offset (const rleprog_t* prog)
+{
+  return ceil (sin (((text_waving_step + prog->func_data*2) & 31)
+		    * 3.141592653 / 16.0)
+	       * 1.7) * prog->line_size;
+}
+
 
 /*
  * Generate a RLE-program that display a text, using a given font.
@@ -65,6 +77,19 @@ compile_rletext (const fontdata_t *font, const char *text,
       offset += font->width[(int)*text];
     }
   }
+
+  /* setup waving parameters, if needed */
+  if (topt & T_WAVING) {
+    rleprog_t* cur = result;
+    int number = 0;
+
+    while (cur) {
+      cur->func_offset = waving_offset;
+      cur->func_data = number++;
+      cur = cur->next_prog;
+    }
+  }
+
   return result;
 }
 

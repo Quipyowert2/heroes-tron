@@ -68,4 +68,6 @@ void init_text_waving_step (void);
 void uninit_text_waving_step (void);
 void update_text_waving_step (void);
 
+extern unsigned char text_waving_step;
+
 #endif /* HEROES__DRAW__H */

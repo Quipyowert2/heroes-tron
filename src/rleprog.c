@@ -30,6 +30,10 @@ unclipped_run (const rleprog_t* prog, pixel_t* dest)
   u8_t*		epc;		/* end of program code */
     
   cur = dest + prog->dest_offset;
+
+  if (prog->func_offset)
+    cur += prog->func_offset (prog);
+
   pc = prog->code;
   epc = prog->end_code;
     
@@ -110,9 +114,12 @@ compile_rleprog (const pixel_t* src, pixel_t transp_color,
 
   prog->end_code = pc;
   prog->line_skip = dest_width - block_width;
+  prog->line_size = dest_width;
   prog->next_prog = 0;
   prog->dest_offset = 0;
   prog->latest_known = 0;
+  prog->func_offset = 0;
+  prog->func_data = 0;
   
   assert (pc < prog->code + code_size);
 

@@ -48,7 +48,7 @@
 rleprog_t* left_arrow = 0;
 rleprog_t* right_arrow = 0;
 rleprog_t* checked_box[2] = {0, 0};
-rleprog_t* control_menu_text = 0;
+rleprog_t* control_menu_txt = 0;
 
 void
 init_menus_sprites (void)
@@ -63,7 +63,9 @@ init_menus_sprites (void)
 				    14, 21, main_font_img.width, xbuf);
 
   /* control menu */
-  control_menu_txt = compile_menu_text (txti[91], T_FLUSHED_LEFT, 39, 56);
+  control_menu_txt = compile_menu_text (txti[90], T_CENTERED|T_WAVING, 1, 159);
+  concat_rleprog (control_menu_txt, 
+		  compile_menu_text (txti[91], T_FLUSHED_LEFT, 39, 56));
   concat_rleprog (control_menu_txt, 
 		  compile_menu_text (txti[92], T_FLUSHED_LEFT, 72, 56));
   concat_rleprog (control_menu_txt, 
@@ -144,7 +146,6 @@ control_menu (void)
     chkbox (141, 260, opt.autopilot_two);
     copy_rect_transp (main_font_img.buffer + 61 * 320,
 		      corner[0] + 95 * xbuf + 100, 120, 3);
-    draw_text_waving (txti[90], 159, 5, 1);
     exec_rleprog (control_menu_txt, corner[0]);
     vsynch ();
     aff_buffer ();
