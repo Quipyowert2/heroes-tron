@@ -87,6 +87,8 @@ keysdef.c \
 keysdef.h \
 levellst.c \
 levellst.h \
+locales.c \
+locales.h \
 menus.c \
 menus.h \
 misc.c \

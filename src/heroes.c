@@ -70,6 +70,7 @@
 #include "vars.h"
 #include "camera.h"
 #include "levellst.h"
+#include "locales.h"
 
 char tile_set_name[128];
 char glenz_name[128];
@@ -3179,12 +3180,7 @@ main (int argc, char *argv[])
   init_persona ();
 
   relocate_data (argv[0]);
-
-  setlocale (LC_ALL, "");
-  bindtextdomain (PACKAGE, get_non_null_rsc_file ("locale-dir"));
-  textdomain (PACKAGE);
-
-
+  init_locales ();
   init_sound_track_list ();
 
   /* Read the system-wide configuration file. */

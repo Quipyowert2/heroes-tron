@@ -1,5 +1,13 @@
 2001-07-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/locales.c: New file.
+	* src/locales.h: New file.
+	* src/Makefile.am (heroes_SOURCES): Add them.
+	* src/heroes.c (main): Move locale initialization code to
+	init_locales() in locales.c and call it.
+
+2001-07-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/musicfiles.c: Cosmetics changes.
 	(dir_name): Delete, include "dirname.h" instead.
 	(read_sound_config_file): Adjust to the new dir_name(), i.e., add
