@@ -1,5 +1,9 @@
 2001-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* NEWS: Typo.
+
+2001-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.ac: Bump version to 0.12f.
 
 2001-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
