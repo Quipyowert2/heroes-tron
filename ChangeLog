@@ -1,3 +1,14 @@
+2000-12-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	The parafmt cost computation was wrong: in the help reader,
+	short strings (two words) were split on two lines.
+
+	* src/parafmt.c (wdist): New.
+	(compute_break_cost): Do measure costs for mean spaces width
+	and total spaces width separately.  Use a new formula
+	which doesn't require to pay special attention to isolated
+	words.
+
 2000-12-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Rewrite the help reader totally, using the sprite layer and

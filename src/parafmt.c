@@ -33,7 +33,6 @@ typedef struct word_s		word_t;
 typedef struct paragraph_s	paragraph_t;
 typedef u32_t			cost_t;
 #define MAX_COST		U32_MAX
-#define SQR(x) ((x) * (x))
 
 struct word_s {
   char		*letters;	/* positions in the string copy */
@@ -197,6 +196,13 @@ initialize_width_data (paragraph_t *p, const width_t *line_widths)
   return p;
 }
 
+static cost_t
+wdist (width_t l, width_t r)
+{
+  cost_t c = l > r ? l - r : r - l;
+  return c * c;
+}
+
 /* Give the cost for breaking after word WN on a line
    which is WIDTH large and has SPACES spaces.
    You should play with the formulas here to give
@@ -208,30 +214,20 @@ compute_break_cost (paragraph_t *p, unsigned int wn,
 		    width_t width, width_t spaces, unsigned widx)
 {
   cost_t cost = 0;
+  width_t space_width, std_space_width;
 
-  if (spaces) {
-    width_t space_width, std_space_width;
+  /* width for spaces */
+  space_width = p->max_widths[widx] - width;
 
-    /* mean width for spaces, manifolded for accuracy */
-    space_width = (p->max_widths[widx] - width) * 4 / spaces;
-    space_width = (space_width * 4) / spaces;
+  /* prefered width for spaces */
+  std_space_width = p->std_space_width * spaces;
 
-    /* prefered width for spaces, also manifolded for comparision */
-    std_space_width = p->std_space_width * 4;
-
-    /* prefer the standard space width */
-    cost += SQR (space_width - std_space_width);
-  } else {
-    /* isolated word: high penalty */
-    cost += 1000000;
-  }
+  /* prefer the standard space width */
+  cost += wdist (space_width, std_space_width);
 
   /* prefer breaking on punctuation */
   if (!p->words[wn].is_punct)
-    cost += 50;
-
-  /* prefer to use as much characters as possible on the line */
-  cost += SQR (p->max_widths[widx] - width) * 4;
+    cost += p->std_space_width * 3;
 
   /* account for the cost of following breaks */
   if (widx + 1 < p->nmax_widths)
