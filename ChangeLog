@@ -1,3 +1,9 @@
+2000-09-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	From Mattias Engdegård.
+
+	* configure.in: Always define the MAKE_HTML conditional.
+
 2000-09-02  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.in: Set version to 0.6.  Port to Autoconf 2.49a.

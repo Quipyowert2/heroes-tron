@@ -560,10 +560,10 @@ if test "${enable_html_doc-no}" != no; then
     htmldir="$enable_html_doc"
   fi
   AC_SUBST(htmldir)
-  AM_CONDITIONAL(MAKE_HTML, test "${enable_html_doc-no}" != no)
 else
   htmldir='\<none\>'
 fi
+AM_CONDITIONAL(MAKE_HTML, test "${enable_html_doc-no}" != no)
 
 # ============
 # Output files
