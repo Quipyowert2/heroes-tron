@@ -110,6 +110,8 @@ parafmt.c \
 parafmt.h \
 pcx.c \
 pcx.h \
+pendulum.c \
+pendulum.h \
 people.c \
 people.def \
 people.h \

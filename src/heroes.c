@@ -71,6 +71,7 @@
 #include "levellst.h"
 #include "locales.h"
 #include "main.h"
+#include "pendulum.h"
 
 char tile_set_name[128];
 char glenz_name[128];
@@ -1130,42 +1131,6 @@ output_screen (char n)
   }
 }
 
-/****************** Amortized pendulum *********************/
-/* solved with Euler's method */
-double theta;			/* angle */
-double theta_prime;		/* speed */
-#define EULER_STEP 0.006
-#define NBR_STEPS 10
-int elapsed_time;		/* number of step performed so far */
-
-static void
-pendulum_init (void)
-{
-  theta = 3.1415926535 / 2;
-  theta_prime = 0;
-  elapsed_time = 0;
-}
-
-static void
-pandulum_one_step (void)
-{
-  double aux;
-  aux = EULER_STEP * (0.33 * theta_prime + sin (theta));
-  theta += EULER_STEP * theta_prime;
-  theta_prime -= aux;
-  elapsed_time += 1;
-}
-
-static int
-pendulum_update (int n)
-{
-  int i;
-  for (i = NBR_STEPS * n; i != 0; --i)
-    pandulum_one_step ();
-  return (floor (theta * 512.0 / 3.1415926535));
-}
-
-/****************** ******* ****** *********************/
 void
 grow_trail (int pl, int size)
 {
@@ -2471,16 +2436,15 @@ play_demo (void)
 
   if (two_players == false) {
     int flip_pos;
-    pendulum_init ();
+    a_pendulum *p = pendulum_create ();
     n = 0;
-    do {
-      /* FIXME: use a timer for the pendulumn */
-      flip_pos = pendulum_update (n);
+    while (pendulum_update (p, &flip_pos) < 3000) {
       flip_buffer (flip_pos);
       flush_display (render_buffer[1]);
       output_screen ((char) n);
       n = update_all (0);
-    } while (elapsed_time < 3000);
+    }
+    pendulum_destroy (p);
   }
   if (two_players) {
     int buffer_pos = 39;
@@ -2952,10 +2916,9 @@ play_game (char cont)
 
   if (two_players == false) {
     int pendulum_pos;
-    pendulum_init ();
+    a_pendulum *p = pendulum_create ();
     n = 0;
-    do {
-      pendulum_pos = pendulum_update (n);
+    while (pendulum_update (p, &pendulum_pos) < 3000) {
       flip_buffer (pendulum_pos);
 
       DRAW_SPRITE (levelname, render_buffer[1]);
@@ -2964,7 +2927,8 @@ play_game (char cont)
       output_screen ((char) n);
       process_input_events ();
       n = update_all (0);
-    } while (elapsed_time < 3000);
+    }
+    pendulum_destroy (p);
   }
   if (two_players) {
     int buffer_pos = 39;

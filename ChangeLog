@@ -1,3 +1,16 @@
+2002-01-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/pendulum.c, src/pendulum.h: New files.
+	* src/Makefile.am (HEROES_SOURCES): Add them.
+	* src/heroes (pendulum_create, pandulum_one_step,
+	pendulum_update): Move these functions ...
+	* src/pendulum.c (pendulum_create, pendulum_one_step,
+	pendulum_update): ... here.  And adjust them to
+	work with...
+	(a_pendulum): This new struct.
+	* src/heroes.c (play_game, play_demo): Adjust to use
+	the new interface.
+
 2002-01-17  Ingo van Lil  <inguin@gmx.de>
 
 	Alt+Enter toggles full screen mode.
