@@ -1,5 +1,5 @@
 /* hash - hashing table processing.
-   Copyright (C) 1998, 1999, 2000 Free Software Foundation, Inc.
+   Copyright (C) 1998, 1999, 2000, 2001 Free Software Foundation, Inc.
    Written by Jim Meyering, 1992.
 
    This program is free software; you can redistribute it and/or modify
@@ -263,6 +263,7 @@ hash_get_first (const Hash_table *table)
       return bucket->data;
 
   assert (0);
+  return NULL;
 }
 
 /* Return the user data for the entry following ENTRY, where ENTRY has been
@@ -422,7 +423,7 @@ is_prime (unsigned long candidate)
       divisor++;
     }
 
-  return candidate % divisor != 0;
+  return (candidate % divisor ? true : false);
 }
 
 /* Round a given CANDIDATE number up to the nearest prime, and return that

@@ -150,6 +150,13 @@ install-data-yes: all
 	      true; \
 	    fi; \
 	  fi; \
+	  if test "$(PACKAGE)" = "fileutils"; then \
+	    timedir=$$destdir/$$lang/LC_TIME; \
+	    rm -fr $$timedir; \
+	    ln -s LC_MESSAGES $$timedir \
+	    || (mkdir $$timedir && ln $$dir/* $$timedir); \
+	    echo "installing $$timedir as an alias for $$dir"; \
+	  fi; \
 	done
 	if test "$(PACKAGE)" = "gettext"; then \
 	  if test -x "$(MKINSTALLDIRS)"; then \
@@ -213,7 +220,7 @@ update-po: Makefile
 	  echo "$$lang:"; \
 	  if $(MSGMERGE) $(srcdir)/$$lang.po \
 	                 $(srcdir)/$(PACKAGE).pot -o $$lang.new.po; then \
-	    if cmp -s $$lang.new.po $(srcdir)/$$lang.po 2>/dev/null; then \
+	    if cmp $$lang.new.po $(srcdir)/$$lang.po >/dev/null; then \
 	      echo "$$lang.po is unchanged"; \
 	      rm -f $$lang.new.po; \
 	    else \
@@ -224,6 +231,7 @@ update-po: Makefile
 	  else \
 	    echo "msgmerge for $$cat failed!"; \
 	    rm -f $$lang.new.po; \
+	    exit 1; \
 	  fi; \
 	done
 

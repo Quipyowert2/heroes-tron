@@ -1,3 +1,10 @@
+2001-01-20  Jim Meyering  <meyering@lucent.com>
+
+	* gettextP.h (SWAP) [!_LIBC]: Remove prototype and convert K&R-style
+	definition to ANSI-style.  Alan Iwi reported a compilation failure on
+	an alphaev5-cray-unicosmk2.0.5.X:  the declaration was incompatible
+	with the definition.
+
 2000-10-12  Bruno Haible  <haible@clisp.cons.org>
 
 	* localealias.c (memcpy): Return first argument, just like the real
