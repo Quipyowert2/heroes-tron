@@ -1,3 +1,13 @@
+2000-11-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/menu.c (quitgame_yes_txt, quitgame_no_txt): Rename as ...
+	(quit_yes_txt, quit_no_txt): ... this.
+	(quitheroes_menu_txt): New.
+	(init_menus_sprites, uninit_menus_sprites): Handle the above new
+	sprites.
+	(draw_quit_menu): Use them.
+	(quit_yes_no): Exchange `yes' and `no'.  Use move_updown.
+
 2000-11-11  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/menus.c (edit_sel_txt): New.

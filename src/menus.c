@@ -76,8 +76,9 @@ static sprite_t* extra_combine_txt[3] = { 0, 0, 0 };
 static sprite_t* credit_menu_txt = 0;
 static sprite_t* pause_menu_txt = 0;
 static sprite_t* quitgame_menu_txt = 0;
-static sprite_t* quitgame_yes_txt = 0;
-static sprite_t* quitgame_no_txt = 0;
+static sprite_t* quitheroes_menu_txt = 0;
+static sprite_t* quit_yes_txt = 0;
+static sprite_t* quit_no_txt = 0;
 static sprite_t* ed_new_level_txt = 0;
 static sprite_t* ed_existing_level_txt = 0;
 static sprite_t* ed_name_txt = 0;
@@ -346,12 +347,14 @@ init_menus_sprites (void)
   /* pause menu */
   pause_menu_txt = compile_menu_text ("PAUSE", T_CENTERED|T_WAVING, 5, 159);
 
-  /* quit y/n menu */
+  /* quit y/n menus */
 
   quitgame_menu_txt = compile_menu_text (txti[40],
 					 T_CENTERED|T_WAVING, 75, 159);
-  quitgame_no_txt = compile_menu_text (txti[41], T_CENTERED, 95, 159);
-  quitgame_yes_txt = compile_menu_text (txti[42], T_CENTERED, 110, 159);
+  quitheroes_menu_txt = compile_menu_text (txti[140],
+					 T_CENTERED|T_WAVING, 75, 159);
+  quit_no_txt = compile_menu_text (txti[41], T_CENTERED, 110, 159);
+  quit_yes_txt = compile_menu_text (txti[42], T_CENTERED, 95, 159);
 
   /* editor menu */
   ed_new_level_txt = compile_menu_text (txti[174],
@@ -419,6 +422,10 @@ uninit_menus_sprites (void)
   FREE_SPRITE0 (jukebox_back);
   FREE_SPRITE0 (jukebox_quit);
   FREE_SPRITE0 (pause_menu_txt);
+  FREE_SPRITE0 (quitgame_menu_txt);
+  FREE_SPRITE0 (quitheroes_menu_txt);
+  FREE_SPRITE0 (quit_yes_txt);
+  FREE_SPRITE0 (quit_no_txt);
   FREE_SPRITE0 (ed_new_level_txt);
   FREE_SPRITE0 (ed_existing_level_txt);
   FREE_SPRITE0 (ed_name_txt);
@@ -1162,9 +1169,9 @@ option_menu (void)
 void
 draw_quit_menu (int l)
 {
-  draw_text_waving (txti[140], 159, 75, 1);
-  draw_text_array[l == 0] (txti[142], 159, 95, 1);
-  draw_text_array[l == 1] (txti[141], 159, 110, 1);
+  DRAW_SPRITE (quitheroes_menu_txt, corner[0]);
+  draw_sprprogwav_if (l == 0, quit_yes_txt, corner[0]);
+  draw_sprprogwav_if (l == 1, quit_no_txt, corner[0]);
   waving_arrows (91 + l * 15, 90);
 }
 
@@ -1846,7 +1853,7 @@ pause_menu (void)
 char
 quit_yes_no (void)
 {
-  char l = 0;
+  int l = 0;
   keycode_t t;
   htimer_t pause_htimer;
 
@@ -1872,8 +1879,8 @@ quit_yes_no (void)
     update_text_waving_step ();
 
     DRAW_SPRITE (quitgame_menu_txt, corner[0]);
-    draw_sprprogwav_if (l == 0, quitgame_no_txt, corner[0]);
-    draw_sprprogwav_if (l == 1, quitgame_yes_txt, corner[0]);
+    draw_sprprogwav_if (l == 0, quit_yes_txt, corner[0]);
+    draw_sprprogwav_if (l == 1, quit_no_txt, corner[0]);
     waving_arrows (91 + 15 * l, 90);
 
     vsynch ();
@@ -1881,21 +1888,13 @@ quit_yes_no (void)
     t = 0;
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
-      if (t == HK_Down) {
-	if (l != 1)
-	  event_sfx (86);
-	l = 1;
-      }
-      if (t == HK_Up) {
-	if (l != 0)
-	  event_sfx (86);
-	l = 0;
-      }
-    }
+      t = move_updown (t, &l, 1);
+    } else
+      t = 0;
   } while (t != HK_Enter);
   set_volume ();
   enable_blit = 0;
-  if (l == 1)
+  if (l == 0)
     event_sfx (88);
   else
     event_sfx (87);
@@ -1908,5 +1907,5 @@ quit_yes_no (void)
   reset_htimer (background_htimer);
   free_htimer (pause_htimer);
   dmsg (D_SECTION, "exit quit menu");
-  return (1 - l);
+  return l;
 }
