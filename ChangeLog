@@ -1,5 +1,10 @@
 2001-12-09  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/media/allegro/video.c (init_allegro): Call install_mouse ().
+	* src/media/allegro/keyb.c (enable_mouse): Remove.
+
+2001-12-09  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/media/keyb.h (keycode_to_ascii): Declare.
 	* src/media/dummy/keyb.c (keycode_to_ascii): Define.
 	* src/media/sdl/keyb.c (keycode_to_ascii): Define.

@@ -47,6 +47,7 @@ init_allegro (void)
   dmsg (D_SYSTEM, "initialize allegro");
   allegro_init ();
   install_keyboard ();
+  install_mouse ();
 }
 
 void
