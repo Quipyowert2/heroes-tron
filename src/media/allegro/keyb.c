@@ -24,8 +24,6 @@
 #include "keyb_low.h"
 #include "errors.h"
 
-static int enable_mouse = 0;
-
 int mouse_pos_x = 0;
 int mouse_pos_y = 0;
 char mouse_button_left = 0;
