@@ -28,6 +28,7 @@
 #include "generic_list.h"
 #include "config.h"
 #include "misc.h"
+#include "rsc_files.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
@@ -96,17 +97,19 @@ dirname (const char* filename)
 }
 
 int 
-read_sound_config_file (const char* filename)
+read_sound_config_file (char* filename)
 {
   FILE* fs;
   char* buf = 0;
   size_t bufsize = 0;
   int firstline = 0, endline = 0;
-  char* dir = dirname (filename);
+  char* expfilename = rsc_expand (filename);
+  char* dir = dirname (expfilename);
 
-  fs = fopen (filename, "r");
+  fs = fopen (expfilename, "r");
 
   if (!fs) {
+    free (expfilename);
     free (dir);
     return 0;
   }
@@ -141,7 +144,8 @@ read_sound_config_file (const char* filename)
   fclose (fs);
   free (buf);
   free (dir);
-  
+  free (expfilename);
+
   return 0;
 }
 

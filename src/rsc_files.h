@@ -24,5 +24,6 @@
 int set_rsc_file (const char* rsc_name, const char* file_name);
 char* get_rsc_file (const char* rsc_name);
 char* get_non_null_rsc_file (const char* rsc_name);
+char* rsc_expand (char* value);
 
 #endif

@@ -38,7 +38,7 @@ sound_track_t* get_sound_track_from_alias (const char* alias);
 void add_sound_track (sound_track_t* st);
 void add_sound_track_cons (char* alias, char* filename, 
 			   char* title, char* author);
-int read_sound_config_file (const char* filename);
+int read_sound_config_file (char* filename);
 int init_sound_track_list (void);
 
 #endif

@@ -1,3 +1,13 @@
+2000-08-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/rsc_files.h (rsc_expand): Export this function.
+	* src/rsc_files.c (rsc_expand): Likewise.
+	* src/musicfiles.h (read_sound_config_file): The argument is no
+	more const.
+	* src/musicfiles.c (read_sound_config_file): rsc_expand the filename.
+	* src/etc/heroesrc (soundconf): Read $(datadir)/mod/sound.conf, not
+	/sound.conf.
+
 2000-08-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Support option -2 and -3 and stretch the display accordingly.

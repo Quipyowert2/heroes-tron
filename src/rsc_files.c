@@ -44,7 +44,7 @@ set_rsc_file (const char* rsc_name, const char* file_name)
 }
 
 /*  Search value for strings of the form `$(name)' to expand.  */
-static char*
+char*
 rsc_expand (char* value)
 {
   int size = strlen (value) + 1;
