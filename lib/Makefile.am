@@ -20,6 +20,7 @@
 noinst_LIBRARIES= libheroes.a
 
 EXTRA_DIST= \
+ftruncate.c \
 getopt.c \
 getopt1.c \
 malloc.c \

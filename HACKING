@@ -177,6 +177,7 @@ Avoid any change to these files, if possible.
 (And report any change upstream, of course.)
 
  lib/alloca.c	   (from fetish)
+ lib/ftruncate.c   (from fetish)
  lib/getopt.c	   (from glibc)
  lib/getopt1.c	   (from glibc)
  lib/gnugetopt.h   (from glibc, where it is named getopt.h)
@@ -192,6 +193,7 @@ Avoid any change to these files, if possible.
  lib/xalloc.c      (from fetish)
  lib/xmalloc.c     (from fetish)
  lib/xstrdup.c     (from fetish)
+ m4/ftruncate.m4   (from fetish)
  m4/lcmessage.m4   (from fetish)
  m4/libintl.m4     (from fetish)
  m4/progtest.m4    (from fetish)

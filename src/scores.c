@@ -87,6 +87,11 @@ write_scores (void)
 
   if (fscores == 0)
     fscores = fopenlock (score_file (), "wb");
+  else {
+    fflush (fscores);
+    if (ftruncate (fileno (fscores), 0) != 0)
+      emsg (_("%s: truncate error"), score_file ());
+  }
 
   dmsg (D_FILE, "writing scores to %s", score_file ());
 

@@ -73,6 +73,11 @@ write_save_records (void)
 
   if (fsave == 0)
     fsave = fopenlock (saved_games_file (), "wb");
+  else {
+    fflush (fsave);
+    if (ftruncate (fileno (fsave), 0) != 0)
+      emsg (_("%s: truncate error"), saved_games_file ());
+  }
 
   dmsg (D_FILE, "saving games to %s", saved_games_file ());
 

@@ -1,5 +1,20 @@
 2001-03-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Truncate scores and saved-games files, before writing
+	to them.
+
+	* lib/ftruncate.c: New file (from fileutils-4.0.39).
+	* m4/ftruncate.m4: Likewise.
+	* lib/Makefile.am (EXTRA_DIST): Add ftruncate.c.
+	* tools/fetish-sync.sh (files): Add lib/ftruncate.c and
+	m4/ftruncate.m4.
+	* HACKING: Likewise.
+	* configure.in: Call jm_FUNC_FTRUNCATE.
+	* src/savegame.c (write_save_records): Truncate the file.
+	* src/scores.c (write_scores): Likewise.
+
+2001-03-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Replace game magics by game IDs, which serve the same purpose
 	but are 128bits values.  See comments in src/gameid.h.
 

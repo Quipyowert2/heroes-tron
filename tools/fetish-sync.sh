@@ -51,6 +51,7 @@ intl/xopen-msg.sed
 lib/alloca.c
 lib/error.c
 lib/error.h
+lib/ftruncate.c
 lib/getopt.c
 lib/getopt1.c
 lib/getopt.h:lib/gnugetopt.h
@@ -63,6 +64,7 @@ lib/strndup.c
 lib/xalloc.h
 lib/xmalloc.c
 lib/xstrdup.c
+m4/ftruncate.m4
 m4/lcmessage.m4
 m4/libintl.m4
 m4/malloc.m4

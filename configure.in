@@ -128,7 +128,7 @@ AC_REPLACE_FUNCS([strcasecmp])
 jm_FUNC_MALLOC
 
 # KLUDGE: clear LIBS to work around a bug (?) on alphaev56-dec-osf4.0d
-# where conftest never exit when linked with `-lgii' or `-lggi'.
+# where conftest never exits when linked with `-lgii' or `-lggi'.
 old_libs="$LIBS"
 LIBS=''
 jm_FUNC_REALLOC
@@ -138,6 +138,7 @@ LIBS="$old_libs"
 AC_CHECK_FUNCS([strerror])
 AC_FUNC_STRERROR_R
 
+jm_FUNC_FTRUNCATE
 adl_FUNC_GETOPT_LONG
 adl_FUNC_FOPENLOCK
 
