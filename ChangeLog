@@ -1,5 +1,11 @@
 2001-05-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* arch/Makefile.am: Remove the commented rules to please automake
+	1.4f (which bugs on trailing backslashes in comments).  After all
+	we can get the old rules back from CVS.
+
+2001-05-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* ChangeLog.00: New file.
 	* Makefile.am (EXTRA_DIST): Add ChangeLog.00.
 
