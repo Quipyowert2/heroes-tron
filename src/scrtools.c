@@ -27,6 +27,7 @@
 #include "const.h"
 #include "fastmem.h"
 #include "argv.h"
+#include "camera.h"
 
 void
 set_pal_with_luminance (const palette_t* palsrc)

@@ -28,6 +28,7 @@
 #include "bytesex.h"
 #include "timer.h"
 #include "heroes.h"
+#include "camera.h"
 
 int rotosinus[256];
 int rotocosinus[256];

@@ -35,6 +35,8 @@ argv.h \
 bonus.c \
 bonus.h \
 bytesex.h \
+camera.c \
+camera.h \
 const.c \
 const.h \
 debugchn.def \

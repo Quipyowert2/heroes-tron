@@ -36,6 +36,7 @@
 #include "sprglenz.h"
 #include "sprunish.h"
 #include "menus.h"
+#include "camera.h"
 
 char tutor = 0;
 static sprite_t *clock_anim;
@@ -309,6 +310,8 @@ draw_level (int p)
   pixel_t *dest = render_buffer[p] + sbuf;
   pixel_t *dest2;
   long anim_frame;
+  int camera_stop_x[2];
+  int camera_stop_y[2];
 
   clock_anim = clocks[read_htimer (clock_htimer) & 7];
   lemmings_anim_offset = (lemmings_move_offset * 64 / 65536) & 7 << 3;

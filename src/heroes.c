@@ -68,6 +68,7 @@
 #include "persona.h"
 #include "relocate.h"
 #include "vars.h"
+#include "camera.h"
 
 char tile_set_name[128];
 char glenz_name[128];
@@ -577,84 +578,6 @@ unload_level (void)
   unload_soundtrack ();
 }
 
-extern void
-compute_corner (int p, int n)
-{
-  s32_t x, y;
-  s32_t d1, d2, d3;
-
-  s32_t tw = (s32_t)(lvl.tile_width << 16);
-  s32_t th = (s32_t)(lvl.tile_height << 16);
-
-  if (opt.inertia) {
-    /* when the framerate is too low, don't do inerta */
-    if (n > 16)
-      n = 16;
-
-    if (lvl.tile_width_wrap == DONT_WRAP)
-      inert_x[p] = camera_x[p] =
-	inert_x[p] + n * (camera_x[p] - inert_x[p]) / 16;
-    else {
-      d1 = camera_x[p] - inert_x[p];
-      d3 = abs (d1);
-      d2 = tw - d3;
-      if (d3 <= d2)
-	inert_x[p] = camera_x[p] = inert_x[p] + n * (d1) / 16;
-      else if (d1 <= 0)
-	inert_x[p] = camera_x[p] =
-	  inert_x[p] + n * d2 / 16 - tw;
-      else
-	inert_x[p] = camera_x[p] =
-	  inert_x[p] - n * d2 / 16 + tw;
-    }
-    if (lvl.tile_height_wrap == DONT_WRAP)
-      inert_y[p] = camera_y[p] =
-	inert_y[p] + n * (camera_y[p] - inert_y[p]) / 16;
-    else {
-      d1 = camera_y[p] - inert_y[p];
-      d3 = abs (d1);
-      d2 = th - d3;
-      if (d3 <= d2)
-	inert_y[p] = camera_y[p] = inert_y[p] + n * (d1) / 16;
-      else if (d1 <= 0)
-	inert_y[p] = camera_y[p] =
-	  inert_y[p] + n * d2 / 16 - th;
-      else
-	inert_y[p] = camera_y[p] =
-	  inert_y[p] - n * d2 / 16 + th;
-    }
-  }
-
-  camera_x[p] += 81920 * 2 / 3;
-  camera_y[p] += 49152;
-  camera_stop_y[p] = camera_stop_x[p] = 0;
-  x = (camera_x[p] - (nbr_tiles_cols << 15));
-  y = (camera_y[p] - (nbr_tiles_rows << 15));
-  if (lvl.tile_width_wrap == DONT_WRAP) {
-    if (x < 0) {
-      x = 0;
-      camera_stop_x[p] = 1;
-    } else if (x > tw - camera_center_x) {
-      x = tw - camera_center_x;
-      camera_stop_x[p] = 1;
-    }
-  }
-  if (lvl.tile_height_wrap == DONT_WRAP) {
-    if (y < 0) {
-      y = 0;
-      camera_stop_y[p] = 1;
-    } else if (y > th - 655360) {
-      y = th - 655360;
-      camera_stop_y[p] = 1;
-    }
-  }
-  corner_dx[p] = (x >> 16) & lvl.tile_width_wrap;
-  corner_dy[p] = (y >> 16) & lvl.tile_height_wrap;
-  corner_x[p] = ((x & 0xffff) * 24) >> 16;
-  corner_y[p] = ((y & 0xffff) * 20) >> 16;
-  corner[p] = render_buffer[p] + sbuf + corner_y[p] * xbuf + corner_x[p];
-}
-
 static void
 load_level_from_number (int nbr, char cont)
 {
@@ -1018,6 +941,8 @@ output_screen (char n)
   pixel_t *src;
   int i;
   int loginf[4];		/* values for counters */
+
+  position_camera ();
 
   if (game_mode == M_DEATHM)
     for (i = 0; i < 4; i++)
@@ -2360,7 +2285,6 @@ static int
 update_all (char plr)
 {
   int n = 0;
-  int p;
   long frames = read_htimer (update_htimer);
 
   update_explosions ();
@@ -2383,42 +2307,6 @@ update_all (char plr)
 	update_lemmings ();
     }
     n++;
-  }
-
-  if (player[col2plr[0]].spec == t_tunnel && opt.inertia) {
-    p = lvl.square_move[player[col2plr[0]].way][player[col2plr[0]].pos];
-    camera_x[0] = square_coord[p].x << 15;
-    camera_y[0] = square_coord[p].y << 15;
-  } else {
-    camera_x[0] = player[col2plr[0]].x2 << 15;
-    camera_y[0] = player[col2plr[0]].y2 << 15;
-  }
-
-  if (player[col2plr[0]].way == w_left)
-    camera_x[0] -= player[col2plr[0]].d.e >> 1;
-  if (player[col2plr[0]].way == w_up)
-    camera_y[0] -= player[col2plr[0]].d.e >> 1;
-  if (player[col2plr[0]].way == w_right)
-    camera_x[0] += player[col2plr[0]].d.e >> 1;
-  if (player[col2plr[0]].way == w_down)
-    camera_y[0] += player[col2plr[0]].d.e >> 1;
-  if (two_players) {
-    if (player[col2plr[1]].spec == t_tunnel) {
-      p = lvl.square_move[player[col2plr[1]].way][player[col2plr[1]].pos];
-      camera_x[1] = square_coord[p].x << 15;
-      camera_y[1] = square_coord[p].y << 15;
-    } else {
-      camera_x[1] = player[col2plr[1]].x2 << 15;
-      camera_y[1] = player[col2plr[1]].y2 << 15;
-    }
-    if (player[col2plr[1]].way == w_left)
-      camera_x[1] -= player[col2plr[1]].d.e >> 1;
-    if (player[col2plr[1]].way == w_up)
-      camera_y[1] -= player[col2plr[1]].d.e >> 1;
-    if (player[col2plr[1]].way == w_right)
-      camera_x[1] += player[col2plr[1]].d.e >> 1;
-    if (player[col2plr[1]].way == w_down)
-      camera_y[1] += player[col2plr[1]].d.e >> 1;
   }
 
   return (n);
@@ -2448,10 +2336,7 @@ play_demo (void)
     nbr_tiles_cols = 8;
     camera_center_x = 436800;
   }
-  inert_x[0] = camera_x[0] = player[col2plr[0]].x2 << 15;
-  inert_y[0] = camera_y[0] = player[col2plr[0]].y2 << 15;
-  inert_x[1] = camera_x[1] = player[col2plr[1]].x2 << 15;
-  inert_y[1] = camera_y[1] = player[col2plr[1]].y2 << 15;
+  init_camera ();
   init_keyboard_map ();
   n = 1;
 
@@ -2919,10 +2804,7 @@ play_game (char cont)
     nbr_tiles_cols = 8;
     camera_center_x = 436800;
   }
-  inert_x[0] = camera_x[0] = player[col2plr[0]].x2 << 15;
-  inert_y[0] = camera_y[0] = player[col2plr[0]].y2 << 15;
-  inert_x[1] = camera_x[1] = player[col2plr[1]].x2 << 15;
-  inert_y[1] = camera_y[1] = player[col2plr[1]].y2 << 15;
+  init_camera ();
   init_keyboard_map ();
   n = 1;
 

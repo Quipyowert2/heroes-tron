@@ -32,6 +32,7 @@
 #include "timer.h"
 #include "heroes.h"
 #include "fader.h"
+#include "camera.h"
 
 #define XBUF 128
 #define YBUF 324

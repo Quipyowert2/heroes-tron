@@ -57,6 +57,7 @@
 #include "readmake.h"
 #include "endscroll.h"
 #include "people.h"
+#include "camera.h"
 
 static htimer_t lemming_htimer;
 static sprite_t* left_arrow = 0;
@@ -836,12 +837,7 @@ background_menu (void)
 
   TTT += read_htimer (background_htimer);
 
-  camera_x[0] = 65536 * 24 * cos (TTT / 111.0);
-  camera_y[0] = 65536 * 24 * sin (TTT / 175.0);
-  camera_x[0] &= (lvl.tile_width_wrap << 16) | (0xffff);
-  camera_y[0] &= (lvl.tile_height_wrap << 16) | (0xffff);
-  inert_x[0] = camera_x[0];
-  inert_y[0] = camera_y[0];
+  lisajou_camera (TTT);
   compute_corner (0, 1);
 
   update_text_waving_step ();

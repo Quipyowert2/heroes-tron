@@ -1,3 +1,25 @@
+2001-07-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Gather camera handling code from heroes.c and const.c into camera.c.
+
+	* src/camera.c: New file.
+	* src/camera.h: New file.
+	* src/Makefile.am (heroes_SOURCES): Add camera.c and camera.h.
+	* src/const.c (camera_x, camera_y, corner_x, corner_y,
+	corner, corner_dx, corner_dy, inert_x, inert_y, nbr_tiles_cols,
+	nbr_tiles_rows): Move to camera.c.
+	(camera_stop_x, camera_stop_y): Move to ...
+	* src/render.c (draw_level): ... here.
+	* src/const.h: Likewise.
+	* src/scrtools.c: Likewise.
+	* src/visuals.c: Likewise.
+	* src/endscroll.c: Include camera.h.
+	* src/heroes.c (compute_corner): Move to camera.c.
+	(update_all): Extract the position_camera() function, now in camera.c.
+	(output_screen): Call position_camera().
+	(play_demo, play_game): Extract and call init_camera().
+	* src/menus.c (background_menu): Extract and call lisajou_camera().
+
 2001-07-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.ac: Bump to 0.12a.  Call AM_PROG_CC_C_O.
