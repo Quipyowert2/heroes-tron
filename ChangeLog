@@ -1,3 +1,9 @@
+2001-11-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/media/Makefile.inc (DISTCLEANFILES): Add media/allegro/keydef.c.
+	(media/ggi/keysdef.c, media/sdl/keysdef.c,
+	media/allegro/keysdef.c): Depend upon .dirstamp in each directory.
+
 2001-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.ac: Bump version to 0.17.

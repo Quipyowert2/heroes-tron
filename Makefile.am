@@ -126,6 +126,8 @@ my-distcheck-sdl:
 	diff -ur $(t)/$(distdir) $(t)/$(distdir).new
 	-rm -rf $(t)
 
+distcleancheck: distclean
+
 man-distcheck:
 	cd man && $(MAKE) man-distcheck
 
