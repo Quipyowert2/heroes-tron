@@ -23,4 +23,5 @@ cvsboot.sh \
 fetish-sync.sh \
 genm4mam.sh \
 genpotfiles.sh \
-readme.sed
+readme.sed \
+upgettext.sh

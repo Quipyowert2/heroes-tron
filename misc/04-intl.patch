@@ -1,0 +1,40 @@
+Index: intl/ChangeLog
+--- intl/ChangeLog
++++ intl/ChangeLog
+@@ -1,1 +1,6 @@
++2001-04-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
++
++	* dcigettext.c (DETERMINE_SECURE): Use an alternate definition if
++	getgid() is not available.
++
+
+--- intl/dcigettext.c	Tue Apr 24 21:42:10 2001
++++ intl/dcigettext.c	Tue Apr 24 22:26:30 2001
+@@ -369,10 +369,11 @@
+ #ifdef _LIBC
+ # define ENABLE_SECURE __libc_enable_secure
+ # define DETERMINE_SECURE
+-#else
++#else /* !_LIBC */
+ static int enable_secure;
+ # define ENABLE_SECURE (enable_secure == 1)
+-# define DETERMINE_SECURE \
++# if HAVE_GETEGID
++#  define DETERMINE_SECURE \
+   if (enable_secure == 0)						      \
+     {									      \
+       if (getuid () != geteuid () || getgid () != getegid ())		      \
+@@ -380,7 +381,12 @@
+       else								      \
+ 	enable_secure = -1;						      \
+     }
+-#endif
++# else /* !HAVE_GETEID */
++#  define DETERMINE_SECURE			\
++  if (enable_secure == 0)			\
++    enable_secure = -1;
++# endif /* !HAVE_GETEID */
++#endif /* !_LIBC */
+ 
+ /* Look up MSGID in the DOMAINNAME message catalog for the current
+    CATEGORY locale and, if PLURAL is nonzero, search over string

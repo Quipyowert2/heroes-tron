@@ -28,7 +28,11 @@ misc/heroes-4.xpm \
 misc/heroes-5.xpm \
 misc/heroes-6.xpm \
 misc/heroes-7.xpm \
-misc/heroes-8.xpm
+misc/heroes-8.xpm \
+misc/01-intl.patch \
+misc/04-intl.patch \
+misc/04-m4.patch \
+misc/05-po.patch
 
 SUBDIRS = arch tools lib intl src m4 man po doc
 

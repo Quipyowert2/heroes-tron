@@ -1,0 +1,21 @@
+--- m4/ChangeLog
++++ m4/ChangeLog
+@@ -1,1 +1,5 @@
++2001-04-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
++
++	* gettext.m4: Check for getegid().
++
+
+--- m4/gettext.m4	2001/04/24 18:29:13
++++ m4/gettext.m4	2001/04/24 20:13:17
+@@ -247,8 +247,8 @@
+ 
+    AC_CHECK_HEADERS([argz.h limits.h locale.h nl_types.h malloc.h stddef.h \
+ stdlib.h string.h unistd.h sys/param.h])
+-   AC_CHECK_FUNCS([feof_unlocked fgets_unlocked getcwd mempcpy munmap putenv \
+-setenv setlocale stpcpy strchr strcasecmp strdup tsearch \
++   AC_CHECK_FUNCS([feof_unlocked fgets_unlocked getcwd getegid mempcpy \
++munmap putenv setenv setlocale stpcpy strchr strcasecmp strdup tsearch \
+ __argz_count __argz_stringify __argz_next])
+ 
+    AM_ICONV

@@ -51,6 +51,10 @@ done
 
 test -f configure.in || die "Cannot find configure.in in current directory."
 
-# install gettext by copying files
-saferun gettextize --force
+# install gettext by copying files to patch them
+saferun gettextize --force --copy
 saferun rm -f po/ChangeLog
+
+for i in misc/*-intl.patch misc/*-po.patch ; do
+  patch -f -p0 < $i
+done
