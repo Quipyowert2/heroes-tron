@@ -77,13 +77,6 @@ int level_list_nbr = 0;
 
 int current_quest_level;
 
-char soundtrack_list[11][9] = { "MENU", "HEROES01", "HEROES02", "HEROES03",
-  "HEROES04", "HEROES05", "HEROES06", "HEROES07",
-  "HEROES08", "HEROES09", "HEROES10"
-};
-
-signed char soundtrack_current_nbr = 0;
-
 int level_is_finished;
 
 /* AI won't be enabled on the first moves */
@@ -427,13 +420,8 @@ load_level (char *nomlvl, char cont)
 
   if (in_menu) {
     load_soundtrack_from_alias ("MENU");
-    soundtrack_current_nbr = 0;
   } else {
     load_soundtrack_from_alias (map_info.soundtrack_name);
-    if (map_info.soundtrack_name[7] == '0')
-      soundtrack_current_nbr = 10;
-    else
-      soundtrack_current_nbr = map_info.soundtrack_name[7] - '0';
   }
 
   dmsg (D_LEVEL, "initialize variables and maps associated to the level");
@@ -960,136 +948,6 @@ save_pcx (char q)
   for (i1 = 0; i1 < 768; i1++)
     putc (tile_set_img.palette.global[i1] << 2, fpcx);
   fclose (fpcx);
-}
-
-static void
-jukebox_menu (void)
-{
-  int t, t2, dp;
-  keycode_t k;
-  signed char sinl;
-  char l = 0;
-  htimer_t lemming_htimer = new_htimer (T_GLOBAL, HZ (18));
-
-  in_jokebox = 1;
-  std_white_fadein (&tile_set_img.palette);
-  do {
-    do {
-      background_menu ();
-
-      sinl = minisinus[read_htimer (waving_htimer) & 31];
-      draw_glenz_box (corner[0] + (42 + sinl) * xbuf + 234, 2, 86, 6);
-      draw_glenz_box (corner[0] + (62 + sinl) * xbuf + 244, 3, 76, 6);
-      draw_glenz_box (corner[0] + (74 + sinl) * xbuf + 194, 4, 126, 6);
-      draw_glenz_box (corner[0] + (95 + sinl) * xbuf + 194, 5, 126, 6);
-      draw_text_waving ("CREDITS", 159, 10, 1);
-      draw_text ("GFX AND IDEA:", 1, 40, 0);
-      draw_text_waving ("a GUEN", 318, 40, 2);
-      draw_text ("MUSIK:", 1, 60, 0);
-      draw_text_waving ("b TNK", 318, 60, 2);
-      draw_text_waving ("c ALEXEL", 318, 72, 2);
-      draw_text ("CODE:", 1, 93, 0);
-      draw_text_waving ("d POLLUX", 318, 93, 2);
-      draw_text ("SEE THE FILE", 159, 118, 1);
-      draw_text ("THANKS", 159, 130, 1);
-      draw_text ("FOR OTHER", 159, 142, 1);
-      draw_text ("CONTRIBUTORS", 159, 154, 1);
-      copy_rect_transp (main_font_img.buffer + 61 * 320,
-			corner[0] + (28) * xbuf + 100, 120, 3);
-      copy_rect_transp (main_font_img.buffer + 61 * 320,
-			corner[0] + (109) * xbuf + 100, 120, 3);
-      copy_rect_transp (main_font_img.buffer + 61 * 320,
-			corner[0] + (171) * xbuf + 100, 120, 3);
-
-      dp = read_htimer (sound_track_htimer);
-      t = dp/2;
-      dp &= 1;
-      if (t > 5999)
-	t = 5999;
-      copy_rect_transp (jukebox_img.buffer, corner[0] + 180 * xbuf + 8, 306,
-			19);
-      if (l == 0)
-	copy_rect_4 (jukebox_img.buffer + 19 * 320,
-		     corner[0] + 184 * xbuf + 8 + 5, 12, 9);
-      else if (l == 1)
-	copy_rect_4 (jukebox_img.buffer + 19 * 320 + 12,
-		     corner[0] + 184 * xbuf + 8 + 27, 12, 9);
-      else if (l == 2)
-	copy_rect_4 (jukebox_img.buffer + 19 * 320 + 24,
-		     corner[0] + 184 * xbuf + 8 + 274, 16, 9);
-
-      if (soundtrack_title)
-	draw_deck_text (soundtrack_title, 110, 186, 1);
-      if (soundtrack_author)
-	draw_deck_text (soundtrack_author, 197, 186, 1);
-
-      t2 = t % 60;
-      t /= 60;
-      copy_rect_2 (jukebox_img.buffer + 19 * 320 + 227 + (t2 % 10) * 6,
-		   corner[0] + 186 * xbuf + 8 + 228 + 19, 6, 5);
-      copy_rect_2 (jukebox_img.buffer + 19 * 320 + 227 + (t2 / 10) * 6,
-		   corner[0] + 186 * xbuf + 8 + 228 + 13, 6, 5);
-      if (dp == 0)
-	copy_rect_2 (jukebox_img.buffer + 19 * 320 + 227 + 60 - 1,
-		     corner[0] + 186 * xbuf + 8 + 228 + 10, 2, 5);
-      copy_rect_2 (jukebox_img.buffer + 19 * 320 + 227 + (t % 10) * 6,
-		   corner[0] + 186 * xbuf + 8 + 227 + 6, 6, 5);
-      copy_rect_2 (jukebox_img.buffer + 19 * 320 + 227 + (t / 10) * 6,
-		   corner[0] + 186 * xbuf + 8 + 227, 6, 5);
-
-      {
-	int lempos = read_htimer (lemming_htimer);
-	copy_rect_transp (main_font_img.buffer +
-			  81 * 320 + 132 + 6 * (lempos & 7),
-			  corner[0] + (190) * xbuf + (lempos / 2) - 6, 6, 10);
-	if ((lempos / 2) >= 332)
-	  reset_htimer (lemming_htimer);
-      }
-
-      vsynch ();
-      aff_buffer ();
-    } while (!key_or_joy_ready ());
-    k = get_key_or_joy ();
-    if (k == HK_Up || k == HK_Down || k == HK_Left || k == HK_Right)
-      event_sfx (79);
-    if (k == HK_Up || k == HK_Left) {
-      if (l > 0)
-	l--;
-      else
-	l = 2;
-    }
-    if (k == HK_Down || k == HK_Right) {
-      if (l < 2)
-	l++;
-      else
-	l = 0;
-    }
-    if (k == HK_Enter) {
-      if (l == 2)
-	k = HK_Escape;
-      else {
-	if (l == 0) {
-	  event_sfx (74);
-	  soundtrack_current_nbr++;
-	  if (soundtrack_current_nbr == 11)
-	    soundtrack_current_nbr = 0;
-	};
-	if (l == 1) {
-	  event_sfx (75);
-	  soundtrack_current_nbr--;
-	  if (soundtrack_current_nbr == -1)
-	    soundtrack_current_nbr = 10;
-	};
-	unload_soundtrack ();
-	load_soundtrack_from_alias (soundtrack_list[soundtrack_current_nbr]);
-	play_soundtrack ();
-	reset_htimer (sound_track_htimer);
-      }
-    }
-  } while (k != HK_Escape);
-  event_sfx (76);
-  in_jokebox = 0;
-  free_htimer (lemming_htimer);
 }
 
 static void
@@ -3441,21 +3299,15 @@ pause_menu (void)
 	if (l == 2)
 	  k = HK_Escape;
 	else {
+	  unload_soundtrack ();
 	  if (l == 0) {
 	    event_sfx (74);
-	    soundtrack_current_nbr++;
-	    if (soundtrack_current_nbr == 11)
-	      soundtrack_current_nbr = 0;
+	    load_next_soundtrack ();
 	  }
 	  if (l == 1) {
 	    event_sfx (75);
-	    soundtrack_current_nbr--;
-	    if (soundtrack_current_nbr == -1)
-	      soundtrack_current_nbr = 10;
+	    load_prev_soundtrack ();
 	  }
-	  unload_soundtrack ();
-	  load_soundtrack_from_alias (soundtrack_list
-				      [soundtrack_current_nbr]);
 	  play_soundtrack ();
 	  reset_htimer (sound_track_htimer);
 	}

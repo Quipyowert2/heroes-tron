@@ -1,5 +1,38 @@
 2000-11-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Use get_sound_track_from_rank to cycle into the sound track list.
+	The jukebox menu do not require a hardcoded list of sound track
+	aliases anymore.  Move the jukebox_menu to menu.c.
+
+	* doc/heroes.texi (heroesrc): Say it is allowed to define new
+	sound track aliases.
+	* src/heroes.h (sound_track_htimer): Export.
+	* src/heroes.c (soundtrack_list, soundtrack_current_nbr): Remove.
+	(load_level): Don't setup soundtrack_list and soundtrack_current_nbr
+	anymore.
+	(jukebox_menu): Move to ...
+	* src/menu.c (jukebox_menu): ... here.  Adapt to use
+	load_next_soundtrack and load_prev_soundtrack.
+	* src/heroes.c (pause_menu): Adapt likewise.
+	* src/musicfiles.c (get_sound_track_from_rank): Wrap to rank
+	to fit in the number of sound tracks.
+	* src/sound.c [HAVE_LIBMIKMOD, HAVE_LIBSDL_MIXER]
+	(load_soundtrack_from_alias): Move ...
+	[HAVE_LIBMIKMOD||HAVE_LIBSDL_MIXER]
+	(load_soundtrack_from_alias): ... here (i.e. define only once).
+	[HAVE_LIBMIKMOD, HAVE_LIBSDL_MIXER] (load_soundtrack): Tag static.
+	[HAVE_LIBSDL_MIXER] (music): Rename as ...
+	[HAVE_LIBSDL_MIXER] (module): ... this.  Adjust all references.
+	[HAVE_LIBMIKMOD||HAVE_LIBSDL_MIXER] (last_rank,
+	load_and_setup_sound_track, load_next_soundtrack,
+	load_prev_soundtrack): New.
+	[HAVE_LIBMIKMOD||HAVE_LIBSDL_MIXER] (load_soundtrack_from_alias): Use
+	(load_and_setup_sound_track).
+	* src/sound.h (load_soundtrack): Remove.
+	(load_next_soundtrack, load_prev_soundtrack): New.
+
+2000-11-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Keep the sound tracks in a sorted array, in addition
 	to the hash (needed for the jukebox menu, see next patch).
 

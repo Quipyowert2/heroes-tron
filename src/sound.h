@@ -28,12 +28,13 @@ void set_volume (void);
 void halve_volume (void);
 int init_sound_engine (void);
 void uninit_sound_engine (void);
-void load_soundtrack (char *ptr);
 void unload_soundtrack (void);
 void play_soundtrack (void);
 void print_drivers_list (void);
 void decode_sound_options (char* option_string, char* argv0);
 
 void load_soundtrack_from_alias (const char* alias);
+void load_next_soundtrack (void);
+void load_prev_soundtrack (void);
 
 #endif /* HEROES__SOUND__H */

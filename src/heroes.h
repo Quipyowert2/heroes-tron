@@ -33,6 +33,7 @@ extern htimer_t waving_htimer;
 extern htimer_t background_htimer;
 extern htimer_t corner_htimer;
 extern htimer_t demo_trigger_htimer;
+extern htimer_t sound_track_htimer;
 extern long event_time;
 
 extern void compute_corner (int p, int n);

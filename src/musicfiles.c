@@ -116,7 +116,7 @@ get_sound_track_from_alias (const char* alias)
 sound_track_t*
 get_sound_track_from_rank (unsigned rank)
 {
-  return st_array[rank];
+  return st_array[rank % n_st];
 }
 
 

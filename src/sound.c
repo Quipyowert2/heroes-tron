@@ -138,7 +138,7 @@ uninit_sound_engine (void)
   }
 }
 
-void
+static void
 load_soundtrack (char *ptr)
 {
   if (nosound)
@@ -255,31 +255,11 @@ decode_sound_options (char* option_string, char* argv0)
     get_int(option_string, &nth_driver, 0, 99, argv0);
 }
 
-void
-load_soundtrack_from_alias (const char* alias)
-{
-  if (!nosound) {
-    sound_track_t* st = get_sound_track_from_alias (alias);
-
-    dmsg (D_SOUND_TRACK, "loading sound track from alias %s", alias);
-
-    if (st) {
-      load_soundtrack (st->filename);
-      soundtrack_title = st->title;
-      soundtrack_author = st->author;
-    } else {
-      module = 0;
-      soundtrack_title = 0;
-      soundtrack_author = 0;
-    }
-  }
-}
-
 #else /* not HAVE_LIBMIKMOD */
 
 #ifdef HAVE_LIBSDL_MIXER
 
-static Mix_Music *music = NULL;
+static Mix_Music *module = NULL;
 
 int audio_rate = 0;
 Uint16 audio_format;
@@ -371,14 +351,14 @@ uninit_sound_engine (void)
   }
 }
 
-void
+static  void
 load_soundtrack (char *ptr)
 {
   if (nosound)
     return;
   dmsg (D_SOUND_TRACK|D_FILE,"loading sound-track: %s", ptr);
-  music = Mix_LoadMUS(ptr);
-  if (!music) {
+  module = Mix_LoadMUS(ptr);
+  if (!module) {
     wmsg ("Could not load %s, reason: %s\n", ptr,
 	  SDL_GetError ());
   } else
@@ -397,8 +377,8 @@ unload_soundtrack (void)
   }
   if (sound_track_loaded) {
     dmsg (D_SOUND_TRACK, "unload sound track");
-    Mix_FreeMusic (music);
-    music = NULL;
+    Mix_FreeMusic (module);
+    module = NULL;
     sound_track_loaded = 0;
   }
 }
@@ -410,7 +390,7 @@ play_soundtrack (void)
     return;
   if (sound_track_loaded) {
     dmsg (D_SOUND_TRACK, "start playing sound track");
-    Mix_PlayMusic (music, -1);
+    Mix_PlayMusic (module, -1);
     sound_track_playing = 1;
   }
 }
@@ -447,26 +427,6 @@ decode_sound_options (char* optarg, char* argv0)
       optarg = strtok (0, " \t:=,;");
     }
     free (buf);
-  }
-}
-
-void
-load_soundtrack_from_alias (const char* alias)
-{
-  if (!nosound) {
-    sound_track_t* st = get_sound_track_from_alias (alias);
-
-    dmsg (D_SOUND_TRACK, "loading sound track from alias %s", alias);
-
-    if (st) {
-      load_soundtrack (st->filename);
-      soundtrack_title = st->title;
-      soundtrack_author = st->author;
-    } else {
-      music = 0;
-      soundtrack_title = 0;
-      soundtrack_author = 0;
-    }
   }
 }
 
@@ -524,12 +484,63 @@ decode_sound_options (char* optarg ATTRIBUTE_UNUSED,
 {
 }
 
+#endif /* not HAVE_LIBSDL_MIXER */
+#endif /* not HAVE_LIBMIKMOD */
+
+#if (HAVE_LIBSDL_MIXER || HAVE_LIBMIKMOD)
+
+unsigned last_rank = 0;
+
+static void
+load_and_setup_sound_track (sound_track_t* st)
+{
+  if (st) {
+    load_soundtrack (st->filename);
+    soundtrack_title = st->title;
+    soundtrack_author = st->author;
+    last_rank = st->rank;
+  } else {
+    module = 0;
+    soundtrack_title = 0;
+    soundtrack_author = 0;
+  }
+}
+
+void
+load_soundtrack_from_alias (const char* alias)
+{
+  if (!nosound) {
+    sound_track_t* st = get_sound_track_from_alias (alias);
+    dmsg (D_SOUND_TRACK, "loading sound track from alias %s", alias);
+    load_and_setup_sound_track (st);
+  }
+}
+
+void
+load_next_soundtrack (void)
+{
+  if (!nosound) {
+    sound_track_t* st = get_sound_track_from_rank (last_rank + 1);
+    dmsg (D_SOUND_TRACK, "loading next sound track");
+    load_and_setup_sound_track (st);
+  }
+}
+
+void
+load_prev_soundtrack (void)
+{
+  if (!nosound) {
+    sound_track_t* st = get_sound_track_from_rank (last_rank - 1);
+    dmsg (D_SOUND_TRACK, "loading previous sound track");
+    load_and_setup_sound_track (st);
+  }
+}
+
+#else /* !HAVE_LIBSDL_MIXER && !HAVE_LIBMIKMOD */
 
 void
 load_soundtrack_from_alias (const char* alias ATTRIBUTE_UNUSED)
 {
 }
 
-#endif /* not HAVE_LIBSDL_MIXER */
-
-#endif /* not HAVE_MIKMOD */
+#endif

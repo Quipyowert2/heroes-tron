@@ -40,4 +40,6 @@ void editor_first_menu (void);
 
 void draw_saved_games_info (int decal, int l, char h);
 
+void jukebox_menu (void);
+
 #endif /* HEROES__MENUS__H */

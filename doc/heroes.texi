@@ -1088,22 +1088,25 @@ additional extra levels directories.
 @cindex soundconf:
 
 The @samp{soundconf:} lines are used to introduce configuration files
-defining the sound tracks played by the game.  The format of such a file
+defining the sound tracks played by the game.  The format of such files
 is as follow:
 @example
 ALIAS:FILENAME:TITLE:AUTHOR
 ...
 @end example
 Where @samp{ALIAS} is the name of the sound track used internally by
-Heroes (presently the set of used aliases include
-@samp{INTRO},@samp{MENU},@samp{HEROES01},@samp{HEROES02},...,@samp{HEROES10},
-and @samp{ENDSCROLL}), @samp{FILENAME} is the filename of the sound track
+Heroes, @samp{FILENAME} is the filename of the sound track
 you want to be loaded, @samp{TITLE} is the title of the sound track, and
 @samp{AUTHOR} is the person who tracked that music.
 
 You may give several definitions for the same alias, in which case only
 the latest will be used (and of course your configuration file is read
 after heroes has setup its default aliases so you can overwrite them).
+
+Presently the set of used aliases include
+@samp{INTRO},@samp{MENU},@samp{HEROES01},@samp{HEROES02},...,@samp{HEROES10},
+and @samp{ENDSCROLL}.  You can overwrite them, but you can also define
+your own aliases: they will be available in the jukebox menu.
 
 To give one full example, imagine you want to hear
 @samp{/music/2nd-reality.s3m} when you are playing Heroes in
