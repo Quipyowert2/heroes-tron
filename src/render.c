@@ -237,32 +237,37 @@ draw_color (pixel_t* dest, int c)
 }
 
 static void
-draw_lemming (pixel_t* dest, const lemming_t* ptibptr, unsigned int pos)
+draw_lemming (pixel_t *dest, const lemming_t *lem, unsigned int pos)
 {
-  char c, d;
   const pixel_t *src;
 
-  if (ptibptr >= lemmings_support
-      && ptibptr < lemmings_support + lemmings_total && pos == ptibptr->pos1) {
-    c = ptibptr->couleur;
-    d = ptibptr->way;
+  assert (lem >= lemmings_support
+	  && lem < lemmings_support + lemmings_total);
+
+  if (pos == lem->pos_tail) {
+    int c = lem->couleur;
+    dir_t d = lem->dir;
     src = vehicles_img.buffer + 164 * 320;
-    if (d != 5)
-      src += lemmings_anim_offset;
+    src += 64 * c;
     if (d & 1)
       src += 8 * 320;
-    src += 64 * c;
-    if (d == w_up)
-      dest -= (lemmings_move_offset / 6553) * xbuf;
-    if (d == w_right)
-      dest += lemmings_move_offset / 5461;
-    if (d == w_down)
-      dest += (lemmings_move_offset / 6553) * xbuf;
-    if (d == w_left)
-      dest -= lemmings_move_offset / 5461;
+    /* If lem->pos_tail == lem->pos_head the lemmings is
+       stopped and therefore we don't want to animate it.  */
+    if (pos != lem->pos_head) {
+      src += lemmings_anim_offset;
+      if (d == w_up)
+	dest -= (lemmings_move_offset / 6553) * xbuf;
+      if (d == w_right)
+	dest += lemmings_move_offset / 5461;
+      if (d == w_down)
+	dest += (lemmings_move_offset / 6553) * xbuf;
+      if (d == w_left)
+	dest -= lemmings_move_offset / 5461;
+    }
     copy_lemming_transp (src, dest);
+  } else {
+    assert (pos == lem->pos_head);
   }
-
 }
 
 static void
@@ -277,31 +282,31 @@ copy_dead_lemming_transp (const pixel_t* src, pixel_t* dest, int couleur)
 }
 
 static void
-draw_dead_lemming (pixel_t* dest_, const lemming_t* ptibptr)
+draw_dead_lemming (pixel_t *dest_, const lemming_t *lem)
 {
   pixel_t *dest;
   char d;
 
-  if (ptibptr >= lemmings_support
-      && ptibptr < lemmings_support + lemmings_total)
-    do {
-      dest = dest_;
-      d = ptibptr->way;
-      if (d == w_up)
-	dest -= (ptibptr->min / 6553) * xbuf;
-      if (d == w_right)
-	dest += ptibptr->min / 5461;
-      if (d == w_down)
-	dest += (ptibptr->min / 6553) * xbuf;
-      if (d == w_left)
-	dest -= ptibptr->min / 5461;
+  do {
+    assert (lem >= lemmings_support
+	    && lem < lemmings_support + lemmings_total);
 
-      copy_dead_lemming_transp (vehicles_img.buffer + 181 * 320 - 16 +
-				(ptibptr->dead << 4), dest,
-				6 - (ptibptr->couleur));
-      ptibptr = (lemming_t *) ptibptr->nexttache;
-    } while (ptibptr >= lemmings_support
-	     && ptibptr < lemmings_support + lemmings_total);
+    dest = dest_;
+    d = lem->dir;
+    if (d == w_up)
+      dest -= (lem->min / 6553) * xbuf;
+    if (d == w_right)
+      dest += lem->min / 5461;
+    if (d == w_down)
+      dest += (lem->min / 6553) * xbuf;
+    if (d == w_left)
+      dest -= lem->min / 5461;
+
+    copy_dead_lemming_transp (IMGPOS (vehicles_img,
+				      181, (lem->dead << 4) - 16),
+			      dest, 6 - (lem->couleur));
+    lem = lem->next_dead;
+  } while (lem);
 }
 
 

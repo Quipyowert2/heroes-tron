@@ -71,6 +71,7 @@ enum dir_mask_t { DM_UP = 1,
 		  DM_LEFT = 8 };
 typedef u8_t dir_mask8_t;	/* Hold the same values, on 8bits. */
 #define DM_ALL (DM_UP | DM_RIGHT | DM_DOWN | DM_LEFT)
+#define DIR_TO_DIRMASK(dir) (1 << (dir))
 
 /* Tile type constants.  */
 typedef enum tile_type_t tile_type_t;

@@ -327,10 +327,108 @@ reinit_player (unsigned p)
   }
 }
 
+static void
+find_lemming_direction (lemming_t *lem)
+{
+  dir_t d;
+  dir_mask_t avail_dirm;
+
+  /* The lemming advances one square.  The tail takes the place of
+     the head.  */
+  square_lemmings_list[lem->pos_tail] = NULL;
+  lem->pos_tail = lem->pos_head;
+  square_lemmings_list[lem->pos_tail] = lem;
+
+  /* We need to compute the new square for the head (i.e. the
+     direction of the lemming).  */
+
+  /* Mask AVAIL_DIRM with all the directions impossible to use
+     by the lemming.  */
+  avail_dirm = DM_ALL;
+  for (d = 0; d < DIR_MAX; ++d) {
+    square_index_t dest = lvl.square_move[d][lem->pos_tail];
+
+    if (/* Lemmings can't cross walls, */
+	dest == INVALID_INDEX
+	/* they should not go to a square occupied by a player, */
+	|| square_occupied[dest] != 0xff
+	/* neither should they go to a quare occupied by another
+	   lemming.  */
+	|| square_lemmings_list[dest])
+      avail_dirm &= ~DIR_TO_DIRMASK(d);
+  }
+  /* Also, we don't want to allow lemmings to enter
+     tunnels.  This constraint might be relaxed in the
+     future, but actually this requires several things that
+     I (adl) don't plan to work on at the moment:
+      - handling two directions for each lemming: for the
+        head and the tail, because the direction at the output
+        of a tunnel might not be the same as the entrance
+      - drawing the lemmings in two parts (since they need
+        to be cropped under the tunnel entrance)
+      - handling dead lemmings (blood pudles) on two
+        non-adjacent squares (e.g. the entrance and the output
+        of the tunnel, in case the lemming has been squished in
+        a tunnel).
+     This latter point is not only a rendering issue: the
+     way dead lemmings are stored needs to be changed too
+     (at the time this comment is written, they are assigned
+     to *the* nearest square, and linked to the other dead
+     lemmings of this square).
+
+     So, for now, let's just prevent them from turning toward
+     a tunnel entrance.  */
+  if (lvl.square_type[lem->pos_tail] == T_TUNNEL)
+    avail_dirm &= ~DIR_TO_DIRMASK (lvl.square_direction[lem->pos_tail]);
+
+  /* Is the current direction available?  (We'd better avoid changing
+     the direction on each square unless we decide lemmings are bees.)
+     */
+  if (avail_dirm & DIR_TO_DIRMASK(lem->dir)) {
+    /* The current direction is free.  Go on.  */
+    lem->pos_head = lvl.square_move[lem->dir][lem->pos_tail];
+  } else {
+    /* Current direction unavalaible.  Let's find another one.  */
+    dir_mask_t i;
+    int n = 0;
+
+    /* Count the number of direction available.  */
+    for (i = 1; i < DM_ALL; i <<= 1)
+      if (avail_dirm & i)
+	++n;
+
+    if (n) {
+      /* Chose one of the free directions. */
+      n = 1 + rand () % n;
+      for (d = 0; n != 0; ++d, avail_dirm >>= 1)
+	if (avail_dirm & 1)
+	  --n;
+      lem->dir = d - 1;
+      lem->pos_head = lvl.square_move[lem->dir][lem->pos_tail];
+    } else {
+      /* This place is reached when there is no free way for the
+	 lemming to use.  We used to set lem->dir = 5; to indicate
+	 this condition to the renderer (when then the lemmings cannot
+	 move it should be not be rendered as `walking').  But it
+	 turns out checking whether ptr->_tail == lem->pos_head is
+	 sufficient to detect this condition.  */
+    }
+  }
+
+  assert (lem->pos_head != INVALID_INDEX);
+  assert (square_occupied[lem->pos_head] == 0xff);
+  if (lem->pos_head != lem->pos_tail) {
+    /* If the lemming is moving, mark the destination square as
+       occupied so that no other lemming dares to move there too. */
+    assert (square_lemmings_list[lem->pos_head] == 0);
+    square_lemmings_list[lem->pos_head] = lem;
+  }
+}
+
 static char
 load_level (char *filename, char cont)
 {
-  unsigned int i, j, k, k2, l, m;
+  unsigned int i, j, k, k2, l;
   lemming_t *ptir;
   int err;
 
@@ -493,28 +591,22 @@ load_level (char *filename, char cont)
     l = lvl.square_count;
     for (i = 0; i < 4; i++) {
       for (j = lemmings_per_players; j != 0; j--) {
+	/* Drop the lemming randomly on an accessible unoccupied
+	   square.  The lemmings might still not be able to move,
+	   but it's unimportant: it should just stay still until
+	   it can move.  */
 	do {
-	  do {
-	    k = rand () % l;
-	    assert (k < lvl.square_count);
-	  } while (lvl.square_type[k] == T_OUTWAY || square_occupied[k] != 0xff
-		   || square_lemmings_list[k] != NULL);
-	  m = 0;
-	  while (lvl.square_walls_out[k] & (1 << m))
-	    m++;
-	  k2 = lvl.square_move[m][k];
-	  assert (m < 4);
-	} while (square_occupied[k2] != 0xff
-		 || square_lemmings_list[k2] != NULL);
-	ptir->pos1 = k;
-	ptir->pos2 = k2;
+	  k = rand () % l;
+	  assert (k < lvl.square_count);
+	} while (lvl.square_type[k] == T_OUTWAY
+		 || square_occupied[k] != 0xff
+		 || square_lemmings_list[k] != NULL);
+	ptir->pos_head = k;
+	find_lemming_direction (ptir);
 	ptir->min = 0;
-	ptir->nexttache = NULL;
-	ptir->way = m;
+	ptir->next_dead = NULL;
 	ptir->couleur = i;
 	ptir->dead = 0;
-	square_lemmings_list[k] = ptir;
-	square_lemmings_list[k2] = ptir;
 	ptir++;
       }
       player[i].lemmings_nbr = lemmings_per_players;
@@ -1936,10 +2028,11 @@ update_player (int c)
 
     if (game_mode == M_KILLEM) {
       tmppti = square_lemmings_list[d2];
-      if (tmppti >= lemmings_support
-	  && tmppti < lemmings_support + lemmings_total) {
-	if ((tmppti->pos1 == d2 && lemmings_move_offset < 38000)
-	    || (tmppti->pos2 == d2 && lemmings_move_offset > 28000)) {
+      if (tmppti) {
+	assert (tmppti >= lemmings_support
+		&& tmppti < lemmings_support + lemmings_total);
+	if ((tmppti->pos_tail == d2 && lemmings_move_offset < 38000)
+	    || (tmppti->pos_head == d2 && lemmings_move_offset > 28000)) {
 	  if (!level_is_finished) {
 	    player[c].score += 10;
 	    player[tmppti->couleur].lemmings_nbr--;
@@ -1957,19 +2050,22 @@ update_player (int c)
 	    if (player[c].cpu == 2)
 	      event_sfx (98);
 	  }
+	  /* We will assign the dead lemming to the nearest square.  */
 	  if (lemmings_move_offset < 32536) {
+	    /* If it's the tail square, the offset can be kept as-is.  */
 	    tmppti->min = lemmings_move_offset;
-	    i = tmppti->pos1;
+	    i = tmppti->pos_tail;
 	  } else {
+	    /* If it's the head square, the offset and the
+	       direction needs to be inverted.  */
 	    tmppti->min = 65536 - lemmings_move_offset;
 	    assert (tmppti->min < 65536);
-	    i = tmppti->pos2;
-	    tmppti->way ^= 2;
+	    i = tmppti->pos_head;
+	    tmppti->dir = REVERSE_DIR (tmppti->dir);
 	  }
-	  square_lemmings_list[tmppti->pos1] = NULL;
-	  square_lemmings_list[tmppti->pos2] = NULL;
-	  tmppti->nexttache =
-	    (char *) square_dead_lemmings_list[i];
+	  square_lemmings_list[tmppti->pos_tail] = NULL;
+	  square_lemmings_list[tmppti->pos_head] = NULL;
+	  tmppti->next_dead = square_dead_lemmings_list[i];
 	  square_dead_lemmings_list[i] = tmppti;
 	}
       }
@@ -2193,61 +2289,19 @@ update_player (int c)
   }
 }
 
-
 /* lemming moves */
 static void
 update_lemmings (void)
 {
   int j;
-  lemming_t *pti;
-  char d, n, e, f;
-  int i;
-
-  pti = lemmings_support;
+  lemming_t *lem;
+  lem = lemmings_support;
   lemmings_move_offset &= 0xffff;
-  for (j = lemmings_total; j != 0; j--, pti++)
-    if (pti->dead == 0) {
-      d = 0;
-      n = 0;
-      square_lemmings_list[pti->pos1] = NULL;
-      pti->pos1 = pti->pos2;
-      square_lemmings_list[pti->pos1] = pti;
-      e = 1;
-      d = lvl.square_walls_out[pti->pos1];
-      for (i = 0; i < 4; i++) {
-	square_index_t dest = lvl.square_move[i][pti->pos1];
-	if (square_occupied[dest] != 0xff
-	    || square_lemmings_list[dest] != NULL)
-	  d |= e;
-	e += e;
-      }
-      f = pti->way;
-      if (d & (1 << f) || f == 5) {
-	e = d;
-	for (i = 1; i != 16; i += i)
-	  if (!(d & i))
-	    n++;
-	if (n != 0) {
-	  n = (char) (1 + rand () % n);
-	  for (i = 0; n != 0; i++, d >>= 1)
-	    if (!(d & 1))
-	      n--;
-	  pti->way = i - 1;
-	  assert (((1 << (i - 1)) & e) == 0);
-	  pti->pos2 = lvl.square_move[pti->way][pti->pos1];
-	  assert (pti->pos2 != INVALID_INDEX);
-	} else
-	  pti->way = 5;
-      } else {
-	pti->pos2 = lvl.square_move[pti->way][pti->pos1];
-	assert (pti->pos2 != INVALID_INDEX);
-      }
-      assert (pti->pos2 != INVALID_INDEX);
-      if (pti->pos1 != pti->pos2)
-	square_lemmings_list[pti->pos2] = pti;
+  for (j = lemmings_total; j != 0; j--, lem++)
+    if (lem->dead == 0) {
+      find_lemming_direction (lem);
     }
 }
-
 
 static int
 update_all (char plr)

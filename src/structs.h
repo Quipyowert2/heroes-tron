@@ -192,16 +192,16 @@ typedef struct
   int wins;			/* games win */
 }
 player_t;
-typedef struct
-{
-  unsigned int pos1, pos2;	/* positions */
+
+typedef struct lemming_t lemming_t;
+struct lemming_t {
+  unsigned int pos_head, pos_tail; /* positions */
   unsigned int min;		/* position in the tile */
-  char *nexttache;		/* next stain in the tile */
-  dir_t way;
+  lemming_t *next_dead;		/* next stain in the tile */
+  dir_t dir;
   int couleur;
   char dead;
-}
-lemming_t;
+};
 /*----------------------- game modes -------------------------*/
 #define M_QUEST  0
 #define M_DEATHM 1

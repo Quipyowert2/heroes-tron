@@ -1,5 +1,18 @@
 2001-08-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/structs.h (lemming_t) <pos1, pos2, way, nexttache>: Rename as ...
+	(lemming_t) <pos_tail, pos_head, dir, next_dead>: ... these.
+	* src/heroes.c (update_lemmings): Eve out most of the code to ...
+	(find_lemming_direction): ... this new function.  Disallow
+	lemmings to enter tunnels (the change from 2001-07-13
+	unintentionally allowed this).  Comment and cleanup.
+	(load_level): Use find_lemming_direction.
+	(update_player): Adjust to new names.
+	* src/render.c (draw_lemming): Likewise.
+	* src/lvl/lvl.h (DIR_TO_DIRMASK): New function.
+
+2001-08-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/camera.c (compute_corner) <camera_width, camera_height>: New
 	variables.  Fix computation of the maximum possition for the
 	camera on non-wrapped levels.
