@@ -1,5 +1,13 @@
 2000-12-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* m4/memdebug.m4 (adl_CHECK_DMALLOC): Don't test if without-dmalloc.
+	(adl_CHECK_EFENCE): Don't test if without-efence.
+	(adl_WITH_DMALLOC): Don't check for dmalloc in AC_ARG_WITH call.
+	(adl_WITH_EFENCE): Don't check for efence in AC_ARG_WITH call.
+	(adl_ENABLE_MEM_DEBUG): Don't any check in AC_ARG_ENABLE call.
+
+2000-12-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Move compiler options handling to separate files.
 
 	* configure.in: Use adl_NDEBUG, adl_ENABLE_GPROF, and adl_ENABLE_DEBUG.
