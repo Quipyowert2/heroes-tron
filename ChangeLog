@@ -1,5 +1,9 @@
 2000-12-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* TODO: Update.
+
+2000-12-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* NEWS: Update for 0.7b.
 	* arch/VisualC/heroes.dsp: Update.
 	* arch/VisualC/config.h: Update.

@@ -2,20 +2,14 @@ Tasks for Heroes.  If you think something is missing here,
 please send a note to <heroes-discuss@lists.sourceforge.net>.
 
 
-Before 0.8
+Before 0.9
 ----------
+
+  Use gettext.
 
   Blitting `corner[0]' to `screen', and then blitting `screen' to the
   video memory is somewhat expensive.  Better blitting directly from
   `corner[0]' to the video memory, when possible.
-
-  Use gettext.  This appear to be easy for strings, but does it scales
-  well to files? The graphical help is stored in a file, perhaps it will
-  have to be defined in C.
-
-  gfx_reader.h is a crap and should be rewritten, using the sprtext.h
-  interface.  Using a paragraph formating algorithm would also be nice
-  (fmt.c from textutils may provide fruitful hints).
 
   hedlite.c should be cleaned and use a xbuf-wide buffer.
 
