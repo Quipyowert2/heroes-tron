@@ -227,6 +227,7 @@ CLEANFILES = $(EXTRA_LIBRARIES)
 EXTRA_PROGRAMS = parafmt-check
 parafmt_check_SOURCES = parafmt.c
 parafmt_check_CFLAGS = $(MORE_WARNINGS_CFLAGS) -DTEST
+parafmt_check_LDADD = ../lib/libheroes.a
 
 EXTRA_DIST += etc/Makefile.inc
 include etc/Makefile.inc

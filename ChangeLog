@@ -1,3 +1,7 @@
+2001-12-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/Makefile.am (parafmt_check_LDADD): New.
+
 2001-12-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.ac (ALL_LINGUAS): Add pt_BR.
