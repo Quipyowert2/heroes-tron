@@ -92,6 +92,8 @@ hendian.c \
 hendian.h \
 heroes.c \
 heroes.h \
+hooks.c \
+hooks.h \
 intro.c \
 intro.h \
 items.c \

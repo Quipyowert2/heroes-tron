@@ -1,3 +1,12 @@
+2002-02-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Add functions to handle hooks (to be used by modules to hook
+	themselves in some obscure part of the game).  Untested.
+
+	* src/generic_list.h (MEMCMP_EQUAL): New macro.
+	* src/hooks.c, src/hooks.h: New files.
+	* src/Makefile.am (HEROES_SOURCES): Add them.
+
 2002-02-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/Makefile.am (INCLUDES): Rename as ...

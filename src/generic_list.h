@@ -39,12 +39,15 @@
  * DESTRUCTOR is a fonction call before a cell is freed.
  *
  * Additionally, NULL_DESTRUCTOR can be used as a DESTRUCTOR argument
- * when none are needed; and STD_EQUAL is the standard equal
- * comparison function (==), meant to be used as a EQUAL_P argument.
+ * when none are needed; STD_EQUAL is the standard equal
+ * comparison function (==), meant to be used as a EQUAL_P argument, and
+ * MEMCMP_EQUAL is a comparison function which use memcmp (for the case
+ * where TYPE is a struct).
  */
 
 #define NULL_DESTRUCTOR(x) ;
 #define STD_EQUAL(a, b) ((a) == (b))
+#define MEMCMP_EQUAL(a, b) (memcmp (&(a), &(b), sizeof a) == 0)
 
 /* Indenting rules of most editors require to put a semicolon after
  * the call to these macros, as in
