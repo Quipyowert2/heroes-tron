@@ -81,7 +81,7 @@ lvl_load_body_file (int fd, level_t *out)
   u8_t *data = xmalloc (length);
   ssize_t rlength = read (fd, data, length);
 
-  if (rlength < 0 | (size_t) rlength != length) {
+  if (rlength < 0 || (size_t) rlength != length) {
     free (data);
     return -1;
   }

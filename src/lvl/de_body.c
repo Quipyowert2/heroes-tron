@@ -97,12 +97,14 @@ dir_mask_to_dir (dir_mask_t dm)
    ------------------------
     0      1     frame count
     1      1     delay between each frame (in 70th of sec.)
+                 0 is 1/70s, 1 is 2/70s, etc.
     2      3     unused
    ==
     5 bytes.
 */
 #define ANIM_FRAME_COUNT(p) (GET_U8 ((p) + 10))
-#define ANIM_FRAME_DELAY(p) (GET_U8 ((p) + 11))
+#define ANIM_FRAME_DELAY(p) (GET_U8 ((p) + 11) + 1)
+
 /* Stops, Booms, Ices, Dusts, Outway:
 
    Offset  Size  Repeat  What
@@ -117,6 +119,7 @@ dir_mask_to_dir (dir_mask_t dm)
 #define EFFECT_SET(p) ((const u8_t*) ((p) + 10))
 #define SANIM_FRAME_COUNT(p) ((GET_U8 ((p) + 14)) >> 4)
 #define SANIM_FRAME_DELAY(p) (((GET_U8 ((p) + 14)) & 15) + 1)
+
 /* Speeds:
 
    Offset  Size  Repeat  What

@@ -1,5 +1,10 @@
 2001-08-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/lvl/de_body.c (ANIM_FRAME_DELAY): Add 1.
+	* src/lvl/load.c (lvl_load_body_file): Typo.
+
+2001-08-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	This is a mega-combo-patch which break the files interfacing with
 	the display/keyboard/mouse/sound/joystick libraries into separate
 	directories.  Instead of one file per medium, holding code for all
