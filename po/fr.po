@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.17a\n"
 "POT-Creation-Date: 2002-03-21 20:29+0100\n"
-"PO-Revision-Date: 2001-12-14 22:01+0100\n"
+"PO-Revision-Date: 2002-07-05 20:48+0200\n"
 "Last-Translator: Alexandre Duret-Lutz <duret_g@epita.fr>\n"
 "Language-Team: none <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -256,7 +256,7 @@ msgstr ""
 
 #: src/argv.c:200
 msgid "  -p, --plug-in=NAME\t      load plug-in NAME\n"
-msgstr ""
+msgstr "  -p, --plug-in=NOM           charge le plug-in NOM\n"
 
 #: src/argv.c:202
 msgid ""
@@ -331,9 +331,8 @@ msgid "timer handling"
 msgstr "gestion des temporisateurs"
 
 #: src/debughash.c:111 src/debughash.gperf:59
-#, fuzzy
 msgid "hooks handling"
-msgstr "gestion des niveaux"
+msgstr "gestion des hooks"
 
 #: src/debughash.c:112 src/debughash.gperf:58
 msgid "bonus"
@@ -1494,7 +1493,7 @@ msgstr "hollandais"
 
 #: src/people.c:65
 msgid "Brazilian Portuguese"
-msgstr ""
+msgstr "portugais brésilien"
 
 #: src/people.c:68
 msgid "Italian"
@@ -1652,7 +1651,7 @@ msgid "cannot setup a correct display."
 msgstr "impossible de configurer un affichage correct."
 
 #: src/media/ggi/video.c:211
-#, fuzzy, c-format
+#, c-format
 msgid "negotiated video mode is too small (width=%d, height=%d)"
 msgstr "le mode vidéo négocié est trop petit (largeur=%d, hauteur=%d)"
 
