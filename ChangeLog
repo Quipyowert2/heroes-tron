@@ -1,5 +1,14 @@
 2000-11-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* m4/gccwarn.m4: New file (adapted from a2ps).
+	* m4/Makefile.am (EXTRA_DIST): Add gccwarn.m4.
+	* configure.in: Use ad_GCC_WARNINGS.
+	* doc/heroes.texi (configure options): Document --enable-warnings.
+	* m4/ac_adl_gcc_optim.m4 (ADL_GCC_WARNINGS): Rename as...
+	(ADL_GCC_OPTIM): ... this (of course).
+
+2000-11-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Fix some more warnings.
 
 	* src/heroes.c (draw_end_level_info): Remove j.

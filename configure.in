@@ -436,23 +436,18 @@ dnl This needs to be moved in a macro.
 dnl ----------------------------------
 if test -n "$auto_cflags"; then
   if test "x${enable_debug}" = xyes; then
+    # --enable-debug imply --enable-warnings, unless specified otherwise
+    if test "x$enable_warnings" != xno; then
+      enable_warnings=yes
+    fi
+
     if test -n "$GCC"; then
-      CFLAGS="$CFLAGS -Wall -pedantic -W -Wshadow \
--Wpointer-arith -Wcast-qual -Wcast-align -Wwrite-strings \
--Waggregate-return -Wstrict-prototypes -Wmissing-prototypes \
--Wmissing-declarations -Wnested-externs -Winline -ggdb"
-      # -ansi is not used since it prevents declaration of functions
-      #        like strdup, and because it makes warning in system headers.
-      # -Wconversion is not used either because it warn call to functions
-      #        that take a char (or anything not sizeof(int)) as argument.
-      # -Wtraditional causes each use of U32_MAX (== 0xfffffffU) to output
-      #        this: "warning: width of integer constant may change on other
-      #        systems with -traditional".  This is quite boring.
+      CFLAGS="$CFLAGS -ggdb"
     else
       CFLAGS="$CFLAGS -g"
     fi
   else
-    ADL_GCC_WARNINGS
+    ADL_GCC_OPTIM
   fi
   if test "x${enable_gprof}" = xyes; then
     if test -n "$GCC"; then
@@ -472,6 +467,8 @@ if test -n "$auto_ldflags"; then
       LDFLAGS="$LDFLAGS -s" ;;
   esac
 fi
+
+ad_GCC_WARNINGS
 
 # =========================
 # Directories configuration

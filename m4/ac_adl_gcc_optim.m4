@@ -1,4 +1,4 @@
-AC_DEFUN([ADL_GCC_WARNINGS],
+AC_DEFUN([ADL_GCC_OPTIM],
 [if test -n "$GCC"; then
   AC_CACHE_CHECK([for gcc optimization options], ac_cv_prog_gcc_opt_flags,
   [changequote(,)dnl

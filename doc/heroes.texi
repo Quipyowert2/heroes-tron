@@ -663,7 +663,11 @@ implies @samp{--with-sdl}.
 Turn on debugging options: compile and link with debugging symbols,
 enable assertions, and debug code.  This is disabled by default because
 it slows down the code and produces a bigger binary.  This also turns off
-optimization options.
+optimization options and imply @samp{--enable-warnings}.
+
+@item --enable-warnings
+@cindex --enable-warnings
+Try to turn on a large bunch of compiler warnigs.
 
 @item --disable-heroes-debug
 @cindex --disable-heroes-debug
