@@ -1,3 +1,9 @@
+2000-08-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.in: Remove the warning messages output by the failing
+	check for GGI or SDL are not found.  Complete the error message
+	output when both check failed.
+
 2000-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Move Mattias' alphasort and scandir functions to the lib/

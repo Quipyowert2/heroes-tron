@@ -154,11 +154,7 @@ AC_CACHE_SAVE
 
 if test "${with_GGI-yes}" != no; then
 
-AC_caolan_CHECK_PACKAGE(GGI,ggiOpen,ggi,ggi/ggi.h,,[echo "============
-I could not link with GGI.  
-Please check if it is correctly installed.
-A link to the GGI homepage is given in the README file."; 
-with_GGI=no])
+AC_caolan_CHECK_PACKAGE(GGI,ggiOpen,ggi,ggi/ggi.h,,[with_GGI=no])
 
 fi
 if test "${with_GGI-yes}" != no; then
@@ -215,11 +211,7 @@ AC_PATH_GENERIC(sdl,1.0.1,[
 CFLAGS="$SDL_CFLAGS $CFLAGS"
 LIBS="$SDL_LIBS $LIBS"
 AC_DEFINE(HAVE_SDL,1,[Define if you have the SDL library])
-],[echo "============
-I could not find SDL.  
-Please check if it is correctly installed.
-A link to the SDL homepage is given in the README file.";
-with_sdl=no])
+],[with_sdl=no])
 
 fi
 if test "${with_sdl-yes}" != no; then
@@ -271,7 +263,11 @@ fi
 # ================================================
 
 if test x${with_sdl} = xno && test x${with_GGI} = xno; then
-  AC_MSG_ERROR(Either GGI or SDL should be made available to heroes.)
+  AC_MSG_ERROR([Heroes can't compile without a graphic library.
+
+Heroes requires either GGI or SDL to be installed on your system.
+See the README file for pointers towards those libraries.
+])
 fi
 AM_CONDITIONAL(GGI, test "x${with_GGI}" != xno)
 AM_CONDITIONAL(SDL, test "x${with_sdl}" != xno)
