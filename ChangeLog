@@ -1,5 +1,11 @@
 2001-02-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* arch/mingw32/cross.sh (cross_pack): Work around a strange
+	behavior of zip, rooting the archive on `/heroes/' instead
+	of `heroes/'.  Reported by Jean.
+
+2001-02-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* arch/mingw32/cross.sh	(cross_install): zip the changelog, instead
 	of gzip'ing it.  Suggested by Jean.
 	(cross_pack): Typo.

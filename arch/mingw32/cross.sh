@@ -91,7 +91,10 @@ function cross_pack ()
   # zip file to create
   ZIPFILE="`pwd`/$PACKAGE-$VERSION-XXX.mingw32.zip"
 
-  cd $DESTDIR && zip -9 -r $ZIPFILE ./$PREFIX
+  # use .$PREFIX instead of ./$PREFIX because $PREFIX already has a
+  # leading slash and zip doesn't handle `.//' as expected (it just
+  # strip the leading `./' part).
+  cd $DESTDIR && zip -9 -r $ZIPFILE .$PREFIX
 }
 
 function cross_clean ()
