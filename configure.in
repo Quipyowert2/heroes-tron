@@ -170,12 +170,11 @@ adl_ENABLE_DEBUG
 ad_GCC_OPTIM
 ad_GCC_WARNINGS
 
-# =========================
-# Directories configuration
-# =========================
+# ==========================
+# Directories configuration.
+# ==========================
 
-data_dir=${datadir}/heroes
-AC_DEFINE_DIR([datadir],[data_dir],[Path to the data directory.])
+heroes_COMPUTE_PATHS
 
 # ==============
 # Misc. options.

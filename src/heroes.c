@@ -66,6 +66,7 @@
 #include "sprprogwav.h"
 #include "gameid.h"
 #include "persona.h"
+#include "relocate.h"
 
 char tile_set_name[128];
 char glenz_name[128];
@@ -3624,49 +3625,12 @@ main (int argc, char *argv[])
 
   init_persona ();
 
-  {
-    char* locale_dir;
-    dmsg (D_SYSTEM,"looking for HEROES_LOCALE_DIR or HEROES_LOCALEDIR...");
-    if ((locale_dir = getenv ("HEROES_LOCALE_DIR")) ||
-	(locale_dir = getenv ("HEROES_LOCALEDIR"))) {
-      dmsg (D_SYSTEM,"... found: %s", locale_dir);
-      set_rsc_file ("locale-dir", locale_dir, false);
-    } else {
-      dmsg (D_SYSTEM, "... not found.");
-      set_rsc_file ("locale-dir", LOCALEDIR, true);
-    }
-  }
+  relocate_data ();
 
   setlocale (LC_ALL, "");
   bindtextdomain (PACKAGE, get_non_null_rsc_file ("locale-dir"));
   textdomain (PACKAGE);
 
-  {
-    char* data_dir;
-    dmsg (D_SYSTEM,"looking for HEROES_DATA_DIR or HEROES_DATADIR...");
-    if ((data_dir = getenv ("HEROES_DATA_DIR")) ||
-	(data_dir = getenv ("HEROES_DATADIR"))) {
-      dmsg (D_SYSTEM,"... found: %s", data_dir);
-      set_rsc_file ("data-dir", data_dir, false);
-    } else {
-      dmsg (D_SYSTEM, "... not found.");
-      set_rsc_file ("data-dir", datadir, true);
-    }
-  }
-  {
-    char* home_dir;
-    dmsg (D_SYSTEM,"looking for HEROES_HOME_DIR, HEROES_HOMEDIR or HOME...");
-    if ((home_dir = getenv ("HEROES_HOME_DIR")) ||
-	(home_dir = getenv ("HEROES_HOMEDIR")) ||
-	(home_dir = getenv ("HOME"))) {
-      dmsg (D_SYSTEM,"... found: %s", home_dir);
-      set_rsc_file ("home-dir", home_dir, false);
-    } else {
-      dmsg (D_SYSTEM, "... not found.");
-      wmsg (_("HOME variable not found in environment, defaulting to `.'"));
-      set_rsc_file ("home-dir", ".", false);
-    }
-  }
 
   init_sound_track_list ();
 

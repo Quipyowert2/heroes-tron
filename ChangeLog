@@ -1,3 +1,21 @@
+2001-04-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Compute make $(data-dir) and $(locale-dir) relative to $(prefix),
+	and handle HEROES_PREFIX to override $(prefix).  The next
+	step is to compute/guess HEROES_PREFIX.
+
+	* src/relocate.c: New file.
+	* src/relocate.h: New file.
+	* doc/heroes.texi (Example): Document HEROES_PREFIX.
+	* m4/h-paths.m4: New file.
+	* configure.in: Asjust to use heroes_COMPUTE_PATHS.
+	* src/Makefile.am (localedir, DEFS): Remove.
+	(heroes_SOURCES): Add relocate.c and relocate.h.
+	* src/heroes.c: Adjust to call relocate_data.
+	* src/resc_files.gperf (data-dir): Use FORWARD_RELATIVE_PKGDATADIR.
+	(locale-dir): Use FORWARD_RELATIVE_LOCALEDIR.
+	(prefix): New.
+
 2001-04-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Merge with autogen-pending-BRANCH, I thought I would

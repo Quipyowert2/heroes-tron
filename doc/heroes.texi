@@ -1119,33 +1119,51 @@ related to timer handling.
 export HEROES_DEBUG=all:-timer
 @end example
 
+@subsection @samp{HEROES_PREFIX}
+@cindex @samp{HEROES_PREFIX}
+
+The @samp{HEROES_PREFIX} indicate the base directory where
+Heroes was installed.  It is equivalant to the @samp{--prefix}
+option of @samp{configure}.  This variable is not found the default prefix
+(configured at build time) will be used, usually this is something
+like @samp{/usr/local} or @samp{/usr}.
+Type @samp{heroes --list=resources | grep prefix} to
+see the value actually used by Heroes.
+
+Most people don't need to set this variable.  This is only useful if
+you got Heroes as a binary distribution and want to move files around.
+
 @subsection @samp{HEROES_DATA_DIR}
 @cindex @samp{HEROES_DATA_DIR}
 
 The @samp{HEROES_DATA_DIR} variable may specify the path were the data
 files are located.  It thus allows you to relocate the data file.  If
 this variable is not found the default path (configured at build time)
-will be used.  Type @samp{heroes --list-resources | grep data-dir} to
+will be used.  Run @samp{heroes --list=resources | grep data-dir} to
 see the value actually used by Heroes.
 
-Most people don't need to set this variable.  This is only useful if
-you got Heroes as a binary distribution and want to move files around.
+The path to datafiles is adjusted automatically if you set
+@samp{HEROES_PREFIX} (because it is a subdirectory of
+@samp{HEROES_PREFIX}), so most people don't need to set
+@samp{HEROES_DATA_DIR}.
 
 @subsection @samp{HEROES_LOCALE_DIR}
 @cindex @samp{HEROES_LOCALE_DIR}
 
 The @samp{HEROES_LOCALE_DIR} variable override the path were the message
-catalogs are locked for.  The default value is hardcoded into the
+catalogs are looked for.  The default value is hardcoded into the
 Heroes binary, and you can see it if you run
 @samp{heroes --list=resources | grep locale-dir}.
 
-As for @samp{HEROES_DATA_DIR}, you probably don't need to set this
-variable, unless you have moved Heroes.
+As for @samp{HEROES_DATA_DIR}, changing @samp{HEROES_PREFIX}
+is usually enough because @samp{HEROES_LOCALE_DIR} is a subdirectory
+of @samp{HEROES_PREFIX}.
 
 @subsection @samp{HOME}
 @cindex @samp{HOME}
 
 The @samp{HOME} variable is used to locate your home directory.
+You can also use @samp{HEROES_HOME}.
 
 @c ======================================================================
 @node    heroesrc, Global score file, Environment, Running
