@@ -1,5 +1,11 @@
 2002-06-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/Makefile.am (BUILT_SOURCES): Remove debughash.gperf,
+	prefs.c, and rsc_files_hash.c.  They don't need to be BUILT_SOURCES.
+	* src/const.c: Typo.
+
+2002-06-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/const.c (kbjoy, kbjoyold): Redefine as static bool[].
 	(key_or_joy_reset): New function.
 	* src/const.h (kbjoy, kbjoyold): Don't export.

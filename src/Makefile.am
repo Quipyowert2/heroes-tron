@@ -186,12 +186,11 @@ vars.c \
 visuals.c \
 visuals.h
 
+# Build these headers before everything else, so we are sure they can
+# be included.
 BUILT_SOURCES = \
 debugchn.h \
-debughash.gperf \
-prefs.c \
-prefs.h \
-rsc_files_hash.c
+prefs.h
 
 EXTRA_DIST = rsc_files.gperf debughash.gperf
 

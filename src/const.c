@@ -65,7 +65,7 @@ char demo_ready = 0;
 /*
  * An array of joystick buttons.  KBJOYOLD is the previous state.
  * Button N has been pressed is KBJOY[N] && !KBJOYOLD[N].  Initially
- * we assume that old buttons are down, so any button down before the
+ * we assume that all buttons are down, so any button down before the
  * first call to get_key_or_joy() is ignored.
  */
 static bool kbjoy[6] = { true, true, true, true, true, true };
@@ -91,7 +91,7 @@ key_or_joy_ready (void)
 
   if (key_ready ()) {
     reset_htimer (demo_trigger_htimer);
-    return (1);
+    return 1;
   }
   if ((joystick_detected & 1) && (opt.ctrl_one == 1 || opt.ctrl_two == 1)) {
     for (i = 0; i < 6; i++)
@@ -110,10 +110,10 @@ key_or_joy_ready (void)
 	|| (kbjoy[4] && !kbjoyold[4])
 	|| (kbjoy[5] && !kbjoyold[5])) {
       reset_htimer (demo_trigger_htimer);
-      return (1);
+      return 1;
     }
   }
-  return (0);
+  return 0;
 }
 
 a_keycode
@@ -134,7 +134,7 @@ get_key_or_joy (void)
   if (kbjoy[5] && !kbjoyold[5])
     return (HK_Escape);
   printf ("get_key_or_joy(): no event.");
-  return (0);
+  return 0;
 }
 
 void
@@ -158,5 +158,4 @@ draw_glenz_box (a_pixel *dest, int c, int xt, int yt)
       *dest = glenzligne[*dest];
     dest += xbuf - xt;
   }
-
 }
