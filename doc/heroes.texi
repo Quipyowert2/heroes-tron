@@ -773,8 +773,9 @@ Packages are available from the web pages.
 Should build out of the box.
 
 @item Win32/MinGW32 (SDL)
-Can be cross-compiled from Linux (native compilation untested).
-Packages are available from the web pages.
+Can be cross-compiled (native compilation untested).  The script used to
+cross build the Heroes package available on the web page is in the
+subdirectory @file{arch/mingw32}.
 
 @item Win32/VisualC (SDL)
 See the files in the @file{arch/VisualC} subdirectory.

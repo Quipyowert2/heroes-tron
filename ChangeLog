@@ -1,5 +1,9 @@
 2001-01-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* doc/heroes.texi (Machines): Document the existence of arch/mingw32.
+
+2001-01-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/mingw32/cross.sh: Set LIBS to libs needed to link staticaly.
 	Don't set CC, it's detected.  Output zip file is now
 	$PACKAGE-$VERSION-XXX-ming32.zip.  Adjust `cross.sh all' to halt
