@@ -45,6 +45,8 @@ errors.c \
 errors.h \
 extras.c \
 extras.h \
+fader.c \
+fader.h \
 fastmem.h \
 font.h \
 font_deck.h \

@@ -46,9 +46,6 @@ extern int bonus_points[2][17];	/* interet (pour le cpu) */
 
 extern int rounds_nbr_values[16];
 
-extern signed char p;
-extern signed int p2;
-
 extern unsigned long int camera_x[2];	/* virgule fixe 16b,16b */
 extern unsigned long int camera_y[2];	/* idem */
 extern unsigned long int corner_x[2];	/* en pixels */
@@ -65,7 +62,6 @@ extern char camera_stop_y[2];
 extern char *(render_buffer[2]);	/* BUFFER DE RENDU 384*260 */
 
 void vsynch (void);
-void pal2pal (palette_ * src, palette_ * dest, char step);
 char key_or_joy_ready (void);
 int get_key_or_joy (void);
 void set_pal_with_luminance (palette_ * palsrc);

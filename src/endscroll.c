@@ -86,18 +86,6 @@ display_page (void)
 }
 
 static void
-set_pal_fade (char p)
-{
-  palette_ paldest;
-  int i;
-
-  for (i = 767; i >= 0; i--)
-    paldest.global[i] = (unsigned char)
-      ((background_img.palette.global[i] * p) >>6);
-  set_pal ((char *) &paldest, 0, 768);
-}
-
-static void
 render_background (int pas)
 {
   static int frame = 0;
@@ -128,9 +116,6 @@ end_scroll (void)
   copy_background ();
   img_free (&background_img); /* only free the buffer, not the palette */
 
-  set_pal_fade (64);
-
-  p = 0;
   graphic_reader ();
   free (page);
   free (scroll_buffer);

@@ -29,7 +29,6 @@ extern htimer_t blink_htimer;
 extern htimer_t bonus_anim_htimer;
 extern htimer_t tiles_anim_htimer;
 extern htimer_t corner_htimer;
-extern htimer_t fading_htimer;
 extern htimer_t waving_htimer;
 extern htimer_t background_htimer;
 extern htimer_t corner_htimer;

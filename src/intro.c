@@ -31,6 +31,7 @@
 
 #include "intro.h"
 #include "debugmsg.h"
+#include "fader.h"
 
 /******* data of the intro *******/
 palette_ fade_pal;
@@ -153,6 +154,7 @@ static char
 show_intro (void)
 {
   palette_ pal;
+  fader_status_t fade_stat;
 
   load_soundtrack_from_alias ("INTRO");
   erase_data_cur = erase_data = malloc (64000 * sizeof (char *));
@@ -188,19 +190,17 @@ show_intro (void)
       return (1);
     }
   }
-  reset_htimer (intro_frame_htimer);
-  for (i = 0; i <= 64; i += read_htimer (intro_frame_htimer)) {
-    pal2pal ((palette_ *) & pal, &intro_img.palette, i);
-    fastmem4 ((char *) &temppal, (char *) &fade_pal, 768 / 4);
-    set_pal ((char *) &temppal, 0, 768);
+
+  /* fade-in to the intro_img */
+  std_palette_fade (&pal, &intro_img.palette);
+  fader_status_flagback (&fade_stat);
+  do {
     vsynch ();
     if (key_or_joy_ready ()) {
       img_free (&intro_img);
       return (1);
     }
-  }
-  set_pal ((char *) &fade_pal, 0, 768);
-  vsynch ();
+  } while (fade_stat != F_FINISHED);
 
   img_free (&intro_img);
   pcx_load_from_rsc ("intro-vehicles-img", &intro_img);
@@ -211,11 +211,11 @@ show_intro (void)
       return (1);
     }
   }
-  reset_htimer (intro_frame_htimer);
-  for (i = 128; i >= 0; i -= read_htimer (intro_frame_htimer)) {
-    pal2pal ((palette_ *) & pal, &intro_img.palette, i >> 1);
-    fastmem4 ((char *) &temppal, (char *) &fade_pal, 768 / 4);
-    set_pal ((char *) &temppal, 0, 768);
+
+  std_palette_fade (&intro_img.palette, &pal);
+  fader_status_flagback (&fade_stat);
+  fader_delay (64);
+  do {
     antialias (screen + 85 * 320, 13 * 320);
     antialias (screen + 103 * 320, 13 * 320);
     vsynch ();
@@ -223,7 +223,7 @@ show_intro (void)
       img_free (&intro_img);
       return (1);
     }
-  }
+  } while (fade_stat != F_FINISHED);
 
   memset (screen, 255, 32000);
   memset (screen + 32000, 0, 32000);
@@ -253,26 +253,19 @@ show_intro (void)
 
   img_free (&intro_img);
   pcx_load_from_rsc ("intro-splash-img", &intro_img);
-  memset (&pal.global, 63, 768);
-  vsynch ();
-  set_pal ((char *) &pal, 0, 768);
-  fastmem4 ((char *) &pal, (char *) &fade_pal, 768 / 4);
   img2vram (&intro_img);
   intro_img.palette.indiv[254].r = 0;
   intro_img.palette.indiv[254].g = 0;
   intro_img.palette.indiv[254].b = 0;
   img_free (&intro_img);	/* will free the picture, not the palette */
 
-  reset_htimer (intro_frame_htimer);
-  for (i = 0; i <= 64; i += read_htimer (intro_frame_htimer)) {
-    pal2pal ((palette_ *) & pal, &intro_img.palette, i);
-    fastmem4 ((char *) &temppal, (char *) &fade_pal, 768 / 4);
+  std_white_fadein (&intro_img.palette);
+  fader_status_flagback (&fade_stat);
+  do {
     vsynch ();
-    set_pal ((char *) &temppal, 0, 768);
     if (key_or_joy_ready ())
       return (1);
-  }
-  set_pal ((char *) &temppal, 0, 768);
+  } while (fade_stat != F_FINISHED);
 
   pcx_load_from_rsc ("intro-erase-img", &intro_img);
   compute_erase_data ();
@@ -305,6 +298,10 @@ play_intro (void)
   intro_frame_htimer = new_htimer (T_LOCAL|T_BLOCKING, HZ (70)); 
   intro_global_htimer = new_htimer (T_GLOBAL, HZ (2)); 
 
+#if 0
+  /* FIXME: This is no more possible with the new fader code
+     because we don't know the current palette.  This feature
+     should be easier to add, though. */
   if (show_intro ()) {
     fastmem4 ((char *) &fade_pal, (char *) &pal, 768 / 4);
     memset ((char *) &pal, 0, 768);
@@ -314,7 +311,10 @@ play_intro (void)
       vsynch ();
       set_pal ((char *) &temppal, 0, 768);
     }
-  }
+  } 
+#else
+  show_intro ();
+#endif
   memset ((char *) &pal, 0, 768);  
   set_pal ((char *) &pal, 0, 768);
   free (erase_data);

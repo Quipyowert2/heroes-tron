@@ -33,7 +33,8 @@ enum debug_lvl { D_SECTION = 1,
 		 D_VIDEO = 256,
 		 D_JOYSTICK = 512,
 		 D_TIMER = 1024,
-		 D_MISC = 2048
+		 D_MISC = 2048,
+		 D_FADER = 4096
 };
 
 extern enum debug_lvl debug_level;

@@ -233,26 +233,26 @@ get_int (char *arg, int *value, int min, int max, char* argv0)
 }
 
 void 
-decode_sound_options (char* optarg, char* argv0)
+decode_sound_options (char* option_string, char* argv0)
 {
   /* This is adapted from Mikmod 3.1.6 */
-  if (strlen (optarg) > 2) {
-    char* opts = strchr (optarg, ',');
+  if (strlen (option_string) > 2) {
+    char* opts = strchr (option_string, ',');
     if (opts) {
       *opts=0;
       
       /* numeric driver specification ? */
-      if (opts - optarg <= 2)
+      if (opts - option_string <= 2)
 	get_int (optarg, &nth_driver, 0, 99, argv0);
       else    
-	nth_driver = MikMod_DriverFromAlias(optarg);
+	nth_driver = MikMod_DriverFromAlias(option_string);
       if (driver_options)
 	free (driver_options);
-      driver_options = strdup(opts+1);
+      driver_options = strdup (opts+1);
     } else  
-      nth_driver = MikMod_DriverFromAlias (optarg);
+      nth_driver = MikMod_DriverFromAlias (option_string);
   } else  
-    get_int(optarg, &nth_driver, 0, 99, argv0);
+    get_int(option_string, &nth_driver, 0, 99, argv0);
 }
 
 void 

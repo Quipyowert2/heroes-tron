@@ -29,7 +29,6 @@ void sound_menu(void);
 void screen_menu(void);
 void game_menu(void);
 */
-void demo_info (void);
 void option_menu (void);
 char quit_menu (void);
 void draw_play_menu (char l);

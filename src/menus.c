@@ -40,24 +40,15 @@
 #include "misc.h"
 #include "rsc_files.h"
 #include "endian.h"
+#include "fader.h"
 
 void
 background_menu (void)
 {
   static long int TTT = 0;
-  long fade_step;
 
   TTT += read_htimer (background_htimer);
-  fade_step = read_htimer (fading_htimer);
 
-  for (; fade_step; --fade_step) {
-    if (p > 0)
-      p--;
-    if (p2 < 0)
-      p2++;
-    else if (p2 > 0)
-      p2--;
-  }
   camera_x[0] = 65536 * 24 * cos (TTT / 111.0);
   camera_y[0] = 65536 * 24 * sin (TTT / 175.0);
   camera_x[0] &= (map_info.xwrap << 16) | (0xffff);
@@ -68,16 +59,15 @@ background_menu (void)
 
   update_text_waving_step ();
   draw_level (0);
-};
+}
 
 static void
 control_menu (void)
 {
   char l = 0;
   int t;
-  p = 64;
-  memset (pal.global, 63, 768);
 
+  std_white_fadein (&tile_set_img.palette);
   do {
     background_menu ();
     copy_rect_4 (icons_img.buffer + (106 + 19 * opt.ctrl_one) * 320,
@@ -111,15 +101,8 @@ control_menu (void)
     draw_text (txti[93], 56, 111, 0);
     draw_text (txti[92], 56, 144, 0);
     draw_text (txti[94], 56, 182, 0);
-    pal2pal (&tile_set_img.palette, &pal, p);
     vsynch ();
-
-    /* if (p>=0) set_pal((char *)&temppal.global,0,768); */
-    if (p >= 0)
-      set_pal_with_luminance ((palette_rvb *) temppal.global);
     aff_buffer ();
-    if (p == 0)
-      p--;
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
       if (t == HK_Up || t == HK_Down || t == HK_Escape)
@@ -193,9 +176,7 @@ keyboard_menu (void)
   int ll, i, t;
   int unconfigured_keys = -1;
   
-  p = 64;
-  memset (pal.global, 63, 768);
-
+  std_white_fadein (&tile_set_img.palette);
   do {
     background_menu ();
 
@@ -247,13 +228,8 @@ keyboard_menu (void)
     if (testing == 0 || l != 11)
       draw_key (opt.player_keys[1][5], 176);
     draw_text (txti[94], 159, 188, 1);
-    pal2pal (&tile_set_img.palette, &pal, p);
     vsynch ();
-    if (p >= 0)
-      set_pal_with_luminance ((palette_rvb *) temppal.global);
     aff_buffer ();
-    if (p == 0)
-      p--;
     ll = l;
     if (l == 1)
       ll = 2;
@@ -352,9 +328,8 @@ sound_menu (void)
 {
   char l = 0;
   int t;
-  p = 64;
-  memset (pal.global, 63, 768);
 
+  std_white_fadein (&tile_set_img.palette);
   do {
     background_menu ();
     copy_rect_4 (icons_img.buffer + 163 * 320 + 252,
@@ -398,15 +373,8 @@ sound_menu (void)
     draw_text (txti[107], 56, 39, 0);
     draw_text (txti[108], 56, 109, 0);
     draw_text (txti[94], 56, 179, 0);
-    pal2pal (&tile_set_img.palette, &pal, p);
     vsynch ();
-
-    /* if (p>=0) set_pal((char *)&temppal.global,0,768); */
-    if (p >= 0)
-      set_pal_with_luminance ((palette_rvb *) temppal.global);
     aff_buffer ();
-    if (p == 0)
-      p--;
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
       if (t == HK_Up || t == HK_Down || t == HK_Escape)
@@ -495,9 +463,8 @@ screen_menu (void)
 {
   char l = /* 0 */ 1;
   int t;
-  p = 64;
-  memset (pal.global, 63, 768);
 
+  std_white_fadein (&tile_set_img.palette);
   do {
     background_menu ();
 
@@ -544,15 +511,8 @@ screen_menu (void)
     draw_text (txti[113], 56, 121, 0);
     draw_text (txti[114], 56, 150, 0);
     draw_text (txti[94], 56, 179, 0);
-    pal2pal (&tile_set_img.palette, &pal, p);
     vsynch ();
-
-    /* if (p>=0) set_pal((char *)&temppal.global,0,768); */
-    if (p >= 0)
-      set_pal_with_luminance ((palette_rvb *) temppal.global);
     aff_buffer ();
-    if (p == 0)
-      p--;
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
       if (t == HK_Up || t == HK_Down || t == HK_Escape)
@@ -645,9 +605,8 @@ game_menu (void)
 {
   char l = 0, tmp;
   int t;
-  p = 64;
-  memset (pal.global, 63, 768);
 
+  std_white_fadein (&tile_set_img.palette);
   do {
     background_menu ();
     copy_rect_4 (icons_img.buffer + (68 + 19 * opt.player_color[0]) * 320 +
@@ -694,13 +653,8 @@ game_menu (void)
 	     (opt.gamerounds == 0) ? '\0' : 'S');
     draw_text (tmp1, 56, 153 /*158 */ , 0);
     draw_text (txti[94], 56, 177 /*180 */ , 0);
-    pal2pal (&tile_set_img.palette, &pal, p);
     vsynch ();
-    if (p >= 0)
-      set_pal_with_luminance ((palette_rvb *) temppal.global);
     aff_buffer ();
-    if (p == 0)
-      p--;
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
       if (t == HK_Up || t == HK_Down || t == HK_Escape)
@@ -802,10 +756,7 @@ extra_menu (void)
   char l = 0;
   int t, i, ll = 0;
 
-/*  char *gtype[3]={txti[122],txti[123],txti[124]}; */
-  p = 64;
-  memset (pal.global, 63, 768);
-
+  std_white_fadein (&tile_set_img.palette);
   do {
     background_menu ();
     draw_text_waving (txti[125], 159, 5, 1);
@@ -843,15 +794,8 @@ extra_menu (void)
 		      corner[0] + (30 + l * 22 + 40 * (l == 2) +
 				   78 * (l == 3)) * xbuf + 320 - 1 - 13, 13,
 		      20);
-    pal2pal (&tile_set_img.palette, &pal, p);
     vsynch ();
-
-/*   if (p>=0) set_pal((char *)&temppal.global,0,768); */
-    if (p >= 0)
-      set_pal_with_luminance ((palette_rvb *) temppal.global);
     aff_buffer ();
-    if (p == 0)
-      p--;
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
       if (t == HK_Up || t == HK_Down || t == HK_Escape)
@@ -931,47 +875,13 @@ extra_menu (void)
 }
 
 void
-demo_info (void)
-{
-  int j, t;
-  j = minisinus[read_htimer (waving_htimer) & 31];
-  event_sfx (132);
-  memset (pal.global, 63, 768);
-  p = 64;
-
-  do {
-    background_menu ();
-    draw_text_waving (txti[160], 159, 20, 1);
-    draw_text (txti[161], 159, 60, 1);
-    draw_text (txti[162], 159, 75, 1);
-    draw_text (txti[163], 159, 90, 1);
-    draw_text (txti[164], 159, 125, 1);
-    draw_text (txti[165], 159, 140, 1);
-    draw_text (txti[166], 159, 155, 1);
-    vsynch ();
-    pal2pal (&tile_set_img.palette, &pal, p);
-    if (p >= 0)
-      set_pal_with_luminance ((palette_rvb *) temppal.global);
-    aff_buffer ();
-    if (key_or_joy_ready ())
-      t = get_key_or_joy ();
-
-    else
-      t = 0;
-  } while (t == 0);
-  event_sfx (8);
-}
-
-void
 option_menu (void)
 {
   char l = 0;
   int t, j;
-  memset (pal.global, 63, 768);
-
+  
   do {
-    p = 64;
-
+    std_white_fadein (&tile_set_img.palette);
     do {
       background_menu ();
       j = minisinus[read_htimer (waving_htimer) & 31];
@@ -1000,15 +910,8 @@ option_menu (void)
       copy_rect_transp (main_font_img.buffer + 121 + 50 * 320,
 			corner[0] - j + (50 + l * 20) * xbuf + 320 - 70 - 13,
 			13, 20);
-      pal2pal (&tile_set_img.palette, &pal, p);
       vsynch ();
-
-/*   if (p>=0) set_pal((char *)&temppal.global,0,768); */
-      if (p >= 0)
-	set_pal_with_luminance ((palette_rvb *) temppal.global);
       aff_buffer ();
-      if (p == 0)
-	p--;
       if (key_or_joy_ready ()) {
 	t = get_key_or_joy ();
 	if (t == HK_Up || t == HK_Down || t == HK_Escape)
@@ -1074,19 +977,13 @@ quit_menu (void)
 {
   char l = 0;
   int t;
-  memset (pal.global, 63, 768);
-  p = 64;
-
+  
+  std_white_fadein (&tile_set_img.palette);
   do {
     background_menu ();
     draw_quit_menu (l);
     vsynch ();
-    pal2pal (&tile_set_img.palette, &pal, p);
-    if (p >= 0)
-      set_pal_with_luminance ((palette_rvb *) temppal.global);
     aff_buffer ();
-    if (p == 0)
-      p--;
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
       if (t == HK_Up || t == HK_Down || t == HK_Escape)
@@ -1155,7 +1052,6 @@ draw_play_menu (char l)
 							   6) + 23 * (l ==
 								      7)) *
 		    xbuf + 320 - 30 - 13, 13, 20);
-  pal2pal (&tile_set_img.palette, &pal, p);
 }
 
 void
@@ -1188,7 +1084,6 @@ draw_main_menu (char l)
   copy_rect_transp (main_font_img.buffer + 121 + 50 * 320,
 		    corner[0] - j + (50 + l * 20) * xbuf + 320 - 75 - 13, 13,
 		    20);
-  pal2pal (&tile_set_img.palette, &pal, p);
 }
 
 char tile_sets_names[10][3] =
@@ -1219,9 +1114,7 @@ editor_selector (void)
     hmain (7, tmp1, "A", "A", "A", "A", "A");
     return;
   }
-  memset (pal.global, 63, 768);
-  p = 64;
-
+  std_white_fadein (&tile_set_img.palette);
   do {
     background_menu ();
     j = minisinus[read_htimer (waving_htimer) & 31];
@@ -1239,13 +1132,8 @@ editor_selector (void)
 		      corner[0] + j + 101 * xbuf + 60, 13, 20);
     copy_rect_transp (main_font_img.buffer + 121 + 50 * 320,
 		      corner[0] - j + 101 * xbuf + 320 - 60 - 13, 13, 20);
-    pal2pal (&tile_set_img.palette, &pal, p);
     vsynch ();
-    if (p >= 0)
-      set_pal_with_luminance ((palette_rvb *) temppal.global);
     aff_buffer ();
-    if (p == 0)
-      p--;
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
       if (t == HK_Up || t == HK_Down || t == HK_Escape || t == HK_Home
@@ -1277,9 +1165,6 @@ editor_selector (void)
   if (t == HK_Enter) {
     event_sfx (116);
     strcpy (tmp1, extra_list[l].level_name);
-
-/*    sprintf(tmp2,"%s A A A A A",tmp1); */
-/*    spawnl(P_WAIT,"HEDLITE.EXE","HEDLITE.EXE",tmp2,NULL); */
 
     hmain (7, tmp1, "A", "A", "A", "A", "A");
   } else
@@ -1320,10 +1205,8 @@ editor_menu (void)
     memcpy (frmenu.buffer + 217 + 74 * 320 + i * 320,
 	    tilesprev.buffer + i * 62, 62);
   memcpy (corner[0], frmenu.buffer, 64000);
-  memset (pal.global, 63, 768);
-  p = 64;
   corner[0] = render_buffer[0];
-
+  std_white_fadein (&tilesprev.palette);
   do {
     update_text_waving_step ();
     j = minisinus[read_htimer (waving_htimer) & 31];
@@ -1386,13 +1269,8 @@ editor_menu (void)
     draw_text_320 (tmp2, 248, 137, 1);
     sprintf (tmp2, "%d", ysize);
     draw_text_320 (tmp2, 248, 158, 1);
-    pal2pal ((palette_ *) & tilesprev.palette, &pal, p);
     vsynch ();
-    if (p >= 0)
-      set_pal_with_luminance ((palette_rvb *) temppal.global);
-    memcpy (screen, corner[0], 64000);
-    if (p >= 0)
-      p--;
+    memcpy (screen, corner[0], 64000); /* FIXME: what is this? */
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
       if (t == HK_Up) {
@@ -1436,8 +1314,6 @@ editor_menu (void)
 	for (i = 0; i < 52; i++)
 	  memcpy (frmenu.buffer + 217 + 74 * 320 + i * 320,
 		  tilesprev.buffer + i * 62, 62);
-	if (p == -1)
-	  p = 0;
 	event_sfx (111);
       } else if (l == 1) {
 	l2 = t & 255;
@@ -1475,8 +1351,6 @@ editor_menu (void)
 	      for (i = 0; i < 52; i++)
 		memcpy (frmenu.buffer + 217 + 74 * 320 + i * 320,
 			tilesprev.buffer + i * 62, 62);
-	      if (p == -1)
-		p = 0;
 	      flaglock = 1;
 	      event_sfx (117);
 	    } else
@@ -1563,8 +1437,6 @@ editor_menu (void)
   if (l == 6 && t == HK_Enter) {
     event_sfx (116);
 
-/*          sprintf(tmp2,"%s %s %c %c %c %c",tmp1,tile_sets_names[tiles],xsize+' ',ysize+' ',((xwrap==-1)?'!':(xwrap+' ')),((ywrap==-1)?'!':(ywrap+' '))); */
-/*          spawnl(P_WAIT,"HEDLITE.EXE","HEDLITE.EXE",tmp2,NULL); */
     sprintf (tmp2, "%c %c %c %c", xsize + ' ', ysize + ' ',
 	     ((xwrap == -1) ? '!' : (xwrap + ' ')),
 	     ((ywrap == -1) ? '!' : (ywrap + ' ')));
@@ -1577,7 +1449,7 @@ editor_menu (void)
     browse_extra_directories ();
   }
   reset_htimer (background_htimer);
-  reset_htimer (fading_htimer);
+  std_white_fadein (&tile_set_img.palette);
 }
 
 void
@@ -1589,9 +1461,8 @@ editor_first_menu (void)
     editor_menu ();
     return;
   }
-  memset (pal.global, 63, 768);
-  p = 64;
 
+  std_white_fadein (&tile_set_img.palette);
   do {
     background_menu ();
     j = minisinus[read_htimer (waving_htimer) & 31];
@@ -1603,13 +1474,8 @@ editor_first_menu (void)
     copy_rect_transp (main_font_img.buffer + 121 + 50 * 320,
 		      corner[0] - j + (81 + l * 20) * xbuf + 320 - 50 - 13,
 		      13, 20);
-    pal2pal (&tile_set_img.palette, &pal, p);
     vsynch ();
-    if (p >= 0)
-      set_pal_with_luminance ((palette_rvb *) temppal.global);
     aff_buffer ();
-    if (p == 0)
-      p--;
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
       if (t == HK_Up || t == HK_Down || t == HK_Escape)
@@ -1640,6 +1506,7 @@ editor_first_menu (void)
       event_sfx (8);
   }
 }
+
 void
 draw_saved_games_info (int decal, char l, char h)
 {

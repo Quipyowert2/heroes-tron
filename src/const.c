@@ -18,7 +18,6 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
 /* Heroes constants */
 
 #include "common.h"
@@ -33,6 +32,7 @@
 #include "const.h"
 #include "timer.h"
 #include "heroes.h"
+#include "fader.h"
 
 /* Def. des 15 sprites de l'explosion1, à l'envers (14->0). */
 #define nfrexplo1 15
@@ -122,10 +122,6 @@ char in_menu = 1;
 char in_demo = 0;
 /* int error; */
 char in_jokebox;
-
-signed char p;
-signed int p2;
-
 
 char kbjoy[6] = { 0, 0, 0, 0, 0, 0 };
 char kbjoyold[6] = { 0, 0, 0, 0, 0, 0 };
@@ -227,23 +223,12 @@ int lemmings_move_offset;
 
 char invincible[4];
 
-
 void
 vsynch (void)
 {
+  run_fader ();
   vsynchro ();
   update_htimers ();
-}
-
-void
-pal2pal (palette_ * src, palette_ * dest, char step)
-{				/* 0 à 64 */
-  int i;
-  for (i = 767; i >= 0; i--)
-    temppal.global[i] =
-      (unsigned
-       char) (((src->global[i] * (64 - step)) +(dest->global[i] * step)) >>
-	      6);
 }
 
 char demo_ready = 0;

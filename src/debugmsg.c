@@ -123,6 +123,8 @@ dmsg_init (const char* prgname)
 	  val = D_TIMER;
 	else if (!strcasecmp (opt, "misc"))
 	  val = D_MISC;
+	else if (!strcasecmp (opt, "fader"))
+	  val = D_FADER;
 	else {
 	  fprintf (stderr, "Ignoring %s in HEROES_DEBUG\n", opt);
 	  goto next_opt;

@@ -28,6 +28,7 @@
 #include "rsc_files.h"
 #include "debugmsg.h"
 #include "endian.h"
+#include "fader.h"
 
 static int nbr_lines;
 static unsigned char *txtptr;
@@ -197,11 +198,11 @@ show_help (void)
 #endif
 
 #ifndef SDF
-  memset (pal.global, 63, 768);
+  std_white_fadein (&tile_set_img.palette);
 #else
   reader_htimer = new_htimer (T_LOCAL, HZ (70));
+  std_black_fadein (&background_img.palette);
 #endif
-  p = 64;
 
   do {
 #ifndef SDF
@@ -335,24 +336,12 @@ show_help (void)
 
       draw_text_help (src, 5 + posx, (i * 10 - ldec) + 5, justify, justify2);
     }
-#ifndef SDF
-    pal2pal (&tile_set_img.palette, &pal, p);
     vsynch ();
-    if (p >= 0)
-      set_pal_with_luminance ((palette_rvb *) temppal.global);
+#ifndef SDF
     aff_buffer ();
 #else
-    vsynch ();
-    if (p < 64) {
-      p += read_htimer (reader_htimer);
-      if (p > 64)
-	p = 64;
-      set_pal_fade (p);
-    }
     display_page ();
 #endif
-    if (p == 0)
-      p--;
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
       switch (t) {

@@ -983,6 +983,9 @@ Timer handling.
 @item MISC
 Miscellaneous.
 
+@item FADER
+Fader handling.
+
 @item ALL
 All of the above.
 

@@ -1,3 +1,45 @@
+2000-09-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Introduce fader to handle palette fadings automatically.
+
+	* src/fader.h: New.
+	* src/fader.c: New.
+	* src/Makefile.am (heroes_SOURCES): Add fader.h and fader.c.
+	* src/debugmsg.h (debug_lvl): Add D_FADER.
+	* src/debugmsg.c (dmsg_init): Handle FADER.
+	* doc/heroes.texi (Environment): Documents FADER.
+	* src/heroes.h (fading_timer): Remove (now useless).
+	* src/heroes.c (fading_timer): Likewise.
+	(quit_yes_no): Don't reset fading_timer.
+	(main): Call (un)init_fader instead of (un)initializing fading_timer.
+	Call update_htimers() before runing main_menu.
+	* src/const.c (p,p2,pal2pal): Delete.
+	* src/const.h (p,p2,pal2pal): Likewise.
+	* src/endscroll.c (set_pal_fade): Remove (useless).
+	(end_scroll): Don't reset p.
+	* src/gfx_reader.h (show_help): Adapt to use fader.
+	* src/intro.c (play_intro,show_intro): Likewise.
+	* src/heroes.c (jukebox_menu): Likewise.
+	(enter_your_name,main_menu): Likewise.  Use a timer for the
+	pixelize effect.
+	(play_menu): Adapt likewise.  Use a timer for the flipping effect. 
+	(play_demo,play_game): Use local variables instead of p2.
+	* src/menus.c (background_menu): Don't handle fading anymore.
+	(control_menu, keyboard_menu, sound_menu, screen_menu, game_menu,
+	extra_menu, quit_menu, option_menu, draw_play_menu,
+	draw_main_menu, editor_selector, editor_menu,
+	draw_saved_games_info): Adapt to use fader.
+
+	Rename argument to remove a warning.
+	
+	* src/sound.c (decode_sound_options): Rename optarg to options_string.
+	* src/sound.h (decode_sound_options): Likewise.
+
+	Misc.
+
+	* src/menus.c (demo_info): Remove (obsolete).
+	* src/menus.h (demo_info): Likewise.	
+	
 2000-09-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Suppress some warnings.
