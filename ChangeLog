@@ -1,5 +1,9 @@
 2000-08-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* BUGS: New file.
+	* Makefile.am (EXTRA_DIST): Add BUGS.
+
+2000-08-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 	Save files as soon as possible to prevent data loss if the game
 	freezes or crashes.
 
