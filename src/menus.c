@@ -112,6 +112,9 @@ static sprite_t* info_mode_tcash_txt = 0;
 static sprite_t* info_mode_color_txt = 0;
 static sprite_t* info_mode_next_txt = 0;
 static sprite_t* info_mode_save_txt = 0;
+/* The column to start arrows on, depending of the width of
+   info_mode_next_txt and info_mode_save_txt.  */
+unsigned int info_mode_next_save_arrow_pos = 0;
 static sprite_t* info_mode_return_txt = 0;
 static sprite_t* info_round_txt = 0;
 static sprite_t* info_martian[4] = { 0, 0, 0, 0 };
@@ -575,12 +578,19 @@ init_menus_sprites (void)
 					   T_CENTERED, 50, 180);
   info_mode_color_txt = compile_menu_text (_("COLORS  PTS  LIVES"),
 					   T_CENTERED, 50, 170);
-  info_mode_next_txt = compile_menu_text (_("NEXT LEVEL"),
-					  T_CENTERED, 150, 159);
-  /* TRANS: this is a button that introduce the user to another
-     menu.  This is NOT displayed during saving. */
-  info_mode_save_txt = compile_menu_text (_("SAVE..."),
-					  T_CENTERED, 170, 159);
+  {
+    const char *str;
+    unsigned int w1, w2;
+    str = _("NEXT LEVEL");
+    w1 = compute_text_width (menu_font, str, 0);
+    info_mode_next_txt = compile_menu_text (str, T_CENTERED, 150, 159);
+    /* TRANS: this is a menu entry that introduce the user to another
+       menu.  This is NOT displayed DURING saving. */
+    str = _("SAVE...");
+    w2 = compute_text_width (menu_font, str, 0);
+    info_mode_save_txt = compile_menu_text (str, T_CENTERED, 170, 159);
+    info_mode_next_save_arrow_pos = (160 - ((w2 > w1) ? w2 : w1)/2) - 20;
+  }
   info_mode_return_txt = compile_menu_text (_("PRESS RETURN"),
 					    T_CENTERED, 160, 159);
   {
@@ -2305,7 +2315,7 @@ draw_end_level_info (int decal, char l)
 	sprintf (winner, _("YOU LOST!"));
       draw_glenz_box (corner[0] + decal + 22 * xbuf, 7, 320, 6);
     }
-    winner_txt = compile_menu_text (winner, T_CENTERED|T_WAVING, 20, 159 + 20);
+    winner_txt = compile_menu_text (winner, T_CENTERED|T_WAVING, 20, 159);
   }
   DRAW_SPRITE (winner_txt, corner[0] + decal);
 
@@ -2323,7 +2333,7 @@ draw_end_level_info (int decal, char l)
   if ((level_is_finished != 15) && (game_mode == M_QUEST)) {
     draw_sprprogwav_if (l == 0, info_mode_next_txt, corner[0] + decal);
     draw_sprprogwav_if (l == 1, info_mode_save_txt, corner[0] + decal);
-    waving_arrows (145 + l * 20, 45);
+    waving_arrows (145 + l * 20, info_mode_next_save_arrow_pos);
   } else {
     DRAW_SPRITE (info_mode_return_txt, corner[0] + decal);
   }

@@ -1,5 +1,14 @@
 2001-06-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Yet another couple of fixes suggested by Jean.
+
+	* src/menus.c (draw_end_level_info): Center the title (winner).
+	(info_mode_next_save_arrow_pos): New variable.
+	(init_menus_sprites): Compute info_mode_next_save_arrow_pos.
+	(draw_end_level_info): Use it.
+
+2001-06-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Jean reported several times that some levels play
 	without any sound.  These five levels are affected
 	| ~/usr/share/heroes/levels % grep heroes *
