@@ -48,7 +48,7 @@ README: $(top_srcdir)/doc/heroes.texi $(top_srcdir)/tools/readme.sed
 # this is heavily inspired from Jim Meyring's setup
 # in Fileutils & Shellutils & Textutils.
 
-distcheck-hook: my-distcheck-ggi my-distcheck-sdl
+distcheck-hook: man-distcheck my-distcheck-ggi my-distcheck-sdl
 
 # Use this to make sure we don't run these programs when building
 # from a virgin tgz file, below.
@@ -90,3 +90,6 @@ my-distcheck-sdl:
 	  && $(AMTAR) -zxf ../$(distdir).tar.gz
 	diff -ur $(t)/$(distdir) $(t)/$(distdir).new
 	-rm -rf $(t)
+
+man-distcheck:
+	cd man && $(MAKE) man-distcheck

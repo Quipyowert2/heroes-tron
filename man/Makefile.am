@@ -28,3 +28,14 @@ heroes.6 : $(srcdir)/../src/argv.c $(top_srcdir)/configure.in
 	  echo "WARNING: The man page $@ cannot be updated yet."; \
 	  echo "         Retry once the corresponding executable is built."; \
 	fi
+
+# Make sure the manual pages show a correct version before
+# releasing a distribution.  This target is called by the top
+# level Makefile on `make distcheck'.
+man-distcheck: $(man_MANS)
+	@for i in $(man_MANS); do \
+	  if sed 15q $$i | fgrep -e "$(VERSION)" > /dev/null; then :; else \
+	    echo "$$i shows wrong version; not releasing" 1>&2; \
+	    exit 1; \
+	  fi \
+	done

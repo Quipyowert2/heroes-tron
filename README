@@ -260,6 +260,12 @@ warnings.
      Enable profiling support with `gcc', you need `gprof' to inspect
      the file resulting from a run of Heroes.
 
+`--disable-display'
+     This disable all screen output, making the game rather unplayable.
+     This suppress decencies over third party libraries like GGI or SDL,
+     therefore you may find it useful with some debugging tools like
+     checkergcc.
+
 Machines
 ========
 

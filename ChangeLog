@@ -1,3 +1,12 @@
+2001-02-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Make sure the manual pages are up-to-date before releasing.
+	Reported by Jean Delvare <devare@ensicaen.ismra.fr>.
+
+	* man/Makefile.am (man-distcheck): New target.
+	* Makefile.am (man-distcheck): New target.
+	(distcheck-hook): Depend upon man-distcheck.
+
 2001-02-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Support for --disable-display.
