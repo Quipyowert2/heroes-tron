@@ -1,5 +1,9 @@
 2001-02-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* TODO: Update.
+
+2001-02-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/display.c [HAVE_LIBGGI] (setup_WWWxHHHxB_display): Ask for
 	GT_8BIT if possible.
 

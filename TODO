@@ -7,6 +7,10 @@ Before 0.9
 
   hedlite.c should be cleaned.
 
+Before 0.10
+-----------
+
+  Use makeheaders (provided I can get in touch with its maintainer).
 
 Before 1.0.0
 ------------
@@ -36,11 +40,11 @@ Before 1.0.0
   Use {u,s}{8,16,32}_t types where it's important.
 
   A separate binary (say heroeslvl) is needed to perform various task
-  on the level files (such modification of the header fields, automatic
-  generation of level.lst -- or maybe conversion of level format, should
-  we need to do this a day).
+  on level files (such as modification of the header fields, automatic
+  generation of level.lst, level integrity checking -- maybe conversion
+  of level format, should we need to do this a day).
 
-  __attribute__ ((packed)) are gcc-isms, something must be done to avoid
+  __attribute__ ((packed)) is a gcc-isms, something must be done to avoid
   them. `something' may be using a different level format, in which case
   the `heroeslvl' above would be helpful.
 
