@@ -1,5 +1,21 @@
 2000-08-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Add a dperror, a wrapper to perror.
+
+	* src/debugmsg.c [DEBUG] (dmsg): Use progname.
+	[DEBUG] (dperror): New.
+	* src/debugmsg.h [!DEBUG,DEBUG] (dperror): Define.
+	* src/extras.c (browse_extra_directory): Use dperror.
+	* src/heroes.c (load_level, save_pcx, read_level_list): Likewise.
+	* src/musicfiles.c (read_sound_config_file): Likewise.
+	* src/options.c (load_options): Likewise.
+	* src/savegame.c (load_save_records): Likewise.
+	* src/scores.c (load_scores): Likewise.
+	* src/sfx.c (read_sfx_conf): Likewise.
+	* userconf.c (read_userconf): Likewise.
+
+2000-08-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* NEWS: Describe HEROES_DEBUG and HEROES_DATA_DIR.
 
 2000-08-28  Alexandre Duret-Lutz  <duret_g@epita.fr>

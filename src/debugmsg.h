@@ -42,12 +42,14 @@ extern enum debug_lvl debug_level;
 
 #ifndef DEBUG
 # define dmsg while (0) while
+# define dperror while (0) while
 #else
 # if defined (__STDC__) && __STDC__
 void dmsg (enum debug_lvl dlvl, char* msg, ...);
 # else
 void dmsg ();
 # endif
+void dperror (const char* s);
 #endif
 
 void dmsg_init (const char* prgname);

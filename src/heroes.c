@@ -463,6 +463,7 @@ load_level (char *nomlvl, char cont)
 
   if ((ftmp = fopen (nomlvl, "rb")) == NULL) {
     dmsg (D_LEVEL|D_FILE, "cannot open %s", nomlvl);
+    dperror ("fopen");
     return (1);
   }
   { 
@@ -502,8 +503,11 @@ load_level (char *nomlvl, char cont)
   strcat (strcat (tile_set_name, map_info.tile_set_name), ".pcx");
   strcat (strcat (glenz_name, map_info.tile_set_name), ".glz");
   pcx_load (tile_set_name, &tile_set_img);
-  if ((ftmp = fopen (glenz_name, "rb")) == NULL)
+  dmsg (D_LEVEL|D_FILE, "loading %s", glenz_name);
+  if ((ftmp = fopen (glenz_name, "rb")) == NULL) {
+    dperror ("fopen");
     return (7);
+  }
   if (fread (glenz, 256, 8, ftmp) != 8)
     return (6);
   fclose (ftmp);
@@ -1124,8 +1128,10 @@ save_pcx (char q)
 
   dmsg (D_MISC|D_FILE, "save pcx: %s", nompcx);
 
-  if ((fpcx = fopen (nompcx, "wb")) == NULL)
+  if ((fpcx = fopen (nompcx, "wb")) == NULL) {
+    dperror ("fopen");
     return;
+  }
   fwrite ((char *) &headpcx, 1, sizeof (header_), fpcx);
 
   if (q == 0)
@@ -4677,6 +4683,7 @@ read_level_list (void)
   dmsg (D_FILE|D_SECTION, "read level list: %s ...", t);
   if ((f = fopen (t, "rt")) == NULL) {
     fprintf (stderr, "Could not open %s.\n", t);
+    dperror ("fopen");
     fatal_error ("Giving up.\n");
   }
   free (t);

@@ -167,8 +167,9 @@ load_save_records (void)
   dmsg (D_FILE, "reading saved games from %s", saves_file ());
 
   if (fs == NULL) {
-    clear_save_records ();
     dmsg (D_FILE, "cannot open %s", saves_file ());
+    dperror ("fopen");
+    clear_save_records ();
   } else {
     fread (savetmp, sizeof (saved_game), 10, fs);
     fread ((int *) &i, 4, 1, fs);

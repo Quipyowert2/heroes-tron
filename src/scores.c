@@ -139,8 +139,9 @@ load_scores (void)
   dmsg (D_FILE, "reading scores from %s", scores_file ());
 
   if (fs == NULL) {
-    clear_scores ();
     dmsg (D_FILE, "cannot open %s", scores_file ());
+    dperror ("fopen");
+    clear_scores ();
   } else {
     /* read the score from disk */
     fread (highs, sizeof (top_score), 50, fs);

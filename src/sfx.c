@@ -156,6 +156,8 @@ read_sfx_conf (void)
     }
     dmsg (D_SOUND_EFFECT|D_FILE, "reading sound effects config: %s", conf);
     if ((*conf == 0) || (fconf = fopen (conf, "rt")) == NULL) {
+      if (fconf == NULL)
+	dperror ("fopen");
       fprintf(stderr, "Cannot open %s, disabling sound-effects\n"
 	      "(run with -X to supress this message).\n", conf);
       nosfx = 1;

@@ -47,9 +47,11 @@ const char* progname = 0;
 #ifndef dmsg
 
 #if defined VA_START && __STDC__
-void dmsg (enum debug_lvl dlvl, char* msg, ...)
+void 
+dmsg (enum debug_lvl dlvl, char* msg, ...)
 #else
-void dmsg (dlvl, msg, va_alist)
+void 
+dmsg (dlvl, msg, va_alist)
      enum debug_lvl dlvl;
      char* msg;
      va_dcl;
@@ -59,7 +61,7 @@ void dmsg (dlvl, msg, va_alist)
 #ifdef VA_START
     va_list args;
 #endif
-    fprintf (stderr, "heroes: ");
+    fprintf (stderr, "%s: ", progname);
 #ifdef VA_START
     VA_START (args, msg);
 # if HAVE_VPRINTF
@@ -76,7 +78,15 @@ void dmsg (dlvl, msg, va_alist)
   }  
 }
 
-#endif
+void
+dperror (const char* s)
+{
+  fprintf (stderr, "%s: ", progname);
+  fflush (stderr);
+  perror (s);
+}
+
+#endif /* !dmsg */
 
 void
 dmsg_init (const char* prgname)

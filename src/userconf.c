@@ -63,6 +63,7 @@ read_userconf (const char* file, const char* argv0)
 
   if (!fs) {
     dmsg (D_SECTION|D_FILE, "... could not open.");
+    dperror ("fopen");
     if (!file)
       free (filename);
     return 0;

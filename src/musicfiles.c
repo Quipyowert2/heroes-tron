@@ -115,6 +115,7 @@ read_sound_config_file (char* filename)
 
   if (!fs) {
     dmsg (D_SECTION|D_FILE,"... could not open.");
+    dperror ("fopen");
     free (expfilename);
     free (dir);
     return 0;

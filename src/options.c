@@ -135,12 +135,13 @@ void
 load_options (void)
 {
   FILE *fs;
-  fs = fopen (options_file (), "rb");
 
   dmsg (D_FILE, "reading option from %s", options_file ());
+  fs = fopen (options_file (), "rb");
 
   if (fs == NULL) {
     dmsg (D_FILE, "cannot open %s", options_file ());
+    dperror ("fopen");
     reinit_options ();
   }
   else {
