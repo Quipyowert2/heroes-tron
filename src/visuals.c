@@ -22,7 +22,7 @@
 
 #include "system.h"
 #include "const.h"
-#include "display.h"
+#include "video.h"
 #include "fastmem.h"
 #include "visuals.h"
 #include "bytesex.h"

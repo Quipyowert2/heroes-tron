@@ -22,7 +22,7 @@
 #ifndef HEROES__PCX__H
 #define HEROES__PCX__H
 
-#include "display.h"
+#include "video.h"
 
 typedef struct pcx_header_type
 {

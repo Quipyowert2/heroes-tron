@@ -26,7 +26,7 @@
 | pixels that can be pasted in memory (but you knew that).           |
 `-------------------------------------------------------------------*/
 
-#include "display.h"
+#include "video.h"
 
 /* Different kind of sprites, they are not all used yet.  These values
    should be used *internally* by the sprite handling functions.  */

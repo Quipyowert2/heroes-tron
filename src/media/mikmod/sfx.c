@@ -20,42 +20,33 @@
 | 02111-1307 USA                                                    |
 `------------------------------------------------------------------*/
 
-#ifndef HEROES__KEYB__H
-#define HEROES__KEYB__H
+#include "system.h"
+#include <mikmod.h>
+#include "sfx.h"
+#include "prefs.h"
 
-#define KEY_MAX 0xffff
-extern unsigned char keyboard_map[KEY_MAX + 1];
-extern unsigned int keyboard_modifiers;
+void *
+load_sfx_low (char *file)
+{
+  struct SAMPLE *tmp;
 
-void init_keyboard_map (void);
-void uninit_keyboard_map (void);
-int mouse_x (void);
-int mouse_y (void);
-char mouse1 (void);
-char mouse2 (void);
-char mouse3 (void);
-char mouse12 (void);
+  tmp = Sample_Load (file);
+  if (tmp)
+    tmp->panning = (PAN_RIGHT + PAN_LEFT) / 2;
+  return tmp;
+}
 
-#if HAVE_LIBGGI || HAVE_LIBSDL
+void
+free_sfx_low (void *sfx)
+{
+  Sample_Free (sfx);
+}
 
-void process_input_events (void);
-keycode_t get_key (void);
-int key_ready (void);
-
-int init_mouse (void);
-void mouse_show (void);
-void mouse_hide (void);
-
-#else /* !HAVE_LIBSDL && !HAVE_LIBGGI */
-
-# define process_input_events()
-# define get_key() 0
-# define key_ready() 0
-
-# define init_mouse() 0
-# define mouse_show()
-# define mouse_hide()
-
-#endif /* !HAVE_LIBSDL && !HAVE_LIBGGI */
-
-#endif /* HEROES__KEYB__H */
+void
+play_sfx_low (void *sfx)
+{
+  struct SAMPLE *tmp = sfx;
+  /* set the sample volume */
+  tmp->volume = (13 - opt.sfx_volume) * 64 / 13;
+  Sample_Play (tmp, 0, 0);
+}

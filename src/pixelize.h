@@ -22,7 +22,7 @@
 #ifndef HEROES__PIXEL__H
 #define HEROES__PIXEL__H
 
-#include "display.h"
+#include "video.h"
 
 extern void (*pixelize[7]) (pixel_t *dest, const pixel_t *src);
 

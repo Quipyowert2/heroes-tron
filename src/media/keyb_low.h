@@ -20,47 +20,16 @@
 | 02111-1307 USA                                                    |
 `------------------------------------------------------------------*/
 
-#ifndef HEROES__DISPLAY__H
-#define HEROES__DISPLAY__H
+#ifndef HEROES__KEYB_LOW__H
+# define HEROES__KEYB_LOW__H
+# include "keyb.h"
 
-/* the three macro below configure the rendering buffers used in the game */
-#define xbuf 512		/* large width to suppress any clipping need,
-				   power of two of easier multiplications */
-#define ybuf 300		/* height */
-#define sbuf (50*xbuf)		/* keep sbuf empty line on top of the buffers
-				   (to avoid clipping) */
+void update_mouse_state (void);
 
+extern int mouse_pos_x;
+extern int mouse_pos_y;
+extern char mouse_button_left;
+extern char mouse_button_right;
+extern char mouse_button_middle;
 
-typedef u8_t pixel_t;
-
-#if HAVE_LIBSDL || HAVE_LIBGGI
-
-void set_display_params (const char* str);
-void set_full_screen_mode (void);
-
-void init_video (void);
-void uninit_video (void);
-void set_color (unsigned char c, unsigned char r, unsigned char g,
-		unsigned char b);
-
-/* dump the supplied buffer (assumed xbuf-wide) to the screen */
-void vsynchro (const pixel_t *s);
-/* likewise, but construct the screen from two buffers (used
-   in two player mode). */
-void vsynchro2 (const pixel_t *s1, const pixel_t *s2);
-void set_pal (const unsigned char *ptr, int p, int n);
-
-#else /* !HAVE_LIBSDL && !HAVE_LIBGGI */
-
-# define set_display_params(str)
-# define set_full_screen_mode()
-# define init_video()
-# define uninit_video()
-# define set_color(c,r,g,b)
-# define vsynchro(s)		(void*)0
-# define vsynchro2(s1,s2)	(void*)0
-# define set_pal(ptr,p,n)
-
-#endif /* !HAVE_LIBSDL && !HAVE_LIBGGI */
-
-#endif /* HEROES__DISPLAY__H */
+#endif /* HEROES__KEYB_LOW__H */

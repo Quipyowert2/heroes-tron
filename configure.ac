@@ -65,11 +65,8 @@ AC__GNU_SOURCE
 # Checks for libraries.
 # =====================
 
-heroes_CHECK_SOUND_LIB_PRELIM
-heroes_CHECK_DISPLAY_LIB
-heroes_CHECK_JOYSTICK_LIB
-heroes_CHECK_SOUND_LIB
 AC_CHECK_LIB([m],[sin])
+heroes_MEDIALIB_SELECTION
 
 # ================================
 # Check for any malloc() debugger.
@@ -218,30 +215,32 @@ AC_OUTPUT
 # Configuration report
 # ====================
 
-eval bindir="$bindir"
-eval bindir="$bindir"
-eval datadir="$datadir"
-eval mandir="$mandir"
-eval infodir="$infodir"
-eval htmldir="$htmldir"
+# (Disabled.  Needs extensive update.)
 
-echo "
-Heroes configuration
---------------------
-Heroes version           : $VERSION
-host                     : $host
-display & keyboard       : ${display_lib}
-joystick                 : ${joystick_lib}
-  CFLAGS                 : $GGI_CFLAGS $GII_CFLAGS $SDL_CFLAGS
-  LIBS                   : $GGI_LDFLAGS $GII_LDFLAGS $GGI_LIBS $GII_LIBS $SDL_LIBS
-sound                    : ${sound_lib}
-  CFLAGS                 : $SDL_MIXER_CFLAGS $LIBMIKMOD_CFLAGS
-  LIBS                   : $SDL_MIXER_LDFLAGS $SDL_MIXER_LIBS $LIBMIKMOD_LIBS
-compiler                 : $CC
-  CFLAGS                 : $CFLAGS $MORE_WARNINGS_CFLAGS
-  LIBS                   : $LDFLAGS $LIBS
-binary install path      : $bindir
-data install path        : ${datadir}/heroes
-manual page install path : $mandir
-info manual install path : $infodir
-html doc install path    : $htmldir"
+# eval bindir="$bindir"
+# eval bindir="$bindir"
+# eval datadir="$datadir"
+# eval mandir="$mandir"
+# eval infodir="$infodir"
+# eval htmldir="$htmldir"
+#
+# echo "
+# Heroes configuration
+# --------------------
+# Heroes version           : $VERSION
+# host                     : $host
+# display & keyboard       : ${display_lib}
+# joystick                 : ${joystick_lib}
+#   CFLAGS                 : $GGI_CFLAGS $GII_CFLAGS $SDL_CFLAGS
+#   LIBS                   : $GGI_LDFLAGS $GII_LDFLAGS $GGI_LIBS $GII_LIBS $SDL_LIBS
+# sound                    : ${sound_lib}
+#   CFLAGS                 : $SDL_MIXER_CFLAGS $LIBMIKMOD_CFLAGS
+#   LIBS                   : $SDL_MIXER_LDFLAGS $SDL_MIXER_LIBS $LIBMIKMOD_LIBS
+# compiler                 : $CC
+#   CFLAGS                 : $CFLAGS $MORE_WARNINGS_CFLAGS
+#   LIBS                   : $LDFLAGS $LIBS
+# binary install path      : $bindir
+# data install path        : ${datadir}/heroes
+# manual page install path : $mandir
+# info manual install path : $infodir
+# html doc install path    : $htmldir"

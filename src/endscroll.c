@@ -22,7 +22,7 @@
 
 #include "system.h"
 #include "pcx.h"
-#include "display.h"
+#include "video.h"
 #include "const.h"
 #include "keyb.h"
 #include "fastmem.h"

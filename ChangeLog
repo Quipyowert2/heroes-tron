@@ -1,3 +1,143 @@
+2001-08-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	This is a mega-combo-patch which break the files interfacing with
+	the display/keyboard/mouse/sound/joystick libraries into separate
+	directories.  Instead of one file per medium, holding code for all
+	supported libraries, we now have one directory per supported
+	library. Many atomic static libraries are built and linked on
+	demand from these directories (roughly one library per medium).
+	This is a lot cleaner: there is no need to play with
+	#ifdef/#ifndef anymore, configure will just decide which of these
+	atomic libraries Heroes will be linked with.
+
+	Configuration machinery.  We now check for all library in a first
+	step, and make a choice for the availble libraries in a second step
+	(taking user preferences into account).
+
+	* m4/h-media.m4: New file.
+	* m4/libalt.m4: New file.
+	* configure.ac: Replace display/joystick/sound library checks by a
+	call to heroes_MEDIALIB_SELECTION.  (Move these checks there.)
+	Comment out the configuration summary.
+	* m4/h-display.m4 (heroes_CHECK_DISPLAY_LIB_PRELIM): Delete.
+	(heroes_CHECK_DISPLAY_LIB): Simplify, don't handle library exclusions.
+	Call adl_LIBALT_OK.
+	* m4/h-ggi.m4 (heroes_CHECK_GGI): Update user_selection_list_vkm.
+	(heroes_CHECK_GGI_POST): Delete.
+	* m4/h-joystick.m4 (heroes_CHECK_JOYSTICK_LIB): Simplify, don't
+	handle library exclusions.  Call adl_LIBALT_OK.  Update
+	user_selection_list_j.  Don't define JOYSTICK_SUPPORT.
+	* m4/h-mikmod.m4 (heroes_CHECK_MIKMOD): Update user_selection_list_s.
+	* m4/h-sdlmixer.m4 (heroes_CHECK_SDL_MIXER): Update
+	user_selection_list_vkm, user_selection_list_j, and
+	user_selection_list_s.
+	* m4/h-sdl.m4 (heroes_CHECK_SDL): Likewise.
+	(heroes_CHECK_SDL_POST): Delete.
+	* m4/h-sound.m4 (heroes_CHECK_SOUND_LIB_PRELIM): Delete.
+	(heroes_CHECK_SOUND_LIB): Update user_selection_list_s, call
+	adl_LIBALT_OK.
+
+	Many files are moved from src/ to src/media/.  The code
+	also have to be adapted to the new API that this break required.
+	Among the major API changes is the key definitions which used
+	to be macros and are now variables, hence they cannot be used
+	as case labels anymore.
+
+	* src/display.c: Delete (replaced by src/media/video.c,
+	src/media/sdl/video.c, src/media/ggi/video.c)
+	* src/display.h: Delete (replaced by src/media/video.h).
+	* src/joystick.c: Delete (replaced by src/media/sdl/joystick.c,
+	src/media/gii/joystick.c).
+	* src/joystick.h: Delete (replaced by src/media/joystick.h).
+	* src/keyb.c: Delete (replaced by src/media/keyb.c,
+	src/media/sdl/keyb.c, src/media/ggi/keyb.c).
+	* src/keys_heroes.h: Delete (replaced by src/media/keyvalues.h,
+	src/media/sdl/keyvalues.c, src/media/ggi/keyvalues.c).
+	* src/keys_heroes.c: Likewise.
+	* src/keysdef.h: Delete (replaced by src/media/keysdef.h)
+	* src/keysdef.c: Delete.
+	* src/sfx.c: Delete (replaced by src/media/sfx.c,
+	src/media/mikmod/sfx.c, src/media/sdl_mixer/sfx.c).
+	* src/sfx.h: Delete (replaced by src/media/sfx.h).
+	* src/sound.c: Delete (replaced by src/media/strack.c,
+	src/media/sdl_mixer/strack.c, src/media/mikmod/strack.c).
+	* src/sound.h: Delete (replaced by src/media/strack.h)
+	* src/Makefile.am (INCUDES): Add ./media.
+	(CFLAGS): Suppress all meadia-library related CFLAGS.  We can
+	now use per-library CFLAGS.
+	(heroes_LDADD): Replace hard-coded values by @LIBALT_LDADD@.
+	(heroes_LDFLAGS): Likewise.
+	(heroes_DEPENDENCIES): New variable.
+	(heroes_SOURCES): Remove moved sources.
+	(BUILT_SOURCES, DISTCLEANFILES): Remove keysdef-inc.h.
+	[SDL, GGI] (keysdef-inc.h): Remove target.
+	(paramfmt-check.o, parafmt-check): Simplify into ...
+	(EXTRA_PROGRAMS, parafmt_check_SOURCES,
+	parafmt_check_CFLAGS): ... these.
+	(EXTRA_DIST): Add media/Makefile.inc and include it.
+	* src/argv.h: Adjust includes.
+	* src/camera.h: Likewise.
+	* src/const.h: Likewise.
+	* src/endscroll.c: Likewise.
+	* src/errors.c: Likewise.
+	* src/fontdata.h: Likewise.
+	* src/intro.h: Likewise.
+	* src/pcx.h: Likewise.
+	* src/pixelize.c: Likewise.
+	* src/pixelize.h: Likewise.
+	* src/render.c: Likewise.
+	* src/renderdata.h: Likewise.
+	* src/scrtools.c: Likewise.
+	* src/sprite.h: Likewise.
+	* src/timer.c: Likewise.
+	* src/visuals.c: Likewise
+	* src/hedlite.c: Likewise.
+	(display_level_map_fullscreen, gestclav): Adjust to new key
+	definitions.
+	* src/heroes.c (play_game): Likewise.
+	* src/menus.c (move_upon, exec_menu, extra_menu, edito_selector,
+	handle_reader_keys): Likewise.
+	* src/system.h: Suppress all the media library selection stuff.
+	* src/prefs.def: Use keys_pref_group () is name for the key group.
+	* src/prefs.tpl: Support for function (or variable) as group names.
+
+	Most of the following files are made from files deleted from
+	src/.  See the top of the preceding block for details.
+
+	* src/media/Makefile.inc: New file.
+	* src/media/joystick.h: New File.
+	* src/media/keyb.c: New file.
+	* src/media/keyb.h: New file.
+	* src/media/keyb_low.h: New file.
+	* src/media/keysdef.h: New file.
+	* src/media/keyvalues.h: New file.
+	* src/media/sfx.c: New file.
+	* src/media/sfx.h: New file.
+	* src/media/strack.c: New file.
+	* src/media/strack.h: New file.
+	* src/media/video.c: New file.
+	* src/media/video.h: New file.
+	* src/media/video_low.h: New file.
+	* src/media/dummy/joystick.c: New file.
+	* src/media/dummy/keyb.c: New file.
+	* src/media/dummy/keysdef.c: New file.
+	* src/media/dummy/keyvalues.c: New file.
+	* src/media/dummy/sfx.c: New file.
+	* src/media/dummy/strack.c: New file.
+	* src/media/dummy/video.c: New file.
+	* src/media/ggi/keyb.c: New file.
+	* src/media/ggi/keyvalues.c: New file.
+	* src/media/ggi/video.c: New file.
+	* src/media/gii/joystick.c: New file.
+	* src/media/mikmod/sfx.c: New file.
+	* src/media/mikmod/strack.c: New file.
+	* src/media/sdl/joystick.c: New file.
+	* src/media/sdl/keyb.c: New file.
+	* src/media/sdl/keyvalues.c: New file.
+	* src/media/sdl/video.c: New file.
+	* src/media/sdl_mixer/sfx.c: New file.
+	* src/media/sdl_mixer/strack.c: New file.
+
 2001-08-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/display.c (init_SDL): Don't initialize the sound device if

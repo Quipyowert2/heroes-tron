@@ -204,9 +204,8 @@ group = {
 	}; /* extras */
 
 	group = {
-	        /* PREF_INPUT_GROUP is a C macro set to `ggi' or `sdl',
-		   depending on how the game has been configured.  */
-		name = '" PREF_INPUT_GROUP "';
+		name = 'keys_pref_group ()';
+		nameraw;
 		verbatim = "keycode_t            player_keys[2][6];";
 		pref = {
 			name = player1_keys;

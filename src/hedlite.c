@@ -27,12 +27,12 @@
 
 #include "system.h"
 
-#include "display.h"
+#include "video.h"
 #include "pcx.h"
 #include "errors.h"
 #include "fastmem.h"
 #include "keyb.h"
-#include "keys_heroes.h"
+#include "keyvalues.h"
 #include "font.h"
 #include "structs.h"
 #include "misc.h"
@@ -902,7 +902,7 @@ save_pcx (void)
 static void
 display_level_map_fullscreen (void)
 {
-  int t;
+  keycode_t t;
   int x, y, xm = 128, ym = 100;
 
   memset (hedit_buffer, 0, xbuf * 200);
@@ -1215,24 +1215,21 @@ display_level_map_animated (void)
 }
 
 static void
-gestclav (int i, int mod)
+gestclav (keycode_t i, keycode_t mod)
 {
   char t;
   int j, k;
-  switch (i) {
-  case HK_Home:
+  if (i == HK_Home) {
     if (mod & HK_MOD_Ctrl) {
       xdalles = 0;
       update_middle_panel ();
     }
-    break;
-  case HK_End:
+  } else if (i == HK_End) {
     if (mod & HK_MOD_Ctrl) {
       xdalles = (tile_set_img.width / 24) * 24 - 144;
       update_middle_panel ();
     }
-    break;
-  case HK_PageDown:
+  } else if (i == HK_PageDown) {
     if (mod & HK_MOD_Ctrl) {
       if (ydalles < 180) {
 	ydalles += 20;
@@ -1242,8 +1239,7 @@ gestclav (int i, int mod)
 	update_middle_panel ();
       }
     }
-    break;
-  case HK_PageUp:
+  } else if (i == HK_PageUp) {
     if (mod & HK_MOD_Ctrl) {
       if (ydalles > 0) {
 	ydalles -= 20;
@@ -1253,8 +1249,7 @@ gestclav (int i, int mod)
 	update_middle_panel ();
       }
     }
-    break;
-  case HK_Right:
+  } else if (i == HK_Right) {
     if (mod & HK_MOD_Ctrl) {
       if (xdalles + 168U < tile_set_img.width) {
 	xdalles += 24;
@@ -1277,8 +1272,7 @@ gestclav (int i, int mod)
       } else
 	gestclav (HK_Right, HK_MOD_Shift);
     }
-    break;
-  case HK_Left:
+  } else if (i == HK_Left) {
     if (mod & HK_MOD_Ctrl) {
       if (xdalles > 0) {
 	xdalles -= 24;
@@ -1301,8 +1295,7 @@ gestclav (int i, int mod)
       } else
 	gestclav (HK_Left, HK_MOD_Shift);
     }
-    break;
-  case HK_Down:
+  } else if (i == HK_Down) {
     if (mod & HK_MOD_Ctrl) {
       gestclav (HK_PageDown, HK_MOD_Ctrl);
     } else if (mod & HK_MOD_Shift) {
@@ -1319,8 +1312,7 @@ gestclav (int i, int mod)
       } else
 	gestclav (HK_Down, HK_MOD_Shift);
     }
-    break;
-  case HK_Up:
+  } else if (i == HK_Up) {
     if (mod & HK_MOD_Ctrl) {
       gestclav (HK_PageUp, HK_MOD_Ctrl);
     } else if (mod & HK_MOD_Shift) {
@@ -1337,15 +1329,13 @@ gestclav (int i, int mod)
       } else
 	gestclav (HK_Up, HK_MOD_Shift);
     }
-    break;
-  case HK_Enter:
+  } else if (i == HK_Enter) {
     if (mod & HK_MOD_Ctrl) {
       display_level_map_animated ();
     } else {
       display_level_map_fullscreen ();
     }
-    break;
-  case HK_Space:
+  } else if (i == HK_Space) {
     j = curdallep ();
     level_map[j].number =
       xdalles + xdallesdec + ydalles * (tile_set_img.width);
@@ -1354,9 +1344,7 @@ gestclav (int i, int mod)
     gestclav (HK_i, HK_MOD_None);
     gestclav (HK_O, HK_MOD_None);
     update_left_panel ();
-    break;
-  case HK_i:
-  case HK_I:
+  } else if (i == HK_I || i ==HK_i) {
     for (j = hplaninfo.xt * hplaninfo.yt - 1; j >= 0; j--) {
       level_map[j].collision[0] = 0;
       level_map[j].collision[1] = 0;
@@ -1413,9 +1401,7 @@ gestclav (int i, int mod)
       }
     }
     update_left_panel();
-    break;
-  case HK_f:
-  case HK_F:
+  } else if (i == HK_f || i == HK_F) {
     if (mod & HK_MOD_Ctrl) {
       for (j = hplaninfo.xt * hplaninfo.yt - 1; j >= 0; j--) {
 	level_map[j].number = xdalles + xdallesdec +
@@ -1432,17 +1418,13 @@ gestclav (int i, int mod)
 	  tile_set_img.width;
       update_left_panel ();
     }
-    break;
-  case HK_F3:
+  } else if (i == HK_F3) {
     sprhide ^= 1;
     update_left_panel ();
-    break;
-  case HK_F6:
+  } else if (i == HK_F6) {
     draw_collide_tests ^= 1;
     update_left_panel ();
-    break;
-  case HK_s:
-  case HK_S:
+  } else if (i == HK_s || i == HK_S) {
     if (level_map[curdallep ()].sprite == 0)
 
       level_map[curdallep ()].sprite =
@@ -1450,65 +1432,55 @@ gestclav (int i, int mod)
     else
       level_map[curdallep ()].sprite = 0;
     update_left_panel ();
-    break;
-  case HK_d:
-  case HK_D:
+  } else if (i == HK_d || i == HK_D) {
     t = level_map[curdallep ()].type;
     if (t != t_boom && t != t_anim && t != t_outway)
       departfix ();
-    break;
-  case HK_t:
-  case HK_T:
+  } else if (i == HK_t || i == HK_T) {
     if (tempd == curdallep ())
       tempd = DONT_WRAP;
     else
       tempd = curdallep ();
     update_left_panel ();
-    break;
-  case HK_o:
-  case HK_O:
+  } else if (i == HK_o || i == HK_O) {
     outwayflag ();
     update_left_panel();
-    break;
-  case HK_p:
-  case HK_P:
+  } else if (i == HK_p || i == HK_P) {
     save_pcx ();
     update_left_panel ();
-    break;
-  case HK_0:
+  } else if (i == HK_0) {
     i = 0;
     goto handle_numbers;
-  case HK_1:
+  } else if (i == HK_1) {
     i = 1;
     goto handle_numbers;
-  case HK_2:
+  } else if (i == HK_2) {
     i = 2;
     goto handle_numbers;
-  case HK_3:
+  } else if (i == HK_3) {
     i = 3;
     goto handle_numbers;
-  case HK_4:
+  } else if (i == HK_4) {
     i = 4;
     goto handle_numbers;
-  case HK_5:
+  } else if (i == HK_5) {
     i = 5;
     goto handle_numbers;
-  case HK_6:
+  } else if (i == HK_6) {
     i = 6;
     goto handle_numbers;
-  case HK_7:
+  } else if (i == HK_7) {
     i = 7;
     goto handle_numbers;
-  case HK_8:
+  } else if (i == HK_8) {
     i = 8;
   handle_numbers:
     level_map[curdallep ()].type = i;
     level_map[curdallep ()].info.tunnel.output = 0;
     level_map[curdallep ()].info.param[4] = 0;
     update_left_panel ();
-    break;
-  default:
-    break;
+  } else {
+    /* Unknown key.  */
   }
 }
 

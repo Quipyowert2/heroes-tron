@@ -25,7 +25,7 @@
 #ifndef HEROES__RENDERDATA__H
 #define HEROES__RENDERDATA__H
 
-#include "display.h"
+#include "video.h"
 #include "pcx.h"
 #include "sprite.h"
 #include "lvl.h"

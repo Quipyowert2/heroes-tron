@@ -23,13 +23,13 @@
 /* the intro animation */
 
 #include "system.h"
-#include "display.h"
+#include "video.h"
 #include "pcx.h"
 #include "timer.h"
 #include "fastmem.h"
 
 #include "const.h"
-#include "sound.h"
+#include "strack.h"
 
 #include "intro.h"
 #include "debugmsg.h"

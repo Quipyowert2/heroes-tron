@@ -21,10 +21,10 @@
 `------------------------------------------------------------------*/
 
 #include "system.h"
-#include "display.h"
+#include "video.h"
 #include "pcx.h"
 #include "keyb.h"
-#include "keys_heroes.h"
+#include "keyvalues.h"
 #include "joystick.h"
 #include "errors.h"
 #include "fastmem.h"
@@ -43,7 +43,7 @@
 #include "argv.h"
 #include "debugmsg.h"
 
-#include "sound.h"
+#include "strack.h"
 #include "endscroll.h"
 
 #include "heroes.h"
@@ -2788,7 +2788,8 @@ get_input_directions (void)
 static unsigned char
 play_game (char cont)
 {
-  int n, i, t;
+  int n, i;
+  keycode_t t;
   char notbyebye = 1, flag;
   int l = 0, pos, u;
   char editflag = 0;

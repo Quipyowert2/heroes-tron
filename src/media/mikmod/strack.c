@@ -19,32 +19,25 @@
 `------------------------------------------------------------------------*/
 
 #include "system.h"
-#include "sound.h"
+#include <mikmod.h>
+#include <pthread.h>
+#include "strack.h"
 #include "prefs.h"
 #include "argv.h"
 #include "musicfiles.h"
 #include "debugmsg.h"
 #include "errors.h"
 
-char* soundtrack_author = 0;
-char* soundtrack_title = 0;
-sprite_t* soundtrack_author_sprite = 0;
-sprite_t* soundtrack_title_sprite = 0;
-
-#if (HAVE_LIBSDL_MIXER || HAVE_LIBMIKMOD)
 static char sound_initialized = 0;
 static char sound_track_loaded = 0;
 static char sound_track_playing = 0;
-#endif
 
-#ifdef HAVE_LIBMIKMOD
-
-MODULE* module;
-pthread_t polling_thread;
-pthread_mutex_t playing;	/* this mutex is used to tell the polling
+static MODULE *module = 0;
+static pthread_t polling_thread;
+static pthread_mutex_t playing;	/* this mutex is used to tell the polling
 				   thread that it must continue polling ... */
-int nth_driver = 0;
-char* driver_options = 0;
+static int nth_driver = 0;
+static char *driver_options = 0;
 
 void
 set_volume (void)
@@ -81,7 +74,7 @@ init_sound_engine (void)
     return 0;
   }
 
-  dmsg (D_SYSTEM|D_SOUND_TRACK, "initialize libMikMod");
+  dmsg (D_SYSTEM | D_SOUND_TRACK, "initialize libMikMod");
 
   /* register all the drivers */
   MikMod_RegisterAllDrivers ();
@@ -145,7 +138,7 @@ uninit_sound_engine (void)
   }
 }
 
-static void
+void
 load_soundtrack (char *ptr)
 {
   if (nosound)
@@ -155,8 +148,9 @@ load_soundtrack (char *ptr)
   if (!module) {
     wmsg (_("Could not load %s, reason: %s"), ptr,
 	  MikMod_strerror (MikMod_errno));
-  } else
+  } else {
     sound_track_loaded = 1;
+  }
 }
 
 void
@@ -263,241 +257,3 @@ decode_sound_options (char* option_string, const char* argv0)
   } else
     get_int(option_string, &nth_driver, 0, 99, argv0);
 }
-
-#else /* not HAVE_LIBMIKMOD */
-
-#ifdef HAVE_LIBSDL_MIXER
-
-static Mix_Music *module = NULL;
-
-int audio_rate = 0;
-Uint16 audio_format;
-int audio_channels;
-int audio_buffers = 0;
-
-void
-set_volume (void)
-{
-  if (opt.music) {
-    Mix_VolumeMusic ((13 - opt.music_volume) * MIX_MAX_VOLUME / 13);
-    dmsg (D_SOUND_TRACK, "set volume to %d/%d",
-	  (13 - opt.music_volume) * MIX_MAX_VOLUME / 13, MIX_MAX_VOLUME);
-  } else {
-    Mix_VolumeMusic (0);
-    dmsg (D_SOUND_TRACK, "set volume to 0/%d", MIX_MAX_VOLUME);
-  }
-}
-
-void
-halve_volume (void)
-{
-  if (opt.music) {
-    Mix_VolumeMusic ((13 - opt.music_volume) * MIX_MAX_VOLUME / 13 / 2);
-    dmsg (D_SOUND_TRACK, "set volume to %d/%d",
-	  (13 - opt.music_volume) * MIX_MAX_VOLUME / 13 / 2, MIX_MAX_VOLUME);
-  } else {
-    Mix_VolumeMusic (0);
-    dmsg (D_SOUND_TRACK, "set volume to 0/%d", MIX_MAX_VOLUME);
-  }
-}
-
-extern void init_SDL (void);
-
-int
-init_sound_engine (void)
-{
-  if (nosound) {
-    nosfx = 1;
-    return 0;
-  }
-
-  if (!audio_rate)
-    audio_rate = (hqmix ? 44100 : 22050);
-  audio_format = (bits8 ? AUDIO_S8 : AUDIO_S16);
-  audio_channels = (mono ? 1 : 2);
-  if (!audio_buffers)
-    /* Use small values for audio buffer to reduce the duration between
-       the moment where a sample is mixed and the moment where it is heard. */
-    audio_buffers = (hqmix ? 2048 : 1024);
-
-  init_SDL ();
-  /* Open the audio device */
-  dmsg (D_SOUND_TRACK,
-	"opening audio at %d Hz %d bit %s, %d bytes audio buffer",
-	audio_rate,
-	(audio_format&0xFF),
-	(audio_channels > 1) ? "stereo" : "mono",
-	audio_buffers);
-  if (Mix_OpenAudio (audio_rate, audio_format, audio_channels, audio_buffers)
-      < 0) {
-    wmsg (_("Couldn't open audio: %s\n"
-	    "Disabling sound output (use -S to suppress this message)."),
-	  SDL_GetError());
-    nosfx = nosound = 1;
-  } else {
-    Mix_QuerySpec(&audio_rate, &audio_format, &audio_channels);
-    dmsg (D_SOUND_TRACK,
-	  "opened audio at %d Hz %d bit %s, %d bytes audio buffer",
-	  audio_rate,
-	  (audio_format&0xFF),
-	  (audio_channels > 1) ? "stereo" : "mono",
-	  audio_buffers);
-
-    sound_initialized = 1;
-  }
-  set_volume ();
-
-  return 0;
-}
-
-void
-uninit_sound_engine (void)
-{
-  if (sound_initialized) {
-    unload_soundtrack ();
-    Mix_CloseAudio ();
-    dmsg (D_SOUND_TRACK, "closed audio");
-  }
-}
-
-static  void
-load_soundtrack (char *ptr)
-{
-  if (nosound)
-    return;
-  dmsg (D_SOUND_TRACK|D_FILE,"loading sound-track: %s", ptr);
-  module = Mix_LoadMUS(ptr);
-  if (!module) {
-    wmsg (_("Could not load %s, reason: %s"), ptr, SDL_GetError ());
-  } else
-    sound_track_loaded = 1;
-}
-
-void
-unload_soundtrack (void)
-{
-  if (nosound)
-    return;
-  if (sound_track_playing) {
-    dmsg (D_SOUND_TRACK, "halt sound track playing");
-    Mix_HaltMusic ();
-    sound_track_playing = 0;
-  }
-  if (sound_track_loaded) {
-    dmsg (D_SOUND_TRACK, "unload sound track");
-    Mix_FreeMusic (module);
-    module = NULL;
-    sound_track_loaded = 0;
-  }
-}
-
-void
-play_soundtrack (void)
-{
-  if (nosound)
-    return;
-  if (sound_track_loaded) {
-    dmsg (D_SOUND_TRACK, "start playing sound track");
-    Mix_PlayMusic (module, -1);
-    sound_track_playing = 1;
-  }
-}
-
-void
-print_drivers_list (void)
-{
-  wmsg (_("Heroes has been compiled with SDL_mixer,"
-	  " there is no driver list available."));
-}
-
-void
-decode_sound_options (char* optarg, const char* argv0)
-{
-  if (optarg) {
-    char* buf = xstrdup (optarg);
-    optarg = strtok (buf, " \t:=,;");
-    while (optarg) {
-      if (!strcasecmp (optarg, "freq")) {
-	optarg = strtok (0, " \t:=,;");
-	if (optarg)
-	  audio_rate = atol (optarg);
-	else
-	  wmsg (_("%s: missing parameter for 'freq'"), argv0);
-      } else if (!strcasecmp (optarg, "buffers")) {
-	optarg = strtok (0, " \t:=,;");
-	if (optarg)
-	  audio_buffers = atol (optarg);
-	else
-	  wmsg (_("%s: missing parameter for `buffers'"), argv0);
-      } else
-	wmsg (_("%s: recognized sound options "
-		"are freq=nnn and buffers=nnn"), argv0);
-      optarg = strtok (0, " \t:=,;");
-    }
-    free (buf);
-  }
-}
-
-#else /* not HAVE_LIBSDL_MIXER and not HAVE_LIBMIKMOD */
-
-void
-print_drivers_list (void)
-{
-  wmsg (_("Heroes has been compiled without sound support."));
-}
-
-#endif /* not HAVE_LIBSDL_MIXER */
-#endif /* not HAVE_LIBMIKMOD */
-
-#if (HAVE_LIBSDL_MIXER || HAVE_LIBMIKMOD)
-
-unsigned last_rank = 0;
-
-static void
-load_and_setup_sound_track (sound_track_t* st)
-{
-  if (st) {
-    load_soundtrack (st->filename);
-    soundtrack_title = st->title;
-    soundtrack_author = st->author;
-    last_rank = st->rank;
-  } else {
-    module = 0;
-    soundtrack_title = 0;
-    soundtrack_author = 0;
-  }
-  FREE_SPRITE0 (soundtrack_title_sprite);
-  FREE_SPRITE0 (soundtrack_author_sprite);
-}
-
-void
-load_soundtrack_from_alias (const char* alias)
-{
-  if (!nosound) {
-    sound_track_t* st = get_sound_track_from_alias (alias);
-    dmsg (D_SOUND_TRACK, "loading sound track from alias %s", alias);
-    load_and_setup_sound_track (st);
-  }
-}
-
-void
-load_next_soundtrack (void)
-{
-  if (!nosound) {
-    sound_track_t* st = get_sound_track_from_rank (last_rank + 1);
-    dmsg (D_SOUND_TRACK, "loading next sound track");
-    load_and_setup_sound_track (st);
-  }
-}
-
-void
-load_prev_soundtrack (void)
-{
-  if (!nosound) {
-    sound_track_t* st = get_sound_track_from_rank (last_rank - 1);
-    dmsg (D_SOUND_TRACK, "loading previous sound track");
-    load_and_setup_sound_track (st);
-  }
-}
-
-#endif

@@ -22,7 +22,7 @@
 #ifndef HEROES__CAMERA__H
 #define HEROES__CAMERA__H
 
-#include "display.h"
+#include "video.h"
 
 extern unsigned int corner_x[2]; /* in pixels */
 extern unsigned int corner_y[2]; /* idem */

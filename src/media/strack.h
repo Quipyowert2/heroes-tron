@@ -18,17 +18,15 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-#ifndef HEROES__SOUND__H
-#define HEROES__SOUND__H
+#ifndef HEROES__SOUNDTRACK__H
+#define HEROES__SOUNDTRACK__H
 
 #include "sprite.h"
 
-extern char* soundtrack_author;
-extern char* soundtrack_title;
-extern sprite_t* soundtrack_author_sprite;
-extern sprite_t* soundtrack_title_sprite;
-
-#if (HAVE_LIBSDL_MIXER || HAVE_LIBMIKMOD)
+extern char *soundtrack_author;
+extern char *soundtrack_title;
+extern sprite_t *soundtrack_author_sprite;
+extern sprite_t *soundtrack_title_sprite;
 
 void set_volume (void);
 void halve_volume (void);
@@ -37,26 +35,11 @@ void uninit_sound_engine (void);
 void unload_soundtrack (void);
 void play_soundtrack (void);
 void print_drivers_list (void);
-void decode_sound_options (char* option_string, const char* argv0);
+void decode_sound_options (char *option_string, const char *argv0);
+void load_soundtrack (char *filename);
 
-void load_soundtrack_from_alias (const char* alias);
+void load_soundtrack_from_alias (const char *alias);
 void load_next_soundtrack (void);
 void load_prev_soundtrack (void);
 
-#else /* !HAVE_LIBSDL_MIXER && !HAVE_LIBMIKMOD */
-
-#define set_volume()
-#define halve_volume()
-#define init_sound_engine() 0
-#define uninit_sound_engine()
-#define unload_soundtrack()
-#define play_soundtrack()
-void print_drivers_list (void);
-#define decode_sound_options(x,y)
-#define load_soundtrack_from_alias(x)
-#define load_next_soundtrack()
-#define load_prev_soundtrack()
-
-#endif /* !HAVE_LIBSDL_MIXER && !HAVE_LIBMIKMOD */
-
-#endif /* HEROES__SOUND__H */
+#endif /* HEROES__SOUNDTRACK__H */

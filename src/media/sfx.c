@@ -23,9 +23,6 @@
 #include "system.h"
 #include "sfx.h"
 #include "errors.h"
-
-#if defined HAVE_LIBMIKMOD || defined HAVE_LIBSDL_MIXER
-
 #include "prefs.h"
 #include "misc.h"
 #include "argv.h"
@@ -42,62 +39,7 @@ static int *play_handles;
 static int event_handle[max_events];
 static int max_sfx = 0;
 
-#ifdef HAVE_LIBMIKMOD
-
-static struct SAMPLE **sfx_handles;
-
-static struct SAMPLE*
-_load_sfx (char* file)
-{
-  struct SAMPLE* tmp;
-
-  tmp = Sample_Load (file);
-  if (tmp)
-    tmp->panning = (PAN_RIGHT + PAN_LEFT) / 2;
-  return tmp;
-}
-
-static void
-_free_sfx (struct SAMPLE* sfx)
-{
-  Sample_Free (sfx);
-}
-
-static void
-_play_sfx (struct SAMPLE* sfx)
-{
-    /* set the sample volume */
-    sfx->volume = (13 - opt.sfx_volume) * 64 / 13;
-    Sample_Play (sfx, 0, 0);
-}
-
-#endif /* HAVE_LIBMIKMOD */
-
-#ifdef HAVE_LIBSDL_MIXER
-
-static Mix_Chunk **sfx_handles;
-
-static Mix_Chunk*
-_load_sfx (char* file)
-{
-  return Mix_LoadWAV (file);
-}
-
-static void
-_free_sfx (Mix_Chunk* sfx)
-{
-  Mix_FreeChunk (sfx);
-}
-
-static void
-_play_sfx (Mix_Chunk* sfx)
-{
-    /* set the sample volume */
-    sfx->volume = (13 - opt.sfx_volume) * MIX_MAX_VOLUME / 13;
-    Mix_PlayChannel (-1, sfx, 0);
-}
-
-#endif /* HAVE_LIBSDL_MIXER */
+static void **sfx_handles;
 
 static void
 remove_comments (char *str)
@@ -241,7 +183,7 @@ free_all_sfx (void)
   dmsg (D_SOUND_EFFECT, "freeing all sound effects");
   for (i = 1; i < max_sfx; i++)
     if (sfx_loaded[i]) {
-      _free_sfx (sfx_handles[i]);
+      free_sfx_low (sfx_handles[i]);
       sfx_loaded[i] = 0;
     }
 }
@@ -315,7 +257,7 @@ load_sfx_mode (signed char mode)
   for (i = 1; i < max_sfx; i++)
     if (sfx_loaded[i]) {
       dmsg (D_FILE|D_SOUND_EFFECT,"loading sound effect: %s", sfx_names[i]);
-      if (!(sfx_handles[i] = _load_sfx (sfx_names[i]))) {
+      if (!(sfx_handles[i] = load_sfx_low (sfx_names[i]))) {
 	emsg (_("Unable to load sample %s"), sfx_names[i]);
       }
     }
@@ -333,32 +275,6 @@ event_sfx (int event)
   if (event_handle[event] != 0) {
     assert (sfx_loaded[event_handle[event]]);
     if (opt.sfx)
-      _play_sfx (sfx_handles[event_handle[event]]);
+      play_sfx_low (sfx_handles[event_handle[event]]);
   }
 }
-
-#else /* !HAVE_LIBMIKMOD and !HAVE_LIBSDL_MIXER */
-
-char
-read_sfx_conf (void)
-{
-  return 0;
-}
-
-void close_sfx_handle (void)
-{
-}
-
-void load_sfx_mode (signed char mode ATTRIBUTE_UNUSED)
-{
-}
-
-void free_all_sfx (void)
-{
-}
-
-void event_sfx (int event ATTRIBUTE_UNUSED)
-{
-}
-
-#endif

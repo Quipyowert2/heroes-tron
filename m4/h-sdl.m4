@@ -13,6 +13,12 @@ AC_DEFUN([heroes_CHECK_SDL],
   [AC_HELP_STRING([--with-sdl=DIR],[root directory of SDL installation])
 AC_HELP_STRING([--without-sdl],[disables SDL usage completely])])
  if test "${with_sdl-yes}" != no; then
+  if test "${with_sdl-no}" != no; then
+     user_selection_list_vkm="$user_selection_list_vkm sdlvkm"
+     user_selection_list_j="$user_selection_list_j sdlj"
+     user_selection_list_s="$user_selection_list_s sdls"
+  fi
+
   AC_adl_PKG_GENERIC(sdl,[1.0.1],[SDL_Init],
    [AC_DEFINE([HAVE_LIBSDL],1,[Define if you have the SDL library.])
     AC_CHECK_FUNCS([SDL_EnableKeyRepeat])],
@@ -31,8 +37,4 @@ AC_HELP_STRING([--without-sdl],[disables SDL usage completely])])
  ifelse([$2],,,[else
    $2])
  fi
-])
-
-AC_DEFUN([heroes_CHECK_SDL_POST],[
- AM_CONDITIONAL(SDL, [test "x${with_sdl}" != xno])
 ])

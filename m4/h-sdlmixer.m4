@@ -5,6 +5,13 @@ if test "${with_sdl-yes}" = no; then
 fi # with_sdl
 
 if test "${with_sdl_mixer-yes}" != no; then
+
+  if test "${with_sdl_mixer-no}" != no; then
+    user_selection_list_vkm="$user_selection_list_vkm sdlvkm"
+    user_selection_list_j="$user_selection_list_j sdlj"
+    user_selection_list_s="$user_selection_list_s sdls"
+  fi
+
   # temporaly put the CFLAGS for SDL in CPPFLAGS
   # so that AC_caolan_CHECK_PACKAGE can find SDL_mixer.h in the same directory.
   tmp_CPPFLAGS="$CPPFLAGS"

@@ -20,7 +20,7 @@
 
 #include "system.h"
 #include "timer.h"
-#include "display.h"
+#include "video.h"
 #include "debugmsg.h"
 
 time_type current_time;

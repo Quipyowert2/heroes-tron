@@ -1,5 +1,8 @@
 AC_DEFUN([heroes_CHECK_GGI],
 [if test "${with_ggi-yes}" != no; then
+   if test "${with_ggi-no}" != no; then
+     user_selection_list_vkm="$user_selection_list_vkm ggivkm"
+   fi
    AC_caolan_CHECK_PACKAGE([GGI],[ggiOpen],[ggi],[ggi/ggi.h],,[with_ggi=no])
  fi
  if test "${with_ggi-yes}" != no; then
@@ -15,8 +18,4 @@ AC_DEFUN([heroes_CHECK_GGI],
  ifelse([$2],,,[else
    $2])
  fi
-])
-
-AC_DEFUN([heroes_CHECK_GGI_POST],[
- AM_CONDITIONAL(GGI, [test "x${with_ggi}" != xno])
 ])

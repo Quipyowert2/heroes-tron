@@ -17,6 +17,9 @@ AC_HELP_STRING([--without-mikmod],
                [disables LibMikMod usage completely])])
 
  if test "${with_mikmod-yes}" != no; then
+   if test "${with_mikmod-no}" != no; then
+     user_selection_list_s="$user_selection_list_s miks"
+   fi
    AC_adl_PKG_GENERIC([LibMikMod],[3.1.7],[MikMod_Init],
    [AC_DEFINE([HAVE_LIBMIKMOD],1,[Define if you have the LibMikMod library.])],
    [with_mikmod=no])

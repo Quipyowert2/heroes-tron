@@ -23,12 +23,6 @@
 #include "error.h"
 #include "lvl.h"
 
-/* We might be compiling with -Dmain=SDL_main, which we don't want.
-   See the comment in Makefile.am. */
-#ifdef main
-# undef main
-#endif
-
 const char *program_name;	/* argv[0] */
 int exit_status = 0;		/* $? */
 

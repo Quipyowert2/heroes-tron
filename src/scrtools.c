@@ -22,7 +22,7 @@
 #include "scrtools.h"
 #include "fader.h"
 #include "timer.h"
-#include "display.h"
+#include "video.h"
 #include "prefs.h"
 #include "const.h"
 #include "fastmem.h"

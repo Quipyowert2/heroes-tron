@@ -60,14 +60,25 @@
 	      (print-init-attrib attr (sget ".default")))))
      (define *pref-name* '())
      (define (dot-join ls)
- 	(let ((a (car ls))
+ 	(let ((a (caar ls))
               (d (cdr ls)))
   	  (if (null? d)
 	      a
   	      (string-append a "." (dot-join d)))))
+     (define (e-join ls)
+ 	(let ((a (cdar ls))
+              (d (cdr ls)))
+  	  (if (null? d)
+	      a
+  	      (string-append a (e-join d)))))
      (define (pref-name) (dot-join (reverse *pref-name*)))
-     (define (pref-name-push) (set! *pref-name*
-                                    (cons (get "name") *pref-name*)))
+     (define (pref-args) (e-join (reverse *pref-name*)))
+     (define (pref-name-push)
+        (set! *pref-name*
+  	   (cons (if (exist? ".nameraw")
+                     (cons "%s" (string-append ", " (get "name")))
+                     (cons (get "name") ""))
+                 *pref-name*)))
      (define (pref-name-pop) (set! *pref-name* (cdr *pref-name*)))
      (define (repeat n x)
         (if (zero? n) '()
@@ -82,10 +93,10 @@
 			      (sprintf ",\n\t       opt.%s[%d]" attr idx))))
 		      (string-append
 			(apply string-append (repeat a " %d"))
-			"\\n\""
+			"\\n\"" (pref-args)
 			(apply string-append (map p (iota a)))
 			");\n"))
-  	          (sprintf " %%d\\n\", opt.%s);\n" attr)))))
+  	          (sprintf " %%d\\n\"%s, opt.%s);\n" (pref-args) attr)))))
      (define *get-pref-token* #f)
      (define (get-pref-token)
         (string-append "token = strtok ("
@@ -171,7 +182,10 @@
   DEFINE LOAD_PREFS ~]
     [~ (get-pref-token) ~][~
     FOR .group ~]
-    if (!strcasecmp ("[~ (get ".name") ~]", token)) {[~
+    if (!strcasecmp ([~ IF (exist? ".nameraw") ~][~ ELSE ~]"[~ ENDIF ~][~
+                        (get ".name")
+                   ~][~ IF (exist? ".nameraw") ~][~ ELSE ~]"[~ ENDIF
+                   ~], token)) {[~
         LOAD_PREFS ~]
     } else [~
     ENDFOR .group ~][~
@@ -207,7 +221,7 @@ bool load_preferences (void);
 #include "debugmsg.h"
 #include "rsc_files.h"
 #include "getshline.h"
-#include "keys_heroes.h"
+#include "keyvalues.h"
 #include "errors.h"
 #include "misc.h"
 

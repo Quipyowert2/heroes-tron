@@ -21,7 +21,7 @@
 `------------------------------------------------------------------*/
 
 #include "system.h"
-#include "display.h"
+#include "video.h"
 #include "fastmem.h"
 #include "const.h"
 #include "pixelize.h"

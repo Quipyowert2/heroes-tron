@@ -25,16 +25,16 @@
 #include "sfx.h"
 #include "prefs.h"
 #include "keyb.h"
-#include "keys_heroes.h"
+#include "keyvalues.h"
 #include "keysdef.h"
 #include "heroes.h"
 #include "structs.h"
 #include "extras.h"
-#include "display.h"
+#include "video.h"
 #include "savegame.h"
 #include "hedlite.h"
 #include "render.h"
-#include "sound.h"
+#include "strack.h"
 #include "menus.h"
 #include "keyb.h"
 #include "misc.h"
@@ -47,7 +47,6 @@
 #include "sprprogwav.h"
 #include "sprshade.h"
 #include "spropaque.h"
-#include "sound.h"
 #include "debugmsg.h"
 #include "timer.h"
 #include "joystick.h"
@@ -798,30 +797,22 @@ hrule (unsigned int row)
 static keycode_t
 move_updown (keycode_t key, int *pos, int latest_pos)
 {
-  switch (key) {
-
-  case HK_Up:
+  if (key == HK_Up) {
     if (*pos > 0)
       --*pos;
     else
       *pos = latest_pos;	/* wrap */
-    break;
-
-  case HK_Down:
+  } else if (key == HK_Down) {
     if (*pos < latest_pos)
       ++*pos;
     else
       *pos = 0;			/* wrap */
-    break;
-
-  case HK_Escape:
+  } else if (key == HK_Escape) {
     if (*pos != latest_pos)	/* On first escape, */
       *pos = latest_pos;	/* go to the latest line; */
     else			/* on doubled espace, */
       key = HK_Enter;		/* arrange to escape the menu. */
-    break;
-
-  default:
+  } else {
     return key;			/* Unknown key, return it. */
   }
 
@@ -863,7 +854,7 @@ static void
 exec_menu (menu_t *menu)
 {
   int l = 0;
-  int k;
+  keycode_t k;
 
   for (;;) {
     entry_func_t to_call;
@@ -1333,7 +1324,8 @@ static void
 extra_menu (void)
 {
   int l = 0;
-  int t, i, ll = 0;
+  keycode_t t;
+  int i, ll = 0;
   /* We store only the sprites for the displayed level names, as the list
      can be big (hmmm... really?) */
   sprite_t *levelnames[7] = { 0, 0, 0, 0, 0, 0, 0 };
@@ -1449,16 +1441,13 @@ extra_menu (void)
 	    event_sfx (5);
 	  else
 	    event_sfx (3);
-	  if (l == 0)
-	    switch (t) {
-	    case HK_Enter:
-	    case HK_Right:
+	  if (l == 0) {
+	    if (t == HK_Enter || t == HK_Right) {
 	      opt.extras = ((opt.extras == 2) ? 0 : (opt.extras + 1));
-	      break;
-	    case HK_Left:
+	    } else if (t == HK_Left) {
 	      opt.extras = ((opt.extras == 0) ? 2 : (opt.extras - 1));
-	      break;
 	    }
+	  }
 	  if ((l == 1) && (opt.extras != 0))
 	    extrasel ^= 1;
 	  if (l == 2)
@@ -1560,7 +1549,8 @@ static void
 editor_selector (void)
 {
   int l = 0;
-  int i = 0, t;
+  int i = 0;
+  keycode_t t;
   sprite_t *filenames[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
   if (extra_user_nbr == 1) {
@@ -1630,7 +1620,8 @@ static void
 editor_menu (void)
 {
   pcx_image_t frmenu, tilesprev;
-  int l = 0, t = 0, pos = 0, i;
+  int l = 0, pos = 0, i;
+  keycode_t t = 0;
   int xwrap = 15;
   int ywrap = 15;
   int xsize = 16;
@@ -2025,26 +2016,19 @@ jukebox_draw (int pos)
 static bool
 handle_reader_keys (keycode_t t, int *top, read_data_t *text)
 {
-  switch (t) {
-  case HK_Down:
+  if (t == HK_Down) {
     *top += 10;
-    break;
-  case HK_Up:
+  } else if (t == HK_Up) {
     *top -= 10;
-    break;
-  case HK_PageDown:
+  } else if (t == HK_PageDown) {
     *top += 200;
-    break;
-  case HK_PageUp:
+  } else if (t == HK_PageUp) {
     *top -= 200;
-    break;
-  case HK_End:
+  } else if (t == HK_End) {
     *top = text->max;
-    break;
-  case HK_Home:
+  } else if (t == HK_Home) {
     *top = 0;
-    break;
-  default:
+  } else {
     return false;
   }
   return true;

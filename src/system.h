@@ -163,60 +163,6 @@
 # endif
 #endif
 
-/* display-keyboard-mouse library */
-
-#if HAVE_LIBGGI && HAVE_LIBSDL
-# error "HAVE_LIBGGI and HAVE_LIBSDL can't be defined both"
-#endif
-
-#if HAVE_LIBGGI
-# include <ggi/ggi.h>
-typedef uint32		keycode_t;
-#define KEYCODE_MAX	U32_MAX
-#define PREF_INPUT_GROUP "ggi"
-#else /* !HAVE_LIBGGI */
-# if HAVE_LIBSDL
-#  include <SDL.h>
-typedef SDLKey		keycode_t;
-#define KEYCODE_MAX	(SDLK_LAST-1)
-#define PREF_INPUT_GROUP "sdl"
-# else /* !HAVE_LIBSDL */
-typedef unsigned int	keycode_t;
-#define KEYCODE_MAX	U32_MAX
-#define PREF_INPUT_GROUP "none"
-# endif /* !HAVE_LIBSDL */
-#endif /* !HAVE_LIBGGI */
-
-/* joystick library */
-#if JOYSTICK_SUPPORT
-# if HAVE_LIBGII && HAVE_SDL_JOYSTICKOPEN
-#  error "HAVE_LIBGII and HAVE_SDL_JOYSTICKOPEN can't be defined both"
-# endif
-# if HAVE_LIBGII
-#  include <ggi/gii.h>
-# endif
-# if HAVE_SDL_JOYSTICKOPEN && ! HAVE_LIBSDL
-#  error "HAVE_SDL_JOSTICKOPEN can't be defined if HAVE_LIBSDL isn't"
-/* Hence SDL.h is already included when HAVE_SDL_JOSTICKOPEN. */
-# endif
-#endif
-
-/* sound library */
-
-#if HAVE_LIBMIKMOD && HAVE_LIBSDL_MIXER
-# error "HAVE_LIBMIKMOD and HAVE_LIBSDL_MIXER can't be defined both"
-#endif
-#if HAVE_LIBMIKMOD
-# include <mikmod.h>
-# include <pthread.h>
-#endif
-#if HAVE_LIBSDL_MIXER
-# if ! HAVE_LIBSDL
-#  error "HAVE_LIBSDL_MIXER can't be defined if HAVE_LIBSDL isn't"
-# endif
-# include <SDL_mixer.h>
-#endif
-
 /* boolean type */
 
 #if HAVE_STDBOOL_H
@@ -245,6 +191,7 @@ typedef uint8_t		u8_t;
 typedef int32_t		s32_t;
 typedef int16_t		s16_t;
 typedef int8_t		s8_t;
+#define U16_MAX		UINT16_MAX
 #define U32_MAX		UINT32_MAX
 #else
 typedef unsigned int		u32_t;
@@ -253,12 +200,15 @@ typedef unsigned char		u8_t;
 typedef signed int		s32_t;
 typedef signed short int	s16_t;
 typedef signed char		s8_t;
+#define U16_MAX		(0xffffU)
 #define U32_MAX		(0xffffffffU)
 #endif
 
 #if ! HAVE_SSIZE_T
 typedef int ssize_t;
 #endif
+
+typedef u32_t keycode_t; /* FIXME: move to media/ */
 
 #define UCHAR(c) ((unsigned char) (c))
 

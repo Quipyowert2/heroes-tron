@@ -1,5 +1,6 @@
+
 /*------------------------------------------------------------------------.
-| Copyright 1997, 1998, 2000  Alexandre Duret-Lutz <duret_g@epita.fr>     |
+| Copyright 2000, 2001  Alexandre Duret-Lutz <duret_g@epita.fr>           |
 |                                                                         |
 | This file is part of Heroes.                                            |
 |                                                                         |
@@ -18,13 +19,20 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-#ifndef HEROES__SFX__H
-#define HEROES__SFX__H
+#ifndef HEROES__VIDEO_LOW__H
+# define HEROES__VIDEO_LOW__H
+# include "video.h"
 
-char read_sfx_conf (void);
-void close_sfx_handle (void);
-void load_sfx_mode (signed char mode);
-void free_all_sfx (void);
-void event_sfx (int event);
+/* Low-level video functions, only called from the media/video.c.  */
 
-#endif /* HEROES__SFX__H */
+typedef void (*copy_function_t)(const pixel_t *source,
+				pixel_t *dest_t,
+				unsigned width);
+
+/* Return true on success.  */
+void init_video_low (int stretch, int *pitch);
+void uninit_video_low (void);
+void vsynchro_low (const pixel_t *s, copy_function_t f);
+void vsynchro2_low (const pixel_t *s1, const pixel_t *s2, copy_function_t f);
+
+#endif /* HEROES__VIDEO_LOW__H */

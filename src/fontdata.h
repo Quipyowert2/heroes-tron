@@ -21,7 +21,7 @@
 #ifndef HEROES__FONTDATA__H
 #define HEROES__FONTDATA__H
 
-#include "display.h"
+#include "video.h"
 
 typedef struct {
   unsigned int	width[256];	/* width of each character */

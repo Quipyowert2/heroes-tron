@@ -20,8 +20,8 @@
 
 #include "system.h"
 #include "errors.h"
-#include "display.h"
-#include "sound.h"
+#include "video.h"
+#include "strack.h"
 
 extern const char* program_name;	/* defined in debugmsg.c */
 
