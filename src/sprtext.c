@@ -35,7 +35,7 @@
 
 sprite_t*
 compile_sprtext (const fontdata_t *font, const char *text,
-		 enum text_option topt, unsigned int maxwidth,
+		 enum text_option topt, unsigned int maxwidth ATTRIBUTE_UNUSED,
 		 int offset)
 {
   if (topt & T_FLUSHED_LEFT) {	/* FLUSHED_LEFT or JUSTIFIED */

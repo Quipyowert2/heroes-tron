@@ -1,5 +1,10 @@
 2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/sprtext.c (compile_sprtext): Qualify maxwidth as unused to
+	suppress a warning.
+
+2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/sprglenz.c (draw_sprglenz_custom): Rename the glenz argument
 	as glenz_line to suppress a warning.
 	* src/sprglenz.h (draw_sprglenz_custom): Likewise.
