@@ -1,5 +1,23 @@
 2000-12-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Rewrite the endscroll to not use gfx_reader.h.  This is not
+	an end scroller any longer by the way.
+
+	* src/gfx_reader.h: Delete file.
+	* src/txt_cfg/heroes.sdf: Delete file.
+	* src/txt_cfg/Makfile.am: Delete file.
+	* src/Makefile.am (SUBDIRS): Remove txt_cfg.
+	(heroes_SOURCES): Remove gfx_reader.h.
+	* src/endscroll.c (draw_background): Use corner[0].
+	(display_page): Remove.
+	(render_background): Use background_htimer.
+	(end_scrool): Adapt to not use gfx_reader any more.  Just display
+	"THE END".
+	* src/rsc_files.gperf (end-scroller-bg-img): Use the correct
+	filename.
+
+2000-12-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	The parafmt cost computation was wrong: in the help reader,
 	short strings (two words) were split on two lines.
 

@@ -30,7 +30,7 @@ brown-bonus-img,	"$(data-dir)/pics/bonusb.pcx",		0,0
 data-dir,		"is hardcoded or initialized from $HEROES_DATA_DIR",0,0
 editor-img,		"$(data-dir)/pics/edit.pcx",		0,0
 editor-preview-prefix,  "$(data-dir)/pics/editp",		0,0
-end-scroller-bg-img,	"$(data-dir)/pics/start.pcx",		0,0
+end-scroller-bg-img,	"$(data-dir)/pics/background.pcx",	0,0
 end-scroller-txt,	"$(data-dir)/txt_cfg/heroes.sdf",	0,0
 extra-levels-dir,	"$(data-dir)/extralvl/",		0,0
 games-file,		"$(user-dir)/savegame.dat",		0,0

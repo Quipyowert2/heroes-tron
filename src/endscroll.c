@@ -23,18 +23,22 @@
 #include "display.h"
 #include "const.h"
 #include "keyb.h"
-#include "timer.h"
 #include "fastmem.h"
 #include "endscroll.h"
+#include "sprtext.h"
+#include "scrtools.h"
+#include "timer.h"
+#include "heroes.h"
+#include "fader.h"
 
 #define XBUF 128
 #define YBUF 324
 static pixel_t *scroll_buffer;
-static pixel_t *page;
-static unsigned int *jumps;
 
 static pcx_image_t background_img;
 
+/* This is an approximation of sin, using a Lagrange polynomial.
+   Just to try. */
 #define LPI (1<<14)
 #define LS(x) ( (x) * (LPI-(x)) >> 20 )
 static signed long int
@@ -42,8 +46,6 @@ ls (signed long int x)
 {
   x &= (LPI << 1) - 1;
   return (((x & LPI) ? (-LS (x & (LPI - 1))) : LS (x)) * 7 >> 3);
-
-/* ça se passe de commentaires, non ? :-) */
 }
 
 static void
@@ -66,51 +68,47 @@ static void
 draw_background (int x, int y)
 {
   int i;
-  pixel_t *dest = page + 320 * 10;
+  pixel_t *dest = corner[0];
   const pixel_t *src = scroll_buffer + x + y * XBUF;
 
   for (i = 200; i != 0; i--) {
     fastmem4 (src, dest, 320 / 4);
-    dest += 320;
+    dest += xbuf;
     src += XBUF;
   }
 
 }
 
 static void
-display_page (void)
-{
-  fastmem4 (page + 320 * 10, screen, 320 * 200 / 4);
-}
-
-static void
-render_background (int pas)
+render_background (void)
 {
   static int frame = 0;
-  draw_background ((XBUF / 2) - 160 + ls (2 * frame / 3 /*+(LPI>>1) */ ),
-		   (YBUF / 2) - 100 + ls ( /*3* */ frame /* /2 */ ));
-  frame += (pas << 8);
+  draw_background ((XBUF / 2) - 160 + ls (2 * frame / 3),
+		   (YBUF / 2) - 100 + ls (frame));
+  frame += read_htimer (background_htimer) << 8;
 }
-
-int fr = 1;
-#define SDF
-#define __HEROES__
-#include "gfx_reader.h"
 
 void
 end_scroll (void)
 {
-  scroll_buffer = malloc (XBUF * YBUF);
-  page = malloc (320 * 220);
-  if (scroll_buffer == NULL || page == NULL)
-    return;
+  sprite_t *theend;
+  XMALLOC_ARRAY (scroll_buffer, XBUF * YBUF);
+  corner[0] = render_buffer[0] + 10 * xbuf;
 
   pcx_load_from_rsc ("end-scroller-bg-img", &background_img);
   copy_background ();
   img_free (&background_img); /* only free the buffer, not the palette */
+  theend = compile_menu_text (_("THE END"), T_CENTERED | T_WAVING, 95, 159);
 
-  graphic_reader ();
-  free (page);
+  std_white_fadein (&background_img.palette);
+  do {
+    render_background ();
+    DRAW_SPRITE (theend, corner[0]);
+    aff_buffer ();
+    vsynch ();
+  } while (!key_or_joy_ready ());
+  get_key ();
+
+  free_sprite (theend);
   free (scroll_buffer);
-  free (jumps);
 }

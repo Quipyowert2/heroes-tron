@@ -17,7 +17,7 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 #
 
-SUBDIRS = etc txt_cfg
+SUBDIRS = etc
 
 bin_PROGRAMS = heroes
 
@@ -56,7 +56,6 @@ font_help.h \
 fontdata.c \
 fontdata.h \
 generic_list.h \
-gfx_reader.h \
 hedlite.c \
 hedlite.h \
 helptext.c \
