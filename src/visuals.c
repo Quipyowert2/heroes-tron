@@ -156,61 +156,38 @@ rotozoom_half_buffer (int c)
 static void
 horizontal_zoom_wave (pixel_t *src, pixel_t *dest, int oldsize, int newsize)
 {
-  unsigned long int x = 0, deltax = ((1 + oldsize) << 16) / (newsize);
-  u32_t *ad;
-  u32_t tmp;
-  pixel_t tmp1;
-  u32_t *adest;
-
-  if (PTR_TO_INT (dest) & 3)
-    do {
-      tmp1 = *(src + (x >> 16));
-      x += deltax;
-      *dest++ = tmp1;
-      newsize--;
-    } while (PTR_TO_INT (dest) & 3);
-  ad = (u32_t*) (src + (x >> 16));
-  tmp = GETWORD((u8_t*)ad);
-  adest = (u32_t*) dest;	/* adest utilisé dans cette boucle seulement
-				   pour que Watcom le garde dans un registre */
+  unsigned long int x = 0;
+  unsigned long int deltax = 4 * (((1 + oldsize) << 16) / newsize);
+  dest -= 4;
+  newsize /= 4;
   do {
-    *adest = tmp;
-    adest++;
-    x += deltax * 4;
-    ad = (u32_t*) (src + (x >> 16));
-    newsize -= 4;
-    tmp = GETWORD((u8_t*)ad);
-  } while (newsize > 0);
+    pixel_t *s;
+    dest += 4;
+    s = src + (x >> 16);
+    dest[0] = s[0];
+    dest[1] = s[1];
+    x += deltax;
+    dest[2] = s[2];
+    dest[3] = s[3];
+  } while (--newsize);
+
 }
 
 static void
 horizontal_zoom_flip (pixel_t *src, pixel_t *dest, int oldsize, int newsize)
 {
-  unsigned long int x = 0, deltax = ((1 + oldsize) << 16) / (newsize);
-  u16_t *ad;
-  u32_t tmp;
-  pixel_t tmp1;
-  u16_t *adest;
-
-  if (PTR_TO_INT (dest) & 1)
-    do {
-      tmp1 = *(src + (x >> 16));
-      x += deltax;
-      *dest++ = tmp1;
-      newsize--;
-    } while (PTR_TO_INT (dest) & 1);
-  ad = (u16_t *) (src + (x >> 16));
-  tmp = GETWORD((u8_t *)ad);
-  adest = (u16_t *) dest;	/* adest utilisé dans cette boucle seulement
-				   pour que Watcom le garde dans un registre */
+  unsigned long int x = 0;
+  unsigned long int deltax = 2 * (((1 + oldsize) << 16) / newsize);
+  dest -= 2;
+  newsize /= 2;
   do {
-    *adest = tmp;
-    adest++;
-    x += deltax * 2;
-    ad = (u16_t *) (src + (x >> 16));
-    newsize -= 2;
-    tmp = GETWORD((u8_t *)ad);
-  } while (newsize > 0);
+    pixel_t *s;
+    dest += 2;
+    s = src + (x >> 16);
+    dest[0] = s[0];
+    x += deltax;
+    dest[1] = s[1];
+  } while (--newsize);
 }
 
 static void
