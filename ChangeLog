@@ -1,5 +1,11 @@
 2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/sprglenz.c (draw_sprglenz_custom): Rename the glenz argument
+	as glenz_line to suppress a warning.
+	* src/sprglenz.h (draw_sprglenz_custom): Likewise.
+
+2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/const.c (icons_img, jukebox_img): Remove.
 	* src/const.h (icons_img, jukebox_img): Remove.
 	* src/heroes.c (main): Don't handle icons_img and jukebox_img here ...

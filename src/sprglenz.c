@@ -22,7 +22,7 @@
 #include "sprglenz.h"
 
 void draw_sprglenz_custom (const sprite_t *sprite, pixel_t *dest,
-			   const pixel_t *glenz)
+			   const pixel_t *glenz_line)
 {
   pixel_t	*cur = dest;	/* current writting possition */
   u8_t		*pc;		/* program counter */
@@ -44,7 +44,7 @@ void draw_sprglenz_custom (const sprite_t *sprite, pixel_t *dest,
       cur += m;
       /* draw the glenz pixels */
       for (; n; --n) {
-	*cur = glenz[*cur];
+	*cur = glenz_line[*cur];
 	++cur;
       }
     }
