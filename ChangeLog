@@ -1,5 +1,12 @@
 2000-08-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	One bigendian fix more.
+
+	* src/structs.h: Translate comments to english.
+	(hl): Reverse order of attributes when WORDS_BIGENDIAN.
+
+2000-08-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
+	
 	Add --enable-heroes-debug option to compile HEROES_DEBUG
 	support or not.
 

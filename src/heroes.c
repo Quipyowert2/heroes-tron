@@ -3277,7 +3277,6 @@ update_all (char plr)
     n++;
   }
 
-  /* FIXME: shoudn't this be in the loop above? */
   if (player[col2plr[0]].spec == t_tunnel && opt.inertia) {
     p = square_wrap[(player[col2plr[0]].pos << 2) + player[col2plr[0]].way];
     camera_x[0] = square_offset2coord[p << 1] << 15;
