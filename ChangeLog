@@ -1,5 +1,10 @@
 2002-01-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/system.h (getopt.h): Disable MinGW's definition of __argc
+	and __argv during the inclusion of getopt.h.
+
+2002-01-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* lib/filelock.c (file_unlock): Use _LK_UNLCK instead
 	of _LK_UNLOCK (it seems this has changed in MinGW32), but
 	still support _LK_UNLOCK just in case.

@@ -126,7 +126,32 @@
 #if HAVE_GETOPT_H && HAVE_GETOPT_LONG
 # include <getopt.h>
 #else
+/* Getopt is not available on this system so we use the embedded
+   getopt.h header.  However, this header uses variables named __argc
+   and __argv which are the name of macros defined in MinGW's
+   "stdlib.h" and used in many other MinGW headers.
+
+   We could modify getopt.h, but this files comes from the GNU libc
+   and changing it locally would make updates harder.  So instead we
+   just disable __argc and __argv for the time getopt.h is included.
+   Puke, puke, puke.  */
+# ifdef __argc
+#   define HEROES__saved__argc __argc
+#   undef __argc
+# endif
+# ifdef __argv
+#   define HEROES__saved__argv __argv
+#   undef __argv
+# endif
 # include "getopt.h"
+# ifdef HEROES__saved__argc
+#   define __argc HEROES__saved__argc
+#   undef HEROES__saved__argc
+# endif
+# ifdef HEROES__saved__argv
+#   define __argv HEROES__saved__argv
+#   undef HEROES__saved__argv
+# endif
 #endif
 
 /* Take care of NLS matters.  */
