@@ -114,7 +114,7 @@ control_menu (void)
     pal2pal (&tile_set_img.palette, &pal, p);
     vsynch ();
 
-//   if (p>=0) set_pal((char *)&temppal.global,0,768);
+    /* if (p>=0) set_pal((char *)&temppal.global,0,768); */
     if (p >= 0)
       set_pal_with_luminance ((palette_rvb *) temppal.global);
     aff_buffer ();
@@ -199,7 +199,7 @@ keyboard_menu (void)
   do {
     background_menu ();
 
-//   copy_rect_transp(main_font_img.buffer+61*320,corner[0]+99*xbuf+100,120,3);
+    /* copy_rect_transp(main_font_img.buffer+61*320,corner[0]+99*xbuf+100,120,3); */
     copy_rect_transp (main_font_img.buffer + 134 + 50 * 320,
 		      corner[0] + (11 * l + 33 + 15 * (l >= 6) +
 				   4 * (l == 12)) * xbuf + 1, 13, 20);
@@ -401,7 +401,7 @@ sound_menu (void)
     pal2pal (&tile_set_img.palette, &pal, p);
     vsynch ();
 
-//   if (p>=0) set_pal((char *)&temppal.global,0,768);
+    /* if (p>=0) set_pal((char *)&temppal.global,0,768); */
     if (p >= 0)
       set_pal_with_luminance ((palette_rvb *) temppal.global);
     aff_buffer ();
@@ -493,7 +493,7 @@ sound_menu (void)
 static void
 screen_menu (void)
 {
-  char l = /*0 */ 1;
+  char l = /* 0 */ 1;
   int t;
   p = 64;
   memset (pal.global, 63, 768);
@@ -501,7 +501,7 @@ screen_menu (void)
   do {
     background_menu ();
 
-//   copy_rect_4(icons_img.buffer+(11+19*opt.screen_size )*320    ,corner[0]+ 25*xbuf+20,32,18);
+    /* copy_rect_4(icons_img.buffer+(11+19*opt.screen_size )*320    ,corner[0]+ 25*xbuf+20,32,18); */
     copy_rect_4 (icons_img.buffer + (11 + 19 * opt.radar_map) * 320 + 36,
 		 corner[0] + 30 * xbuf + 20, 32, 18);
     copy_rect_4 (icons_img.buffer + (11 + 19 * opt.use_glenz) * 320 + 108,
@@ -517,8 +517,8 @@ screen_menu (void)
     copy_rect_transp (main_font_img.buffer + 121 + 50 * 320,
 		      corner[0] + (1 + l * 29) * xbuf + 320 - 1 - 13, 13, 20);
 
-//   copy_rect_transp(main_font_img.buffer+181+53*320,corner[0]+30*xbuf+251,37,10);
-//   copy_rect_transp(main_font_img.buffer+173+51*320,corner[0]+28*xbuf+254+7*(3-opt.screen_size),8,14);
+    /* copy_rect_transp(main_font_img.buffer+181+53*320,corner[0]+30*xbuf+251,37,10); */
+    /* copy_rect_transp(main_font_img.buffer+173+51*320,corner[0]+28*xbuf+254+7*(3-opt.screen_size),8,14); */
     copy_rect_transp (main_font_img.buffer + 218 + 50 * 320 +
 		      opt.radar_map * 21, corner[0] + 31 * xbuf + 260, 21,
 		      14);
@@ -537,7 +537,7 @@ screen_menu (void)
 		      opt.inertia * 21, corner[0] + 147 * xbuf + 260, 21, 14);
     draw_text_waving (txti[109], 159, 5, 1);
 
-//   draw_text("SIZE",56,29,0);
+    /* draw_text("SIZE",56,29,0); */
     draw_text (txti[110], 56, 34, 0);
     draw_text (txti[111], 56, 63, 0);
     draw_text (txti[112], 56, 92, 0);
@@ -547,7 +547,7 @@ screen_menu (void)
     pal2pal (&tile_set_img.palette, &pal, p);
     vsynch ();
 
-//   if (p>=0) set_pal((char *)&temppal.global,0,768);
+    /* if (p>=0) set_pal((char *)&temppal.global,0,768); */
     if (p >= 0)
       set_pal_with_luminance ((palette_rvb *) temppal.global);
     aff_buffer ();
@@ -558,7 +558,7 @@ screen_menu (void)
       if (t == HK_Up || t == HK_Down || t == HK_Escape)
 	event_sfx (1);
       if (t == HK_Up) {
-	if (l > /*0 */ 1)
+	if (l > /* 0 */ 1)
 	  l--;
 	else
 	  l = 6;
@@ -567,7 +567,7 @@ screen_menu (void)
 	if (l < 6)
 	  l++;
 	else
-	  l = /*0 */ 1;
+	  l = /* 0 */ 1;
       }
       if (t == HK_Escape) {
 	if (l != 6)
@@ -584,7 +584,7 @@ screen_menu (void)
 	}
       if (t == HK_Right) {
 
-//     if (l==0 && opt.screen_size>0) opt.screen_size--;
+       /* if (l==0 && opt.screen_size>0) opt.screen_size--; */
 	if (l == 1)
 	  opt.radar_map ^= 1;
 	if (l == 2)
@@ -600,7 +600,7 @@ screen_menu (void)
       }
       if (t == HK_Left) {
 
-//     if (l==0 && opt.screen_size<3) opt.screen_size++;
+/*     if (l==0 && opt.screen_size<3) opt.screen_size++; */
 	if (l == 1)
 	  opt.radar_map ^= 1;
 	if (l == 2)
@@ -616,7 +616,7 @@ screen_menu (void)
       }
       if (t == HK_Enter) {
 
-//     if (l==0) if (opt.screen_size<3) opt.screen_size++; else opt.screen_size=0;
+/*     if (l==0) if (opt.screen_size<3) opt.screen_size++; else opt.screen_size=0; */
 	if (l == 1)
 	  opt.radar_map ^= 1;
 	if (l == 2)
@@ -661,7 +661,7 @@ game_menu (void)
     copy_rect_4 (icons_img.buffer + (11 + 19 * (4 - opt.speed * 2)) * 320 +
 		 216, corner[0] + 125 * xbuf + 20, 32, 18);
 
-//   copy_rect_4(icons_img.buffer+(163+19*opt.ghosts)*320+108,corner[0]+132*xbuf+20,32,18);
+/*   copy_rect_4(icons_img.buffer+(163+19*opt.ghosts)*320+108,corner[0]+132*xbuf+20,32,18); */
     copy_rect_4 (icons_img.buffer + (68 + 19 * 4) * 320 + 144,
 		 corner[0] + 149 /*154 */  * xbuf + 20, 32, 18);
     copy_rect_transp (main_font_img.buffer + 181 + 53 * 320,

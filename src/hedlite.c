@@ -74,7 +74,7 @@ static int cote = 0;
 /****************************/
 
 static tile_t *level_map;
-static tile_info_t *ddef;	// tiles definitions
+static tile_info_t *ddef;	/* tiles definitions */
 static unsigned char *outwaymap;
 static unsigned char *hdradar;
 static unsigned char *hdcolli;
@@ -382,12 +382,13 @@ affgt (int t)
     carre (297, 91 + 10, level_map[t].info.param[2]);
     carre (297 + 12, 91 + 10, level_map[t].info.param[3]);
     partiel4 (0, 112, 30, 27, 290, 112, &heditrsc);
-  case t_outway:		//x partiel2(30,168,30,32,290,168,&heditrsc);
-//x            ultoa(level_map[t].info.param[4]&0xf,&nombre,10);
-//x            draw_text(&nombre,311,193,8,1);
-//x            if (level_map[t].info.param[4]&0xf>1) {
-//x            ultoa(1+(level_map[t].info.param[4]>>4),&nombre,10);
-//x            draw_text(&nombre,311,179,8,1); }
+  case t_outway:
+    /* partiel2(30,168,30,32,290,168,&heditrsc);
+    ultoa(level_map[t].info.param[4]&0xf,&nombre,10);
+    draw_text(&nombre,311,193,8,1);
+    if (level_map[t].info.param[4]&0xf>1) {
+    ultoa(1+(level_map[t].info.param[4]>>4),&nombre,10);
+    draw_text(&nombre,311,179,8,1); } */
     if ((level_map[t].info.param[4] >> 4) > 0) {
       partiel2 (60, 168, 30, 32, 290, 168, &heditrsc);
       sprintf (nombre, "%u", level_map[t].info.param[4] & 0xf);
@@ -408,10 +409,10 @@ affgt (int t)
     transpa (heditrsc.buffer + 30 + 20 * 320 +
 	     level_map[t].info.tunnel.direction * 12 + 1,
 	     screen + 306 + 99 * 320, 10, 9, 71);
-//               partiel2(0,168,30,32,290,168,&heditrsc);
+/*               partiel2(0,168,30,32,290,168,&heditrsc); */
     partiel4 (120, 112, 30, 27, 290, 112, &heditrsc);
-//               ultoa(level_map[t].info.tunnel.tempo,&nombre,10);
-//               draw_text(&nombre,311,119,8,1);
+/*               ultoa(level_map[t].info.tunnel.tempo,&nombre,10); */
+/*               draw_text(&nombre,311,119,8,1); */
     sprintf (nombre, "%lu", level_map[t].info.tunnel.output / hplaninfo.xt);
     draw_text (nombre, 307, 133, 8, 0);
     sprintf (nombre, "%lu", level_map[t].info.tunnel.output % hplaninfo.xt);
@@ -419,8 +420,8 @@ affgt (int t)
     break;
   case t_anim:
     partiel4 (150 + 60, 112, 30, 27, 290, 112, &heditrsc);
-//x            ultoa(level_map[t].info.anim.frame_nbr+1,&nombre,10);
-//x            draw_text(&nombre,311,119,8,1);
+/*            ultoa(level_map[t].info.anim.frame_nbr+1,&nombre,10); */
+/*            draw_text(&nombre,311,119,8,1); */
     sprintf (nombre, "%u", level_map[t].info.anim.speed);
     draw_text (nombre, 311, 133, 8, 1);
     partiel2 (0, 168, 30, 32, 290, 168, &heditrsc);
@@ -505,9 +506,8 @@ stop_mod (int i, int x, int y)
 static void
 tunnel_mod (int i, int x __attribute__ ((unused)), int y)
 {
-// unsigned char m;
+/* unsigned char m;
 
-/*
  if (y<112)
  {
   if (y>98)  y=y-99;  else y=y-88;
@@ -524,7 +524,7 @@ tunnel_mod (int i, int x __attribute__ ((unused)), int y)
 */
   if (y > 126 && y < 133 && tempd != 0xffffffff)
     level_map[i].info.tunnel.output = tempd;
-// }
+/* } */
 }
 
 
@@ -541,7 +541,7 @@ anim_mod (int i, int x, int y)
 
 	level_map[i].info.anim.speed =
 	  level_map[i].info.anim.speed + ((m == 2) ? +1 : -1);
-//    else     level_map[i].info.anim.frame_nbr= (level_map[i].info.anim.frame_nbr + ((m==0)?+1:-1))&63;
+/*    else     level_map[i].info.anim.frame_nbr= (level_map[i].info.anim.frame_nbr + ((m==0)?+1:-1))&63; */
     }
   }
 }
@@ -559,7 +559,7 @@ anim_mod_bcl (int i, int x, int y)
 	level_map[i].info.param[4] =
 	  (level_map[i].info.param[4] & 0xf0) |
 	  ((level_map[i].info.param[4] + ((m == 2) ? +1 : -1)) & 0xf);
-//    else     level_map[i].info.param[4]=(level_map[i].info.param[4])&0x0f | (((level_map[i].info.param[4]+ ((m==0)?+16:-16))&0xf0));
+/*    else     level_map[i].info.param[4]=(level_map[i].info.param[4])&0x0f | (((level_map[i].info.param[4]+ ((m==0)?+16:-16))&0xf0)); */
     }
   }
 }
@@ -998,7 +998,7 @@ save_pcx (void)
   char *tempc, *dest;
   int sdec[4];
 
-// fprintf(hlog,"\tSaving pcx: %s... ",pcxnom);
+/* fprintf(hlog,"\tSaving pcx: %s... ",pcxnom); */
 
   tempc = malloc (hplaninfo.xt * 20 * 24);
   sdec[0] = 0;
@@ -1040,7 +1040,7 @@ save_pcx (void)
 	  transpac (heditrsc.buffer + 10 * 320 + 222, dest, 24, 20, 0);
 	else
 	  for (n = 0; n < 4; n++)
-//         sousdalletranspc(heditrsc.buffer+10*320+30+level_map[i1+j3].collision[n]*12,dest+sdec[n]);
+/*         sousdalletranspc(heditrsc.buffer+10*320+30+level_map[i1+j3].collision[n]*12,dest+sdec[n]); */
 	    if (level_map[i1 + j3].collision[n] == 0xf)
 	      sousdalletranspc (heditrsc.buffer + 10 * 320 + 222 +
 				scdec320[n], dest + sdec[n]);
@@ -1058,7 +1058,7 @@ save_pcx (void)
   for (i1 = 0; i1 < 768; i1++)
     putc (tile_set_img.palette.global[i1] << 2, fpcx);
   fclose (fpcx);
-// fprintf(hlog,"done\n");
+/* fprintf(hlog,"done\n"); */
 }
 
 static void
@@ -1241,7 +1241,7 @@ outwayflag (void)
       i++;
       j++;
     }
-//                outwayrecurs(i+j*hplaninfo.xt*2,i,j);
+/*                outwayrecurs(i+j*hplaninfo.xt*2,i,j); */
     outwaymap[i + j * hplaninfo.xt * 2] = 1;
   }
 
@@ -1255,10 +1255,10 @@ outwayflag (void)
 	outwaymap[i * 2 + k + hplaninfo.xt * 2] = 1;
 	outwaymap[i * 2 + k + hplaninfo.xt * 2 + 1] = 1;
 
-//                                outwayrecurs(i*2+k,i*2,j*2);
-//                                outwayrecurs(i*2+k+1,i*2+1,j*2);
-//                                outwayrecurs(i*2+k+hplaninfo.xt*2,i*2,j*2+1);
-//                                outwayrecurs(i*2+k+hplaninfo.xt*2+1,i*2+1,j*2+1);
+        /* outwayrecurs(i*2+k,i*2,j*2); */
+        /* outwayrecurs(i*2+k+1,i*2+1,j*2); */
+        /* outwayrecurs(i*2+k+hplaninfo.xt*2,i*2,j*2+1); */ 
+        /* outwayrecurs(i*2+k+hplaninfo.xt*2+1,i*2+1,j*2+1); */
       }
     k += hplaninfo.xt << 2;
   }
@@ -1306,7 +1306,7 @@ outwayflag (void)
 	    outwaymap[d] = 2;
 	  else
 	    flag = 1;
-//        flag|=flag2;
+            /* flag|=flag2; */
 	}
 
 

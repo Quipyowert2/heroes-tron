@@ -33,7 +33,7 @@ static char *scroll_buffer;
 static char *page;
 static unsigned int *jumps;
 static char *colors;
-//static int nbrsauts;
+/* static int nbrsauts; */
 
 static image_ background_img;
 
@@ -126,7 +126,7 @@ end_scroll (void)
 
   pcx_load_from_rsc ("end-scroller-bg-img", &background_img);
   copy_background ();
-  img_free (&background_img);	/* libere seulement le buffer, pas la palette... */
+  img_free (&background_img); /* only free the buffer, not the palette */
 
   set_pal_fade (64);
 

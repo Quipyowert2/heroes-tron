@@ -19,16 +19,17 @@
 `------------------------------------------------------------------------*/
 
 
-#define font_pos    30		// position du premier caractère (n° pixel)
-#define font_first_ascii    32	// number du premier caractère (ASCII)
-#define font_transp_color 0	// couleur transparante
-#define font_height      6	// hauteur de chaque caractère
-static char font_width[62] =	// largeur de chaque caractère
+#define font_pos          30	/* position du premier caractère (n° pixel) */
+#define font_first_ascii  32	/* number du premier caractère (ASCII) */
+#define font_transp_color 0	/* couleur transparante */
+#define font_height       6	/* hauteur de chaque caractère */
+
+static char font_width[62] =	/* largeur de chaque caractère */
 { 2, 1, 3, 3, 0, 0, 0, 0, 0, 0, 3, 3, 2, 3, 2, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3,
   3, 1, 2, 0, 3, 0,
-//      ! " ° $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = >
+/*      ! " ° $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = >  */
 
   3, 0, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
   3, 3, 3, 2, 4, 2
 };
-//    ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \ ]
+/*    ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \ ]  */

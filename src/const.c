@@ -19,7 +19,7 @@
 `------------------------------------------------------------------------*/
 
 
-/* constantes d'Heroes ... */
+/* Heroes constants */
 
 #include "common.h"
 #include "keyb.h"

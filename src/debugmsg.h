@@ -18,7 +18,7 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-/* Debugging messages falicity */
+/* Debugging messages facility */
 
 #ifndef HEROES__DEBUGMSG__H
 #define HEROES__DEBUGMSG__H
@@ -45,7 +45,7 @@ extern enum debug_lvl debug_level;
 # ifdef VA_START
 void dmsg (enum debug_lvl dlvl, char* msg, ...);
 # else
-void dmsg ();
+void dmsg (void);
 # endif
 void dperror (const char* s);
 #endif

@@ -149,7 +149,7 @@ close_buffers (void)
 }
 
 static unsigned char
-random_bonus ()
+random_bonus (void)
 {
   int t;
   unsigned char b;
@@ -391,13 +391,13 @@ reinit_player (int i)
     square_occupied[player[i].x2 +
 		    ((player[i].y2 + 1) & (map_info_2ywrap)) * map_info_2xt] =
       (char) (i + 4);
-//     explofr[i]=0;
+/*     explofr[i]=0; */
   j = player[i].x2 + player[i].y2 * map_info_2xt;
   l = player[i].way;
   square_way[j] = (char) ((player[i].way << 2) + player[i].way);
   trail_offset[i] = 0;
-  for (m = /*trail_offset[i]+ */ trail_size[i] /*-1*/ ;
-       m >= 0 /*trail_offset[i] */ ;
+  for (m = /* trail_offset[i]+ */ trail_size[i] /* -1 */ ;
+       m >= 0 /* trail_offset[i] */ ;
        m--) {
     trail_pos[i][m] = j;
     trail_way[i][m] = (char) ((l << 2) + l);
@@ -537,7 +537,7 @@ load_level (char *nomlvl, char cont)
 	  (map_info_2xt * map_info_2yt + 1) * sizeof (*square_explosion));
   square_dead_explosion =
     (int *) malloc ((map_info_2xt * map_info_2yt + 1) * sizeof (int));
-								      /******* ?????? */
+    /* ??? */
   if (square_dead_explosion == NULL)
     return (12);
   memset (square_dead_explosion, 0,
@@ -548,7 +548,7 @@ load_level (char *nomlvl, char cont)
 			      sizeof (*square_explosion_type));
   if (square_explosion_type == NULL)
     return (13);
-// memset(square_explosion_type,254,map_info_2xt*map_info_2yt+1);
+/* memset(square_explosion_type,254,map_info_2xt*map_info_2yt+1); */
   for (i = map_info_2xt * map_info_2yt - 1; i >= 0; i--)
     square_explosion_type[i] = rand () & 1;
   square_way =
@@ -604,7 +604,7 @@ load_level (char *nomlvl, char cont)
     square_dead_lemmings_list =
       (lemming_t **) malloc ((map_info_2xt * map_info_2yt) *
 			     sizeof (lemming_t *));
-    //    lemmings_support=(lemming_t*) malloc(lemmings_total*sizeof(lemming_t));
+    /* lemmings_support=(lemming_t*) malloc(lemmings_total*sizeof(lemming_t)); */
     if (square_lemmings_list == NULL
 	|| /*lemmings_support==NULL || */ square_dead_lemmings_list == NULL)
       return (18);
@@ -707,7 +707,7 @@ load_level (char *nomlvl, char cont)
     if (level_map[i].type == t_outway ||
 	*(int *) &(level_map[i].collision) == 0x0f0f0f0f) tile_bonus[i] =
 	0xff;
-//   if (gueninside)
+/*   if (gueninside) */
     if ((level_map[i].collision[0] & (c_down | c_right))
 	|| (level_map[i].collision[1] & (c_down | c_left))
 	|| (level_map[i].collision[2] & (c_up | c_right))
@@ -820,7 +820,7 @@ load_level (char *nomlvl, char cont)
   /* init of players  */
   if (!in_menu)
     for (i = 3; i >= 0; i--) {
-//  trail_offset[i]=0;
+      /* trail_offset[i]=0; */
       if (game_mode == M_DEATHM) {
 	trail_size[i] = 32;
 	player[i].lifes = 9;
@@ -904,7 +904,7 @@ load_level (char *nomlvl, char cont)
   if (game_mode >= M_TCASH) {
     for (i = map_info_2xt * map_info_2yt - 1; i >= 0; i--)
       if (square_wall[i] == 15)
-	square_object[i] = -2;	// -2 = you can't drive here
+	square_object[i] = -2;	/* -2 = you can't drive here */
       else
 	square_object[i] = -1;
     if (game_mode == M_COLOR) {

@@ -29,7 +29,7 @@
  * just synonyms for memcpy.  
  *
  * Still, it's a good idea to keep using these macros (and not memcpy)
- * since they may be helpfull to acheive some optimization with other
+ * since they may be helpful to achieve some optimization with other
  * compilers.  
  */
 

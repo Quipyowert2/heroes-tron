@@ -18,7 +18,7 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-/* l'intro du jeu */
+/* the intro animation */
 
 #include "common.h"
 #include "display.h"
@@ -32,7 +32,7 @@
 #include "intro.h"
 #include "debugmsg.h"
 
-/******* datas de l'intro *******/
+/******* data of the intro *******/
 palette_ fade_pal;
 image_ intro_img;
 unsigned char **erase_data;

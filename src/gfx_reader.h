@@ -35,7 +35,7 @@ static unsigned char **strptr;
 static image_ font_help_img, help_pics_img;
 
 #ifdef SDF
-// end scroller
+/* end scroller */
 #undef xbuf
 #define xbuf 320
 #define bufhelp (page+10*320)
@@ -393,7 +393,7 @@ show_help (void)
 
 
 static void
-graphic_reader ()
+graphic_reader (void)
 {
   int ftaille;
   FILE *f;

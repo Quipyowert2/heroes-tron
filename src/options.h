@@ -26,7 +26,7 @@
 typedef struct
 {
   /* screen in_menu options */
-  char screen_size;		// 0=max
+  char screen_size;		/* 0=max */
   char radar_map;
   char use_glenz;
   char display_infos;
@@ -34,12 +34,12 @@ typedef struct
   char inertia;
   /* music in_menu options */
   char music;
-  char music_volume;		// 0=max
+  char music_volume;		/* 0=max */
   char sfx;
-  char sfx_volume;		// 0=max
+  char sfx_volume;		/* 0=max */
   /* control in_menu options */
-  char ctrl_one;		// 0=keyboard
-  char ctrl_two;		// 1=joystick
+  char ctrl_one;		/* 0=keyboard */
+  char ctrl_two;		/* 1=joystick */
   char autopilot_one;
   char autopilot_two;
   /* game in_menu options */

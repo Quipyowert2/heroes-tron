@@ -49,7 +49,7 @@ int nosound = 0;
 int even_lines = 0;
 
 static void
-version ()
+version (void)
 {
   puts ("Heroes " VERSION "\n");
   puts ("Copyright (c) 1997,1998,2000 "
@@ -103,33 +103,33 @@ print_help (char* argv0)
 }
 
 const struct option long_options[] = {
-  {"version",		0, 0,		'v'},
-  {"help",		0, 0,		'h'},
-  {"cpu-off",		0, &cpuon,	0},
-  {"default-scores",	0, &reinitsco,	1},
-  {"default-options",	0, &reinitopt,	1},
-  {"default-saves",	0, &reinitsav,	1},
-  {"x10-saves",		0, &x10sav,	1},
-  {"devparm",		0, &devparm,	1},
-  {"snap",		0, &snap,	0},
-  {"no-joystick",	0, &joyoff,	'J'},
-  {"mono",		0, 0,		'm'},
-  {"8bits",		0, 0,		'8'},
-  {"high-quality",	0, 0,		'q'},
-  {"swap-sides",	0, 0,		's'},
-  {"no-sfx",		0, 0,		'X'},
-  {"no-double-fx",	0, &doublefx,	0},
-  {"load",		1, 0,		'l'},
-  {"go",		0, 0,		'g'},
-  {"drivers-info",	0, 0,		'n'},
-  {"driver",		0, 0,		'd'},
-  {"no-sound",		0, 0,		'S'},
-  {"gfx-options",	1, 0,		'G'},
-  {"full-screen",	1, 0,		'F'},
-  {"double",		0, 0,		'2'},
-  {"triple",		0, 0,		'3'},
-  {"even-lines",	0, 0,		'e'},
-  {0,			0, 0,		0}
+  {"version",		no_argument,       NULL,	'v'},
+  {"help",		no_argument,       NULL,	'h'},
+  {"cpu-off",		no_argument,       &cpuon,	0},
+  {"default-scores",	no_argument,       &reinitsco,	1},
+  {"default-options",	no_argument,       &reinitopt,	1},
+  {"default-saves",	no_argument,       &reinitsav,	1},
+  {"x10-saves",		no_argument,       &x10sav,	1},
+  {"devparm",		no_argument,       &devparm,	1},
+  {"snap",		no_argument,       &snap,	0},
+  {"no-joystick",	no_argument,       &joyoff,	'J'},
+  {"mono",		no_argument,       NULL,	'm'},
+  {"8bits",		no_argument,       NULL,	'8'},
+  {"high-quality",	no_argument,       NULL,	'q'},
+  {"swap-sides",	no_argument,       NULL,	's'},
+  {"no-sfx",		no_argument,       NULL,	'X'},
+  {"no-double-fx",	no_argument,       &doublefx,	0},
+  {"load",		required_argument, NULL,	'l'},
+  {"go",		no_argument,       NULL,	'g'},
+  {"drivers-info",	no_argument,       NULL,	'n'},
+  {"driver",		no_argument,       NULL,	'd'},
+  {"no-sound",		no_argument,       NULL,	'S'},
+  {"gfx-options",	required_argument, NULL,	'G'},
+  {"full-screen",	required_argument, NULL,	'F'},
+  {"double",		no_argument,       NULL,	'2'},
+  {"triple",		no_argument,       NULL,	'3'},
+  {"even-lines",	no_argument,       NULL,	'e'},
+  {NULL,		0,		   NULL,	0}
 };
 
 int

@@ -1,3 +1,21 @@
+2000-09-15  Uwe Hermann  <uh1763@bingo-ev.de>
+
+	* ChangeLog: Fixed my old ChangeLog-entries to use imperative mode.
+	* src/argv.c (version): Added a missing 'void' in the definition.
+	Changed the 'const struct option long_options[]' to use
+	no_argument, required_argument and NULL instead of 0, 1 and 0. This
+	increases readability (IMHO).
+	* src/const.c, src/endscroll.c, src/intro.c: Translated some french
+	comments into english language.
+	* src/debugmsg.h, src/draw.c, src/extras.c, src/fastmem.h: Typo.
+	* src/endscroll.c, src/font.h, src/font_help.h, src/font_menu.h,
+	src/gfx_reader.h, src/hedlite.c, src/heroes.c, src/joystick.c,
+	src/menus.c, src/options.h: Changed some C++-style comments (//foo) into
+	C-style comments (/* foo */).
+	* src/font.h, src/font_help.h, src/font_menu.h: Cosmetic changes.
+	* src/debugmsg.h, src/gfx_reader.h, src/heroes.c, : Added a
+	missing 'void'.
+
 2000-09-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Use timeGetTime instead of clock on Win32 targets, 
@@ -43,9 +61,9 @@
 
 2000-09-14  Uwe Hermann  <uh1763@bingo-ev.de>
 
-	* configure.in: Added AC_HEADER_STAT which defines STAT_MACROS_BROKEN
+	* configure.in: Add AC_HEADER_STAT which defines STAT_MACROS_BROKEN
 	if S_ISDIR etc. are broken.
-	* TODO: Removed item about absent S_ISDIR.
+	* TODO: Remove item about absent S_ISDIR.
 	* src/common.h: Define/re-define S_ISDIR in the native
 	implementation is broken or not existing.
 
@@ -128,7 +146,7 @@
 	
 2000-09-11  Uwe Hermann  <uh1763@bingo-ev.de>
 
-	* AUTHORS, TODO, doc/heroes.texi: Fixed several typos and some other
+	* AUTHORS, TODO, doc/heroes.texi: Fix several typos and some other
           minor stuff.
 
 2000-09-10  Alexandre Duret-Lutz  <duret_g@epita.fr>

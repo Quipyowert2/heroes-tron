@@ -22,9 +22,9 @@
 #include "joystick.h"
 #include "debugmsg.h"
 
-int joystick_x[2] = { 0, 0 };	// coord. X
-int joystick_y[2] = { 0, 0 };	//        Y
-char joystick_b[2] = { 0, 0 };	// buttons (on 2bits)
+int joystick_x[2] = { 0, 0 };	/* coord. X */
+int joystick_y[2] = { 0, 0 };	/*        Y */
+char joystick_b[2] = { 0, 0 };	/* buttons (on 2bits) */
 char joystick_detected = 0;
 
 #ifdef JOYSTICK_SUPPORT

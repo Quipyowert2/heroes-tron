@@ -58,7 +58,7 @@ select_file (const struct dirent *d)
 }
 
 /* compare two extra-levels for sorting,
-   we want to sort user's levels first, and then alphabeticaly */
+   we want to sort user's levels first, and then alphabetically */
 static int
 cmp_extralevels (const extra_level_t* l, const extra_level_t* r)
 {

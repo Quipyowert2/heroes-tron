@@ -506,7 +506,7 @@ draw_demo_stick (unsigned char *dest __attribute__ ((unused)))
 {
 #ifdef PORT
   signed char sinl;
-  /* FIXME: may be usefull */
+  /* FIXME: may be useful */
   if (demoversion) {
     sinl = (signed char) minisinus[(frame_old + 2) & 31];
     copy_rect_transp_8 (main_font_img.buffer + 66 + 91 * 320,
