@@ -1820,8 +1820,9 @@ ia_goto_nearest_cash (int c)
 static void
 find_free_way (int c)
 {
-  int d = 0, n = 0, o[4] = { 0xff, 0xff, 0xff, 0xff }, e, f;
+  int d = 0, n = 0, o[4] = { 0xff, 0xff, 0xff, 0xff }, e;
   int i, m;
+  a_dir f;
 
   m = player[c].x2 + player[c].y2 * lvl.square_width;
   e = 1;

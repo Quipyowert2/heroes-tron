@@ -1,3 +1,7 @@
+2002-01-14  Ingo van Lil  <inguin@gmx.de>
+
+	* src/heroes.c (find_free_way): Ignore explicit turn back.
+
 2002-01-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/menus.c (editor_selector, extra_menu): Fix gcc-3.0 warnings.
