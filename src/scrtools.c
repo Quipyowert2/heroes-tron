@@ -49,7 +49,14 @@ set_pal_with_luminance (const palette_t* palsrc)
       paldest.global[i] =
 	(unsigned char) ((palsrc->global[i] * 64) / (64 - lum));
   }
-  set_pal (paldest.global, 0, 768);
+  set_palette (paldest.global);
+}
+
+void
+set_palette (const unsigned char *palette)
+{
+  cancel_fader ();
+  set_pal (palette, 0, 768);
 }
 
 void

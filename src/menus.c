@@ -2095,7 +2095,7 @@ pause_menu (void)
 
   free_htimer (pause_htimer);
   dmsg (D_SECTION, "exit pause menu");
-  set_pal (tile_set_img.palette.global, 0, 768);
+  set_palette (tile_set_img.palette.global);
 }
 
 char
@@ -2154,7 +2154,7 @@ quit_yes_no (void)
   reset_htimer (background_htimer);
   free_htimer (pause_htimer);
   dmsg (D_SECTION, "exit quit menu");
-  set_pal (tile_set_img.palette.global, 0, 768);
+  set_palette (tile_set_img.palette.global);
   return l;
 }
 

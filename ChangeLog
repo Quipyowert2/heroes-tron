@@ -1,5 +1,16 @@
 2001-02-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/fader.c (cancel_fader): New function pulled out from
+	run_fader.
+	(run_fader): Use it.
+	* src/fader.h (cancel_fader): New.
+	* src/scrtools.c (set_palette): New function.
+	(set_pal_with_luminance): Use it instead of set_pal.
+	* src/menus.c (pause_menu, quit_yes_no): Likewise.
+	* src/scrtools.h (set_palette): New.
+
+2001-02-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Use the same animated background as in the "endscroll" in
 	pase_menu and quit_yes_no, since it is no longer possible the
 	shade the screen.

@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------.
-| Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>                 |
+| Copyright 2000, 2001  Alexandre Duret-Lutz <duret_g@epita.fr>           |
 |                                                                         |
 | This file is part of Heroes.                                            |
 |                                                                         |
@@ -25,7 +25,7 @@
 #include "timer.h"
 
 /*
- *  Either we fade in to a palette (F_IN), 
+ *  Either we fade in to a palette (F_IN),
  *  or we fade out from a palette (F_OUT),
  *  or we fade from one palette to another (F_PAL),
  *  or we do nothing (F_NONE)..
@@ -45,7 +45,7 @@ struct fader_s {
   enum fader_color	color;
   htimer_t		timer;	/* timer used by the fade */
   int			duration; /* Number of steps to use for fading
-				     (step are incremented using 
+				     (step are incremented using
 				     the timer speed) */
   int			last_step; /* last step where palette was set */
   fader_status_t*	status_ptr; /* status variable to update */
@@ -134,7 +134,7 @@ run_fader (void)
     fader.last_step = 0;
     if (fader.status_ptr)
       *fader.status_ptr = F_STARTED;
-  } 
+  }
 
   /* Handle a delay, set by fader_delay (). */
   if (fader.delay > 0) {
@@ -170,7 +170,7 @@ run_fader (void)
 	f_pal.global[i] = (out[i] * fader.last_step) / fader.duration;
     else
       for (i = 0; i < 768; ++i)
-	f_pal.global[i] = ((63 * (fader.duration - fader.last_step)) + 
+	f_pal.global[i] = ((63 * (fader.duration - fader.last_step)) +
 			   (out[i] * fader.last_step)) / fader.duration;
     break;
 
@@ -199,12 +199,18 @@ run_fader (void)
 
   if (fader.last_step == fader.duration) {
     /* fader finished its work */
-    fader.kind = F_NONE;
-    if (fader.status_ptr)
-      *fader.status_ptr = F_FINISHED;
+    cancel_fader ();
   }
 
   set_pal_with_luminance (&f_pal);
+}
+
+void
+cancel_fader (void)
+{
+  fader.kind = F_NONE;
+  if (fader.status_ptr)
+    *fader.status_ptr = F_FINISHED;
 }
 
 void

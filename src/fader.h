@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------.
-| Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>                 |
+| Copyright 2000, 2001  Alexandre Duret-Lutz <duret_g@epita.fr>           |
 |                                                                         |
 | This file is part of Heroes.                                            |
 |                                                                         |
@@ -24,22 +24,23 @@
 #include "pcx.h"
 
 /*
- * The fader is "started" after the first call to run_fader () is done.
- * It is "finished" when the fading it was configured for is finished.
- * It is "unknown" between the call to status_flagback and the next
- * call to run_fader () which is either a first or a last step.
+ * The fader is F_STARTED after the first call to run_fader () is
+ * done.  It is F_FINISHED when the fading it was configured for is
+ * finished (or canceled).  It is F_UNKNOWN between the call to
+ * status_flagback and the next call to run_fader () which is either a
+ * first or a last step.
  */
 typedef enum {F_UNKNOWN, F_STARTED, F_FINISHED} fader_status_t;
 
-/* Configure a standard fade-in, from white to the given palette, 
+/* Configure a standard fade-in, from white to the given palette,
    using 64 steps at 70Hz */
 void std_white_fadein (const palette_t* to);
 
-/* Configure a standard fade-in, from black to the given palette, 
+/* Configure a standard fade-in, from black to the given palette,
    using 64 steps at 70Hz */
 void std_black_fadein (const palette_t* to);
 
-/* Configure a standard fade-out, from the given palette to black, 
+/* Configure a standard fade-out, from the given palette to black,
    using 64 steps at 70Hz */
 void std_black_fadeout (const palette_t* from);
 
@@ -55,6 +56,11 @@ void std_palette_fade (const palette_t* from, const palette_t* to);
  *          This is done by vsynch () too.
  */
 void run_fader (void);
+
+/*
+ * cancel running fader
+ */
+void cancel_fader (void);
 
 /*
  * Supply a pointer to a variable that will reflect the
