@@ -56,6 +56,7 @@
 #include "helptext.h"
 #include "readmake.h"
 #include "endscroll.h"
+#include "people.h"
 
 static htimer_t lemming_htimer;
 static sprite_t* left_arrow = 0;
@@ -81,7 +82,6 @@ static sprite_t* keyboard_keys_txt[12] = {
 static sprite_t* extra_menu_txt = 0;
 static sprite_t* extra_modes_txt[3] = { 0, 0, 0 };
 static sprite_t* extra_combine_txt[3] = { 0, 0, 0 };
-static sprite_t* credit_menu_txt = 0;
 static sprite_t* pause_menu_txt = 0;
 static sprite_t* quitgame_menu_txt = 0;
 static sprite_t* quitheroes_menu_txt = 0;
@@ -138,6 +138,7 @@ static sprite_t* player_ico[4] = { 0, 0, 0, 0}; /* for menus */
 static sprite_t* speed_ico[5] = { 0, 0, 0, 0, 0};
 static sprite_t* deck_digits[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 static read_data_t* help_text = 0;
+static read_data_t* people_text = 0;
 
 static const char *mode_name[5] = {
   /* TRANS: in QUEST mode, the player goes throught all the levels, but
@@ -454,28 +455,6 @@ init_menus_sprites (void)
   extra_combine_txt[2] = compile_menu_text (_("EXTRAS: SELECT"),
 					    T_FLUSHED_LEFT, 57, 20);
 
-  /* credit menu */
-  new_sprprog ();
-  add_sprprog0 (compile_menu_text (_("CREDITS"),
-				   T_CENTERED|T_WAVING, 10, 159));
-  /* TRANS: GFX stands for `graphics' (i.e. artwork, pictures),
-     and IDEA is just `idea' :) */
-  add_sprprog0 (compile_menu_text (_("GFX AND IDEA:"), T_FLUSHED_LEFT, 40, 1));
-  add_sprprog0 (compile_menu_text ("a GUEN",
-				   T_FLUSHED_RIGHT|T_WAVING, 40, 318));
-  add_sprprog0 (compile_menu_text (_("MUSIC:"), T_FLUSHED_LEFT, 60, 1));
-  add_sprprog0 (compile_menu_text ("b TNK",
-				   T_FLUSHED_RIGHT|T_WAVING, 60, 318));
-  add_sprprog0 (compile_menu_text ("c ALEXEL",
-				   T_FLUSHED_RIGHT|T_WAVING, 72, 318));
-  add_sprprog0 (compile_menu_text (_("CODE:"), T_FLUSHED_LEFT, 93, 1));
-  add_sprprog0 (compile_menu_text ("b POLLUX",
-				   T_FLUSHED_RIGHT|T_WAVING, 93, 318));
-  add_sprprog0 (compile_menu_para
-		(_("PLEASE READ THE LIST OF OTHER CONTRIBUTORS IN THE FILE 'THANKS'"),
-		 T_CENTERED, 118, 159, 310));
-  credit_menu_txt = end_sprprog ();
-
   jukebox_frame = compile_sprrle (IMGPOS (jukebox_img, 0, 0), 0,
 				  19, 306, jukebox_img.width, xbuf);
   jukebox_forw = compile_sprrle (IMGPOS (jukebox_img, 19, 0), 0,
@@ -624,6 +603,7 @@ init_menus_sprites (void)
   img_free (&jukebox_img);
 
   help_text = compile_helptext ();
+  people_text = compile_people ();
 }
 
 void
@@ -692,7 +672,6 @@ uninit_menus_sprites (void)
       FREE_SPRITE0 (extra_modes_txt[i]);
     }
   }
-  FREE_SPRITE0 (credit_menu_txt);
   FREE_SPRITE0 (jukebox_frame);
   FREE_SPRITE0 (jukebox_forw);
   FREE_SPRITE0 (jukebox_back);
@@ -764,6 +743,8 @@ uninit_menus_sprites (void)
 
   if (help_text)
     free_reader_data (help_text);
+  if (people_text)
+    free_reader_data (people_text);
 }
 
 static void
@@ -2054,8 +2035,36 @@ jukebox_draw (int pos)
   flush_display (corner[0]);
 }
 
+static bool
+handle_reader_keys (key_t t, int *top, read_data_t *text)
+{
+  switch (t) {
+  case HK_Down:
+    *top += 10;
+    break;
+  case HK_Up:
+    *top -= 10;
+    break;
+  case HK_PageDown:
+    *top += 200;
+    break;
+  case HK_PageUp:
+    *top -= 200;
+    break;
+  case HK_End:
+    *top = text->max;
+    break;
+  case HK_Home:
+    *top = 0;
+    break;
+  default:
+    return false;
+  }
+  return true;
+}
+
 static int
-jukebox_keys (int *pos)
+jukebox_keys (int *pos, int *top)
 {
   keycode_t k;
 
@@ -2063,33 +2072,35 @@ jukebox_keys (int *pos)
     return 1;
 
   k = get_key_or_joy ();
-  if (k == HK_Up || k == HK_Down || k == HK_Left || k == HK_Right)
-    event_sfx (79);
-  if (k == HK_Up || k == HK_Left) {
-    if (*pos > 0)
-      --*pos;
-    else
-      *pos = 2;
-  } else if (k == HK_Down || k == HK_Right) {
-    if (*pos < 2)
-      ++*pos;
-    else
-      *pos = 0;
-  } else if (k == HK_Enter) {
-    if (*pos == 2)
-      k = HK_Escape;
-    else {
-      unload_soundtrack ();
-      if (*pos == 0) {
-	event_sfx (74);
-	load_next_soundtrack ();
+  if (!top || !handle_reader_keys (k, top, people_text)) {
+    if (k == HK_Up || k == HK_Down || k == HK_Left || k == HK_Right)
+      event_sfx (79);
+    if (k == HK_Up || k == HK_Left) {
+      if (*pos > 0)
+	--*pos;
+      else
+	*pos = 2;
+    } else if (k == HK_Down || k == HK_Right) {
+      if (*pos < 2)
+	++*pos;
+      else
+	*pos = 0;
+    } else if (k == HK_Enter) {
+      if (*pos == 2)
+	k = HK_Escape;
+      else {
+	unload_soundtrack ();
+	if (*pos == 0) {
+	  event_sfx (74);
+	  load_next_soundtrack ();
+	}
+	if (*pos == 1) {
+	  event_sfx (75);
+	  load_prev_soundtrack ();
+	}
+	play_soundtrack ();
+	reset_htimer (sound_track_htimer);
       }
-      if (*pos == 1) {
-	event_sfx (75);
-	load_prev_soundtrack ();
-      }
-      play_soundtrack ();
-      reset_htimer (sound_track_htimer);
     }
   }
   return (k != HK_Escape);
@@ -2098,25 +2109,28 @@ jukebox_keys (int *pos)
 void
 jukebox_menu (void)
 {
-  signed char sh;		/* shift */
+  int top = 0;
+#define MULT_SHIFT 10
+  int curmult = 0;
   int l = 0;
 
   in_jokebox = 1;
   std_white_fadein (&tile_set_img.palette);
   do {
+    if (top + 178 > people_text->max / xbuf)
+      top = people_text->max / xbuf - 178;
+    if (top < 0)
+      top = 0;
+
     background_menu ();
 
-    sh = minisinus[read_htimer (waving_htimer) & 31];
-    draw_glenz_box (corner[0] + (42 + sh) * xbuf + 234, 2, 86, 6);
-    draw_glenz_box (corner[0] + (62 + sh) * xbuf + 244, 3, 76, 6);
-    draw_glenz_box (corner[0] + (74 + sh) * xbuf + 194, 4, 126, 6);
-    draw_glenz_box (corner[0] + (95 + sh) * xbuf + 194, 5, 126, 6);
-    DRAW_SPRITE (credit_menu_txt, corner[0]);
-    hrule (28);
-    hrule (109);
-    hrule (171);
+    curmult += ((top << MULT_SHIFT) - curmult) / 8;
+
+    draw_reader_data (people_text, corner[0] - 10 * xbuf,
+		      curmult >> MULT_SHIFT, (curmult >> MULT_SHIFT) + 220);
+
     jukebox_draw (l);
-  } while (jukebox_keys (&l));
+  } while (jukebox_keys (&l, &top));
 
   event_sfx (76);
   in_jokebox = 0;
@@ -2144,7 +2158,7 @@ pause_menu (void)
     update_text_waving_step ();
     DRAW_SPRITE (pause_menu_txt, corner[0]);
     jukebox_draw (l);
-  } while (jukebox_keys (&l));
+  } while (jukebox_keys (&l, 0));
 
   init_keyboard_map ();
   set_volume ();
@@ -2562,35 +2576,14 @@ help_menu (void)
 
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
-      switch (t) {
-      case HK_Down:
-	top += 10;
-	break;
-      case HK_Up:
-	top -= 10;
-	break;
-      case HK_PageDown:
-	top += 200;
-	break;
-      case HK_PageUp:
-	top -= 200;
-	break;
-      case HK_End:
-	top = help_text->max;
-	break;
-      case HK_Home:
-	top = 0;
-	break;
-      default:
-	/* NOP */
-	break;
-      }
+      handle_reader_keys (t, &top, help_text);
       if (top + 200 > help_text->max / xbuf)
 	top = help_text->max / xbuf - 200;
       if (top < 0)
 	top = 0;
-     } else
-       t = 0;
+    } else {
+      t = 0;
+    }
   } while (t != HK_Escape);
   event_sfx (8);
 }

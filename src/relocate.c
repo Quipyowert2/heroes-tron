@@ -140,7 +140,7 @@ try_to_explore_path (void)
   path = strdup (path_env);
   /* FIXME: ':' is not always the right caracter to look for.  */
   last = strtok (path, ":");
-  for (;;) {
+  while (last) {
     char *dir = strcat_alloc (last, "/" BACKWARD_RELATIVE_BINDIR);
     dmsg (D_SYSTEM, "trying $(prefix)='%s'", dir);
     set_rsc_file ("prefix", dir, false);

@@ -90,7 +90,9 @@ parafmt.c \
 parafmt.h \
 pcx.c \
 pcx.h \
+people.c \
 people.def \
+people.h \
 people.tpl \
 persona.c \
 persona.h \
@@ -226,6 +228,9 @@ prefs.h: prefs.def prefs.tpl
 	$(AUTOGEN) -o h $<
 
 prefs.c: prefs.def prefs.tpl
+	$(AUTOGEN) -o c $<
+
+people.c: people.def people.tpl
 	$(AUTOGEN) -o c $<
 
 # This is handled manually, until Automake allows per-target CFLAGS

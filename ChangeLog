@@ -1,3 +1,25 @@
+2001-05-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Change the CREDIT screen to thanks ALL people.
+
+	* src/people.h: New file.
+	* src/people.tpl: Generate people.c.
+	* src/Makefile.am (heroes_SOURCES): Add people.h add people.c.
+	(people.c): New target.
+	* src/menu.c (people_text): New variable.
+	(credit_menu): Remove variable.
+	(init_menus_sprites, uninit_menus_sprites): Handle people_text,
+	remove reference to credit_menu.
+	(handle_reader_keys): New functions.
+	(jukebox_keys): Call handle_reader_keys.
+	(jukebox_menu): Display people_text instead of credit_menu.
+
+	* src/people.def: Add Eugenia Loli-Queru, Ian Dalton, and
+	Pascal Rigaux.
+
+	* src/relocate.c (try_to_explore_path): Oops, exit the loop
+	if needed.
+
 2001-05-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Generate AUTHORS, THANKS, and the associated section of the

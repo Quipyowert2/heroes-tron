@@ -1,7 +1,8 @@
 [~ autogen5 template
   authors=AUTHORS
   thanks=THANKS
-  texi=people.texi
+  texi
+  c
 # Copyright 2001  Alexandre Duret-Lutz <duret_g@epita.fr>
 #
 # This file is part of Heroes.
@@ -30,15 +31,31 @@
 	       ((#\ç) "@,{c}") ((#\ñ) "@~n")  ((#\ß) "@ss{}") ((#\@) "@@")
 	       (else c))))
 	(if (string? res) (string->list res) (list res))))
+   (define (char-to-ascii c)
+      (let
+       ((res (case c
+	       ((#\å) "aa") ((#\à) "a")  ((#\ä) "a")  ((#\â) "a")
+	       ((#\é) "e")  ((#\è) "e")  ((#\ë) "e")  ((#\ê) "e")
+	       ((#\í) "i")  ((#\ì) "i")  ((#\ï) "i")  ((#\î) "i")
+	       ((#\ç) "c")  ((#\ñ) "n")  ((#\ß) "ss") ((#\@) "@")
+	       (else c))))
+	(if (string? res) (string->list res) (list res))))
    (define (to-texi string-to-recode)
       (list->string
         (apply append (map char-to-texi (string->list string-to-recode)))))
+   (define (to-ascii string-to-recode)
+      (list->string
+        (apply append (map char-to-ascii (string->list string-to-recode)))))
    (define (name-texi) (to-texi (get "name")))
+   (define (name-ascii) (to-ascii (get "name")))
    (define (email-texi) (to-texi (get "email")))
    (define (i18n-texi) (to-texi (get "i18n")))
+   (define (i18n-ascii) (to-texi (get "i18n")))
    (define (package-texi) (to-texi (get "package")))
+   (define (package-ascii) (to-texi (get "package")))
    (define (author-texi) (to-texi (get "author")))
    (define (port-texi) (to-texi (get "port")))
+   (define (port-ascii) (to-texi (get "port")))
    (define (contrib-texi) (to-texi (get "contrib")))
 ~][~
   CASE (suffix) ~][~
@@ -121,5 +138,87 @@ send a note to <heroes-bugs@lists.sourceforge.net>.
           ENDIF ~] ([~ (port-texi) ~])
 [~      ENDIF ~][~
       ENDFOR person ~]@end itemize
+[~  == c ~][~ (dne "** " "/*\t\t\t\t") ~]
+*/
+/*
+[~ (gpl "Heroes" "** ") ~]
+*/
+#include "system.h"
+#include "people.h"
+#include "misc.h"
 
+typedef struct strpair_t strpair_t;
+struct strpair_t {
+  const char*	str;
+  bool		i18n;
+};
+
+const strpair_t people_strings[] = {
+  { "\n", false },
+  { N_("%{center}You owe this game to the following people"), true },
+  { "\n%{head 1}", false },
+  { N_("Authors\n"), true },
+  { "\n", false },
+[~    FOR person ~][~
+        IF author ~]  { "%{>>>}[~ (name-ascii) ~]\n", false },
+[~      ENDIF ~][~
+      ENDFOR person ~]
+  { "\n%{head 2}", false },
+  { N_("Contributors\n"), true },
+  { "\n", false },
+[~    FOR person ~][~
+        IF contrib ~]  { "%{>>>}[~ (name-ascii) ~]\n", false },
+[~      ENDIF ~][~
+      ENDFOR person ~]
+  { "\n%{head 3}", false },
+  { N_("Translators\n"), true },
+  { "\n", false },
+[~    FOR person ~][~
+        IF i18n ~]  { "%{>>>}[~ (name-ascii) ~] (%b", false },
+  { N_("[~ i18n ~]"), true },
+  { "%w)\n", false },
+[~      ENDIF ~][~
+      ENDFOR person ~]
+  { "\n%{head 4}", false },
+  { N_("Packagers\n"), true },
+  { "\n", false },
+[~    FOR person ~][~
+        IF package ~]  { "%{>>>}[~ (name-ascii) ~] (%b[~ package ~]%w)\n", false },
+[~      ENDIF ~][~
+      ENDFOR person ~]
+  { "\n%{head 1}", false },
+  { N_("Porters\n"), true },
+  { "\n", false },
+[~    FOR person ~][~
+        IF port ~]  { "%{>>>}[~ (name-ascii) ~] (%b[~ port ~]%w)\n", false },
+[~      ENDIF ~][~
+      ENDFOR person ~]
+  { "\n%{head 2}", false },
+  { N_("Other people we wish to thanks\n"), true },
+  { "\n", false },
+[~    FOR person ~][~
+        IF author ~][~ ELSE ~][~
+        IF contrib ~][~ ELSE ~][~
+        IF i18n ~][~ ELSE ~][~
+        IF package ~][~ ELSE ~][~
+        IF port ~][~ ELSE ~]
+  { "%{>>>}[~ (name-ascii) ~]\n", false },
+[~ ENDIF ~][~ ENDIF ~][~ ENDIF ~][~ ENDIF ~][~ ENDIF ~][~
+      ENDFOR person ~]
+  { 0, 0 }
+};
+
+read_data_t *
+compile_people (void)
+{
+  read_data_t *p = 0;
+  char *s = 0;
+  const strpair_t *r = people_strings;
+  s = xstrdup (r->i18n ? _(r->str) : r->str);
+  while ((++r)->str)
+    s = strappend (s, r->i18n ? _(r->str) : r->str);
+  p = compile_reader_data (p, s);
+  free (s);
+  return p;
+}
 [~ ESAC ~]

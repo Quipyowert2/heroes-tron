@@ -48,13 +48,19 @@ person = {
 person = {
   name    = "Daniel Burrows";
   email   = Daniel_Burrows@brown.edu;
-  package = GNU/Debian;
+  package = "Debian GNU/Linux";
+};
+
+person = {
+  name    = "Beiad Ian Q. Dalton";
+  email   = idalton@ferret.phonewave.net;
+  bugs;
 };
 
 person = {
   name    = "Jean Delvare";
   email   = delvare@ensicaen.ismra.fr;
-  package = "RPM, Slackware";
+  package = "RPM & Slackware Linux";
   suggestions;
   bugs;
 };
@@ -131,6 +137,12 @@ person = {
 };
 
 person = {
+  name    = "Eugenia Loli-Queru";
+  email   = eloli@hotmail.com;
+  package = BeOS;
+};
+
+person = {
   name    = "Philippe Meisburger";
   aka     = TNK;
   email   = philmeis@mail.dotcom.fr;
@@ -148,6 +160,13 @@ person = {
   name    = "Benjamin Preidecker";
   email   = bpreidecker@gmx.de;
   bugs;
+};
+
+person = {
+  name    = "Pascal Rigaux";
+  aka     = pixel;
+  email   = pixel@mandrakesoft.com;
+  package = Linux-Mandrake;
 };
 
 person = {
