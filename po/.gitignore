@@ -7,3 +7,4 @@ heroes.pot
 stamp-cat-id
 *.gmo
 Makefile.in.in
+messages
