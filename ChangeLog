@@ -1,5 +1,12 @@
 2001-05-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.ac: Bump version number to 0.11.
+	* ANNOUNCE: Update for 0.11.
+	* TODO: s/0.11/0.12/, how shame!
+	* po/fr.po: Update.
+
+2001-05-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/hedlite.c (create_levels_output_dir): Strip trailing slashes
 	from level output directory, or it doesn't work with MinGW.
 	* src/userdir.c (setup_userdir): Likewise with the userdir.

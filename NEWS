@@ -1,3 +1,9 @@
+Heroes 0.11	May 23, 2001
+
+	* Bug fixes:
+	  - strip trailing slahes before creating directories.
+	  - don't install charset.alias on glibc 2.1 systems.
+
 Heroes 0.10b	May 21, 2001
 
 	* Open the global score/saved-game file once the game start,
