@@ -30,55 +30,48 @@ en_reverse_walls (const a_level *lvl, a_dir_mask8 *square_walls_in)
   a_square_index idx;
 
   for (idx = 0; idx < lvl->square_count; ++idx) {
-    a_square_index dest;
-    a_square_coord this_x, this_y, dest_x, dest_y;
-
-    this_x = SQR_INDEX_TO_COORD_X (lvl, idx);
-    this_y = SQR_INDEX_TO_COORD_Y (lvl, idx);
-
-    dest_x = this_x;
-    dest_y = SQR_COORD_UP (lvl, this_y);
-    dest = SQR_COORDS_TO_INDEX (lvl, dest_y, dest_x);
-    if ((this_y == 0) && (lvl->square_height_wrap == DONT_WRAP))
-      square_walls_in[idx] |= DM_DOWN;
-    else if (lvl->square_walls_out[dest] & DM_DOWN)
-      square_walls_in[idx] |= DM_DOWN;
-    else if ((lvl->square_type[dest] == T_TUNNEL) &&
-	     (lvl->square_direction[dest] == D_DOWN))
-      square_walls_in[idx] |= DM_DOWN;
-
-    dest_x = SQR_COORD_RIGHT (lvl, this_x);
-    dest_y = this_y;
-    dest = SQR_COORDS_TO_INDEX (lvl, dest_y, dest_x);
-    if (dest_x >= lvl->square_width)
-      square_walls_in[idx] |= DM_LEFT;
-    else if (lvl->square_walls_out[dest] & DM_LEFT)
-      square_walls_in[idx] |= DM_LEFT;
-    else if ((lvl->square_type[dest] == T_TUNNEL) &&
-             (lvl->square_direction[dest] == D_LEFT))
-      square_walls_in[idx] |= DM_LEFT;
-
-    dest_x = this_x;
-    dest_y = SQR_COORD_DOWN (lvl, this_y);
-    dest = SQR_COORDS_TO_INDEX (lvl, dest_y, dest_x);
-    if (dest_y >= lvl->square_height)
-      square_walls_in[idx] |= DM_UP;
-    else if (lvl->square_walls_out[dest] & DM_UP)
-      square_walls_in[idx] |= DM_UP;
-    else if ((lvl->square_type[dest] == T_TUNNEL) &&
-             (lvl->square_direction[dest] == D_UP))
-      square_walls_in[idx] |= DM_UP;
-
-    dest_x = SQR_COORD_LEFT (lvl, this_x);
-    dest_y = this_y;
-    dest = SQR_COORDS_TO_INDEX (lvl, dest_y, dest_x);
-    if ((this_x == 0) && (lvl->square_width_wrap == DONT_WRAP))
-      square_walls_in[idx] |= DM_RIGHT;
-    else if (lvl->square_walls_out[dest] & DM_RIGHT)
-      square_walls_in[idx] |= DM_RIGHT;
-    else if ((lvl->square_type[dest] == T_TUNNEL) &&
-             (lvl->square_direction[dest] == D_RIGHT))
-      square_walls_in[idx] |= DM_RIGHT;
+    a_square_coord this_x = SQR_INDEX_TO_COORD_X (lvl, idx);
+    a_square_coord this_y = SQR_INDEX_TO_COORD_Y (lvl, idx);
+    {
+      a_square_coord dest_y = SQR_COORD_UP (lvl, this_y);
+      if (SQR_COORD_Y_HOLD (lvl, dest_y)) {
+	a_square_index dest = SQR_COORDS_TO_INDEX (lvl, dest_y, this_x);
+	if ((lvl->square_walls_out[dest] & DM_DOWN)
+	    || ((lvl->square_type[dest] == T_TUNNEL)
+		&& (lvl->square_direction[dest] == D_DOWN)))
+	  square_walls_in[idx] |= DM_DOWN;
+      }
+    }
+    {
+      a_square_coord dest_x = SQR_COORD_RIGHT (lvl, this_x);
+      if (SQR_COORD_X_HOLD (lvl, dest_x)) {
+	a_square_index dest = SQR_COORDS_TO_INDEX (lvl, this_y, dest_x);
+	if ((lvl->square_walls_out[dest] & DM_LEFT)
+	    || ((lvl->square_type[dest] == T_TUNNEL)
+		&& (lvl->square_direction[dest] == D_LEFT)))
+	  square_walls_in[idx] |= DM_LEFT;
+      }
+    }
+    {
+      a_square_coord dest_y = SQR_COORD_DOWN (lvl, this_y);
+      if (SQR_COORD_Y_HOLD (lvl, dest_y)) {
+	a_square_index dest = SQR_COORDS_TO_INDEX (lvl, dest_y, this_x);
+	if ((lvl->square_walls_out[dest] & DM_UP)
+	    || ((lvl->square_type[dest] == T_TUNNEL)
+		&& (lvl->square_direction[dest] == D_UP)))
+	  square_walls_in[idx] |= DM_UP;
+      }
+    }
+    {
+      a_square_coord dest_x = SQR_COORD_LEFT (lvl, this_x);
+      if (SQR_COORD_X_HOLD (lvl, dest_x)) {
+	a_square_index dest = SQR_COORDS_TO_INDEX (lvl, this_y, dest_x);
+	if ((lvl->square_walls_out[dest] & DM_RIGHT)
+	    || ((lvl->square_type[dest] == T_TUNNEL)
+		&& (lvl->square_direction[dest] == D_RIGHT)))
+	  square_walls_in[idx] |= DM_RIGHT;
+      }
+    }
   }
 }
 

@@ -1,5 +1,12 @@
 2002-01-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/lvl/lvl.h (SQR_COORD_X_HOLD, SQR_COORD_Y_HOLD): New macros.
+	* src/lvl/en_body.c (en_reverse_walls): Simplify, don't add
+	wall to border squares (this is already done on loading),
+	don't compute `dest' before it is needed.
+
+2002-01-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/lvl/loadmac.h, src/lvl/savemac.h: Delete and merge into ...
 	* src/lvl/access.h: ... this file.
 	* src/lvl/de_body.c, src/lvl/en_body.c: Extract format-related
