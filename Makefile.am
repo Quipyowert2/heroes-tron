@@ -26,3 +26,8 @@ ACLOCAL_AMFLAGS = -I m4
 
 EXTRA_DIST = BUGS misc/heroes.xpm HACKING
 SUBDIRS = arch tools lib src m4 man doc
+
+README: $(top_srcdir)/doc/heroes.texi $(top_srcdir)/tools/readme.sed
+	LC_ALL=C $(MAKEINFO) --no-header -I $(top_srcdir)/doc heroes.texi | \
+	sed -n -f $(top_srcdir)/tools/readme.sed > README.tmp
+	mv README.tmp README

@@ -1,5 +1,13 @@
 2000-11-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Generate README automatically from the Texinfo manual.
+
+	* tools/readme.sed: New file.
+	* Makefile.am (README): New.
+	* HACKING: Update.
+
+2000-11-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* TODO: Update.
 	* BUGS: Update.
 
