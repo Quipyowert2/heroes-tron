@@ -1,3 +1,23 @@
+2000-09-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Add support for arcade-style scanlined display (Adapted from
+	Stéphane Denis <S.Denis@darkworks.com>).  And fix
+	a bug in handling of --double and --triple options.
+
+	* src/argv.h (even_lines): New.
+	* src/argv.c (even_lines): New.
+	(print_help): Add -e.
+	(long_options): Add --even-lines.  Fix argument number 
+	of --double and --triple (they don't accept any).
+	(parse_argv): Handle -e.
+	* doc/heroes.texi (Options): Document -e.
+	* src/display.c (stretch_twofold_even): New.
+	(stretch_threefold_even): New.
+	(erase_odd_lines): New.
+	(stretch_display): New.
+	[HAVE_PKG_GGI,HAVE_SDL] (vsynchro): Move stretching calls to
+	stretch_display and call stretch_display instead.
+
 2000-09-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* man/Makefile.am (heroes.6): Do not build heroes.6

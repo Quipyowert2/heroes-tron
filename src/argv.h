@@ -40,3 +40,4 @@ extern int bits8;
 extern int hqmix;
 extern int stretch;
 extern int nosound;
+extern int even_lines;

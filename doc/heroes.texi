@@ -817,6 +817,15 @@ Stretch the game twofold before blitting to screen.  This is slow.
 @cindex stretching
 Stretch the game threefold before blitting to screen.  This is even slower.
 
+@item -e
+@itemx --even-lines
+@cindex -e
+@cindex --even-lines
+@cindex stretching
+Display only even lines, leaving blank scanlines 
+as on real arcade monitors.  This will contribute to make
+options @samp{-2} and @samp{-3} faster.
+
 @comment miscellaneous options
 
 @item --cpu-off

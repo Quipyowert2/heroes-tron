@@ -57,6 +57,7 @@ int bits8 = 0;
 int hqmix = 0;
 int stretch = 1;
 int nosound = 0;
+int even_lines = 0;
 
 static void
 version ()
@@ -92,6 +93,7 @@ print_help (char* argv0)
 	"  -F, --full-screen\t"     "    full screen mode\n"
 	"  -2, --double\t\t"        "    stretch the display twofold\n"
 	"  -3, --triple\t\t"        "    stretch the display threefold\n"
+	"  -e, --even-lines\t\t"    "    display only even-lines\n"
 	"\nMiscellaneous options:\n"
 	"      --cpu-off\t\t"	    "    disable computer opponents\n"
 	"      --default-scores\t"  "    restore default scores file\n"
@@ -135,8 +137,9 @@ const struct option long_options[] = {
   {"no-sound",		0, 0,		'S'},
   {"gfx-options",	1, 0,		'G'},
   {"full-screen",	1, 0,		'F'},
-  {"double",		1, 0,		'2'},
-  {"triple",		1, 0,		'3'},
+  {"double",		0, 0,		'2'},
+  {"triple",		0, 0,		'3'},
+  {"even-lines",	0, 0,		'e'},
   {0,			0, 0,		0}
 };
 
@@ -151,7 +154,7 @@ parse_argv (int argc, char **argv)
   for (;;) {
     int option_index = 0;
 
-    c = getopt_long (argc, argv, "vhm8qsXl:gnd:G:JF23S", 
+    c = getopt_long (argc, argv, "vhm8qsXl:gnd:G:JF23Se", 
 		     long_options, &option_index);
 
     /* Detect the end of the options. */
@@ -208,6 +211,9 @@ parse_argv (int argc, char **argv)
       break;
     case '3':
       stretch = 3;
+      break;
+    case 'e':
+      even_lines = 1;
       break;
     case 'q':
       hqmix = 1;

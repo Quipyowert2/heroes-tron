@@ -1,4 +1,4 @@
-dnl ./aclocal.m4 generated automatically by aclocal 1.4
+dnl aclocal.m4 generated automatically by aclocal 1.4
 
 dnl Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
@@ -25,7 +25,7 @@ dnl    AC_DEFINE_DIR(PROG_PATH, bindir, [Location of installed binaries])
 dnl
 dnl @author Alexandre Oliva <oliva@lsd.ic.unicamp.br>
 
-AC_DEFUN(AC_DEFINE_DIR, [
+AC_DEFUN([AC_DEFINE_DIR], [
         ac_expanded=`(
             test "x$prefix" = xNONE && prefix="$ac_default_prefix"
             test "x$exec_prefix" = xNONE && exec_prefix="${prefix}"
@@ -63,7 +63,7 @@ dnl (shamelessly stolen from gtk.m4 and then hacked around a fair amount)
 dnl
 dnl @author Angus Lees <gusl@cse.unsw.edu.au>
 
-AC_DEFUN(AC_PATH_GENERIC,
+AC_DEFUN([AC_PATH_GENERIC],
 [dnl
 dnl we're going to need uppercase, lowercase and user-friendly versions of the
 dnl string `LIBRARY'
@@ -196,7 +196,7 @@ dnl
 dnl @author Caolan McNamara <caolan@skynet.ie>
 dnl
 
-AC_DEFUN(AC_caolan_CHECK_PACKAGE,
+AC_DEFUN([AC_caolan_CHECK_PACKAGE],
 [
 
 AC_ARG_WITH($1,
@@ -252,6 +252,32 @@ dnl     fixed
 
 fi
 
+])
+
+
+dnl This will call AC_PATH_GENERIC but check that the library actually link.
+dnl
+dnl  AC_adl_PKG_GENERIC(library,version,function,action-if-ok,action-if-not)
+dnl
+AC_DEFUN([AC_adl_PKG_GENERIC],[
+  pushdef([UP], translit([$1], [a-z], [A-Z]))dnl
+
+  OLD_LIBS=$LIBS
+  OLD_CFLAGS=$CFLAGS
+  jolly_good=true
+  AC_PATH_GENERIC([$1],[$2],,[jolly_good=false])
+  if $jolly_good; then
+    CFLAGS="$UP[]_CFLAGS $CFLAGS"
+    LIBS="$UP[]_LIBS $LIBS"
+    AC_CHECK_FUNC([$3],,[jolly_good=false])
+  fi
+  if $jolly_good; then
+    ifelse([$4],,,[$4])    
+  else
+    LIBS=$OLD_LIBS
+    CFLAGS=$OLD_CFLAGS
+    ifelse([$5],,,[$5])    
+  fi
 ])
 
 # Do all the work for Automake.  This macro actually does too much --

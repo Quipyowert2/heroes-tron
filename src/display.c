@@ -37,7 +37,8 @@ unsigned char *screen;		/* A pointer to the screen buffer,
    stretching should be performed *during* the crossblit to be
    efficient. */
 
-static int scr_w, scr_h;	/* visuals width and height */
+static int scr_w, scr_h;	/* screen_rv width and height,
+				   (screen is always 320x200) */
 
 /* slow stretching routines */
 
@@ -63,6 +64,23 @@ stretch_twofold (void)
       d[3] = t2;
       s += 2;
       d += 4;
+    }
+    d += 640;
+  }
+}
+
+static void
+stretch_twofold_even (void)
+{
+  unsigned char* s = screen;
+  unsigned char* d = screen_rv;
+  int rows_left, columns_left;
+
+  for (rows_left = 200; rows_left; --rows_left) {
+    for (columns_left = 320; columns_left; --columns_left) {
+      d[1] = d[0] = *s;
+      ++s;
+      d += 2;
     }
     d += 640;
   }
@@ -102,6 +120,64 @@ stretch_threefold (void)
       d += 6;
     }
     d += 2 * 960;
+  }
+}
+
+static void
+stretch_threefold_even (void)
+{
+  unsigned char* s = screen;
+  unsigned char* d = screen_rv;
+  int rows_left, columns_left;
+
+  for (rows_left = 200 / 2; rows_left; --rows_left) {
+    for (columns_left = 320; columns_left; --columns_left) {
+      unsigned char t1, t2;
+      t1 = s[0];
+      t2 = s[320];
+      d[0] = t1;
+      d[0+960*4] = t2;
+      d[1] = t1;
+      d[2] = t1;
+      d[1+960*4] = t2;
+      d[0+960*2] = t1;
+      d[1+960*2] = t1;
+      d[2+960*4] = t2;
+      d[2+960*2] = t1;
+      ++s;
+      d += 3;
+    }
+    d += 5 * 960;
+    s += 320;
+  }
+}
+
+static void
+erase_odd_lines (void)
+{
+  unsigned char* s = screen+320;
+  int i;
+  for (i = 100; i; --i, s += 640)
+    memset (s, 0, 320);
+}
+
+/* perform stretching wether options have been set or not */
+static void
+stretch_display (void)
+{
+  if (stretch == 2) {
+    if (even_lines)
+      stretch_twofold_even ();
+    else
+      stretch_twofold ();
+  } else if (stretch == 3) {
+    if (even_lines)    
+      stretch_threefold_even ();
+    else
+      stretch_threefold ();
+  } else {			/* stretch == 1 */
+    if (even_lines)    
+      erase_odd_lines ();
   }
 }
 
@@ -202,7 +278,6 @@ init_video (void)
   dmsg (D_VIDEO, "ask for a direct-buffer");
   db = ggiDBGetBuffer (render_visu, 0);
   if (!db || !(db->type & GGI_DB_SIMPLE_PLB)) {
-    //    printf ("%p\n", db);
     fprintf (stderr, "Can't get correct direct-buffer.\n");
     exit (EXIT_FAILURE);
   }
@@ -271,11 +346,7 @@ set_pal (unsigned char *ptr, int p, int n)
 void
 vsynchro (void)
 {
-  if (stretch == 2)
-    stretch_twofold ();
-  if (stretch == 3)
-    stretch_threefold ();
-    
+  stretch_display ();
   ggiCrossBlit (render_visu, 0, 0, scr_w, scr_h, visu, 
 		(vid_mode.visible.x - scr_w)/2, 
 		(vid_mode.visible.y - scr_h)/2);
@@ -341,6 +412,7 @@ init_video (void)
   init_SDL ();
   dmsg (D_VIDEO, "set video mode");
   visu = SDL_SetVideoMode (scr_w, scr_h, 8, visu_options);
+  /* FIXME: the Linux/m68k binary is crashing in the vicinity */
   if (!visu) {
     fprintf (stderr, "Failed to open visual: %s\n", SDL_GetError());
     exit (EXIT_FAILURE);
@@ -407,11 +479,7 @@ set_pal (unsigned char *ptr, int p, int n)
 void
 vsynchro (void)
 {
-  if (stretch == 2)
-    stretch_twofold ();
-  if (stretch == 3)
-    stretch_threefold ();
-
+  stretch_display ();
   SDL_Flip (visu);
 }
 
