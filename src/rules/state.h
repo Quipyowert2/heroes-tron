@@ -22,6 +22,7 @@
 #define HEROES__STATE__H
 # include "lvl.h"
 # include "player.h"
+# include "timer.h"
 
 /* Information about a lemming.  */
 typedef struct a_lemming a_lemming;
@@ -223,20 +224,14 @@ void state_free (a_level_state *state);
 void state_set_player_color (a_level_state *state,
 			     unsigned player, unsigned color);
 
-void update_lemmings (a_level_state *state);
 int state_lemmings_move_offset (a_level_state *state);
-
-void update_player (a_level_state *state, unsigned c);
 
 int state_level_exit_code (const a_level_state *state);
 void state_level_set_exit_code (a_level_state *state, int code);
 
-/* FRAME_START is expected to be EXPLOSION_IMMEDIATE or EXPLOSION_TRIGGERED. */
-void trigger_explosion (a_level_state *state,
-			a_square_index idx, an_explosion frame_start);
-void trigger_possible_explosion (a_level_state *state, a_square_index idx);
-void update_explosions (a_level_state *state);
-
-void update_bonuses (a_level_state *state);
+void state_start_game (a_level_state *state);
+int state_update (a_level_state *state);
+void state_start_players (a_level_state *state);
+void state_pause (a_level_state *state, const a_timer pause_timer);
 
 #endif /* HEROES__STATE__H */

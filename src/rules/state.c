@@ -159,6 +159,9 @@ state_init (a_level_state *state, const a_level *lvl, char cont,
   init_bonuses_level (state);
   if (!in_menu)
     spread_bonuses (state);
+
+  bits->players_started = false;
+  bits->update_timer = new_htimer (T_LOCAL, HZ (70));
 }
 
 void
@@ -175,6 +178,8 @@ state_free (a_level_state *state)
   XFREE (state->square_lemmings_list);
   XFREE (state->square_dead_lemmings_list);
   XFREE (state->square_object);
+
+  free_htimer (state->private->update_timer);
 
   free (state->private);
 }

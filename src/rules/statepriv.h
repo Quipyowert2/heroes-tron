@@ -62,6 +62,9 @@ struct a_level_state_bits {
   /* FIXME: tile_bonus_cpu is a temporary array used by ai.c.
      It should NOT be defined here. */
   a_u8 *tile_bonus_cpu;
+
+  a_timer update_timer;
+  bool players_started;
 };
 
 extern void add_color (a_level_state *state, bool allow_clocks);
@@ -91,5 +94,17 @@ extern void apply_bonus (a_level_state *state, int pl, char bonus);
 
 extern void allocate_explosions (a_level_state *state);
 extern void release_explosions (a_level_state *state);
+
+/* FRAME_START is expected to be EXPLOSION_IMMEDIATE or EXPLOSION_TRIGGERED. */
+extern void trigger_explosion (a_level_state *state,
+			a_square_index idx, an_explosion frame_start);
+extern void trigger_possible_explosion (a_level_state *state,
+					a_square_index idx);
+extern void update_explosions (a_level_state *state);
+
+extern void update_bonuses (a_level_state *state);
+
+extern void update_lemmings (a_level_state *state);
+extern void update_player (a_level_state *state, unsigned c);
 
 #endif /* HEROES__STATEPRIV__H */

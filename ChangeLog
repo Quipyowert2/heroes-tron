@@ -1,5 +1,30 @@
 2002-02-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Move the main "update" function into rules/, allows to remove
+	many minor "update" functions from the public state.h interface.
+
+	* src/heroes.h (update_htimer): Delete.
+	* src/heroes.c (update_htimer): Delete.
+	(update_all): Call state_update().
+	(play_game, play_demo): Call state_start_game(),
+	state_start_players().
+	* src/menus.c (quit_yes_no, pause_menu): Call state_pause().
+	* src/rules/state.c (state_init, state_free): Handle
+	a_level_bits.players_started and a_level_bits.update_timer.
+	* src/rules/state.h (state_start_game, state_update,
+	state_start_players, state_pause): New functions.
+	(update_lemmings, update_player, trigger_explosion,
+	trigger_possible_explosion, update_explosions,
+	update_bonuses): Move ...
+	* src/rules/statepriv.h (update_lemmings, update_player,
+	trigger_explosion, trigger_possible_explosion, update_explosions,
+	update_bonuses): ... here.
+	(a_level_bits) <update_timer, players_started>: New attributes.
+	* src/rules/updates.c (state_update, state_start_game,
+	state_start_players, state_pause): New functions.
+
+2002-02-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/heroes.c (play_game): Make sure exit_code is always
 	initialized.
 

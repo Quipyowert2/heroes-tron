@@ -2136,7 +2136,7 @@ pause_menu (void)
   event_sfx (59);
 
   /* delay important timers that continued running during the pause */
-  shift_htimer (update_htimer, pause_htimer);
+  state_pause (&state, pause_htimer);
   shift_htimer (event_htimer, pause_htimer);
 
   free_htimer (pause_htimer);
@@ -2194,7 +2194,7 @@ quit_yes_no (void)
   init_keyboard_map ();
 
   /* delay important timers that continued running during the pause */
-  shift_htimer (update_htimer, pause_htimer);
+  state_pause (&state, pause_htimer);
   shift_htimer (event_htimer, pause_htimer);
 
   reset_htimer (background_htimer);

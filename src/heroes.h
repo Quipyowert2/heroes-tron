@@ -35,7 +35,6 @@ extern a_timer demo_trigger_htimer;
 extern a_timer sound_track_htimer;
 extern long event_time;
 extern a_timer event_htimer;
-extern a_timer update_htimer;
 
 extern void compute_corner (int p, int n);
 extern void play_demo (void);

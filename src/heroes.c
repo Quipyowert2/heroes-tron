@@ -97,7 +97,6 @@ a_timer tiles_anim_htimer;
 a_timer corner_htimer;
 a_timer event_htimer;
 long event_time;		/* updated from event_htimer on each frame */
-a_timer update_htimer;
 a_timer waving_htimer;
 a_timer background_htimer;
 a_timer sound_track_htimer;
@@ -684,31 +683,21 @@ output_screen (char n)
 /****************/
 
 static int
-update_all (char plr)
+update_all (int started)
 {
-  int n = 0;
-  long frames = read_htimer (update_htimer);
+  int frames = state_update (&state);
 
-  update_explosions (&state);
-
-  for (; frames; --frames) {
-    if (plr) {
-      update_player (&state, 0);
-      update_player (&state, 1);
-      update_player (&state, 2);
-      update_player (&state, 3);
-      update_bonuses (&state);
+  if (started) {
+    int n;
+    for (n = 0; n < frames; ++n) {
       if (radar_current_pos < radar_target_pos)
 	radar_current_pos++;
       else if (radar_current_pos > radar_target_pos)
 	radar_current_pos--;
     }
-    if (state.game_mode == M_KILLEM)
-      update_lemmings (&state);
-    n++;
   }
 
-  return (n);
+  return frames;
 }
 
 
@@ -744,7 +733,7 @@ play_demo (void)
   reset_htimer (bonus_anim_htimer);
   reset_htimer (tiles_anim_htimer);
   reset_htimer (blink_htimer);
-  reset_htimer (update_htimer);
+  state_start_game (&state);
   output_screen ((char) n);	/* update corner[] */
 /*   corner[0]=render_buffer[0]; */
 /*   corner[1]=render_buffer[1]; */
@@ -777,6 +766,7 @@ play_demo (void)
 * MAIN LOOP in demos  *
 \* * * * * * * * * * */
   dmsg (D_SECTION, "demo main loop");
+  state_start_players (&state);
 
   do {
     event_time = read_htimer (event_htimer);
@@ -1215,7 +1205,7 @@ play_game (char cont)
   reset_htimer (bonus_anim_htimer);
   reset_htimer (tiles_anim_htimer);
   reset_htimer (blink_htimer);
-  reset_htimer (update_htimer);
+  state_start_game (&state);
 
   dmsg (D_SECTION, "introduce game");
 
@@ -1257,7 +1247,9 @@ play_game (char cont)
 
     sleep (1);
     update_htimers ();
-    reset_htimer (update_htimer);
+    /* Restart the game, otherwise the sleep would cause a jump
+       in the next frames.  */
+    state_start_game (&state);
 
     n = 1;
     do {
@@ -1282,6 +1274,7 @@ play_game (char cont)
 \* * * * * * * * * * * * * * */
 
   dmsg (D_SECTION, "game main loop");
+  state_start_players (&state);
 
   do {
     event_time = read_htimer (event_htimer);
@@ -1744,7 +1737,6 @@ heroes_main (int argc, char *argv[])
   event_htimer = new_htimer (T_GLOBAL, HZ (70));
   waving_htimer = new_htimer (T_GLOBAL, HZ (70));
   corner_htimer = new_htimer (T_GLOBAL, HZ (280));
-  update_htimer = new_htimer (T_LOCAL, HZ (70));
   background_htimer = new_htimer (T_LOCAL, HZ (70));
   sound_track_htimer = new_htimer (T_GLOBAL, HZ (2));
   tiles_anim_htimer = new_htimer (T_GLOBAL, HZ (70));
@@ -1791,7 +1783,6 @@ heroes_main (int argc, char *argv[])
   free_htimer (sound_track_htimer);
   free_htimer (tiles_anim_htimer);
   free_htimer (background_htimer);
-  free_htimer (update_htimer);
   free_htimer (waving_htimer);
   free_htimer (event_htimer);
   free_htimer (corner_htimer);

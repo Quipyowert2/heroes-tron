@@ -627,3 +627,46 @@ update_player (a_level_state *state, unsigned c)
       SQOC_VEHICLE_HEAD (c);
   }
 }
+
+int
+state_update (a_level_state *state)
+{
+  int n = 0;
+  long frames = read_htimer (state->private->update_timer);
+
+  update_explosions (state);
+
+  for (; frames; --frames) {
+    if (state->private->players_started) {
+      update_player (state, 0);
+      update_player (state, 1);
+      update_player (state, 2);
+      update_player (state, 3);
+      update_bonuses (state);
+    }
+    if (state->game_mode == M_KILLEM)
+      update_lemmings (state);
+    n++;
+  }
+
+  return (n);
+}
+
+
+void
+state_start_game (a_level_state *state)
+{
+  reset_htimer (state->private->update_timer);
+}
+
+void
+state_start_players (a_level_state *state)
+{
+  state->private->players_started = true;
+}
+
+void
+state_pause (a_level_state *state, const a_timer pause_timer)
+{
+  shift_htimer (state->private->update_timer, pause_timer);
+}
