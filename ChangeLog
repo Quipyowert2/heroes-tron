@@ -1,5 +1,13 @@
 2000-11-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/menu.c (playmenu_title_txt, playmenu_players_txt,
+	playmenu_goback_txt, playmenu_load_txt, gamemode_txt): New.
+	(init_menus_sprites, uninit_menus_sprites): Handle the above new
+	sprites.
+	(draw_play_menu): Use them.
+
+2000-11-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/menu.c (quitgame_yes_txt, quitgame_no_txt): Rename as ...
 	(quit_yes_txt, quit_no_txt): ... this.
 	(quitheroes_menu_txt): New.

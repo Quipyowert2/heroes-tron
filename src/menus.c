@@ -88,6 +88,11 @@ static sprite_t* ed_x_size_txt = 0;
 static sprite_t* ed_y_size_txt = 0;
 static sprite_t* ed_edit_txt = 0;
 static sprite_t* edit_sel_txt = 0;
+static sprite_t* playmenu_title_txt = 0;
+static sprite_t* playmenu_players_txt[2] = { 0, 0 };
+static sprite_t* playmenu_goback_txt = 0;
+static sprite_t* playmenu_load_txt = 0;
+static sprite_t* gamemode_txt[5] = { 0, 0, 0, 0, 0 };
 
 static sprite_t* jukebox_frame = 0;
 static sprite_t* jukebox_back = 0;
@@ -376,6 +381,23 @@ init_menus_sprites (void)
 
   /* editor selector */
   edit_sel_txt = compile_menu_text (txti[170], T_CENTERED|T_WAVING, 10, 159);
+
+  /* play menu */
+  playmenu_title_txt = compile_menu_text (txti[145], T_CENTERED|T_WAVING,
+					  4, 159);
+  playmenu_players_txt[0] = compile_menu_text (txti[147],
+					       T_CENTERED, 31, 159);
+  playmenu_players_txt[0] = compile_menu_text (txti[146],
+					       T_CENTERED, 31, 159);
+  playmenu_goback_txt = compile_menu_text (txti[94],
+					   T_CENTERED, 187, 159);
+  playmenu_load_txt = compile_menu_text (txti[148],
+					 T_CENTERED, 160, 159);
+  {
+    int i;
+    for (i = 0; i < 5; ++i)
+      gamemode_txt[i] = compile_menu_text (mode_name[i], T_CENTERED, 0, 159);
+  }
 }
 
 void
@@ -437,6 +459,16 @@ uninit_menus_sprites (void)
   free_menu (option_menu_data);
   free_menu (main_menu_data);
   FREE_SPRITE0 (edit_sel_txt);
+  FREE_SPRITE0 (playmenu_title_txt);
+  FREE_SPRITE0 (playmenu_players_txt[0]);
+  FREE_SPRITE0 (playmenu_players_txt[1]);
+  FREE_SPRITE0 (playmenu_goback_txt);
+  FREE_SPRITE0 (playmenu_load_txt);
+  {
+    int i;
+    for (i = 4; i >= 0; --i)
+      FREE_SPRITE0 (gamemode_txt[i]);
+  }
 }
 
 static void
@@ -1201,27 +1233,25 @@ quit_menu (void)
     return (1);
   }
 }
+
 void
 draw_play_menu (int l)
 {
   background_menu ();
-  draw_text_waving (txti[145], 159, 4, 1);
+  DRAW_SPRITE (playmenu_title_txt, corner[0]);
   hrule (21);
-  if (two_players)
-    draw_text_array[l == 0] (txti[146], 159, 31, 1);
-
-  else
-    draw_text_array[l == 0] (txti[147], 159, 31, 1);
+  draw_sprprogwav_if (l == 0, playmenu_players_txt[two_players], corner[0]);
   hrule (48);
-  draw_text_array[l == 1] (mode_name[0], 159, 60, 1);
-  draw_text_array[l == 2] (mode_name[2], 159, 83, 1);
-  draw_text_array[l == 3] (mode_name[1], 159, 99, 1);
-  draw_text_array[l == 4] (mode_name[3], 159, 115, 1);
-  draw_text_array[l == 5] (mode_name[4], 159, 131, 1);
+  {
+    int i;
+    for (i = 0; i < 5; ++i)
+      draw_sprprogwav_if (l == i + 1, gamemode_txt[i], corner[0]
+			  + (65 + 16 * i - 5 * (i == 0)) * xbuf);
+  }
   hrule (150);
-  draw_text_array[l == 6] (txti[148], 159, 160, 1);
+  draw_sprprogwav_if (l == 6, playmenu_load_txt, corner[0]);
   hrule (177);
-  draw_text_array[l == 7] (txti[94], 159, 187, 1);
+  draw_sprprogwav_if (l == 7, playmenu_goback_txt, corner[0]);
   waving_arrows (41 + l * 16 + 5 * (l > 1) - 15 * (l == 0) +
 		 13 * (l == 6) + 23 * (l == 7), 30);
 }
