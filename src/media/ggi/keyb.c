@@ -151,3 +151,9 @@ keys_pref_group (void)
 {
   return "ggi";
 }
+
+int
+keycode_to_ascii (a_keycode a)
+{
+  return a;
+}

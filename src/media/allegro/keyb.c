@@ -94,3 +94,9 @@ keys_pref_group (void)
 {
   return "allegro";
 }
+
+int
+keycode_to_ascii (a_keycode a)
+{
+  return scancode_to_ascii (a);
+}

@@ -1625,7 +1625,8 @@ editor_menu (void)
   int ywrap = 15;
   int xsize = 16;
   int ysize = 16;
-  char l2, flag = 0, flaglock = 0;
+  char flag = 0, flaglock = 0;
+  int l2;
   int tiles = 0;
   int j;
   FILE *tmphdl;
@@ -1763,7 +1764,7 @@ editor_menu (void)
 	set_pal_with_luminance (&tilesprev.palette);
 	event_sfx (111);
       } else if (l == 1) {
-	l2 = t & 255;
+	l2 = keycode_to_ascii (t);
 	if (l2 >= 'a' && l2 <= 'z')
 	  l2 -= 'a' - 'A';
 	if ((l2 >= '0' && l2 <= '9') || (l2 >= '@' && l2 <= 'Z')
@@ -2244,14 +2245,15 @@ enter_your_name (char c, char* name)
     }
     if (key_ready ()) {
       t = get_key ();
-      t = TOUPPER (t);
-      if (pos < PLAYER_NAME_SIZE)
-	if ((t > ' ' && t <= '_') || (t == ' ' && pos > 0)) {
-	  name[pos++] = t;
+      if (pos < PLAYER_NAME_SIZE) {
+	int a = TOUPPER (keycode_to_ascii (t));
+	if ((a > ' ' && a <= '_') || (a == ' ' && pos > 0)) {
+	  name[pos++] = a;
 	  name[pos] = 0;
 	  event_sfx (70);
 	  FREE_SPRITE0 (player_name); /* force recompilation */
 	}
+      }
       if ((t == HK_BackSpace || t == HK_Delete) && (pos > 0)) {
 	pos--;
 	name[pos] = 0;

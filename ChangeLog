@@ -1,5 +1,14 @@
 2001-12-09  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/media/keyb.h (keycode_to_ascii): Declare.
+	* src/media/dummy/keyb.c (keycode_to_ascii): Define.
+	* src/media/sdl/keyb.c (keycode_to_ascii): Define.
+	* src/media/ggi/keyb.c (keycode_to_ascii): Define.
+	* src/media/allegro/keyb.c (keycode_to_ascii): Define.
+	* src/menus.c (editor_menu, enter_your_name): Use it.
+
+2001-12-09  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/heroes.c (get_input_directions): Don't assume keyboard_map
 	contains 0 or 1 (that's not true with Allegro).
 	* src/media/Makefile.inc (media_libhallvkm_a_CFLAGS): Don't use

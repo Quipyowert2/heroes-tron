@@ -38,6 +38,7 @@ char mouse12 (void);
 
 void process_input_events (void);
 a_keycode get_key (void);
+int keycode_to_ascii (a_keycode k);
 int key_ready (void);
 
 int init_mouse (void);

@@ -173,3 +173,9 @@ keys_pref_group (void)
 {
   return "sdl";
 }
+
+int
+keycode_to_ascii (a_keycode a)
+{
+  return a;
+}
