@@ -1,5 +1,9 @@
 2000-11-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/argv.c (print_help): Rewrite more cleanly.
+
+2000-11-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Use xmalloc-based macros or functions.  As a consequence
 	do not perform error checking on malloc return anymore.
 

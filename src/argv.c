@@ -85,49 +85,55 @@ list (char *word)
 static void
 print_help (char* argv0)
 {
-  printf ("Usage: %s [OPTIONS]...\n\n",argv0);
-  puts ("Heroes is a game like nibbles but different.\n"
-	"\nGeneral options:\n"
-	"      --version\t\t"	    "    display version number\n"
-	"  -h, --help\t\t"	    "    display this help\n"
-	"  -q, --quiet\t\t"	    "    don't print warning messages\n"
-	"  -Q, --really-quiet\t"    "    don't even print error messages\n"
-	"  -v, --verbose=OPTIONS\t" "    enable debugging messages\n"
-	"  -l, --list=WORD\t"
-                           "    show some internal information; WORD can be\n"
-	"\t\t\t"		    "      `resources' or `sound-drivers'.\n"
-	"\nSound options:\n"
-	"  -d, --driver=N[,OPTIONS]"
-	                  "  use Nth driver for sound output (0: autodetect)\n"
-	"  -S, --no-sound\t"        "    disable sound\n"
-	"  -X, --no-sfx\t\t"        "    disable sound-effects\n"
-	"  -m, --mono\t\t"          "    non-stereo output\n"
-	"  -8, --8bits\t\t"	    "    8bits sound output\n"
-	"  -i, --high-quality\t"    "    high quality mixer\n"
-	"\nDisplay options:\n"
-	"  -G, --gfx-options=OPTIONS"
-                                    " options to give to the display driver\n"
-	"  -F, --full-screen\t"     "    full screen mode\n"
-	"  -2, --double\t\t"        "    stretch the display twofold\n"
-	"  -3, --triple\t\t"        "    stretch the display threefold\n"
-	"  -e, --even-lines\t"      "    display only even-lines\n"
-	"\nMiscellaneous options:\n"
-	"      --cpu-off\t\t"	    "    disable computer opponents\n"
-	"      --default-scores\t"  "    restore default scores file\n"
-	"      --default-options\t" "    restore default options file\n"
-	"      --default-saves\t"   "    restore default saves file\n"
-	"  -s, --swap-sides\t"      "    swap sides in two player mode\n"
-	"      --no-double-fx\t"
-                           "    disable superposition of rotozoom and waves\n"
-	"  -g, --go\t\t"            "    skip the introduction\n"
-	"  -J, --no-joystick\t"     "    disable joystick handling\n"
-	"\n"
-	"These options can be set in your file ~/.heroes/heroesrc (which is "
-        "read\nbefore parsing other command line options) using a line like "
-	"this:\n\n"
-	"  Options: -gs -d3,buffer=11,count=4\n"
-	"\n"
-	"Report bugs to <heroes-bugs@lists.sourceforge.net>.");
+  printf ("Usage: %s [OPTIONS]...\n\n", argv0);
+  /* append '\n' to all lines, even the last in a puts (we
+     want an empty line between paragraphs) */
+  puts ("\
+Heroes is a game like nibbles but different.\n");
+  puts ("\
+Mandatory arguments to long options are mandatory for short options too.\n");
+  puts ("\
+General options:\n\
+  -v, --version               display version number\n\
+  -h, --help                  display this help\n\
+  -q, --quiet                 don't print warning messages\n\
+  -Q, --really-quiet          don't even print error messages\n\
+  -v, --verbose=OPTIONS       enable debugging messages\n\
+  -l, --list=WORD             show some internal information; WORD can be\n\
+                                `resources' or `sound-drivers' \n");
+  puts ("\
+Sound options:\n\
+  -d, --driver=N[,OPTIONS]    use Nth driver for sound output (0:autodetect)\n\
+  -S, --no-sound              disable sound\n\
+  -X, --no-sfx                disable sound-effects\n\
+  -m, --mono                  non-stereo output\n\
+  -8, --8bits                 8bits sound output\n\
+  -i, --high-quality          high quality mixer\n");
+  puts ("\
+Display options:\n\
+  -G, --gfx-options=OPTIONS   pass OPTIONS to the display driver\n\
+  -F, --full-screen           full screen mode\n\
+  -2, --double                stretch the display twofold\n\
+  -3, --triple                stretch the display threefold\n\
+  -e, --even-lines            display only even-lines\n");
+  puts ("\
+Miscellaneous options:\n\
+      --cpu-off               disable computer opponents\n\
+      --default-scores        restore default scores file\n\
+      --default-options       restore default options file\n\
+      --default-saves         restore default saves file\n\
+  -s, --swap-sides            swap sides in two player mode\n\
+      --no-double-fx          disable superposition of rotozoom and waves\n\
+  -g, --go                    skip the introduction\n\
+  -J, --no-joystick           disable joystick handling\n");
+  puts ("\
+These options can be set in your file ~/.heroes/heroesrc (which is read\n\
+before parsing other command line options) using a line like the following:\n\
+\n\
+  Options: -gs -d3,buffer=11,count=4\n");
+  puts ("\
+Visit http://heroes.sourceforge.net/ for news, documentation, and updates.");
+  puts ("Report bugs to <heroes-bugs@lists.sourceforge.net>.");
 }
 
 const struct option long_options[] = {
