@@ -25,7 +25,8 @@
 #include "structs.h"
 #include "const.h"
 
-bg_data_t* bg_data = 0;
+bg_data_t *bg_data = 0;
+fg_data_t *fg_data = 0;
 
 void
 uninit_render_data (void)
@@ -34,6 +35,8 @@ uninit_render_data (void)
 
   free (bg_data);
   bg_data = 0;
+  free (fg_data);
+  fg_data = 0;
 }
 
 void
@@ -48,9 +51,16 @@ init_render_data (void)
   if (!bg_data)
     emsg ("Not enough memory, cannot allocate bg_data.");
 
+  fg_data = malloc (max_pos * sizeof (*fg_data));
+  if (!fg_data)
+    emsg ("Not enough memory, cannot allocate fg_data.");
+
   /* initialize background tile information */
     
   for (pos = 0; pos < max_pos; ++pos) {
+
+    /* background data */
+
     bg_data[pos].source = level_map[pos].number + tile_set_img.buffer;
     if (level_map[pos].type == t_anim) {
       /* Cyclic animation */
@@ -74,5 +84,14 @@ init_render_data (void)
       bg_data[pos].anim_speed = 0;
       bg_data[pos].anim_frames = 0;
     }
+
+    /* foreground data */
+
+    if (level_map[pos].sprite)
+      fg_data[pos].sprite = level_map[pos].sprite + tile_set_img.buffer;
+    else
+      fg_data[pos].sprite = 0;
+    fg_data[pos].bonus = 0;
+    fg_data[pos].big_dollar = 0;
   }
 }

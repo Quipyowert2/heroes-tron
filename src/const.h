@@ -128,7 +128,7 @@ extern unsigned char *tile_bonus;
 extern unsigned char *tile_bonus_cpu;
 extern int *square2tile;
 extern int *bonus_time;
-extern unsigned char **bonus_ptr;
+extern int *bonus_list;
 extern int *square_wrap;
 extern int *square_offset2coord;
 extern signed char *square_object;

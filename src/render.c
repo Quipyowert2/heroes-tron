@@ -57,12 +57,11 @@ copy_tile (const pixel_t* src, pixel_t* dest, int tx)
 }
 
 static void
-copy_tile_transp (int offset, pixel_t* dest)
+copy_tile_transp (const pixel_t *src, pixel_t *dest, int width)
 {
-  int i = tile_set_img.width;
   int j, k;
   pixel_t c;
-  const pixel_t* src = tile_set_img.buffer + offset;
+
   for (j = 20; j != 0; j--) {
     for (k = 24; k != 0; k--) {
       c = *src++;
@@ -70,62 +69,44 @@ copy_tile_transp (int offset, pixel_t* dest)
 	*dest = c;
       dest++;
     }
-    src += i - 24;
+    src += width - 24;
     dest += xbuf - 24;
   }
 }
 
 static void
-draw_bonus (unsigned char b, pixel_t* dest)
+draw_dollar (pixel_t *dest)
 {
   int j, k;
-  const pixel_t* src;
-  pixel_t c;
-  if (b != 16 && b != (128 + 16)) {
-    if (b & 128)
-      src = bonus_b_img.buffer + (b & 127) * 320 * 20 + bonus_anim_offset;
-    else
-      src = bonus_a_img.buffer + b * 320 * 20 + bonus_anim_offset;
+  const pixel_t *src = main_font_img.buffer + 81 * 320;
 
-    for (j = 20; j != 0; j--) {
-      for (k = 24; k != 0; k--) {
-	c = *src++;
-	if (c != 0)
-	  *dest = c;
-	dest++;
-      }
-      src += 320 - 24;
-      dest += xbuf - 24;
-    }
-  } else {
-    src = main_font_img.buffer + 81 * 320;
-    dest += 4 + 2 * xbuf;
-    if (opt.use_glenz)
-      for (j = 17; j != 0; j--) {
-	for (k = 17; k != 0; k--) {
-	  if (*src != 0) {
-	    if (*src == 1)
-	      *dest = glenz[0][*dest];
-	    else
-	      *dest = *src;
-	  }
-	  src++;
-	  dest++;
-	}
-	src += 320 - 17;
-	dest += xbuf - 17;
-    } else
-      for (j = 17; j != 0; j--) {
-	for (k = 17; k != 0; k--) {
-	  if (*src != 0 && *src != 1)
+  dest += 4 + 2 * xbuf;
+  if (opt.use_glenz) {
+    for (j = 17; j != 0; j--) {
+      for (k = 17; k != 0; k--) {
+	if (*src != 0) {
+	  if (*src == 1)
+	    *dest = glenz[0][*dest];
+	  else
 	    *dest = *src;
-	  src++;
-	  dest++;
 	}
-	src += 320 - 17;
-	dest += xbuf - 17;
+	++src;
+	++dest;
       }
-
+      src += 320 - 17;
+      dest += xbuf - 17;
+    } 
+  } else {
+    for (j = 17; j != 0; j--) {
+      for (k = 17; k != 0; k--) {
+	if (*src != 0 && *src != 1)
+	  *dest = *src;
+	++src;
+	++dest;
+      }
+      src += 320 - 17;
+      dest += xbuf - 17;
+    }
   }
 }
 
@@ -554,7 +535,8 @@ draw_level (int p)
     camera_stop_x[p] = 1;
   else
     camera_stop_x[p] = 0;
-/******************** Affichage des tile_set_img ***********************/
+
+  /* Draw foreground tiles */
 
   anim_frame = read_htimer (tiles_anim_htimer);
 
@@ -591,7 +573,8 @@ draw_level (int p)
     dest += xbuf * 20 - 24 * (nbr_tiles_cols - camera_stop_x[p]);
   }
 
-/*************************** affichage des taches ***************************/
+  /* draw bloody dead lemings */ 
+
   if (game_mode == M_KILLEM) {
     dest = render_buffer[p] + sbuf - 24 - 10 * xbuf;
     for (k = corner_dy[p] * 2 - 1, l = 2 + (11 - camera_stop_y[p]) * 2; l > 0;
@@ -619,7 +602,8 @@ draw_level (int p)
 	dest += xbuf * 10;
     }
 
-/************************* affichage des bonhommes **************************/
+    /* draw lemmings */
+
     dest = render_buffer[p] + sbuf + 3 + xbuf;
     for (k = corner_dy[p] * 2, l = (11 - camera_stop_y[p]) * 2; l > 0;
 	 l--, k = ((k + 1) & (map_info_2ywrap))) {
@@ -639,7 +623,9 @@ draw_level (int p)
       dest += xbuf * 10 - 24 * (nbr_tiles_cols - camera_stop_x[p]);
     }
   }
-/********************* affichage des pyramides de couleur *******************/
+
+  /* draw color pyramids */
+  
   if (game_mode == M_COLOR) {
     dest = render_buffer[p] + sbuf + 2 + xbuf * 2;
     for (k = corner_dy[p] * 2, l = (11 - camera_stop_y[p]) * 2; l > 0;
@@ -658,6 +644,8 @@ draw_level (int p)
       dest += xbuf * 10 - 24 * (nbr_tiles_cols - camera_stop_x[p]);
     }
   }
+
+  /* draw small dollars */
 
   if (game_mode == M_TCASH) {
     dest = render_buffer[p] + sbuf + 2;
@@ -678,7 +666,8 @@ draw_level (int p)
     }
   }
 
-/******************** affichage des trainées et vehicules *******************/
+  /* draw transparent trails */
+  
   dest = render_buffer[p] + sbuf;
   for (k = corner_dy[p] * 2, l = (11 - camera_stop_y[p]) * 2; l > 0;
        l--, k = ((k + 1) & (map_info_2ywrap))) {
@@ -712,22 +701,28 @@ draw_level (int p)
     }
     dest += xbuf * 10 - 24 * (nbr_tiles_cols - camera_stop_x[p]);
   }
-/********************* affichage des bonus et des sprites *******************/
+
+  /* Draw transparent sprites (trees...), and bonuses. */
+
   dest = render_buffer[p] + sbuf;
   for (k = corner_dy[p], l = 11 - camera_stop_y[p]; l > 0;
        l--, k = ((k + 1) & map_info.ywrap)) {
     m = k * map_info.xt;
     for (i = corner_dx[p], j = nbr_tiles_cols - camera_stop_x[p]; j > 0;
 	 j--, i = ((i + 1) & map_info.xwrap)) {
-      if (tile_bonus[i + m] != 0 && tile_bonus[i + m] != 0xff)
-	draw_bonus ((char) (tile_bonus[i + m] - 1), dest);
-      if (level_map[i + m].sprite != 0)
-	copy_tile_transp (level_map[i + m].sprite, dest);
+      int pos = i + m;
+      if (fg_data[pos].bonus)
+	copy_tile_transp (fg_data[pos].bonus, dest, bonus_a_img.width);
+      if (fg_data[pos].big_dollar)
+	draw_dollar (dest);
+      if (fg_data[pos].sprite)
+	copy_tile_transp (fg_data[pos].sprite, dest, bonus_a_img.width);
       dest += 24;
     }
     dest += xbuf * 20 - 24 * (nbr_tiles_cols - camera_stop_x[p]);
   }
-/*************** Affichage des explosions, s'il y en a.**********************/
+
+  /* Draw explosions */
 
   dest = render_buffer[p] + sbuf - 12 - 11 * xbuf - 20 * xbuf - 12;
   for (k = corner_dy[p] * 2 - 2, l = 0; l != 4 + (11 - camera_stop_y[p]) * 2;
@@ -756,7 +751,7 @@ draw_level (int p)
       dest += xbuf * 10;
   }
 
-/*********** Affichage des explosions des morts, s'il y en a.*****************/
+  /* Draw explosions from dead players */
 
   if ((unsigned) (event_time - last_explo) < (nfrexplo1 - 1) * 8 - 1) {
     dest = render_buffer[p] + sbuf - 12 - 11 * xbuf - 20 * xbuf - 12;
@@ -790,7 +785,8 @@ draw_level (int p)
 	dest += xbuf * 10;
     }
   }
-/****************************** tutorial... *********************************/
+
+  /* Draw tutorial arrows */
 
   if (tutor) {
     sinl = (signed char) minisinus[read_htimer (waving_htimer) & 31];

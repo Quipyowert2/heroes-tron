@@ -1,6 +1,29 @@
 2000-10-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Use a separate struct to hold the information needed to
+	render the foreground sprites and bonuses.
+
+	* src/renderdata.h (fg_data_t, fg_data): New.
+	* src/renderdata.c (fg_data): New.
+	(init_render_data, uninit_render_data): Handle fg_data.
+	* src/const.h (bonus_ptr): Remove.
+	(bonus_list): New.
+	* src/const.c: Likewise.
+	* src/heroes.c (add_bonus): Adapt to use bonus_list and update
+	fg_data.
+	(rem_bonus, update_bonus): Likewise.
+	(add_random_bonus): Call add_bonus.
+	(load_level, unload_level): Use bonus_list instead of bonus_ptr.
+	* src/render.c (copy_tile_transp): Rewrite to take a source pointer
+	and the source image width as argument.
+	(draw_bonus): Remove (use copy_tile_transp instead), but move
+	the dollar drawing part into ...
+	(draw_dollar): ... this new function.
+	(draw_level): Use fg_data.
+
+2000-10-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Use a separate struct to hold the information needed to
 	render the background tiles.
 
 	* src/renderdata.c: New file.

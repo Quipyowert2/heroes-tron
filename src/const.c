@@ -192,7 +192,7 @@ unsigned char *tile_bonus;
 unsigned char *tile_bonus_cpu;
 int *square2tile;
 int *bonus_time;
-unsigned char **bonus_ptr;
+int *bonus_list;
 int *square_wrap;
 int *square_offset2coord;
 signed char *square_object;

@@ -36,6 +36,7 @@
 #include "extras.h"
 #include "visuals.h"
 #include "render.h"
+#include "renderdata.h"
 #include "pixelize.h"
 #include "txts.h"
 #include "misc.h"
@@ -163,25 +164,6 @@ random_bonus (void)
 }
 
 static void
-add_random_bonus (int i)
-{
-  int d;
-  unsigned char b;
-  do {
-    d = rand () % (map_info.xt * map_info.yt);
-  }
-  while (tile_bonus[d] != 0);
-  b = random_bonus ();
-  if (b != 16)			/* their can't be yellow `$$' bonuses */
-    if (!(rand () & 3))
-      b += 128;
-
-  tile_bonus[d] = b + 1;
-  bonus_ptr[i] = tile_bonus + d;
-  bonus_time[i] = event_time + (rand () % 511) - 256;
-}
-
-static void
 add_bonus (int i, unsigned char b)
 {
   int d;
@@ -191,19 +173,55 @@ add_bonus (int i, unsigned char b)
   while (tile_bonus[d] != 0);
 
   tile_bonus[d] = b;
-  bonus_ptr[i] = tile_bonus + d;
+  bonus_list[i] = d;
   bonus_time[i] = event_time + (rand () % 511) - 256;
+
+  --b;
+  /* update foreground data for rendering */
+  if (b == 16)
+    fg_data[d].big_dollar = 1;
+  else {
+    if (b & 128)
+      fg_data[d].bonus = (bonus_b_img.buffer 
+			  + (b & 127) * bonus_b_img.width * 20);
+    else
+      fg_data[d].bonus = (bonus_a_img.buffer 
+			  + b * bonus_a_img.width * 20);
+  }
+}
+
+static void
+add_random_bonus (int i)
+{
+  unsigned char b;
+
+  b = random_bonus ();
+  if (b != 16)			/* yellow `$$' bonuses do not exist */
+    if (!(rand () & 3))
+      b += 128;
+  
+  add_bonus (i, b + 1);
 }
 
 static void
 rem_bonus (int d)
 {
+
   int i = bonus_real_nbr;
-  d += (int) tile_bonus;
+
+  /* find the bonus position in the list of bonuses */
   do
     i--;
-  while ((int) (bonus_ptr[i]) != d);
-  *bonus_ptr[i] = 0;
+  while (bonus_list[i] != d);
+
+  /* remove the bonus */
+  tile_bonus[d] = 0;
+
+  /* don't draw it anymore */
+  fg_data[d].bonus = 0;
+  fg_data[d].big_dollar = 0;
+
+  /* add a new bonus, at the same position in the list */
   add_random_bonus (i);
 }
 
@@ -615,8 +633,8 @@ load_level (char *nomlvl, char cont)
   bonus_time = malloc (bonus_total_nbr * sizeof (*bonus_time));
   if (bonus_time == NULL)
     return (20);
-  bonus_ptr = malloc (bonus_total_nbr * sizeof (*bonus_ptr));
-  if (bonus_ptr == NULL)
+  bonus_list = malloc (bonus_total_nbr * sizeof (*bonus_list));
+  if (bonus_list == NULL)
     return (21);
   next_bonus_to_update = 0;
 
@@ -937,7 +955,7 @@ unload_level (void)
   free (tile_bonus_cpu);
   free (square2tile);
   free (bonus_time);
-  free (bonus_ptr);
+  free (bonus_list);
   free (square_wrap);
   free (square_offset2coord);
   if (game_mode == M_KILLEM && !in_menu) {
@@ -3182,12 +3200,18 @@ update_lemmings (void)
     }
 }
 
-/* only one bonus is update at each frame (there is no hurry) */
+/* only one bonus is updated at each frame (there is no hurry) */
 static void
 update_bonus (void)
 {
   if (bonus_time[next_bonus_to_update] + 25 * 70 <= event_time) {
-    *bonus_ptr[next_bonus_to_update] = 0;
+    int bonus_pos = bonus_list[next_bonus_to_update];
+    /* erase the bonus */
+    tile_bonus[bonus_pos] = 0;
+    /* dno't draw it anymore */
+    fg_data[bonus_pos].bonus = 0;
+    fg_data[bonus_pos].big_dollar = 0;
+    /* add a new bonus, at the same position in the list */
     add_random_bonus (next_bonus_to_update);
   }
   next_bonus_to_update++;

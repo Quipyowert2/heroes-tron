@@ -33,13 +33,24 @@
 enum tile_anim_kind { A_NONE, A_LOOP, A_PINGPONG };
 
 typedef struct {
-  pixel_t *source;		/* address of the tile's image */
+  const pixel_t *source;	/* address of the tile's image */
   enum tile_anim_kind kind;	/* kind of animation */
   int anim_speed;		/* speed for animated tiles */
   int anim_frames;		/* number of frames in an animation */
 } bg_data_t;
 
 extern bg_data_t *bg_data;
+
+/* data for foreground sprites (trees...) and bonuses, these are kept
+   in the same struct because they are drawn in the same loop */
+
+typedef struct {
+  const pixel_t *sprite;	/* transparent sprite if non nil */
+  const pixel_t *bonus;		/* bonus line, if non nil */
+  char big_dollar;		/* 1 if a big dollar must be drawn */
+} fg_data_t;
+
+extern fg_data_t *fg_data;
 
 extern void init_render_data (void);
 extern void uninit_render_data (void);
