@@ -1,11 +1,11 @@
 AC_DEFUN([heroes_aux_OBSOPT],
-[if test -n "$AC_TR_SH($1)"; then
+[if test -n "$MY_TR_SH($1)"; then
   AC_MSG_ERROR([--$1 is an obsolete option[]ifelse([$2],,,[,
 you should use --$2 instead])])
 fi])
 
 AC_DEFUN([heroes_aux_ERROPT],
-[if test -n "$AC_TR_SH($1)"; then
+[if test -n "$MY_TR_SH($1)"; then
   AC_MSG_ERROR([--$1 is an illegal option[]ifelse([$2],,,[,
 you probably want to use --$2])])
 fi])

@@ -10,7 +10,7 @@ dnl from a test in Zsh's configure.in (written by?)
 
 AC_DEFUN([AC_adl_FIND_HEADER],
 [# Where is <$1> located?
-AC_VAR_PUSHDEF([ac_adl_Header], [ac_cv_header_path_$1])
+MY_VAR_PUSHDEF([ac_adl_Header], [ac_cv_header_path_$1])
 AC_CACHE_CHECK([where $1 is located], ac_adl_Header,
 [# Look at the output from the preprocessor.
 # We should get lines of the form `# 1 "/usr/include/$1"'
@@ -38,10 +38,10 @@ do
   wc -l | sed 's/[ 	]//g'`
   test "x$ash_nmatch" != x && test "$ash_nmatch" -ge $5 && break
 done
-AC_VAR_SET(ac_adl_Header,[$ASH_FILE_H])
+MY_VAR_SET(ac_adl_Header,[$ASH_FILE_H])
 if test "$ASH_FILE_H" = "/dev/null"; then
   ifelse([$7], , [:], [$7])
 else
   ifelse([$6], , [:], [$6])
 fi])
-AC_VAR_POPDEF([ac_adl_Header])])
+MY_VAR_POPDEF([ac_adl_Header])])

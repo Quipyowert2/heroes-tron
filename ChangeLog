@@ -1,3 +1,13 @@
+2001-08-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Some Autoconf internal functions have changed between 2.50 and
+	2.52.  Add workarounds to be compatible with both versions.
+
+	* m4/compat.m4: New file.
+	* m4/checkpkg.m4: Use MY_TR_CPP
+	* m4/findheader.m4: Use MY_VAR_POPDEF, MY_VAR_PUSHDEF, and MY_VAR_SET.
+	* m4/h-obsolet.m4: Use MY_TR_SH.
+
 2001-07-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.ac: Bump version to 0.12c.
