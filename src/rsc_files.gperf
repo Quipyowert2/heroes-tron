@@ -1,6 +1,9 @@
 %{
 #include "common.h"
 #include "rsc_files_hash.h"
+
+/* prototype the hash function, to cope with a gcc warning */
+static unsigned int hash (const char *str, unsigned int len);
 %}
 struct rsc_file;
 %%

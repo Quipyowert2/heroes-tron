@@ -24,8 +24,10 @@
 struct rsc_file { 
   const char* name; 
   const char* value;
-  int modified, expanded; 
+  char*	modified_value;
+  int expanded; 
 };
+
 struct rsc_file* in_rsc_set (const char* str, unsigned int len);
 
 #endif /* HEROES__RSC_FILES_HASH__H */

@@ -34,10 +34,9 @@ set_rsc_file (const char* rsc_name, const char* file_name)
     return 1;
   }
   dmsg (D_RESOURCE, "set resource $(%s)=%s", rsc_name, file_name);
-  if (res->modified)
-    free (res->value);
-  res->value = strdup (file_name);
-  res->modified = 0;
+  if (res->modified_value)
+    free (res->modified_value);
+  res->modified_value = strdup (file_name);
   return 0;
 }
 
@@ -101,7 +100,9 @@ get_rsc_file (const char* rsc_name)
   if (res->expanded)		/* prevent infinite recursion */
     return 0;
   res->expanded = 1;
-  tmp = strdup (res->value);	/* rsc_expand will modify tmp */
+
+  /* strdup the value, rsc_expand will modify it */
+  tmp = strdup (res->modified_value ? res->modified_value : res->value);
   dmsg (D_RESOURCE, "get resource $(%s)=%s", rsc_name, tmp);
   result = rsc_expand (tmp);
   dmsg (D_RESOURCE, "expanded resource $(%s)=%s", rsc_name, result);

@@ -51,7 +51,7 @@ new_htimer (enum htimer_kind kind, long slice_duration)
   result->kind = kind;
   result->slice_duration = slice_duration;
   reset_htimer (result);
-  dmsg (D_TIMER, "created new timer (kind=%d, slice_duration=%d)=%p",
+  dmsg (D_TIMER, "created new timer (kind=%d, slice_duration=%ld)=%p",
 	kind, slice_duration, &result);
   return result;
 }

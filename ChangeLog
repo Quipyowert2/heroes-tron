@@ -1,5 +1,16 @@
 2000-10-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Miscellaneous warning fixes
+
+	* src/fontdata.c (compute_text_width): Cast *text indice to int.
+	* src/rsc_files_hash.h (rsc_file): Replace the modified flag by
+	a modified_value string.  The initial value will never be modified.
+	* src/rsc_files.c (set_rsc_file,get_rsc_file): Use modified_value.
+	* src/rsc_files.gperf: Prototype hash.
+	* src/timer.c (new_htimer): Fix dmsg format.
+
+2000-10-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Adapt keyboard_menu to use rleprogs.
 
 	* src/menus.c (keyboard_menu_txt, keyboard_keys_txt): New.

@@ -103,6 +103,6 @@ compute_text_width (const fontdata_t *font, const char *text,
   
   for (; *text; ++text)
     if (!ignore_spaces || *text != ' ')
-      width += font->width[*text];
+      width += font->width[(int) *text];
   return width;
 }
