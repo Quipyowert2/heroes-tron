@@ -1,3 +1,8 @@
+2001-05-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.in: Ask AM_GNU_GETTEXT to check for ngettext.
+	Reported by Jean.
+
 2001-05-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.in: Bump version number to 0.9b.

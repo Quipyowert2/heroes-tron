@@ -157,7 +157,7 @@ AC_C_BIGENDIAN_CROSS
 # =====================
 
 ALL_LINGUAS="de fr it nl"
-AM_GNU_GETTEXT
+AM_GNU_GETTEXT(,[need-ngettext])
 
 # ===================================
 # Setup the correct compiler options.
