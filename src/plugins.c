@@ -24,13 +24,24 @@
 #include "rsc_files.h"
 #include "errors.h"
 
+/* For some unclear reason, ltdl.h define this symbol the the
+   LTDL_SET_PRELOADED_SYMBOLS macro only.  */
+extern const lt_dlsymlist lt_preloaded_symbols[];
+
 void
 plugins_initialize (void)
 {
   char *name = get_rsc_file ("plug-in-dir");
-  int err = lt_dlinit ();
+  int err;
+
+  err = lt_dlpreload_default (lt_preloaded_symbols);
   if (err)
-    emsg (_("libltdl:lt_dlinit reported %d errors"), err);
+    emsg (_("%s reported %d errors"), "lt_dlpreload_default",  err);
+
+  err = lt_dlinit ();
+  if (err)
+    emsg (_("%s reported %d errors"), "lt_dlinit",  err);
+
   lt_dladdsearchdir (name);
   free (name);
 }

@@ -1,5 +1,9 @@
 2002-04-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/plugins.c (plugins_initialize): Register the preloaded symbols.
+
+2002-04-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* tools/ltmain.sh, m4/libtool.m4: Downgrade to latest version
 	from CVS libtool on branch-1-4.
 
