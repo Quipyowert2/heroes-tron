@@ -1,3 +1,9 @@
+2001-06-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/joystick.c [HAVE_SDL_JOYSTICKOPEN, HAVE_LIBGII]
+	(get_joystick_state): Print debug messages for joystick events.
+	* src/debugchn.def (joystick): Adjust documentation.
+
 2001-06-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* lib/filelock.h: Change protoype.

@@ -51,7 +51,7 @@ _get_joystick_state (void)
       giiEventRead (joystick, &ev,
 		    emValAbsolute | emKeyPress | emKeyRelease);
       if (ev.any.type == evKeyPress) {
-/*  	printf("evKeyPress %d\n",ev.key.button); */
+  	dmsg (D_JOYSTICK, "joystick button #%d pressed\n", ev.key.button);
 	switch (ev.key.button) {
 	case 1:
 	  joystick_b[0] |= 1;
@@ -67,7 +67,7 @@ _get_joystick_state (void)
 	  break;
 	}
       } else if (ev.any.type == evKeyRelease) {
-/*  	printf("evKeyRelease %d\n",ev.key.button); */
+  	dmsg (D_JOYSTICK, "joystick button #%d released\n", ev.key.button);
 	switch (ev.key.button) {
 	case 1:
 	  joystick_b[0] &= ~1;
@@ -83,13 +83,10 @@ _get_joystick_state (void)
 	  break;
 	}
       } else if (ev.any.type == evValAbsolute) {
-	/*
 	unsigned int i;
-	printf("evValAbsolute\n");
-	for (i = ev.val.first; i < ev.val.first + ev.val.count; ++i) {
-	  printf("value[%d] = %d\n",i,ev.val.value[i]);
-	}
-	*/
+	for (i = ev.val.first; i < ev.val.first + ev.val.count; ++i)
+	  dmsg (D_JOYSTICK, "joystick valuator #%u = %d", i,
+		ev.val.value[i - ev.val.first]);
 	if (0 == ev.val.first)
 	  joystick_x[0] = ev.val.value[0];
 	if (1 >= ev.val.first && 1 <= ev.val.first + ev.val.count)
@@ -187,6 +184,12 @@ void get_joystick_state (void)
     joystick_x[1] = SDL_JoystickGetAxis(joystick[1], 0);
     joystick_y[1] = SDL_JoystickGetAxis(joystick[1], 1);
   }
+  if (joystick[0])
+    dmsg (D_JOYSTICK, "joystick #1 state: x=%d y=%d b=%d",
+	  joystick_x[0], joystick_y[0], joystick_b[0]);
+  if (joystick[1])
+    dmsg (D_JOYSTICK, "joystick #2 state: x=%d y=%d b=%d",
+	  joystick_x[1], joystick_y[1], joystick_b[1]);
 }
 
 #endif /* HAVE_SDL_JOYSTICKOPEN */

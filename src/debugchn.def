@@ -77,7 +77,7 @@ channel = {
 
 channel = {
 	name  = joystick;
-	descr = "joystick initialization";
+	descr = "joystick initialization and events";
 };
 
 channel = {
