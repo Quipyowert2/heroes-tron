@@ -2072,7 +2072,7 @@ pause_menu (void)
 
   /* FIXME: find a mean to backup the screen (now that
      screen is not used anymore...) */
-  backup_screen (render_buffer[0]);
+  /* backup_screen (render_buffer[0]); */
   shade_scr_area (render_buffer[0], render_buffer[1]);
   corner[0] = render_buffer[0];
 
@@ -2112,7 +2112,7 @@ quit_yes_no (void)
 
   /* FIXME: find a mean to backup the screen (now that
      screen is not used anymore...) */
-  backup_screen (render_buffer[0]);
+  /* backup_screen (render_buffer[0]); */
   shade_scr_area (render_buffer[0], render_buffer[1]);
   corner[0] = render_buffer[0];
 

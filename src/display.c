@@ -37,17 +37,6 @@ pixel_t* screen_rv = 0;		/* A pointer to the screen buffer associated
    emulated etc.).  If screen_rv points directly to hardware video
    it might requires locking. */
 
-pixel_t* screen = 0;		/* A pointer to the screen buffer,
-				   used throughout the game
-				   (screen is always xbuf*ybuf). */
-
-/* Otherwise, screen is a mallocated buffer  whose content is
-   stretched or copied to screen_rv before blitting.  This is a kluge
-   because when the blit is made accross different depths (common
-   case: the game is drawn in 8bits and most display are 16 or 24 bits
-   today) the stretching should be performed *during* the crossblit to
-   be efficient. */
-
 int scr_w, scr_h;		/* screen_rv width and height */
 int scr_pitch;			/* screen_rv pitch */
 
@@ -333,8 +322,6 @@ init_video (void)
 
   screen_rv = db->write;
 
-  XMALLOC_ARRAY (screen, xbuf * ybuf);
-
   dmsg (D_VIDEO, "set display flags");
   ggiAddFlags (visu, GGIFLAG_ASYNC);
   if (GT_SCHEME (vid_mode.graphtype) == GT_PALETTE)
@@ -347,7 +334,6 @@ uninit_video (void)
 {
   dmsg (D_MISC, "uninitialize video");
   XFREE0 (display_params);
-  XFREE0 (screen);
   if (render_visu) {
     dmsg (D_VIDEO, "close memory visual");
     ggiClose (render_visu);
@@ -479,8 +465,6 @@ init_video (void)
   else
     screen_rv = visu->pixels;
 
-  XMALLOC_ARRAY (screen, xbuf * ybuf);
-
   scr_pitch = visu->pitch;
 
   dmsg (D_VIDEO, "set misc. video parameters");
@@ -504,7 +488,6 @@ void
 uninit_video (void)
 {
   dmsg (D_MISC, "free screen buffer");
-  XFREE0 (screen);
 
   if (SDL_initialized) {
     SDL_Quit ();

@@ -106,25 +106,6 @@ flush_display2_moving (int x)
   flush_display (corner[swapside] + (x << 2));
 }
 
-/* FIXME: remove */
-void
-vsynch (void)
-{
-  flush_display (screen);
-}
-
-void
-backup_screen (pixel_t *dest)
-{
-  unsigned row;
-  const pixel_t *src = screen;
-  for (row = 200; row; --row) {
-    fastmem4 (src, dest, 320/4);
-    src += xbuf;
-    dest += xbuf;
-  }
-}
-
 void
 shade_scr_area (const pixel_t *src, pixel_t *dest)
 {
@@ -168,19 +149,6 @@ clear_scr_area (pixel_t *dest)
   unsigned row;
   for (row = 200; row; --row) {
     memset (dest, 0, 320);
-    dest += xbuf;
-  }
-}
-
-void
-aff_buffer (void)
-{
-  unsigned row;
-  const pixel_t *src = corner[0];
-  pixel_t *dest = screen;
-  for (row = 200; row; --row) {
-    fastmem4 (src, dest, 320/4);
-    src += xbuf;
     dest += xbuf;
   }
 }

@@ -32,7 +32,6 @@
 
 
 typedef u8_t pixel_t;
-extern pixel_t* screen;		/* xbuf * ybuf */
 
 void set_display_params (const char* str);
 void set_full_screen_mode (void);
