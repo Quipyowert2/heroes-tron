@@ -1,4 +1,4 @@
-I am pleased to announce the release of Heroes 0.9.
+I am pleased to announce the release of Heroes 0.10.
 
 Heroes is similar to the "Tron" and "Nibbles" games of yore, but
 includes many graphical improvements and new game features.
@@ -22,11 +22,11 @@ Note: this is a source code release, the `download' page also lists
 binary packages which might not be up-to-date yet.
 
 NEWS in this version include:
-  - internationalization (Dutch and French messages included;
-    feel free to submit those for your own language)
-  - improved display rendering (especially with GGI)
-  - revamped `configure'
-See the NEWS file for details, there have been a lot of changes not
+  - German and Italian messages
+  - support for global configuration files
+  - scores/saved games/preferences written as text files
+  - better relocation support
+See the NEWS file for details, there have been more changes not
 worth to list here.
 
 HELP!  Heroes development is open to anyone and we welcome any

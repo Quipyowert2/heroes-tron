@@ -2,7 +2,7 @@ Tasks for Heroes.  If you think something is missing here,
 please send a note to <heroes-discuss@lists.sourceforge.net>.
 
 
-Before 0.10
+Before 0.11
 -----------
 
   Create a convenience library to load levels.  This is will
@@ -11,8 +11,6 @@ Before 0.10
 
   Load the level in a way that doesn't require ATTRIBUTE_PACKED
   structures.  ATTRIBUTE_PACKED is evil.
-
-  Use makeheaders (provided I can get in touch with its maintainer).
 
   hedlite.c should be cleaned.
 
@@ -37,11 +35,6 @@ Before 1.0.0
 
   const.[ch] should not exist.
 
-  Think of the case were two heroes processes access a global score file.
-
-  Save games/options/scores files in text format.  By the same time,
-  save SDL and GII keybindings separately.
-
   Use {u,s}{8,16,32}_t types where it's important.
 
   A separate binary (say heroeslvl) is needed to perform various task
@@ -55,6 +48,7 @@ Before 1.0.0
 
   lib/fopenlock.c only know about fcntl locking, and don't perform any
   locking otherwise.  Other kind of locking should be implemented.
+
 
 Left for a 1.1.x development branch
 -----------------------------------
@@ -79,6 +73,8 @@ Miscellaneous
   Redesign the way menus are handled internally.
 
   Write assembly routines for stretching code.
+
+  Use makeheaders (provided I can get in touch with its maintainer).
 
 
 Ideas, to be discussed

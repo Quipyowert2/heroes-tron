@@ -1,5 +1,10 @@
 2001-05-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* ANNOUNCE: Update for 0.10.
+	* TODO: Likewise.
+
+2001-05-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Update copyright year for recently modified files.
 
 	* src/debugmsg.c: Copyright 2001.
