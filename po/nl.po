@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.8c\n"
-"POT-Creation-Date: 2001-05-23 08:55+0200\n"
+"POT-Creation-Date: 2001-07-10 19:08+0200\n"
 "PO-Revision-Date: 2001-02-23 22:37+01:00\n"
 "Last-Translator: Jos Boersema <joshb@FIXME>\n"
 "Language-Team: none <LL@li.org>\n"
@@ -304,6 +304,75 @@ msgstr "ONSCHENDBAAR!"
 #: src/bonus.c:387
 msgid "EXTRA-LIFE!"
 msgstr "EXTRA-LEVEN!"
+
+#: src/debughash.c:97 src/debughash.gperf:45
+msgid "all messages"
+msgstr "alle berichten"
+
+#: src/debughash.c:98 src/debughash.gperf:49
+msgid "files and directories handling"
+msgstr "bestanden en directories behandeling"
+
+#: src/debughash.c:99 src/debughash.gperf:50
+msgid "levels handling"
+msgstr "levels behandeling"
+
+#: src/debughash.c:100 src/debughash.gperf:47
+msgid "system related messages"
+msgstr "systeem gerelateerde berichten"
+
+#: src/debughash.c:102 src/debughash.gperf:48
+msgid "filename resources handling"
+msgstr "bestandsnaam hulpbronnen behandeling"
+
+#: src/debughash.c:103 src/debughash.gperf:56
+msgid "miscellaneous events"
+msgstr "diverse gebeurtenissen"
+
+#: src/debughash.c:104 src/debughash.gperf:58
+msgid "bonus"
+msgstr "bonus"
+
+#: src/debughash.c:105 src/debughash.gperf:51
+msgid "sound track events"
+msgstr "muziek-nummers gebeurtenissen"
+
+#: src/debughash.c:106 src/debughash.gperf:46
+msgid "different parts of the game"
+msgstr "verschillende delen van het spel"
+
+#: src/debughash.c:107 src/debughash.gperf:54
+#, fuzzy
+msgid "joystick initialization and events"
+msgstr "joystick initialisatie"
+
+# anybody?
+#: src/debughash.c:109 src/debughash.gperf:55
+#, fuzzy
+msgid "timer handling"
+msgstr "timer behandeling"
+
+#: src/debughash.c:111 src/debughash.gperf:57
+msgid "palette fade events"
+msgstr "palet-vervaag gebeurtenissen"
+
+#: src/debughash.c:113 src/debughash.gperf:52
+msgid "sound effects events"
+msgstr "geluidseffecten gebeurtenissen"
+
+#: src/debughash.c:115 src/debughash.gperf:53
+msgid "communication with the display driver"
+msgstr "communicatie met de weergave driver"
+
+#: src/debughash.c:165 src/debughash.gperf:87
+#, c-format
+msgid "%s: no such channel, assuming you meant '%s'."
+msgstr "%s: niet zo'n kanaal, neem aan dat u `%s' bedoeld."
+
+#: src/debughash.c:168 src/debughash.gperf:90
+#, c-format
+msgid "%s: no such channel (--list=debug will list all known channels)"
+msgstr "%s: niet zo'n kanaal (--list=debug zal alle bekende kanalen geven)"
 
 #. FIXME: ask to send a bug report with a trace
 #: src/display.c:353
@@ -785,12 +854,12 @@ msgstr "Kan `%s' niet openen."
 msgid "error in sfx.cfg"
 msgstr "fout in sfx.cfg"
 
-#: src/joystick.c:102
+#: src/joystick.c:99
 #, c-format
 msgid "unexpected event %d\n"
 msgstr "onverwachte gebeurtenis %d\n"
 
-#: src/joystick.c:115 src/joystick.c:151
+#: src/joystick.c:112 src/joystick.c:148
 msgid "No joystick found (run with `-J' to suppress this message)."
 msgstr ""
 "Geen joystick gevonden (draai met `-J' om dit bericht te onderdrukken)."
@@ -835,230 +904,236 @@ msgstr "TIJD IS GELD"
 msgid "COLORS"
 msgstr "KLEUREN"
 
-#: src/menus.c:191
+#: src/menus.c:193
 msgid "GAME"
 msgstr "SPEL"
 
-#: src/menus.c:192
+#: src/menus.c:194
 msgid "SCREEN"
 msgstr "SCHERM"
 
-#: src/menus.c:193
+#: src/menus.c:195
 msgid "SOUND"
 msgstr "GELUID"
 
-#: src/menus.c:194
+#: src/menus.c:196
 msgid "CONTROL"
 msgstr "CONTROLE"
 
 # "keys" as in "keyboard-keys": `toetsen'
-#: src/menus.c:195
+#: src/menus.c:197
 msgid "KEYS"
 msgstr "TOETSEN"
 
-#: src/menus.c:196
+#: src/menus.c:198
 msgid "EXTRAS"
 msgstr "EXTRAS"
 
-#: src/menus.c:197 src/menus.c:374 src/menus.c:384 src/menus.c:398
-#: src/menus.c:410 src/menus.c:420 src/menus.c:443 src/menus.c:539
+#: src/menus.c:199 src/menus.c:223 src/menus.c:386 src/menus.c:396
+#: src/menus.c:410 src/menus.c:422 src/menus.c:432 src/menus.c:455
+#: src/menus.c:546
 msgid "GO BACK"
 msgstr "GA TERUG"
 
 #. play menu
-#: src/menus.c:204 src/menus.c:533
+#: src/menus.c:206 src/menus.c:540
 msgid "PLAY"
 msgstr "SPEEL"
 
 #. options menu
-#: src/menus.c:205 src/menus.c:515
+#: src/menus.c:207 src/menus.c:527
 msgid "OPTIONS"
 msgstr "OPTIES"
 
-#: src/menus.c:206 src/menus.c:395
+#: src/menus.c:208 src/menus.c:407
 msgid "INFOS"
 msgstr "INFO"
 
 # "credits" doens't really exist in Dutch (?), used "THANKS"
-#: src/menus.c:207
+#: src/menus.c:209
 #, fuzzy
 msgid "CREDITS"
 msgstr "DANK"
 
-#: src/menus.c:208
+#: src/menus.c:210
 msgid "SCORES"
 msgstr "SCORES"
 
 # `editor' would do fine too though
 #. editor first menu
-#: src/menus.c:209 src/menus.c:525
+#: src/menus.c:211 src/menus.c:537
 msgid "EDITOR"
 msgstr "TEXTVERWERKER"
 
-#: src/menus.c:210
+#: src/menus.c:212
 msgid "QUIT"
 msgstr "STOP"
 
-#: src/menus.c:364
+#. TRANS: Create a new level.
+#: src/menus.c:220 src/menus.c:504
+msgid "NEW LEVEL"
+msgstr "NIEUW LEVEL"
+
+#. TRANS: Load an existing level for edition.
+#: src/menus.c:222
+msgid "LOAD LEVEL"
+msgstr "LAAD LEVEL"
+
+#: src/menus.c:376
 msgid "CONTROL OPTIONS"
 msgstr "CONTROLE OPTIES"
 
 #. 1st player
-#: src/menus.c:366 src/menus.c:405 src/menus.c:422
+#: src/menus.c:378 src/menus.c:417 src/menus.c:434
 msgid "PLAYER 1"
 msgstr "SPELER 1"
 
-#: src/menus.c:368 src/menus.c:372
+#: src/menus.c:380 src/menus.c:384
 msgid "AUTO PILOT"
 msgstr "AUTOMATISCHE PILOOT"
 
 #. 2nd player
-#: src/menus.c:370 src/menus.c:406 src/menus.c:430
+#: src/menus.c:382 src/menus.c:418 src/menus.c:442
 msgid "PLAYER 2"
 msgstr "SPELER 2"
 
-#: src/menus.c:380
+#: src/menus.c:392
 msgid "SOUND OPTIONS"
 msgstr "GELUID OPTIES"
 
-#: src/menus.c:382
+#: src/menus.c:394
 msgid "MUSIC"
 msgstr "MUZIEK"
 
 # if length is no problem: use GELUIDSEFFECTEN
 # if it is: GEL.EFF., or SFX (not shure if that is understandable)
-#: src/menus.c:383
+#: src/menus.c:395
 msgid "SFX"
 msgstr "GELUIDSEFF."
 
-#: src/menus.c:387
+#: src/menus.c:399
 msgid "MUSIC VOL"
 msgstr "MUZIEK VOL"
 
-#: src/menus.c:388
+#: src/menus.c:400
 msgid "SFX VOL"
 msgstr "GELUIDSEFF. VOL"
 
-#: src/menus.c:392
+#: src/menus.c:404
 msgid "SCREEN OPTIONS"
 msgstr "SCHERM OPTIES"
 
-#: src/menus.c:394
+#: src/menus.c:406
 msgid "RADAR"
 msgstr "RADAR"
 
-#: src/menus.c:396
+#: src/menus.c:408
 msgid "LIGHTING"
 msgstr "VERLICHTING"
 
-#: src/menus.c:397
+#: src/menus.c:409
 msgid "INERTIA"
 msgstr "TRAAGHEID"
 
-#: src/menus.c:403
+#: src/menus.c:415
 msgid "GAME OPTIONS"
 msgstr "SPEL OPTIES"
 
-#: src/menus.c:407
+#: src/menus.c:419
 msgid "PLAYER 3"
 msgstr "SPELER 3"
 
-#: src/menus.c:408
+#: src/menus.c:420
 msgid "PLAYER 4"
 msgstr "SPELER 4"
 
-#: src/menus.c:409
+#: src/menus.c:421
 msgid "SPEED"
 msgstr "SNELHEID"
 
-#: src/menus.c:418
+#: src/menus.c:430
 msgid "KEYBOARD DEFS"
 msgstr "TOETSENBORD DEF."
 
-#: src/menus.c:423 src/menus.c:431
+#: src/menus.c:435 src/menus.c:443
 msgid "UP"
 msgstr "OMHOOG"
 
-#: src/menus.c:424 src/menus.c:432
+#: src/menus.c:436 src/menus.c:444
 msgid "LEFT"
 msgstr "LINKS"
 
-#: src/menus.c:425 src/menus.c:433
+#: src/menus.c:437 src/menus.c:445
 msgid "DOWN"
 msgstr "OMLAAG"
 
-#: src/menus.c:426 src/menus.c:434
+#: src/menus.c:438 src/menus.c:446
 msgid "RIGHT"
 msgstr "RECHTS"
 
-#: src/menus.c:427 src/menus.c:435
+#: src/menus.c:439 src/menus.c:447
 msgid "TURBO"
 msgstr "TURBO"
 
-#: src/menus.c:428 src/menus.c:436
+#: src/menus.c:440 src/menus.c:448
 msgid "STOP"
 msgstr "STOP"
 
-#: src/menus.c:441
+#: src/menus.c:453
 msgid "EXTRAS LEVELS"
 msgstr "EXTRA LEVELS"
 
-#: src/menus.c:445
+#: src/menus.c:457
 msgid "ORIGINAL LEVELS"
 msgstr "ORIGINELE LEVELS"
 
-#: src/menus.c:447
+#: src/menus.c:459
 msgid "ORIGINAL+EXTRAS"
 msgstr "ORIGINEEL+EXTRAS"
 
-#: src/menus.c:449
+#: src/menus.c:461
 msgid "EXTRAS ONLY"
 msgstr "ALLEEN EXTRAS"
 
-#: src/menus.c:451
+#: src/menus.c:463
 msgid "EXTRAS: NONE"
 msgstr "EXTRAS: GEEN"
 
-#: src/menus.c:453
+#: src/menus.c:465
 msgid "EXTRAS: ALL"
 msgstr "EXTRAS: ALLES"
 
-#: src/menus.c:455
+#: src/menus.c:467
 msgid "EXTRAS: SELECT"
 msgstr "EXTRAS: KIES"
 
 #. pause menu
-#: src/menus.c:480
+#: src/menus.c:492
 msgid "PAUSE"
 msgstr "PAUZE"
 
 #. quit y/n menus
-#: src/menus.c:484
+#: src/menus.c:496
 msgid "QUIT THIS GAME?"
 msgstr "STOP DIT SPEL?"
 
-#: src/menus.c:486
+#: src/menus.c:498
 msgid "REALLY QUIT?"
 msgstr "ECHT STOPPEN?"
 
-#: src/menus.c:488
+#: src/menus.c:500
 msgid "NO"
 msgstr "NEE"
 
-#: src/menus.c:489
+#: src/menus.c:501
 msgid "YES"
 msgstr "JA"
 
-#. editor menu
-#: src/menus.c:492
+#: src/menus.c:506
 msgid "EXISTING LEVEL"
 msgstr "BESTAAND LEVEL"
 
-#: src/menus.c:494 src/menus.c:527
-msgid "NEW LEVEL"
-msgstr "NIEUW LEVEL"
-
-#: src/menus.c:496
+#: src/menus.c:508
 msgid "NAME"
 msgstr "NAAM"
 
@@ -1069,84 +1144,80 @@ msgstr "NAAM"
 #. bounds that you cannot cross.  X-WRAP is a check box used to specified
 #. whether a level must be wrapped horizontally or not when creating a
 #. new level.
-#: src/menus.c:504
+#: src/menus.c:516
 #, fuzzy
 msgid "X-WRAP"
 msgstr "X-OMVOUWEN"
 
 #. TRANS: Y-WRAP is a check box used to specified whether a level
 #. must be wrapped vertically or not.
-#: src/menus.c:507
+#: src/menus.c:519
 #, fuzzy
 msgid "Y-WRAP"
 msgstr "Y-OMVOUWEN"
 
 #. TRANS: width of the level
-#: src/menus.c:509
+#: src/menus.c:521
 msgid "X-SIZE"
 msgstr "X-GROOTTE"
 
 #. TRANS: height of the level
-#: src/menus.c:511
+#: src/menus.c:523
 msgid "Y-SIZE"
 msgstr "Y-GROOTTE"
 
-#: src/menus.c:512
+#: src/menus.c:524
 msgid "EDIT"
 msgstr "BEWERKEN"
 
 #. main menu
-#: src/menus.c:518
+#: src/menus.c:530
 msgid "HEROES"
 msgstr "HEROES"
 
 #. editor selector
-#: src/menus.c:521
+#: src/menus.c:533
 msgid "SELECT A LEVEL"
 msgstr "KIES EEN LEVEL"
 
-#: src/menus.c:529
-msgid "LOAD LEVEL"
-msgstr "LAAD LEVEL"
-
-#: src/menus.c:535
+#: src/menus.c:542
 msgid "ONE PLAYER"
 msgstr "1 SPELER"
 
-#: src/menus.c:537
+#: src/menus.c:544
 #, fuzzy
 msgid "TWO PLAYERS"
 msgstr "TWEE SPELERS"
 
-#: src/menus.c:541
+#: src/menus.c:548
 msgid "LOAD..."
 msgstr "LADEN..."
 
 # FIXME: shouldn't that be "choOse a save slot"?
 #. saved game selection
-#: src/menus.c:550
+#: src/menus.c:557
 #, fuzzy
 msgid "CHOOSE A SAVE SLOT"
 msgstr "KIES EEN BEWAAR POSITIE"
 
-#: src/menus.c:552
+#: src/menus.c:559
 #, fuzzy
 msgid "CHOOSE A LOAD SLOT"
 msgstr "KIES EEN LAAD POSITIE"
 
 #. enter your name
-#: src/menus.c:556
+#: src/menus.c:563
 msgid "ENTER YOUR NAME:"
 msgstr "GEEF UW NAAM:"
 
 #. end level info
 #. TRANS: SIZE is the size of the player trail, PTS the
 #. number of PoinTS
-#: src/menus.c:562
+#: src/menus.c:569
 msgid "SIZE  PTS  LIVES"
 msgstr "GROOTTE PUNTEN LEVENS"
 
-#: src/menus.c:564
+#: src/menus.c:571
 msgid "PTS  LIVES"
 msgstr "PUNTEN LEVENS"
 
@@ -1154,87 +1225,87 @@ msgstr "PUNTEN LEVENS"
 # "lives" translates to plural: `levens', cut `s' leaves "life"
 #. TRANS: this is for KILL'EM ALL mode, and MEN is the number
 #. of lemmings killed by one player
-#: src/menus.c:568
+#: src/menus.c:575
 #, fuzzy
 msgid " MEN  PTS  LIVES"
 msgstr " MAN  PNT  LEVEN"
 
-#: src/menus.c:570
+#: src/menus.c:577
 msgid "CA$H  PTS  LIVES"
 msgstr "GELD  PNT  LEVEN"
 
-#: src/menus.c:572
+#: src/menus.c:579
 msgid "COLORS  PTS  LIVES"
 msgstr "KLEUR   PNT  LEVEN"
 
-#: src/menus.c:574
+#: src/menus.c:584
 msgid "NEXT LEVEL"
 msgstr "VOLGENDE LEVEL"
 
-#. TRANS: this is a button that introduce the user to another
-#. menu.  This is NOT displayed during saving.
-#: src/menus.c:578
+#. TRANS: this is a menu entry that introduce the user to another
+#. menu.  This is NOT displayed DURING saving.
+#: src/menus.c:589
 msgid "SAVE..."
 msgstr "BEWAAR..."
 
-#: src/menus.c:580
+#: src/menus.c:594
 msgid "PRESS RETURN"
 msgstr "DRUK OP ENTER"
 
-#: src/menus.c:589
+#: src/menus.c:603
 msgid "WINS  PTS  LIVES"
 msgstr "WINS  PNT  LEVEN"
 
 #. higher scores
-#: src/menus.c:600
+#: src/menus.c:614
 msgid "HIGHER SCORES"
 msgstr "HOGERE SCORES"
 
-#: src/menus.c:1233
+#: src/menus.c:1245
 #, fuzzy, c-format
 msgid "%d ROUND"
 msgid_plural "%d ROUNDS"
 msgstr[0] "%d RONDES"
 
-#: src/menus.c:2250
+#: src/menus.c:2241
 #, c-format
 msgid "PLAYER %d, YOU CAME IN THE TOP 10"
 msgstr "SPELER %d, U STAAT IN DE TOP 10"
 
-#: src/menus.c:2316
+#: src/menus.c:2307
 #, c-format
 msgid "PLAYER %d WON!"
 msgstr "SPELER %d WINT!"
 
-#: src/menus.c:2322
+#: src/menus.c:2313
 msgid "EVERYONE LOST!"
 msgstr "IEDEREEN VERLIEST!"
 
-#: src/menus.c:2324
+#: src/menus.c:2315
 msgid "YOU LOST!"
 msgstr "U VERLIEST!"
 
-#: src/menus.c:2403
+#: src/menus.c:2394
 #, c-format
 msgid "ROUND %d/%d"
 msgstr "RONDE %d/%d"
 
-#: src/musicfiles.c:165
+#: src/musicfiles.c:180
 #, c-format
 msgid "%s:%d: missing alias name"
 msgstr "%s:%d: alias naam mist"
 
-#: src/musicfiles.c:167
+#: src/musicfiles.c:182
 #, c-format
 msgid "%s:%d: missing file name"
 msgstr "%s:%d: bestandsnaam mist"
 
-#: src/musicfiles.c:169
+#: src/musicfiles.c:184
 #, c-format
 msgid "%s:%d: missing title"
 msgstr "%s:%d: titel mist"
 
-#: src/musicfiles.c:171
+#: src/musicfiles.c:186
 #, c-format
 msgid "%s:%d: missing author"
 msgstr "%s:%d: auteur mist"
@@ -1341,12 +1412,12 @@ msgstr "Kan `%s' niet openen"
 msgid "%s: truncate error"
 msgstr ""
 
-#: src/savegame.c:124
+#: src/savegame.c:127
 #, c-format
 msgid "%s:%d: parse error.  Clearing saved-games table."
 msgstr ""
 
-#: src/scores.c:148
+#: src/scores.c:151
 #, c-format
 msgid "%s:%d: parse error.  Clearing score table."
 msgstr ""
@@ -1464,74 +1535,6 @@ msgstr "%s:%d: missende hulpbron naam"
 #, c-format
 msgid "%s:%d: unknown keyword `%s'"
 msgstr "%s:%d: onbekend sleutelwoord `%s'"
-
-#: src/debughash.gperf:45
-msgid "all messages"
-msgstr "alle berichten"
-
-#: src/debughash.gperf:46
-msgid "different parts of the game"
-msgstr "verschillende delen van het spel"
-
-#: src/debughash.gperf:47
-msgid "system related messages"
-msgstr "systeem gerelateerde berichten"
-
-#: src/debughash.gperf:48
-msgid "filename resources handling"
-msgstr "bestandsnaam hulpbronnen behandeling"
-
-#: src/debughash.gperf:49
-msgid "files and directories handling"
-msgstr "bestanden en directories behandeling"
-
-#: src/debughash.gperf:50
-msgid "levels handling"
-msgstr "levels behandeling"
-
-#: src/debughash.gperf:51
-msgid "sound track events"
-msgstr "muziek-nummers gebeurtenissen"
-
-#: src/debughash.gperf:52
-msgid "sound effects events"
-msgstr "geluidseffecten gebeurtenissen"
-
-#: src/debughash.gperf:53
-msgid "communication with the display driver"
-msgstr "communicatie met de weergave driver"
-
-#: src/debughash.gperf:54
-msgid "joystick initialization"
-msgstr "joystick initialisatie"
-
-# anybody?
-#: src/debughash.gperf:55
-#, fuzzy
-msgid "timer handling"
-msgstr "timer behandeling"
-
-#: src/debughash.gperf:56
-msgid "miscellaneous events"
-msgstr "diverse gebeurtenissen"
-
-#: src/debughash.gperf:57
-msgid "palette fade events"
-msgstr "palet-vervaag gebeurtenissen"
-
-#: src/debughash.gperf:58
-msgid "bonus"
-msgstr "bonus"
-
-#: src/debughash.gperf:87
-#, c-format
-msgid "%s: no such channel, assuming you meant '%s'."
-msgstr "%s: niet zo'n kanaal, neem aan dat u `%s' bedoeld."
-
-#: src/debughash.gperf:90
-#, c-format
-msgid "%s: no such channel (--list=debug will list all known channels)"
-msgstr "%s: niet zo'n kanaal (--list=debug zal alle bekende kanalen geven)"
 
 #~ msgid ""
 #~ "\n"

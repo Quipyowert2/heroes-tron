@@ -359,8 +359,7 @@ group c) is not.
 
  - Update externally-maintained files
  - Update administrative files:
-   + THANKS (all the emails from the ChangeLog should
-             figure in THANKS or AUTHORS)
+   + src/people.def (add new contributions if not already done)
    + NEWS, TODO, BUGS must be up to date
  - Set version number in configure.ac
  - run tools/cvsboot.sh and make a dummy build

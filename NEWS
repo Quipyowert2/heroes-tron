@@ -1,3 +1,11 @@
+Heroes 0.12	July 10, 2001
+
+	* Locking support for windows (untested).
+	* Bug fixes:
+	  - Heroes used to be mute on five levels.
+	  - Various cosmetic issues in menus.
+	  - Correct Joystick reading code for libggi.
+
 Heroes 0.11	May 23, 2001
 
 	* Bug fixes:

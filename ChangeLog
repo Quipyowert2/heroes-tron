@@ -1,3 +1,11 @@
+2001-07-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.ac: Bump version to 0.12.
+	* HACKING: Update.
+	* TODO: Update.
+	* NEWS: Update.
+	* m4/gettext.m4: Update from Debian's gettext 0.10.38-2.
+
 2001-06-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	These patches are no longer needed with gettext-0.10.38.

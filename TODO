@@ -2,7 +2,7 @@ Tasks for Heroes.  If you think something is missing here,
 please send a note to <heroes-discuss@lists.sourceforge.net>.
 
 
-Before 0.12
+Short term.
 -----------
 
   Create a convenience library to load levels.  This is will
@@ -12,12 +12,17 @@ Before 0.12
   Load the level in a way that doesn't require ATTRIBUTE_PACKED
   structures.  ATTRIBUTE_PACKED is evil.
 
-  hedlite.c should be cleaned.
+  A separate binary (say heroeslvl) is needed to perform various task
+  on level files (such as modification of the header fields, automatic
+  generation of level.lst, level integrity checking -- maybe conversion
+  of level format, should we need to do this a day).
 
-Before 1.0.0
+Middle term.
 ------------
 
   The code is VERY UGLY and needs to be cleaned up.
+
+  hedlite.c should be cleaned.
 
   If possible, Get rid of GETWORD, SETWORD and Cie, see src/endian.h.
 
@@ -37,23 +42,13 @@ Before 1.0.0
 
   Use {u,s}{8,16,32}_t types where it's important.
 
-  A separate binary (say heroeslvl) is needed to perform various task
-  on level files (such as modification of the header fields, automatic
-  generation of level.lst, level integrity checking -- maybe conversion
-  of level format, should we need to do this a day).
-
   __attribute__ ((packed)) is a gcc-isms, something must be done to avoid
   them. `something' may be using a different level format, in which case
   the `heroeslvl' above would be helpful.
 
-  lib/fopenlock.c only know about fcntl locking, and don't perform any
-  locking otherwise.  Other kind of locking should be implemented.
 
-
-Left for a 1.1.x development branch
------------------------------------
-
-  Direct X11 support would be nice.
+Long term.
+----------
 
   The external editor should be ported too, it will need more work.
 
@@ -65,6 +60,8 @@ Left for a 1.1.x development branch
 
 Miscellaneous
 -------------
+
+  Direct X11 support would be nice.
 
   What is the effect of removing the DMODE_SOFT_MUSIC from MikMod options ?
 

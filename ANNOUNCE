@@ -1,5 +1,4 @@
-I am pleased to announce the conjoint release of Heroes 0.11
-and its complementary data package, Heroes-data 1.1.
+I am pleased to announce the conjoint release of Heroes 0.12
 
 Heroes is similar to the "Tron" and "Nibbles" games of yore, but
 includes many graphical improvements and new game features.
@@ -19,14 +18,10 @@ You are invited to visit the following links:
   screenshots:  http://heroes.sourceforge.net/screenshots.html
   download:     http://heroes.sourceforge.net/download.html
 
-Notes:
- a) This is a source code release, the `download' page also lists
-    binary packages which might not be up-to-date yet.
- b) Heroes 0.11 requires Heroes-data 1.1 (released conjointly)
-    and will NOT work with Heroes-data 1.0.
+NOTE: Heroes 0.12 requires Heroes-data 1.1
+      and will NOT work with Heroes-data 1.0.
 
-NEWS in this version merely carry bug fixes,
-see the NEWS file for details.
+NEWS in this version merely carry bug fixes, see the NEWS file for details.
 
 HELP!  Heroes development is open to anyone and we welcome any
 contribution.  In the hypothetical case you would like to spend some
