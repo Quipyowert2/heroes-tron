@@ -1211,8 +1211,8 @@ static void
 load_tile_set_preview (int num, image_ * ici)
 {
   char *t = get_non_null_rsc_file ("editor-preview-prefix");
-  strappend (t, tile_sets_names[num]);
-  strappend (t, ".pcx");
+  t = strappend (t, tile_sets_names[num]);
+  t = strappend (t, ".pcx"); 
   pcx_load (t, ici);
   free (t);
 }
