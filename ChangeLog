@@ -1,5 +1,12 @@
 2001-07-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/musicfiles.c: Cosmetics changes.
+	(dir_name): Delete, include "dirname.h" instead.
+	(read_sound_config_file): Adjust to the new dir_name(), i.e., add
+	a `/' between the file name and the directory name.
+
+2001-07-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	``heroes-sdl -G mumble'' didn't work because the string put in
 	environment (SDL_VIDEODRIVER=mumble) was immediatly freed
 	afterward.

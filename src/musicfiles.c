@@ -26,7 +26,7 @@
 #include "debugmsg.h"
 #include "errors.h"
 #include "hash.h"
-
+#include "dirname.h"
 
 /* we maintain the sound tracks in two structures: a hash and
    an array.  The hash is used for most lookups, and when building
@@ -90,8 +90,8 @@ st_free (void *data)
   free (st);
 }
 
-static sound_track_t*
-st_cons (char* alias, char* filename, char* title, char* author)
+static sound_track_t *
+st_cons (char *alias, char *filename, char *title, char *author)
 {
   NEW (sound_track_t, st);
   st->alias = xstrdup (alias);
@@ -103,14 +103,14 @@ st_cons (char* alias, char* filename, char* title, char* author)
 }
 
 void
-add_sound_track_cons (char* alias, char* filename, char* title, char* author)
+add_sound_track_cons (char *alias, char *filename, char *title, char *author)
 {
   if (!hash_insert (st_hash, st_cons (alias, filename, title, author)))
     xalloc_die ();
 }
 
-sound_track_t*
-get_sound_track_from_alias (const char* alias)
+sound_track_t *
+get_sound_track_from_alias (const char *alias)
 {
   struct hash_entry *bucket
     = st_hash->bucket + hash_case_string (alias, st_hash->n_buckets);
@@ -128,54 +128,40 @@ get_sound_track_from_alias (const char* alias)
   return 0;
 }
 
-sound_track_t*
+sound_track_t *
 get_sound_track_from_rank (unsigned rank)
 {
   return st_array[rank % n_st];
 }
 
-
-static char*
-dir_name (const char* filename)
-{
-  char* pos = strrchr (filename, '/');
-  char* res;
-  if (pos == 0)
-    return 0;
-  XMALLOC_ARRAY (res, pos - filename + 2);
-  strncpy (res, filename, pos - filename + 1);
-  res[pos - filename + 1] = 0;
-  return res;
-}
-
 int
-read_sound_config_file (char* filename)
+read_sound_config_file (char *filename)
 {
-  FILE* fs;
-  char* buf = 0;
+  FILE *fs;
+  char *buf = 0;
   size_t bufsize = 0;
   int firstline = 0, endline = 0;
-  char* expfilename = rsc_expand (filename);
-  char* dir = dir_name (expfilename);
+  char *expfilename = rsc_expand (filename);
+  char *dir = dir_name (expfilename);
+  size_t dirlen = strlen (dir);
 
-  dmsg (D_SECTION|D_FILE,"reading sound config file: %s ...", expfilename);
+  dmsg (D_SECTION | D_FILE, "reading sound config file: %s ...", expfilename);
 
   fs = fopen (expfilename, "r");
 
   if (!fs) {
-    dmsg (D_SECTION|D_FILE,"... could not open.");
+    dmsg (D_SECTION | D_FILE, "... could not open.");
     dperror ("fopen");
     free (expfilename);
     free (dir);
     return 0;
   }
 
-  while (getshline_numbered
-	 (&firstline, &endline, &buf, &bufsize, fs) != -1) {
-    char* alias = strtok (buf, ":\n");
-    char* file  = strtok (0, ":\n");
-    char* title  = strtok (0, ":\n");
-    char* author  = strtok (0, "\n");
+  while (getshline_numbered (&firstline, &endline, &buf, &bufsize, fs) != -1) {
+    char *alias = strtok (buf, ":\n");
+    char *file = strtok (0, ":\n");
+    char *title = strtok (0, ":\n");
+    char *author = strtok (0, "\n");
     if (!alias || !alias[0])
       wmsg (_("%s:%d: missing alias name"), filename, firstline);
     else if (!file || !file[0])
@@ -186,11 +172,13 @@ read_sound_config_file (char* filename)
       wmsg (_("%s:%d: missing author"), filename, firstline);
     else {
       if (dir && file[0] != '/') {
-	char* tmp = strcat_alloc (dir, file);
+	char *tmp = malloc (dirlen + 1 + strlen (file) + 1);
+	sprintf (tmp, "%s/%s", dir, file);
 	add_sound_track_cons (alias, tmp, title, author);
 	free (tmp);
-      } else
+      } else {
 	add_sound_track_cons (alias, file, title, author);
+      }
     }
   }
   fclose (fs);
