@@ -1,5 +1,17 @@
 2000-08-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Save files as soon as possible to prevent data loss if the game
+	freezes or crashes.
+
+	* src/heroes.c (main_menu): Save the options on disk on return
+	from the options menu.
+	(play_game): Save the gamerecords on disk whenever a game is
+	saved.
+	(play_menu): Save the scores on disk whenever a new score is
+	added.
+
+2000-08-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Fix typos reported by Benjamin Preidecker <bpreidecker@gmx.de>.
 
 	* src/txt_cfg/heroes.hlp: Typo.

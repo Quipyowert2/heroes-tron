@@ -1684,6 +1684,7 @@ play_menu (void)
 	highs[gamemodeh][mag].magic = game_magic;
 	highs[gamemodeh][mag].points = player[t].score;
 	sort_scores ();
+	write_scores ();
       }
     }
 }
@@ -3618,8 +3619,10 @@ main_menu (void)
 //  if (odbg) debugsavepcx(&trailimg);
     if (l == 0)
       play_menu ();
-    if (l == 1)
+    if (l == 1) {
       option_menu ();
+      write_options ();
+    }
     if (l == 2) {
 /*          modevga(TEXT);
 	  spawnl(P_WAIT,"READER.EXE",NULL);
@@ -4395,6 +4398,7 @@ play_game (char cont)
 	} while ((t != HK_Escape && t != HK_Enter) || editflag != 0);
 	// while (keyboard_map[HK_Escape]) process_input_events ();
 	l = 1;
+	write_save_records ();
       } else if (t == HK_Escape) {
 	if (joystick_detected & 1)
 	  do
