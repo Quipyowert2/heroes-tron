@@ -227,6 +227,17 @@ key_ready (void)
 #include <assert.h>
 #include <SDL.h>
 
+/* These macros are defined in SDL 1.1.x but not in 1.0.x */
+#ifndef SDL_BUTTON_LEFT
+#define SDL_BUTTON_LEFT         1
+#endif
+#ifndef SDL_BUTTON_MIDDLE
+#define SDL_BUTTON_MIDDLE       2
+#endif
+#ifndef SDL_BUTTON_RIGHT
+#define SDL_BUTTON_RIGHT        3
+#endif
+
 int
 init_mouse (void)
 {
@@ -282,7 +293,10 @@ update_mouse_state (void)
   SDL_Event ev;
 
   SDL_PumpEvents ();
-  while (SDL_PeepEvents (&ev, 1, SDL_GETEVENT, SDL_MOUSEEVENTMASK)) {
+  while (SDL_PeepEvents (&ev, 1, SDL_GETEVENT, 
+			 SDL_MOUSEMOTIONMASK|
+			 SDL_MOUSEBUTTONDOWNMASK|
+			 SDL_MOUSEBUTTONUPMASK)) {
     handle_mouse_events (&ev);
   }
 }

@@ -49,23 +49,23 @@ AC_ARG_WITH(sdl,
 
 dnl --with-sdl-exec-prefix should imply --with-sdl, and vice-versa
 
-test ${with_sdl_exec_prefix-no} != no &&
- test ${with_sdl-yes} = yes && with_sdl=$with_sdl_exec_prefix
+test "${with_sdl_exec_prefix-no}" != no &&
+ test "${with_sdl-yes}" = yes && with_sdl=$with_sdl_exec_prefix
 
-test ${with_sdl-yes} != yes &&
- test ${with_sdl_exec_prefix-yes} = yes && with_sdl_exec_prefix=$with_sdl
+test "${with_sdl-yes}" != yes &&
+ test "${with_sdl_exec_prefix-yes}" = yes && with_sdl_exec_prefix=$with_sdl
 
 dnl handle choice between GGI and SDL
 
-if test ${with_GGI-no} != no; then
-  if test ${with_sdl-no} != no; then
+if test "${with_GGI-no}" != no; then
+  if test "${with_sdl-no}" != no; then
     echo ${with_GGI} ${with_sdl}
     AC_MSG_ERROR(GGI and SDL can't be both used.)
   fi
   dnl disable SDL if GGI was selected
   with_sdl=no
 else
-  if test ${with_sdl-no} != no; then
+  if test "${with_sdl-no}" != no; then
     dnl disable GGI if SDL was selected
     with_GGI=no
   fi
@@ -115,7 +115,7 @@ dnl ==============
 dnl Check for GGI.
 dnl ==============
 
-if test ${with_GGI-yes} != no; then
+if test "${with_GGI-yes}" != no; then
 
 AC_caolan_CHECK_PACKAGE(GGI,ggiOpen,ggi,ggi/ggi.h,,[echo "============
 I could not link with GGI.  
@@ -124,7 +124,7 @@ A link to the GGI homepage is given in the README file.";
 with_GGI=no])
 
 fi
-if test ${with_GGI-yes} != no; then
+if test "${with_GGI-yes}" != no; then
 
 dnl Where is <ggi/keyboard.h> located?
 dnl (Adapted from Zsh's configure.in)
@@ -172,7 +172,7 @@ dnl ==================
 dnl Check for lib SDL.
 dnl ==================
 
-if test ${with_sdl-yes} != no; then
+if test "${with_sdl-yes}" != no; then
 
 AC_PATH_GENERIC(sdl,1.0.1,[
 CFLAGS="$SDL_CFLAGS $CFLAGS"
@@ -185,7 +185,7 @@ A link to the SDL homepage is given in the README file.";
 with_sdl=no])
 
 fi
-if test ${with_sdl-yes} != no; then
+if test "${with_sdl-yes}" != no; then
 
 dnl Where is <SDL_keysym.h> located?
 dnl (Adapted from Zsh's configure.in)
@@ -236,19 +236,19 @@ dnl ================================================
 if test x${with_sdl} = xno && test x${with_GGI} = xno; then
   AC_MSG_ERROR(Either GGI or SDL should be made available to heroes.)
 fi
-AM_CONDITIONAL(GGI, test ${with_GGI-yes} = yes)
-AM_CONDITIONAL(SDL, test ${with_sdl-yes} = yes)
+AM_CONDITIONAL(GGI, test "${with_GGI-yes}" = yes)
+AM_CONDITIONAL(SDL, test "${with_sdl-yes}" = yes)
 
 dnl =================
 dnl Joystick support.
 dnl =================
 
-if test ${enable_joystick-yes} = yes; then
+if test "${enable_joystick-yes}" = yes; then
 
   dnl -- check for Joystick support in SDL
   
   sdl_joystick=no
-  if test ${with_sdl-yes} != no && test ${with_GII-no} = no;  then
+  if test "${with_sdl-yes}" != no && test "${with_GII-no}" = no;  then
     AC_CHECK_FUNCS(SDL_JoystickOpen,[
 sdl_joystick=yes
 joystick_lib="SDL dnl
@@ -259,7 +259,7 @@ $sdl_config_major_version.$sdl_config_minor_version.$sdl_config_micro_version"
   dnl -- check for LibGGI (another way to get joystick support)
 
   gii_joystick=no
-  if test $sdl_joystick = no && test ${with_GII-yes} != no;  then
+  if test $sdl_joystick = no && test "${with_GII-yes}" != no;  then
     AC_caolan_CHECK_PACKAGE(GII,giiOpen,gii,ggi/gii.h,[
 gii_joystick=yes
 joystick_lib='LibGII'
@@ -271,7 +271,7 @@ joystick_lib='LibGII'
   fi
 fi
 
-if test ${enable_joystick-yes} = yes; then
+if test "${enable_joystick-yes}" = yes; then
   AC_DEFINE(JOYSTICK_SUPPORT,1,[Define if you want joystick support])
 fi
 
@@ -286,7 +286,7 @@ dnl Check for LibMikMod.
 dnl ====================
 
 musicdir=""
-if test ${enable_sound-yes} != no; then
+if test "${enable_sound-yes}" != no; then
 AC_PATH_GENERIC(libmikmod,3.1.7,[
 CFLAGS="$LIBMIKMOD_CFLAGS $CFLAGS"
 LIBS="$LIBMIKMOD_LIBS $LIBS"
@@ -297,7 +297,7 @@ $libmikmod_config_micro_version"
 ]AC_DEFINE(HAVE_LIBMIKMOD,1,[Define if you have the LibMikMod library]))
 fi
 AC_SUBST(musicdir)
-AM_CONDITIONAL(NOSOUND, test ${musicdir}x = x)
+AM_CONDITIONAL(NOSOUND, test "x${musicdir}" = x)
 
 dnl ==================
 dnl Check for dmalloc.

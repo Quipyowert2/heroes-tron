@@ -1,3 +1,17 @@
+2000-07-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Add mouse support with SDL 1.0.x.
+
+	* src/keyb.c [HAVE_SDL] (SDL_BUTTON_LEFT,SDL_BUTTON_MIDDLE,
+	SDL_BUTTON_RIGHT): Define these macros if missing.
+	[HAVE_SDL] (process_input_events): Don't use SDL_MOUSEEVENTMASK
+	since SDL 1.0.x does not define this, use SDL_MOUSEMOTIONMASK,
+	SDL_MOUSEBUTTONDOWNMASK and SDL_MOUSEBUTTONUPMASK instead.
+
+2000-07-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.in: Quote variable substitutions in calls to test.
+
 2000-07-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.in: Change version to 0.5.
