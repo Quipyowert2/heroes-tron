@@ -17,5 +17,11 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 #
 
-EXTRA_DIST = TODO ChangeLog THANKS BUGS misc/heroes.xpm
+# dist-bzip2 is new in automake 1.4a and will therefore generate an
+# error in 1.4.  Since it's bugged in 1.4a anyway (produce heroes-x.x.bz2
+# instead of heroes-x.x.tar.bz2) we keep the 1.4 compatibility until it's
+# fixed.
+AUTOMAKE_OPTIONS = 1.4 gnits # dist-bzip2
+
+EXTRA_DIST = BUGS misc/heroes.xpm
 SUBDIRS = lib src man doc

@@ -1,5 +1,11 @@
 2000-09-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* Makefile.am (AUTOMAKE_OPTIONS): New, set gnits option.
+	(EXTRA_DIST): Remove TODO, ChangeLog and THANKS since they are
+	handled implicitly by automake.
+
+2000-09-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	automake 1.4a compatibility.
 
 	* doc/Makefile.am (htmldir): Move out of MAKE_HTML conditional.
