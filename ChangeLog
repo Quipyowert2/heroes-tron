@@ -1,5 +1,9 @@
 2000-11-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.in: Add check that ought to be in since 2000-10-31.
+
+2000-11-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* lib/hash.c (hash_delete): Merge fix found in textutil 2.0g.
 
 2000-11-03  Alexandre Duret-Lutz  <duret_g@epita.fr>

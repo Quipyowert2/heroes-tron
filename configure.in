@@ -398,6 +398,12 @@ AC_FUNC_VPRINTF
 AC_FUNC_MKDIR
 
 AC_REPLACE_FUNCS([strcasecmp])
+jm_FUNC_MALLOC
+jm_FUNC_REALLOC
+
+# for error.c
+AC_CHECK_FUNCS([strerror])
+AC_FUNC_STRERROR_R
 
 # getopt_long support
 
