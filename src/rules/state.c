@@ -23,10 +23,10 @@
 #include "statepriv.h"
 
 #include "prefs.h"		/* FIXME: Get rid of this include. */
-#include "const.h"		/* FIXME: Get rid of this include. */
 
 void
-state_init (a_level_state *state, const a_level *lvl, char cont)
+state_init (a_level_state *state, const a_level *lvl, char cont,
+	    bool two_players, bool in_menu)
 {
   a_level_state_bits *bits;
 
@@ -60,8 +60,10 @@ state_init (a_level_state *state, const a_level *lvl, char cont)
       }
   }
 
-  XMALLOC_VAR (state->private);
+  XCALLOC_VAR (state->private);
   bits = state->private;
+
+  state->square_object = 0;
 
   if (state->game_mode == M_KILLEM) {
     XCALLOC_ARRAY (bits->square_lemmings_list, lvl->square_count);
@@ -160,13 +162,9 @@ state_free (a_level_state *state)
   free (state->square_tile);
   free (state->square_coord);
 
-  if (state->game_mode == M_KILLEM && !in_menu) {
-    free (state->private->square_lemmings_list);
-    free (state->private->square_dead_lemmings_list);
-  }
-
-  if (state->game_mode >= M_TCASH && !in_menu)
-    free (state->square_object);
+  XFREE (state->private->square_lemmings_list);
+  XFREE (state->private->square_dead_lemmings_list);
+  XFREE (state->square_object);
 
   free (state->private);
 }

@@ -138,7 +138,8 @@ void state_erase_player (a_level_state *state, const a_level *lvl, unsigned i);
 void state_reinit_player (a_level_state *state, const a_level *lvl,
 			  unsigned p);
 void state_init_lemmings (a_level_state *state, const a_level *lvl);
-void state_init (a_level_state *state, const a_level *lvl, char cont);
+void state_init (a_level_state *state, const a_level *lvl, char cont,
+		 bool two_players, bool in_menu);
 void state_free (a_level_state *state);
 
 void state_set_player_color (a_level_state *state,

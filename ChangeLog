@@ -1,5 +1,12 @@
 2002-02-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/rules/state.c (state_init): Take the two_plauers, and in_menu
+	arguments.  Clear state->private.  Clear state->square_objects.
+	(state_free): Simplify.
+	* src/rules/state.h (state_init): Adjust prototype.
+
+2002-02-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/rules/player.c (state_reinit_player): Determine the possible
 	players to attch to without using the `two_players' variable,
 	i.e., actually counting the number of human player.

@@ -201,7 +201,7 @@ load_level (char *filename, char cont)
 	"initialize variables and maps associated to the level, (mode %d).",
 	state.game_mode);
 
-  state_init (&state, &lvl, cont);
+  state_init (&state, &lvl, cont, two_players, in_menu);
   allocate_explosions (&state, &lvl);
   if (init_bonuses_level (&state, &lvl))
     return 15;
