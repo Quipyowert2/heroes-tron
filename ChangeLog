@@ -1,5 +1,9 @@
 2001-03-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* HACKING (Console output): New section.
+
+2001-03-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	From Hermann J. Beckers <beckers@st-oneline.de>.
 
 	* po/de.po: New version.

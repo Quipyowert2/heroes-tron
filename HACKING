@@ -284,6 +284,28 @@ that prevent the game to compile or run).  Every patch commited to
 that branch should be merged in the main trunk.
 
 
+* Design guidelines
+
+** Console output
+
+There is four kinds of console messages in Heroes.
+a) warning messages, i.e., non fatal errors; output with wmsg()
+b) error messages, for fatal errors; output with emsg()
+c) debug messages, i.e. traces selected with
+   the `-v' switches; output with dmsg().
+d) standard messages; output with printf(), puts() or whatever.
+
+Groups a) and b) are printed to stderr because they are errors, while
+groups c) and d) are printed to stdin because they are answers
+to user requests (e.g. the output of --help goes to stdout because
+the user asked for it).
+
+As far i18n is concerned, the idea is to internationalize only what
+is worth to the user, and keep in english all messages destined to
+the developper.  Therefore groups a), b), and d) are translated, while
+group c) is not.
+
+
 * Release process
 
 ** Before a public release
