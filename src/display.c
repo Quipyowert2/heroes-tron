@@ -276,11 +276,15 @@ init_video (void)
 	display_params ? display_params : "null");
   visu = ggiOpen (display_params);
   if (!visu)
+    /* TRANS: a `visual' is associated by LibGGI to a display.  You can
+       actually call it a `display', this makes no big difference.  */
     emsg (_("Failed to open visual."));
 
   dmsg (D_VIDEO, "open display-memory visual");
   render_visu = ggiOpen ("display-memory", NULL);
   if (!render_visu)
+    /* TRANS: `display-memory' is the name of a LibGGI driver and
+       make no sense to translate. */
     emsg (_("Failed to open an internal `display-memory' visual."));
 
   scr_w = 320 * stretch;

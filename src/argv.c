@@ -132,6 +132,11 @@ Display options:\n\
   -3, --triple                stretch the display threefold\n\
   -4, --quadruple             stretch the display fourfold\n\
   -e, --even-lines            display only even-lines\n"));
+  /* TRANS: rotozoom is a graphical effect used in the demo of yore
+     where the screen rotate and zoom (actually it doesn't zoom in Heroes);
+     waves is another effect where the screen is agitated like some
+     jelly (this was also called the `mushroom effect' in game like
+     Death Rally). */
   puts (_("\
 Miscellaneous options:\n\
       --cpu-off               disable computer opponents\n\
@@ -139,7 +144,7 @@ Miscellaneous options:\n\
       --default-options       restore default options file\n\
       --default-saves         restore default saves file\n\
   -s, --swap-sides            swap sides in two player mode\n\
-      --no-double-fx          disable superposition of rotozoom and waves\n\
+      --no-double-fx          disable combination of rotozoom and waves\n\
   -g, --go                    skip the introduction\n\
   -J, --no-joystick           disable joystick handling\n"));
   puts (_("\

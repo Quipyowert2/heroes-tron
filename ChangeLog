@@ -1,5 +1,13 @@
 2001-02-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/argv.c: Add comments for translators.
+	* src/const.c: Likewise.
+	* src/display.c: Likewise.
+	* src/menus.c: Likewise.
+	* src/readmake.c: Likewise.
+
+2001-02-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Report unprintable messages before crashing...
 
 	* src/system.h (XCALLOC_ARRAY): New.

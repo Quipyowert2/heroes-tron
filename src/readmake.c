@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------.
-| Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>                 |
+| Copyright 2000, 2001  Alexandre Duret-Lutz <duret_g@epita.fr>           |
 |                                                                         |
 | This file is part of Heroes.                                            |
 |                                                                         |
@@ -218,6 +218,10 @@ compile_reader_data (read_data_t *head, const char *str)
 	    offset -= (h - 10) / 2 * xbuf;
 	    break;
 	  default:
+	    /* TRANS: image is the name of an internal command (hence
+	       maybe not worth to translate) used to display pictures
+	       in the help reader; `flag' is just a synonym for `option'
+	       here. */
 	    emsg (_("Unknown image flag '%c'."), *flags);
 	  }
 	}

@@ -53,8 +53,25 @@ int rounds_nbr_values[16] =
 
 int square_offset[4] = { 0, 12, xbuf * 10, xbuf * 10 + 12 };
 
-char mode_name[5][12] = { N_("QUEST"), N_("DEATH MATCH"), N_("KILL'EM ALL"),
-			  N_("TIME CA$H"), N_("COLORS") };
+char mode_name[5][12] = {
+  /* TRANS: in QUEST mode, the player goes throught all the levels, but
+     have to search for specific powerups in order to jump to the next
+     level.  Hence this is a `quest' for those powerups. */
+  N_("QUEST"),
+  /* TRANS: in DEATH MATCH mode, the user has to kill all other players. */
+  N_("DEATH MATCH"),
+  /* TRANS: in KILL'EM ALL mode there are lemmings moving on the ground
+     and the player must run over them all.  You may want to translate
+     `kill' as `run over', `squash', `mash' or something among those
+     lines. */
+  N_("KILL'EM ALL"),
+  /* TRANS: in TIME CA$H mode, the player must collect dollars with
+     restricted time. */
+  N_("TIME CA$H"),
+  /* TRANS: in COLOR mode, the player must collect some colored gems
+     with restricted time. */
+  N_("COLORS")
+};
 
 /* traductions way<->directions */
 int d2w[9] = { 0, 0, 1, 1, 2, 2, 2, 2, 3 };

@@ -438,6 +438,8 @@ init_menus_sprites (void)
   new_sprprog ();
   add_sprprog0 (compile_menu_text (_("CREDITS"),
 				   T_CENTERED|T_WAVING, 10, 159));
+  /* TRANS: GFX stands for `graphics' (i.e. artwork, pictures),
+     and IDEA is just `idea' :) */
   add_sprprog0 (compile_menu_text (_("GFX AND IDEA:"), T_FLUSHED_LEFT, 40, 1));
   add_sprprog0 (compile_menu_text ("a GUEN",
 				   T_FLUSHED_RIGHT|T_WAVING, 40, 318));
@@ -493,9 +495,20 @@ init_menus_sprites (void)
   ed_existing_level_txt = compile_menu_text (_("NEW LEVEL"),
 					     T_CENTERED|T_WAVING, 7, 159);
   ed_name_txt = compile_menu_text (_("NAME"), T_FLUSHED_LEFT, 54, 8);
+  /* TRANS: in wrapped levels are unbounded level, e.g. whenever the
+     player reach the left border it continue its way from the right border
+     (except that the player doesn't even know there are borders, because
+     the level is tiled infinitely).  In unwrapped levels there are explicit
+     bounds that you cannot cross.  X-WRAP is a check box used to specified
+     whether a level must be wrapped horizontally or not when creating a
+     new level. */
   ed_x_wrap_txt = compile_menu_text (_("X-WRAP"), T_FLUSHED_LEFT, 85, 8);
+  /* TRANS: Y-WRAP is a check box used to specified whether a level
+     must be wrapped horizontally or not.  */
   ed_y_wrap_txt = compile_menu_text (_("Y-WRAP"), T_FLUSHED_LEFT, 106, 8);
+  /* TRANS: width of the level */
   ed_x_size_txt = compile_menu_text (_("X-SIZE"), T_FLUSHED_LEFT, 137, 8);
+  /* TRANS: height of the level */
   ed_y_size_txt = compile_menu_text (_("Y-SIZE"), T_FLUSHED_LEFT, 158, 8);
   ed_edit_txt = compile_menu_text (_("EDIT"), T_FLUSHED_LEFT, 186, 227);
 
@@ -545,10 +558,14 @@ init_menus_sprites (void)
 					   T_CENTERED, 70, 159);
 
   /* end level info */
+  /* TRANS: SIZE is the size of the player trail, PTS the
+     number of PoinTS */
   info_mode_quest_txt = compile_menu_text (_("SIZE  PTS  LIVES"),
 					   T_CENTERED, 50, 180);
   info_mode_deathm_txt = compile_menu_text (_("PTS  LIVES"),
 					    T_CENTERED, 50, 221);
+  /* TRANS: this is for KILL'EM ALL mode, and MEN is the number
+     of lemmings killed by one player */
   info_mode_killem_txt = compile_menu_text (_(" MEN  PTS  LIVES"),
 					    T_CENTERED, 50, 180);
   info_mode_tcash_txt = compile_menu_text (_("CA$H  PTS  LIVES"),
@@ -557,6 +574,8 @@ init_menus_sprites (void)
 					   T_CENTERED, 50, 170);
   info_mode_next_txt = compile_menu_text (_("NEXT LEVEL"),
 					  T_CENTERED, 150, 159);
+  /* TRANS: this is a button that introduce the user to another
+     menu.  This is NOT displayed during saving. */
   info_mode_save_txt = compile_menu_text (_("SAVE..."),
 					  T_CENTERED, 170, 159);
   info_mode_return_txt = compile_menu_text (_("PRESS RETURN"),
