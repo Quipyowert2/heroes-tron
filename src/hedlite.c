@@ -1354,7 +1354,7 @@ joueanim (void)
 }
 
 static void
-gestclav (int i)
+gestclav (int i, int mod)
 {
   char t;
   int j, k;
@@ -1377,114 +1377,132 @@ gestclav (int i)
     majg ();
 #endif
     break;
-  case 0x7400: /* CtrlRight */
-    if (xdalles + 168U < tile_set_img.width) {
-      xdalles += 24;
-      majd ();
-    } else if (xdallesdec < 120) {
-      xdallesdec += 24;
+  case HK_Home:
+    if (mod & HK_MOD_Ctrl) {
+      xdalles = 0;
       majd ();
     }
     break;
-  case 0x7300: /* CtrlLeft */
-    if (xdalles > 0) {
-      xdalles -= 24;
-      majd ();
-    } else if (xdallesdec > 0) {
-      xdallesdec -= 24;
+  case HK_End:
+    if (mod & HK_MOD_Ctrl) {
+      xdalles = (tile_set_img.width / 24) * 24 - 144;
       majd ();
     }
     break;
-  case 0x7700: /* CtrlHome */
-    xdalles = 0;
-    majd ();
-    break;
-  case 0x7500: /* CtrlEnd */
-    xdalles = (tile_set_img.width / 24) * 24 - 144;
-    majd ();
-    break;
-  case 0x7600: /* PgDown */
-    if (ydalles < 180) {
-      ydalles += 20;
-      majd ();
-    } else if (xdallesdec < 120) {
-      xdallesdec += 24;
-      majd ();
+  case HK_PageDown:
+    if (mod & HK_MOD_Ctrl) {
+      if (ydalles < 180) {
+	ydalles += 20;
+	majd ();
+      } else if (xdallesdec < 120) {
+	xdallesdec += 24;
+	majd ();
+      }
     }
     break;
-  case 0x8400: /* PgUp */
-    if (ydalles > 0) {
-      ydalles -= 20;
-      majd ();
-    } else if (xdallesdec > 0) {
-      xdallesdec -= 24;
-      majd ();
+  case HK_PageUp:
+    if (mod & HK_MOD_Ctrl) {
+      if (ydalles > 0) {
+	ydalles -= 20;
+	majd ();
+      } else if (xdallesdec > 0) {
+	xdallesdec -= 24;
+	majd ();
+      }
     }
     break;
   case HK_Right:
-    if (xplan < (hplaninfo.xt - 6) || hplaninfo.xwrap != 0xffffffff) {
-      xplan = ((xplan + 1) & hplaninfo.xwrap);
+    if (mod & HK_MOD_Ctrl) {
+      if (xdalles + 168U < tile_set_img.width) {
+	xdalles += 24;
+	majd ();
+      } else if (xdallesdec < 120) {
+	xdallesdec += 24;
+	majd ();
+      } 
+    } else if (mod & HK_MOD_Shift) {
+      if (xplandec < 120)
+	xplandec += 24;
+      else if (xplan < (hplaninfo.xt - 6) || hplaninfo.xwrap != 0xffffffff) {
+	xplan = ((xplan + 1) & hplaninfo.xwrap);
+      }
       majg ();
-    } else
-      gestclav (0x4d36); /* ShRight */
+    } else {
+      if (xplan < (hplaninfo.xt - 6) || hplaninfo.xwrap != 0xffffffff) {
+	xplan = ((xplan + 1) & hplaninfo.xwrap);
+	majg ();
+      } else
+	gestclav (HK_Right, HK_MOD_Shift);
+    }
     break;
   case HK_Left:
-    if (xplan > 0 || hplaninfo.xwrap != 0xffffffff) {
-      xplan = ((xplan - 1) & hplaninfo.xwrap);
+    if (mod & HK_MOD_Ctrl) {
+      if (xdalles > 0) {
+	xdalles -= 24;
+	majd ();
+      } else if (xdallesdec > 0) {
+	xdallesdec -= 24;
+	majd ();
+      }
+    } else if (mod & HK_MOD_Shift) {
+      if (xplandec > 0)
+	xplandec -= 24;
+      else if (xplan > 0 || hplaninfo.xwrap != 0xffffffff) {
+	xplan = ((xplan - 1) & hplaninfo.xwrap);
+      }
       majg ();
-    } else
-      gestclav (0x4b34); /* ShLeft */
+    } else {
+      if (xplan > 0 || hplaninfo.xwrap != 0xffffffff) {
+	xplan = ((xplan - 1) & hplaninfo.xwrap);
+	majg ();
+      } else
+	gestclav (HK_Left, HK_MOD_Shift);
+    }
     break;
   case HK_Down:
-    if (yplan < (hplaninfo.yt - 10) || hplaninfo.ywrap != 0xffffffff) {
-      yplan = ((yplan + 1) & hplaninfo.ywrap);
+    if (mod & HK_MOD_Ctrl) {
+      gestclav (HK_PageDown, HK_MOD_Ctrl);
+    } else if (mod & HK_MOD_Shift) {
+      if (yplandec < 180)
+	yplandec += 20;
+      else if (yplan < (hplaninfo.yt - 10) || hplaninfo.ywrap != 0xffffffff) {
+	yplan = ((yplan + 1) & hplaninfo.ywrap);
+      }
       majg ();
-    } else
-      gestclav (0x5032); /* ShDown */
+    } else {
+      if (yplan < (hplaninfo.yt - 10) || hplaninfo.ywrap != 0xffffffff) {
+	yplan = ((yplan + 1) & hplaninfo.ywrap);
+	majg ();
+      } else
+	gestclav (HK_Down, HK_MOD_Shift);
+    }
     break;
   case HK_Up:
-    if (yplan > 0 || hplaninfo.ywrap != 0xffffffff) {
-      yplan = ((yplan - 1) & hplaninfo.ywrap);
+    if (mod & HK_MOD_Ctrl) {
+      gestclav (HK_PageUp, HK_MOD_Ctrl);
+    } else if (mod & HK_MOD_Shift) {
+      if (yplandec > 0)
+	yplandec -= 20;
+      else if (yplan > 0 || hplaninfo.ywrap != 0xffffffff) {
+	yplan = ((yplan - 1) & hplaninfo.ywrap);
+      }
       majg ();
-    } else
-      gestclav (0x4838); /* ShUp */
-    break;
-  case 0x4d36: /* ShRight */
-    if (xplandec < 120)
-      xplandec += 24;
-    else if (xplan < (hplaninfo.xt - 6) || hplaninfo.xwrap != 0xffffffff) {
-      xplan = ((xplan + 1) & hplaninfo.xwrap);
+    } else {
+      if (yplan > 0 || hplaninfo.ywrap != 0xffffffff) {
+	yplan = ((yplan - 1) & hplaninfo.ywrap);
+	majg ();
+      } else
+	gestclav (HK_Up, HK_MOD_Shift);
     }
-    majg ();
-    break;
-  case 0x4b34: /* ShLeft */
-    if (xplandec > 0)
-      xplandec -= 24;
-    else if (xplan > 0 || hplaninfo.xwrap != 0xffffffff) {
-      xplan = ((xplan - 1) & hplaninfo.xwrap);
-    }
-    majg ();
-    break;
-  case 0x5032: /* ShDown */
-    if (yplandec < 180)
-      yplandec += 20;
-    else if (yplan < (hplaninfo.yt - 10) || hplaninfo.ywrap != 0xffffffff) {
-      yplan = ((yplan + 1) & hplaninfo.ywrap);
-    }
-    majg ();
-    break;
-  case 0x4838: /* ShUp */
-    if (yplandec > 0)
-      yplandec -= 20;
-    else if (yplan > 0 || hplaninfo.ywrap != 0xffffffff) {
-      yplan = ((yplan - 1) & hplaninfo.ywrap);
-    }
-    majg ();
     break;
 //     case 0x0f09: cote^=1;majd();majg();
 //                  break;
   case HK_Enter:
-    planfull ();
+    if (mod & HK_MOD_Ctrl) {
+      joueanim ();
+    } else {
+      planfull ();
+    }
     break;
   case HK_Space: 
     //if (((*etatclav)&3)==0)
@@ -1518,8 +1536,8 @@ gestclav (int i)
        if (tempd!=0xfffffff)
        level_map[curdallep()]=level_map[tempd];
      */
-    gestclav (HK_i); 
-    gestclav (HK_O);
+    gestclav (HK_i, HK_MOD_None); 
+    gestclav (HK_O, HK_MOD_None);
     majg ();
     break;
   case HK_i:			// I
@@ -1583,23 +1601,23 @@ gestclav (int i)
     }
 //                  majg();
     break;
-  case 0x1c0a: /* CtrlEnter */
-    joueanim ();
-    break;
-  case 0x2106: /* CtrlF */
-    for (j = hplaninfo.xt * hplaninfo.yt - 1; j >= 0; j--) {
-      level_map[j].number = xdalles + xdallesdec + ydalles * (tile_set_img.width);
-      level_map[j].type = ddef[curdalled ()].type;
-      level_map[j].info = ddef[curdalled ()].info;
+  case HK_f:
+  case HK_F:
+    if (mod & HK_MOD_Ctrl) {
+      for (j = hplaninfo.xt * hplaninfo.yt - 1; j >= 0; j--) {
+	level_map[j].number = xdalles + xdallesdec + 
+	  ydalles * (tile_set_img.width);
+	level_map[j].type = ddef[curdalled ()].type;
+	level_map[j].info = ddef[curdalled ()].info;
+      }
+    } else if (mod & (HK_MOD_Alt|HK_MOD_Meta)) {
+      for (j = hplaninfo.xt * hplaninfo.yt - 1; j >= 0; j--)
+	
+	level_map[j].number =
+	  (((j % hplaninfo.xt) + (j / hplaninfo.xt)) & 1) * 20 *
+	  tile_set_img.width;
+      majg ();
     }
-    break;
-  case 0x2100: /* AltF */
-    for (j = hplaninfo.xt * hplaninfo.yt - 1; j >= 0; j--)
-
-      level_map[j].number =
-	(((j % hplaninfo.xt) + (j / hplaninfo.xt)) & 1) * 20 *
-	tile_set_img.width;
-    majg ();
     break;
   case HK_F3:
     sprhide ^= 1;
@@ -1711,12 +1729,12 @@ gestsrs1 (void)
 
   if (x >= 290) {
     if (y < 19)
-      gestclav (HK_Enter);
+      gestclav (HK_Enter, HK_MOD_None);
     if (y >= 144 && y <= 166) {
       if (x > 305)
-	gestclav (0x7400); /* CtrlRight */
+	gestclav (HK_Right, HK_MOD_Ctrl);
       else
-	gestclav (0x7300); /* CtrlLeft */
+	gestclav (HK_Left, HK_MOD_Ctrl); /* CtrlLeft */
     }
 /*            if (y>=71 && y<=84)
                                               { level_map[i].type=menutype(level_map[i].type);
@@ -1750,17 +1768,17 @@ gestsrs1 (void)
       y2 = mouse_y ();
       if (x - x2 > 3) {
 	x = x2;
-	gestclav (HK_Right);
+	gestclav (HK_Right, HK_MOD_None);
       } else if (x2 - x > 3) {
 	x = x2;
-	gestclav (HK_Left);
+	gestclav (HK_Left, HK_MOD_None);
       }
       if (y - y2 > 3) {
 	y = y2;
-	gestclav (HK_Down);
+	gestclav (HK_Down, HK_MOD_None);
       } else if (y2 - y > 3) {
 	y = y2;
-	gestclav (HK_Up);
+	gestclav (HK_Up, HK_MOD_None);
       }
     } while (mouse12 () != 0);
   }
@@ -1773,17 +1791,17 @@ gestsrs1 (void)
       y2 = mouse_y ();
       if (x - x2 > 3) {
 	x = x2;
-	gestclav (0x7400); /* CtrlRight */
+	gestclav (HK_Right, HK_MOD_Ctrl);
       } else if (x2 - x > 3) {
 	x = x2;
-	gestclav (0x7300); /* CtrlLeft */
+	gestclav (HK_Left, HK_MOD_Ctrl);
       }
       if (y - y2 > 3) {
         y = y2;
-	gestclav (0x7600); /* CtrlPgDn */
+	gestclav (HK_PageDown, HK_MOD_Ctrl);
       } else if (y2 - y > 3) {
 	y = y2;
-	gestclav (0x8400); /* CtrlPgUp */
+	gestclav (HK_PageUp, HK_MOD_Ctrl);
       }
     } while (mouse12 () != 0);
   }
@@ -1798,16 +1816,16 @@ gestsrs2 (void)
   if (x >= 290) {
     if (y >= 144 && y <= 166) {
       if (x > 305)
-	gestclav (0x7500); /* CtrlEnd */
+	gestclav (HK_End, HK_MOD_Ctrl);
       else
-	gestclav (0x7700); /* CtrlHome */
+	gestclav (HK_Home, HK_MOD_Ctrl);
     }
 //            if (y>=86 && y<=108) gestclav(0x2e63);
   }
   if (x < 144) {
     xplandec = (x / 24) * 24;
     yplandec = (y / 20) * 20;
-    gestclav (HK_Space);
+    gestclav (HK_Space, HK_MOD_None);
   }
 }
 
@@ -1822,7 +1840,7 @@ gestsrs3 (void)
     b = yplandec;
     xplandec = (x / 24) * 24;
     yplandec = (y / 20) * 20;
-    gestclav (HK_t); 
+    gestclav (HK_t, HK_MOD_None); 
     xplandec = a;
     yplandec = b;
     majg ();
@@ -2367,7 +2385,7 @@ hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2,
       while (key_ready () == 0 && mouse12 () == 0);
       if (key_ready ()) {
 	i = get_key ();
-	gestclav (i);
+	gestclav (i, keyboard_modifiers);
       } else {
 	if (mouse1 ()) {
 	  gestsrs1 ();
@@ -2404,7 +2422,7 @@ hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2,
 	i = get_key ();
 	if (i == HK_Down)
 	  l = (l + 1) & 3;
-	if (i == HK_UP)
+	if (i == HK_Up)
 	  l = (l - 1) & 3;
 	if ((i == HK_Escape && l != 3)) {
 	  l = 3;

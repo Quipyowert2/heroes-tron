@@ -29,6 +29,12 @@
 #ifdef HAVE_PKG_GGI
 #include <ggi/keyboard.h>
 
+#define	HK_MOD_None	0
+#define	HK_MOD_Shift	GII_MOD_SHIFT
+#define	HK_MOD_Ctrl	GII_MOD_CTRL
+#define	HK_MOD_Alt	GII_MOD_ALT
+#define	HK_MOD_Meta	GII_MOD_META
+
 #define HK_0		GIIUC_0
 #define HK_1		GIIUC_1
 #define HK_2		GIIUC_2
@@ -52,6 +58,7 @@
 #define HK_Enter	GIIUC_Return
 #define HK_Escape	GIIUC_Escape
 #define HK_F		GIIUC_F
+#define HK_f		GIIUC_f
 #define HK_F1		GIIK_F1
 #define HK_F2		GIIK_F2
 #define HK_F3		GIIK_F3
@@ -94,6 +101,12 @@
 
 #include <SDL_keysym.h>
 
+#define	HK_MOD_None	0
+#define	HK_MOD_Shift	KMOD_SHIFT
+#define	HK_MOD_Ctrl	KMOD_CTRL
+#define	HK_MOD_Alt	KMOD_ALT
+#define	HK_MOD_Meta	KMOD_META
+
 #define HK_0		SDLK_0
 #define HK_1		SDLK_1
 #define HK_2		SDLK_2
@@ -117,6 +130,7 @@
 #define HK_Enter	SDLK_RETURN
 #define HK_Escape	SDLK_ESCAPE
 #define HK_F		'F'
+#define HK_f		'f'
 #define HK_F1		SDLK_F1
 #define HK_F2		SDLK_F2
 #define HK_F3		SDLK_F3

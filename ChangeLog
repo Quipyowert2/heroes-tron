@@ -1,5 +1,23 @@
 2000-07-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Support for key modifiers in level editor.
+	
+	* src/hedlite.c (gestclav): Add an extra parameter for
+	the modifiers state.  Support keys that was not yet supported.
+	(gestsrs1,gestsrs2,gestsrs3,hmain): Adapt calls to gestclav.
+	* src/keyb.c (keyboard_modifiers): New.
+	(init_keyboard_map): Reset keyboard_modifiers.
+	(process_input_events): Update keyboard_modifiers.
+	[HAVE_PKG_GGI] (get_key): Rewrite to allow update of 
+	keyboard_modifiers.
+	[HAVE_SDL] (get_key): Update keyboard_modifiers.
+	* src/keyb.h (keyboard_modifiers): New.
+	* keys_heroes.h	(HK_MOD_None,HK_MOD_Shift,HK_MOD_Ctrl,
+	HK_MOD_Alt,HK_MOD_Meta): New.
+	(HK_f): New.
+
+2000-07-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Handle relative mouse moves in level editor. 
 	Make the full view work.
 	

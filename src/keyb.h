@@ -24,6 +24,7 @@
 
 #define KEY_MAX 0xffff
 extern unsigned char keyboard_map[KEY_MAX + 1];
+extern unsigned int keyboard_modifiers;
 
 void init_keyboard_map (void);
 void uninit_keyboard_map (void);

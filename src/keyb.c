@@ -28,6 +28,7 @@ int mouse_pos_y = 0;
 char mouse_button_left = 0;
 char mouse_button_right = 0;
 
+unsigned int keyboard_modifiers;
 unsigned char keyboard_map[KEY_MAX + 1];
 
 void update_mouse_state (void);
@@ -39,6 +40,7 @@ init_keyboard_map (void)
 
   for (i = KEY_MAX; i >= 0; i--)
     keyboard_map[i] = 0;
+  keyboard_modifiers = 0;
 }
 
 int 
@@ -125,10 +127,12 @@ process_input_events (void)
       case evKeyPress:
 	assert (ev.key.label <= KEY_MAX);
 	keyboard_map[ev.key.label] = 1;
+	keyboard_modifiers = ev.key.modifiers;
 	break;
       case evKeyRelease:
 	assert (ev.key.label <= KEY_MAX);
 	keyboard_map[ev.key.label] = 0;
+	keyboard_modifiers = ev.key.modifiers;
 	break;
       case evKeyRepeat:
 	/* NOP */
@@ -202,7 +206,13 @@ uninit_keyboard_map (void)
 int
 get_key (void)
 {
-  return ggiGetc (visu);
+  ggi_event ev;
+
+  /* Block until we get a key. */
+  ggiEventRead(visu, &ev, emKeyPress | emKeyRepeat);
+
+  keyboard_modifiers = ev.key.modifiers;
+  return ev.key.sym;
 }
 
 int
@@ -294,6 +304,7 @@ process_input_events (void)
       /*      printf ("unexpected event %d\n", ev.type); */
     }
   }
+  keyboard_modifiers = SDL_GetModState ();
 }
 
 void
@@ -319,6 +330,7 @@ get_key (void)
 	handle_mouse_events (&e);
   } while (!SDL_PeepEvents (&e, 1, SDL_GETEVENT, SDL_KEYDOWNMASK));
   
+  keyboard_modifiers = SDL_GetModState ();
   return e.key.keysym.sym;
 }
 
