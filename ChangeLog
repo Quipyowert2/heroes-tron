@@ -1,5 +1,10 @@
 2000-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/render.c (copy_tile): Don't cast pointer to int.
+	Use u32_t where relevant.
+
+2000-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/sound.h [!HAVE_LIBSDL_MIXER && !HAVE_LIBMIKMOD]
 	(set_volume, halve_volume, init_sound_engine,
 	uninit_sound_engine, unload_soundtrack, play_soundtrack,

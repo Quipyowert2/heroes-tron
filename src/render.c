@@ -39,9 +39,10 @@ static sprite_t *clock_anim;
 static void
 copy_tile (const pixel_t* src, pixel_t* dest, int tx)
 {
-  const int *s = (const int *) src;
-  int *d = (int *) dest;
-  int t1, t2, y;
+  const u32_t *s = (const u32_t *) src;
+  u32_t *d = (u32_t *) dest;
+  u32_t t1, t2;
+  int y;
   for (y = 20; y; --y) {	/* FIXME: Is this really faster than a */
     t1 = s[0];			/* straight copy?  Need a benchmark  */
     t2 = s[3];
@@ -55,8 +56,8 @@ copy_tile (const pixel_t* src, pixel_t* dest, int tx)
     t2 = s[5];
     d[2] = t1;
     d[5] = t2;
-    s = (const int *) (((int) s) + tx);
-    d = (int *) (((int) d) + xbuf);
+    s = (const u32_t *) (((pixel_t *) s) + tx);
+    d = (u32_t *) (((pixel_t *) d) + xbuf);
   }
 }
 
