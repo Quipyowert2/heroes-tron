@@ -1,5 +1,14 @@
 2001-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/sprglenz.c (compile_sprglenz): Check for src<eol before
+	dereferencing *src, not after.
+	* src/sprrle.c (compile_sprrle): Likewise.
+	* src/sprshade.c (compile_sprshade): Likewise.
+	* src/sprunish.c (compile_sprunish): Likewise.
+	Suggested by Daniel.
+
+2001-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/render.c (draw_vehicle_tail): Thinko, resulting in a SEGV :(
 	Reported by Daniel.
 
