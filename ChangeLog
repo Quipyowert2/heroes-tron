@@ -1,3 +1,9 @@
+2001-04-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* THANKS: Update Jos Boersema's email, the old bounced and I just
+	came across this new one in the archive for the bug-texinfo
+	mailing list.
+
 2001-04-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/menus.c (enter_your_name): Work directly with keycodes to
