@@ -150,7 +150,7 @@
 #define USE_HEROES_DEBUG 1
 
 /* Version number of package */
-#define VERSION "0.6b"
+#define VERSION "0.6c"
 
 /* whether byteorder is bigendian */
 /* #undef WORDS_BIGENDIAN */

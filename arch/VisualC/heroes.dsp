@@ -187,15 +187,15 @@ SOURCE=..\src\font_menu.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\fontdata.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\src\fontdata.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\src\generic_list.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\getshline.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\getshline.h
 # End Source File
 # Begin Source File
 
@@ -323,22 +323,6 @@ SOURCE=..\src\render.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\rleprog.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\src\rleprog.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\src\rletext.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\src\rletext.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\src\rsc_files.c
 # End Source File
 # Begin Source File
@@ -384,14 +368,6 @@ SOURCE=..\src\sound.c
 # Begin Source File
 
 SOURCE=..\src\sound.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\src\scrtools.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\src\scrtools.h
 # End Source File
 # Begin Source File
 
@@ -453,6 +429,11 @@ SOURCE=.\config.h
 
 SOURCE=".\keysdef-inc.h"
 # End Source File
+# Begin Source File
+
+SOURCE=.\mikmod.h
+# End Source File
+# End Group
 # Begin Group "Resource Files"
 
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
@@ -466,19 +447,11 @@ SOURCE=..\lib\getopt.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\lib\gnugetopt.h
+SOURCE=..\lib\getopt.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\lib\getopt1.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\lib\getshline.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\lib\getshline.h
 # End Source File
 # Begin Source File
 

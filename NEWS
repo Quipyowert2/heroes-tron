@@ -1,5 +1,14 @@
 		      User visible changes in Heroes.
 
+Heroes 0.6c	October 20, 2000
+
+	* New option:
+	  --list: show various internal information
+	* Obsoleted option:
+	  --drivers-info
+	* Internal changes:
+	  - many cleanups
+
 Heroes 0.6b	October 5, 2000
 
         * More Win32 support, again.

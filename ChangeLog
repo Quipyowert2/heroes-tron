@@ -1,5 +1,9 @@
 2000-10-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* NEWS: Update for snapshot 0.6c.
+
+2000-10-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Handle --list to list various internal information such
 	as resources or sound drivers (this supercede --drivers-info).
 
