@@ -17,7 +17,7 @@ Heroes 0.6b	October 5, 2000
 	  --disable-user-config
 	  --disable-user-scores
 	  --disable-user-saves
-	  They are superseded by the options-file, scores-file 
+	  They are superseded by the options-file, scores-file
 	  and games-file resources. See src/etc/heroesrc.
 	* Renamed options:
 	  -q is now -i.
@@ -65,7 +65,7 @@ Heroes 0.6	September 2, 2000
 	* Options, games, and scores are saved as soon as possible,
 	  not only on exit.
 	* Option list reordered in help screen and man page.
-	* Filenames are handled internally via aliases that can 
+	* Filenames are handled internally via aliases that can
 	  be overridden with the `setrsc:' command in heroesrc.
 	* Filenames from sound configuration files not beginning by `/'
 	  are relative to the configuration file directory.
@@ -91,7 +91,7 @@ Heroes 0.6	September 2, 2000
 	  - keysdef-inc.h included wrong SDL header
 	  - typos in the game texts and in the documentation
 	  - endian bugs in timing code
-	  - -DDEBUG was not in CFLAGS if the user specified 
+	  - -DDEBUG was not in CFLAGS if the user specified
 	    her own CFLAGS at configure time.
 	  - mouse support for SDL 1.0.x was missing.
 	  - a ./configure test was broken due to unquoted
@@ -106,14 +106,14 @@ Heroes 0.5	July 22, 2000
 
 	* Level editor integration.
 	* Documentation updates.
-	* Sound configuration files allow specification of played 
+	* Sound configuration files allow specification of played
           sound-tracks (`soundconf:' in ~/.heroes/heroesrc).
 	* New options:
 	  -8: 8bits audio
 	  -q: high quality mixer
 	  -F: full screen video (where available)
 	* Preliminary support for big-endian machines [untested]
-	* Handle multiple extra level directories (`extradir:' in 
+	* Handle multiple extra level directories (`extradir:' in
 	  ~/.heroes/heroesrc).
 	* Bugs fixed:
 	  - configure went wrong on joystick tests when GGI was not
@@ -140,7 +140,7 @@ Heroes 0.3	June 24, 2000
 	* LibGGI configuration via --ggi-display option.
 	* Handling of music and sfx volume configuration.
 	* Smarter keyboard configurator.
-	* ./configure --enable-mem-debug will link with dmalloc 
+	* ./configure --enable-mem-debug will link with dmalloc
 	  or electric fence.
 
 Heroes 0.2	June 3, 2000
@@ -148,9 +148,9 @@ Heroes 0.2	June 3, 2000
 	* Support for non-8bits video mode (thanks to Pierre Baillet).
 	* Sound effects now works.
 	* Options, scores, and saved games are now written in
-	  the ~/.heroes/ user directory (old behaviour still available 
+	  the ~/.heroes/ user directory (old behaviour still available
 	  with ./configure options).
-	* Better keycode handling.  Report correct keysyms 
+	* Better keycode handling.  Report correct keysyms
 	  in the KEYS menu.
 	* Improved ./configure options to specify LibGGI location.
 	* Bugs fixed:

@@ -1,3 +1,27 @@
+2000-10-31  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Remove auto-installed files from CVS. Arrange so most of
+	auto-installed file go in tools/, not in the base directory.
+
+	* COPYING: Delete.
+	* INSTALL: Delete.
+	* depcomp: Delete.
+	* config.guess: Delete.
+	* config.sub: Delete.
+	* install-sh: Delete.
+	* missing: Delete.
+	* mkinstalldirs: Delete.
+	* doc/texinfo.tex: Delete.
+	* doc/mdate-sh: Delete.
+	* tools/autogen.sh: New.
+	* tools/Makefile.am: New.
+	* HACKING: Reflect changes.
+	* Makefile.am (SUBDIRS): Add tools.
+
+	* acconfig.h: Delete.
+	* configure.in: Use AH_TEMPLATE to describe the DEFINEs originaly
+	described in acconfig.h
+
 2000-10-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/render.c (draw_level): Use correct source buffer width

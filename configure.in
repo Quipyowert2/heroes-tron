@@ -1,25 +1,26 @@
-dnl Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr> 
-dnl 
+dnl Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>
+dnl
 dnl This file is part of Heroes.
-dnl 
+dnl
 dnl Heroes is free software; you can redistribute it and/or modify it under
 dnl the terms of the GNU General Public License as published by the Free
 dnl Software Foundation; either version 2 of the License, or (at your
 dnl option) any later version.
-dnl 
+dnl
 dnl Heroes is distributed in the hope that it will be useful, but WITHOUT
 dnl ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 dnl FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
 dnl for more details.
-dnl 
+dnl
 dnl You should have received a copy of the GNU General Public License along
 dnl with this program; if not, write to the Free Software Foundation, Inc.,
 dnl 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-dnl 
+dnl
 
 AC_PREREQ(2.49a)
 
 AC_INIT([src/heroes.c])
+AC_CONFIG_AUX_DIR(tools)
 
 AC_COPYRIGHT([Copyright 2000  Alexandre Duret-Lutz])
 
@@ -81,7 +82,7 @@ test "${with_mikmod_exec_prefix-no}" != no &&
  test "${with_mikmod-yes}" = yes && with_mikmod="$with_mikmod_exec_prefix"
 
 test "${with_mikmod-yes}" != yes &&
- test "${with_mikmod_exec_prefix-yes}" = yes && 
+ test "${with_mikmod_exec_prefix-yes}" = yes &&
    with_mikmod_exec_prefix="$with_mikmod"
 
 # handle choice between GGI and SDL
@@ -160,6 +161,9 @@ AC_CACHE_SAVE
 # Check for GGI.
 # ==============
 
+# Provide a config.h help string, as AC_caolan_CHECK_PACKAGE does not.
+AH_TEMPLATE([HAVE_PKG_GGI],[Define if you have libggi.])
+
 if test "${with_GGI-yes}" != no; then
 
 AC_caolan_CHECK_PACKAGE(GGI,[ggiOpen],[ggi],[ggi/ggi.h],,[with_GGI=no])
@@ -225,10 +229,13 @@ AM_CONDITIONAL(SDL, [test "x${with_sdl}" != xno])
 # Joystick support.
 # =================
 
+# Provide a config.h help string, as AC_caolan_CHECK_PACKAGE does not.
+AH_TEMPLATE([HAVE_PKG_GII],[Define if you have libgii.])
+
 if test "${enable_joystick-yes}" = yes; then
 
   # -- check for Joystick support in SDL
-  
+
   sdl_joystick=no
   if test "${with_sdl-yes}" != no && test "${with_GII-no}" = no;  then
     AC_CHECK_FUNCS([SDL_JoystickOpen],[
@@ -273,6 +280,9 @@ if test "${enable_sound-yes}" != no; then
 # Check for SDL_mixer.
 # ====================
 
+# Provide a config.h help string, as AC_caolan_CHECK_PACKAGE does not.
+AH_TEMPLATE([HAVE_PKG_sdl_mixer],[Define if you have libSDL_mixer.])
+
 if test "${with_sdl-yes}" != no && test "${with_sdl_mixer-yes}" != no; then
 
 # temporaly put the CFLAGS for SDL in CPPFLAGS
@@ -315,7 +325,7 @@ fi # enable_sound
 mallocdbg='';
 
 if test "x${enable_mem_debug}" = xyes; then
-  AC_CHECK_LIB([dmalloc],[malloc],[mallocdbg='dmalloc'; 
+  AC_CHECK_LIB([dmalloc],[malloc],[mallocdbg='dmalloc';
 malloc_lib='dmalloc'; LIBS="-ldmalloc $LIBS";
 AC_DEFINE([HAVE_DMALLOC],1,[Define if you link with the dmalloc library.])])
 fi
@@ -326,7 +336,7 @@ fi
 
 if test "x${enable_mem_debug}" = xyes; then
   if test "x${mallocdbg}" = x; then
-    AC_CHECK_LIB([efence],[malloc],[mallocdbg='efence'; 
+    AC_CHECK_LIB([efence],[malloc],[mallocdbg='efence';
 malloc_lib='electric fence'; LIBS="-lefence $LIBS"])
   fi
 fi
@@ -369,7 +379,7 @@ AC_CHECK_FUNCS([gettimeofday memcpy sleep])
 # readdir and assume that opendir and closedir are present if readdir is.
 # Under plain Win32 (i.e. not Mingw or Cygwin) these functions are not
 # available, but can be faked with lib/w_dirent.c.  It's a bit odd to
-# perform that test here, since "plain Win32" users will never run 
+# perform that test here, since "plain Win32" users will never run
 # configure... Hence this code only documents when w_dirent.c should
 # be built.
 AC_CHECK_FUNC([readdir],
@@ -427,7 +437,7 @@ if test -n "$auto_cflags"; then
       # -Wconversion is not used either because it warn call to functions
       #        that take a char (or anything not sizeof(int)) as argument.
       # -Wtraditional causes each use of U32_MAX (== 0xfffffffU) to output
-      #        this: "warning: width of integer constant may change on other 
+      #        this: "warning: width of integer constant may change on other
       #        systems with -traditional".  This is quite boring.
     else
       CFLAGS="$CFLAGS -g"
@@ -462,7 +472,7 @@ data_dir=${datadir}/heroes
 AC_DEFINE_DIR([datadir],[data_dir],[Path to the data directory.])
 
 # ===================
-# HTML documentation. 
+# HTML documentation.
 # ===================
 
 # disabled by default
@@ -486,13 +496,14 @@ AM_CONFIG_HEADER(src/config.h) dnl DO NOT quote, this is parsed by automake.
 AC_OUTPUT([
  Makefile
  arch/Makefile
+ doc/Makefile
  lib/Makefile
+ m4/Makefile
+ man/Makefile
  src/Makefile
  src/etc/Makefile
  src/txt_cfg/Makefile
- m4/Makefile
- man/Makefile
- doc/Makefile
+ tools/Makefile
 ])
 
 # ====================
