@@ -5,6 +5,23 @@
 @setchapternewpage odd
 @c %**end of header
 
+@c  This is a Texinfo input file (in case it is not obvious from all the
+@c  mess around).  The Makefile in the current directory can produce
+@c  various output format from this (including .info, .dvi and .html).
+
+@c  Be careful when adding or renaming nodes into this manual.  Texinfo is
+@c  a kind of preprocessed language in the sense that it requires that
+@c  you preprocess some part of the document before submiting it to Texinfo.
+@c  For example the nodes needs to be hard linked together in the input file.
+@c  This preprocessing can be done automatically under Emacs' Texinfo mode 
+@c  after you press the magic key sequence "C-u C-c C-u C-a" (this will 
+@c  update the menus, the nodes and cramp your fingers).  Users of other 
+@c  editors have to do this very interesting work manually or can ask Emacs 
+@c  to do the work.  This can easily be done from the command line:
+@c    % emacs --batch --eval '(and (find-file "heroes.texi")
+@c                                 (texinfo-all-menus-update t)
+@c                                 (save-buffer))'
+
 @include version.texi
 
 @ifinfo
@@ -74,6 +91,7 @@ except that this permission notice may be stated in a
 translation approved by the Free Software Foundation.
 @end titlepage
 
+@c ======================================================================
 @node Top, Copying, (dir), (dir)
 
 @ifinfo
@@ -146,7 +164,9 @@ might get from you.
   Specifically, we want to make sure that you have the right to give
 away copies of Heroes, that you receive source code or else can get it
 if you want it, that you can change Heroes or use pieces of it in new
-free programs, and that you know you can do these things.
+free programs@footnote{For instance, this section was stolen from the
+documentation of GNU Texinfo.}, and that you know you can do these
+things.
 
   To make sure that everyone has such rights, we have to forbid you to
 deprive anyone else of these rights.  For example, if you distribute
@@ -163,8 +183,8 @@ introduced by others will not reflect on our reputation.
   The precise conditions of the license for Heroes are found in the
 GNU General Public License that accompanies it.
 
+@c ======================================================================
 @node    Overview, Installation, Copying, Top
-@comment node-name,     next,           previous, up
 @chapter Overview of Heroes
 @cindex  overview
 @cindex  nibbles
@@ -177,17 +197,26 @@ In it, you must maneuver a small vehicle around a world and
 collect powerups while avoiding obstacles, your opponents' trails, and even
 your own trail.
 
-There are five game modes available. Quest is the classical Nibbles, in
+There are five game modes available.  Quest is the classical Nibbles, in
 Death Match you start with very long tails a must kill your opponents,
-in Kill'em All you must run over lemmings moving on the ground, in Color
-or Time Cash you must collect money or pyramids of color.
-
+in Kill'em All you must run over lemmings moving on the ground, in 
+Time Cash or Color modes you must collect money or pyramids of color.
 Heroes features 12 original soundtracks, 94 levels (in 10 different
 tilesets) plus a level editor.
 
-Heroes was a DOS game and this is the Unix port.  Presently, the port is
-complete, but it needs cleaning before further work (e.g. network
-support) can be done.
+Heroes source code originates from an original MS-DOS game but has been
+heavily modified to enhance the portability and some new features have
+been added.  MS-DOS support has been lost my the meantime.  The original
+MS-DOS version can still be found on the Internet but is unmaintened and
+should be considered obsolete.
+@c The original MS-DOS source code is not available and will never be.
+@c People wanting MS-DOS support are invited to contribute the needed
+@c changes to the current develop
+
+The current development focus on cleaning the code and port the game to
+available operating systems.  Our objective is to release the version
+1.0 as a clean and portable base that would allow further important works
+such as network support or programmable vehicles.
 
 @menu
 * Getting Heroes::              Where to download Heroes from.
@@ -198,6 +227,7 @@ support) can be done.
 * History::                     History of the DOS version.
 @end menu
 
+@c ======================================================================
 @node Getting Heroes, Mailing lists, Overview, Overview
 @comment  node-name,  next,  previous,  up
 @section  Getting Heroes
@@ -206,20 +236,26 @@ support) can be done.
 @cindex   sunsite
 @cindex   metalab
 
-The web page of Heroes is @uref{http://www.realtech.scene.org/heroes/}.
-This page has been designed by Romuald Genevois
-@email{rgenevois@@besancon.net}.  More up to date information about
-recent versions can be found on the Heroes project home page on
-SourceForge: @uref{http://sourceforge.net/projects/heroes/}.
+@subsection Where to fetch new releases?
 
-The latest version of Heroes is always uploaded to@*
-@uref{ftp://download.sourceforge.net/pub/sourceforge/heroes/} and announced
-on the @samp{heroes-announce} mailing list (@pxref{Mailing lists}).
+Heroes development is powered by the free services offered by
+SourceForge to the Open-Source compunity.  The web page of Heroes is
+@uref{http://heroes.sourceforge.net/}.
 
-Heroes is also uploaded to MetaLab (sunsite) in @file{/pub/linux/games};
-see @uref{http://metalab.unc.edu/pub/linux/MIRRORS.html,the MetaLab
-mirror list} to find your nearest mirror. You will have to wait three or
-four days to have the files available on MetaLab after a release.
+The latest releases of Heroes is always uploaded to SourceForge and
+available from @uref{http://sourceforge.net/projects/heroes/}.  Annouces
+are sent to the @samp{heroes-announce} mailing list (@pxref{Mailing lists}).
+
+Source code releases are also uploaded to MetaLab (sunsite) in
+@file{/pub/linux/games}; see
+@uref{http://metalab.unc.edu/pub/linux/MIRRORS.html,the MetaLab mirror
+list} to find your nearest mirror.  You will have to wait three or four
+days to have the files available on MetaLab after a release.
+
+A public CVS server is also accessible.  See@*
+@uref{http://sourceforge.net/cvs/?group_id=7982} for details.
+
+@subsection What to download?
 
 Heroes is distributed as four packages with independent version
 numbering and release schedule.  Be sure to get them four:
@@ -239,17 +275,17 @@ The sound effects for the game (.wav files).
 @end table
 
 The game has been so split because the data and sound files are big
-and don't evolve as often as the code does.
+and don't evolve as often as the code does.  It would therefore be unfair
+to bloat the bandwidth by requiring the mirrors and users to download
+everything on each release.
 
-A public CVS server is accessible.  See@*
-@uref{http://sourceforge.net/cvs/?group_id=7982} for details.
-
+@c ======================================================================
 @node Mailing lists, Bug Reporting, Getting Heroes, Overview
 @comment  node-name,  next,  previous,  up
 @section Mailing lists.
 
-Three mailing lists are available for you to report bugs, discuss the
-game or get announcements of new releases.
+Three mailing lists are available for you to report bugs, discuss about
+the game or get announcements of new releases.
 
 @table @samp
 @item heroes-bugs@@lists.sourceforge.net
@@ -278,6 +314,7 @@ so you don't need to subscribe to both lists.
 @end table
 
 
+@c ======================================================================
 @node     Bug Reporting, Authors, Mailing lists, Overview
 @comment  node-name,  next,  previous,  up
 @section  Reporting bugs, sending suggestions or contribution
@@ -285,12 +322,13 @@ so you don't need to subscribe to both lists.
 @cindex   bug report
 @cindex   suggestions
 
-  We welcome bug reports or suggestions for Heroes (both program,
-documentation, or data files).  Please email them publicly (preferred) to
-@email{heroes-bugs@@lists.sourceforge.net} or privately to
-@email{duret_g@@epita.fr}.  For bug reports, please include enough
-information to reproduce the problem, if possible.  Useful information
-include:
+  We welcome bug reports or suggestions for Heroes (either program,
+documentation, or data files).  This program will get better only if you
+report the problems you encounter.  Please email them to
+@email{heroes-bugs@@lists.sourceforge.net} or
+@email{heroes-discuss@@lists.sourceforge.net}.  For bug reports, please
+include enough information to reproduce the problem, if possible.
+Useful information include:
 
 @itemize @bullet
 @item 
@@ -339,8 +377,6 @@ Manual}) or @samp{diff -c} (@pxref{Context Format,Context
 Format,Diff,diff.info,Diff Manual}) and include @samp{ChangeLog} entries
 (@pxref{Change Log,Change Log,emacs,emacs-e20,Emacs Manual}).
 
-@cindex   shar
-@cindex   GNU shar
   When sending email, please do not encode or split the messages in any
 way if possible; it's much easier to deal with one plain text message,
 however large, than many small ones.
@@ -348,13 +384,15 @@ however large, than many small ones.
 @cindex   contributing
 @cindex   TODO
 
-  Do not hesitate to contribute.  This is YOUR game and the GPL allows you to
-apply any modifications you want to the game (provided that you keep
-those modifications under the GPL).  There are numerous places where you
-can contribute: you can hack the code (take a glance at the TODO file),
-design new levels, create new drawings (e.g. new sets of tiles), track
-some new music or add your personal touch here and there.
+  Do not hesitate to contribute.  This is YOUR game and the GPL allows
+you to apply any modifications you want to the game (provided that you
+keep those modifications under the GPL).  There are numerous places
+where you can contribute: you can hack the code (the TODO file can give
+you ideas but should not be seen as a limit), design new levels, create
+new drawings (e.g. new sets of tiles), track some new music or add your
+personal touch here and there.
 
+@c ======================================================================
 @node     Authors, Contributors, Bug Reporting, Overview
 @comment  node-name,  next,  previous,  up
 @section  Authors
@@ -384,10 +422,10 @@ Composed the soundtracks and created a few levels.
 Alexandre Duret-Lutz (Pollux) @email{duret_g@@epita.fr}@*
 @uref{http://www.epita.fr/~duret_g/}
 
-Wrote the original source code, ported it to GNU/Linux 
-and created a few levels.
+Wrote the original source code, and created a few levels.
 @end itemize
 
+@c ======================================================================
 @node     Contributors, History, Authors, Overview
 @comment  node-name,  next,  previous,  up
 @section  Contributors
@@ -431,6 +469,7 @@ Maxim Sobolev @email{sobomax@@FreeBSD.org}
 Is the maintainer of the FreeBSD port (which he did).
 @end itemize
 
+@c ======================================================================
 @node     History,  , Contributors, Overview
 @comment  node-name,  next,  previous,  up
 @section  History of the DOS version
@@ -483,6 +522,7 @@ the EXTRALVL directory, other were simply erased. We aimed to spread
 the game with 100 of them, but as it is going late and that we are not
 going to sell the game anymore I don't know how many levels there will be.
 
+@c ======================================================================
 @node    Installation, Running, Overview, Top
 @comment node-name,     next,           previous, up
 @chapter Installation of Heroes
@@ -494,6 +534,7 @@ going to sell the game anymore I don't know how many levels there will be.
 * configure options::           Configure options specific to heroes.
 @end menu
 
+@c ======================================================================
 @node    Libraries, configure, Installation, Installation
 @comment node-name,  next,  previous,  up
 @section Needed Libraries
@@ -556,6 +597,7 @@ Heroes also supports memory debugging libraries, such as @samp{dmalloc} or
 @samp{efence}.  See the @samp{--enable-mem-debug} option in section
 @ref{configure options}.
 
+@c ======================================================================
 @node    configure, configure options, Libraries, Installation
 @comment node-name,  next,  previous,  up
 @section configure generic instructions
@@ -563,6 +605,7 @@ Heroes also supports memory debugging libraries, such as @samp{dmalloc} or
 
 To be filled.
 
+@c ======================================================================
 @node    configure options,  , configure, Installation
 @comment node-name,  next,  previous,  up
 @section configure options for Heroes
@@ -677,6 +720,7 @@ you specify this option they will be saved in
 
 @end table
 
+@c ======================================================================
 @node    Running, Index, Installation, Top
 @comment node-name,     next,           previous, up
 @chapter Running Heroes
@@ -691,6 +735,7 @@ you specify this option they will be saved in
 * Troubleshooting::             Common problems.
 @end menu
 
+@c ======================================================================
 @node    Options, Environment, Running, Running
 @comment node-name,  next,  previous,  up
 @section Heroes options
@@ -888,6 +933,7 @@ when heroes start.
 
 @end table
 
+@c ======================================================================
 @node    Environment, heroesrc, Options, Running
 @comment node-name,  next,  previous,  up
 @section Environment variables
@@ -962,6 +1008,7 @@ will be used.
 Common people don't need to set this variable.  This is only useful if
 you got Heroes as a binary distribution and want to move files around.
 
+@c ======================================================================
 @node    heroesrc, Game, Environment, Running
 @comment node-name,  next,  previous,  up
 @section @file{~/.heroes/heroesrc}
@@ -1080,6 +1127,7 @@ setrsc: main-font /home/adl/heroes-dev/tmp/fontem.pcx
 @end example
 
 
+@c ======================================================================
 @node    Game, Level editor, heroesrc, Running
 @comment node-name,  next,  previous,  up
 @section Game
@@ -1089,6 +1137,7 @@ Heroes has an `INFO' menu, that should describe the different game modes
 and options, with pictures and colors.  Please refer to it until this
 section is written.
 
+@c ======================================================================
 @node    Level editor, Troubleshooting, Game, Running
 @comment node-name,  next,  previous,  up
 @section Level editor
@@ -1117,6 +1166,7 @@ some informations about the level and the selected (orange box) tile.
 * departures::                  How to setup departures.
 @end menu
 
+@c ======================================================================
 @node    editor-keys, editor-clics, Level editor, Level editor
 @comment node-name,  next,  previous,  up
 @subsection Editor keys
@@ -1185,6 +1235,7 @@ Play animations.
 
 @end table
 
+@c ======================================================================
 @node    editor-clics, tunnels, editor-keys, Level editor
 @comment node-name,  next,  previous,  up
 @subsection Editor clics
@@ -1201,6 +1252,7 @@ the keyboard.
 The right button, used in the left side, will copy a tile to the pointed
 tile, in a way it behaves like the space key.
 
+@c ======================================================================
 @node    tunnels, sprites, editor-clics, Level editor
 @comment node-name,  next,  previous,  up
 @subsection Tunnels
@@ -1226,6 +1278,7 @@ The coordinate @samp{0x0} if used forthe destination denotes a non-setup
 way.  That's why you can't put a tunnel on the @samp{0x0} position.
 
 
+@c ======================================================================
 @node    sprites, animations, tunnels, Level editor
 @comment node-name,  next,  previous,  up
 @subsection Sprites
@@ -1244,6 +1297,7 @@ the level, press @kbd{@key{F3}}).
 @end itemize
 
 
+@c ======================================================================
 @node    animations, departures, sprites, Level editor
 @comment node-name,  next,  previous,  up
 @subsection Animations
@@ -1260,6 +1314,7 @@ the right to modify the speed: the greater the number is, the slower the
 animation goes.
 
 
+@c ======================================================================
 @node    departures,  , animations, Level editor
 @comment node-name,  next,  previous,  up
 @subsection Departures
@@ -1270,6 +1325,7 @@ side, select a color and clic on the arrow you want (if you don't see
 any vehicle on the level, press @kbd{@key{F3}}).
 
 
+@c ======================================================================
 @node    Troubleshooting,  , Level editor, Running
 @comment node-name,  next,  previous,  up
 @section Troubleshooting
@@ -1293,7 +1349,7 @@ Options: --gfx-display=X
 in your @file{~/.heroes/heroesrc} file.
 Note: @samp{--gfx-options} has no effect if you are using SDL.
 
-I suggest you run the game under X because in console modes (libvga,
+We suggest you to run the game under X because in console modes (libvga,
 framebuffers, ...) it's easy to get stuck if the game freeze.
 
 @subsection Keyboard
@@ -1345,7 +1401,7 @@ Remember that you can always put these options in your
 @samp{~/.heroes/heroes} file (@pxref{heroesrc}) so that you don't need
 to type them every time you run the game.
 
-@subsection SegFault when using Alsa drivers with and LibMikMod (GNU/Linux)
+@subsection SegFault when using Alsa drivers with and LibMikMod
 @cindex Alsa
 @cindex sound errors
 @cindex LibMikMod and Alsa
@@ -1369,6 +1425,7 @@ As a more general solution, you may want to compile LibMikMod without Alsa
 support (@samp{./configure --disable-alsa}) so that it never crash 
 for any application.
 
+@c ======================================================================
 @node    Index,  , Running, Top
 @comment node-name,     next,           previous, up
 @chapter Index

@@ -1,5 +1,11 @@
 2000-09-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* doc/heroes.texi: Reword some passages, add comments,
+	update URLs, mark the beginning of each node.
+	* README-alpha: Revise.
+
+2000-09-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Fix the tunnel bug noticed on Solaris
 	by Mattias Engdegård <f91-men@nada.kth.se>.
 	
