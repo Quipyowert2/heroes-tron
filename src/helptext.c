@@ -232,10 +232,10 @@ Alexandre Liverneaux and Philippe Meisburger.\n\
 \n\
 ");
 
-read_data_t *
+a_read_data *
 compile_helptext (void)
 {
-  read_data_t *p = 0;
+  a_read_data *p = 0;
   char *s = 0;
   s = xstrdup (_(help_text1));
   s = strappend (s, _(help_text2));

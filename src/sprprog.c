@@ -23,43 +23,43 @@
 #include "generic_list.h"
 
 void
-draw_sprprog (const sprite_t *sprite, pixel_t *dest)
+draw_sprprog (const a_sprite *sprite, a_pixel *dest)
 {
-  sprite_prog_list_t *list;
+  a_sprite_prog_list *list;
 
   assert (sprite->all.kind == S_PROG || sprite->all.kind == S_PROG_WAV);
 
   for (list = sprite->prog.list; list; list = list->cdr) {
-    sprite_t *s = list->car;
+    a_sprite *s = list->car;
     s->draw (s, dest + list->offset);
   }
 }
 
 void
-draw_sprprog_clipped_left (const sprite_t *sprite, pixel_t *dest,
+draw_sprprog_clipped_left (const a_sprite *sprite, a_pixel *dest,
 			   int dest_col, int min_col)
 {
-  sprite_prog_list_t *list;
+  a_sprite_prog_list *list;
 
   assert (sprite->all.kind == S_PROG || sprite->all.kind == S_PROG_WAV);
 
   for (list = sprite->prog.list; list; list = list->cdr) {
-    sprite_t *s = list->car;
+    a_sprite *s = list->car;
     if (list->offset + dest_col > min_col)
       s->draw (s, dest + list->offset);
   }
 }
 
 void
-draw_sprprog_clipped_right (const sprite_t *sprite, pixel_t *dest,
+draw_sprprog_clipped_right (const a_sprite *sprite, a_pixel *dest,
 			    int dest_col, int max_col)
 {
-  sprite_prog_list_t *list;
+  a_sprite_prog_list *list;
 
   assert (sprite->all.kind == S_PROG || sprite->all.kind == S_PROG_WAV);
 
   for (list = sprite->prog.list; list; list = list->cdr) {
-    sprite_t *s = list->car;
+    a_sprite *s = list->car;
     if (list->offset + dest_col < max_col)
       s->draw (s, dest + list->offset);
   }
@@ -67,26 +67,26 @@ draw_sprprog_clipped_right (const sprite_t *sprite, pixel_t *dest,
 
 
 /* internal state */
-static sprite_prog_list_t* prog = 0;
-static sprite_prog_list_t** last = 0;
+static a_sprite_prog_list* prog = 0;
+static a_sprite_prog_list** last = 0;
 
 /* we need to save these two state, to allow recursive calls */
-NEW_LIST (prog, sprite_prog_list_t*, STD_EQUAL, free);
-NEW_LIST (last, sprite_prog_list_t**, STD_EQUAL, free);
-prog_list_t prog_save = 0;
-last_list_t last_save = 0;
+NEW_LIST (a_prog, a_sprite_prog_list*, STD_EQUAL, free);
+NEW_LIST (a_last, a_sprite_prog_list**, STD_EQUAL, free);
+a_prog_list prog_save = 0;
+a_last_list last_save = 0;
 
 void
 new_sprprog (void)
 {
-  prog_push (&prog_save, prog);
-  last_push (&last_save, last);
+  a_prog_push (&prog_save, prog);
+  a_last_push (&last_save, last);
   last = &prog;
 }
 
 
 void
-add_sprprog (sprite_t *sprite, int offset)
+add_sprprog (a_sprite *sprite, int offset)
 {
   XMALLOC_VAR (*last);
   (*last)->car = sprite;
@@ -95,30 +95,30 @@ add_sprprog (sprite_t *sprite, int offset)
 }
 
 void
-add_sprprog0 (sprite_t *sprite)
+add_sprprog0 (a_sprite *sprite)
 {
   add_sprprog (sprite, 0);
 }
 
-sprite_t *
+a_sprite *
 end_sprprog (void)
 {
-  NEW (sprite_t, res);
+  NEW (a_sprite, res);
   *last = 0;			/* terminate the list */
   res->prog.kind = S_PROG;
   res->prog.draw = draw_sprprog;
   res->prog.list = prog;
-  prog = prog_pop (&prog_save);
-  last = last_pop (&last_save);
+  prog = a_prog_pop (&prog_save);
+  last = a_last_pop (&last_save);
   return res;
 }
 
 void
-free_sprprog (sprite_t *sprite)
+free_sprprog (a_sprite *sprite)
 {
-  sprite_prog_list_t *list = sprite->prog.list;
+  a_sprite_prog_list *list = sprite->prog.list;
   while (list) {
-    sprite_prog_list_t *next = list->cdr;
+    a_sprite_prog_list *next = list->cdr;
     free_sprite (list->car);
     free (list);
     list = next;

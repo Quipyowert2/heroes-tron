@@ -147,13 +147,13 @@ send a note to <heroes-bugs@lists.sourceforge.net>.
 #include "people.h"
 #include "misc.h"
 
-typedef struct strpair_t strpair_t;
-struct strpair_t {
+typedef struct a_strpair a_strpair;
+struct a_strpair {
   const char*	str;
   bool		i18n;
 };
 
-const strpair_t people_strings[] = {
+const a_strpair people_strings[] = {
   { "\n", false },
   { N_("%{center}You owe this game to the following people"), true },
   { "\n%{head 1}", false },
@@ -208,12 +208,12 @@ const strpair_t people_strings[] = {
   { 0, 0 }
 };
 
-read_data_t *
+a_read_data *
 compile_people (void)
 {
-  read_data_t *p = 0;
+  a_read_data *p = 0;
   char *s = 0;
-  const strpair_t *r = people_strings;
+  const a_strpair *r = people_strings;
   s = xstrdup (r->i18n ? _(r->str) : r->str);
   while ((++r)->str)
     s = strappend (s, r->i18n ? _(r->str) : r->str);

@@ -25,7 +25,7 @@
 #include "xstrduplwr.h"
 
 void
-decode_level_header (const u8_t *data, level_t *lvl)
+decode_level_header (const a_u8 *data, a_level *lvl)
 {
   /* Structure of the header:
 
@@ -45,7 +45,7 @@ decode_level_header (const u8_t *data, level_t *lvl)
      64 bytes.
   */
   int player;
-  u32_t starting_tile_index[4];
+  a_u32 starting_tile_index[4];
 
   READ_U32 (data, lvl->tile_width);
   READ_U32 (data, lvl->tile_height);
@@ -55,8 +55,8 @@ decode_level_header (const u8_t *data, level_t *lvl)
   for (player = 0; player < 4; ++player)
     READ_U32 (data, starting_tile_index[player]);
   for (player = 0; player < 4; ++player) {
-    u8_t starting_dir;
-    square_coord_t y, x;
+    a_u8 starting_dir;
+    a_square_coord y, x;
 
     READ_U8 (data, starting_dir);
     /* Compute the square starting position for each player.  */

@@ -23,7 +23,7 @@
 #include <allegro.h>
 #include "keyvalues.h"
 
-const keycode_t key_modifiers[HK_MOD__MAX] = {
+const a_keycode key_modifiers[HK_MOD__MAX] = {
   /* HK_MOD_None  */ 0,
   /* HK_MOD_Shift */ KB_SHIFT_FLAG,
   /* HK_MOD_Ctrl  */ KB_CTRL_FLAG,
@@ -31,7 +31,7 @@ const keycode_t key_modifiers[HK_MOD__MAX] = {
   /* HK_MOD_Meta  */ KB_LWIN_FLAG | KB_RWIN_FLAG
 };
 
-const keycode_t key_codes[HK__MAX] = {
+const a_keycode key_codes[HK__MAX] = {
   /* HK_0		*/ KEY_0,
   /* HK_1		*/ KEY_1,
   /* HK_2		*/ KEY_2,

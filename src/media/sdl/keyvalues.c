@@ -23,7 +23,7 @@
 #include <SDL.h>
 #include "keyvalues.h"
 
-const keycode_t key_modifiers[HK_MOD__MAX] = {
+const a_keycode key_modifiers[HK_MOD__MAX] = {
   /* HK_MOD_None  */ 0,
   /* HK_MOD_Shift */ KMOD_SHIFT,
   /* HK_MOD_Ctrl  */ KMOD_CTRL,
@@ -31,7 +31,7 @@ const keycode_t key_modifiers[HK_MOD__MAX] = {
   /* HK_MOD_Meta  */ KMOD_META
 };
 
-const keycode_t key_codes[HK__MAX] = {
+const a_keycode key_codes[HK__MAX] = {
   /* HK_0		*/ SDLK_0,
   /* HK_1		*/ SDLK_1,
   /* HK_2		*/ SDLK_2,

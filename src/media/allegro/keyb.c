@@ -78,7 +78,7 @@ process_input_events (void)
   keyboard_modifiers = key_shifts;
 }
 
-keycode_t
+a_keycode
 get_key (void)
 {
   return readkey () >> 8;

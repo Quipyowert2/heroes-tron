@@ -26,7 +26,7 @@
 time_type current_time;
 
 void
-reset_htimer (htimer_t timer)
+reset_htimer (a_timer timer)
 {
 #if HAVE_GETTIMEOFDAY
   /*-----------------------------------------------------------------.
@@ -96,7 +96,7 @@ xgettimeofday (time_type *tv)
 #endif
 
 void
-reset_htimer_with_offset (htimer_t timer, long sec)
+reset_htimer_with_offset (a_timer timer, long sec)
 {
   reset_htimer (timer);
 
@@ -107,10 +107,10 @@ reset_htimer_with_offset (htimer_t timer, long sec)
 #endif
 }
 
-htimer_t
+a_timer
 new_htimer (enum htimer_kind kind, long slice_duration)
 {
-  htimer_t result;
+  a_timer result;
   XMALLOC_VAR (result);
   result->kind = kind;
   result->slice_duration = slice_duration;
@@ -121,7 +121,7 @@ new_htimer (enum htimer_kind kind, long slice_duration)
 }
 
 void
-free_htimer (htimer_t timer)
+free_htimer (a_timer timer)
 {
   dmsg (D_TIMER, "free timer %p", timer);
   XFREE (timer);
@@ -147,7 +147,7 @@ init_htimer (void)
 }
 
 long
-read_htimer (htimer_t timer)
+read_htimer (a_timer timer)
 {
 #if HAVE_GETTIMEOFDAY
   long s, u, d, res;
@@ -207,7 +207,7 @@ read_htimer (htimer_t timer)
 }
 
 void
-shift_htimer (htimer_t to_shift, htimer_t amount)
+shift_htimer (a_timer to_shift, a_timer amount)
 {
 #if HAVE_GETTIMEOFDAY
   long u,s;

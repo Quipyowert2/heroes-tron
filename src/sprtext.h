@@ -34,30 +34,30 @@ enum text_option { T_CENTERED = 0,
 		   T_JUSTIFIED = 3,
 		   T_WAVING = 4};
 
-sprite_t *compile_sprtext (const fontdata_t *font, const char *text,
+a_sprite *compile_sprtext (const a_fontdata *font, const char *text,
 			   enum text_option topt, unsigned int maxwidth,
 			   int offset);
 
-sprite_t * compile_sprtext_color (const fontdata_t *font, const char *text,
+a_sprite * compile_sprtext_color (const a_fontdata *font, const char *text,
 				  enum text_option topt, unsigned int maxwidth,
 				  int offset);
 
-sprite_t *compile_sprpara (const fontdata_t *font, const char *text,
+a_sprite *compile_sprpara (const a_fontdata *font, const char *text,
 			   enum text_option topt, unsigned int maxwidth,
 			   int offset);
 
 /* short-hand functions */
 
-sprite_t *compile_menu_text (const char *text, enum text_option topt,
+a_sprite *compile_menu_text (const char *text, enum text_option topt,
 			     int row, int col);
 
-sprite_t *compile_menu_para (const char *text, enum text_option topt,
+a_sprite *compile_menu_para (const char *text, enum text_option topt,
 			     int row, int col, int maxwidth);
 
-sprite_t *compile_deck_text (const char *text, enum text_option topt,
+a_sprite *compile_deck_text (const char *text, enum text_option topt,
 			     int row, int col);
 
-sprite_t *compile_bonus_text (const char *text, enum text_option topt,
+a_sprite *compile_bonus_text (const char *text, enum text_option topt,
 			      int row, int col);
 
 #endif /* HEROES__SPRTEXT__H */

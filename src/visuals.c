@@ -37,12 +37,12 @@ int rotocosinus2[256];
 signed char moyensinus[512];
 int mulxbuf[200];
 int angle;
-pixel_t *srcroto;
+a_pixel *srcroto;
 
 void
 rotozoom_buffer (void)
 {
-  pixel_t *dest = render_buffer[1] + xbuf;
+  a_pixel *dest = render_buffer[1] + xbuf;
   int x, y = 200;
   int debutx, debuty;
   int inx, iny;
@@ -98,7 +98,7 @@ rotozoom_buffer (void)
 void
 rotozoom_half_buffer (int c)
 {
-  pixel_t *dest = render_buffer[c] + xbuf - 180 + xbuf;
+  a_pixel *dest = render_buffer[c] + xbuf - 180 + xbuf;
   int x, y = 200;
   int debutx, debuty;
   int inx, iny;
@@ -157,7 +157,7 @@ rotozoom_half_buffer (int c)
 }
 
 static void
-horizontal_zoom_wave (pixel_t *src, pixel_t *dest, int oldsize, int newsize)
+horizontal_zoom_wave (a_pixel *src, a_pixel *dest, int oldsize, int newsize)
 {
   unsigned long int x = 0;
   unsigned long int deltax = 4 * (((1 + oldsize) << 16) / newsize);
@@ -167,7 +167,7 @@ horizontal_zoom_wave (pixel_t *src, pixel_t *dest, int oldsize, int newsize)
   dest -= 4;
   newsize /= 4;
   do {
-    pixel_t *s;
+    a_pixel *s;
     dest += 4;
     s = src + (x >> 16);
     dest[0] = s[0];
@@ -180,21 +180,21 @@ horizontal_zoom_wave (pixel_t *src, pixel_t *dest, int oldsize, int newsize)
   dest += 4;
   deltax /= 4;
   while (rest--) {
-    pixel_t *s = src + (x >> 16);
+    a_pixel *s = src + (x >> 16);
     *dest++ = *s;
     x += deltax;
   }
 }
 
 static void
-horizontal_zoom_flip (pixel_t *src, pixel_t *dest, int oldsize, int newsize)
+horizontal_zoom_flip (a_pixel *src, a_pixel *dest, int oldsize, int newsize)
 {
   unsigned long int x = 0;
   unsigned long int deltax = 2 * (((1 + oldsize) << 16) / newsize);
   dest -= 2;
   newsize /= 2;
   do {
-    pixel_t *s;
+    a_pixel *s;
     dest += 2;
     s = src + (x >> 16);
     dest[0] = s[0];
@@ -204,29 +204,29 @@ horizontal_zoom_flip (pixel_t *src, pixel_t *dest, int oldsize, int newsize)
 }
 
 static void
-vertical_zoom_wave (pixel_t *src, pixel_t *dest, int oldsize, int newsize)
+vertical_zoom_wave (a_pixel *src, a_pixel *dest, int oldsize, int newsize)
 {
   unsigned long int y = 0;	/* current line << 16 */
   unsigned long int deltay = ((1 + oldsize) << 16) / newsize;
-  u32_t tmp1, tmp2;
+  a_u32 tmp1, tmp2;
   newsize--;
   do {
-    pixel_t *p;
+    a_pixel *p;
     p = src + ((y >> 16) * xbuf);
     tmp1 = GETWORD(p);
     p = src + (((y + deltay) >> 16) * xbuf);
     tmp2 = GETWORD(p);
     y += deltay << 1;
-    *(u32_t *) dest = tmp1;
-    *(u32_t *) (dest + xbuf) = tmp2;
+    *(a_u32 *) dest = tmp1;
+    *(a_u32 *) (dest + xbuf) = tmp2;
     dest += xbuf * 2;
     newsize -= 2;
   } while (newsize > 0);
   if (newsize == 0) {
-    pixel_t *p;
+    a_pixel *p;
     p = src + ((y >> 16) * xbuf);
     tmp1 = GETWORD(p);
-    *(u32_t *) dest = tmp1;
+    *(a_u32 *) dest = tmp1;
   }
 }
 
@@ -265,11 +265,11 @@ wave_buffer (void)
     left = ((16 + moyensinus[(i * 2 + p) & 511]) * waves_begin) / 128;
     right = ((16 + moyensinus[(i + p) & 511]) * waves_begin) / 128;
     for (j = 0; j < left; j++)
-      *(u32_t *) (render_buffer[1] + i + j * xbuf) = 0;
+      *(a_u32 *) (render_buffer[1] + i + j * xbuf) = 0;
     vertical_zoom_wave (corner[0] + i, render_buffer[1] + i + left * xbuf,
 			200, 200 - right - left);
     for (j = 0; j < right; j++)
-      *(u32_t *) (render_buffer[1] + i + (200 - j) * xbuf) = 0;
+      *(a_u32 *) (render_buffer[1] + i + (200 - j) * xbuf) = 0;
   }
   for (i = 0; i < 200; i++) {
     left = ((16 + moyensinus[(i * 2 + p) & 511]) * waves_begin) / 128;
@@ -293,12 +293,12 @@ wave_half_buffer (int c)
     left = ((16 + moyensinus[(i * 2 + p) & 511]) * waves_begin) / 128;;
     right = ((16 + moyensinus[(i + p) & 511]) * waves_begin) / 128;;
     for (j = 0; j < left; j++)
-      *(u32_t *) (render_buffer[c] + 200 + i + j * xbuf) = 0;
+      *(a_u32 *) (render_buffer[c] + 200 + i + j * xbuf) = 0;
     vertical_zoom_wave (corner[c] + i,
 			render_buffer[c] + 200 + i + left * xbuf, 200,
 			200 - right - left);
     for (j = 0; j < right; j++)
-      *(u32_t *) (render_buffer[c] + 200 + i + (200 - j) * xbuf) = 0;
+      *(a_u32 *) (render_buffer[c] + 200 + i + (200 - j) * xbuf) = 0;
   }
   for (i = 0; i < 200; i++) {
     left = ((16 + moyensinus[(i * 2 + p) & 511]) * waves_begin) / 128;;
@@ -348,11 +348,11 @@ static void
 corner_buffer_begin (int i)
 {
   int j, k, l;
-  pixel_t *src;
-  pixel_t *dest;
-  pixel_t *dest2;
-  pixel_t *glenzl = glenz[corner_buffer_glenz];
-  pixel_t *glenzd = glenz[0];
+  a_pixel *src;
+  a_pixel *dest;
+  a_pixel *dest2;
+  a_pixel *glenzl = glenz[corner_buffer_glenz];
+  a_pixel *glenzd = glenz[0];
 
   dest2 = corner[0] + xbuf * (200 - i - 1);
   for (j = 200 - i - 1, l = 0; j < 200; j++, l++) {
@@ -391,11 +391,11 @@ static void
 corner_buffer_middle (int i)
 {
   int j, k, l;
-  pixel_t *src;
-  pixel_t *dest;
-  pixel_t *dest2;
-  pixel_t *glenzl = glenz[corner_buffer_glenz];
-  pixel_t *glenzd = glenz[0];
+  a_pixel *src;
+  a_pixel *dest;
+  a_pixel *dest2;
+  a_pixel *glenzl = glenz[corner_buffer_glenz];
+  a_pixel *glenzd = glenz[0];
 
   i -= 199;
   dest2 = corner[0] + i;
@@ -434,11 +434,11 @@ static void
 corner_buffer_end (int i)
 {
   int j, k, l;
-  pixel_t *src;
-  pixel_t *dest;
-  pixel_t *dest2;
-  pixel_t *glenzl = glenz[corner_buffer_glenz];
-  pixel_t *glenzd = glenz[0];
+  a_pixel *src;
+  a_pixel *dest;
+  a_pixel *dest2;
+  a_pixel *glenzl = glenz[corner_buffer_glenz];
+  a_pixel *glenzd = glenz[0];
 
   i -= 319;
   dest2 = corner[0] + i + 120;

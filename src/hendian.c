@@ -24,7 +24,7 @@
 #include "bytesex.h"
 
 void
-bswap_level_header (level_header_t* level_info)
+bswap_level_header (a_level_header* level_info)
 {
   level_info->xt = BSWAP32 (level_info->xt);
   level_info->yt = BSWAP32 (level_info->yt);
@@ -37,7 +37,7 @@ bswap_level_header (level_header_t* level_info)
 }
 
 void
-bswap_level_tiles (const level_header_t* level_info, tile_t* level_map)
+bswap_level_tiles (const a_level_header* level_info, a_tile* level_map)
 {
   int i;
 

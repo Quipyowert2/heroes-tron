@@ -29,17 +29,17 @@
 
 #include "sprite.h"
 
-void draw_sprunish (const sprite_t *sprite, pixel_t *dest);
-void draw_sprunish_custom (const sprite_t *sprite, pixel_t *dest,
-			   pixel_t color);
+void draw_sprunish (const a_sprite *sprite, a_pixel *dest);
+void draw_sprunish_custom (const a_sprite *sprite, a_pixel *dest,
+			   a_pixel color);
 
-sprite_t *compile_sprunish (const pixel_t *src, pixel_t transp_color,
-			    pixel_t glenz_color, pixel_t *glenz_line,
-			    pixel_t opaque_color,
+a_sprite *compile_sprunish (const a_pixel *src, a_pixel transp_color,
+			    a_pixel glenz_color, a_pixel *glenz_line,
+			    a_pixel opaque_color,
 			    unsigned int block_height,
 			    unsigned int block_width,
 			    unsigned int src_width, unsigned int dest_width);
 
-void free_sprunish (sprite_t *prog);
+void free_sprunish (a_sprite *prog);
 
 #endif /* HEROES__SPRSHADE__H */

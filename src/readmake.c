@@ -32,19 +32,19 @@
 #include "errors.h"
 
 struct private_read_data_s {
-  sprite_t *sprite;
+  a_sprite *sprite;
   int line;
-  private_read_data_t *next;
+  a_private_read_data *next;
 };
 
-static read_data_t *
-insert_read_data (read_data_t *rd, sprite_t *spr, int line, bool bg)
+static a_read_data *
+insert_read_data (a_read_data *rd, a_sprite *spr, int line, bool bg)
 {
-  private_read_data_t *p, *o, **q;
-  NEW (private_read_data_t, res);
+  a_private_read_data *p, *o, **q;
+  NEW (a_private_read_data, res);
 
   if (!rd) {
-    NEW (read_data_t, rhd);
+    NEW (a_read_data, rhd);
     rhd->data_bg = 0;
     rhd->data = 0;
     rhd->max = 0;
@@ -106,7 +106,7 @@ readtok (char **src)
 #define MAX_LINES	64
 
 static void
-compute_widths (width_t *wid, const int *lm, const int *rm, int glm)
+compute_widths (a_width *wid, const int *lm, const int *rm, int glm)
 {
   unsigned int line;
   /* compute widths */
@@ -138,18 +138,18 @@ flag_error (int flag, const char *cmd)
   emsg (_("Unknown option '%c' for command '%s'."), flag, cmd);
 }
 
-read_data_t *
-compile_reader_data (read_data_t *head, const char *str)
+a_read_data *
+compile_reader_data (a_read_data *head, const char *str)
 {
   int lm[MAX_LINES];		/* left margin */
   int glm;			/* global left margin */
   int rm[MAX_LINES];		/* right margin */
-  width_t wid[MAX_LINES];	/* width (= rm - lm) */
+  a_width wid[MAX_LINES];	/* width (= rm - lm) */
   char *curstr;
   char *curstr_allocated;
   int line;
   int voffset = 0;
-  pcx_image_t help_pics_img;
+  a_pcx_image help_pics_img;
 
   pcx_load_from_rsc ("help-pictures-img", &help_pics_img);
 
@@ -230,7 +230,7 @@ compile_reader_data (read_data_t *head, const char *str)
 
 	while (h>0) {
 	  /* split the sprite in strip of 10 pixels heights */
-	  sprite_t *s;
+	  a_sprite *s;
 	  if (redgl) {
 	    s = compile_sprglenz (IMGPOS (help_pics_img, y, x), 0,
 				  glenz[6], 10, w, help_pics_img.width, xbuf);
@@ -373,18 +373,18 @@ compile_reader_data (read_data_t *head, const char *str)
 }
 
 void
-free_reader_data (read_data_t *rd)
+free_reader_data (a_read_data *rd)
 {
-  private_read_data_t *p = rd->data;
+  a_private_read_data *p = rd->data;
   while (p) {
-    private_read_data_t *n = p->next;
+    a_private_read_data *n = p->next;
     free_sprite (p->sprite);
     free (p);
     p = n;
   }
   p = rd->data_bg;
   while (p) {
-    private_read_data_t *n = p->next;
+    a_private_read_data *n = p->next;
     free_sprite (p->sprite);
     free (p);
     p = n;
@@ -393,9 +393,9 @@ free_reader_data (read_data_t *rd)
 }
 
 void
-draw_reader_data (const read_data_t *rd, pixel_t *dest, int min, int max)
+draw_reader_data (const a_read_data *rd, a_pixel *dest, int min, int max)
 {
-  const private_read_data_t *p;
+  const a_private_read_data *p;
   min *= xbuf;
   max *= xbuf;
   /* draw the background */

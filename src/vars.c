@@ -23,8 +23,8 @@
 #include "hash.h"
 #include "vars.h"
 
-typedef struct var_entry_t var_entry_t;
-struct var_entry_t {
+typedef struct a_var_entry a_var_entry;
+struct a_var_entry {
   char *name;
   char *value;
 };
@@ -34,31 +34,31 @@ Hash_table *var_hash;
 static bool
 var_equ (const void *left, const void *right)
 {
-  const var_entry_t *l = left;
-  const var_entry_t *r = right;
+  const a_var_entry *l = left;
+  const a_var_entry *r = right;
   return !strcasecmp (l->name, r->name);
 }
 
 static unsigned
 var_hasher (const void *data, unsigned size)
 {
-  const var_entry_t *l = data;
+  const a_var_entry *l = data;
   return hash_string (l->name, size);
 }
 
 static void
 var_free (void *data)
 {
-  var_entry_t *l = data;
+  a_var_entry *l = data;
   XFREE (l->name);
   XFREE (l->value);
   free (l);
 }
 
-static var_entry_t *
+static a_var_entry *
 var_cons (const char *name, const char *value)
 {
-  NEW (var_entry_t, v);
+  NEW (a_var_entry, v);
   v->name = name ? xstrdup (name) : 0;
   v->value = value ? xstrdup (value) : 0;
   return v;
@@ -98,7 +98,7 @@ var_get_value (const char *name)
     return 0;
 
   for (cursor = bucket; cursor; cursor = cursor->next)
-    if (!strcasecmp (((var_entry_t*)(cursor->data))->name, name))
+    if (!strcasecmp (((a_var_entry*)(cursor->data))->name, name))
       return cursor->data;
 
   return 0;
@@ -107,7 +107,7 @@ var_get_value (const char *name)
 void
 var_print_all (void)
 {
-  var_entry_t *cur = hash_get_first (var_hash);
+  a_var_entry *cur = hash_get_first (var_hash);
   while (cur) {
     printf ("%s = %s\n", cur->name, cur->value);
     cur = hash_get_next (var_hash, cur);

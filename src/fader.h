@@ -30,23 +30,23 @@
  * status_flagback and the next call to run_fader () which is either a
  * first or a last step.
  */
-typedef enum {F_UNKNOWN, F_STARTED, F_FINISHED} fader_status_t;
+typedef enum {F_UNKNOWN, F_STARTED, F_FINISHED} a_fader_status;
 
 /* Configure a standard fade-in, from white to the given palette,
    using 64 steps at 70Hz */
-void std_white_fadein (const palette_t* to);
+void std_white_fadein (const a_palette* to);
 
 /* Configure a standard fade-in, from black to the given palette,
    using 64 steps at 70Hz */
-void std_black_fadein (const palette_t* to);
+void std_black_fadein (const a_palette* to);
 
 /* Configure a standard fade-out, from the given palette to black,
    using 64 steps at 70Hz */
-void std_black_fadeout (const palette_t* from);
+void std_black_fadeout (const a_palette* from);
 
 /* Configure a standard fade between two palettes,
    using 64 steps at 70Hz */
-void std_palette_fade (const palette_t* from, const palette_t* to);
+void std_palette_fade (const a_palette* from, const a_palette* to);
 
 /* update the display palette (if needed).
  * NOTE: 1) usualy, there is no need to call this directly, since it is
@@ -73,7 +73,7 @@ void cancel_fader (void);
  * FIXME: This is better called before the first run_fader () call
  *        after configuration.  Otherwise the status may be "unknown".
  */
-void fader_status_flagback (fader_status_t* ptr);
+void fader_status_flagback (a_fader_status* ptr);
 
 /*
  * Delay the fader for s steps.

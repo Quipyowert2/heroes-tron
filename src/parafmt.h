@@ -26,7 +26,7 @@
 #define HEROES__PARAFMT__H
 
 /* The width of a string, or of a character */
-typedef unsigned int width_t;
+typedef unsigned int a_width;
 
 /* Split the input string STR into an array of strings the sizes of
    which are never longer than MAX_WIDTH.  Size of strings are
@@ -39,15 +39,15 @@ typedef unsigned int width_t;
    to min_space_width, trying to use the value of wa[' '] ad much as
    possible.
 */
-char **parafmt (const char *str, const width_t *wa,
-		width_t max_width, width_t min_space_width);
+char **parafmt (const char *str, const a_width *wa,
+		a_width max_width, a_width min_space_width);
 
 /* Likewise, but the width may be different on each line.
    max_widths is a 0 terminated array giving the width of each line.
    The last size given by max_width is used for the remaining lines,
    should there be more lines than widths given.  */
-char **parafmt_var (const char *str, const width_t *wa,
-		    const width_t *max_widths, width_t min_space_width);
+char **parafmt_var (const char *str, const a_width *wa,
+		    const a_width *max_widths, a_width min_space_width);
 
 /* free an array of strings, as returned by parafmt */
 void free_pararray (char **p);

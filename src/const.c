@@ -49,18 +49,18 @@ char in_jokebox;
 char kbjoy[6] = { 0, 0, 0, 0, 0, 0 };
 char kbjoyold[6] = { 0, 0, 0, 0, 0, 0 };
 
-pixel_t *(render_buffer[2]);		/* xbuf * ybuf */
+a_pixel *(render_buffer[2]);		/* xbuf * ybuf */
 
-pixel_t glenz[8][256];		/* glenz lines */
+a_pixel glenz[8][256];		/* glenz lines */
 
-pcx_image_t main_font_img, vehicles_img;
-pcx_image_t bonus_font_img;
-pcx_image_t tile_set_img, font_deck_img;
+a_pcx_image main_font_img, vehicles_img;
+a_pcx_image bonus_font_img;
+a_pcx_image tile_set_img, font_deck_img;
 
 signed char minisinus[32];
 bool two_players = false;
 
-player_t player[4];
+a_player player[4];
 int trail_pos[4][maxq];
 char trail_way[4][maxq];
 int trail_offset[4];
@@ -70,20 +70,20 @@ char trail_size[4];		/* trail size, minus one */
 int col2plr[4];
 int plr2col[4];
 
-level_t lvl;
+a_level lvl;
 
 unsigned char *square_occupied;
 unsigned char *square_way;
-tile_index_t *square_tile;
-square_coord_pair_t *square_coord;
+a_tile_index *square_tile;
+a_square_corrd_pair *square_coord;
 signed char *square_object;
-lemming_t **square_lemmings_list;
-lemming_t **square_dead_lemmings_list;
-lemming_t lemmings_support[lemmings_total];
+a_lemming **square_lemmings_list;
+a_lemming **square_dead_lemmings_list;
+a_lemming lemmings_support[lemmings_total];
 int objects_nbr;
 
 int game_mode = 0;
-gameid_t game_id;
+a_gameid game_id;
 int lemmings_anim_offset;
 int lemmings_move_offset;
 
@@ -134,7 +134,7 @@ key_or_joy_ready (void)
   return (0);
 }
 
-keycode_t
+a_keycode
 get_key_or_joy (void)
 {
   if (key_ready ())
@@ -156,9 +156,9 @@ get_key_or_joy (void)
 }
 
 void
-draw_glenz_box (pixel_t *dest, int c, int xt, int yt)
+draw_glenz_box (a_pixel *dest, int c, int xt, int yt)
 {
-  pixel_t *glenzligne = glenz[c];
+  a_pixel *glenzligne = glenz[c];
   int xt2;
 
   for (; yt != 0; yt--) {

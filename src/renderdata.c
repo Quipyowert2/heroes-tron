@@ -26,13 +26,13 @@
 #include "const.h"
 #include "sprrle.h"
 
-bg_data_t *bg_data = 0;
-fg_data_t *fg_data = 0;
+a_bg_data *bg_data = 0;
+a_fg_data *fg_data = 0;
 
 int tile_set_size = 0;		/* number of tiles in the tile set */
-sprite_t **tile_transp;		/* An array as wide as the tile set,
+a_sprite **tile_transp;		/* An array as wide as the tile set,
 				   which might contains pointer to
-				   the sprite_t for a tile, when
+				   the a_sprite for a tile, when
 				   that tile is used as a transparant
 				   sprite. */
 static void
@@ -50,7 +50,7 @@ uninit_tile_sprites (void)
   XFREE0 (tile_transp);
 }
 
-static sprite_t *
+static a_sprite *
 get_tile_sprite (unsigned int offset)
 {
   /* convert an offset-in-image, into a tile-number */
@@ -80,8 +80,8 @@ uninit_render_data (void)
 void
 init_render_data (void)
 {
-  tile_index_t pos;
-  tile_index_t max_pos = lvl.tile_count;
+  a_tile_index pos;
+  a_tile_index max_pos = lvl.tile_count;
 
   dmsg (D_SECTION, "Initialize rendering data");
 

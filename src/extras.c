@@ -32,33 +32,33 @@
 #include "levellst.h"
 
 typedef struct {
-  filename_t	filename;
+  a_filename	filename;
   char		is_in_user_dir;	/* Is this extra level a user level?
 				 (user levels come from the ~/.heroes/level/
 				 directory) */
-} extradir_info_t;
+} an_extradir_info;
 
-static void free_extradir_info (extradir_info_t* ei);
+static void free_extradir_info (an_extradir_info* ei);
 
-NEW_LIST (extradir, extradir_info_t*, STD_EQUAL, free_extradir_info);
+NEW_LIST (an_extradir, an_extradir_info*, STD_EQUAL, free_extradir_info);
 
-/* level_list_t is used for building a temporaly list of all extra
+/* a_level_list is used for building a temporaly list of all extra
    levels seen in directories.  The list will then be converted to an
    array, by copying the pointed struct, therefore the destructor should
    free only the struct, not the elements pointer by the struct's members. */
-NEW_LIST (level, extra_level_t*, STD_EQUAL, free);
+NEW_LIST (a_level, an_extra_level*, STD_EQUAL, free);
 
-extradir_list_t edir;
+an_extradir_list edir;
 
 unsigned int extra_nbr = 0;	/* the total number of extra levels */
 unsigned int extra_user_nbr = 0; /* The number of user levels from */
 
-extra_level_t *extra_list = 0;	/* The list of extra-levels, the user's
+an_extra_level *extra_list = 0;	/* The list of extra-levels, the user's
 				   extra-levels are at the beginning */
 char *extra_selected_list = 0;	/* For each level: 1 if selected, 0 if not */
 
 
-static void free_extradir_info (extradir_info_t* ei)
+static void free_extradir_info (an_extradir_info* ei)
 {
   free (ei->filename);
   free (ei);
@@ -67,7 +67,7 @@ static void free_extradir_info (extradir_info_t* ei)
 /* compare two extra-levels for sorting,
    we want to sort user's levels first, and then alphabetically */
 static int
-cmp_extralevels (const extra_level_t* l, const extra_level_t* r)
+cmp_extralevels (const an_extra_level* l, const an_extra_level* r)
 {
   int d = r->is_in_user_dir - l->is_in_user_dir;
 
@@ -79,7 +79,7 @@ cmp_extralevels (const extra_level_t* l, const extra_level_t* r)
 /* Browse a directory, adds the levels found to ll.
    Update extra_nbr and extra_user_nbr. */
 static void
-browse_extra_directory (extradir_info_t* edi, level_list_t* ll)
+browse_extra_directory (an_extradir_info* edi, a_level_list* ll)
 {
   DIR* dir;
   struct dirent* de;
@@ -104,7 +104,7 @@ browse_extra_directory (extradir_info_t* edi, level_list_t* ll)
     if (select_file_lvl (de)) {
       /* add the file to the list */
       char* fn;
-      NEW (extra_level_t, tmp);
+      NEW (an_extra_level, tmp);
 
       XMALLOC_ARRAY (fn, (strlen (edi->filename) + 1 +
 			  strlen (de->d_name) + 1));
@@ -117,7 +117,7 @@ browse_extra_directory (extradir_info_t* edi, level_list_t* ll)
       if ((fn = strchr (tmp->level_name, '.')))
 	*fn = 0;
 
-      level_push (ll, tmp);
+      a_level_push (ll, tmp);
       ++n;
     }
 
@@ -133,9 +133,9 @@ browse_extra_directory (extradir_info_t* edi, level_list_t* ll)
 void
 browse_extra_directories (void)
 {
-  extradir_list_t ed = edir;
-  level_list_t ll = 0;
-  level_list_t ll_cur;
+  an_extradir_list ed = edir;
+  a_level_list ll = 0;
+  a_level_list ll_cur;
   unsigned int i;
 
   /* build the list of the files found in each directory */
@@ -158,7 +158,7 @@ browse_extra_directories (void)
   assert (i == extra_nbr);
 
   /* ll is now useless */
-  level_clear (&ll);
+  a_level_clear (&ll);
 
   /* sort the files list */
   qsort (extra_list, extra_nbr, sizeof(*extra_list),
@@ -170,21 +170,21 @@ browse_extra_directories (void)
 }
 
 void
-add_extra_directory (filename_t fn)
+add_extra_directory (a_filename fn)
 {
-  NEW (extradir_info_t, tmp);
+  NEW (an_extradir_info, tmp);
   tmp->filename = xstrdup (fn);
   tmp->is_in_user_dir = 0;
-  extradir_push (&edir, tmp);
+  an_extradir_push (&edir, tmp);
 }
 
 static void
-add_extra_in_user_directory (filename_t fn)
+add_extra_in_user_directory (a_filename fn)
 {
-  NEW (extradir_info_t, tmp);
+  NEW (an_extradir_info, tmp);
   tmp->filename = xstrdup (fn);
   tmp->is_in_user_dir = 1;
-  extradir_push (&edir, tmp);
+  an_extradir_push (&edir, tmp);
 }
 
 void
@@ -225,7 +225,7 @@ void
 free_extra_directories (void)
 {
   dmsg (D_MISC, "free extra directories");
-  extradir_clear (&edir);
+  an_extradir_clear (&edir);
 
   free_levels_output_dir ();
 }

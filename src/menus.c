@@ -58,87 +58,87 @@
 #include "people.h"
 #include "camera.h"
 
-static htimer_t lemming_htimer;
-static sprite_t* left_arrow = 0;
-static sprite_t* right_arrow = 0;
-static sprite_t* checked_box[2] = {0, 0};
-static sprite_t* cursor_bg = 0;
-static sprite_t* cursor_fg = 0;
-static sprite_t* horizontal_rule = 0;
-static sprite_t* bigarr_cursor = 0; /* for the editor menu */
-static sprite_t* sqr_cursor = 0; /* likewise */
-static sprite_t* small_arrows[2][2] = {{ 0, 0 }, { 0, 0}};
+static a_timer lemming_htimer;
+static a_sprite* left_arrow = 0;
+static a_sprite* right_arrow = 0;
+static a_sprite* checked_box[2] = {0, 0};
+static a_sprite* cursor_bg = 0;
+static a_sprite* cursor_fg = 0;
+static a_sprite* horizontal_rule = 0;
+static a_sprite* bigarr_cursor = 0; /* for the editor menu */
+static a_sprite* sqr_cursor = 0; /* likewise */
+static a_sprite* small_arrows[2][2] = {{ 0, 0 }, { 0, 0}};
 
-static sprite_t* control_menu_txt = 0;
-static sprite_t* sound_menu_txt = 0;
-static sprite_t* music_vol_txt = 0;
-static sprite_t* sfx_vol_txt = 0;
-static sprite_t* screen_menu_txt = 0;
-static sprite_t* game_menu_txt = 0;
-static sprite_t* game_rounds_txt = 0;
-static sprite_t* keyboard_menu_txt = 0;
-static sprite_t* keyboard_keys_txt[12] = {
+static a_sprite* control_menu_txt = 0;
+static a_sprite* sound_menu_txt = 0;
+static a_sprite* music_vol_txt = 0;
+static a_sprite* sfx_vol_txt = 0;
+static a_sprite* screen_menu_txt = 0;
+static a_sprite* game_menu_txt = 0;
+static a_sprite* game_rounds_txt = 0;
+static a_sprite* keyboard_menu_txt = 0;
+static a_sprite* keyboard_keys_txt[12] = {
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-static sprite_t* extra_menu_txt = 0;
-static sprite_t* extra_modes_txt[3] = { 0, 0, 0 };
-static sprite_t* extra_combine_txt[3] = { 0, 0, 0 };
-static sprite_t* pause_menu_txt = 0;
-static sprite_t* quitgame_menu_txt = 0;
-static sprite_t* quitheroes_menu_txt = 0;
-static sprite_t* quit_yes_txt = 0;
-static sprite_t* quit_no_txt = 0;
-static sprite_t* ed_new_level_txt = 0;
-static sprite_t* ed_existing_level_txt = 0;
-static sprite_t* ed_name_txt = 0;
-static sprite_t* ed_x_wrap_txt = 0;
-static sprite_t* ed_y_wrap_txt = 0;
-static sprite_t* ed_x_size_txt = 0;
-static sprite_t* ed_y_size_txt = 0;
-static sprite_t* ed_edit_txt = 0;
-static sprite_t* edit_sel_txt = 0;
-static sprite_t* playmenu_title_txt = 0;
-static sprite_t* playmenu_players_txt[2] = { 0, 0 };
-static sprite_t* playmenu_goback_txt = 0;
-static sprite_t* playmenu_load_txt = 0;
-static sprite_t* gamemode_txt[5] = { 0, 0, 0, 0, 0 };
-static sprite_t* load_select_txt = 0;
-static sprite_t* save_select_txt = 0;
-sprite_t* saverec_name[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-static sprite_t* enter_your_name_txt = 0;
-static sprite_t* info_mode_quest_txt = 0;
-static sprite_t* info_mode_deathm_txt = 0;
-static sprite_t* info_mode_killem_txt = 0;
-static sprite_t* info_mode_tcash_txt = 0;
-static sprite_t* info_mode_color_txt = 0;
-static sprite_t* info_mode_next_txt = 0;
-static sprite_t* info_mode_save_txt = 0;
+static a_sprite* extra_menu_txt = 0;
+static a_sprite* extra_modes_txt[3] = { 0, 0, 0 };
+static a_sprite* extra_combine_txt[3] = { 0, 0, 0 };
+static a_sprite* pause_menu_txt = 0;
+static a_sprite* quitgame_menu_txt = 0;
+static a_sprite* quitheroes_menu_txt = 0;
+static a_sprite* quit_yes_txt = 0;
+static a_sprite* quit_no_txt = 0;
+static a_sprite* ed_new_level_txt = 0;
+static a_sprite* ed_existing_level_txt = 0;
+static a_sprite* ed_name_txt = 0;
+static a_sprite* ed_x_wrap_txt = 0;
+static a_sprite* ed_y_wrap_txt = 0;
+static a_sprite* ed_x_size_txt = 0;
+static a_sprite* ed_y_size_txt = 0;
+static a_sprite* ed_edit_txt = 0;
+static a_sprite* edit_sel_txt = 0;
+static a_sprite* playmenu_title_txt = 0;
+static a_sprite* playmenu_players_txt[2] = { 0, 0 };
+static a_sprite* playmenu_goback_txt = 0;
+static a_sprite* playmenu_load_txt = 0;
+static a_sprite* gamemode_txt[5] = { 0, 0, 0, 0, 0 };
+static a_sprite* load_select_txt = 0;
+static a_sprite* save_select_txt = 0;
+a_sprite* saverec_name[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+static a_sprite* enter_your_name_txt = 0;
+static a_sprite* info_mode_quest_txt = 0;
+static a_sprite* info_mode_deathm_txt = 0;
+static a_sprite* info_mode_killem_txt = 0;
+static a_sprite* info_mode_tcash_txt = 0;
+static a_sprite* info_mode_color_txt = 0;
+static a_sprite* info_mode_next_txt = 0;
+static a_sprite* info_mode_save_txt = 0;
 /* The column to start arrows on, depending of the width of
    info_mode_next_txt and info_mode_save_txt.  */
 unsigned int info_mode_next_save_arrow_pos = 0;
-static sprite_t* info_mode_return_txt = 0;
-static sprite_t* info_round_txt = 0;
-static sprite_t* info_martian[4] = { 0, 0, 0, 0 };
-static sprite_t* higher_scores_txt = 0;
-static sprite_t* jukebox_frame = 0;
-static sprite_t* jukebox_back = 0;
-static sprite_t* jukebox_forw = 0;
-static sprite_t* jukebox_quit = 0;
-static sprite_t* vehicles_spr[4] = { 0, 0, 0, 0 };
-static sprite_t* lemming[8] = { 0, 0, 0, 0, 0, 0, 0 };
-static sprite_t* ctrl_ico[2] = { 0, 0 };
-static sprite_t* autopilot_ico[2] = { 0, 0 };
-static sprite_t* music_ico[7] = { 0, 0, 0, 0, 0, 0 };
-static sprite_t* sfx_ico[7] = { 0, 0, 0, 0, 0, 0 };
-static sprite_t* radar_ico[2] = { 0, 0 };
-static sprite_t* infos_ico[2] = { 0, 0 };
-static sprite_t* inertia_ico[2] = { 0, 0 };
-static sprite_t* luminance_ico[7] = { 0, 0, 0, 0, 0, 0, 0 };
-sprite_t* player_logo[4] = { 0, 0, 0, 0}; /* for end level info and game */
-static sprite_t* player_ico[4] = { 0, 0, 0, 0}; /* for menus */
-static sprite_t* speed_ico[5] = { 0, 0, 0, 0, 0};
-static sprite_t* deck_digits[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-static read_data_t* help_text = 0;
-static read_data_t* people_text = 0;
+static a_sprite* info_mode_return_txt = 0;
+static a_sprite* info_round_txt = 0;
+static a_sprite* info_martian[4] = { 0, 0, 0, 0 };
+static a_sprite* higher_scores_txt = 0;
+static a_sprite* jukebox_frame = 0;
+static a_sprite* jukebox_back = 0;
+static a_sprite* jukebox_forw = 0;
+static a_sprite* jukebox_quit = 0;
+static a_sprite* vehicles_spr[4] = { 0, 0, 0, 0 };
+static a_sprite* lemming[8] = { 0, 0, 0, 0, 0, 0, 0 };
+static a_sprite* ctrl_ico[2] = { 0, 0 };
+static a_sprite* autopilot_ico[2] = { 0, 0 };
+static a_sprite* music_ico[7] = { 0, 0, 0, 0, 0, 0 };
+static a_sprite* sfx_ico[7] = { 0, 0, 0, 0, 0, 0 };
+static a_sprite* radar_ico[2] = { 0, 0 };
+static a_sprite* infos_ico[2] = { 0, 0 };
+static a_sprite* inertia_ico[2] = { 0, 0 };
+static a_sprite* luminance_ico[7] = { 0, 0, 0, 0, 0, 0, 0 };
+a_sprite* player_logo[4] = { 0, 0, 0, 0}; /* for end level info and game */
+static a_sprite* player_ico[4] = { 0, 0, 0, 0}; /* for menus */
+static a_sprite* speed_ico[5] = { 0, 0, 0, 0, 0};
+static a_sprite* deck_digits[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+static a_read_data* help_text = 0;
+static a_read_data* people_text = 0;
 
 static const char *mode_name[5] = {
   /* TRANS: in QUEST mode, the player goes throught all the levels, but
@@ -163,22 +163,22 @@ static const char *mode_name[5] = {
 /* the following definitions are used to compile text-centered menus,
    that is, the main and the option menus */
 
-typedef void (*entry_func_t) (void);
+typedef void (*an_entry_func) (void);
 
 typedef struct {
   const char *name;
-  entry_func_t func;
-} menu_entry_t;
+  an_entry_func func;
+} a_menu_entry;
 
 typedef struct {
-  sprite_t *title;
-  sprite_t **entries;
-  entry_func_t *funcs;
+  a_sprite *title;
+  a_sprite **entries;
+  an_entry_func *funcs;
   int lines;
   int *hrules;
   unsigned arrows_col;
   unsigned first_row;
-} menu_t;
+} a_menu;
 
 static void game_menu (void);
 static void screen_menu (void);
@@ -189,7 +189,7 @@ static void extra_menu (void);
 static void editor_selector (void);
 static void editor_menu (void);
 
-menu_entry_t options_entries[] = {
+a_menu_entry options_entries[] = {
   { N_("GAME"),		game_menu },
   { N_("SCREEN"),	screen_menu },
   { N_("SOUND"),	sound_menu },
@@ -200,9 +200,9 @@ menu_entry_t options_entries[] = {
   { 0,			0 }
 };
 
-menu_t *option_menu_data;
+a_menu *option_menu_data;
 
-menu_entry_t main_entries[] = {
+a_menu_entry main_entries[] = {
   { N_("PLAY"),		0 },
   { N_("OPTIONS"),	0 },
   { N_("INFOS"),	0 },
@@ -213,9 +213,9 @@ menu_entry_t main_entries[] = {
   { 0,			0 }
 };
 
-menu_t *main_menu_data;
+a_menu *main_menu_data;
 
-menu_entry_t editor_entries[] = {
+a_menu_entry editor_entries[] = {
   /* TRANS: Create a new level.  */
   { N_("NEW LEVEL"),	editor_menu },
   /* TRANS: Load an existing level for edition.  */
@@ -223,17 +223,17 @@ menu_entry_t editor_entries[] = {
   { N_("GO BACK"),	0 }
 };
 
-menu_t *editor_menu_data;
+a_menu *editor_menu_data;
 
-static menu_t *
-compile_menu (const char *name, const menu_entry_t *entries)
+static a_menu *
+compile_menu (const char *name, const a_menu_entry *entries)
 {
   int tlines;			/* number of text lines */
   int row;			/* row on screen */
-  const menu_entry_t *pos;
+  const a_menu_entry *pos;
   int i;
   unsigned max_width = 0;
-  NEW (menu_t, menu);
+  NEW (a_menu, menu);
 
   /* title */
   menu->title = compile_menu_text (name, T_CENTERED|T_WAVING, 12, 159);
@@ -272,7 +272,7 @@ compile_menu (const char *name, const menu_entry_t *entries)
 }
 
 static void
-free_menu (menu_t *menu)
+free_menu (a_menu *menu)
 {
   int i;
   i = menu->lines;
@@ -288,7 +288,7 @@ free_menu (menu_t *menu)
 void
 init_menus_sprites (void)
 {
-  pcx_image_t icons_img, jukebox_img;
+  a_pcx_image icons_img, jukebox_img;
 
   pcx_load_from_rsc ("menu-pictures-img", &icons_img);
   pcx_load_from_rsc ("jukebox-img", &jukebox_img);
@@ -794,8 +794,8 @@ hrule (unsigned int row)
   DRAW_SPRITE (horizontal_rule, corner [0] + row * xbuf + 100);
 }
 
-static keycode_t
-move_updown (keycode_t key, int *pos, int latest_pos)
+static a_keycode
+move_updown (a_keycode key, int *pos, int latest_pos)
 {
   if (key == HK_Up) {
     if (*pos > 0)
@@ -836,7 +836,7 @@ background_menu (void)
 }
 
 static void
-display_menu (menu_t *menu, int l, bool blit)
+display_menu (a_menu *menu, int l, bool blit)
 {
   int line;
   background_menu ();
@@ -851,13 +851,13 @@ display_menu (menu_t *menu, int l, bool blit)
 }
 
 static void
-exec_menu (menu_t *menu)
+exec_menu (a_menu *menu)
 {
   int l = 0;
-  keycode_t k;
+  a_keycode k;
 
   for (;;) {
-    entry_func_t to_call;
+    an_entry_func to_call;
 
     std_white_fadein (&tile_set_img.palette);
     do {
@@ -884,7 +884,7 @@ static void
 control_menu (void)
 {
   int l = 0;
-  keycode_t t;
+  a_keycode t;
 
   std_white_fadein (&tile_set_img.palette);
   do {
@@ -925,7 +925,7 @@ control_menu (void)
 }
 
 static const char*
-search_keyname (keycode_t key)
+search_keyname (a_keycode key)
 {
   const struct keynames_s* k = keynames;
 
@@ -939,7 +939,7 @@ keyboard_menu (void)
 {
   int l = 0, testing = 0;
   int i;
-  keycode_t t = 0;
+  a_keycode t = 0;
   int unconfigured_keys = -1;
   /* line for each keyname */
   int keyline[12] = { 38, 49, 60, 71, 82, 93, 121, 132, 143, 154, 165, 176 };
@@ -959,7 +959,7 @@ keyboard_menu (void)
       int oi = reorder[i];
       if (l != i || testing == 0) {
 	if (!keyboard_keys_txt[i]) { /* need to generate a sprite ? */
-	  sprite_t *res;
+	  a_sprite *res;
 	  int key = opt.player_keys[oi > 5][oi > 5 ? oi - 6 : oi];
 	  const char *keyname = search_keyname (key);
 
@@ -1070,7 +1070,7 @@ static void
 sound_menu (void)
 {
   int l = 0;
-  keycode_t t;
+  a_keycode t;
 
   std_white_fadein (&tile_set_img.palette);
   do {
@@ -1158,7 +1158,7 @@ static void
 screen_menu (void)
 {
   int l = 0;
-  keycode_t t;
+  a_keycode t;
 
   std_white_fadein (&tile_set_img.palette);
   do {
@@ -1212,7 +1212,7 @@ static void
 game_menu (void)
 {
   int l = 0, tmp;
-  keycode_t t;
+  a_keycode t;
 
   std_white_fadein (&tile_set_img.palette);
   do {
@@ -1324,11 +1324,11 @@ static void
 extra_menu (void)
 {
   int l = 0;
-  keycode_t t;
+  a_keycode t;
   int i, ll = 0;
   /* We store only the sprites for the displayed level names, as the list
      can be big (hmmm... really?) */
-  sprite_t *levelnames[7] = { 0, 0, 0, 0, 0, 0, 0 };
+  a_sprite *levelnames[7] = { 0, 0, 0, 0, 0, 0, 0 };
 
   if (extra_nbr <= 0)
     return;
@@ -1482,7 +1482,7 @@ char
 quit_menu (void)
 {
   int l = 0;
-  keycode_t t;
+  a_keycode t;
 
   std_white_fadein (&tile_set_img.palette);
   do {
@@ -1536,7 +1536,7 @@ char tile_sets_names[10][3] =
   { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10" };
 
 static void
-load_tile_set_preview (int num, pcx_image_t * ici)
+load_tile_set_preview (int num, a_pcx_image * ici)
 {
   char *t = get_non_null_rsc_file ("editor-preview-prefix");
   t = strappend (t, tile_sets_names[num]);
@@ -1550,8 +1550,8 @@ editor_selector (void)
 {
   int l = 0;
   int i = 0;
-  keycode_t t;
-  sprite_t *filenames[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+  a_keycode t;
+  a_sprite *filenames[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
   if (extra_user_nbr == 1) {
     event_sfx (116);
@@ -1619,9 +1619,9 @@ editor_selector (void)
 static void
 editor_menu (void)
 {
-  pcx_image_t frmenu, tilesprev;
+  a_pcx_image frmenu, tilesprev;
   int l = 0, pos = 0, i;
-  keycode_t t = 0;
+  a_keycode t = 0;
   int xwrap = 15;
   int ywrap = 15;
   int xsize = 16;
@@ -1630,7 +1630,7 @@ editor_menu (void)
   int tiles = 0;
   int j;
   FILE *tmphdl;
-  level_header_t plinfo;
+  a_level_header plinfo;
   char lname[FILENAME_SIZE + 1];
   char ssize[32];
   char titres[10][16] =
@@ -1638,14 +1638,14 @@ editor_menu (void)
     "ELECTRIC DREAM", "METAL MASTER", "MOON 51", "CORRIDOR 3",
     "SWEET DREAM"
   };
-  sprite_t *tileset_name_txt = 0;
-  sprite_t *level_name_txt = 0;
-  sprite_t *x_size_txt = 0;
-  sprite_t *y_size_txt = 0;
+  a_sprite *tileset_name_txt = 0;
+  a_sprite *level_name_txt = 0;
+  a_sprite *x_size_txt = 0;
+  a_sprite *y_size_txt = 0;
 
   memset (lname,0,FILENAME_SIZE + 1);
-  pcx_load_from_rsc ("new-level-menu-img", (pcx_image_t *) & frmenu);
-  load_tile_set_preview (0, (pcx_image_t *) & tilesprev);
+  pcx_load_from_rsc ("new-level-menu-img", (a_pcx_image *) & frmenu);
+  load_tile_set_preview (0, (a_pcx_image *) & tilesprev);
 
   corner[0] = render_buffer[0];
   for (i = 0; i < 52; i++)
@@ -1756,8 +1756,8 @@ editor_menu (void)
 	  else
 	    tiles = 9;
 	}
-	img_free ((pcx_image_t *) & tilesprev);
-	load_tile_set_preview (tiles, (pcx_image_t *) & tilesprev);
+	img_free ((a_pcx_image *) & tilesprev);
+	load_tile_set_preview (tiles, (a_pcx_image *) & tilesprev);
 	for (i = 0; i < 52; i++)
 	  memcpy (frmenu.buffer + 217 + 74 * 320 + i * 320,
 		  tilesprev.buffer + i * 62, 62);
@@ -1797,15 +1797,15 @@ editor_menu (void)
 	  dmsg (D_FILE, "trying to open %s for preview ...", filename);
 	  tmphdl = fopen (filename, "rb");
 	  if (tmphdl != NULL) {
-	    if (fread ((void *) &plinfo, sizeof (level_header_t), 1, tmphdl)
+	    if (fread ((void *) &plinfo, sizeof (a_level_header), 1, tmphdl)
 		== 1) {
 	      xsize = BSWAP32 (plinfo.xt);
 	      ysize = BSWAP32 (plinfo.yt);
 	      xwrap = BSWAP32 (plinfo.xwrap);
 	      ywrap = BSWAP32 (plinfo.ywrap);
 	      tiles = atol ((char *) &(plinfo.tile_set_name[5])) - 1;
-	      img_free ((pcx_image_t *) & tilesprev);
-	      load_tile_set_preview (tiles, (pcx_image_t *) & tilesprev);
+	      img_free ((a_pcx_image *) & tilesprev);
+	      load_tile_set_preview (tiles, (a_pcx_image *) & tilesprev);
 	      for (i = 0; i < 52; i++)
 		memcpy (frmenu.buffer + 217 + 74 * 320 + i * 320,
 			tilesprev.buffer + i * 62, 62);
@@ -2014,7 +2014,7 @@ jukebox_draw (int pos)
 }
 
 static bool
-handle_reader_keys (keycode_t t, int *top, read_data_t *text)
+handle_reader_keys (a_keycode t, int *top, a_read_data *text)
 {
   if (t == HK_Down) {
     *top += 10;
@@ -2037,7 +2037,7 @@ handle_reader_keys (keycode_t t, int *top, read_data_t *text)
 static int
 jukebox_keys (int *pos, int *top)
 {
-  keycode_t k;
+  a_keycode k;
 
   if (!key_or_joy_ready ())
     return 1;
@@ -2111,7 +2111,7 @@ void
 pause_menu (void)
 {
   int l = 0;
-  htimer_t pause_htimer;
+  a_timer pause_htimer;
 
   dmsg (D_SECTION, "pause menu");
 
@@ -2149,8 +2149,8 @@ char
 quit_yes_no (void)
 {
   int l = 0;
-  keycode_t t;
-  htimer_t pause_htimer;
+  a_keycode t;
+  a_timer pause_htimer;
 
   dmsg (D_SECTION, "quit y/n menu");
 
@@ -2208,13 +2208,13 @@ quit_yes_no (void)
 void
 enter_your_name (char c, char* name)
 {
-  keycode_t t = 0;
+  a_keycode t = 0;
   int pos = 0;
   char head[256];
-  htimer_t pixelize_timer = new_htimer (T_GLOBAL, HZ (7));
-  sprite_t *player_number;
-  sprite_t *player_name = 0;
-  pixel_t *pixbuf;
+  a_timer pixelize_timer = new_htimer (T_GLOBAL, HZ (7));
+  a_sprite *player_number;
+  a_sprite *player_name = 0;
+  a_pixel *pixbuf;
 
   XMALLOC_ARRAY (pixbuf, 200 * xbuf);
 
@@ -2276,8 +2276,8 @@ draw_end_level_info (int decal, char l)
   int i;
   char winner[128];
   char nbr[32];
-  sprite_t *winner_txt = 0;
-  sprite_t *lines[4][3] = { { 0, 0, 0 },
+  a_sprite *winner_txt = 0;
+  a_sprite *lines[4][3] = { { 0, 0, 0 },
 			    { 0, 0, 0 },
 			    { 0, 0, 0 },
 			    { 0, 0, 0 } };
@@ -2363,8 +2363,8 @@ draw_round_info (int decal)
 {
   int i;
   char info[128];
-  sprite_t *winner_txt = 0;
-  sprite_t *lines[4][3] = { { 0, 0, 0 },
+  a_sprite *winner_txt = 0;
+  a_sprite *lines[4][3] = { { 0, 0, 0 },
 			    { 0, 0, 0 },
 			    { 0, 0, 0 },
 			    { 0, 0, 0 } };
@@ -2416,13 +2416,13 @@ draw_round_info (int decal)
 void
 scores_menu (void)
 {
-  keycode_t t;
+  a_keycode t;
   int i, j;
   char flag = 0;
   int rolldec = 0;
   signed char rollflag = 0;
-  sprite_t *points_txt[5][10];
-  sprite_t *highs_txt[5][10];
+  a_sprite *points_txt[5][10];
+  a_sprite *highs_txt[5][10];
 
   load_scores ();
 
@@ -2530,7 +2530,7 @@ scores_menu (void)
 void
 help_menu (void)
 {
-  keycode_t t;
+  a_keycode t;
   int top = 0;
 #define MULT_SHIFT 10
   int curmult = 0;

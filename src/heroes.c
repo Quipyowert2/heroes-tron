@@ -91,8 +91,8 @@ char ia_max_depth;
 char ia_cur_depth;
 char ia_is_invincible;
 char ia_player;
-square_coord_t ia_target_x, ia_targer_y;
-square_coord_t ia_wrap_x, ia_wrap_y;
+a_square_coord ia_target_x, ia_targer_y;
+a_square_coord ia_wrap_x, ia_wrap_y;
 char ia_wrap_left, ia_wrap_right;
 
 #define DEMO_DURATION 90
@@ -104,17 +104,17 @@ char mouse_found = 1;
 
 char txt_tmp[20];
 
-htimer_t blink_htimer;
-htimer_t clock_htimer;
-htimer_t tiles_anim_htimer;
-htimer_t corner_htimer;
-htimer_t event_htimer;
+a_timer blink_htimer;
+a_timer clock_htimer;
+a_timer tiles_anim_htimer;
+a_timer corner_htimer;
+a_timer event_htimer;
 long event_time;		/* updated from event_htimer on each frame */
-htimer_t update_htimer;
-htimer_t waving_htimer;
-htimer_t background_htimer;
-htimer_t sound_track_htimer;
-htimer_t demo_trigger_htimer;
+a_timer update_htimer;
+a_timer waving_htimer;
+a_timer background_htimer;
+a_timer sound_track_htimer;
+a_timer demo_trigger_htimer;
 
 static unsigned char play_game (char);
 
@@ -203,9 +203,9 @@ reinit_player (unsigned p)
   int tries, m;
 
   unsigned start_pos;		/* 0..3: one of the 4 starting positions.  */
-  square_coord_pair_t start_coord;
-  dir_t start_dir;
-  square_index_t start_idx, next_idx;
+  a_square_corrd_pair start_coord;
+  a_dir start_dir;
+  a_square_index start_idx, next_idx;
 
   dmsg (D_MISC, "initialize player %d", p);
 
@@ -233,7 +233,7 @@ reinit_player (unsigned p)
     if (lvl.square_type[start_idx] != T_OUTWAY
 	&& square_occupied[start_idx] == 0xff) {
 
-      square_index_t si;
+      a_square_index si;
       bool dir_unusable[4] = { false, false, false, false };
 
       /* Check directions which are not usable. */
@@ -329,10 +329,10 @@ reinit_player (unsigned p)
 }
 
 static void
-find_lemming_direction (lemming_t *lem)
+find_lemming_direction (a_lemming *lem)
 {
-  dir_t d;
-  dir_mask_t avail_dirm;
+  a_dir d;
+  a_dir_mask avail_dirm;
 
   /* The lemming advances one square.  The tail takes the place of
      the head.  */
@@ -347,7 +347,7 @@ find_lemming_direction (lemming_t *lem)
      by the lemming.  */
   avail_dirm = DM_ALL;
   for (d = 0; d < DIR_MAX; ++d) {
-    square_index_t dest = lvl.square_move[d][lem->pos_tail];
+    a_square_index dest = lvl.square_move[d][lem->pos_tail];
 
     if (/* Lemmings can't cross walls, */
 	dest == INVALID_INDEX
@@ -390,7 +390,7 @@ find_lemming_direction (lemming_t *lem)
     lem->pos_head = lvl.square_move[lem->dir][lem->pos_tail];
   } else {
     /* Current direction unavalaible.  Let's find another one.  */
-    dir_mask_t i;
+    a_dir_mask i;
     int n = 0;
 
     /* Count the number of direction available.  */
@@ -433,7 +433,7 @@ static char
 load_level (char *filename, char cont)
 {
   unsigned int i, j, k, k2, l;
-  lemming_t *ptir;
+  a_lemming *ptir;
   int err;
 
   dmsg (D_FILE|D_LEVEL, "loading level: %s", filename);
@@ -529,7 +529,7 @@ load_level (char *filename, char cont)
   if (game_mode == M_KILLEM) {
     XCALLOC_ARRAY (square_lemmings_list, lvl.square_count);
     XCALLOC_ARRAY (square_dead_lemmings_list, lvl.square_count);
-    memset (lemmings_support, 0, lemmings_total * sizeof (lemming_t));
+    memset (lemmings_support, 0, lemmings_total * sizeof (a_lemming));
   }
   if (game_mode >= M_TCASH) {
     XMALLOC_ARRAY (square_object, lvl.square_count);
@@ -776,9 +776,9 @@ play_menu (void)
   int gamemodeh;
   static int l = 1, u = 0;
   char flagload = 0;
-  keycode_t t;
+  a_keycode t;
   int i;
-  htimer_t flip_timer;
+  a_timer flip_timer;
   long flip_pos;
 
   if (l == 5)
@@ -1001,7 +1001,7 @@ int radar_current_pos;
 static void
 output_screen (char n)
 {
-  pixel_t *src;
+  a_pixel *src;
   int i;
   int loginf[4];		/* values for counters */
 
@@ -1209,7 +1209,7 @@ shrink_trail (int pl, int size)
 static void
 erase_trail (int c)
 {
-  square_index_t i;
+  a_square_index i;
 
   for (i = 0; i < lvl.square_count; ++i)
     if ((square_occupied[i] & 3) == c && square_occupied[i] < 16) {
@@ -1222,7 +1222,7 @@ erase_trail (int c)
 static unsigned int
 ia_eval_dist (int pos)
 {
-  square_coord_t curx, cury, distx, disty;
+  a_square_coord curx, cury, distx, disty;
   curx = square_coord[pos].x;
   cury = square_coord[pos].y;
   if (ia_wrap_left) {
@@ -1321,9 +1321,9 @@ self (new) (128). : 1pts,
 */
 
 static int
-ia_eval_neighb_pos (dir_t dir, square_index_t pos)
+ia_eval_neighb_pos (a_dir dir, a_square_index pos)
 {
-  square_index_t idx;
+  a_square_index idx;
   unsigned char c;
   idx = lvl.square_move[dir][pos];
   if (idx != INVALID_INDEX) {
@@ -1342,10 +1342,10 @@ ia_eval_neighb_pos (dir_t dir, square_index_t pos)
 }
 
 static unsigned int
-ia_eval_dir_target (square_index_t pos)
+ia_eval_dir_target (a_square_index pos)
 {
-  u32_t mindist;
-  square_index_t idx;
+  a_u32 mindist;
+  a_square_index idx;
   unsigned int tmp;
 
   ia_cur_depth--;
@@ -1372,12 +1372,12 @@ ia_eval_dir_target (square_index_t pos)
 }
 
 static int
-ia_eval_dir_lemming (square_index_t pos)
+ia_eval_dir_lemming (a_square_index pos)
 {
   int mindist;
-  square_index_t idx;
+  a_square_index idx;
   int tmp, tmp2;
-  lemming_t *tmppti;
+  a_lemming *tmppti;
 
   ia_cur_depth--;
   if (ia_cur_depth != 0) {
@@ -1413,10 +1413,10 @@ ia_eval_dir_lemming (square_index_t pos)
 }
 
 static int
-ia_eval_dir_color (square_index_t pos)
+ia_eval_dir_color (a_square_index pos)
 {
   signed int mindist;
-  square_index_t idx;
+  a_square_index idx;
   int d, tmp, tmp2;
 
   ia_cur_depth--;
@@ -1461,10 +1461,10 @@ ia_eval_dir_color (square_index_t pos)
 }
 
 static int
-ia_eval_dir_cash (square_index_t pos)
+ia_eval_dir_cash (a_square_index pos)
 {
   signed int mindist;
-  square_index_t idx;
+  a_square_index idx;
   int d, tmp, tmp2;
 
   ia_cur_depth--;
@@ -1498,14 +1498,14 @@ ia_eval_dir_cash (square_index_t pos)
 }
 
 static int
-ia_eval_dir_bonus (square_index_t pos)
+ia_eval_dir_bonus (a_square_index pos)
 {
   ia_cur_depth--;
   if (ia_cur_depth != 0) {
     int tmp2 = 0;
     int mindist = 0;
     int d = square_tile[pos];
-    square_index_t idx;
+    a_square_index idx;
     int tmp;
     square_occupied[pos] = 128;
     if (tile_bonus_cpu[d] == 0) {
@@ -1615,10 +1615,10 @@ ia_eval_dir_bonus (square_index_t pos)
 static char
 ia_goto_target (int c, int targetx_, int targety_)
 {
-  square_index_t idx, pos;
-  u32_t tmp[4] = { U32_MAX, U32_MAX, U32_MAX, U32_MAX };
-  u32_t mindist = U32_MAX;
-  dir_t mindir = 0;
+  a_square_index idx, pos;
+  a_u32 tmp[4] = { U32_MAX, U32_MAX, U32_MAX, U32_MAX };
+  a_u32 mindist = U32_MAX;
+  a_dir mindir = 0;
 
   ia_player = c;
   ia_max_depth = player[c].ia_max_depth;
@@ -1652,10 +1652,10 @@ ia_goto_target (int c, int targetx_, int targety_)
 static char
 ia_goto_nearest_bonus (int c)
 {
-  square_index_t idx, pos;
+  a_square_index idx, pos;
   int tmp[4] = { 0, 0, 0, 0 };
   int mindist = 0;
-  dir_t mindir = 0;
+  a_dir mindir = 0;
 
   ia_player = c;
   ia_max_depth = player[c].ia_max_depth;
@@ -1674,10 +1674,10 @@ ia_goto_nearest_bonus (int c)
 static char
 ia_goto_nearest_lemming (int c)
 {
-  square_index_t idx, pos;
+  a_square_index idx, pos;
   int tmp[4] = { 0, 0, 0, 0 };
   int mindist = 0;
-  dir_t mindir = 0;
+  a_dir mindir = 0;
 
   ia_player = c;
   ia_max_depth = player[c].ia_max_depth;
@@ -1696,10 +1696,10 @@ ia_goto_nearest_lemming (int c)
 static char
 ia_goto_nearest_color (int c)
 {
-  square_index_t idx, pos;
+  a_square_index idx, pos;
   int tmp[4] = { 0, 0, 0, 0 };
   int mindist = 0;
-  dir_t mindir = 0;
+  a_dir mindir = 0;
 
   ia_player = c;
   ia_max_depth = player[c].ia_max_depth;
@@ -1718,10 +1718,10 @@ ia_goto_nearest_color (int c)
 static char
 ia_goto_nearest_cash (int c)
 {
-  square_index_t idx, pos;
+  a_square_index idx, pos;
   int tmp[4] = { 0, 0, 0, 0 };
   int mindist = 0;
-  dir_t mindir = 0;
+  a_dir mindir = 0;
 
   ia_player = c;
   ia_max_depth = player[c].ia_max_depth;
@@ -1749,7 +1749,7 @@ find_free_way (int c)
   m = player[c].x2 + player[c].y2 * lvl.square_width;
   e = 1;
   for (i = 0; i < 4; i++) {
-    square_index_t idx = lvl.square_move[i][m];
+    a_square_index idx = lvl.square_move[i][m];
     if (idx != INVALID_INDEX)
       o[i] = square_occupied[idx];
 
@@ -1777,7 +1777,7 @@ find_free_way (int c)
        If NEXT_WAY would lead to a fired square, return immediately,
        unless the player is invincible, in which case the autopilot still
        apply.  */
-    square_index_t idx = lvl.square_move[f][m];
+    a_square_index idx = lvl.square_move[f][m];
     if (idx != INVALID_INDEX
 	&& square_explo_state[idx] <= EXPLOSION_IMMEDIATE
 	&& !player[c].invincible)
@@ -1830,12 +1830,12 @@ find_free_way (int c)
 static void
 update_player (int c)
 {
-  square_index_t idx;
-  tile_index_t d;
+  a_square_index idx;
+  a_tile_index d;
   int l, i;
-  square_index_t d2;
+  a_square_index d2;
   int t;
-  lemming_t *tmppti;
+  a_lemming *tmppti;
 
   if ((player[c].score_delta >> 2) < player[c].score) {
     player[c].score_delta++;
@@ -2250,8 +2250,8 @@ update_player (int c)
 /******************/
     if (lvl.square_type[player[c].pos] == T_TUNNEL
 	&& lvl.square_direction[player[c].pos] == player[c].next_way) {
-      dir_t dir;
-      square_index_t dest;
+      a_dir dir;
+      a_square_index dest;
       player[c].spec = t_tunnel;
       if ((player[c].cpu == 2) && (!level_is_finished))
 	event_sfx (69);
@@ -2270,7 +2270,7 @@ update_player (int c)
     /*    if (player[c].spec!=t_tunnel*8) */
     {
       if (lvl.square_type[player[c].pos] == T_SPEED) {
-	dir_t dir = lvl.square_direction[player[c].pos];
+	a_dir dir = lvl.square_direction[player[c].pos];
 
 	if (player[c].way == dir)
 	  player[c].vi = player[c].v;
@@ -2297,7 +2297,7 @@ static void
 update_lemmings (void)
 {
   int j;
-  lemming_t *lem;
+  a_lemming *lem;
   lem = lemmings_support;
   lemmings_move_offset &= 0xffff;
   for (j = lemmings_total; j != 0; j--, lem++)
@@ -2343,8 +2343,8 @@ play_demo (void)
 {
   int n, i;
   char notbyebye = 1;
-  htimer_t demo_htimer = new_htimer (T_GLOBAL, HZ (1));
-  fader_status_t fade_stat = F_UNKNOWN;
+  a_timer demo_htimer = new_htimer (T_GLOBAL, HZ (1));
+  a_fader_status fade_stat = F_UNKNOWN;
 
   dmsg (D_SECTION, "-- play demo --");
 
@@ -2500,7 +2500,7 @@ static void
 main_menu (void)
 {
   static char l = 0;
-  keycode_t t;
+  a_keycode t;
   char flag = 0;
 
   dmsg (D_SECTION, "-- menu --");
@@ -2548,7 +2548,7 @@ main_menu (void)
 	if (devparm && (t == HK_s || t == HK_S))
 	  end_scroll ();
 	if (t == HK_d || t == HK_D || demo_ready) {
-	  htimer_t pixelize_timer;
+	  a_timer pixelize_timer;
 	  long pixelize_pos;
 
 	  event_sfx (130);
@@ -2567,7 +2567,7 @@ main_menu (void)
 	  std_white_fadein (&tile_set_img.palette);
 	  pixelize_timer = new_htimer (T_GLOBAL, HZ (7));
 	  {
-	    pixel_t *pixbuf;
+	    a_pixel *pixbuf;
 	    XMALLOC_ARRAY (pixbuf, xbuf * 200);
 	    do {
 	      background_menu ();
@@ -2611,10 +2611,10 @@ main_menu (void)
 
   /* pixelize and fade-out, before exit */
   {
-    htimer_t pixelize_timer;
+    a_timer pixelize_timer;
     long pixelize_pos;
-    fader_status_t fade_stat;
-    pixel_t *pixbuf;
+    a_fader_status fade_stat;
+    a_pixel *pixbuf;
     XMALLOC_ARRAY (pixbuf, 200 * xbuf);
     pixelize_timer = new_htimer (T_GLOBAL, HZ (7));
     std_black_fadeout (&tile_set_img.palette);
@@ -2793,13 +2793,13 @@ static unsigned char
 play_game (char cont)
 {
   int n, i;
-  keycode_t t;
+  a_keycode t;
   char notbyebye = 1, flag;
   int l = 0, pos, u;
   char editflag = 0;
   static char tmpname[20];
   char bufstr[32];
-  sprite_t *levelname;
+  a_sprite *levelname;
 
   dmsg (D_SECTION, "-- play game --");
 
@@ -2955,7 +2955,7 @@ play_game (char cont)
 	draw_end_level_info (0, l);
 	flush_display (corner[0]);
       } else {
-	pixel_t* tmp;
+	a_pixel* tmp;
 
 	tmp = corner[0];
 	draw_end_level_info (swapside ? -160 : 0, l);
@@ -3003,7 +3003,7 @@ play_game (char cont)
 	    draw_saved_games_info (0, l, true);
 	    flush_display (corner[0]);
 	  } else {
-	    pixel_t *tmp;
+	    a_pixel *tmp;
 
 	    tmp = corner[0];
 	    draw_saved_games_info (swapside ? -160 : 0, l, true);
@@ -3119,7 +3119,7 @@ play_game (char cont)
 	  draw_end_level_info (0, l);
 	  flush_display_moving (i);
 	} else {
-	  pixel_t *tmp;
+	  a_pixel *tmp;
 
 	  tmp = corner[0];
 	  draw_end_level_info (swapside ? -160 : 0, l);
@@ -3136,7 +3136,7 @@ play_game (char cont)
 	draw_end_level_info (0, l);
 	flush_display_moving (40);
       } else {
-	pixel_t *tmp;
+	a_pixel *tmp;
 	tmp = corner[0];
 	draw_end_level_info (swapside ? -160 : 0, l);
 	corner[0] = corner[1];
@@ -3158,7 +3158,7 @@ play_game (char cont)
 	  draw_round_info (0);
 	  flush_display (corner[0]);
 	} else {
-	  pixel_t *tmp;
+	  a_pixel *tmp;
 	  tmp = corner[0];
 	  draw_round_info (swapside ? -160 : 0);
 	  corner[0] = corner[1];
@@ -3191,7 +3191,7 @@ play_game (char cont)
 	  draw_round_info (0);
 	  flush_display_moving (i);
 	} else {
-	  pixel_t *tmp;
+	  a_pixel *tmp;
 	  tmp = corner[0];
 	  draw_round_info (swapside ? -160 : 0);
 	  corner[0] = corner[1];
@@ -3207,7 +3207,7 @@ play_game (char cont)
 	draw_round_info (0);
 	flush_display_moving (40);
       } else {
-	pixel_t *tmp;
+	a_pixel *tmp;
 	tmp = corner[0];
 	draw_round_info (swapside ? -160 : 0);
 	corner[0] = corner[1];

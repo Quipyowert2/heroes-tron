@@ -23,20 +23,20 @@
 #include "lvl_priv.h"
 
 const char *
-lvl_sound_track (const level_t *lvl)
+lvl_sound_track (const a_level *lvl)
 {
   return lvl->private->sound_track_alias;
 }
 
 const char *
-lvl_tile_sprite_map_basename (const level_t *lvl)
+lvl_tile_sprite_map_basename (const a_level *lvl)
 {
   return lvl->private->tile_sprite_map_basename;
 }
 
 void
-lvl_start_position (const level_t *lvl, unsigned int player,
-		    square_coord_pair_t *coord, dir_t *dir)
+lvl_start_position (const a_level *lvl, unsigned int player,
+		    a_square_corrd_pair *coord, a_dir *dir)
 {
   if (coord)
     *coord = lvl->private->start_pos[player];
@@ -44,28 +44,28 @@ lvl_start_position (const level_t *lvl, unsigned int player,
     *dir = lvl->private->start_dir[player];
 }
 
-tile_type_t
-lvl_tile_type (const level_t *lvl, tile_type_t tile)
+a_tile_type
+lvl_tile_type (const a_level *lvl, a_tile_type tile)
 {
   return lvl->private->tile[tile].type;
 }
 
 unsigned int
-lvl_tile_sprite_offset (const level_t *lvl, tile_index_t tile)
+lvl_tile_sprite_offset (const a_level *lvl, a_tile_index tile)
 {
   return lvl->private->tile[tile].sprite_offset;
 }
 
 unsigned int
-lvl_tile_sprite_overlay_offset (const level_t *lvl, tile_index_t tile)
+lvl_tile_sprite_overlay_offset (const a_level *lvl, a_tile_index tile)
 {
   return lvl->private->tile[tile].sprite_overlay_offset;
 }
 
 void
-lvl_animation_info (const level_t *lvl, tile_index_t tile,
+lvl_animation_info (const a_level *lvl, a_tile_index tile,
 		    unsigned int *frame_count, unsigned int *delay,
-		    anim_kind_t *kind)
+		    an_anim_kind *kind)
 {
   *kind = lvl->private->tile[tile].anim;
   *frame_count = lvl->private->tile[tile].frame_count;

@@ -22,13 +22,13 @@
 #ifndef HEROES__LEVELLST__H
 #define HEROES__LEVELLST__H
 
-typedef struct level_info_t level_info_t;
-struct level_info_t {
+typedef struct a_level_info a_level_info;
+struct a_level_info {
   char *name;
   bool wrapped;
 };
 
-extern level_info_t *level_list;
+extern a_level_info *level_list;
 extern size_t level_list_size;
 
 int select_file_lvl (const struct dirent *d);

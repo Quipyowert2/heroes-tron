@@ -27,13 +27,13 @@
 
 #include "sprite.h"
 
-void draw_sprglauto (const sprite_t* sprite, pixel_t* dest);
+void draw_sprglauto (const a_sprite* sprite, a_pixel* dest);
 
-sprite_t* compile_sprglauto (const pixel_t* src, pixel_t transp_color,
+a_sprite* compile_sprglauto (const a_pixel* src, a_pixel transp_color,
 			     unsigned int block_height,
 			     unsigned int block_width,
 			     unsigned int src_width, unsigned int dest_width);
 
-void free_sprglauto (sprite_t* sprite);
+void free_sprglauto (a_sprite* sprite);
 
 #endif /* HEROES__SPRGLAUTO__H */

@@ -26,7 +26,7 @@
 extern char* levels_output_dir;
 int create_levels_output_dir (void);
 int hmain (const char* lname, const char* tset_name,
-	   u32_t xsize, u32_t ysize, u32_t xwrap, u32_t ywrap);
+	   a_u32 xsize, a_u32 ysize, a_u32 xwrap, a_u32 ywrap);
 void free_levels_output_dir (void);
 
 #endif /* HEROES__HEDLITE__H */

@@ -21,7 +21,7 @@
 #ifndef HEROES__ENDSCROLL__H
 #define HEROES__ENDSCROLL__H
 
-extern pcx_image_t dummy_background_img;
+extern a_pcx_image dummy_background_img;
 
 extern void end_scroll (void);
 extern void dummy_moving_background_init (void);

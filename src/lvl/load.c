@@ -23,7 +23,7 @@
 #include "lvl_priv.h"
 
 static void
-lvl_init_lvl_basic_fields (level_t *out)
+lvl_init_lvl_basic_fields (a_level *out)
 {
   out->square_height = out->tile_height * 2;
   out->square_width = out->tile_width * 2;
@@ -43,7 +43,7 @@ lvl_init_lvl_basic_fields (level_t *out)
 }
 
 static int
-lvl_load_header_mem (u8_t *data, level_t *out)
+lvl_load_header_mem (a_u8 *data, a_level *out)
 {
   decode_level_header (data, out);
   lvl_init_lvl_basic_fields (out);
@@ -51,9 +51,9 @@ lvl_load_header_mem (u8_t *data, level_t *out)
 }
 
 static int
-lvl_load_header_file (int fd, level_t *out)
+lvl_load_header_file (int fd, a_level *out)
 {
-  u8_t *data = xmalloc (LVL_HEADER_SIZE);
+  a_u8 *data = xmalloc (LVL_HEADER_SIZE);
 
   if (read (fd, data, LVL_HEADER_SIZE) != LVL_HEADER_SIZE) {
     free (data);
@@ -67,7 +67,7 @@ lvl_load_header_file (int fd, level_t *out)
 }
 
 static int
-lvl_load_body_mem (u8_t *data, level_t *out)
+lvl_load_body_mem (a_u8 *data, a_level *out)
 {
   initialize_level_body (out);
   decode_level_body (data, out);
@@ -75,10 +75,10 @@ lvl_load_body_mem (u8_t *data, level_t *out)
 }
 
 static int
-lvl_load_body_file (int fd, level_t *out)
+lvl_load_body_file (int fd, a_level *out)
 {
   size_t length = out->tile_count * LVL_RECORD_SIZE;
-  u8_t *data = xmalloc (length);
+  a_u8 *data = xmalloc (length);
   ssize_t rlength = read (fd, data, length);
 
   if (rlength < 0 || (size_t) rlength != length) {
@@ -93,14 +93,14 @@ lvl_load_body_file (int fd, level_t *out)
 }
 
 int
-lvl_load_file (const char *filename, level_t *out, bool load_body)
+lvl_load_file (const char *filename, a_level *out, bool load_body)
 {
   int fd;
   int err;
 #ifdef HAVE_MMAP
   bool use_mmap = false;
 #endif
-  u8_t *data;
+  a_u8 *data;
   struct stat st;
 
   memset (out, 0, sizeof *out);

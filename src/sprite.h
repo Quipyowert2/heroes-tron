@@ -46,9 +46,9 @@ enum sprite_kind {
   S_PROG_WAV			/* like S_PROG but also wave */
 };
 
-typedef union sprite_s sprite_t;
+typedef union sprite_s a_sprite;
 
-typedef void (*sprite_draw_func) (const sprite_t *sprite, pixel_t *dest);
+typedef void (*sprite_draw_func) (const a_sprite *sprite, a_pixel *dest);
 
 /*-------------------------------------------------------------------.
 | Because the various flavor of sprites are not drawn the same way,  |
@@ -75,28 +75,28 @@ struct sprite_common_s {
   SPRITE_COMMON_MEMBERS;
 };
 
-typedef struct sprite_prog_list_s sprite_prog_list_t; /* see sprprog.c */
+typedef struct sprite_prog_list_s a_sprite_prog_list; /* see sprprog.c */
 
 struct sprite_prog_s {
   SPRITE_COMMON_MEMBERS;
-  sprite_prog_list_t *list;
+  a_sprite_prog_list *list;
 };
 
 #define SPRITE_RLE_MEMBERS						\
   SPRITE_COMMON_MEMBERS;						\
 									\
   /* The code of an rle-sprite is a sequence of				\
-       1 u8_t: number m of transparent pixels to skip			\
-       1 u8_t: number n of bytes to write				\
-       n u8_t: actual bytes to write					\
+       1 a_u8: number m of transparent pixels to skip			\
+       1 a_u8: number n of bytes to write				\
+       n a_u8: actual bytes to write					\
      The end of a line can be announced using m=0 and n=0,		\
      and the code MUST terminate by m=0 and n=0.			\
   */									\
-  u8_t*		code;							\
+  a_u8*		code;							\
 									\
   /* a pointer the byte right after the end of code,			\
      in order to known where to stop. */				\
-  u8_t*		end_code;						\
+  a_u8*		end_code;						\
 									\
   /* the number of byte to skip to from the end of a line to the	\
      beginning of the next one */					\
@@ -109,47 +109,47 @@ struct sprite_rle_s {
 struct sprite_rle_shade_s {
   /* shaded sprites reuse the member of RLE, but the code used
      is extended.  The code of a shaded sprite is a sequence of
-       1 u8_t: number m of transparent pixels to skip
-       1 u8_t: number n of bytes to write
-       n u8_t: actual bytes to write
-       1 u8_t: number s of glenz pixels to draw right after
+       1 a_u8: number m of transparent pixels to skip
+       1 a_u8: number n of bytes to write
+       n a_u8: actual bytes to write
+       1 a_u8: number s of glenz pixels to draw right after
      The end of a line can be announced using m=0, n=0, and s=0,
      and the code MUST terminate by m=0, n=0, and s=0.
   */
   SPRITE_RLE_MEMBERS;
-  pixel_t*	glenz;
+  a_pixel*	glenz;
 };
 
 struct sprite_rle_glenz_s {
   /* glenz sprites reuse the member of RLE, but the code used
      is extended.  The code of a shaded sprite is a sequence of
-       1 u8_t: number m of transparent pixels to skip
-       1 u8_t: number n of glenz pixels to write
+       1 a_u8: number m of transparent pixels to skip
+       1 a_u8: number n of glenz pixels to write
      The end of a line can be announced using m=0, and n=0,
      and the code MUST terminate by m=0, and n=0.
   */
   SPRITE_RLE_MEMBERS;
-  pixel_t*	glenz;
+  a_pixel*	glenz;
 };
 
 struct sprite_rle_unic_shade_s {
   /* shaded sprites reuse the member of RLE, but the code used
      is extended.  The code of a shaded sprite is a sequence of
-       1 u8_t: number m of transparent pixels to skip
-       1 u8_t: number n of bytes to write
-       1 u8_t: number s of glenz pixels to draw right after
+       1 a_u8: number m of transparent pixels to skip
+       1 a_u8: number n of bytes to write
+       1 a_u8: number s of glenz pixels to draw right after
      The end of a line can be announced using m=0, n=0, and s=0,
      and the code MUST terminate by m=0, n=0, and s=0.
   */
   SPRITE_RLE_MEMBERS;
-  pixel_t*	glenz;
-  pixel_t	color;		/* used to draw opaque pixels */
+  a_pixel*	glenz;
+  a_pixel	color;		/* used to draw opaque pixels */
 };
 
 struct sprite_opaque_s {
   SPRITE_COMMON_MEMBERS;
-  pixel_t*	data;		/* data to write (concatenated) */
-  pixel_t*	end_data;	/* pointer the pixel right after the last
+  a_pixel*	data;		/* data to write (concatenated) */
+  a_pixel*	end_data;	/* pointer the pixel right after the last
 				   in data */
   int		width;		/* number of data to write per line */
   int		line_skip;	/* byte to skip at the end of a line, to
@@ -169,7 +169,7 @@ union sprite_s {
 
 /* generic sprite freeing function, this will dispatch to the right
    freeing function */
-void free_sprite (sprite_t *sprite);
+void free_sprite (a_sprite *sprite);
 
 #define FREE_SPRITE0(x)				\
   do {						\

@@ -26,9 +26,9 @@
  * Three macros are defined:
  *
  *   NEW_LIST_SPEC(PREFIX,TYPE)
- *       generate the declarations, 
+ *       generate the declarations,
  *
- *   NEW_LIST_BODY(PREFIX,TYPE,EQUAL_P,DESTRUCTOR) 
+ *   NEW_LIST_BODY(PREFIX,TYPE,EQUAL_P,DESTRUCTOR)
  *       generate the corresponding definitions
  *
  *   NEW_LIST(PREFIX,TYPE,EQUAL_P,DESTRUCTOR)
@@ -41,7 +41,7 @@
  *
  * Additionally, NULL_DESTRUCTOR can be used as a DESTRUCTOR argument
  * when none are needed; and STD_EQUAL is the standard equal
- * comparison function (==), meant to be used as a EQUAL_P argument.  
+ * comparison function (==), meant to be used as a EQUAL_P argument.
  */
 
 #define NULL_DESTRUCTOR(x) ;
@@ -52,47 +52,47 @@
  *    NEW_LIST_SPEC(foo,int);
  *                         ^^^
  * Therefore macros should arrange so that this trailing semicolon is
- * legal (out of functions, a single semicolon left alone is 
+ * legal (out of functions, a single semicolon left alone is
  * considered as an empty declaration which is not legal).
  */
 
 #define NEW_LIST_SPEC(PREFIX,TYPE)					\
 									\
-struct PREFIX##_list_s {						\
+struct PREFIX##_list {							\
   TYPE car;								\
-  struct PREFIX##_list_s* cdr;						\
+  struct PREFIX##_list* cdr;						\
 };									\
 									\
-typedef struct PREFIX##_list_s* PREFIX##_list_t;			\
+typedef struct PREFIX##_list* PREFIX##_list;				\
 									\
-PREFIX##_list_t PREFIX##_cons   (TYPE value, PREFIX##_list_t tail);	\
-void            PREFIX##_delete (PREFIX##_list_t* list);		\
-PREFIX##_list_t PREFIX##_member (PREFIX##_list_t list, TYPE value);	\
-void            PREFIX##_push   (PREFIX##_list_t* list, TYPE value);	\
-TYPE            PREFIX##_pop    (PREFIX##_list_t* list);		\
-void		PREFIX##_clear  (PREFIX##_list_t* list)
+PREFIX##_list   PREFIX##_cons   (TYPE value, PREFIX##_list tail);	\
+void            PREFIX##_delete (PREFIX##_list* list);			\
+PREFIX##_list   PREFIX##_member (PREFIX##_list list, TYPE value);	\
+void            PREFIX##_push   (PREFIX##_list* list, TYPE value);	\
+TYPE            PREFIX##_pop    (PREFIX##_list* list);			\
+void		PREFIX##_clear  (PREFIX##_list* list)
 
 #define NEW_LIST_BODY(PREFIX,TYPE,EQUAL_P,DESTRUCTOR)			\
 									\
-PREFIX##_list_t 							\
-PREFIX##_cons (TYPE value, PREFIX##_list_t tail)			\
+PREFIX##_list								\
+PREFIX##_cons (TYPE value, PREFIX##_list tail)				\
 {									\
-  PREFIX##_list_t result = malloc (sizeof (*result));			\
+  PREFIX##_list result = malloc (sizeof (*result));			\
   result->car = value;							\
   result->cdr = tail;							\
   return result;							\
 }									\
 									\
 void 									\
-PREFIX##_delete (PREFIX##_list_t* list)					\
+PREFIX##_delete (PREFIX##_list* list)					\
 {									\
-  PREFIX##_list_t result = *list;					\
+  PREFIX##_list result = *list;						\
   *list = (*list)->cdr;							\
   free (result);							\
 }									\
 									\
-PREFIX##_list_t 							\
-PREFIX##_member (PREFIX##_list_t list, TYPE value)			\
+PREFIX##_list								\
+PREFIX##_member (PREFIX##_list list, TYPE value)			\
 {									\
   while (list) {							\
     if (EQUAL_P (list->car, value))					\
@@ -103,13 +103,13 @@ PREFIX##_member (PREFIX##_list_t list, TYPE value)			\
 }									\
 									\
 void									\
-PREFIX##_push (PREFIX##_list_t* list, TYPE value)			\
+PREFIX##_push (PREFIX##_list* list, TYPE value)				\
 {									\
   *list = PREFIX##_cons (value, *list);					\
 }									\
 									\
 TYPE									\
-PREFIX##_pop (PREFIX##_list_t* list)					\
+PREFIX##_pop (PREFIX##_list* list)					\
 {									\
   TYPE result = (*list)->car;						\
   PREFIX##_delete (list);						\
@@ -117,9 +117,9 @@ PREFIX##_pop (PREFIX##_list_t* list)					\
 }									\
 									\
 void									\
-PREFIX##_clear (PREFIX##_list_t* list)					\
+PREFIX##_clear (PREFIX##_list* list)					\
 {									\
-  PREFIX##_list_t next;							\
+  PREFIX##_list next;							\
 									\
   while (*list) {							\
     next = (*list)->cdr;						\

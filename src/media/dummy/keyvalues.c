@@ -22,7 +22,7 @@
 #include "system.h"
 #include "keyvalues.h"
 
-const keycode_t key_modifiers[HK_MOD__MAX] = {
+const a_keycode key_modifiers[HK_MOD__MAX] = {
   HK_MOD_None_,
   HK_MOD_Shift_,
   HK_MOD_Ctrl_,
@@ -30,7 +30,7 @@ const keycode_t key_modifiers[HK_MOD__MAX] = {
   HK_MOD_Meta_
 };
 
-const keycode_t key_codes[HK__MAX] = {
+const a_keycode key_codes[HK__MAX] = {
   HK_0_,
   HK_1_,
   HK_2_,

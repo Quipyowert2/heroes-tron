@@ -27,13 +27,13 @@
 
 #include "sprite.h"
 
-void draw_spropaque (const sprite_t* sprite, pixel_t* dest);
+void draw_spropaque (const a_sprite* sprite, a_pixel* dest);
 
-sprite_t* compile_spropaque (const pixel_t* src,
+a_sprite* compile_spropaque (const a_pixel* src,
 			     unsigned int block_height,
 			     unsigned int block_width,
 			     unsigned int src_width, unsigned int dest_width);
 
-void free_spropaque (sprite_t* sprite);
+void free_spropaque (a_sprite* sprite);
 
 #endif /* HEROES__SPROPAQUE__H */

@@ -31,14 +31,14 @@
 `-------------------------------------------------------------------*/
 
 /* it is safe to call the following on S_PROG too */
-void draw_sprprogwav (const sprite_t *sprite, pixel_t *dest);
+void draw_sprprogwav (const a_sprite *sprite, a_pixel *dest);
 
 /* the following is called inheritance in some languages :o) */
 #define free_sprprogwav free_sprprog
 #define new_sprprogwav new_sprprog
 #define add_sprprogwav add_sprprog
 
-sprite_t *end_sprprogwav (void);
+a_sprite *end_sprprogwav (void);
 
 #define draw_sprprogwav_if(cond, spr, dest) \
   ((cond) ? draw_sprprogwav : draw_sprprog) ((spr), (dest))

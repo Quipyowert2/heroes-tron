@@ -54,15 +54,15 @@ typedef struct {
   long slice_duration;		/* duration of a slice in microseconds */
 } htimer_s;
 
-typedef htimer_s* htimer_t;
+typedef htimer_s* a_timer;
 
-htimer_t new_htimer (enum htimer_kind kind, long slice_duration);
-void free_htimer (htimer_t timer);
-void reset_htimer (htimer_t timer);
-void reset_htimer_with_offset (htimer_t timer, long sec); 
-long read_htimer (htimer_t timer); /* return elapsed time in slices */
+a_timer new_htimer (enum htimer_kind kind, long slice_duration);
+void free_htimer (a_timer timer);
+void reset_htimer (a_timer timer);
+void reset_htimer_with_offset (a_timer timer, long sec); 
+long read_htimer (a_timer timer); /* return elapsed time in slices */
 void update_htimers (void);
 void init_htimer (void);
-void shift_htimer (htimer_t to_shift, htimer_t amount);
+void shift_htimer (a_timer to_shift, a_timer amount);
 
 #endif /* HEROES__TIMER__H */

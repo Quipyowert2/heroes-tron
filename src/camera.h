@@ -26,7 +26,7 @@
 
 extern unsigned int corner_x[2]; /* in pixels */
 extern unsigned int corner_y[2]; /* idem */
-extern pixel_t *(corner[2]);	/* topleft of the camera vision */
+extern a_pixel *(corner[2]);	/* topleft of the camera vision */
 
 extern unsigned int corner_dx[2]; /* coordinate of the first tile */
 extern unsigned int corner_dy[2]; /* idem */

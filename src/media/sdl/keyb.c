@@ -134,7 +134,7 @@ process_input_events (void)
   keyboard_modifiers = SDL_GetModState ();
 }
 
-keycode_t
+a_keycode
 get_key (void)
 {
   SDL_Event e;

@@ -26,20 +26,20 @@
 typedef struct {
   unsigned int	width[256];	/* width of each character */
   unsigned int	height;		/* height common to each character */
-  pixel_t*	upper_left[256]; /* upper left pixel of each character.
+  a_pixel*	upper_left[256]; /* upper left pixel of each character.
 				    DO NOT use this pointer if the
 				    corresponding width is null. */
   unsigned int	line_size;	/* size of a line in the font buffer */
   unsigned int	line_skip;	/* number of pixel to skip verticaly
 				   between lines, height is added. */
   unsigned int	min_space_width; /* minimum width allowed for space */
-} fontdata_t;
+} a_fontdata;
 
-extern fontdata_t *edit_font;
-extern fontdata_t *menu_font;
-extern fontdata_t *help_font;
-extern fontdata_t *deck_font;
-extern fontdata_t *bonus_font;
+extern a_fontdata *edit_font;
+extern a_fontdata *menu_font;
+extern a_fontdata *help_font;
+extern a_fontdata *deck_font;
+extern a_fontdata *bonus_font;
 
 void init_fonts (void);
 void uninit_fonts (void);
@@ -48,11 +48,11 @@ void uninit_fonts (void);
    If nspaces is non null spaces are not accounted in
    the returned width but *NSPACES is set to the number of
    space encountered. */
-unsigned int compute_text_width (const fontdata_t *font, const char *text,
+unsigned int compute_text_width (const a_fontdata *font, const char *text,
 				 unsigned int *nspaces);
 
 #if DEBUG
-void check_message_is_drawable (const fontdata_t *font, const char *text);
+void check_message_is_drawable (const a_fontdata *font, const char *text);
 #else
 # define check_message_is_drawable(x, y)  ((void *) 0)
 #endif

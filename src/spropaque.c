@@ -22,10 +22,10 @@
 #include "spropaque.h"
 
 void
-draw_spropaque (const sprite_t *sprite, pixel_t *dest)
+draw_spropaque (const a_sprite *sprite, a_pixel *dest)
 {
-  pixel_t	*data;		/* input position */
-  pixel_t	*edata;		/* end of input */
+  a_pixel	*data;		/* input position */
+  a_pixel	*edata;		/* end of input */
   int		width;
   int		lskip;
 
@@ -44,15 +44,15 @@ draw_spropaque (const sprite_t *sprite, pixel_t *dest)
   }
 }
 
-sprite_t *
-compile_spropaque (const pixel_t *src,
+a_sprite *
+compile_spropaque (const a_pixel *src,
 		   unsigned int block_height, unsigned int block_width,
 		   unsigned int src_width, unsigned int dest_width)
 {
-  sprite_t *sprite;
+  a_sprite *sprite;
   unsigned int row;
   unsigned int data_size;
-  pixel_t *data;
+  a_pixel *data;
 
   data_size = block_height * block_width;
 
@@ -76,7 +76,7 @@ compile_spropaque (const pixel_t *src,
 }
 
 void
-free_spropaque (sprite_t *prog)
+free_spropaque (a_sprite *prog)
 {
   assert (prog->all.kind == S_OPAQUE);
   free (prog->opaq.data);

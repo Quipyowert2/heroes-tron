@@ -36,15 +36,15 @@
    need to be able to load the `next' or `previous' sound track). */
 
 static Hash_table *st_hash;
-static sound_track_t **st_array = 0;
+static a_sound_track **st_array = 0;
 static unsigned n_st = 0;	/* number of sound tracks */
 
 /* comparison function for the hash */
 static bool
 st_equ (const void *left, const void *right)
 {
-  const sound_track_t *l = left;
-  const sound_track_t *r = right;
+  const a_sound_track *l = left;
+  const a_sound_track *r = right;
   return !strcasecmp (l->alias, r->alias);
 }
 
@@ -52,8 +52,8 @@ st_equ (const void *left, const void *right)
 static int
 st_cmp (const void *left, const void *right)
 {
-  const sound_track_t *const *l = left;
-  const sound_track_t *const *r = right;
+  const a_sound_track *const *l = left;
+  const a_sound_track *const *r = right;
   return strcasecmp ((*l)->alias, (*r)->alias);
 }
 
@@ -75,14 +75,14 @@ hash_case_string (const char *string, unsigned n_buckets)
 static unsigned
 st_hasher (const void *data, unsigned size)
 {
-  const sound_track_t *d = data;
+  const a_sound_track *d = data;
   return hash_case_string (d->alias, size);
 }
 
 static void
 st_free (void *data)
 {
-  sound_track_t *st = data;
+  a_sound_track *st = data;
   free (st->alias);
   free (st->filename);
   free (st->title);
@@ -90,10 +90,10 @@ st_free (void *data)
   free (st);
 }
 
-static sound_track_t *
+static a_sound_track *
 st_cons (char *alias, char *filename, char *title, char *author)
 {
-  NEW (sound_track_t, st);
+  NEW (a_sound_track, st);
   st->alias = xstrdup (alias);
   st->filename = xstrdup (filename);
   st->title = xstrdup (title);
@@ -109,7 +109,7 @@ add_sound_track_cons (char *alias, char *filename, char *title, char *author)
     xalloc_die ();
 }
 
-sound_track_t *
+a_sound_track *
 get_sound_track_from_alias (const char *alias)
 {
   struct hash_entry *bucket
@@ -122,13 +122,13 @@ get_sound_track_from_alias (const char *alias)
     return 0;
 
   for (cursor = bucket; cursor; cursor = cursor->next)
-    if (!strcasecmp (((sound_track_t*)(cursor->data))->alias, alias))
+    if (!strcasecmp (((a_sound_track*)(cursor->data))->alias, alias))
       return cursor->data;
 
   return 0;
 }
 
-sound_track_t *
+a_sound_track *
 get_sound_track_from_rank (unsigned rank)
 {
   return st_array[rank % n_st];
@@ -228,8 +228,8 @@ print_sound_track_list_stat (void)
 void
 freeze_sound_track_list (void)
 {
-  sound_track_t *s;
-  sound_track_t **p;
+  a_sound_track *s;
+  a_sound_track **p;
   unsigned pos;
 
   n_st = hash_get_n_entries (st_hash);

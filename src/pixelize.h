@@ -24,6 +24,6 @@
 
 #include "video.h"
 
-extern void (*pixelize[7]) (pixel_t *dest, const pixel_t *src);
+extern void (*pixelize[7]) (a_pixel *dest, const a_pixel *src);
 
 #endif /* HEROES__PIXEL__H */

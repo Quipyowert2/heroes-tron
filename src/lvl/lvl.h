@@ -30,33 +30,33 @@
    stored in a tile-sized array, while the vehicules are stored in an
    squares-sized array.
 
-   Those types are defined for better readability.  The *_coord_t
+   Those types are defined for better readability.  The a_*_coord
    types are used to designate a coordinate (either X, or Y), while
-   the *_index_t are used for square numbers (indices in one
+   the a_*_index are used for square numbers (indices in one
    dimensional arrays: index = y_coord * width + x_coord).  */
-typedef unsigned int square_coord_t;
-typedef unsigned int square_index_t;
-typedef unsigned int tile_coord_t;
-typedef unsigned int tile_index_t;
+typedef unsigned int a_square_coord;
+typedef unsigned int a_square_index;
+typedef unsigned int a_tile_coord;
+typedef unsigned int a_tile_index;
 #define INVALID_INDEX (~0u)
 
-typedef struct square_coord_pair_t square_coord_pair_t;
-struct square_coord_pair_t {
-  square_coord_t y, x;
+typedef struct a_square_corrd_pair a_square_corrd_pair;
+struct a_square_corrd_pair {
+  a_square_coord y, x;
 };
 
-typedef struct tile_coord_pair_t tile_coord_pair_t;
-struct tile_coord_pair_t {
-  tile_coord_t y, x;
+typedef struct a_tile_coord_pair a_tile_coord_pair;
+struct a_tile_coord_pair {
+  a_tile_coord y, x;
 };
 
 /* Direction constants.  */
-typedef enum dir_t dir_t;
-enum dir_t { D_UP = 0,
+typedef enum a_dir a_dir;
+enum a_dir { D_UP = 0,
 	     D_RIGHT = 1,
 	     D_DOWN = 2,
 	     D_LEFT = 3 };
-typedef u8_t dir8_t;		/* Hold the same values, on 8bits. */
+typedef a_u8 a_dir8;		/* Hold the same values, on 8bits. */
 #define REVERSE_DIR(d) ((d) ^ 2)
 
 /* Number of directions,
@@ -64,18 +64,18 @@ typedef u8_t dir8_t;		/* Hold the same values, on 8bits. */
 #define DIR_MAX 4
 
 /* Similar constants, but OR-able, to indicate multiple directions.  */
-typedef enum dir_mask_t dir_mask_t;
-enum dir_mask_t { DM_UP = 1,
+typedef enum a_dir_mask a_dir_mask;
+enum a_dir_mask { DM_UP = 1,
 		  DM_RIGHT = 2,
 		  DM_DOWN = 4,
 		  DM_LEFT = 8 };
-typedef u8_t dir_mask8_t;	/* Hold the same values, on 8bits. */
+typedef a_u8 a_dir_mask8;	/* Hold the same values, on 8bits. */
 #define DM_ALL (DM_UP | DM_RIGHT | DM_DOWN | DM_LEFT)
 #define DIR_TO_DIRMASK(dir) (1 << (dir))
 
 /* Tile type constants.  */
-typedef enum tile_type_t tile_type_t;
-enum tile_type_t { T_NONE = 0,
+typedef enum a_tile_type a_tile_type;
+enum a_tile_type { T_NONE = 0,
 		   T_STOP = 1,
 		   T_SPEED = 2,
 		   T_TUNNEL = 3,
@@ -85,14 +85,14 @@ enum tile_type_t { T_NONE = 0,
 		   T_DUST = 7,
 		   T_OUTWAY = 8,
 		   T_MAXTYPE	/* Keep this upper bound last in the enum. */};
-typedef u8_t tile_type8_t;	/* Hold the same values, on 8bits. */
+typedef a_u8 a_tile_type8;	/* Hold the same values, on 8bits. */
 
 
-typedef struct level_t level_t;	/* An Heroes level.  */
-typedef struct level_bits_t level_bits_t; /* Hiden details about levels.  */
+typedef struct a_level a_level;	/* An Heroes level.  */
+typedef struct a_level_bits a_level_bits; /* Hiden details about levels.  */
 
 
-/* The pointers in the level_t structure should point to constant
+/* The pointers in the a_level structure should point to constant
    data.  But from the level loading code the data need to be mutable.
    So we allow const to be removed by defining LVL_MUTABLE.  */
 
@@ -100,17 +100,17 @@ typedef struct level_bits_t level_bits_t; /* Hiden details about levels.  */
 # define LVL_MUTABLE const
 #endif
 
-struct level_t {
+struct a_level {
   /*-------------.
   | Dimensions.  |
   `-------------*/
 
   /* We store the dimensions in those two units, so that they are
      directly available.  */
-  tile_coord_t tile_height;
-  tile_coord_t tile_width;
-  square_coord_t square_height;
-  square_coord_t square_width;
+  a_tile_coord tile_height;
+  a_tile_coord tile_width;
+  a_square_coord square_height;
+  a_square_coord square_width;
 
   /* Some levels are wrapped: when the vehicle reach the right edge of
      the level, they continue as if they were entering the level from
@@ -122,15 +122,15 @@ struct level_t {
      `tile_width_wrap' set to 31.  That way an y coordinate of 35 will
      be mapped to 3 (== 35 & 31).  Non-wrapped level set this value to
      `~0u' (== DONT_WRAP) so that ANDing is no-op.  */
-  tile_coord_t tile_height_wrap;
-  tile_coord_t tile_width_wrap;
-  square_coord_t square_height_wrap;
-  square_coord_t square_width_wrap;
+  a_tile_coord tile_height_wrap;
+  a_tile_coord tile_width_wrap;
+  a_square_coord square_height_wrap;
+  a_square_coord square_width_wrap;
 
   /* Most maps are allocated as one-dimensional arrays.  So we define
      to more constants used for the size of the arrays.  */
-  tile_index_t tile_count;	/* == tile_width * tile_height */
-  square_index_t square_count;	/* == square_width * square_height */
+  a_tile_index tile_count;	/* == tile_width * tile_height */
+  a_square_index square_count;	/* == square_width * square_height */
 
   /*----------------------------------------------------------------.
   | The following arrays are initialized only if the level body has |
@@ -138,24 +138,24 @@ struct level_t {
   `----------------------------------------------------------------*/
 
   /* Type of each square.  */
-  LVL_MUTABLE tile_type8_t *square_type;
+  LVL_MUTABLE a_tile_type8 *square_type;
   /* Set of blocked directions for each square.  If the entry is set
      to DM_UP|DM_LEFT, it means a vehicle cannot *leave* the square
      by the top or left edges.  */
-  LVL_MUTABLE dir_mask8_t *square_walls_out;
+  LVL_MUTABLE a_dir_mask8 *square_walls_out;
   /* Directions for squares for which it matters (i.e., T_SPEED, and
      T_TUNNEL).  */
-  LVL_MUTABLE dir8_t *square_direction;
+  LVL_MUTABLE a_dir8 *square_direction;
   /* square_move[D_UP][SQR] is the square that a vehicle shoud go into
      when it leave SQR by the top edge.  */
-  LVL_MUTABLE square_index_t *square_move[DIR_MAX];
+  LVL_MUTABLE a_square_index *square_move[DIR_MAX];
 
   /*-------------------------------------------------------------.
   | Opaque structure to hide the remaining data.  Use one of the |
   | following functions to access anything relevant in there.    |
   `-------------------------------------------------------------*/
 
-  LVL_MUTABLE level_bits_t *private;
+  LVL_MUTABLE a_level_bits *private;
 };
 
 #ifndef DONT_WRAP
@@ -164,21 +164,21 @@ struct level_t {
 
 /* Load a level from FILENAME to OUT.  Return 0 on success, !0
    otherwise.  If LOAD_BODY is true, parse the body, and compute the
-   various constant square_* maps declared in level_t.  If LOAD_BODY
+   various constant square_* maps declared in a_level.  If LOAD_BODY
    is false, only the header of the level will be loaded.  */
-int lvl_load_file (const char *filename, level_t *out, bool load_body);
+int lvl_load_file (const char *filename, a_level *out, bool load_body);
 /* Free any data associated to LVL.  */
-void lvl_free (level_t *lvl);
+void lvl_free (a_level *lvl);
 
 /* These two functions return a pointer to a string allocated for LVL,
    and freed by lvl_free().  You should not free them yourself, and
    you should not use these results after a call to lvl_free().  */
-const char *lvl_sound_track (const level_t *lvl);
-const char *lvl_tile_sprite_map_basename (const level_t *lvl);
+const char *lvl_sound_track (const a_level *lvl);
+const char *lvl_tile_sprite_map_basename (const a_level *lvl);
 
 /* Initialize COORD, and DIR, with the starting position for PLAYER.  */
-void lvl_start_position (const level_t *lvl, unsigned int player,
-			 square_coord_pair_t *coord, dir_t *dir);
+void lvl_start_position (const a_level *lvl, unsigned int player,
+			 a_square_corrd_pair *coord, a_dir *dir);
 
 /*--------------------------------------------------------------------.
 | NOTE: The following function will fail if the body of the level     |
@@ -186,23 +186,23 @@ void lvl_start_position (const level_t *lvl, unsigned int player,
 `--------------------------------------------------------------------*/
 
 /* Return the type of tile TILE on level LVL.  */
-tile_type_t lvl_tile_type (const level_t *lvl, tile_type_t tile);
+a_tile_type lvl_tile_type (const a_level *lvl, a_tile_type tile);
 
 /* Return the output direction of a tunnel on tile TILE.  This function
    should only be called on tiles of type T_TUNNEL.  */
-dir_t lvl_tunnel_output_dir (const level_t *lvl, tile_index_t tile);
+a_dir lvl_tunnel_output_dir (const a_level *lvl, a_tile_index tile);
 
 /* Return the offset (to the first pixel) of the sprite used to draw TILE.  */
-unsigned int lvl_tile_sprite_offset (const level_t *lvl,
-				     tile_index_t tile);
+unsigned int lvl_tile_sprite_offset (const a_level *lvl,
+				     a_tile_index tile);
 /* Return the offset (to the first pixel) of the overlay sprite to
    draw on TILE.  */
-unsigned int lvl_tile_sprite_overlay_offset (const level_t *lvl,
-					     tile_index_t tile);
+unsigned int lvl_tile_sprite_overlay_offset (const a_level *lvl,
+					     a_tile_index tile);
 
 /* Kind of animation.  */
-typedef enum anim_kind_t anim_kind_t;
-enum anim_kind_t { A_NONE, A_LOOP, A_PINGPONG };
+typedef enum an_anim_kind an_anim_kind;
+enum an_anim_kind { A_NONE, A_LOOP, A_PINGPONG };
 
 /* Return information about a possible animation on tile TILE.
    FRAME_COUNT is the number of frames to display, and DELAY a number
@@ -211,9 +211,9 @@ enum anim_kind_t { A_NONE, A_LOOP, A_PINGPONG };
    the sprite index for the current tile should be displayed.
 
    There is no animation if FRAME_COUNT is set to 0.  */
-void lvl_animation_info (const level_t *lvl, tile_index_t tile,
+void lvl_animation_info (const a_level *lvl, a_tile_index tile,
 			 unsigned int *frame_count, unsigned int *delay,
-			 anim_kind_t *kind);
+			 an_anim_kind *kind);
 
 /*----------------.
 | Useful macros.  |

@@ -29,14 +29,14 @@
 
 #include "sprrle.h"
 
-void draw_sprshade (const sprite_t *sprite, pixel_t *dest);
+void draw_sprshade (const a_sprite *sprite, a_pixel *dest);
 
-sprite_t *compile_sprshade (const pixel_t *src, pixel_t transp_color,
-			    pixel_t glenz_color, pixel_t *glenz_line,
+a_sprite *compile_sprshade (const a_pixel *src, a_pixel transp_color,
+			    a_pixel glenz_color, a_pixel *glenz_line,
 			    unsigned int block_height,
 			    unsigned int block_width,
 			    unsigned int src_width, unsigned int dest_width);
 
-void free_sprshade (sprite_t *prog);
+void free_sprshade (a_sprite *prog);
 
 #endif /* HEROES__SPRSHADE__H */

@@ -44,8 +44,8 @@ autogen definitions prefs;
 **  array:   size of the array, if this is an array
 **  nodec:   don't declare the attribute in the struct (because
 **           it has been declared with `verbatim', for instance)
-**  type:    the C type for the attribute (types `bool', `u8_t',
-**           `u16_t', `u32_t', are recognized for max and min)
+**  type:    the C type for the attribute (types `bool', `a_u8',
+**           `a_u16', `a_u32', are recognized for max and min)
 **  default: default value(s) for attrib
 **  max:     maximum value for attribute (the default depends on `type')
 **  min:     minimum value for attribute (the default depends on `type')
@@ -75,7 +75,7 @@ group = {
 		pref = {
 			name = gamma;
 			attrib = luminance; /* FIXME: rename to gamma.  */
-			type = u8_t;
+			type = a_u8;
 			max = 12;
 			default = 6;
 			doc = "Gamma setting.";
@@ -102,7 +102,7 @@ group = {
 		pref = {
 			name = music_volume;
 			attrib = music_volume;
-			type = u8_t;
+			type = a_u8;
 			max = 12;
 			default = 6;
 			doc = "Music volume.";
@@ -117,7 +117,7 @@ group = {
 		pref = {
 			name = sfx_volume;
 			attrib = sfx_volume;
-			type = u8_t;
+			type = a_u8;
 			max = 12;
 			default = 6;
 			doc = "Sound effects volume.";
@@ -130,7 +130,7 @@ group = {
 		pref = {
 			name = player1;
 			attrib = ctrl_one;
-			type = u8_t;
+			type = a_u8;
 			default = 0;
 			max = 1;
 			doc = "Control type for player one (0=key, 1=joy).";
@@ -145,7 +145,7 @@ group = {
 		pref = {
 			name = player2;
 			attrib = ctrl_two;
-			type = u8_t;
+			type = a_u8;
 			default = 0;
 			max = 1;
 			doc = "Control type for player two (0=key, 1=joy).";
@@ -165,7 +165,7 @@ group = {
 		pref = {
 			name = speed;
 			attrib = speed;
-			type = u8_t;
+			type = a_u8;
 			default = 0;
 			max = 2;
 			doc = "Speed of the game.";
@@ -173,7 +173,7 @@ group = {
 		pref = {
 			name = gamerounds;
 			attrib = gamerounds;
-			type = u8_t;
+			type = a_u8;
 			default = 4;
 			max = 15;
 			doc = "Index of the number of rounds (not the number"
@@ -183,7 +183,7 @@ group = {
 			name = player_colors;
 			attrib = "player_color";
 			array = 4;
-			type = u8_t;
+			type = a_u8;
 			default = 0, 1, 2, 3;
 			max = 4;
 			doc = "Color for players.";
@@ -196,7 +196,7 @@ group = {
 		pref = {
 			name = mode;
 			attrib = extras;
-			type = u8_t;
+			type = a_u8;
 			default = 0;
 			max = 2;
 			doc = "How extras levels are included.";
@@ -206,13 +206,13 @@ group = {
 	group = {
 		name = 'keys_pref_group ()';
 		nameraw;
-		verbatim = "keycode_t            player_keys[2][6];";
+		verbatim = "a_keycode            player_keys[2][6];";
 		pref = {
 			name = player1_keys;
 			attrib = "player_keys[0]";
 			array = 6;
 			nodec;
-			type = keycode_t;
+			type = a_keycode;
 			default = HK_Up, HK_Left, HK_Down, HK_Right,
 			          HK_CtrlR, HK_ShiftR;
 			doc = "Keycodes for player one.";
@@ -222,7 +222,7 @@ group = {
 			attrib = "player_keys[1]";
 			array = 6;
 			nodec;
-			type = keycode_t;
+			type = a_keycode;
 			default = HK_E, HK_S, HK_D, HK_F, HK_CtrlL, HK_ShiftL;
 			doc = "Keycodes for player two.";
 		};

@@ -28,13 +28,13 @@ int scr_pitch;			/* rendering buffer pitch */
 /* slow stretching routines */
 
 static void
-stretch_twofold (const pixel_t *s, pixel_t *d, unsigned width)
+stretch_twofold (const a_pixel *s, a_pixel *d, unsigned width)
 {
   int rows_left, columns_left;
 
   for (rows_left = 200; rows_left; --rows_left) {
     for (columns_left = width / 2; columns_left; --columns_left) {
-      pixel_t t1, t2;
+      a_pixel t1, t2;
       t1 = s[0];
       t2 = s[1];
       d[0] = t1;
@@ -54,7 +54,7 @@ stretch_twofold (const pixel_t *s, pixel_t *d, unsigned width)
 }
 
 static void
-stretch_twofold_even (const pixel_t *s, pixel_t *d, unsigned width)
+stretch_twofold_even (const a_pixel *s, a_pixel *d, unsigned width)
 {
   int rows_left, columns_left;
 
@@ -70,13 +70,13 @@ stretch_twofold_even (const pixel_t *s, pixel_t *d, unsigned width)
 }
 
 static void
-stretch_threefold (const pixel_t* s, pixel_t *d, unsigned width)
+stretch_threefold (const a_pixel* s, a_pixel *d, unsigned width)
 {
   int rows_left, columns_left;
 
   for (rows_left = 200; rows_left; --rows_left) {
     for (columns_left = width / 2; columns_left; --columns_left) {
-      pixel_t t1, t2;
+      a_pixel t1, t2;
       t1 = s[0];
       t2 = s[1];
       d[0] = t1;
@@ -106,13 +106,13 @@ stretch_threefold (const pixel_t* s, pixel_t *d, unsigned width)
 }
 
 static void
-stretch_threefold_even (const pixel_t *s, pixel_t *d, unsigned width)
+stretch_threefold_even (const a_pixel *s, a_pixel *d, unsigned width)
 {
   int rows_left, columns_left;
 
   for (rows_left = 200 / 2; rows_left; --rows_left) {
     for (columns_left = width; columns_left; --columns_left) {
-      pixel_t t1, t2;
+      a_pixel t1, t2;
       t1 = s[0];
       t2 = s[xbuf];
       d[0] = t1;
@@ -133,15 +133,15 @@ stretch_threefold_even (const pixel_t *s, pixel_t *d, unsigned width)
 }
 
 static void
-stretch_fourfold (const pixel_t *s, pixel_t *d, unsigned width)
+stretch_fourfold (const a_pixel *s, a_pixel *d, unsigned width)
 {
   int rows_left, columns_left;
 
   for (rows_left = 200; rows_left; --rows_left) {
-    u32_t *d2 = (unsigned int *)d;
+    a_u32 *d2 = (unsigned int *)d;
     for (columns_left = width; columns_left; --columns_left) {
-      pixel_t c = *s;
-      u32_t i = (c << 24) | (c << 16) | (c << 8) | c;
+      a_pixel c = *s;
+      a_u32 i = (c << 24) | (c << 16) | (c << 8) | c;
       d2[0] = i;
       d2[320] = i;
       d2[320*2] = i;
@@ -155,15 +155,15 @@ stretch_fourfold (const pixel_t *s, pixel_t *d, unsigned width)
 }
 
 static void
-stretch_fourfold_even (const pixel_t* s, pixel_t *d, unsigned width)
+stretch_fourfold_even (const a_pixel* s, a_pixel *d, unsigned width)
 {
   int rows_left, columns_left;
 
   for (rows_left = 200; rows_left; --rows_left) {
-    u32_t *d2 = (unsigned int *)d;
+    a_u32 *d2 = (unsigned int *)d;
     for (columns_left = width; columns_left; --columns_left) {
-      pixel_t c = *s;
-      u32_t i = (c << 24) | (c << 16) | (c << 8) | c;
+      a_pixel c = *s;
+      a_u32 i = (c << 24) | (c << 16) | (c << 8) | c;
       d2[0] = i;
       d2[320*2] = i;
       ++s;
@@ -175,7 +175,7 @@ stretch_fourfold_even (const pixel_t* s, pixel_t *d, unsigned width)
 }
 
 static void
-copy_screen_even (const pixel_t *s, pixel_t *d, unsigned width)
+copy_screen_even (const a_pixel *s, a_pixel *d, unsigned width)
 {
   int i;
   for (i = 200; i; --i, s += xbuf * 2, d += 2 * scr_pitch)
@@ -183,7 +183,7 @@ copy_screen_even (const pixel_t *s, pixel_t *d, unsigned width)
 }
 
 static void
-copy_screen (const pixel_t *s, pixel_t *d, unsigned width)
+copy_screen (const a_pixel *s, a_pixel *d, unsigned width)
 {
   int i;
   for (i = 200; i; --i, s += xbuf, d += scr_pitch)
@@ -193,7 +193,7 @@ copy_screen (const pixel_t *s, pixel_t *d, unsigned width)
 /* Copy the rendered display (s) to the visual (screen_rv).  This
    may require stretching, if the user asked for.  */
 static void
-copy_display (const pixel_t *s, pixel_t *d, unsigned width)
+copy_display (const a_pixel *s, a_pixel *d, unsigned width)
 {
   /* the result of stretching routines is written directly
      to the video memory */
@@ -233,13 +233,13 @@ uninit_video (void)
 }
 
 void
-vsynchro (const pixel_t *s)
+vsynchro (const a_pixel *s)
 {
   vsynchro_low (s, copy_display);
 }
 
 void
-vsynchro2 (const pixel_t *s1, const pixel_t *s2)
+vsynchro2 (const a_pixel *s1, const a_pixel *s2)
 {
   vsynchro2_low (s1, s2, copy_display);
 }

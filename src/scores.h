@@ -29,8 +29,8 @@
 typedef struct
 {
   char name[PLAYER_NAME_SIZE + 1];
-  gameid_t gid;
-  u32_t points;
+  a_gameid gid;
+  a_u32 points;
 } top_score;
 
 extern top_score highs[5][10];
@@ -42,7 +42,7 @@ void clear_scores (void);
 void write_scores (void);
 void write_scores_locked (void);
 bool insert_scores (int gamemode, const char *player_name,
-		    gameid_t gid, u32_t points);
+		    a_gameid gid, a_u32 points);
 void load_scores (void);
 void load_scores_and_keep_locked (void);
 void free_scores (void);

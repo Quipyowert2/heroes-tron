@@ -22,7 +22,7 @@
 /* All the following macros assume that p is a pointer to unsigned
    char.  */
 
-/* Read little-endian u16_t and u32_t values.  */
+/* Read little-endian a_u16 and a_u32 values.  */
 #define GET_U16(p) ((p)[0] | (p)[1] << 8)
 #define GET_U32(p) (GET_U16(p) | (p)[2] << 16 | (p)[3] << 24)
 
@@ -38,6 +38,6 @@
     p += 4;					\
   } while (0)
 
-/* Likewise with u8_t, for completness.  */
+/* Likewise with a_u8, for completness.  */
 #define GET_U8(p) (*(p))
 #define READ_U8(p, res) res = *p++

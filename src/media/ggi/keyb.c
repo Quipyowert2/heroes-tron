@@ -128,7 +128,7 @@ update_mouse_state (void)
   }
 }
 
-keycode_t
+a_keycode
 get_key (void)
 {
   ggi_event ev;

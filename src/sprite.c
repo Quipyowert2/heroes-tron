@@ -30,7 +30,7 @@
 #include "sprglauto.h"
 
 void
-free_sprite (sprite_t* sprite)
+free_sprite (a_sprite* sprite)
 {
   if (!sprite)
     return;

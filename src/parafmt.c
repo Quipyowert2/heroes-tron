@@ -29,45 +29,45 @@
 #include "system.h"
 #include "parafmt.h"
 
-typedef struct word_s		word_t;
-typedef struct paragraph_s	paragraph_t;
-typedef u32_t			cost_t;
+typedef struct word_s		a_word;
+typedef struct paragraph_s	a_paragraph;
+typedef a_u32			a_cost;
 #define MAX_COST		U32_MAX
 
 struct word_s {
   char		*letters;	/* positions in the string copy */
   char		*letters_end;	/* end of the word in the string copy */
-  width_t	width;		/* width of the word */
+  a_width	width;		/* width of the word */
   unsigned int	spaces;		/* number of spaces after the word */
   bool		is_punct;	/* if the word it is ended by a
 				   punctuation mark */
-  const word_t	**next_break;	/* Next word to break after, if
+  const a_word	**next_break;	/* Next word to break after, if
 				   this one is broken after.  This is an array
 				   because we compute the next_break for
 				   any width of line possible. */
-  cost_t	*next_break_cost; /* Cost for this next break, an array for
+  a_cost	*next_break_cost; /* Cost for this next break, an array for
 				     the very same reason. */
 };
 
 struct paragraph_s {
-  word_t	*words;		/* The list of words for the paragraph. */
+  a_word	*words;		/* The list of words for the paragraph. */
   unsigned int	nwords;		/* The number of words. */
   unsigned int	indent;		/* Initial spaces, before the first word. */
-  const width_t	*max_widths;	/* like line_widths but sorted in ascending
+  const a_width	*max_widths;	/* like line_widths but sorted in ascending
 				   order, duplicate removed */
   unsigned int	nmax_widths;	/* size of max_width (= number of
 				   expected lines).  If there is more
 				   line than nmax_widths, the last value
 				   of max_width (namely
 				   max_width[nmax_width - 1]) will be used. */
-  width_t	std_space_width; /* standard space width */
-  width_t	min_space_width; /* minimun space_width */
-  const word_t	*first_break;	/* first word to break after */
+  a_width	std_space_width; /* standard space width */
+  a_width	min_space_width; /* minimun space_width */
+  const a_word	*first_break;	/* first word to break after */
   char		*data;		/* a copy of the original string */
-  const word_t	**break_data;	/* a buffer allocated once for
+  const a_word	**break_data;	/* a buffer allocated once for
 
 			   break pointers of all words */
-  cost_t	*break_cost_data; /* a buffer allocated once for
+  a_cost	*break_cost_data; /* a buffer allocated once for
 				     break costs of all words */
 };
 
@@ -93,15 +93,15 @@ count_words (const char *str)
   return count;
 }
 
-/* Split STR in an array of words.  Return this as a paragraph_t. */
-static paragraph_t *
-split_words (const char *input_str, const width_t *wa)
+/* Split STR in an array of words.  Return this as a a_paragraph. */
+static a_paragraph *
+split_words (const char *input_str, const a_width *wa)
 {
   unsigned int nwords;
-  word_t *words;
+  a_word *words;
   unsigned int i;
   char *str;
-  NEW (paragraph_t, p);
+  NEW (a_paragraph, p);
 
   /* count initial spaces */
   for (i = 0; *input_str && ISSPACE (*input_str); ++input_str)
@@ -121,10 +121,10 @@ split_words (const char *input_str, const width_t *wa)
   for (i = 0; i < nwords; ++i) {
     words[i].letters = str;
 
-    /* compute the width_t of the word
+    /* compute the a_width of the word
        (previous spaces have been skipped, and *str!=0 because i<nwords) */
     {
-      width_t w = 0;
+      a_width w = 0;
       do {
 	/* skip possible %x or %{xxx} */
 	if (*str == '%') {
@@ -166,8 +166,8 @@ split_words (const char *input_str, const width_t *wa)
 }
 
 /* initialize data related to line widths */
-static paragraph_t *
-initialize_width_data (paragraph_t *p, const width_t *line_widths)
+static a_paragraph *
+initialize_width_data (a_paragraph *p, const a_width *line_widths)
 {
   unsigned int nwidths = 0;
   p->max_widths = line_widths;
@@ -183,8 +183,8 @@ initialize_width_data (paragraph_t *p, const width_t *line_widths)
   /* distribute amounts of these buffers to all words */
   {
     unsigned int n;
-    const word_t **w = p->break_data;
-    cost_t *c = p->break_cost_data;
+    const a_word **w = p->break_data;
+    a_cost *c = p->break_cost_data;
     for (n = 0; n < p->nwords; ++n) {
       p->words[n].next_break = w;
       p->words[n].next_break_cost = c;
@@ -196,10 +196,10 @@ initialize_width_data (paragraph_t *p, const width_t *line_widths)
   return p;
 }
 
-static cost_t
-wdist (width_t l, width_t r)
+static a_cost
+wdist (a_width l, a_width r)
 {
-  cost_t c = l > r ? l - r : r - l;
+  a_cost c = l > r ? l - r : r - l;
   return c * c;
 }
 
@@ -209,12 +209,12 @@ wdist (width_t l, width_t r)
    a better looking to the paragraph formating.
    WIDX is tha width index of the current line.
 */
-static cost_t
-compute_break_cost (paragraph_t *p, unsigned int wn,
-		    width_t width, width_t spaces, unsigned widx)
+static a_cost
+compute_break_cost (a_paragraph *p, unsigned int wn,
+		    a_width width, a_width spaces, unsigned widx)
 {
-  cost_t cost = 0;
-  width_t space_width, std_space_width;
+  a_cost cost = 0;
+  a_width space_width, std_space_width;
 
   /* width for spaces */
   space_width = p->max_widths[widx] - width;
@@ -241,21 +241,21 @@ compute_break_cost (paragraph_t *p, unsigned int wn,
    max_widths[widx].  Update res->next_break and res->next_break_cost
    accordingly.  WARNING: this does not handle words larger than
    p->max_width */
-static const word_t *
-compute_best_break (paragraph_t *p, unsigned int wn, word_t *res,
+static const a_word *
+compute_best_break (a_paragraph *p, unsigned int wn, a_word *res,
 		    unsigned int widx)
 {
   unsigned int nwords = p->nwords;
-  const word_t *w = p->words;
+  const a_word *w = p->words;
   unsigned int spaces = 0;
-  width_t width = 0;
+  a_width width = 0;
 
-  cost_t best_cost = MAX_COST;
-  const word_t *best_break = 0;
+  a_cost best_cost = MAX_COST;
+  const a_word *best_break = 0;
 
   /* find the best break position on this line */
   while (wn < nwords) {
-    cost_t cost;
+    a_cost cost;
 
     /* Add a new word */
     width += w[wn].width;
@@ -286,9 +286,9 @@ compute_best_break (paragraph_t *p, unsigned int wn, word_t *res,
 
 /* compute breaking paths for the paragraph P */
 static void
-compute_breaking_path (paragraph_t *p)
+compute_breaking_path (a_paragraph *p)
 {
-  word_t *w = p->words;
+  a_word *w = p->words;
   unsigned int wn;
   unsigned int widx;
 
@@ -306,11 +306,11 @@ compute_breaking_path (paragraph_t *p)
 /* follow the (already computed) breaking path,
    and build and array of strings (one per line) */
 static char **
-convert_paragraph_to_array (paragraph_t *p)
+convert_paragraph_to_array (a_paragraph *p)
 {
   unsigned int nlines;
-  const word_t *fw;		/* first word of the current line */
-  const word_t *lw;		/* last word of the current line */
+  const a_word *fw;		/* first word of the current line */
+  const a_word *lw;		/* last word of the current line */
   char **result;
   unsigned int curline;
 
@@ -343,11 +343,11 @@ convert_paragraph_to_array (paragraph_t *p)
 }
 
 char **
-parafmt_var (const char *str, const width_t *wa,
-	     const width_t *max_widths, width_t min_space_width)
+parafmt_var (const char *str, const a_width *wa,
+	     const a_width *max_widths, a_width min_space_width)
 {
   char **result;
-  paragraph_t *p = split_words (str, wa);
+  a_paragraph *p = split_words (str, wa);
   /* FIXME: make sure no words are larger than any max_width or
      compute_breaking_path may fail. */
   initialize_width_data (p, max_widths);
@@ -363,10 +363,10 @@ parafmt_var (const char *str, const width_t *wa,
 }
 
 char **
-parafmt (const char *str, const width_t *wa,
-	 width_t max_width, width_t min_space_width)
+parafmt (const char *str, const a_width *wa,
+	 a_width max_width, a_width min_space_width)
 {
-  width_t mw[2] = {max_width, 0};
+  a_width mw[2] = {max_width, 0};
   return parafmt_var (str, wa, mw, min_space_width);
 }
 
@@ -385,7 +385,7 @@ free_pararray (char **p)
 `-----------------------------------------------------------------*/
 
 static char **
-print_array (char **array, width_t width)
+print_array (char **array, a_width width)
 {
   char spec[30];
   char **a = array;
@@ -396,11 +396,11 @@ print_array (char **array, width_t width)
 }
 
 static char **
-print_array_var (char **array, const width_t *widths)
+print_array_var (char **array, const a_width *widths)
 {
   char spec[30];
   char **a = array;
-  width_t width = *widths;
+  a_width width = *widths;
   for (; *a; ++a) {
     sprintf (spec, "%%-%us|\n", width);
     printf (spec, *a);
@@ -411,7 +411,7 @@ print_array_var (char **array, const width_t *widths)
 }
 
 static void
-check_parafmt (width_t width)
+check_parafmt (a_width width)
 {
   unsigned int test_widths[256];
   const char *test_str = "\
@@ -426,14 +426,14 @@ punctiation (non alaphanumeric, non spaces) are sometime prefered.";
 }
 
 static void
-check_parafmt_var (width_t width)
+check_parafmt_var (a_width width)
 {
   unsigned int test_widths[256];
   const char *test_str = "\
 This is another testing string.  But this time we check the \
 parafmt_var function.  It is used to format paragraphs whose lines \
 do not always have the same width.  Blah blah, blah blah.";
-  const width_t w[] = { width, width + 2, width + 4, width + 6, 0 };
+  const a_width w[] = { width, width + 2, width + 4, width + 6, 0 };
   int i;
   for (i = 0; i < 256; ++i)
     test_widths[i] = 1;

@@ -31,7 +31,7 @@
 				   (to avoid clipping) */
 
 
-typedef u8_t pixel_t;
+typedef a_u8 a_pixel;
 
 void set_display_params (const char *str);
 void set_full_screen_mode (void);
@@ -44,9 +44,9 @@ void set_pal_entry (unsigned char c,
 void set_pal (const unsigned char *ptr, int p, int n);
 
 /* dump the supplied buffer (assumed xbuf-wide) to the screen */
-void vsynchro (const pixel_t *s);
+void vsynchro (const a_pixel *s);
 /* likewise, but construct the screen from two buffers (used
    in two player mode). */
-void vsynchro2 (const pixel_t *s1, const pixel_t *s2);
+void vsynchro2 (const a_pixel *s1, const a_pixel *s2);
 
 #endif /* HEROES__VIDEO__H */

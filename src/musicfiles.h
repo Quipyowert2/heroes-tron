@@ -27,10 +27,10 @@ typedef struct sound_track_s {
   char* title;
   char* author;
   unsigned rank;
-} sound_track_t;
+} a_sound_track;
 
-sound_track_t* get_sound_track_from_alias (const char* alias);
-sound_track_t* get_sound_track_from_rank (unsigned rank);
+a_sound_track* get_sound_track_from_alias (const char* alias);
+a_sound_track* get_sound_track_from_rank (unsigned rank);
 
 void add_sound_track_cons (char* alias, char* filename,
 			   char* title, char* author);

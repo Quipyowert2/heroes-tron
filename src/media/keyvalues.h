@@ -42,7 +42,7 @@ enum {
   HK_MOD__MAX
 };
 
-extern const keycode_t key_modifiers[HK_MOD__MAX];
+extern const a_keycode key_modifiers[HK_MOD__MAX];
 
 /* keys */
 enum {
@@ -166,6 +166,6 @@ enum {
   HK__MAX
 };
 
-extern const keycode_t key_codes[HK__MAX];
+extern const a_keycode key_codes[HK__MAX];
 
 #endif /* HEROES__KEYVALUES__H */

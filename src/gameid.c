@@ -27,7 +27,7 @@ create_gameid (gameid_ptr gid)
 {
   int i;
   for (i = 0; i < GAMEID_SIZE; ++i)
-    gid[i] = (u32_t) rand ();
+    gid[i] = (a_u32) rand ();
 }
 
 void

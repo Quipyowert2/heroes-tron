@@ -25,14 +25,14 @@
 
 /* Low-level video functions, only called from the media/video.c.  */
 
-typedef void (*copy_function_t)(const pixel_t *source,
-				pixel_t *dest_t,
+typedef void (*a_copy_function)(const a_pixel *source,
+				a_pixel *a_dest,
 				unsigned width);
 
 /* Return true on success.  */
 void init_video_low (int stretch, int *pitch);
 void uninit_video_low (void);
-void vsynchro_low (const pixel_t *s, copy_function_t f);
-void vsynchro2_low (const pixel_t *s1, const pixel_t *s2, copy_function_t f);
+void vsynchro_low (const a_pixel *s, a_copy_function f);
+void vsynchro2_low (const a_pixel *s1, const a_pixel *s2, a_copy_function f);
 
 #endif /* HEROES__VIDEO_LOW__H */

@@ -39,7 +39,7 @@
 #include "camera.h"
 
 char tutor = 0;
-static sprite_t *clock_anim;
+static a_sprite *clock_anim;
 
 static bool invincible[4];	/* When a cell is true, the corresponding
 				   player is highlighted.  This happens
@@ -48,11 +48,11 @@ static bool invincible[4];	/* When a cell is true, the corresponding
 
 
 static void
-copy_tile (const pixel_t* src, pixel_t* dest, int tx)
+copy_tile (const a_pixel* src, a_pixel* dest, int tx)
 {
-  const u32_t *s = (const u32_t *) src;
-  u32_t *d = (u32_t *) dest;
-  u32_t t1, t2;
+  const a_u32 *s = (const a_u32 *) src;
+  a_u32 *d = (a_u32 *) dest;
+  a_u32 t1, t2;
   int y;
   for (y = 20; y; --y) {	/* FIXME: Is this really faster than a */
     t1 = s[0];			/* straight copy?  Need a benchmark  */
@@ -67,16 +67,16 @@ copy_tile (const pixel_t* src, pixel_t* dest, int tx)
     t2 = s[5];
     d[2] = t1;
     d[5] = t2;
-    s = (const u32_t *) (((const pixel_t *) s) + tx);
-    d = (u32_t *) (((pixel_t *) d) + xbuf);
+    s = (const a_u32 *) (((const a_pixel *) s) + tx);
+    d = (a_u32 *) (((a_pixel *) d) + xbuf);
   }
 }
 
 static void
-copy_square_transp (const pixel_t* src, pixel_t* dest, char d, char e)
+copy_square_transp (const a_pixel* src, a_pixel* dest, char d, char e)
 {
   int j, k;
-  pixel_t c;
+  a_pixel c;
   for (j = 10 - e; j != 0; j--) {
     for (k = 12 - d; k != 0; k--) {
       c = *src++;
@@ -90,10 +90,10 @@ copy_square_transp (const pixel_t* src, pixel_t* dest, char d, char e)
 }
 
 static void
-draw_trail_real (int c, unsigned char s, pixel_t* dest,
+draw_trail_real (int c, unsigned char s, a_pixel* dest,
 		 unsigned char fixe)
 {
-  const sprite_t *spr;
+  const a_sprite *spr;
   int d = 0;
 
   if (fixe) {
@@ -107,12 +107,12 @@ draw_trail_real (int c, unsigned char s, pixel_t* dest,
 }
 
 static void
-draw_vehicle_tail (int c, pixel_t* dest)
+draw_vehicle_tail (int c, a_pixel* dest)
 {
   int d;
-  const pixel_t* posit = 0;
+  const a_pixel* posit = 0;
   int s = ((player[c].old_way ^ 2) + ((player[c].way ^ 2) << 2));
-  const sprite_t *spr;
+  const a_sprite *spr;
 
   if (s & 4) {
     d = player[c].d.h.l / 5462;
@@ -137,11 +137,11 @@ draw_vehicle_tail (int c, pixel_t* dest)
 }
 
 static void
-draw_vehicle_head (int c, pixel_t* dest)
+draw_vehicle_head (int c, a_pixel* dest)
 {
   int d;
   char b;
-  const pixel_t* posit;
+  const a_pixel* posit;
 
   if (player[c].spec == t_tunnel)
     b = player[c].tunnel_way;
@@ -170,13 +170,13 @@ draw_vehicle_head (int c, pixel_t* dest)
 }
 
 static void
-draw_trail (int c, pixel_t* dest, char d)
+draw_trail (int c, a_pixel* dest, char d)
 {
   draw_trail_real ((char) (c - 2), (char) (d & 15), dest, 0);
 }
 
 static void
-draw_trail_tail (int c, pixel_t* dest)
+draw_trail_tail (int c, a_pixel* dest)
 {
   char k;
   int tmp1;
@@ -191,7 +191,7 @@ draw_trail_tail (int c, pixel_t* dest)
 }
 
 static void
-copy_lemming_transp (const pixel_t* src, pixel_t *dest)
+copy_lemming_transp (const a_pixel* src, a_pixel *dest)
 {
   int j, k;
 
@@ -212,7 +212,7 @@ copy_lemming_transp (const pixel_t* src, pixel_t *dest)
 }
 
 static void
-draw_color (pixel_t* dest, int c)
+draw_color (a_pixel* dest, int c)
 {
   if (c & 16)
     DRAW_SPRITE (clock_anim, dest - 2 * xbuf);
@@ -221,7 +221,7 @@ draw_color (pixel_t* dest, int c)
 
   if (c & 8) {
     int j, k;
-    const pixel_t* src = main_font_img.buffer + 81 * 320 + 40;
+    const a_pixel* src = main_font_img.buffer + 81 * 320 + 40;
     dest -= 2 + xbuf;
     for (j = 7; j != 0; j--) {
       for (k = 12; k != 0; k--) {
@@ -237,16 +237,16 @@ draw_color (pixel_t* dest, int c)
 }
 
 static void
-draw_lemming (pixel_t *dest, const lemming_t *lem, unsigned int pos)
+draw_lemming (a_pixel *dest, const a_lemming *lem, unsigned int pos)
 {
-  const pixel_t *src;
+  const a_pixel *src;
 
   assert (lem >= lemmings_support
 	  && lem < lemmings_support + lemmings_total);
 
   if (pos == lem->pos_tail) {
     int c = lem->couleur;
-    dir_t d = lem->dir;
+    a_dir d = lem->dir;
     src = vehicles_img.buffer + 164 * 320;
     src += 64 * c;
     if (d & 1)
@@ -271,7 +271,7 @@ draw_lemming (pixel_t *dest, const lemming_t *lem, unsigned int pos)
 }
 
 static void
-copy_dead_lemming_transp (const pixel_t* src, pixel_t* dest, int couleur)
+copy_dead_lemming_transp (const a_pixel* src, a_pixel* dest, int couleur)
 {
   int x, y;
 
@@ -282,9 +282,9 @@ copy_dead_lemming_transp (const pixel_t* src, pixel_t* dest, int couleur)
 }
 
 static void
-draw_dead_lemming (pixel_t *dest_, const lemming_t *lem)
+draw_dead_lemming (a_pixel *dest_, const a_lemming *lem)
 {
-  pixel_t *dest;
+  a_pixel *dest;
   char d;
 
   do {
@@ -315,11 +315,11 @@ draw_level (int p)
 {
   int i, j;
   int k, l;
-  const lemming_t* tmppti;
+  const a_lemming* tmppti;
   signed char bb;
   unsigned char b;
-  pixel_t *dest = render_buffer[p] + sbuf;
-  pixel_t *dest2;
+  a_pixel *dest = render_buffer[p] + sbuf;
+  a_pixel *dest2;
   long anim_frame;
   int camera_stop_x[2];
   int camera_stop_y[2];
@@ -353,14 +353,14 @@ draw_level (int p)
   anim_frame = read_htimer (tiles_anim_htimer);
 
   for (k = corner_dy[p], l = 11 - camera_stop_y[p]; l > 0; l--, k++) {
-    tile_index_t m;
+    a_tile_index m;
     k = k & lvl.tile_height_wrap;
     m = k * lvl.tile_width;
     for (i = corner_dx[p], j = nbr_tiles_cols - camera_stop_x[p]; j > 0;
 	 j--, i++) {
       i = (i & lvl.tile_width_wrap);
       if ((i + m) < lvl.tile_count) {
-	bg_data_t* tile = bg_data + i + m;
+	a_bg_data* tile = bg_data + i + m;
 	switch (tile->kind) {
 	case A_NONE:
 	  copy_tile (tile->source, dest, tile_set_img.width);
@@ -394,7 +394,7 @@ draw_level (int p)
 	 l--, k++) {
       k &= lvl.square_height_wrap;
       if ((unsigned) k < lvl.square_height) {
-	tile_index_t m;
+	a_tile_index m;
 	m = k * lvl.square_width;
 	for (i = corner_dx[p] * 2 - 2, j =
 	     2 + (nbr_tiles_cols - camera_stop_x[p]); j > 0; j--, i += 2) {
@@ -421,7 +421,7 @@ draw_level (int p)
     dest = render_buffer[p] + sbuf + 3 + xbuf;
     for (k = corner_dy[p] * 2, l = (11 - camera_stop_y[p]) * 2; l > 0;
 	 l--, k = ((k + 1) & lvl.square_height_wrap)) {
-      tile_index_t m;
+      a_tile_index m;
       m = k * lvl.square_width;
       for (i = corner_dx[p] * 2, j = (nbr_tiles_cols - camera_stop_x[p]);
 	   j > 0; j--, i = ((i + 2) & lvl.square_width_wrap)) {
@@ -445,7 +445,7 @@ draw_level (int p)
     dest = render_buffer[p] + sbuf + 2 + xbuf * 2;
     for (k = corner_dy[p] * 2, l = (11 - camera_stop_y[p]) * 2; l > 0;
 	 l--, k = ((k + 1) & lvl.square_height_wrap)) {
-      tile_index_t m;
+      a_tile_index m;
       m = k * lvl.square_width;
       for (i = corner_dx[p] * 2, j = (nbr_tiles_cols - camera_stop_x[p]);
 	   j > 0; j--, i = ((i + 2) & lvl.square_width_wrap)) {
@@ -467,7 +467,7 @@ draw_level (int p)
     dest = render_buffer[p] + sbuf + 2;
     for (k = corner_dy[p] * 2, l = (11 - camera_stop_y[p]) * 2; l > 0;
 	 l--, k = ((k + 1) & lvl.square_height_wrap)) {
-      tile_index_t m;
+      a_tile_index m;
       m = k * lvl.square_width;
       for (i = corner_dx[p] * 2, j = (nbr_tiles_cols - camera_stop_x[p]);
 	   j > 0; j--, i = ((i + 2) & lvl.square_width_wrap)) {
@@ -492,7 +492,7 @@ draw_level (int p)
   dest = render_buffer[p] + sbuf;
   for (k = corner_dy[p] * 2, l = (11 - camera_stop_y[p]) * 2; l > 0;
        l--, k = ((k + 1) & lvl.square_height_wrap)) {
-    tile_index_t m;
+    a_tile_index m;
     m = k * lvl.square_width;
     for (i = corner_dx[p] * 2, j = (nbr_tiles_cols - camera_stop_x[p]); j > 0;
 	 j--, i = ((i + 2) & lvl.square_width_wrap)) {
@@ -529,7 +529,7 @@ draw_level (int p)
   dest = render_buffer[p] + sbuf;
   for (k = corner_dy[p], l = 11 - camera_stop_y[p]; l > 0;
        l--, k = ((k + 1) & lvl.tile_height_wrap)) {
-    tile_index_t m;
+    a_tile_index m;
     m = k * lvl.tile_width;
     for (i = corner_dx[p], j = nbr_tiles_cols - camera_stop_x[p]; j > 0;
 	 j--, i = ((i + 1) & lvl.tile_width_wrap)) {
@@ -552,7 +552,7 @@ draw_level (int p)
        l++, k++) {
     k &= lvl.square_height_wrap;
     if (((unsigned) k) < lvl.square_height) {
-      tile_index_t m;
+      a_tile_index m;
       m = k * lvl.square_width;
       for (i = corner_dx[p] * 2 - 1, j = 0;
 	   (unsigned)j != 2 + (nbr_tiles_cols - camera_stop_x[p]) * 2;
@@ -580,7 +580,7 @@ draw_level (int p)
        1 rotation per second.  */
     double angle = M_PI_4 - (wavepos * 2.0 * M_PI / 70.0);
     int arrow_index = (wavepos * NBR_ARROW_FRAMES / 70) % NBR_ARROW_FRAMES;
-    sprite_t *s = tutorial_arrow[arrow_index];
+    a_sprite *s = tutorial_arrow[arrow_index];
     double d  = 10.0 + 4.0 * sin (wavepos / 40.0); /* arbitrary */
     /* Substract M_PI_4 so the arrow looks a bit inclinded.  */
     int dx =   d * cos (angle - M_PI_4);
@@ -591,7 +591,7 @@ draw_level (int p)
 
     for (k = corner_dy[p] - 0, l = 1 + 11 - camera_stop_y[p]; l > 0;
 	 l--, k++) {
-      tile_index_t m;
+      a_tile_index m;
       k &= lvl.tile_height_wrap;
       m = k * lvl.tile_width;
       for (i = corner_dx[p] - 1, j = 2 + nbr_tiles_cols - camera_stop_x[p];
@@ -609,7 +609,7 @@ draw_level (int p)
 
 /* colors used to draw trails on the radar (the indice is the value
    of the square_occupied array) */
-static const pixel_t radar_trail_color[16] = {
+static const a_pixel radar_trail_color[16] = {
   111, 127, 143, 159,		/* vehicle head */
   111, 127, 143, 159,		/* vehicle tail */
   109, 125, 141, 157,		/* trail */
@@ -618,7 +618,7 @@ static const pixel_t radar_trail_color[16] = {
 
 /* colors use to draw walls on the radar (the indice is the value
    if the square_wall array) */
-static const pixel_t radar_wall_color[16] = {
+static const a_pixel radar_wall_color[16] = {
   0, 89, 89, 91,
   89, 91, 91, 93,
   89, 91, 91, 93,
@@ -626,7 +626,7 @@ static const pixel_t radar_wall_color[16] = {
 };
 
 static void
-draw_radar_frame (pixel_t *dest)
+draw_radar_frame (a_pixel *dest)
 {
   unsigned int y;
 
@@ -644,11 +644,11 @@ draw_radar_frame (pixel_t *dest)
 }
 
 void
-draw_radar_map (square_coord_t dx, square_coord_t dy, int radar_shift)
+draw_radar_map (a_square_coord dx, a_square_coord dy, int radar_shift)
 {
-  pixel_t *src = corner[0] + 5 * xbuf + 239 + radar_shift;
+  a_pixel *src = corner[0] + 5 * xbuf + 239 + radar_shift;
   unsigned int x, y, tdym;
-  square_coord_t tdx, tdy;
+  a_square_coord tdx, tdy;
   signed char tmp;
   long blink = read_htimer (blink_htimer) & 2;
 
@@ -712,10 +712,10 @@ void
 draw_score (int c, int p,
 	    int row, int col, int score_shift)
 {
-  pixel_t *src = corner[p] + row * xbuf + col + score_shift;
-  pixel_t *tmp = src + 22 + 2 * xbuf;
-  pixel_t *tmp2 = src + 25 + 5 * xbuf + 53 * xbuf;
-  pixel_t *dest = src + 2 + 2 * xbuf;
+  a_pixel *src = corner[p] + row * xbuf + col + score_shift;
+  a_pixel *tmp = src + 22 + 2 * xbuf;
+  a_pixel *tmp2 = src + 25 + 5 * xbuf + 53 * xbuf;
+  a_pixel *dest = src + 2 + 2 * xbuf;
   int x, y, i;
   char score[32];
 
@@ -788,12 +788,12 @@ draw_score (int c, int p,
 }
 
 void
-draw_logo_info (int c, int nbr, pixel_t* dest)
+draw_logo_info (int c, int nbr, a_pixel* dest)
 {
-  pixel_t* src = dest;
-  pixel_t* tmp;
-  pixel_t* tmp2;
-  pixel_t* tmp3;
+  a_pixel* src = dest;
+  a_pixel* tmp;
+  a_pixel* tmp2;
+  a_pixel* tmp3;
   int x, y;
 
   if (game_mode < M_TCASH) {

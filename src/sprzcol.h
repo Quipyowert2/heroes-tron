@@ -27,13 +27,13 @@
 
 #include "sprrle.h"
 
-void draw_sprzcol (const sprite_t *sprite, pixel_t *dest);
+void draw_sprzcol (const a_sprite *sprite, a_pixel *dest);
 
-sprite_t *compile_sprzcol (const pixel_t *src, pixel_t transp_color,
+a_sprite *compile_sprzcol (const a_pixel *src, a_pixel transp_color,
 			   unsigned int block_height,
 			   unsigned int block_width,
 			   unsigned int src_width, unsigned int dest_width);
 
-void free_sprzcol (sprite_t *prog);
+void free_sprzcol (a_sprite *prog);
 
 #endif /* HEROES__SPRZCOL__H */

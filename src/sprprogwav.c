@@ -23,7 +23,7 @@
 #include "timer.h"
 
 unsigned char text_waving_step = 0;
-static htimer_t text_waving_htimer = 0;
+static a_timer text_waving_htimer = 0;
 
 void
 init_text_waving_step (void)
@@ -52,23 +52,23 @@ waving_offset (int pos)
 }
 
 void
-draw_sprprogwav (const sprite_t *sprite, pixel_t *dest)
+draw_sprprogwav (const a_sprite *sprite, a_pixel *dest)
 {
-  sprite_prog_list_t *list;
+  a_sprite_prog_list *list;
   int pos = 0;
 
   assert (sprite->all.kind == S_PROG || sprite->all.kind == S_PROG_WAV);
 
   for (list = sprite->prog.list; list; list = list->cdr) {
-    sprite_t *s = list->car;
+    a_sprite *s = list->car;
     s->draw (s, dest + list->offset + waving_offset (pos++));
   }
 }
 
-sprite_t *
+a_sprite *
 end_sprprogwav (void)
 {
-  sprite_t *s = end_sprprog ();
+  a_sprite *s = end_sprprog ();
   s->all.kind = S_PROG_WAV;	/* overwrite */
   s->all.draw = draw_sprprogwav; /* overwrite */
   return s;

@@ -30,9 +30,9 @@
 #include "camera.h"
 
 void
-set_pal_with_luminance (const palette_t *palsrc)
+set_pal_with_luminance (const a_palette *palsrc)
 {
-  palette_t paldest;
+  a_palette paldest;
   int i;
   float gamma_coef = (opt.luminance + 5) / 11.0;
 
@@ -42,7 +42,7 @@ set_pal_with_luminance (const palette_t *palsrc)
     color = pow (color / 63.0, gamma_coef) * 63.0 + 0.5;
     if (color > 63.0)
       color = 63.0;
-    paldest.global[i] = (u8_t) color;
+    paldest.global[i] = (a_u8) color;
   }
 
   set_pal (paldest.global, 0, 768);
@@ -56,7 +56,7 @@ force_palette (const unsigned char *palette)
 }
 
 void
-flush_display (const pixel_t *src)
+flush_display (const a_pixel *src)
 {
   run_fader ();
   vsynchro (src);
@@ -64,7 +64,7 @@ flush_display (const pixel_t *src)
 }
 
 void
-flush_display2 (const pixel_t *src1, const pixel_t *src2)
+flush_display2 (const a_pixel *src1, const a_pixel *src2)
 {
   run_fader ();
   if (swapside)
@@ -77,7 +77,7 @@ flush_display2 (const pixel_t *src1, const pixel_t *src2)
 void
 flush_display_moving (int x)
 {
-  pixel_t *src = corner[0];
+  a_pixel *src = corner[0];
   int *desti;
   int i, j;
 
@@ -94,8 +94,8 @@ flush_display_moving (int x)
 void
 flush_display2_moving (int x)
 {
-  pixel_t *src1 = corner[swapside];
-  const pixel_t *src2 = corner[1 - swapside];
+  a_pixel *src1 = corner[swapside];
+  const a_pixel *src2 = corner[1 - swapside];
   int *desti;
   int i, j;
 
@@ -110,7 +110,7 @@ flush_display2_moving (int x)
 }
 
 void
-shade_scr_area (const pixel_t *src, pixel_t *dest)
+shade_scr_area (const a_pixel *src, a_pixel *dest)
 {
   unsigned row;
   unsigned col;
@@ -124,7 +124,7 @@ shade_scr_area (const pixel_t *src, pixel_t *dest)
 }
 
 void
-copy_scr_area (const pixel_t *src, pixel_t *dest)
+copy_scr_area (const a_pixel *src, a_pixel *dest)
 {
   unsigned row;
   for (row = 200; row; --row) {
@@ -135,10 +135,10 @@ copy_scr_area (const pixel_t *src, pixel_t *dest)
 }
 
 void
-copy_image_to_scr_area (const pcx_image_t *src, pixel_t *dest)
+copy_image_to_scr_area (const a_pcx_image *src, a_pixel *dest)
 {
   unsigned row;
-  const pixel_t *s = src->buffer;
+  const a_pixel *s = src->buffer;
   for (row = 200; row; --row) {
     fastmem4 (s, dest, src->width/4);
     s += src->width;
@@ -147,7 +147,7 @@ copy_image_to_scr_area (const pcx_image_t *src, pixel_t *dest)
 }
 
 void
-clear_scr_area (pixel_t *dest)
+clear_scr_area (a_pixel *dest)
 {
   unsigned row;
   for (row = 200; row; --row) {

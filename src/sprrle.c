@@ -22,11 +22,11 @@
 #include "sprrle.h"
 
 void
-draw_sprrle (const sprite_t *sprite, pixel_t *dest)
+draw_sprrle (const a_sprite *sprite, a_pixel *dest)
 {
-  pixel_t	*cur = dest;	/* current writting possition */
-  u8_t		*pc;		/* program counter */
-  u8_t		*epc;		/* end of program code */
+  a_pixel	*cur = dest;	/* current writting possition */
+  a_u8		*pc;		/* program counter */
+  a_u8		*epc;		/* end of program code */
 
   assert (sprite->all.kind == S_RLE);
 
@@ -47,15 +47,15 @@ draw_sprrle (const sprite_t *sprite, pixel_t *dest)
   }
 }
 
-sprite_t *
-compile_sprrle (const pixel_t *src, pixel_t transp_color,
+a_sprite *
+compile_sprrle (const a_pixel *src, a_pixel transp_color,
 		unsigned int block_height, unsigned int block_width,
 		unsigned int src_width, unsigned int dest_width)
 {
-  sprite_t* sprite;
+  a_sprite* sprite;
   unsigned int row;
   unsigned int code_size;
-  u8_t *pc;			/* program counter */
+  a_u8 *pc;			/* program counter */
 
 
   /* In the worst case (start with an opaque pixel and alternate
@@ -71,7 +71,7 @@ compile_sprrle (const pixel_t *src, pixel_t transp_color,
   pc = sprite->rle.code;
   for (row = block_height; row; --row) {
     unsigned int m, n;
-    const pixel_t *eol = src + block_width; /* end of line */
+    const a_pixel *eol = src + block_width; /* end of line */
 
     /* encode a line */
     do {
@@ -107,7 +107,7 @@ compile_sprrle (const pixel_t *src, pixel_t transp_color,
 }
 
 void
-free_sprrle (sprite_t *prog)
+free_sprrle (a_sprite *prog)
 {
   assert (prog->all.kind == S_RLE);
   free (prog->rle.code);

@@ -54,7 +54,7 @@ process_input_events (void)
 {
 }
 
-keycode_t
+a_keycode
 get_key (void)
 {
   return 0;

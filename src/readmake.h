@@ -24,12 +24,12 @@
 #include "sprite.h"
 
 
-typedef struct private_read_data_s private_read_data_t;
+typedef struct private_read_data_s a_private_read_data;
 
-typedef struct read_data_s read_data_t;
+typedef struct read_data_s a_read_data;
 struct read_data_s {
-  private_read_data_t *data;
-  private_read_data_t *data_bg;
+  a_private_read_data *data;
+  a_private_read_data *data_bg;
   int max;
 };
 
@@ -37,12 +37,12 @@ struct read_data_s {
 /* Prepare STR for the reader rendering function, and a
    append it to the already cooked data in HEAD.  If HEAD is NULL,
    a new structure is allocated. */
-read_data_t *compile_reader_data (read_data_t *head, const char *str);
+a_read_data *compile_reader_data (a_read_data *head, const char *str);
 
 /* Free any data allocated by compile_reader_data for RD. */
-void free_reader_data (read_data_t *rd);
+void free_reader_data (a_read_data *rd);
 
 /* draw RD form line MIN to line MAX on DEST on DEST. */
-void draw_reader_data (const read_data_t *rd, pixel_t *dest, int min, int max);
+void draw_reader_data (const a_read_data *rd, a_pixel *dest, int min, int max);
 
 #endif /* HEROES__READMAKE__H */

@@ -66,14 +66,14 @@ set_pal (const unsigned char *ptr, int p, int n)
 }
 
 void
-vsynchro_low (const pixel_t *s, copy_function_t f)
+vsynchro_low (const a_pixel *s, a_copy_function f)
 {
   (void) s;
   (void) f;
 }
 
 void
-vsynchro2_low (const pixel_t *s1, const pixel_t *s2, copy_function_t f)
+vsynchro2_low (const a_pixel *s1, const a_pixel *s2, a_copy_function f)
 {
   (void) s1;
   (void) s2;

@@ -23,10 +23,10 @@
 #include "lvl_priv.h"
 
 void
-initialize_level_body (level_t *lvl)
+initialize_level_body (a_level *lvl)
 {
-  square_coord_t y, x;
-  square_index_t idx;
+  a_square_coord y, x;
+  a_square_index idx;
 
   /* Allocate various buffer.  */
   XCALLOC_ARRAY (lvl->private->tile, lvl->tile_count);
@@ -75,7 +75,7 @@ initialize_level_body (level_t *lvl)
 }
 
 void
-initialize_empty_level_body (level_t *lvl)
+initialize_empty_level_body (a_level *lvl)
 {
   lvl->private->tile = 0;
   lvl->square_type = 0;

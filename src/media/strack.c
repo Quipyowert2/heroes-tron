@@ -28,13 +28,13 @@
 
 char *soundtrack_author = 0;
 char *soundtrack_title = 0;
-sprite_t *soundtrack_author_sprite = 0;
-sprite_t *soundtrack_title_sprite = 0;
+a_sprite *soundtrack_author_sprite = 0;
+a_sprite *soundtrack_title_sprite = 0;
 
 unsigned last_rank = 0;
 
 static void
-load_and_setup_sound_track (sound_track_t* st)
+load_and_setup_sound_track (a_sound_track* st)
 {
   if (st) {
     load_soundtrack (st->filename);
@@ -53,7 +53,7 @@ void
 load_soundtrack_from_alias (const char* alias)
 {
   if (!nosound) {
-    sound_track_t *st = get_sound_track_from_alias (alias);
+    a_sound_track *st = get_sound_track_from_alias (alias);
     dmsg (D_SOUND_TRACK, "loading sound track from alias %s", alias);
     load_and_setup_sound_track (st);
   }
@@ -63,7 +63,7 @@ void
 load_next_soundtrack (void)
 {
   if (!nosound) {
-    sound_track_t *st = get_sound_track_from_rank (last_rank + 1);
+    a_sound_track *st = get_sound_track_from_rank (last_rank + 1);
     dmsg (D_SOUND_TRACK, "loading next sound track");
     load_and_setup_sound_track (st);
   }
@@ -73,7 +73,7 @@ void
 load_prev_soundtrack (void)
 {
   if (!nosound) {
-    sound_track_t *st = get_sound_track_from_rank (last_rank - 1);
+    a_sound_track *st = get_sound_track_from_rank (last_rank - 1);
     dmsg (D_SOUND_TRACK, "loading previous sound track");
     load_and_setup_sound_track (st);
   }

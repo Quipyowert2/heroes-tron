@@ -23,6 +23,6 @@
 
 #include "readmake.h"
 
-read_data_t *compile_helptext (void);
+a_read_data *compile_helptext (void);
 
 #endif /* HEROES__HELPTEXT__H */

@@ -27,7 +27,7 @@
 extern int bonus_points[2][17];	/* interest of bonuses,
 				   for CPU controled vehicles */
 
-extern htimer_t bonus_anim_htimer;
+extern a_timer bonus_anim_htimer;
 extern int bonus_anim_offset;
 
 extern unsigned char *tile_bonus;
@@ -52,7 +52,7 @@ extern void uninit_bonuses_level (void);
 extern void spread_bonuses (void);
 
 extern void set_txt_bonus (int pl, const char *txt, int tempo);
-extern void show_txt_bonus (int pl, pixel_t *dest);
+extern void show_txt_bonus (int pl, a_pixel *dest);
 
 extern void add_end_level_bonuses (void);
 extern void apply_bonus (int pl, char bonus);

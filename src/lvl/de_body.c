@@ -25,8 +25,8 @@
 
 /* Simple helper function to transform masked direction into
    directions.  */
-static dir_t
-dir_mask_to_dir (dir_mask_t dm)
+static a_dir
+dir_mask_to_dir (a_dir_mask dm)
 {
   switch (dm) {
   case DM_UP:
@@ -67,10 +67,10 @@ dir_mask_to_dir (dir_mask_t dm)
    ==
    16 bytes.
 */
-#define TILE_WALLS(p) ((const u8_t *) ((p) + 4))
-#define TILE_SPRITE(p) ((u32_t) (GET_U32 ((p) + 0)))
-#define TILE_OVERLAY(p) ((u16_t) (GET_U16 ((p) + 8)))
-#define TILE_TYPE(p) ((tile_type_t) (GET_U8 ((p) + 15)))
+#define TILE_WALLS(p) ((const a_u8 *) ((p) + 4))
+#define TILE_SPRITE(p) ((a_u32) (GET_U32 ((p) + 0)))
+#define TILE_OVERLAY(p) ((a_u16) (GET_U16 ((p) + 8)))
+#define TILE_TYPE(p) ((a_tile_type) (GET_U8 ((p) + 15)))
 /* Parameters are used differently for each type of tile.
 
    Tunnels:
@@ -88,8 +88,8 @@ dir_mask_to_dir (dir_mask_t dm)
    ==
     5 bytes.
 */
-#define TUNNEL_OUTPUT(p) ((tile_index_t) (GET_U32 ((p) + 10)))
-#define TUNNEL_DIR(p) (dir_mask_to_dir ((dir_mask_t) \
+#define TUNNEL_OUTPUT(p) ((a_tile_index) (GET_U32 ((p) + 10)))
+#define TUNNEL_DIR(p) (dir_mask_to_dir ((a_dir_mask) \
                                         ((GET_U8 ((p) + 14)) & 15)))
 /* Animations:
 
@@ -116,7 +116,7 @@ dir_mask_to_dir (dir_mask_t dm)
    ==
     5 bytes.
 */
-#define EFFECT_SET(p) ((const u8_t*) ((p) + 10))
+#define EFFECT_SET(p) ((const a_u8*) ((p) + 10))
 #define SANIM_FRAME_COUNT(p) ((GET_U8 ((p) + 14)) >> 4)
 #define SANIM_FRAME_DELAY(p) (((GET_U8 ((p) + 14)) & 15) + 1)
 
@@ -130,7 +130,7 @@ dir_mask_to_dir (dir_mask_t dm)
    ==
     5 bytes.
 */
-#define SPEED_DIR(p) ((const dir_mask8_t *) ((p) + 10))
+#define SPEED_DIR(p) ((const a_dir_mask8 *) ((p) + 10))
 
 
 /* Each tunnel has two input/output squares, indiced 0 and 1.
@@ -158,17 +158,17 @@ int tunnel_square_io[4][2] = { {0, 1}, {1, 3}, {3, 2}, {2, 0} };
    square_walls_in.
 */
 static void
-reverse_walls (level_t *lvl, const dir_mask8_t *square_walls_in)
+reverse_walls (a_level *lvl, const a_dir_mask8 *square_walls_in)
 {
-  square_index_t idx;
+  a_square_index idx;
 
   memset (lvl->square_walls_out, 0, lvl->square_count);
 
   for (idx = 0; idx < lvl->square_count; ++idx) {
-    square_index_t *dest;
-    dir_mask8_t *swo = lvl->square_walls_out + idx;
+    a_square_index *dest;
+    a_dir_mask8 *swo = lvl->square_walls_out + idx;
     bool is_tunnel = (lvl->square_type[idx] == T_TUNNEL);
-    dir_t tunnel_dir = lvl->square_direction[idx];
+    a_dir tunnel_dir = lvl->square_direction[idx];
 
     /* For each output direction of the square, we check whether that
        direction is marked as a inside-wall in the destination tile
@@ -215,20 +215,20 @@ reverse_walls (level_t *lvl, const dir_mask8_t *square_walls_in)
 
 /* Load the level body, and initialize most of the LVL data.  */
 void
-decode_level_body (const u8_t *data, level_t *lvl)
+decode_level_body (const a_u8 *data, a_level *lvl)
 {
-  const u8_t *base_data = data;
-  tile_index_t ti;		/* Current tile index. */
-  square_index_t si;		/* Current square index. */
-  tile_index_t tcount;		/* Total tile count to read.  */
-  dir_mask8_t *square_walls_in;	/* Walls forbiding to *enter* a tile.  */
+  const a_u8 *base_data = data;
+  a_tile_index ti;		/* Current tile index. */
+  a_square_index si;		/* Current square index. */
+  a_tile_index tcount;		/* Total tile count to read.  */
+  a_dir_mask8 *square_walls_in;	/* Walls forbiding to *enter* a tile.  */
 
   tcount = lvl->tile_count;
   square_walls_in = xmalloc (lvl->square_count);
 
   /* Read each tile.  */
   for (ti = 0; ti < tcount; ++ti, data += LVL_RECORD_SIZE) {
-    tile_type_t tt;		/* Tile type.  */
+    a_tile_type tt;		/* Tile type.  */
 
     si = TILE_INDEX_TO_SQR_INDEX (lvl, ti);
 
@@ -254,10 +254,10 @@ decode_level_body (const u8_t *data, level_t *lvl)
     switch (tt) {
     case T_TUNNEL:
       {
-	tile_index_t dti;	/* Destination tile index.  */
-	square_index_t dsi;	/* Destination square index.  */
-	dir_t td;		/* Tunnel direction.  */
-	dir_t dtd;		/* Tunnel direction for destination tile.  */
+	a_tile_index dti;	/* Destination tile index.  */
+	a_square_index dsi;	/* Destination square index.  */
+	a_dir td;		/* Tunnel direction.  */
+	a_dir dtd;		/* Tunnel direction for destination tile.  */
 
 	dti = TUNNEL_OUTPUT (data);
 	dsi = TILE_INDEX_TO_SQR_INDEX (lvl, dti);
@@ -308,7 +308,7 @@ decode_level_body (const u8_t *data, level_t *lvl)
       {
 	int x;
 	for (x = 0; x < 4; ++x) {
-	  dir_mask_t dm = SPEED_DIR (data)[x];
+	  a_dir_mask dm = SPEED_DIR (data)[x];
 	  if (dm)
 	    lvl->square_direction[SQRX (lvl, si, x)] = dir_mask_to_dir (dm);
 	  else

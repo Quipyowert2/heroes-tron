@@ -28,7 +28,7 @@
 #include "misc.h"
 #include "argv.h"
 
-static pixel_t *screen_rv = 0;	/* A pointer to the screen buffer associated
+static a_pixel *screen_rv = 0;	/* A pointer to the screen buffer associated
 				   to the render visual. */
 static int scr_w, scr_h;	/* rendering buffer width and height */
 static int scr_stretch;
@@ -167,7 +167,7 @@ set_pal (const unsigned char *ptr, int p, int n)
 }
 
 void
-vsynchro_low (const pixel_t *s, copy_function_t f)
+vsynchro_low (const a_pixel *s, a_copy_function f)
 {
   if (SDL_MUSTLOCK (visu))
     SDL_LockSurface (visu);
@@ -182,7 +182,7 @@ vsynchro_low (const pixel_t *s, copy_function_t f)
 }
 
 void
-vsynchro2_low (const pixel_t *s1, const pixel_t *s2, copy_function_t f)
+vsynchro2_low (const a_pixel *s1, const a_pixel *s2, a_copy_function f)
 {
   if (SDL_MUSTLOCK (visu))
     SDL_LockSurface (visu);

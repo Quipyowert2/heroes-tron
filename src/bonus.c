@@ -51,11 +51,11 @@ static int bonus_proba[17];	/* FIXME: What's the english for
 				   "fonction de r\'epartition"? */
 static int bonus_proba_sum = 0;
 
-static pcx_image_t bonus_a_img, bonus_b_img;
+static a_pcx_image bonus_a_img, bonus_b_img;
 
 #define N_BONUSES 16
 #define N_BONUS_FRAMES 13
-sprite_t *bonus_rle[2][N_BONUSES][N_BONUS_FRAMES];
+a_sprite *bonus_rle[2][N_BONUSES][N_BONUS_FRAMES];
 
 unsigned char *tile_bonus;
 unsigned char *tile_bonus_cpu;
@@ -65,10 +65,10 @@ int *bonus_list;
 static int bonus_total_nbr, bonus_real_nbr;
 static int next_bonus_to_update;
 
-htimer_t bonus_anim_htimer;
+a_timer bonus_anim_htimer;
 int bonus_anim_offset;
 
-static sprite_t *txt_bonus[4] = { 0, 0, 0, 0 };
+static a_sprite *txt_bonus[4] = { 0, 0, 0, 0 };
 int txt_bonus_tempo[4];
 
 void
@@ -203,10 +203,10 @@ reset_bonus_mode (int mode)
 static void
 mark_unreachable_places (void)
 {
-  tile_index_t i;
+  a_tile_index i;
 
   for (i = 0; i < lvl.tile_count; ++i) {
-    square_index_t s = TILE_INDEX_TO_SQR_INDEX (&lvl, i);
+    a_square_index s = TILE_INDEX_TO_SQR_INDEX (&lvl, i);
     /* if the place can't be reached, or is a corridor, don't
        put a bonus */
     if ((lvl_tile_type (&lvl, i) == T_OUTWAY)
@@ -281,7 +281,7 @@ set_txt_bonus (int pl, const char *txt, int tempo)
 }
 
 void
-show_txt_bonus (int pl, pixel_t *dest)
+show_txt_bonus (int pl, a_pixel *dest)
 {
   if (txt_bonus_tempo[pl] > 0)
     DRAW_SPRITE (txt_bonus[pl], dest);

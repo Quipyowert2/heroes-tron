@@ -23,17 +23,17 @@
 
 #include "pcx.h"
 
-void set_pal_with_luminance (const palette_t* palsrc);
+void set_pal_with_luminance (const a_palette* palsrc);
 void force_palette (const unsigned char *palette);
 
-void flush_display (const pixel_t *src);
-void flush_display2 (const pixel_t *src1, const pixel_t *src2);
+void flush_display (const a_pixel *src);
+void flush_display2 (const a_pixel *src1, const a_pixel *src2);
 void flush_display_moving (int x);
 void flush_display2_moving (int x);
 
-void shade_scr_area (const pixel_t *src, pixel_t *dest);
-void copy_scr_area (const pixel_t *src, pixel_t *dest);
-void copy_image_to_scr_area (const pcx_image_t *src, pixel_t *dest);
-void clear_scr_area (pixel_t *dest);
+void shade_scr_area (const a_pixel *src, a_pixel *dest);
+void copy_scr_area (const a_pixel *src, a_pixel *dest);
+void copy_image_to_scr_area (const a_pcx_image *src, a_pixel *dest);
+void clear_scr_area (a_pixel *dest);
 
 #endif /* HEROES__SCRTOOLS__H */

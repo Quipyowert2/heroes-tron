@@ -185,21 +185,21 @@ typedef enum {false = 0, true = 1} bool;
 
 #if HAVE_STDINT_H
 # include <stdint.h>
-typedef uint32_t	u32_t;
-typedef uint16_t	u16_t;
-typedef uint8_t		u8_t;
-typedef int32_t		s32_t;
-typedef int16_t		s16_t;
-typedef int8_t		s8_t;
+typedef uint32_t	a_u32;
+typedef uint16_t	a_u16;
+typedef uint8_t		a_u8;
+typedef int32_t		a_s32;
+typedef int16_t		a_s16;
+typedef int8_t		a_s8;
 #define U16_MAX		UINT16_MAX
 #define U32_MAX		UINT32_MAX
 #else
-typedef unsigned int		u32_t;
-typedef unsigned short int	u16_t;
-typedef unsigned char		u8_t;
-typedef signed int		s32_t;
-typedef signed short int	s16_t;
-typedef signed char		s8_t;
+typedef unsigned int		a_u32;
+typedef unsigned short int	a_u16;
+typedef unsigned char		a_u8;
+typedef signed int		a_s32;
+typedef signed short int	a_s16;
+typedef signed char		a_s8;
 #define U16_MAX		(0xffffU)
 #define U32_MAX		(0xffffffffU)
 #endif
@@ -208,7 +208,7 @@ typedef signed char		s8_t;
 typedef int ssize_t;
 #endif
 
-typedef u32_t keycode_t; /* FIXME: move to media/ */
+typedef a_u32 a_keycode; /* FIXME: move to media/ */
 
 #define UCHAR(c) ((unsigned char) (c))
 

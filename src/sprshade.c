@@ -21,11 +21,11 @@
 #include "system.h"
 #include "sprshade.h"
 
-void draw_sprshade (const sprite_t *sprite, pixel_t *dest)
+void draw_sprshade (const a_sprite *sprite, a_pixel *dest)
 {
-  pixel_t	*cur = dest;	/* current writting possition */
-  u8_t		*pc;		/* program counter */
-  u8_t		*epc;		/* end of program code */
+  a_pixel	*cur = dest;	/* current writting possition */
+  a_u8		*pc;		/* program counter */
+  a_u8		*epc;		/* end of program code */
 
   assert (sprite->all.kind == S_RLE_SHADE);
 
@@ -54,16 +54,16 @@ void draw_sprshade (const sprite_t *sprite, pixel_t *dest)
   }
 }
 
-sprite_t *compile_sprshade (const pixel_t *src, pixel_t transp_color,
-			    pixel_t glenz_color, pixel_t *glenz_line,
+a_sprite *compile_sprshade (const a_pixel *src, a_pixel transp_color,
+			    a_pixel glenz_color, a_pixel *glenz_line,
 			    unsigned int block_height,
 			    unsigned int block_width,
 			    unsigned int src_width, unsigned int dest_width)
 {
-  sprite_t* sprite;
+  a_sprite* sprite;
   unsigned int row;
   unsigned int code_size;
-  u8_t *pc;			/* program counter */
+  a_u8 *pc;			/* program counter */
 
 
   /* In the worst case (start with an opaque pixel and alternate
@@ -79,7 +79,7 @@ sprite_t *compile_sprshade (const pixel_t *src, pixel_t transp_color,
   pc = sprite->shade.code;
   for (row = block_height; row; --row) {
     unsigned int m, n, s;
-    const pixel_t *eol = src + block_width; /* end of line */
+    const a_pixel *eol = src + block_width; /* end of line */
 
     /* encode a line */
     do {
@@ -124,7 +124,7 @@ sprite_t *compile_sprshade (const pixel_t *src, pixel_t transp_color,
   return sprite;
 }
 
-void free_sprshade (sprite_t *prog)
+void free_sprshade (a_sprite *prog)
 {
   assert (prog->all.kind == S_RLE_SHADE);
   free (prog->shade.code);

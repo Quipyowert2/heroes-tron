@@ -28,10 +28,10 @@
 typedef struct
 {
   char name[16];
-  u32_t level;
-  u32_t points[4];
-  u32_t lifes[4];
-  gameid_t gid;
+  a_u32 level;
+  a_u32 points[4];
+  a_u32 lifes[4];
+  a_gameid gid;
   bool used;
 } saved_game;
 

@@ -33,24 +33,24 @@
 /* data for background tiles */
 
 typedef struct {
-  const pixel_t *source;	/* address of the tile's image */
-  anim_kind_t kind;		/* kind of animation */
+  const a_pixel *source;	/* address of the tile's image */
+  an_anim_kind kind;		/* kind of animation */
   int anim_speed;		/* speed for animated tiles */
   int anim_frames;		/* number of frames in an animation */
-} bg_data_t;
+} a_bg_data;
 
-extern bg_data_t *bg_data;
+extern a_bg_data *bg_data;
 
 /* data for foreground sprites (trees...) and bonuses, these are kept
    in the same struct because they are drawn in the same loop */
 
 typedef struct {
-  sprite_t *sprite;		/* sprite to superpose if non nil */
-  sprite_t **bonus;		/* bonus line, if non nil */
+  a_sprite *sprite;		/* sprite to superpose if non nil */
+  a_sprite **bonus;		/* bonus line, if non nil */
   char big_dollar;		/* 1 if a big dollar must be drawn */
-} fg_data_t;
+} a_fg_data;
 
-extern fg_data_t *fg_data;
+extern a_fg_data *fg_data;
 
 extern void init_render_data (void);
 extern void uninit_render_data (void);

@@ -21,7 +21,7 @@
 #ifndef HEROES__HENDIAN__H
 #define HEROES__HENDIAN__H
 
-void bswap_level_header (level_header_t* level_info);
-void bswap_level_tiles (const level_header_t* level_info, tile_t* level_map);
+void bswap_level_header (a_level_header* level_info);
+void bswap_level_tiles (const a_level_header* level_info, a_tile* level_map);
 
 #endif /* HEROES__HENDIAN__H */

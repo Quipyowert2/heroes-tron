@@ -21,12 +21,12 @@
 #include "system.h"
 #include "sprglenz.h"
 
-void draw_sprglenz_custom (const sprite_t *sprite, pixel_t *dest,
-			   const pixel_t *glenz_line)
+void draw_sprglenz_custom (const a_sprite *sprite, a_pixel *dest,
+			   const a_pixel *glenz_line)
 {
-  pixel_t	*cur = dest;	/* current writting possition */
-  u8_t		*pc;		/* program counter */
-  u8_t		*epc;		/* end of program code */
+  a_pixel	*cur = dest;	/* current writting possition */
+  a_u8		*pc;		/* program counter */
+  a_u8		*epc;		/* end of program code */
 
   assert (sprite->all.kind == S_RLE_GLENZ);
 
@@ -51,22 +51,22 @@ void draw_sprglenz_custom (const sprite_t *sprite, pixel_t *dest,
   }
 }
 
-void draw_sprglenz (const sprite_t *sprite, pixel_t *dest)
+void draw_sprglenz (const a_sprite *sprite, a_pixel *dest)
 {
   assert (sprite->all.kind == S_RLE_GLENZ);
   draw_sprglenz_custom (sprite, dest, sprite->glenz.glenz);
 }
 
-sprite_t *compile_sprglenz (const pixel_t *src, pixel_t transp_color,
-			    pixel_t *glenz_line,
+a_sprite *compile_sprglenz (const a_pixel *src, a_pixel transp_color,
+			    a_pixel *glenz_line,
 			    unsigned int block_height,
 			    unsigned int block_width,
 			    unsigned int src_width, unsigned int dest_width)
 {
-  sprite_t* sprite;
+  a_sprite* sprite;
   unsigned int row;
   unsigned int code_size;
-  u8_t *pc;			/* program counter */
+  a_u8 *pc;			/* program counter */
 
 
   /* In the worst case (start with an opaque pixel and alternate
@@ -82,7 +82,7 @@ sprite_t *compile_sprglenz (const pixel_t *src, pixel_t transp_color,
   pc = sprite->glenz.code;
   for (row = block_height; row; --row) {
     unsigned int m, n;
-    const pixel_t *eol = src + block_width; /* end of line */
+    const a_pixel *eol = src + block_width; /* end of line */
 
     /* encode a line */
     do {
@@ -115,7 +115,7 @@ sprite_t *compile_sprglenz (const pixel_t *src, pixel_t transp_color,
   return sprite;
 }
 
-void free_sprglenz (sprite_t *prog)
+void free_sprglenz (a_sprite *prog)
 {
   assert (prog->all.kind == S_RLE_GLENZ);
   free (prog->glenz.code);

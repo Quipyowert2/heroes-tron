@@ -29,7 +29,7 @@
 
 /* These are the sprites used to display
    each frame of each kind of explosion.  */
-extern sprite_t *explosions[NBR_EXPLOSION_KINDS][NBR_EXPLOSION_FRAMES];
+extern a_sprite *explosions[NBR_EXPLOSION_KINDS][NBR_EXPLOSION_FRAMES];
 
 #define EXPLOSION_SLICES_PER_FRAMES 8
 #define EXPLOSION_DELAY 8
@@ -44,16 +44,16 @@ extern sprite_t *explosions[NBR_EXPLOSION_KINDS][NBR_EXPLOSION_FRAMES];
  * NBR_EXPLOSION_FRAMES <= n <= EXPLOSION_TRIGGERED: about to explode.
  * n == EXPLOSION_UNTRIGGERED: idle.
  */
-typedef u8_t explosion_t;
+typedef a_u8 an_explosion;
 
-extern explosion_t *square_explo_state;
-extern explosion_t *square_explo_type;
+extern an_explosion *square_explo_state;
+extern an_explosion *square_explo_type;
 
 void allocate_explosions (void);
 void release_explosions (void);
 /* FRAME_START is expected to be EXPLOSION_IMMEDIATE or EXPLOSION_TRIGGERED. */
-void trigger_explosion (square_index_t idx, unsigned frame_start);
-void trigger_possible_explosion (square_index_t idx);
+void trigger_explosion (a_square_index idx, unsigned frame_start);
+void trigger_possible_explosion (a_square_index idx);
 void update_explosions (void);
 
 void init_explosions (void);

@@ -39,16 +39,16 @@ enum fader_color {F_BLACK = 0, F_WHITE};
 
 
 struct fader_s {
-  const palette_t*	from;	/* palette to fade from (if needed) */
-  const palette_t*	to;	/* palette to fade to (if needed) */
+  const a_palette*	from;	/* palette to fade from (if needed) */
+  const a_palette*	to;	/* palette to fade to (if needed) */
   enum fader_kind	kind;
   enum fader_color	color;
-  htimer_t		timer;	/* timer used by the fade */
+  a_timer		timer;	/* timer used by the fade */
   int			duration; /* Number of steps to use for fading
 				     (step are incremented using
 				     the timer speed) */
   int			last_step; /* last step where palette was set */
-  fader_status_t*	status_ptr; /* status variable to update */
+  a_fader_status*	status_ptr; /* status variable to update */
   long			delay;	/* step to wait */
 };
 
@@ -78,7 +78,7 @@ uninit_fader (void)
 }
 
 static void
-set_fader (const palette_t* from, const palette_t* to,
+set_fader (const a_palette* from, const a_palette* to,
 	   enum fader_kind kind, enum fader_color color, int duration)
 {
   fader.from = from;
@@ -91,28 +91,28 @@ set_fader (const palette_t* from, const palette_t* to,
 }
 
 void
-std_white_fadein (const palette_t* to)
+std_white_fadein (const a_palette* to)
 {
   dmsg (D_FADER, "set standard white fade-in");
   set_fader (0, to, F_IN, F_WHITE, 64);
 }
 
 void
-std_black_fadein (const palette_t* to)
+std_black_fadein (const a_palette* to)
 {
   dmsg (D_FADER, "set standard black fade-in");
   set_fader (0, to, F_IN, F_BLACK, 64);
 }
 
 void
-std_black_fadeout (const palette_t* from)
+std_black_fadeout (const a_palette* from)
 {
   dmsg (D_FADER, "set standard black fade-out");
   set_fader (from, 0, F_OUT, F_BLACK, 64);
 }
 
 void
-std_palette_fade (const palette_t* from, const palette_t* to)
+std_palette_fade (const a_palette* from, const a_palette* to)
 {
   dmsg (D_FADER, "set standard palette fade");
   set_fader (from, to, F_PAL, 0, 64);
@@ -122,7 +122,7 @@ void
 run_fader (void)
 {
   int last_step = fader.last_step;
-  palette_t f_pal;
+  a_palette f_pal;
 
   if (fader.kind == F_NONE || last_step >= fader.duration)
     return;
@@ -214,7 +214,7 @@ cancel_fader (void)
 }
 
 void
-fader_status_flagback (fader_status_t* ptr)
+fader_status_flagback (a_fader_status* ptr)
 {
   fader.status_ptr = ptr;
   if (ptr)

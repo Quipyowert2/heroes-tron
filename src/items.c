@@ -25,13 +25,13 @@
 #include "sprglenz.h"
 #include "sprunish.h"
 
-sprite_t *big_dollar = 0;
-sprite_t *small_dollar = 0;
-sprite_t *clocks[NBR_CLOCK_FRAMES];
-sprite_t *pyramids[NBR_PYRAMIDS];
-sprite_t *trails[16][12];
-sprite_t *red_cross[4] = { 0, 0, 0, 0 };
-sprite_t *tutorial_arrow[NBR_ARROW_FRAMES] = {
+a_sprite *big_dollar = 0;
+a_sprite *small_dollar = 0;
+a_sprite *clocks[NBR_CLOCK_FRAMES];
+a_sprite *pyramids[NBR_PYRAMIDS];
+a_sprite *trails[16][12];
+a_sprite *red_cross[4] = { 0, 0, 0, 0 };
+a_sprite *tutorial_arrow[NBR_ARROW_FRAMES] = {
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
@@ -43,7 +43,7 @@ void
 init_items (void)
 {
   int i, j;
-  pcx_image_t trailimg, arrow_img;
+  a_pcx_image trailimg, arrow_img;
 
   big_dollar = compile_sprshade (IMGPOS (main_font_img, 81, 0),
 				 0, 1, glenz[0],

@@ -21,21 +21,21 @@
 #ifndef HEROES__EXTRAS__H
 #define HEROES__EXTRAS__H
 
-typedef	char*	filename_t;
+typedef	char*	a_filename;
 
 typedef struct {
   char*		level_name;
-  filename_t	full_name;
+  a_filename	full_name;
   char		is_in_user_dir;
-} extra_level_t;
+} an_extra_level;
 
-extern extra_level_t *extra_list;
+extern an_extra_level *extra_list;
 extern char *extra_selected_list;
 extern unsigned int extra_nbr;
 extern unsigned int extra_user_nbr;
 
 void browse_extra_directories (void);
-void add_extra_directory (filename_t fn);
+void add_extra_directory (a_filename fn);
 void add_default_extra_directories (void);
 void free_extra_list (void);
 void free_extra_directories (void);

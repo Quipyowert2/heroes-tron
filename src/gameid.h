@@ -49,8 +49,8 @@
  */
 
 #define GAMEID_SIZE 4
-typedef u32_t gameid_t[GAMEID_SIZE];
-typedef u32_t *gameid_ptr;
+typedef a_u32 a_gameid[GAMEID_SIZE];
+typedef a_u32 *gameid_ptr;
 
 void create_gameid (gameid_ptr gid);
 void empty_gameid (gameid_ptr gid);

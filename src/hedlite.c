@@ -45,8 +45,8 @@
 #include "const.h"
 #include "stripslash.h"
 
-static pcx_image_t heditrsc;
-static pcx_image_t tile_set_img;
+static a_pcx_image heditrsc;
+static a_pcx_image tile_set_img;
 
 unsigned short int xdalles = 0;
 unsigned short int ydalles = 0;
@@ -59,7 +59,7 @@ unsigned int yplandec = 0;
 unsigned int sprhide = 0;
 unsigned int draw_collide_tests = 0;
 
-static level_header_t hplaninfo = {
+static a_level_header hplaninfo = {
   0, 0, -1, -1,
   {0, 0, 0, 0},
   {0, 0, 0, 0},
@@ -78,10 +78,10 @@ static int square_offset_320[4] = { 0, 12, 3200, 3212 };
 
 static int cote = 0;
 
-static pixel_t *hedit_buffer;
+static a_pixel *hedit_buffer;
 
-static tile_t *level_map;
-static tile_info_t *ddef;	/* tiles definitions */
+static a_tile *level_map;
+static a_tile_info *ddef;	/* tiles definitions */
 static unsigned char *outwaymap;
 static unsigned char *hdradar;
 static unsigned char *hdcolli;
@@ -129,11 +129,11 @@ static char dir_test[9][12] = {
 
 static void
 rectangle_copy (int xs, int ys, int xd, int yd,
-		int xc, int yc, pcx_image_t *source)
+		int xc, int yc, a_pcx_image *source)
 {
   int src_width = source->width;
-  pixel_t *src = source->buffer + src_width * ys + xs;
-  pixel_t *dest = hedit_buffer + xc + yc * xbuf;
+  a_pixel *src = source->buffer + src_width * ys + xs;
+  a_pixel *dest = hedit_buffer + xc + yc * xbuf;
   int j;
   for (j = yd; j > 0; j--) {
     memcpy (dest, src, xd);
@@ -143,11 +143,11 @@ rectangle_copy (int xs, int ys, int xd, int yd,
 }
 
 static void
-copy_tile (int src_, pixel_t *dest)
+copy_tile (int src_, a_pixel *dest)
 {
   int i = tile_set_img.width;
   int j;
-  pixel_t *src = tile_set_img.buffer + src_;
+  a_pixel *src = tile_set_img.buffer + src_;
   for (j = 20; j > 0; j--) {
     fastmem4 (src, dest, 24 >> 2);
     src += i;
@@ -156,11 +156,11 @@ copy_tile (int src_, pixel_t *dest)
 }
 
 static void
-copy_tile_pcx (int src_, pixel_t *dest)
+copy_tile_pcx (int src_, a_pixel *dest)
 {
   int i = tile_set_img.width;
   int j;
-  pixel_t *src = tile_set_img.buffer + src_;
+  a_pixel *src = tile_set_img.buffer + src_;
   for (j = 20; j > 0; j--) {
     fastmem4 (src, dest, 24 >> 2);
     src += i;
@@ -169,11 +169,11 @@ copy_tile_pcx (int src_, pixel_t *dest)
 }
 
 static void
-copy_tile_transp (int src_, pixel_t *dest)
+copy_tile_transp (int src_, a_pixel *dest)
 {
   int i = tile_set_img.width;
   int j, k;
-  pixel_t *src = tile_set_img.buffer + src_;
+  a_pixel *src = tile_set_img.buffer + src_;
   for (j = 20; j > 0; j--) {
     for (k = 24; k > 0; k--) {
       if (*src != 0)
@@ -187,11 +187,11 @@ copy_tile_transp (int src_, pixel_t *dest)
 }
 
 static void
-copy_tile_transp_pcx (int src_, pixel_t *dest)
+copy_tile_transp_pcx (int src_, a_pixel *dest)
 {
   int i = tile_set_img.width;
   int j, k;
-  pixel_t *src = tile_set_img.buffer + src_;
+  a_pixel *src = tile_set_img.buffer + src_;
   for (j = 20; j > 0; j--) {
     for (k = 24; k > 0; k--) {
       if (*src != 0)
@@ -205,7 +205,7 @@ copy_tile_transp_pcx (int src_, pixel_t *dest)
 }
 
 static void
-copy_square_transp (pixel_t *src, pixel_t *dest)
+copy_square_transp (a_pixel *src, a_pixel *dest)
 {
   int j, k;
   for (j = 10; j > 0; j--) {
@@ -221,7 +221,7 @@ copy_square_transp (pixel_t *src, pixel_t *dest)
 }
 
 static void
-copy_square_transp_pcx (pixel_t *src, pixel_t *dest)
+copy_square_transp_pcx (a_pixel *src, a_pixel *dest)
 {
   int j, k;
   for (j = 10; j > 0; j--) {
@@ -237,10 +237,10 @@ copy_square_transp_pcx (pixel_t *src, pixel_t *dest)
 }
 
 static void
-frame (int x, int y, int xd, int yd, pixel_t col)
+frame (int x, int y, int xd, int yd, a_pixel col)
 {
   int i;
-  pixel_t *dest = hedit_buffer + y * xbuf + x;
+  a_pixel *dest = hedit_buffer + y * xbuf + x;
   for (i = xd; i > 0; i--) {
     dest[yd * xbuf] = col;
     *dest++ = col;
@@ -253,10 +253,10 @@ frame (int x, int y, int xd, int yd, pixel_t col)
 }
 
 static void
-frame_dashed (int x, int y, int xd, int yd, pixel_t col1, pixel_t col2)
+frame_dashed (int x, int y, int xd, int yd, a_pixel col1, a_pixel col2)
 {
   int i;
-  pixel_t *dest = hedit_buffer + y * xbuf + x;
+  a_pixel *dest = hedit_buffer + y * xbuf + x;
   for (i = (xd >> 1); i > 0; i--) {
     dest[(yd - 1) * xbuf] = col1;
     *dest++ = col2;
@@ -276,12 +276,12 @@ frame_dashed (int x, int y, int xd, int yd, pixel_t col1, pixel_t col2)
 }
 
 static void
-draw_text (const char *texte, int posx, int posy, pixel_t coul, char cent)
+draw_text (const char *texte, int posx, int posy, a_pixel coul, char cent)
 {
   int i, j;
   int k1, k2, d = -1;
-  pixel_t *dest = hedit_buffer + posx + posy * xbuf;
-  pixel_t *src;
+  a_pixel *dest = hedit_buffer + posx + posy * xbuf;
+  a_pixel *src;
   const char *tmp = texte;
   for (; *tmp != 0; tmp++) {
     i = *tmp - font_first_ascii;
@@ -311,7 +311,7 @@ draw_text (const char *texte, int posx, int posy, pixel_t coul, char cent)
 
 
 static void
-transpa (pixel_t *source, pixel_t *dest, int xt, int yt, char coul)
+transpa (a_pixel *source, a_pixel *dest, int xt, int yt, char coul)
 {
   int x, y;
   for (y = yt; y > 0; y--) {
@@ -328,7 +328,7 @@ transpa (pixel_t *source, pixel_t *dest, int xt, int yt, char coul)
 }
 
 static void
-transpac (pixel_t *source, pixel_t *dest, int xt, int yt, char coul)
+transpac (a_pixel *source, a_pixel *dest, int xt, int yt, char coul)
 {
   int x, y;
   for (y = yt; y > 0; y--) {
@@ -345,9 +345,9 @@ transpac (pixel_t *source, pixel_t *dest, int xt, int yt, char coul)
 }
 
 static void
-draw_check_point (int x, int y, pixel_t c)
+draw_check_point (int x, int y, a_pixel c)
 {
-  pixel_t *dest = hedit_buffer + x + y * xbuf;
+  a_pixel *dest = hedit_buffer + x + y * xbuf;
 
   if (c)
     c = 8;
@@ -572,7 +572,7 @@ draw_level_map (int xloc, int yloc, char c)
   int j;
   unsigned int i, k, m;
   int l, n;
-  pixel_t *dest = hedit_buffer;
+  a_pixel *dest = hedit_buffer;
   int xx, yy = 7;
   for (k = yloc, l = 10; l > 0; l--, k = ((k + 1) & hplaninfo.ywrap)) {
     m = k * hplaninfo.xt;
@@ -787,9 +787,9 @@ departfix (void)
 }
 
 static void
-write_rle (pixel_t *src, int t, FILE * fpcx)
+write_rle (a_pixel *src, int t, FILE * fpcx)
 {
-  pixel_t old, new;
+  a_pixel old, new;
   int i;
   int nbr = 1;
 
@@ -831,11 +831,11 @@ static void
 save_level_as_pcx (void)
 {
   FILE *fpcx;
-  pcx_header_t headpcx;
+  a_pcx_header headpcx;
   unsigned int i1, i3, n;
   unsigned int j3;
-  pixel_t *tempc;
-  pixel_t *dest;
+  a_pixel *tempc;
+  a_pixel *dest;
   int sdec[4];
 
   XMALLOC_ARRAY (tempc, hplaninfo.xt * 20 * 24);
@@ -857,7 +857,7 @@ save_level_as_pcx (void)
   headpcx.nbrplanes = 1;
   if ((fpcx = fopen (pcxnom, "wb")) == NULL)
     return;
-  fwrite ((char *) &headpcx, 1, sizeof (pcx_header_t), fpcx);
+  fwrite ((char *) &headpcx, 1, sizeof (a_pcx_header), fpcx);
 
   for (i3 = 0; i3 < hplaninfo.yt; i3++) {
     j3 = hplaninfo.xt * i3;
@@ -902,7 +902,7 @@ save_level_as_pcx (void)
 static void
 display_level_map_fullscreen (void)
 {
-  keycode_t t;
+  a_keycode t;
   int x, y, xm = 128, ym = 100;
 
   memset (hedit_buffer, 0, xbuf * 200);
@@ -1147,7 +1147,7 @@ display_level_map_animated (void)
   unsigned int i, m;
   int k, l, j, n;
   unsigned int tmp;
-  pixel_t *dest;
+  a_pixel *dest;
   int xx, yy, t = 0;
 
   do {
@@ -1215,7 +1215,7 @@ display_level_map_animated (void)
 }
 
 static void
-gestclav (keycode_t i, keycode_t mod)
+gestclav (a_keycode i, a_keycode mod)
 {
   char t;
   int j, k;
@@ -1635,7 +1635,7 @@ free_levels_output_dir (void)
 
 int
 hmain (const char* lname, const char* tset_name,
-       u32_t xsize, u32_t ysize, u32_t xwrap, u32_t ywrap)
+       a_u32 xsize, a_u32 ysize, a_u32 xwrap, a_u32 ywrap)
 {
   char* lvl_name;
 
@@ -1676,13 +1676,13 @@ hmain (const char* lname, const char* tset_name,
   /* initialize level_map */
 
   if (!((ftmp = fopen (lvl_name, "rb")) == NULL)) {
-    if (fread (&hplaninfo, sizeof (level_header_t), 1, ftmp) != 1)
+    if (fread (&hplaninfo, sizeof (a_level_header), 1, ftmp) != 1)
       emsg (_("%s: invalid level file"), lvl_name);
     /* convert hplaninfo to local endianess */
     bswap_level_header (&hplaninfo);
 
     XMALLOC_ARRAY (level_map, hplaninfo.xt * hplaninfo.yt);
-    if (fread (level_map, sizeof (tile_t), hplaninfo.xt * hplaninfo.yt, ftmp)
+    if (fread (level_map, sizeof (a_tile), hplaninfo.xt * hplaninfo.yt, ftmp)
 	!= (hplaninfo.xt * hplaninfo.yt))
       emsg (_("%s: invalid level file"), lvl_name);
     fclose (ftmp);
@@ -1713,7 +1713,7 @@ hmain (const char* lname, const char* tset_name,
   /* read the tileset definition */
   XCALLOC_ARRAY (ddef, (tile_set_img.width / 24) * 10);
   if (!((ftmp = fopen (dallepie, "rb")) == NULL))
-    fread (ddef, sizeof (tile_info_t), (tile_set_img.width / 24) * 10, ftmp);
+    fread (ddef, sizeof (a_tile_info), (tile_set_img.width / 24) * 10, ftmp);
   fclose (ftmp);
 
   outwayinit ();
@@ -1734,7 +1734,7 @@ hmain (const char* lname, const char* tset_name,
   mouse_show ();
 
   {
-    keycode_t k = 0;
+    a_keycode k = 0;
     do {
       while (key_ready () == 0 && mouse12 () == 0);
       if (key_ready ()) {
@@ -1759,10 +1759,10 @@ hmain (const char* lname, const char* tset_name,
     if (!((ftmp = fopen (lvl_name, "wb")) == NULL)) {
       /* convert hplaninfo to disk endianess */
       bswap_level_header (&hplaninfo);
-      fwrite (&hplaninfo, sizeof (level_header_t), 1, ftmp);
+      fwrite (&hplaninfo, sizeof (a_level_header), 1, ftmp);
       /* convert level_map to file endianess */
       bswap_level_tiles (&hplaninfo, level_map);
-      fwrite (level_map, sizeof (tile_t), hplaninfo.xt * hplaninfo.yt, ftmp);
+      fwrite (level_map, sizeof (a_tile), hplaninfo.xt * hplaninfo.yt, ftmp);
       fclose (ftmp);
     }
     free (ddef);

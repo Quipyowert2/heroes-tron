@@ -23,7 +23,7 @@
 #include "lvl_priv.h"
 
 void
-lvl_free (level_t *lvl)
+lvl_free (a_level *lvl)
 {
   XFREE0 (lvl->private->tile);
   XFREE0 (lvl->private->sound_track_alias);

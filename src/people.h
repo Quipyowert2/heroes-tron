@@ -24,6 +24,6 @@
 
 #include "readmake.h"
 
-read_data_t *compile_people (void);
+a_read_data *compile_people (void);
 
 #endif /* HEROES__PEOPLE__H */

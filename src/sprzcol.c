@@ -22,11 +22,11 @@
 #include "sprzcol.h"
 
 void
-draw_sprzcol (const sprite_t *sprite, pixel_t *dest)
+draw_sprzcol (const a_sprite *sprite, a_pixel *dest)
 {
-  pixel_t	*cur = dest;	/* current writting possition */
-  u8_t		*pc;		/* program counter */
-  u8_t		*epc;		/* end of program code */
+  a_pixel	*cur = dest;	/* current writting possition */
+  a_u8		*pc;		/* program counter */
+  a_u8		*epc;		/* end of program code */
 
   assert (sprite->all.kind == S_RLE_ZCOL);
 
@@ -42,7 +42,7 @@ draw_sprzcol (const sprite_t *sprite, pixel_t *dest)
     } else {
       cur += m;
       for (; n; --n) {
-	pixel_t curcol;
+	a_pixel curcol;
 	curcol = *cur;
 	if (curcol > 15 || curcol < *pc)
 	  *cur = *pc;
@@ -53,12 +53,12 @@ draw_sprzcol (const sprite_t *sprite, pixel_t *dest)
   }
 }
 
-sprite_t *
-compile_sprzcol (const pixel_t *src, pixel_t transp_color,
+a_sprite *
+compile_sprzcol (const a_pixel *src, a_pixel transp_color,
 		 unsigned int block_height, unsigned int block_width,
 		 unsigned int src_width, unsigned int dest_width)
 {
-  sprite_t *tmp = compile_sprrle (src, transp_color, block_height, block_width,
+  a_sprite *tmp = compile_sprrle (src, transp_color, block_height, block_width,
 				  src_width, dest_width);
   tmp->all.kind = S_RLE_ZCOL;
   tmp->all.draw = draw_sprzcol;
@@ -66,7 +66,7 @@ compile_sprzcol (const pixel_t *src, pixel_t transp_color,
 }
 
 void
-free_sprzcol (sprite_t *prog)
+free_sprzcol (a_sprite *prog)
 {
   prog->all.kind = S_RLE;
   free_sprrle (prog);

@@ -23,7 +23,7 @@
 
 struct keynames_s { 
   const char*	name; 
-  keycode_t	code; 
+  a_keycode	code; 
 };
 
 extern const struct keynames_s keynames[];

@@ -26,48 +26,48 @@
 
 typedef struct pcx_header_type
 {
-  u8_t signature;
-  u8_t version;
-  u8_t rle;
+  a_u8 signature;
+  a_u8 version;
+  a_u8 rle;
   char bits_per_pixels;
-  u16_t x, y;
-  u16_t width, height;
-  u16_t widthdpi, heightdpi;
-  u8_t egapal[48];
-  u8_t inutil;
-  u8_t nbrplanes;
-  u16_t bytes_per_lines;
-  u16_t palette_kind;
-  u8_t rien[58];
+  a_u16 x, y;
+  a_u16 width, height;
+  a_u16 widthdpi, heightdpi;
+  a_u8 egapal[48];
+  a_u8 inutil;
+  a_u8 nbrplanes;
+  a_u16 bytes_per_lines;
+  a_u16 palette_kind;
+  a_u8 rien[58];
 }
-pcx_header_t ATTRIBUTE_PACKED;
+a_pcx_header ATTRIBUTE_PACKED;
 
 typedef struct
 {
-  u8_t r, g, b;
+  a_u8 r, g, b;
 }
-color_rvb_t;
+an_rvb_color;
 
 typedef union
 {
-  color_rvb_t indiv[256];
-  u8_t global[256 * 3];
+  an_rvb_color indiv[256];
+  a_u8 global[256 * 3];
 }
-palette_t;
+a_palette;
 
 typedef struct img_type
 {
-  pcx_header_t header;
-  palette_t palette;
+  a_pcx_header header;
+  a_palette palette;
   unsigned int width, height;
   unsigned int size;
-  pixel_t *buffer;
+  a_pixel *buffer;
 }
-pcx_image_t;
+a_pcx_image;
 
-void img_free (pcx_image_t * image);
-char pcx_load (const char *file, pcx_image_t * image);
-char pcx_load_from_rsc (const char *rsc, pcx_image_t * image);
+void img_free (a_pcx_image * image);
+char pcx_load (const char *file, a_pcx_image * image);
+char pcx_load_from_rsc (const char *rsc, a_pcx_image * image);
 
 #define IMGPOS(img,row,col) ((img).buffer + (row) * (img).width + (col))
 

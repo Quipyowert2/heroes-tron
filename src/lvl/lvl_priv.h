@@ -32,15 +32,15 @@
 #define LVL_MUTABLE
 #include "lvl.h"
 
-typedef struct tile_data_t tile_data_t;
-struct tile_data_t {
-  tile_type_t type;
+typedef struct a_tile_data a_tile_data;
+struct a_tile_data {
+  a_tile_type type;
   /* Animation data.  */
   unsigned int frame_count;
   unsigned int frame_delay;
-  anim_kind_t anim;
+  an_anim_kind anim;
   /* Tunnel data.  */
-  /* dir_t tunnel_direction;  FIXME: Useless ? */
+  /* a_dir tunnel_direction;  FIXME: Useless ? */
   /* Sprite data.  */
   unsigned int sprite_offset;
   unsigned int sprite_overlay_offset;
@@ -56,11 +56,11 @@ struct tile_data_t {
 #define LVL_RECORD_SIZE 16
 
 /* The following is declared, but not defined in lvl.h.  */
-struct level_bits_t {
+struct a_level_bits {
   /* Starting position for each player.  */
-  square_coord_pair_t start_pos[LVL_PLAYER_COUNT];
+  a_square_corrd_pair start_pos[LVL_PLAYER_COUNT];
   /* Starting direction for each player.  */
-  dir_t start_dir[LVL_PLAYER_COUNT];
+  a_dir start_dir[LVL_PLAYER_COUNT];
   /* Alias for the soundtrack, to be resolved to a true filename by
      someone else.  */
   char *sound_track_alias;
@@ -69,12 +69,12 @@ struct level_bits_t {
   char *tile_sprite_map_basename;
 
   /* Information for each tile (present only if the body is loaded).  */
-  tile_data_t *tile;
+  a_tile_data *tile;
 };
 
-void decode_level_header (const u8_t *data, level_t *lvl);
-void decode_level_body (const u8_t *data, level_t *lvl);
-void initialize_level_body (level_t *out);
-void initialize_empty_level_body (level_t *lvl);
+void decode_level_header (const a_u8 *data, a_level *lvl);
+void decode_level_body (const a_u8 *data, a_level *lvl);
+void initialize_level_body (a_level *out);
+void initialize_empty_level_body (a_level *lvl);
 
 #endif /* HEROES__LVL_PRIV__H */

@@ -1,5 +1,126 @@
 2001-09-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	All typenames ending with`*_t' are officially reserved by POSIX.
+	In the past I already had to rename `timer_t' into `htimer_t' (see
+	2000-08-27) to avoid name clash with NetBSD.  Today I've
+	discovered that `level_t' is defined in <sys/types.h> on
+	alphaev56-dec-osf4.0d, so I've decided to get rid of this *_t
+	naming definitively.  The replacement convention, beginning
+	typenames with a_ or an_, comes from
+	http://gcc.gnu.org/ml/gcc/2001-06/msg01006.html.
+
+	Each Typename from the first column is replaced by the name from
+	the second column.
+
+		anim_kind_t         an_anim_kind
+		anim_t              an_anim
+		bg_data_t           a_bg_data
+		color_rvb_t         an_rvb_color
+		copy_function_t     a_copy_function
+		cost_t              a_cost
+		dest_t              a_dest
+		dir8_t              a_dir8
+		dir_mask8_t         a_dir_mask8
+		dir_mask_t	    a_dir_mask
+		dir_t               a_dir
+		entry_func_t        an_entry_func
+		explosion_info_t    an_explosion_info
+		explosion_t         an_explosion
+		extra_level_t       an_extra_level
+		extradir_info_t     an_extradir_info
+		extradir_list_t     an_extradir_list
+		fader_status_t      a_fader_status
+		fg_data_t           a_fg_data
+		filename_t          a_filename
+		fontdata_t          a_fontdata
+		gameid_t            a_gameid
+		htimer_t            a_timer
+		keycode_t	    a_keycode
+		last_list_t         a_last_list
+		lemming_t           a_lemming
+		level_bits_t        a_level_bits
+		level_header_t      a_level_header
+		level_info_t        a_level_info
+		level_list_t        a_level_list
+		level_t             a_level
+		menu_entry_t        a_menu_entry
+		menu_t              a_menu
+		options_t	    an_option_set
+		palette_t	    a_palette
+		paragraph_t	    a_paragraph
+		param_t		    a_param
+		pcx_header_t	    a_pcx_header
+		pcx_image_t	    a_pcx_image
+		pixel_t		    a_pixel
+		player_t	    a_player
+		prefs_t		    a_pref_set
+		private_read_data_t a_private_read_data
+		prog_list_t	    a_prog_list
+		read_data_t         a_read_data
+		s16_t		    a_s16
+		s32_t		    a_s32
+		s8_t		    a_s8
+		sound_track_t       a_sound_track
+		sprite_prog_list_t  a_sprite_prog_list
+		sprite_t	    a_sprite
+		square_coord_pair_t a_square_corrd_pair
+		square_coord_t	    a_square_coord
+		square_index_t	    a_square_index
+		strpair_t	    a_strpair
+		tile_coord_pair_t   a_tile_coord_pair
+		tile_coord_t	    a_tile_coord
+		tile_data_t	    a_tile_data
+		tile_index_t	    a_tile_index
+		tile_info_t	    a_tile_info
+		tile_t		    a_tile
+		tile_type8_t	    a_tile_type8
+		tile_type_t	    a_tile_type
+		tunnel_t	    a_tunnel
+		u16_t		    a_u16
+		u32_t		    a_u32
+		u8_t		    a_u8
+		var_entry_t	    a_var_entry
+		width_t		    a_width
+		word_t		    a_word
+
+	* src/bonus.c, src/bonus.h, src/camera.c, src/camera.h,
+	src/const.c, src/const.h, src/endscroll.c, src/endscroll.h,
+	src/explosions.c, src/explosions.h, src/extras.c, src/extras.h,
+	src/fader.c, src/fader.h, src/fontdata.c, src/fontdata.h,
+	src/gameid.c, src/gameid.h, src/generic_list.h, src/hedlite.c,
+	src/hedlite.h, src/helptext.c, src/helptext.h, src/hendian.c,
+	src/hendian.h, src/heroes.c, src/heroes.h, src/heroeslvl.c,
+	src/intro.c, src/items.c, src/items.h, src/levellst.c,
+	src/levellst.h, src/menus.c, src/menus.h, src/musicfiles.c,
+	src/musicfiles.h, src/parafmt.c, src/parafmt.h, src/pcx.c,
+	src/pcx.h, src/people.h, src/people.tpl, src/pixelize.c,
+	src/pixelize.h, src/prefs.def, src/prefs.tpl, src/readmake.c,
+	src/readmake.h, src/render.c, src/render.h, src/renderdata.c,
+	src/renderdata.h, src/savegame.h, src/scores.c, src/scores.h,
+	src/scrtools.c, src/scrtools.h, src/sprglauto.c, src/sprglauto.h,
+	src/sprglenz.c, src/sprglenz.h, src/sprite.c, src/sprite.h,
+	src/spropaque.c, src/spropaque.h, src/sprprog.c, src/sprprog.h,
+	src/sprprogwav.c, src/sprprogwav.h, src/sprrle.c, src/sprrle.h,
+	src/sprshade.c, src/sprshade.h, src/sprtext.c, src/sprtext.h,
+	src/sprunish.c, src/sprunish.h, src/sprzcol.c, src/sprzcol.h,
+	src/structs.h, src/system.h, src/timer.c, src/timer.h, src/vars.c,
+	src/visuals.c, src/visuals.h, src/lvl/de_body.c,
+	src/lvl/de_head.c, src/lvl/free.c, src/lvl/in_body.c,
+	src/lvl/load.c, src/lvl/loadmac.h, src/lvl/lvl.h,
+	src/lvl/lvl_priv.h, src/lvl/privacc.c, src/media/keyb.h,
+	src/media/keysdef.h, src/media/keyvalues.h, src/media/sfx.c,
+	src/media/strack.c, src/media/strack.h, src/media/video.c,
+	src/media/video.h, src/media/video_low.h,
+	src/media/allegro/keyb.c, src/media/allegro/keyvalues.c,
+	src/media/allegro/video.c, src/media/dummy/keyb.c,
+	src/media/dummy/keyvalues.c, src/media/dummy/video.c,
+	src/media/ggi/keyb.c, src/media/ggi/keyvalues.c,
+	src/media/ggi/video.c, src/media/sdl/keyb.c,
+	src/media/sdl/keyvalues.c, src/media/sdl/video.c: Update as
+	explained.
+
+2001-09-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/media/dummy/keyvalues.c: Don't include ggi.h.
 
 2001-09-17  Alexandre Duret-Lutz  <duret_g@epita.fr>

@@ -35,7 +35,7 @@ select_file_lvl (const struct dirent *d)
 	  && d->d_name[l - 2] == 'v' && d->d_name[l - 1] == 'l');
 }
 
-level_info_t *level_list = 0;
+a_level_info *level_list = 0;
 size_t level_list_size = 0;
 static size_t level_list_max = 0;
 
@@ -57,7 +57,7 @@ read_level_dir (const char *dirname)
   while ((de = readdir (dir)))
     if (select_file_lvl (de)) {
       char *filename;
-      level_t tmp_lvl;
+      a_level tmp_lvl;
 
       if (level_list_size >= level_list_max) {
 	level_list_max += 32;
@@ -85,8 +85,8 @@ read_level_dir (const char *dirname)
 static int
 cmp_levels (const void *a, const void *b)
 {
-  const level_info_t *lia = a;
-  const level_info_t *lib = b;
+  const a_level_info *lia = a;
+  const a_level_info *lib = b;
   int la = strlen (lia->name);
   int lb = strlen (lib->name);
   if (la != lb || la < 6) {

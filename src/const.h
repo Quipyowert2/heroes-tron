@@ -32,10 +32,10 @@
 
 extern int rounds_nbr_values[16];
 
-extern pixel_t *(render_buffer[2]);	/* xbuf * ybuf */
+extern a_pixel *(render_buffer[2]);	/* xbuf * ybuf */
 
 char key_or_joy_ready (void);
-keycode_t get_key_or_joy (void);
+a_keycode get_key_or_joy (void);
 
 extern char kbjoy[6];
 extern char kbjoyold[6];
@@ -45,19 +45,19 @@ extern char in_demo;
 
 extern char demo_ready;
 
-extern pixel_t glenz[8][256];
-void draw_glenz_box (pixel_t *dest, int c, int xt, int yt);
+extern a_pixel glenz[8][256];
+void draw_glenz_box (a_pixel *dest, int c, int xt, int yt);
 
-extern pcx_image_t main_font_img, vehicles_img;
-extern pcx_image_t bonus_font_img;
-extern pcx_image_t tile_set_img, font_deck_img;
+extern a_pcx_image main_font_img, vehicles_img;
+extern a_pcx_image bonus_font_img;
+extern a_pcx_image tile_set_img, font_deck_img;
 
 extern signed char minisinus[32];
 extern bool two_players;
 
 #define maxq 128
 
-extern player_t player[4];
+extern a_player player[4];
 extern int trail_pos[4][maxq];
 extern char trail_way[4][maxq];
 extern int trail_offset[4];
@@ -66,22 +66,22 @@ extern char trail_size[4];	/* size of trails, minus one */
 extern int col2plr[4];
 extern int plr2col[4];
 
-extern level_t lvl;
+extern a_level lvl;
 
 extern unsigned char *square_occupied;
 extern unsigned char *square_way;
-extern tile_index_t *square_tile;
-extern square_coord_pair_t *square_coord;
+extern a_tile_index *square_tile;
+extern a_square_corrd_pair *square_coord;
 extern signed char *square_object;
 #define lemmings_per_players 50
 #define lemmings_total (lemmings_per_players*4)
-extern lemming_t **square_lemmings_list;
-extern lemming_t **square_dead_lemmings_list;
-extern lemming_t lemmings_support[lemmings_total];
+extern a_lemming **square_lemmings_list;
+extern a_lemming **square_dead_lemmings_list;
+extern a_lemming lemmings_support[lemmings_total];
 extern int objects_nbr;
 
 extern int game_mode;
-extern gameid_t game_id;
+extern a_gameid game_id;
 
 extern int lemmings_anim_offset;
 extern int lemmings_move_offset;

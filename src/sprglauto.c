@@ -24,11 +24,11 @@
 #include "const.h"
 
 void
-draw_sprglauto (const sprite_t *sprite, pixel_t *dest)
+draw_sprglauto (const a_sprite *sprite, a_pixel *dest)
 {
-  pixel_t	*cur = dest;	/* current writting possition */
-  u8_t		*pc;		/* program counter */
-  u8_t		*epc;		/* end of program code */
+  a_pixel	*cur = dest;	/* current writting possition */
+  a_u8		*pc;		/* program counter */
+  a_u8		*epc;		/* end of program code */
 
   assert (sprite->all.kind == S_RLE_GLENZ_AUTO);
 
@@ -44,7 +44,7 @@ draw_sprglauto (const sprite_t *sprite, pixel_t *dest)
     } else {
       cur += m;
       for (; n; --n) {
-	pixel_t c = *pc;
+	a_pixel c = *pc;
 	if (c == 1)
 	  *cur = glenz[0][*cur];
 	else if (c == 111)
@@ -68,12 +68,12 @@ draw_sprglauto (const sprite_t *sprite, pixel_t *dest)
   }
 }
 
-sprite_t *
-compile_sprglauto (const pixel_t *src, pixel_t transp_color,
+a_sprite *
+compile_sprglauto (const a_pixel *src, a_pixel transp_color,
 		   unsigned int block_height, unsigned int block_width,
 		   unsigned int src_width, unsigned int dest_width)
 {
-  sprite_t *s;
+  a_sprite *s;
   s = compile_sprrle (src, transp_color, block_height, block_width,
 		      src_width, dest_width);
   s->all.kind = S_RLE_GLENZ_AUTO;
@@ -82,7 +82,7 @@ compile_sprglauto (const pixel_t *src, pixel_t transp_color,
 }
 
 void
-free_sprglauto (sprite_t *prog)
+free_sprglauto (a_sprite *prog)
 {
   assert (prog->all.kind == S_RLE_GLENZ_AUTO);
   free (prog->rle.code);

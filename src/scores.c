@@ -156,7 +156,7 @@ static void
 load_scores_read (void)
 {
   unsigned int i, j;
-  u32_t points;
+  a_u32 points;
   int endline = 0;
   char* buf = 0;
   size_t bufsize = 0;
@@ -234,7 +234,7 @@ free_scores (void)
    the score would have been inserted or not (if it's too low).  */
 bool
 insert_scores (int gamemode, const char *player_name,
-	       gameid_t gid, u32_t points)
+	       a_gameid gid, a_u32 points)
 {
   int mag = find_score_by_gameid (gid);
   /* If we are not goiing to override the score for an existing game,

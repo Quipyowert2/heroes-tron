@@ -36,9 +36,9 @@
 
 #define XBUF 128
 #define YBUF 324
-static pixel_t *scroll_buffer;
+static a_pixel *scroll_buffer;
 
-pcx_image_t dummy_background_img;
+a_pcx_image dummy_background_img;
 
 /* This is an approximation of sin, using a Lagrange polynomial.
    Just to try. */
@@ -55,8 +55,8 @@ static void
 copy_background (void)
 {
   int i;
-  pixel_t *dest = scroll_buffer;
-  const pixel_t *src = dummy_background_img.buffer;
+  a_pixel *dest = scroll_buffer;
+  const a_pixel *src = dummy_background_img.buffer;
 
   for (i = 108; i != 0; i--) {
     fastmem4 (src, dest, 128 / 4);
@@ -71,8 +71,8 @@ static void
 draw_background (int x, int y)
 {
   int i;
-  pixel_t *dest = corner[0];
-  const pixel_t *src = scroll_buffer + x + y * XBUF;
+  a_pixel *dest = corner[0];
+  const a_pixel *src = scroll_buffer + x + y * XBUF;
 
   for (i = 200; i != 0; i--) {
     fastmem4 (src, dest, 320 / 4);
@@ -110,7 +110,7 @@ dummy_moving_background_uninit (void)
 void
 end_scroll (void)
 {
-  sprite_t *theend;
+  a_sprite *theend;
   theend = compile_menu_text (_("THE END"), T_CENTERED | T_WAVING, 95, 159);
   corner[0] = render_buffer[0] + 10 * xbuf;
 

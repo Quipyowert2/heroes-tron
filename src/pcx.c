@@ -28,32 +28,32 @@
 #include "debugmsg.h"
 
 static void
-img_init (pcx_image_t *image)
+img_init (a_pcx_image *image)
 {
   XMALLOC_ARRAY (image->buffer, image->size);
 }
 
 void
-img_free (pcx_image_t *image)
+img_free (a_pcx_image *image)
 {
   free (image->buffer);
 }
 
 char
-pcx_load (const char *file, pcx_image_t *image)
+pcx_load (const char *file, a_pcx_image *image)
 {
   unsigned long compteur;
   FILE *fptr;
 
   int nbrbytes, i;
-  u8_t data;
+  a_u8 data;
 
   dmsg (D_FILE, "opening image file: %s", file);
 
   if ((fptr = fopen (file, "rb")) == NULL) {
     emsg (_("Cannot open %s"), file);
   }
-  fread (&(image->header), sizeof (pcx_header_t), 1, fptr);
+  fread (&(image->header), sizeof (a_pcx_header), 1, fptr);
 
   /* convert to local endianess */
   image->header.x = BSWAP16 (image->header.x);
@@ -77,10 +77,10 @@ pcx_load (const char *file, pcx_image_t *image)
   compteur = 0;
   if (image->header.rle) {
     while (compteur < image->size) {
-      data = (u8_t) getc (fptr);
+      data = (a_u8) getc (fptr);
       if ((data & 192) == 192) {
 	nbrbytes = data & 63;
-	data = (u8_t) getc (fptr);
+	data = (a_u8) getc (fptr);
 	while (nbrbytes--)
 	  image->buffer[compteur++] = data;
       } else {
@@ -90,7 +90,7 @@ pcx_load (const char *file, pcx_image_t *image)
   } else {
     fread (image->buffer, image->size, 1, fptr);
   }
-  data = (u8_t) getc (fptr);	/* data==0Ch expected */
+  data = (a_u8) getc (fptr);	/* data==0Ch expected */
 
   fread (image->palette.global, 768, 1, fptr);
   for (i = 0; i < 256 * 3; i++)
@@ -101,7 +101,7 @@ pcx_load (const char *file, pcx_image_t *image)
 }
 
 char
-pcx_load_from_rsc (const char *rsc, pcx_image_t *image)
+pcx_load_from_rsc (const char *rsc, a_pcx_image *image)
 {
   char *res = get_non_null_rsc_file (rsc);
   char error = pcx_load (res, image);

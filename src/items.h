@@ -28,16 +28,16 @@
 
 #include "sprite.h"
 
-extern sprite_t *big_dollar;
-extern sprite_t *small_dollar;
+extern a_sprite *big_dollar;
+extern a_sprite *small_dollar;
 #define NBR_CLOCK_FRAMES 8
-extern sprite_t *clocks[NBR_CLOCK_FRAMES];
+extern a_sprite *clocks[NBR_CLOCK_FRAMES];
 #define NBR_PYRAMIDS 5
-extern sprite_t *pyramids[NBR_PYRAMIDS];
-extern sprite_t *trails[16][12];
-extern sprite_t *red_cross[4];
+extern a_sprite *pyramids[NBR_PYRAMIDS];
+extern a_sprite *trails[16][12];
+extern a_sprite *red_cross[4];
 #define NBR_ARROW_FRAMES 12
-extern sprite_t *tutorial_arrow[NBR_ARROW_FRAMES];
+extern a_sprite *tutorial_arrow[NBR_ARROW_FRAMES];
 
 void init_items (void);
 void uninit_items (void);

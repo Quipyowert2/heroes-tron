@@ -38,7 +38,7 @@ char mouse3 (void);
 char mouse12 (void);
 
 void process_input_events (void);
-keycode_t get_key (void);
+a_keycode get_key (void);
 int key_ready (void);
 
 int init_mouse (void);

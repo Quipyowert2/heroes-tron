@@ -58,7 +58,7 @@
 /*------------------- tiles structures --------------------*/
 typedef struct
 {
-  u32_t output;
+  a_u32 output;
   /* tempo was never used with tunnels.  The original
      purpose was to delay the player underground (for the time
      given by delay, computed by the level editor from the
@@ -69,82 +69,82 @@ typedef struct
      FIXME: If we can make sure that tempo is 0 in
      *all* level files, the two fields below should better
      be replaced by
-        u8_t direction;
+        a_u8 direction;
   */
 #ifdef WORDS_BIGENDIAN
-  u8_t tempo:4;
-  u8_t direction:4;
+  a_u8 tempo:4;
+  a_u8 direction:4;
 #else
-  u8_t direction:4;
-  u8_t tempo:4;
+  a_u8 direction:4;
+  a_u8 tempo:4;
 #endif
 }
-ATTRIBUTE_PACKED tunnel_t;
+ATTRIBUTE_PACKED a_tunnel;
 
 typedef struct
 {
-  u8_t frame_nbr;
-  u8_t speed;		/* in VBL */
+  a_u8 frame_nbr;
+  a_u8 speed;		/* in VBL */
 }
-ATTRIBUTE_PACKED anim_t;
+ATTRIBUTE_PACKED an_anim;
 
 
 typedef union
 {
-  u8_t param[5];
-  tunnel_t tunnel;
-  anim_t anim;
+  a_u8 param[5];
+  a_tunnel tunnel;
+  an_anim anim;
 }
-ATTRIBUTE_PACKED param_t;
+ATTRIBUTE_PACKED a_param;
 
 typedef struct
 {
-  u32_t number;
-  u8_t collision[4];
-  u16_t sprite;
-  param_t info;
-  u8_t type;
+  a_u32 number;
+  a_u8 collision[4];
+  a_u16 sprite;
+  a_param info;
+  a_u8 type;
 }
-ATTRIBUTE_PACKED tile_t; /* 16 bytes */
+ATTRIBUTE_PACKED a_tile; /* 16 bytes */
 
 typedef struct
 {
-  u8_t collision[4];
-  param_t info;
-  u8_t type;
+  a_u8 collision[4];
+  a_param info;
+  a_u8 type;
 }
-ATTRIBUTE_PACKED tile_info_t;  /* 10 bytes */
+ATTRIBUTE_PACKED a_tile_info;  /* 10 bytes */
 
 #define FILENAME_SIZE 8
 
 typedef struct
 {
-  u32_t xt;
-  u32_t yt;
-  u32_t xwrap;
-  u32_t ywrap;
-  u32_t start[4];		/* starting tile */
-  u8_t start_way[4];		/* starting direction and square */
+  a_u32 xt;
+  a_u32 yt;
+  a_u32 xwrap;
+  a_u32 ywrap;
+  a_u32 start[4];		/* starting tile */
+  a_u8 start_way[4];		/* starting direction and square */
   char tile_set_name[FILENAME_SIZE + 1];
   char soundtrack_name[FILENAME_SIZE + 1];
   char unused[10];
 }
-ATTRIBUTE_PACKED level_header_t; /* 64 bytes */
+ATTRIBUTE_PACKED a_level_header; /* 64 bytes */
 
 /*------------------ player records -------------------*/
 
 /* these two structures are used to access
-   the higher and lower part of a u32_t */
+   the higher and lower part of a a_u32 */
 typedef struct {
 #ifdef WORDS_BIGENDIAN
-  u16_t h, l;
+  a_u16 h, l;
 #else
-  u16_t l, h;
+  a_u16 l, h;
 #endif
 } hl;
 
 typedef union {
-  u32_t e;
+  a_u32 e;
   hl h;
 } ehl;
 
@@ -158,7 +158,7 @@ typedef struct
   int vitt;			/* speed to reach */
   int vitp;			/* current speed */
   ehl d;			/* offset */
-  dir_t way, next_way, old_way, old_old_way, tunnel_way;
+  a_dir way, next_way, old_way, old_old_way, tunnel_way;
   int delay;			/* delay frames (FIXME: don't use frames) */
   int spec;			/* special event (tunnel,ice,death) */
   int div;			/* misc.         (tunnel) */
@@ -191,14 +191,14 @@ typedef struct
   int cash;			/* ... or colors */
   int wins;			/* games win */
 }
-player_t;
+a_player;
 
-typedef struct lemming_t lemming_t;
-struct lemming_t {
+typedef struct a_lemming a_lemming;
+struct a_lemming {
   unsigned int pos_head, pos_tail; /* positions */
   unsigned int min;		/* position in the tile */
-  lemming_t *next_dead;		/* next stain in the tile */
-  dir_t dir;
+  a_lemming *next_dead;		/* next stain in the tile */
+  a_dir dir;
   int couleur;
   char dead;
 };

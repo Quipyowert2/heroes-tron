@@ -29,7 +29,7 @@ static int inert_x[2], inert_y[2]; /* Old positions of the cameras,
 				      used for intertia.  */
 unsigned int corner_x[2];
 unsigned int corner_y[2];
-pixel_t *(corner[2]);
+a_pixel *(corner[2]);
 
 unsigned int corner_dx[2];
 unsigned int corner_dy[2];
@@ -40,14 +40,14 @@ unsigned int nbr_tiles_rows = 11; /*        ... rows ... */
 void
 compute_corner (int p, int n)
 {
-  s32_t x, y;
-  s32_t camera_width;
-  s32_t camera_height;
-  s32_t camera_center_x;
-  s32_t camera_center_y;
+  a_s32 x, y;
+  a_s32 camera_width;
+  a_s32 camera_height;
+  a_s32 camera_center_x;
+  a_s32 camera_center_y;
 
-  s32_t tw = (s32_t)(lvl.tile_width << 16);
-  s32_t th = (s32_t)(lvl.tile_height << 16);
+  a_s32 tw = (a_s32)(lvl.tile_width << 16);
+  a_s32 th = (a_s32)(lvl.tile_height << 16);
 
   if (opt.inertia) {
     /* when the framerate is too low, don't do inerta */
@@ -68,7 +68,7 @@ compute_corner (int p, int n)
     else {
       /* When the level is wrapped, this is harder, because there is
 	 two way to go from inert_x[p] to camera_x[p].  */
-      s32_t d1, d2, d3;
+      a_s32 d1, d2, d3;
       d1 = camera_x[p] - inert_x[p];
       d3 = abs (d1);
       d2 = tw - d3;
@@ -84,7 +84,7 @@ compute_corner (int p, int n)
       inert_y[p] = camera_y[p] =
 	inert_y[p] + n * (camera_y[p] - inert_y[p]) / 16;
     else {
-      s32_t d1, d2, d3;
+      a_s32 d1, d2, d3;
       d1 = camera_y[p] - inert_y[p];
       d3 = abs (d1);
       d2 = th - d3;

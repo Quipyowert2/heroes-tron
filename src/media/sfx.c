@@ -31,9 +31,9 @@
 
 #define max_events 151
 
-typedef char* filename_t;
+typedef char* a_filename;
 
-static filename_t *sfx_names;
+static a_filename *sfx_names;
 static char *sfx_loaded;
 static int *play_handles;
 static int event_handle[max_events];

@@ -29,16 +29,16 @@
 `-----------------------------------------------------------------*/
 
 /* it is safe to call the following on S_PROG_WAV too */
-void draw_sprprog (const sprite_t *sprite, pixel_t *dest);
-void free_sprprog (sprite_t *sprite);
+void draw_sprprog (const a_sprite *sprite, a_pixel *dest);
+void free_sprprog (a_sprite *sprite);
 
 
 /* secondary drawing functions, used in scores_menu:
    draw only the sprites whose offset are greater than min, or
    lower than max */
-void draw_sprprog_clipped_left (const sprite_t *sprite, pixel_t *dest,
+void draw_sprprog_clipped_left (const a_sprite *sprite, a_pixel *dest,
 				int dest_row, int min_row);
-void draw_sprprog_clipped_right (const sprite_t *sprite, pixel_t *dest,
+void draw_sprprog_clipped_right (const a_sprite *sprite, a_pixel *dest,
 				 int dest_row, int max_row);
 
 /* The following is not thread safe, because when you build a sprprog
@@ -60,20 +60,20 @@ void draw_sprprog_clipped_right (const sprite_t *sprite, pixel_t *dest,
 void new_sprprog (void);
 
 /* add as many sprites as you wish */
-void add_sprprog (sprite_t *sprite, int offset);
+void add_sprprog (a_sprite *sprite, int offset);
 /* likewise, with offset = 0 */
-void add_sprprog0 (sprite_t *sprite);
+void add_sprprog0 (a_sprite *sprite);
 
 /* finish the sprprog, and return it */
-sprite_t *end_sprprog (void);
+a_sprite *end_sprprog (void);
 
 
 /* The following is an internal definition,
    which is made public for sprprogwav.c usage. */
 
 struct sprite_prog_list_s {
-  sprite_prog_list_t *cdr;
-  sprite_t *car;
+  a_sprite_prog_list *cdr;
+  a_sprite *car;
   int offset;			/* offset to add to the destination supplied */
 };
 

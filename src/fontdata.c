@@ -24,17 +24,17 @@
 #include "fontdata.h"
 #include "errors.h"
 
-fontdata_t *edit_font = 0;
-fontdata_t *menu_font = 0;
-fontdata_t *help_font = 0;
-fontdata_t *deck_font = 0;
-fontdata_t *bonus_font = 0;
-static pcx_image_t help_font_img;
+a_fontdata *edit_font = 0;
+a_fontdata *menu_font = 0;
+a_fontdata *help_font = 0;
+a_fontdata *deck_font = 0;
+a_fontdata *bonus_font = 0;
+static a_pcx_image help_font_img;
 
 static void
 initialize_menu_font (void)
 {
-  pixel_t *upl;			/* upper left pixel of the character */
+  a_pixel *upl;			/* upper left pixel of the character */
   int ch;			/* current character */
 
   XCALLOC_VAR (menu_font);
@@ -68,7 +68,7 @@ initialize_menu_font (void)
 static void
 initialize_deck_font (void)
 {
-  pixel_t *upl;			/* upper left pixel of the character */
+  a_pixel *upl;			/* upper left pixel of the character */
   int ch;			/* current character */
 
   XCALLOC_VAR (deck_font);
@@ -109,7 +109,7 @@ initialize_deck_font (void)
 static void
 initialize_bonus_font (void)
 {
-  pixel_t *upl;			/* upper left pixel of the character */
+  a_pixel *upl;			/* upper left pixel of the character */
   int ch;			/* current character */
 
   XCALLOC_VAR (bonus_font);
@@ -143,7 +143,7 @@ initialize_bonus_font (void)
 static void
 initialize_help_font (void)
 {
-  pixel_t *upl;			/* upper left pixel of the character */
+  a_pixel *upl;			/* upper left pixel of the character */
   int ch;			/* current character */
 
   pcx_load_from_rsc ("help-font", &help_font_img);
@@ -202,7 +202,7 @@ uninit_fonts (void)
 }
 
 unsigned int
-compute_text_width (const fontdata_t *font, const char *text,
+compute_text_width (const a_fontdata *font, const char *text,
 		    unsigned int *nspaces)
 {
   unsigned int width = 0;
@@ -227,7 +227,7 @@ compute_text_width (const fontdata_t *font, const char *text,
 
 #if DEBUG
 void
-check_message_is_drawable (const fontdata_t *font, const char *text)
+check_message_is_drawable (const a_fontdata *font, const char *text)
 {
   const char *text_orig = text;
 

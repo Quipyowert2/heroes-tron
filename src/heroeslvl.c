@@ -26,7 +26,7 @@
 const char *program_name;	/* argv[0] */
 int exit_status = 0;		/* $? */
 
-struct options_t {
+struct an_option_set {
   bool print_directions;	/* --print d */
   bool print_filename;		/* --print f */
   bool print_header;		/* --print h */
@@ -180,7 +180,7 @@ decode_switches (int argc, char **argv)
 }
 
 static const char *
-dir_to_string (dir_t dir)
+dir_to_string (a_dir dir)
 {
   switch (dir) {
   case D_UP:
@@ -197,7 +197,7 @@ dir_to_string (dir_t dir)
 }
 
 static void
-print_header (const level_t *lvl)
+print_header (const a_level *lvl)
 {
   printf (_("%sheight:\t%d tiles\t(%d squares)\n"),
 	  options.indent, lvl->tile_height, lvl->square_height);
@@ -221,8 +221,8 @@ print_header (const level_t *lvl)
   {
     int i;
     for (i = 0; i < 4; ++i) {
-      square_coord_pair_t co;
-      dir_t di;
+      a_square_corrd_pair co;
+      a_dir di;
       lvl_start_position (lvl, i, &co, &di);
       printf ("%s  #%d: %2d %2d %s\n", options.indent, i + 1,
 	      co.y, co.x, dir_to_string (di));
@@ -231,7 +231,7 @@ print_header (const level_t *lvl)
 }
 
 static char
-type_to_char (dir_t dir)
+type_to_char (a_dir dir)
 {
   switch (dir) {
   case T_NONE:
@@ -288,10 +288,10 @@ print_type_keys (void)
 }
 
 static void
-print_square_types (const level_t *lvl)
+print_square_types (const a_level *lvl)
 {
-  square_coord_t y, x;
-  square_index_t idx;
+  a_square_coord y, x;
+  a_square_index idx;
   for (y = 0, idx = 0; y < lvl->square_height; ++y) {
     printf ("%s|", options.indent);
     for (x = 0; x < lvl->square_width; ++x, ++idx)
@@ -301,7 +301,7 @@ print_square_types (const level_t *lvl)
 }
 
 static void
-print_dir_mask (dir_mask_t dm)
+print_dir_mask (a_dir_mask dm)
 {
   int nw = 0;
 
@@ -321,10 +321,10 @@ print_dir_mask (dir_mask_t dm)
 }
 
 static void
-print_square_walls (const level_t *lvl)
+print_square_walls (const a_level *lvl)
 {
-  square_coord_t y, x;
-  square_index_t idx;
+  a_square_coord y, x;
+  a_square_index idx;
   for (y = 0, idx = 0; y < lvl->square_height; ++y) {
     printf ("%s|", options.indent);
     for (x = 0; x < lvl->square_width; ++x, ++idx)
@@ -334,7 +334,7 @@ print_square_walls (const level_t *lvl)
 }
 
 static char
-dir_to_char (dir_t d)
+dir_to_char (a_dir d)
 {
   switch (d) {
   case D_UP:
@@ -351,10 +351,10 @@ dir_to_char (dir_t d)
 }
 
 static void
-print_square_directions (const level_t *lvl)
+print_square_directions (const a_level *lvl)
 {
-  square_coord_t y, x;
-  square_index_t idx;
+  a_square_coord y, x;
+  a_square_index idx;
   for (y = 0, idx = 0; y < lvl->square_height; ++y) {
     printf ("%s|", options.indent);
     for (x = 0; x < lvl->square_width; ++x, ++idx)
@@ -364,13 +364,13 @@ print_square_directions (const level_t *lvl)
 }
 
 static void
-print_tunnels (const level_t *lvl)
+print_tunnels (const a_level *lvl)
 {
-  square_coord_t y, x;
-  square_index_t idx;
+  a_square_coord y, x;
+  a_square_index idx;
   int tunbr = 0;		/* Number of tunnels.  */
   int curtun = 0;		/* Curent tunnel index.  */
-  square_index_t *outputs;
+  a_square_index *outputs;
 
   for (idx = 0; idx < lvl->square_count; ++idx)
     if (lvl->square_type[idx] == T_TUNNEL)
@@ -398,8 +398,8 @@ print_tunnels (const level_t *lvl)
   for (curtun = 0, y = 0, idx = 0; y < lvl->square_height; ++y)
     for (x = 0; x < lvl->square_width; ++x, ++idx)
       if (lvl->square_type[idx] == T_TUNNEL) {
-	dir_t d = lvl->square_direction[idx];
-	square_index_t outidx = lvl->square_move[d][idx];
+	a_dir d = lvl->square_direction[idx];
+	a_square_index outidx = lvl->square_move[d][idx];
 
 	/* Search the number of the output tunnel.  */
 	int i;
@@ -419,7 +419,7 @@ print_tunnels (const level_t *lvl)
 }
 
 static const char *
-anim_kind_to_str (anim_kind_t k)
+anim_kind_to_str (an_anim_kind k)
 {
   switch (k) {
   case A_NONE:
@@ -439,9 +439,9 @@ anim_kind_to_str (anim_kind_t k)
 }
 
 static void
-print_tile_details (level_t *lvl)
+print_tile_details (a_level *lvl)
 {
-  tile_index_t i;
+  a_tile_index i;
 
   /* TRANS: This is the header of an array (output by heroeslvl -pi) so
      the position of these word is important.
@@ -456,7 +456,7 @@ print_tile_details (level_t *lvl)
 	  options.indent);
   for (i = 0; i < lvl->tile_count; ++i) {
     unsigned int o, c, d;
-    anim_kind_t k;
+    an_anim_kind k;
 
     printf ("%s%4u %2u %2u %-10s 0x%08x", options.indent, i,
 	    TILE_INDEX_TO_COORD_Y (lvl, i),
@@ -485,7 +485,7 @@ static void
 process (const char *filename)
 {
   int err;
-  level_t lvl;
+  a_level lvl;
   bool load_full;
 
   /* Sometime we don't need to load the full level, only the header is

@@ -38,16 +38,16 @@
 #include "scrtools.h"
 
 /******* data of the intro *******/
-palette_t fade_pal;
-pcx_image_t intro_img;
-pixel_t **erase_data;
-pixel_t **erase_data_cur;
+a_palette fade_pal;
+a_pcx_image intro_img;
+a_pixel **erase_data;
+a_pixel **erase_data_cur;
 int color_nbr[256 + 1];
-pixel_t **(erase_color_ptr[256]);
+a_pixel **(erase_color_ptr[256]);
 int errori;
-htimer_t intro_frame_htimer;
-htimer_t intro_global_htimer;
-static pixel_t *intro_buffer;
+a_timer intro_frame_htimer;
+a_timer intro_global_htimer;
+static a_pixel *intro_buffer;
 /********************************/
 
 
@@ -90,8 +90,8 @@ copy_vehicle_2 (int x)
 static void
 compute_erase_data (void)
 {
-  pixel_t *dest = intro_buffer;
-  pixel_t *src = intro_img.buffer;
+  a_pixel *dest = intro_buffer;
+  a_pixel *src = intro_img.buffer;
   int i, j;
   for (i = 320 * 200; i > 0; i--)
     color_nbr[*src++]++;
@@ -109,15 +109,15 @@ compute_erase_data (void)
   }
 }
 
-static pixel_t **
-erase (pixel_t **src, int j)
+static a_pixel **
+erase (a_pixel **src, int j)
 {
   int nbr = color_nbr[j];
   color_nbr[j + 1] += nbr & 1;
   nbr >>= 1;
   while (nbr) {
-    pixel_t *a = src[0];
-    pixel_t *b = src[1];
+    a_pixel *a = src[0];
+    a_pixel *b = src[1];
     *a = 0;
     src += 2;
     --nbr;
@@ -127,7 +127,7 @@ erase (pixel_t **src, int j)
 }
 
 static void
-antialias (pixel_t *src, int height)
+antialias (a_pixel *src, int height)
 {
   do {
     unsigned int a, b, c, d;
@@ -156,8 +156,8 @@ antialias (pixel_t *src, int height)
 static char
 show_intro (void)
 {
-  palette_t pal;
-  fader_status_t fade_stat;
+  a_palette pal;
+  a_fader_status fade_stat;
   int i;
 
   load_soundtrack_from_alias ("INTRO");
@@ -296,7 +296,7 @@ show_intro (void)
 void
 play_intro (void)
 {
-  palette_t pal;
+  a_palette pal;
   dmsg (D_SECTION, "-- game introduction --");
 
   intro_frame_htimer = new_htimer (T_LOCAL|T_BLOCKING, HZ (70));

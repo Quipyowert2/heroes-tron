@@ -25,8 +25,8 @@
 
 extern char *soundtrack_author;
 extern char *soundtrack_title;
-extern sprite_t *soundtrack_author_sprite;
-extern sprite_t *soundtrack_title_sprite;
+extern a_sprite *soundtrack_author_sprite;
+extern a_sprite *soundtrack_title_sprite;
 
 void adjust_volume (void);
 void halve_volume (void);

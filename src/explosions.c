@@ -25,7 +25,7 @@
 #include "timer.h"
 #include "debugmsg.h"
 
-sprite_t *explosions[NBR_EXPLOSION_KINDS][NBR_EXPLOSION_FRAMES];
+a_sprite *explosions[NBR_EXPLOSION_KINDS][NBR_EXPLOSION_FRAMES];
 
 void
 init_explosions (void)
@@ -58,23 +58,23 @@ uninit_explosions (void)
       FREE_SPRITE0 (explosions[i][j]);
 }
 
-explosion_t *square_explo_state;
-u8_t *square_explo_type;
+an_explosion *square_explo_state;
+a_u8 *square_explo_type;
 
-typedef struct explosion_info_t explosion_info_t;
-struct explosion_info_t {
+typedef struct an_explosion_info an_explosion_info;
+struct an_explosion_info {
   long orig_time;
   long frame_start;
-  square_index_t idx;
+  a_square_index idx;
   bool neighb_done;		/* True if the explosion has propagated
 				   to neighbors.  */
 };
 
-static explosion_info_t *explo_list;
+static an_explosion_info *explo_list;
 static unsigned int explo_list_max;
 static unsigned int explo_list_first_unused;
 
-static htimer_t explo_timer;
+static a_timer explo_timer;
 static long explo_time;		/* Updated from explo_timer on each call
 				   to update_explosion.  */
 
@@ -99,7 +99,7 @@ release_explosions (void)
 }
 
 void
-trigger_explosion (square_index_t idx, unsigned int frame_start)
+trigger_explosion (a_square_index idx, unsigned int frame_start)
 {
   if (explo_list_max <= explo_list_first_unused) {
     explo_list_max += 64;
@@ -115,7 +115,7 @@ trigger_explosion (square_index_t idx, unsigned int frame_start)
 }
 
 void
-trigger_possible_explosion (square_index_t idx)
+trigger_possible_explosion (a_square_index idx)
 {
   if (lvl.square_type[idx] == T_BOOM
       && square_explo_state[idx] == EXPLOSION_UNTRIGGERED)
@@ -141,9 +141,9 @@ update_explosions (void)
       square_explo_state[explo_list[i].idx] = state;
       /* Trigger neighbor squares if needed.  */
       if (state <= EXPLOSION_TRIGGER_NEIGHBORS && !explo_list[i].neighb_done) {
-	dir_t d;
+	a_dir d;
 	for (d = 0; d < 4; ++d) {
-	  square_index_t ngb = lvl.square_move[d][explo_list[i].idx];
+	  a_square_index ngb = lvl.square_move[d][explo_list[i].idx];
 	  if (ngb != INVALID_INDEX)
 	    trigger_possible_explosion (ngb);
 	}
@@ -166,5 +166,5 @@ update_explosions (void)
   /* Shift the list of explision, removing the finished ones.  */
   explo_list_first_unused -= min;
   memmove (explo_list, explo_list + min,
-	   explo_list_first_unused * sizeof (explosion_info_t));
+	   explo_list_first_unused * sizeof (an_explosion_info));
 }

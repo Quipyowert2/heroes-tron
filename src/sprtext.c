@@ -27,7 +27,7 @@
 #include "parafmt.h"
 
 /*
- * Generate a sprite_t that display a text, using a given font.
+ * Generate a a_sprite that display a text, using a given font.
  *
  * Currently, an S_RLE sprite is computed for each character and chained
  * together in a S_PROG sprite.  This can be enhanced: unless waving,
@@ -35,8 +35,8 @@
  * it may be better to compute *one* S_RLE for the *whole* string.
  */
 
-sprite_t *
-compile_sprtext (const fontdata_t *font, const char *text,
+a_sprite *
+compile_sprtext (const a_fontdata *font, const char *text,
 		 enum text_option topt, unsigned int maxwidth,
 		 int offset)
 {
@@ -91,8 +91,8 @@ compile_sprtext (const fontdata_t *font, const char *text,
 }
 
 
-sprite_t *
-compile_sprtext_color (const fontdata_t *font, const char *text,
+a_sprite *
+compile_sprtext_color (const a_fontdata *font, const char *text,
 		       enum text_option topt, unsigned int maxwidth,
 		       int offset)
 {
@@ -176,8 +176,8 @@ compile_sprtext_color (const fontdata_t *font, const char *text,
 }
 
 
-sprite_t *
-compile_sprpara (const fontdata_t *font, const char *text,
+a_sprite *
+compile_sprpara (const a_fontdata *font, const char *text,
 		 enum text_option topt, unsigned int maxwidth,
 		 int offset)
 {
@@ -195,27 +195,27 @@ compile_sprpara (const fontdata_t *font, const char *text,
   return end_sprprog ();
 }
 
-sprite_t*
+a_sprite*
 compile_menu_text (const char *text, enum text_option topt,
 		   int row, int col)
 {
   return compile_sprtext (menu_font, text, topt, 0, row * xbuf + col);
 }
 
-sprite_t *
+a_sprite *
 compile_menu_para (const char *text, enum text_option topt,
 		   int row, int col, int maxwidth)
 {
   return compile_sprpara (menu_font, text, topt, maxwidth , row * xbuf + col);
 }
-sprite_t*
+a_sprite*
 compile_deck_text (const char *text, enum text_option topt,
 		   int row, int col)
 {
   return compile_sprtext (deck_font, text, topt, 0, row * xbuf + col);
 }
 
-sprite_t *
+a_sprite *
 compile_bonus_text (const char *text, enum text_option topt,
 		    int row, int col)
 {
