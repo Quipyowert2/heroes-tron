@@ -2875,7 +2875,8 @@ try_dlopen (phandle, filename)
 #endif
 		   )))
 	{
-	  tryall_dlopen (&newhandle, filename);
+	  if (tryall_dlopen (&newhandle, filename) != 0)
+	    newhandle = 0;
 	}
 
       if (!newhandle)
