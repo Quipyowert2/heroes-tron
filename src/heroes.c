@@ -1339,14 +1339,16 @@ output_screen (char n)
 
     src = corner[swapside] + 158;
     for (i = 200; i != 0; i--) {
-      *src++ = glenz[0][(int) *src];
+      *src = glenz[0][(int) *src];
+      ++src;
       *src = glenz[0][(int) glenz[0][(int) *src]];
       src += xbuf - 1;
     }
 
     src = corner[1 - swapside];
     for (i = 200; i != 0; i--) {
-      *src++ = glenz[0][(int) glenz[0][(int) *src]];
+      *src = glenz[0][(int) glenz[0][(int) *src]];
+      ++src;
       *src = glenz[0][(int) *src];
       src += xbuf - 1;
     }
@@ -3128,7 +3130,7 @@ play_game (char cont)
 {
   int n, i, t;
   char notbyebye = 1, flag;
-  int l, pos, u;
+  int l = 0, pos, u;
   char editflag = 0;
   static char tmpname[20];
   char bufstr[32];

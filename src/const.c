@@ -207,8 +207,8 @@ draw_glenz_box (pixel_t *dest, int c, int xt, int yt)
   int xt2;
 
   for (; yt != 0; yt--) {
-    for (xt2 = xt; xt2 != 0; xt2--)
-      *dest++ = glenzligne[*dest];
+    for (xt2 = xt; xt2 != 0; --xt2, ++dest)
+      *dest = glenzligne[*dest];
     dest += xbuf - xt;
   }
 

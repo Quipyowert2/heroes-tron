@@ -673,8 +673,8 @@ draw_radar_map (int dx, int dy)
 	tdx++;
       }
     } else
-      for (x = 73 - dede; x != 0; x--)
-	*src++ = glenz[0][*src];
+      for (x = 73 - dede; x != 0; --x, ++src)
+	*src = glenz[0][*src];
     src += xbuf - 73 + dede;
     tdy++;
   }
@@ -694,8 +694,8 @@ draw_score (int c, int p, unsigned int offset)
     return;
 
   for (y = ((game_mode < M_TCASH) ? 63 : 75); y != 0; y--) {
-    for (x = 33; x != 0; x--)
-      *src++ = glenz[0][*src];
+    for (x = 33; x != 0; --x, ++src)
+      *src = glenz[0][*src];
     src += xbuf - 33;
   }
   sprintf (score, "%.6d", player[c].score_delta >> 2);
@@ -767,19 +767,19 @@ draw_logo_info (int c, int nbr, pixel_t* dest)
   int x, y;
 
   if (game_mode < M_TCASH) {
-    for (x = 50; x != 0; x--)
-      *src++ = glenz[0][*src];
+    for (x = 50; x != 0; --x, ++src)
+      *src = glenz[0][*src];
     src += xbuf - 50;
     tmp = src + 1;
     tmp2 = src + 11;
     for (y = 11; y != 0; y--) {
-      for (x = 21; x != 0; x--)
-	*src++ = glenz[0][*src];
+      for (x = 21; x != 0; --x, ++src)
+	*src = glenz[0][*src];
       *(src + 28) = glenz[0][*(src + 28)];
       src += xbuf - 21;
     }
-    for (x = 50; x != 0; x--)
-      *src++ = glenz[0][*src];
+    for (x = 50; x != 0; --x, ++src)
+      *src = glenz[0][*src];
     DRAW_SPRITE (player_logo[c], dest + xbuf + 21);
 
     src = main_font_img.buffer + 50 * 320 + (nbr / 10) * 10;
@@ -803,20 +803,20 @@ draw_logo_info (int c, int nbr, pixel_t* dest)
   } else {
     src -= 5;
     dest -= 5;
-    for (x = 60; x != 0; x--)
-      *src++ = glenz[0][*src];
+    for (x = 60; x != 0; --x, ++src)
+      *src = glenz[0][*src];
     src += xbuf - 60;
     tmp = src + 1;
     tmp2 = src + 11;
     tmp3 = src + 21;
     for (y = 11; y != 0; y--) {
-      for (x = 31; x != 0; x--)
-	*src++ = glenz[0][*src];
-      *(src + 28) = glenz[0][*(src + 28)];
+      for (x = 31; x != 0; --x, ++src)
+	*src = glenz[0][*src];
+      src[28] = glenz[0][src[28]];
       src += xbuf - 31;
     }
-    for (x = 60; x != 0; x--)
-      *src++ = glenz[0][*src];
+    for (x = 60; x != 0; --x, ++src)
+      *src = glenz[0][*src];
     DRAW_SPRITE (player_logo[c], dest + xbuf + 31);
 
     src = main_font_img.buffer + 50 * 320 + (nbr / 100) * 10;

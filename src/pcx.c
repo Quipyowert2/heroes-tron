@@ -42,8 +42,8 @@ delta (pcx_image_t *image)
 {
   int i;
   pixel_t *src = image->buffer + image->width;
-  for (i = image->size - image->width; i != 0; i--)
-    (*src++) = (char) ((*src) + (*(src - image->width)));
+  for (i = image->size - image->width; i != 0; --i, ++src)
+    *src = *src + src[-image->width];
 }
 
 char

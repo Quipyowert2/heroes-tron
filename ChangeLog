@@ -1,5 +1,16 @@
 2001-05-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Get rid of new gcc-3.0 warnings.
+
+	* src/const.c (draw_glenz_box): Remove `operation possibly undefined
+	warning'.
+	* src/pcx.c (delta): Likewise.
+	* src/render.c (draw_radar_map, draw_score, draw_logo_info): Likewise.
+	* src/heroes.c (output_screen): Likewise.
+	(play_game): Set default value for 0 to suppress a warning.
+
+2001-05-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* GNUmakefile: New file.
 	* Makefile.am (EXTRA_DIST): Add GNUmakefile.
 	* HACKING: Update.
