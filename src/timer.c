@@ -28,7 +28,16 @@ time_type current_time;
 void
 reset_htimer (htimer_t timer)
 {
-  timer->orig_time = current_time;
+  /*-----------------------------------------------------------------.
+  | NOTE: This function used to perform a struct assignment.  But it |
+  | cause the gcc shipped with Red Hat 7.0 [gcc version 2.96         |
+  | 20000731 (Red Hat Linux 7.0)] to produce unfaithful code when    |
+  | inlining the call to reset_htimer() in read_htimer().  Using     |
+  | member assignments appears to work around the bug HERE.          |
+  `-----------------------------------------------------------------*/
+
+  timer->orig_time.tv_sec = current_time.tv_sec;
+  timer->orig_time.tv_usec = current_time.tv_usec;
 }
 
 #if HAVE_GETTIMEOFDAY

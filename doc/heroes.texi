@@ -717,6 +717,15 @@ the following list shows the driver which was used.
 Should build out of the box.  Packages for Debian and Red Hat
 are available from the web pages.
 
+@cartouche
+Red Hat 7.0 users, the compiler shipped with your distribution (packaged
+as @samp{gcc-2.96-54.i386.rpm} at the time of writting) is an
+experimental version which is still @emph{bugged} despite the pile of
+fixes applied.  It actually produces unfaithful code for Heroes, so
+please use another compiler.  The one provided by the @samp{kgcc}
+package is ok.
+@end cartouche
+
 @item Linux/ppc (SDL)
 Is reported to work when the sound (@samp{SDL_mixer}) is disabled
 (@samp{configure --disable-sound} or @samp{heroes -S}).  Any feedback on

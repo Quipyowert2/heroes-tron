@@ -1,3 +1,18 @@
+2000-12-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	The gcc shipped with Red Hat 7.0 produces unfaithful code in
+	src/timer.c (and maybe elsewhere).  In timer.c, it causes wrong
+	computation of orig_time for local timers: orig_time might be set
+	to a date into the future which leads read_htimer to either abort (if
+	assertions are turned on) or return negative values (this in
+	turn leads to wrong updates (far to fast) in the game code.
+	Reported by David Olofson <david.olofson@reologica.se>.
+
+	* src/timer.c (reset_htimer): Use member assignments to at least
+	work around the bug where it is known.
+	* doc/heroes.texi (Machines): Advise Red Hat 7.0 users to use
+	another compiler.
+
 2000-12-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	[HAVE_SDL] set_color always set color #0, this is visible
