@@ -446,7 +446,7 @@ Pierre Baillet @email{octplane@@via.ecp.fr}
 Contributed support for non-8bits depth video mode with LibGGI.
 
 @item
-Daniel Burrow @email{Daniel_Burrows@@brown.edu}
+Daniel Burrows @email{Daniel_Burrows@@brown.edu}
 
 Is the Debian maintainer of Heroes.
 

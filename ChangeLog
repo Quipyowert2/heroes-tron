@@ -1,3 +1,8 @@
+2001-01-31  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* doc/heroes.texi: s/Burrow/Burrows/.
+	* THANKS: Likewise.
+
 2001-01-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Missing copyright updates from previous patches.
