@@ -20,6 +20,11 @@
 
 #include "config.h"
 #include <stdlib.h>
+#ifdef HAVE_STRING_H
+#  include <string.h>
+#else
+#  include <strings.h>
+#endif
 #include "sound.h"
 
 #ifdef HAVE_LIBMIKMOD
@@ -28,11 +33,6 @@
 #include <signal.h>
 #include <errno.h>
 #include <unistd.h>
-#ifdef HAVE_STRING_H
-#  include <string.h>
-#else
-#  include <strings.h>
-#endif
 #include "options.h"
 #include "argv.h"
 #include "musicfiles.h"
@@ -290,10 +290,10 @@ load_soundtrack_from_alias (char* alias)
 
 static Mix_Music *music = NULL;
 
-int audio_rate;
+int audio_rate = 0;
 Uint16 audio_format;
 int audio_channels;
-int audio_buffers;
+int audio_buffers = 0;
 
 void
 set_volume (void)
@@ -331,12 +331,14 @@ init_sound_engine (void)
     return 0;
   }
 
-  audio_rate = (hqmix ? 44100 : 22050);
+  if (!audio_rate)
+    audio_rate = (hqmix ? 44100 : 22050);
   audio_format = (bits8 ? AUDIO_S8 : AUDIO_S16);
   audio_channels = (mono ? 1 : 2);
-  /* Use small values for audio buffer to reduce the duration between
-     the moment where a sample is mixed and the moment where it is heard. */
-  audio_buffers = (hqmix ? 2048 : 1024);
+  if (!audio_buffers)
+    /* Use small values for audio buffer to reduce the duration between
+       the moment where a sample is mixed and the moment where it is heard. */
+    audio_buffers = (hqmix ? 2048 : 1024);
   
   init_SDL ();
   /* Open the audio device */
@@ -420,9 +422,31 @@ print_drivers_list (void)
 }
 
 void
-decode_sound_options (char* optarg __attribute__ ((unused)), 
-		      char* argv0 __attribute__ ((unused)))
+decode_sound_options (char* optarg, char* argv0)
 {
+  if (optarg) {
+    char* buf = strdup (optarg);
+    optarg = strtok (buf, " \t:=,;");
+    while (optarg) {
+      if (!strcasecmp (optarg, "freq")) {
+	optarg = strtok (0, " \t:=,;");
+	if (optarg)
+	  audio_rate = atol (optarg);
+	else 
+	  fprintf (stderr, "%s: missing parameter for 'freq'", argv0);
+      } else if (!strcasecmp (optarg, "buffers")) {
+	optarg = strtok (0, " \t:=,;");
+	if (optarg)
+	  audio_buffers = atol (optarg);
+	else 
+	  fprintf (stderr, "%s: missing parameter for 'buffers'\n", argv0);
+      } else
+	  fprintf (stderr, "%s: recognized sound options"
+		   "are freq=nnn and buffers=nnn\n", argv0);
+      optarg = strtok (0, " \t:=,;");      
+    }
+    free (buf);
+  }
 }
 
 void 

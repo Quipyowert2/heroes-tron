@@ -1,5 +1,10 @@
 2000-08-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/sound.c (decode_sound_options): Implement.
+	* doc/heroes.texi (Options): Document.
+
+2000-08-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/rsc_files.gperf (end-scroller-txt): Typo.
 
 2000-08-29  Alexandre Duret-Lutz  <duret_g@epita.fr>

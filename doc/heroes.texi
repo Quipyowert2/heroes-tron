@@ -703,10 +703,16 @@ Available drivers:
 @cindex -d N[,OPTIONS]
 @cindex --driver=N[,OPTIONS]
 @cindex sound driver
-Specify the driver to use. @samp{N} is the number of the driver taken
-from the output of @samp{heroes -n}. Use @samp{0} for auto-detection.
-Additional options can be given to the driver, see LibMikMod's
-@file{README} file.
+With LibMikMod, specify the driver to use. @samp{N} is the number of the
+driver taken from the output of @samp{heroes -n}. Use @samp{0} for
+auto-detection.  Additional options can be given to the driver, see
+LibMikMod's @file{README} file.
+
+With SDL_mixer, override some audio parameters.  @samp{freq} and
+@samp{buffers} are the two recognized parameters.  Example
+@example
+heroes -d freq=11050:buffers=512
+@end example
 
 @item -S
 @itemx --no-sound
