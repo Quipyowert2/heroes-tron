@@ -1,9 +1,47 @@
+2002-01-31  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Move the non-rendering parts of src/explosions.c to
+	src/rules/explosions.c.
+
+	* src/explosions.c (square_explo_state, square_explo_type): Move ...
+	* src/rules/state.h (a_level_state.square_explo_state,
+	a_level_state.square_explo_type): ... here.
+	* src/explosions.c (an_explosion_info, explo_list, explo_list_max,
+	explo_list_first_unused, explo_timer, explo_time): Move ...
+	* src/rules/statepriv.h (an_explosion_info,
+	a_level_state_bits.explo_list, 	a_level_state_bits.explo_list_max,
+	a_level_state_bits.explo_list_first_unused,
+	a_level_state_bits.explo_timer,
+	a_level_state_bits.explo_time): ... here.
+	* src/explosions.c (allocate_explosions, release_explosions,
+	trigger_explosion_at_time, compute_explosion_state,
+	propagate_to_neighbors_maybe, trigger_explosion_at_time,
+	trigger_explosion, trigger_possible_explosion,
+	update_explosions): Move ...
+	* src/rules/explosions.c: ... here.
+	* src/explosions.h (NBR_EXPLOSION_FRAMES, NBR_EXPLOSION_KINDS,
+	EXPLOSION_SLICES_PER_FRAMES, EXPLOSION_DELAY, EXPLOSION_IMMEDIATE,
+	EXPLOSION_TRIGGERED, EXPLOSION_TRIGGER_NEIGHBORS,
+	EXPLOSION_UNTRIGGERED, an_explosion, EXPLOSION_SQUARE_TRIGGERED_P,
+	EXPLOSION_SQUARE_TRIGGERABLE_P, square_explo_type,
+	allocate_explosions, release_explosions, trigger_explosion,
+	trigger_possible_explosion, update_explosions): Move ...
+	* src/rules/state.h: ... here.
+	* src/heroes.c (load_level, unload_level, update_all): Adjust calls
+	to allocate_explosions, release_explosions, and update_explosions.
+	* src/render.c (draw_level): Adjust usage of square_explo_type.
+	* src/rules/ai.c: Adjust usage of square_explo_state
+	* src/rules/trail.c (erase_trail): Adjust call to trigger_exposion.
+	* src/rules/update.c (update_player): Likewise.
+
+	* src/rules/lemmings.c (find_lemming_direction) <bits>: Initialize.
+
 2002-01-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
-	Move part of src/bonus.c to src/rules/bonuses.c.  The remaining of
-	the file is related to the level rendering.  (A small part of the
-	things moved are related to rendering too, but they are difficult
-	to split.)
+	Move parts of src/bonus.c to src/rules/bonuses.c.  The remaining
+	of the file is related to the level rendering.  (A small part of
+	the things moved are related to rendering too, but they are
+	difficult to split.)
 
 	* src/rules/bonuses.c: New file.
 	* src/rules/Makefile.inc (rules_libhrules_a_SOURCES): Add it.

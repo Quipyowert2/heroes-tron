@@ -201,8 +201,8 @@ load_level (char *filename, char cont)
 	"initialize variables and maps associated to the level, (mode %d).",
 	state.game_mode);
 
-  allocate_explosions ();
   state_init (&state, &lvl, cont);
+  allocate_explosions (&state, &lvl);
   if (init_bonuses_level (&state, &lvl))
     return 15;
 
@@ -219,7 +219,7 @@ unload_level (void)
   uninit_render_data ();
   uninit_bonuses_level ();
   img_free (&tile_set_img);
-  release_explosions ();
+  release_explosions (&state);
   state_free (&state);
   lvl_free (&lvl);
   unload_soundtrack ();
@@ -697,7 +697,7 @@ update_all (char plr)
   int n = 0;
   long frames = read_htimer (update_htimer);
 
-  update_explosions ();
+  update_explosions (&state, &lvl);
 
   for (; frames; --frames) {
     if (plr) {

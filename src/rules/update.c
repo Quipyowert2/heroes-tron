@@ -83,7 +83,7 @@ find_free_way (a_level_state *state, const a_level *lvl, int c)
        apply.  */
     a_square_index idx = lvl->square_move[f][m];
     if (idx != INVALID_INDEX
-	&& square_explo_state[idx] <= EXPLOSION_IMMEDIATE
+	&& state->square_explo_state[idx] <= EXPLOSION_IMMEDIATE
 	&& !state->player[c].invincible)
       return;
   }
@@ -292,8 +292,9 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
       /* If the player has fire_trail on, trigger explosions on
 	 the head and the tail of the trail.  */
       if (state->player[c].fire_trail) {
-	trigger_explosion (state->private->trail_pos[c][a], EXPLOSION_IMMEDIATE);
-	trigger_explosion (state->private->trail_pos[c]
+	trigger_explosion (state, lvl, state->private->trail_pos[c][a],
+			   EXPLOSION_IMMEDIATE);
+	trigger_explosion (state, lvl, state->private->trail_pos[c]
 			   [state->private->trail_offset[c]],
 			   EXPLOSION_IMMEDIATE);
       }
@@ -339,7 +340,7 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
 	state->player[c].target -= 16;
     }
     state->square_occupied[d2] = SQOC_VEHICLE_TAIL (c);
-    if ((square_explo_state[d2] <= EXPLOSION_IMMEDIATE) &&
+    if ((state->square_explo_state[d2] <= EXPLOSION_IMMEDIATE) &&
 	state->player[c].invincible == 0)
       state->player[c].spec = 0xff;
 
@@ -615,7 +616,7 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
 
       if (lvl->square_type[state->player[c].pos] == T_DUST)
 	state->player[c].vi = -(state->player[c].v >> 1);
-      trigger_possible_explosion (d2);
+      trigger_possible_explosion (state, lvl, d2);
     }
     state->player[c].delay = 0;
 

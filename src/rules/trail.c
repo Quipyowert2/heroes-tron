@@ -83,6 +83,6 @@ erase_trail (a_level_state *state, const a_level *lvl, int c)
     if ((state->square_occupied[i] & 3) == c
 	&& state->square_occupied[i] < 16) {
       state->square_occupied[i] = SQOC_VACANT;
-      trigger_explosion (i, EXPLOSION_IMMEDIATE);
+      trigger_explosion (state, lvl, i, EXPLOSION_IMMEDIATE);
     }
 }

@@ -65,7 +65,7 @@ ai_throttle (a_level_state *state, const a_level *lvl, int c)
 	    seen_opponent_head = true;
 	}
 	--free_directions;
-      } else if (square_explo_state[idx] < EXPLOSION_IMMEDIATE + 2
+      } else if (state->square_explo_state[idx] < EXPLOSION_IMMEDIATE + 2
 		 && ! state->player[c].invincible) {
 	--free_directions;
       }
@@ -154,54 +154,54 @@ ia_eval_dist (a_level_state *state, const a_level *lvl, int pos)
 /* used by ia_goto_target
  */
 
-#define ia_eval_dir_target_inline(dir)				\
-    idx = lvl->square_move[dir][pos];				\
-    if (idx != INVALID_INDEX)					\
-    if ((state->square_occupied[idx] == 0xff) &&		\
-       ((square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)	\
-        || ia_is_invincible)) {					\
-	    tmp = ia_eval_dir_target (state, lvl, idx);		\
-	    if (tmp < mindist) mindist = tmp;			\
+#define ia_eval_dir_target_inline(dir)					\
+    idx = lvl->square_move[dir][pos];					\
+    if (idx != INVALID_INDEX)						\
+    if ((state->square_occupied[idx] == 0xff) &&			\
+       ((state->square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)	\
+        || ia_is_invincible)) {						\
+	    tmp = ia_eval_dir_target (state, lvl, idx);			\
+	    if (tmp < mindist) mindist = tmp;				\
     }
 
-#define ia_eval_dir_bonus_inline(dir)				\
-    idx = lvl->square_move[dir][pos];				\
-    if (idx != INVALID_INDEX)					\
-    if ((state->square_occupied[idx] == 0xff) &&		\
-       ((square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)	\
-        || ia_is_invincible)) {					\
-            tmp = ia_eval_dir_bonus (state, lvl, idx);		\
-	    if (tmp > mindist) mindist = tmp;			\
+#define ia_eval_dir_bonus_inline(dir)					\
+    idx = lvl->square_move[dir][pos];					\
+    if (idx != INVALID_INDEX)						\
+    if ((state->square_occupied[idx] == 0xff) &&			\
+       ((state->square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)	\
+        || ia_is_invincible)) {						\
+            tmp = ia_eval_dir_bonus (state, lvl, idx);			\
+	    if (tmp > mindist) mindist = tmp;				\
     }
 
-#define ia_eval_dir_lemming_inline(dir)				\
-    idx = lvl->square_move[dir][pos];				\
-    if (idx != INVALID_INDEX)					\
-    if ((state->square_occupied[idx] == 0xff) &&		\
-       ((square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)	\
-        || ia_is_invincible)) {					\
-	    tmp = ia_eval_dir_lemming (state, lvl, idx);	\
-	    if (tmp > mindist) mindist = tmp;			\
+#define ia_eval_dir_lemming_inline(dir)					\
+    idx = lvl->square_move[dir][pos];					\
+    if (idx != INVALID_INDEX)						\
+    if ((state->square_occupied[idx] == 0xff) &&			\
+       ((state->square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)	\
+        || ia_is_invincible)) {						\
+	    tmp = ia_eval_dir_lemming (state, lvl, idx);		\
+	    if (tmp > mindist) mindist = tmp;				\
     }
 
-#define ia_eval_dir_cash_inline(dir)				\
-    idx = lvl->square_move[dir][pos];				\
-    if (idx != INVALID_INDEX)					\
-    if ((state->square_occupied[idx] == 0xff) &&		\
-       ((square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)	\
-        || ia_is_invincible)) {					\
-	    tmp = ia_eval_dir_cash (state, lvl, idx);		\
-	    if (tmp > mindist) mindist = tmp;			\
+#define ia_eval_dir_cash_inline(dir)					\
+    idx = lvl->square_move[dir][pos];					\
+    if (idx != INVALID_INDEX)						\
+    if ((state->square_occupied[idx] == 0xff) &&			\
+       ((state->square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)	\
+        || ia_is_invincible)) {						\
+	    tmp = ia_eval_dir_cash (state, lvl, idx);			\
+	    if (tmp > mindist) mindist = tmp;				\
     }
 
-#define ia_eval_dir_color_inline(dir)				\
-    idx = lvl->square_move[dir][pos];				\
-    if (idx != INVALID_INDEX)					\
-    if ((state->square_occupied[idx] == 0xff) &&		\
-       ((square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)	\
-        || ia_is_invincible)) {					\
-	    tmp = ia_eval_dir_color(state, lvl, idx);		\
-	    if (tmp > mindist) mindist = tmp;			\
+#define ia_eval_dir_color_inline(dir)					\
+    idx = lvl->square_move[dir][pos];					\
+    if (idx != INVALID_INDEX)						\
+    if ((state->square_occupied[idx] == 0xff) &&			\
+       ((state->square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)	\
+        || ia_is_invincible)) {						\
+	    tmp = ia_eval_dir_color(state, lvl, idx);			\
+	    if (tmp > mindist) mindist = tmp;				\
     }
 
 /*
@@ -451,74 +451,74 @@ ia_eval_dir_bonus (a_level_state *state, const a_level *lvl,
 
 /* give the *way* to follow to get a given position */
 
-#define ia_goto_target_inline(dir)				\
-    idx = lvl->square_move[dir][pos];				\
-    if (idx != INVALID_INDEX)					\
-    if ((state->square_occupied[idx] == 0xff) &&		\
-       ((square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)	\
-        || ia_is_invincible)) {					\
-	  ia_cur_depth=ia_max_depth;				\
-	  tmp[dir] = ia_eval_dir_target (state, lvl, idx);	\
-	  if (tmp[dir] < mindist) {				\
-		mindist = tmp[dir];				\
-		mindir = dir;					\
-	  }							\
+#define ia_goto_target_inline(dir)					\
+    idx = lvl->square_move[dir][pos];					\
+    if (idx != INVALID_INDEX)						\
+    if ((state->square_occupied[idx] == 0xff) &&			\
+       ((state->square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)	\
+        || ia_is_invincible)) {						\
+	  ia_cur_depth=ia_max_depth;					\
+	  tmp[dir] = ia_eval_dir_target (state, lvl, idx);		\
+	  if (tmp[dir] < mindist) {					\
+		mindist = tmp[dir];					\
+		mindir = dir;						\
+	  }								\
     }
 
-#define ia_goto_bonus_inline(dir)				\
-    idx = lvl->square_move[dir][pos];				\
-    if (idx != INVALID_INDEX)					\
-    if ((state->square_occupied[idx] == 0xff) &&		\
-       ((square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)	\
-        || ia_is_invincible)) {					\
-	  ia_cur_depth = ia_max_depth;				\
-	  tmp[dir] = ia_eval_dir_bonus(state, lvl, idx);	\
-	  if (tmp[dir] > mindist) {				\
-		mindist = tmp[dir];				\
-		mindir = dir;					\
-	  }							\
+#define ia_goto_bonus_inline(dir)					\
+    idx = lvl->square_move[dir][pos];					\
+    if (idx != INVALID_INDEX)						\
+    if ((state->square_occupied[idx] == 0xff) &&			\
+       ((state->square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)	\
+        || ia_is_invincible)) {						\
+	  ia_cur_depth = ia_max_depth;					\
+	  tmp[dir] = ia_eval_dir_bonus(state, lvl, idx);		\
+	  if (tmp[dir] > mindist) {					\
+		mindist = tmp[dir];					\
+		mindir = dir;						\
+	  }								\
     }
 
-#define ia_goto_lemming_inline(dir)				\
-    idx = lvl->square_move[dir][pos];				\
-    if (idx != INVALID_INDEX)					\
-    if ((state->square_occupied[idx] == 0xff) &&		\
-       ((square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)	\
-        || ia_is_invincible)) {					\
-	  ia_cur_depth = ia_max_depth;				\
-	  tmp[dir] = ia_eval_dir_lemming(state, lvl, idx);	\
-	  if (tmp[dir] > mindist) {				\
-		mindist = tmp[dir];				\
-		mindir = dir;					\
-	  }							\
+#define ia_goto_lemming_inline(dir)					\
+    idx = lvl->square_move[dir][pos];					\
+    if (idx != INVALID_INDEX)						\
+    if ((state->square_occupied[idx] == 0xff) &&			\
+       ((state->square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)	\
+        || ia_is_invincible)) {						\
+	  ia_cur_depth = ia_max_depth;					\
+	  tmp[dir] = ia_eval_dir_lemming(state, lvl, idx);		\
+	  if (tmp[dir] > mindist) {					\
+		mindist = tmp[dir];					\
+		mindir = dir;						\
+	  }								\
     }
 
-#define ia_goto_color_inline(dir)				\
-    idx = lvl->square_move[dir][pos];				\
-    if (idx != INVALID_INDEX)					\
-    if ((state->square_occupied[idx] == 0xff) &&		\
-       ((square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)	\
-        || ia_is_invincible)) {					\
-	  ia_cur_depth = ia_max_depth;				\
-	  tmp[dir] = ia_eval_dir_color (state, lvl, idx);	\
-	  if (tmp[dir] > mindist) {				\
-		mindist = tmp[dir];				\
-		mindir = dir;					\
-	  }							\
+#define ia_goto_color_inline(dir)					\
+    idx = lvl->square_move[dir][pos];					\
+    if (idx != INVALID_INDEX)						\
+    if ((state->square_occupied[idx] == 0xff) &&			\
+       ((state->square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)	\
+        || ia_is_invincible)) {						\
+	  ia_cur_depth = ia_max_depth;					\
+	  tmp[dir] = ia_eval_dir_color (state, lvl, idx);		\
+	  if (tmp[dir] > mindist) {					\
+		mindist = tmp[dir];					\
+		mindir = dir;						\
+	  }								\
     }
 
-#define ia_goto_cash_inline(dir)				\
-    idx = lvl->square_move[dir][pos];				\
-    if (idx != INVALID_INDEX)					\
-    if ((state->square_occupied[idx] == 0xff) &&		\
-       ((square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)	\
-        || ia_is_invincible)) {					\
-	  ia_cur_depth = ia_max_depth;				\
-	  tmp[dir] = ia_eval_dir_cash(state, lvl, idx);		\
-	  if (tmp[dir] > mindist) {				\
-		mindist = tmp[dir];				\
-		mindir = dir;					\
-	  }							\
+#define ia_goto_cash_inline(dir)					\
+    idx = lvl->square_move[dir][pos];					\
+    if (idx != INVALID_INDEX)						\
+    if ((state->square_occupied[idx] == 0xff) &&			\
+       ((state->square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)	\
+        || ia_is_invincible)) {						\
+	  ia_cur_depth = ia_max_depth;					\
+	  tmp[dir] = ia_eval_dir_cash(state, lvl, idx);			\
+	  if (tmp[dir] > mindist) {					\
+		mindist = tmp[dir];					\
+		mindir = dir;						\
+	  }								\
     }
 
 char

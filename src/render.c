@@ -570,9 +570,9 @@ draw_level (int p)
 	   j++, i++) {
 	i &= lvl.square_width_wrap;
 	if (((unsigned) i) < lvl.square_width) {
-	  b = square_explo_state[m + i];
+	  b = state.square_explo_state[m + i];
 	  if (b <= EXPLOSION_IMMEDIATE)
-	    DRAW_SPRITE (explosions[square_explo_type[m + i]][b], dest);
+	    DRAW_SPRITE (explosions[state.square_explo_type[m + i]][b], dest);
 	}
 	dest += 12;
       }

@@ -37,6 +37,29 @@ enum a_game_mode {
   M_COLOR = 4,
 };
 
+#define NBR_EXPLOSION_FRAMES 15
+#define NBR_EXPLOSION_KINDS   2
+
+#define EXPLOSION_SLICES_PER_FRAMES 8
+#define EXPLOSION_DELAY 8
+
+#define EXPLOSION_IMMEDIATE (NBR_EXPLOSION_FRAMES - 1)
+#define EXPLOSION_TRIGGERED (EXPLOSION_IMMEDIATE + EXPLOSION_DELAY)
+#define EXPLOSION_TRIGGER_NEIGHBORS (EXPLOSION_TRIGGERED - 3)
+#define EXPLOSION_UNTRIGGERED (EXPLOSION_TRIGGERED + 1)
+
+/*
+ * 0 <= n < NBR_EXPLOSION_FRAMES: frame number to display.
+ * NBR_EXPLOSION_FRAMES <= n <= EXPLOSION_TRIGGERED: about to explode.
+ * n == EXPLOSION_UNTRIGGERED: idle.
+ */
+typedef a_u8 an_explosion;
+#define EXPLOSION_SQUARE_TRIGGERED_P(state_ptr, idx)		\
+  ((state_ptr)->square_explo_state[idx] <= EXPLOSION_TRIGGERED)
+#define EXPLOSION_SQUARE_TRIGGERABLE_P(state_ptr, lvl_ptr, idx)		\
+  ((lvl_ptr)->square_type[idx] == T_BOOM				\
+   && (state_ptr)->square_explo_state[idx] == EXPLOSION_UNTRIGGERED)
+
 /* Some pointers in the a_level_state structure should point to
    constant data, so the user a warned if s/he modify it.  However we
    want to allow the functions from the libhrules.a library to modify
@@ -99,6 +122,9 @@ struct a_level_state {
 
   a_game_mode game_mode;
 
+  LVL_STATE_MUTABLE an_explosion *square_explo_state;
+  LVL_STATE_MUTABLE a_u8 *square_explo_type;
+
   /* Private data.  Use the state_* functions to access them.  */
   LVL_STATE_MUTABLE a_level_state_bits *private;
 };
@@ -124,5 +150,15 @@ void update_player (a_level_state *state, const a_level *lvl, unsigned c);
 
 int state_level_exit_code (const a_level_state *state);
 void state_level_set_exit_code (a_level_state *state, int code);
+
+/* FRAME_START is expected to be EXPLOSION_IMMEDIATE or EXPLOSION_TRIGGERED. */
+void trigger_explosion (a_level_state *state, const a_level *lvl,
+			a_square_index idx, an_explosion frame_start);
+void trigger_possible_explosion (a_level_state *state, const a_level *lvl,
+				 a_square_index idx);
+void update_explosions (a_level_state *state, const a_level *lvl);
+
+void allocate_explosions (a_level_state *state, const a_level *lvl);
+void release_explosions (a_level_state *state);
 
 #endif /* HEROES__STATE__H */

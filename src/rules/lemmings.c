@@ -31,7 +31,7 @@ find_lemming_direction (a_level_state *state, const a_level *lvl,
   a_dir d;
   a_dir_mask avail_dirm;
 
-  a_level_state_bits *bits;
+  a_level_state_bits *bits = state->private;
 
   /* The lemming advances one square.  The tail takes the place of
      the head.  */

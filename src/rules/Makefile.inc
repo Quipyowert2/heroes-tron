@@ -22,6 +22,7 @@ rules_libhrules_a_SOURCES= \
   rules/ai.c \
   rules/ai.h \
   rules/bonuses.c \
+  rules/explosions.c \
   rules/lemmings.c \
   rules/objects.c \
   rules/player.h \

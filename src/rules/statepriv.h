@@ -33,7 +33,7 @@
 # define LVL_STATE_MUTABLE
 #endif
 #include "state.h"
-
+#include "timer.h"
 
 typedef struct a_lemming a_lemming;
 struct a_lemming {
@@ -45,9 +45,9 @@ struct a_lemming {
   char dead;
 };
 
+typedef struct an_explosion_info an_explosion_info;
+
 #define maxq 128
-
-
 struct a_level_state_bits {
   a_square_index trail_pos[4][maxq];
   a_dir8_pair trail_way[4][maxq];
@@ -62,6 +62,14 @@ struct a_level_state_bits {
   int objects_nbr;
 
   int level_is_finished;
+
+  an_explosion_info *explo_list;
+  unsigned int explo_list_max;
+  unsigned int explo_list_first_unused;
+
+  a_timer explo_timer;
+  long explo_time;		/* Updated from explo_timer on each call
+				   to update_explosion.  */
 };
 
 void add_color (a_level_state *state, const a_level *lvl, bool allow_clocks);
