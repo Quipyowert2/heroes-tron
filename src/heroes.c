@@ -1250,7 +1250,7 @@ ai_throttle (int c)
 	}
 	--free_directions;
       } else if (square_explo_state[idx] < EXPLOSION_IMMEDIATE + 2
-		 && ! ia_is_invincible) {
+		 && ! player[c].invincible) {
 	--free_directions;
       }
     }
