@@ -1,3 +1,10 @@
+2000-11-08  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Install files in right directories.
+
+	* src/etc/Makefile.am (xdir): Install in $(pkgdatadir).
+	* src/txt_cfg/Makefile.am (zdir): Likewise.
+
 2000-11-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/hedlite.c (hmain): convert tile_set_name to lowercase (this

@@ -15,10 +15,8 @@
 # You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-# 
-# $Id: Makefile.am 1.2 Thu, 01 Jun 2000 17:30:18 +0200 pollux $
 
-zdir = @datadir@/txt_cfg
+zdir = $(pkgdatadir)/txt_cfg
 z_DATA = txti.cfg heroes.hlp heroes.sdf
 
 EXTRA_DIST = $(z_DATA)
