@@ -41,7 +41,9 @@ sys_libhsdlm_a_CFLAGS = \
 sys_libhsdlm_a_SOURCES = \
   sys/std/main.c
 
+# Don't use $(MORE_WARNINGS_CFLAGS) with Allegro.  There are too many
+# warnings in the Allegro header files!
 sys_libhallm_a_CFLAGS = \
-  $(MORE_WARNINGS_CFLAGS) $(ALLEGRO_CFLAGS)
+  $(WARNINGS_CFLAGS) $(ALLEGRO_CFLAGS)
 sys_libhallm_a_SOURCES = \
   sys/allegro/main.c

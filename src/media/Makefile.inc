@@ -93,8 +93,10 @@ media_libhsdls_a_SOURCES = \
   media/sdl_mixer/strack.c \
   media/sdl_mixer/sfx.c
 
+# Don't use $(MORE_WARNINGS_CFLAGS) with Allegro.  There are too many
+# warnings in the Allegro header files!
 media_libhallvkm_a_CFLAGS = \
-  $(MORE_WARNINGS_CFLAGS) $(ALLEGRO_CFLAGS)
+  $(WARNINGS_CFLAGS) $(ALLEGRO_CFLAGS)
 media_libhallvkm_a_SOURCES = \
   media/allegro/keyb.c \
   media/allegro/keyvalues.c \

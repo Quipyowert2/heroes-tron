@@ -1,3 +1,11 @@
+2001-12-09  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/heroes.c (get_input_directions): Don't assume keyboard_map
+	contains 0 or 1 (that's not true with Allegro).
+	* src/media/Makefile.inc (media_libhallvkm_a_CFLAGS): Don't use
+	$(MORE_WARNINGS_CFLAGS).
+	* src/sys/Makefile.inc (sys_libhallm_a_CFLAGS): Likewise.
+
 2001-12-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/Makefile.am (GGI_CFLAGS, GII_CFLAGS, LIBMIKMOD_CFLAGS,

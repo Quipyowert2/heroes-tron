@@ -2653,25 +2653,24 @@ get_input_directions (void)
 
   if (opt.ctrl_one == 0) {
 
-    if (keyboard_map[opt.player_keys[0][0]] == 1) {
+    if (keyboard_map[opt.player_keys[0][0]]) {
       player[col2plr[0]].next_way = w_up;
       flag1 = 1;
     }
-    if (keyboard_map[opt.player_keys[0][1]] == 1) {
+    if (keyboard_map[opt.player_keys[0][1]]) {
       player[col2plr[0]].next_way = w_left;
       flag1 = 1;
     }
-    if (keyboard_map[opt.player_keys[0][2]] == 1) {
+    if (keyboard_map[opt.player_keys[0][2]]) {
       player[col2plr[0]].next_way = w_down;
       flag1 = 1;
     }
-    if (keyboard_map[opt.player_keys[0][3]] == 1) {
+    if (keyboard_map[opt.player_keys[0][3]]) {
       player[col2plr[0]].next_way = w_right;
       flag1 = 1;
     }
-    player[col2plr[0]].turbo =
-      ((keyboard_map[opt.player_keys[0][4]] == 1) ? 2 : 1);
-    if (keyboard_map[opt.player_keys[0][5]] == 1) {
+    player[col2plr[0]].turbo = keyboard_map[opt.player_keys[0][4]] ? 2 : 1;
+    if (keyboard_map[opt.player_keys[0][5]]) {
       if (player[col2plr[0]].turbo == 2) {
 	/* two buttons pushed */
 	player[col2plr[0]].turbo = 1;
@@ -2721,25 +2720,24 @@ get_input_directions (void)
     player[col2plr[0]].next_way = player[col2plr[0]].tunnel_way;
   if (two_players == true) {
     if (opt.ctrl_two == 0) {
-      if (keyboard_map[opt.player_keys[1][0]] == 1) {
+      if (keyboard_map[opt.player_keys[1][0]]) {
 	player[col2plr[1]].next_way = w_up;
 	flag2 = 1;
       }
-      if (keyboard_map[opt.player_keys[1][1]] == 1) {
+      if (keyboard_map[opt.player_keys[1][1]]) {
 	player[col2plr[1]].next_way = w_left;
 	flag2 = 1;
       }
-      if (keyboard_map[opt.player_keys[1][2]] == 1) {
+      if (keyboard_map[opt.player_keys[1][2]]) {
 	player[col2plr[1]].next_way = w_down;
 	flag2 = 1;
       }
-      if (keyboard_map[opt.player_keys[1][3]] == 1) {
+      if (keyboard_map[opt.player_keys[1][3]]) {
 	player[col2plr[1]].next_way = w_right;
 	flag2 = 1;
       }
-      player[col2plr[1]].turbo =
-	((keyboard_map[opt.player_keys[1][4]] == 1) ? 2 : 1);
-      if (keyboard_map[opt.player_keys[1][5]] == 1) {
+      player[col2plr[1]].turbo = keyboard_map[opt.player_keys[1][4]] ? 2 : 1;
+      if (keyboard_map[opt.player_keys[1][5]]) {
 	if (player[col2plr[1]].turbo == 2) {
 	  /* two buttons pushed */
 	  player[col2plr[1]].turbo = 1;
@@ -3173,16 +3171,16 @@ play_game (char cont)
 	  corner[0] = tmp;
 	  flush_display2 (corner[0], corner[1]);
 	}
-	if (keyboard_map[HK_Enter] == 0)
+	if (! keyboard_map[HK_Enter])
 	  flag = 0;
 	output_screen ((char) n);
 	process_input_events ();
 	n = update_all (1);
-	if (keyboard_map[HK_Escape] != 0)
+	if (keyboard_map[HK_Escape])
 	  if (quit_yes_no () == 0)
 	    l = 255;
-      } while ( /*keyboard_map[HK_Escape]==0 */ l != 255
-	       && (flag || keyboard_map[HK_Enter] == 0));
+      } while ( /*! keyboard_map[HK_Escape] */ l != 255
+	       && (flag || ! keyboard_map[HK_Enter]));
 /*   if (keyboard_map[HK_Escape]) l=255; */
 
       if (l == 0)
