@@ -1,5 +1,12 @@
 2000-08-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/debugmsg.c (dperror): Print an error message only
+	if debug_level is non null.
+	* src/extras.c (browse_extra_directory): Print an error
+	message if an extra user directory does not exists.
+
+2000-08-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	From Mattias Engdegård <f91-men@nada.kth.se>.
 
 	Cure the bus errors on sparc (results from unaligned memory

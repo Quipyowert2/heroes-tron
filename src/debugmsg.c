@@ -81,9 +81,11 @@ dmsg (dlvl, msg, va_alist)
 void
 dperror (const char* s)
 {
-  fprintf (stderr, "%s: ", progname);
-  fflush (stderr);
-  perror (s);
+  if (debug_level) {
+    fprintf (stderr, "%s: ", progname);
+    fflush (stderr);
+    perror (s);
+  }
 }
 
 #endif /* !dmsg */

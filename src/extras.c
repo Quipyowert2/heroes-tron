@@ -103,6 +103,8 @@ browse_extra_directory (const char* directory, char is_in_user_dir)
   extra_nbr_here = scandir (directory, &tmp_list, select_file, alphasort);
 
   if (extra_nbr_here == -1) {
+    if (is_in_user_dir) 
+      perror (directory);
     dperror ("scandir");
     return;
   }
