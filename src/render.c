@@ -302,7 +302,7 @@ void
 draw_level (int p)
 {
   int i, j;
-  int k, l, m;
+  int k, l;
   const lemming_t* tmppti;
   signed char bb;
   unsigned char b;
@@ -324,12 +324,13 @@ draw_level (int p)
   if (bonus_anim_offset >= 13)
     bonus_anim_offset = 25 - bonus_anim_offset;
 
-  if (map_info.ywrap == DONT_WRAP && (corner_dy[p] + 11U) > map_info.yt)
+  if (lvl.tile_height_wrap == DONT_WRAP
+      && (corner_dy[p] + 11U) > lvl.tile_height)
     camera_stop_y[p] = 1;
   else
     camera_stop_y[p] = 0;
-  if (map_info.xwrap == DONT_WRAP &&
-      (corner_dx[p] + nbr_tiles_cols) > map_info.xt)
+  if (lvl.tile_width_wrap == DONT_WRAP
+      && (corner_dx[p] + nbr_tiles_cols) > lvl.tile_width)
     camera_stop_x[p] = 1;
   else
     camera_stop_x[p] = 0;
@@ -339,12 +340,13 @@ draw_level (int p)
   anim_frame = read_htimer (tiles_anim_htimer);
 
   for (k = corner_dy[p], l = 11 - camera_stop_y[p]; l > 0; l--, k++) {
-    k = k & map_info.ywrap;
-    m = k * map_info.xt;
+    tile_index_t m;
+    k = k & lvl.tile_height_wrap;
+    m = k * lvl.tile_width;
     for (i = corner_dx[p], j = nbr_tiles_cols - camera_stop_x[p]; j > 0;
 	 j--, i++) {
-      i = (i & map_info.xwrap);
-      if ((i + m) < (int)(map_info.xt * map_info.yt)) {
+      i = (i & lvl.tile_width_wrap);
+      if ((i + m) < lvl.tile_count) {
 	bg_data_t* tile = bg_data + i + m;
 	switch (tile->kind) {
 	case A_NONE:
@@ -377,13 +379,14 @@ draw_level (int p)
     dest = render_buffer[p] + sbuf - 24 - 10 * xbuf;
     for (k = corner_dy[p] * 2 - 1, l = 2 + (11 - camera_stop_y[p]) * 2; l > 0;
 	 l--, k++) {
-      k &= map_info_2ywrap;
-      if ((unsigned) k < map_info_2yt) {
-	m = k * map_info_2xt;
+      k &= lvl.square_height_wrap;
+      if ((unsigned) k < lvl.square_height) {
+	tile_index_t m;
+	m = k * lvl.square_width;
 	for (i = corner_dx[p] * 2 - 2, j =
 	     2 + (nbr_tiles_cols - camera_stop_x[p]); j > 0; j--, i += 2) {
-	  i &= map_info_2xwrap;
-	  if ((unsigned) i < map_info_2xt) {
+	  i &= lvl.square_width_wrap;
+	  if ((unsigned) i < lvl.square_width) {
 	    tmppti = square_dead_lemmings_list[i + m];
 	    if (tmppti != NULL) {
 	      draw_dead_lemming (dest, tmppti);
@@ -404,10 +407,11 @@ draw_level (int p)
 
     dest = render_buffer[p] + sbuf + 3 + xbuf;
     for (k = corner_dy[p] * 2, l = (11 - camera_stop_y[p]) * 2; l > 0;
-	 l--, k = ((k + 1) & (map_info_2ywrap))) {
-      m = k * map_info_2xt;
+	 l--, k = ((k + 1) & lvl.square_height_wrap)) {
+      tile_index_t m;
+      m = k * lvl.square_width;
       for (i = corner_dx[p] * 2, j = (nbr_tiles_cols - camera_stop_x[p]);
-	   j > 0; j--, i = ((i + 2) & (map_info_2xwrap))) {
+	   j > 0; j--, i = ((i + 2) & lvl.square_width_wrap)) {
 	tmppti = square_lemmings_list[i + m];
 	if (tmppti != NULL) {
 	  draw_lemming (dest, tmppti, i + m);
@@ -427,10 +431,11 @@ draw_level (int p)
   if (game_mode == M_COLOR) {
     dest = render_buffer[p] + sbuf + 2 + xbuf * 2;
     for (k = corner_dy[p] * 2, l = (11 - camera_stop_y[p]) * 2; l > 0;
-	 l--, k = ((k + 1) & (map_info_2ywrap))) {
-      m = k * map_info_2xt;
+	 l--, k = ((k + 1) & lvl.square_height_wrap)) {
+      tile_index_t m;
+      m = k * lvl.square_width;
       for (i = corner_dx[p] * 2, j = (nbr_tiles_cols - camera_stop_x[p]);
-	   j > 0; j--, i = ((i + 2) & (map_info_2xwrap))) {
+	   j > 0; j--, i = ((i + 2) & lvl.square_width_wrap)) {
 	bb = square_object[i + m];
 	if (bb >= 0)
 	  draw_color (dest, bb);
@@ -448,10 +453,11 @@ draw_level (int p)
   if (game_mode == M_TCASH) {
     dest = render_buffer[p] + sbuf + 2;
     for (k = corner_dy[p] * 2, l = (11 - camera_stop_y[p]) * 2; l > 0;
-	 l--, k = ((k + 1) & (map_info_2ywrap))) {
-      m = k * map_info_2xt;
+	 l--, k = ((k + 1) & lvl.square_height_wrap)) {
+      tile_index_t m;
+      m = k * lvl.square_width;
       for (i = corner_dx[p] * 2, j = (nbr_tiles_cols - camera_stop_x[p]);
-	   j > 0; j--, i = ((i + 2) & (map_info_2xwrap))) {
+	   j > 0; j--, i = ((i + 2) & lvl.square_width_wrap)) {
 	bb = square_object[i + m];
 	if (bb == 15)
 	  DRAW_SPRITE (clock_anim, dest);
@@ -472,10 +478,11 @@ draw_level (int p)
 
   dest = render_buffer[p] + sbuf;
   for (k = corner_dy[p] * 2, l = (11 - camera_stop_y[p]) * 2; l > 0;
-       l--, k = ((k + 1) & (map_info_2ywrap))) {
-    m = k * map_info_2xt;
+       l--, k = ((k + 1) & lvl.square_height_wrap)) {
+    tile_index_t m;
+    m = k * lvl.square_width;
     for (i = corner_dx[p] * 2, j = (nbr_tiles_cols - camera_stop_x[p]); j > 0;
-	 j--, i = ((i + 2) & (map_info_2xwrap))) {
+	 j--, i = ((i + 2) & lvl.square_width_wrap)) {
       bb = square_occupied[i + m];
       if (bb != -1) {
 	if (bb >= 0 && bb < 4)
@@ -508,10 +515,11 @@ draw_level (int p)
 
   dest = render_buffer[p] + sbuf;
   for (k = corner_dy[p], l = 11 - camera_stop_y[p]; l > 0;
-       l--, k = ((k + 1) & map_info.ywrap)) {
-    m = k * map_info.xt;
+       l--, k = ((k + 1) & lvl.tile_height_wrap)) {
+    tile_index_t m;
+    m = k * lvl.tile_width;
     for (i = corner_dx[p], j = nbr_tiles_cols - camera_stop_x[p]; j > 0;
-	 j--, i = ((i + 1) & map_info.xwrap)) {
+	 j--, i = ((i + 1) & lvl.tile_width_wrap)) {
       int pos = i + m;
       if (fg_data[pos].bonus)
 	DRAW_SPRITE (fg_data[pos].bonus[bonus_anim_offset], dest);
@@ -529,14 +537,15 @@ draw_level (int p)
   dest = render_buffer[p] + sbuf - 12 - 11 * xbuf - 20 * xbuf - 12;
   for (k = corner_dy[p] * 2 - 2, l = 0; l != 4 + (11 - camera_stop_y[p]) * 2;
        l++, k++) {
-    k &= map_info_2ywrap;
-    if (((unsigned) k) < map_info_2yt) {
-      m = k * map_info_2xt;
+    k &= lvl.square_height_wrap;
+    if (((unsigned) k) < lvl.square_height) {
+      tile_index_t m;
+      m = k * lvl.square_width;
       for (i = corner_dx[p] * 2 - 1, j = 0;
 	   (unsigned)j != 2 + (nbr_tiles_cols - camera_stop_x[p]) * 2;
 	   j++, i++) {
-	i &= map_info_2xwrap;
-	if (((unsigned) i) < map_info_2xt) {
+	i &= lvl.square_width_wrap;
+	if (((unsigned) i) < lvl.square_width) {
 	  b = square_explosion[m + i];
 	  if (b < (NBR_EXPLOSION_FRAMES - 1) * 8 - 1) {
 	    b++;
@@ -558,14 +567,15 @@ draw_level (int p)
     dest = render_buffer[p] + sbuf - 12 - 11 * xbuf - 20 * xbuf - 12;
     for (k = corner_dy[p] * 2 - 2, l = 0;
 	 l != 4 + (11 - camera_stop_y[p]) * 2; l++, k++) {
-      k &= map_info_2ywrap;
-      if (((unsigned) k) < map_info_2yt) {
-	m = k * map_info_2xt;
+      k &= lvl.square_height_wrap;
+      if (((unsigned) k) < lvl.square_height) {
+	tile_index_t m;
+	m = k * lvl.square_width;
 	for (i = corner_dx[p] * 2 - 1, j = 0;
 	     (unsigned)j != 2 + (nbr_tiles_cols - camera_stop_x[p]) * 2;
 	     j++, i++) {
-	  i &= map_info_2xwrap;
-	  if (((unsigned) i) < map_info_2xt) {
+	  i &= lvl.square_width_wrap;
+	  if (((unsigned) i) < lvl.square_width) {
 	    ib = event_time - square_dead_explosion[m + i];
 	    if (ib < (NBR_EXPLOSION_FRAMES - 1) * 8 - 1) {
 	      ib++;
@@ -602,11 +612,12 @@ draw_level (int p)
 
     for (k = corner_dy[p] - 0, l = 1 + 11 - camera_stop_y[p]; l > 0;
 	 l--, k++) {
-      k &= map_info.ywrap;
-      m = k * map_info.xt;
+      tile_index_t m;
+      k &= lvl.tile_height_wrap;
+      m = k * lvl.tile_width;
       for (i = corner_dx[p] - 1, j = 2 + nbr_tiles_cols - camera_stop_x[p];
 	   j > 0; j--, i++) {
-	i &= map_info.xwrap;
+	i &= lvl.tile_width_wrap;
 	if (tile_bonus[i + m] == bonus_to_show)
 	  draw_sprunish_custom (s, dest, color);
 	dest += 24;
@@ -660,13 +671,13 @@ draw_radar_map (int dx, int dy)
   src = corner[0] + 6 * xbuf + 240 + radar_current_pos;
   tdy = dy - 20;
   for (y = 40; y != 0; y--) {
-    tdy &= map_info_2ywrap;
-    if (tdy >= 0 && (tdy >> 1) < (int)map_info.yt) {
-      tdym = tdy * map_info_2xt;
+    tdy &= lvl.tile_width_wrap;
+    if (tdy >= 0 && (tdy >> 1) < (int)lvl.tile_height) {
+      tdym = tdy * lvl.square_width;
       tdx = dx - 36;
       for (x = 73 - dede; x != 0; x--) {
-	tdx &= map_info_2xwrap;
-	if (tdx >= 0 && (tdx >> 1) < (int)map_info.xt) {
+	tdx &= lvl.square_width_wrap;
+	if (tdx >= 0 && (tdx >> 1) < (int)lvl.tile_width) {
 	  tmp = tile_bonus[square2tile[tdx + tdym]];
 	  if (tmp != 0 && tmp != -1) {
 	    if ((tmp & 127) == 1 && blink)
@@ -675,7 +686,7 @@ draw_radar_map (int dx, int dy)
 	      *src = 27;
 	  } else if ((tmp = square_occupied[tdx + tdym]) != -1)
 	    *src = radar_trail_color[tmp];
-	  else if ((tmp = square_wall[tdx + tdym]) != 0)	/* square_radar_wall */
+	  else if ((tmp = lvl.square_walls_out[tdx + tdym]) != 0)	/* square_radar_wall */
 	    *src = radar_wall_color[tmp];
 	  else
 	    *src = glenz[0][*src];

@@ -838,8 +838,8 @@ background_menu (void)
 
   camera_x[0] = 65536 * 24 * cos (TTT / 111.0);
   camera_y[0] = 65536 * 24 * sin (TTT / 175.0);
-  camera_x[0] &= (map_info.xwrap << 16) | (0xffff);
-  camera_y[0] &= (map_info.ywrap << 16) | (0xffff);
+  camera_x[0] &= (lvl.tile_width_wrap << 16) | (0xffff);
+  camera_y[0] &= (lvl.tile_height_wrap << 16) | (0xffff);
   inert_x[0] = camera_x[0];
   inert_y[0] = camera_y[0];
   compute_corner (0, 1);

@@ -73,11 +73,6 @@ pixel_t *(render_buffer[2]);		/* xbuf * ybuf */
 
 pixel_t glenz[8][256];		/* glenz lines */
 
-level_header_t map_info = { 0, 0, -1, -1,
-			    {0, 0, 0, 0}, {0, 0, 0, 0}, "", "", "" };
-unsigned long int map_info_2xt, map_info_2yt;
-signed long int map_info_2xwrap, map_info_2ywrap;
-
 pcx_image_t main_font_img, vehicles_img;
 pcx_image_t bonus_font_img;
 pcx_image_t tile_set_img, font_deck_img;
@@ -95,14 +90,12 @@ char trail_size[4];		/* trail size, minus one */
 int col2plr[4];
 int plr2col[4];
 
-tile_t *level_map;
-
 int last_explo;
+
+level_t lvl;
 
 unsigned char *square_occupied;
 unsigned char *square_way;
-unsigned char *square_radar_wall;
-unsigned char *square_wall;
 unsigned char *square_explosion;
 int *square_dead_explosion;
 unsigned char **explo_list_ptr;
@@ -111,7 +104,6 @@ int *explo_list_pos_y;
 int explo_nbr;
 unsigned char *square_explosion_type;
 int *square2tile;
-int *square_wrap;
 int *square_offset2coord;
 signed char *square_object;
 lemming_t **square_lemmings_list;

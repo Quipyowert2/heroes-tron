@@ -23,6 +23,8 @@
 #ifndef HEROES__STRUCTS__H
 #define HEROES__STRUCTS__H
 
+#include "lvl.h"
+
 /*----------------------- directions constants -----------------------*/
 #define d_up   1
 #define d_right 2
@@ -114,7 +116,6 @@ typedef struct
 ATTRIBUTE_PACKED tile_info_t;  /* 10 bytes */
 
 #define FILENAME_SIZE 8
-#define DONT_WRAP     U32_MAX
 
 typedef struct
 {
@@ -157,8 +158,7 @@ typedef struct
   int vitt;			/* speed to reach */
   int vitp;			/* current speed */
   ehl d;			/* offset */
-  int way, next_way, old_way, old_old_way, tunnel_way;
-  int square;			/* sub-tile */
+  dir_t way, next_way, old_way, old_old_way, tunnel_way;
   int delay;			/* delay frames (FIXME: don't use frames) */
   int spec;			/* special event (tunnel,ice,death) */
   int div;			/* misc.         (tunnel) */
@@ -196,7 +196,7 @@ typedef struct
   unsigned int pos1, pos2;	/* positions */
   unsigned int min;		/* position in the tile */
   char *nexttache;		/* next stain in the tile */
-  char way;
+  dir_t way;
   int couleur;
   char dead;
 }

@@ -131,7 +131,7 @@ add_bonus (int pos_in_list, unsigned char what)
   int pos;
 
   do
-    pos = rand () % (map_info.xt * map_info.yt);
+    pos = rand () % lvl.tile_count;
   while (tile_bonus[pos] != 0);
 
   tile_bonus[pos] = what;
@@ -203,17 +203,19 @@ reset_bonus_mode (int mode)
 static void
 mark_unreachable_places (void)
 {
-  int i;
+  tile_index_t i;
 
-  for (i = map_info.xt * map_info.yt - 1; i >= 0; i--)
+  for (i = 0; i < lvl.tile_count; ++i) {
+    square_index_t s = TILE_INDEX_TO_SQR_INDEX (&lvl, i);
     /* if the place can't be reached, or is a corridor, don't
        put a bonus */
-    if (level_map[i].type == t_outway
-	|| (level_map[i].collision[0] & (c_down | c_right))
-	|| (level_map[i].collision[1] & (c_down | c_left))
-	|| (level_map[i].collision[2] & (c_up | c_right))
-	|| (level_map[i].collision[3] & (c_up | c_left)))
+    if ((lvl_tile_type (&lvl, i) == T_OUTWAY)
+	|| (lvl.square_walls_out[SQR0 (&lvl, s)] & (DM_DOWN | DM_RIGHT))
+	|| (lvl.square_walls_out[SQR1 (&lvl, s)] & (DM_DOWN | DM_LEFT))
+	|| (lvl.square_walls_out[SQR2 (&lvl, s)] & (DM_UP | DM_RIGHT))
+	|| (lvl.square_walls_out[SQR3 (&lvl, s)] & (DM_UP | DM_LEFT)))
       tile_bonus[i] = 0xff;
+  }
 }
 
 int
@@ -225,10 +227,10 @@ init_bonuses_level (void)
 
   reset_bonus_mode (game_mode);
 
-  XCALLOC_ARRAY (tile_bonus, map_info.xt * map_info.yt);
-  XCALLOC_ARRAY (tile_bonus_cpu, map_info.xt * map_info.yt);
+  XCALLOC_ARRAY (tile_bonus, lvl.tile_count);
+  XCALLOC_ARRAY (tile_bonus_cpu, lvl.tile_count);
 
-  bonus_total_nbr = (map_info.xt * map_info.yt / 90) + 3;
+  bonus_total_nbr = (lvl.tile_count / 90) + 3;
   bonus_real_nbr = bonus_total_nbr - 2;
   next_bonus_to_update = 0;
 

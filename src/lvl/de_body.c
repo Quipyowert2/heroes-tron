@@ -51,7 +51,7 @@ dir_mask_to_dir (dir_mask_t dm)
 
    Offset  Size  Repeat  What
    --------------------------------------------------------------------
-    0      4             tile definition number (used by the level editor)
+    0      4             sprite offset of the tile in the tile sprite map
     4      1     4       walls for each sub square: if D_UP is set, you
                          cannot *enter* the square from the *bottom* edge.
                          Note this is not the expected content of
@@ -60,14 +60,16 @@ dir_mask_to_dir (dir_mask_t dm)
 			   the same bit should be set in square_walls_out
 			   for the square (Y,X+1) (i.e. the square on the
 			   right).
-    8      2             sprite offset of the tile in the tile sprite map
+    8      2             sprite offset of the overlay in the tile sprite map,
+                         unless nul
    10      5             parameters (see interpretation below)
    15      1             tile type
    ==
    16 bytes.
 */
 #define TILE_WALLS(p) ((const u8_t *) ((p) + 4))
-#define TILE_SPRITE(p) ((u16_t) (GET_U16 ((p) + 8)))
+#define TILE_SPRITE(p) ((u32_t) (GET_U32 ((p) + 0)))
+#define TILE_OVERLAY(p) ((u16_t) (GET_U16 ((p) + 8)))
 #define TILE_TYPE(p) ((tile_type_t) (GET_U8 ((p) + 15)))
 /* Parameters are used differently for each type of tile.
 
@@ -244,6 +246,7 @@ decode_level_body (const u8_t *data, level_t *lvl)
 
     /* Store sprite.  */
     lvl->private->tile[ti].sprite_offset = TILE_SPRITE (data);
+    lvl->private->tile[ti].sprite_overlay_offset = TILE_OVERLAY (data);
 
     switch (tt) {
     case T_TUNNEL:
@@ -296,6 +299,7 @@ decode_level_body (const u8_t *data, level_t *lvl)
     case T_ANIM:
       lvl->private->tile[ti].frame_count = ANIM_FRAME_COUNT (data);
       lvl->private->tile[ti].frame_delay = ANIM_FRAME_DELAY (data);
+      lvl->private->tile[ti].anim = A_LOOP;
       break;
     case T_SPEED:
       {
@@ -327,6 +331,10 @@ decode_level_body (const u8_t *data, level_t *lvl)
     case T_NONE:
       lvl->private->tile[ti].frame_count = SANIM_FRAME_COUNT (data);
       lvl->private->tile[ti].frame_delay = SANIM_FRAME_DELAY (data);
+      if (lvl->private->tile[ti].frame_count)
+	lvl->private->tile[ti].anim = A_PINGPONG;
+      else
+	lvl->private->tile[ti].anim = A_NONE;
       break;
     default:
       assert (0);

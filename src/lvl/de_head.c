@@ -22,6 +22,7 @@
 #include "system.h"
 #include "lvl_priv.h"
 #include "loadmac.h"
+#include "xstrduplwr.h"
 
 void
 decode_level_header (const u8_t *data, level_t *lvl)
@@ -73,7 +74,7 @@ decode_level_header (const u8_t *data, level_t *lvl)
     lvl->private->start_dir[player] = starting_dir >> 4;
   }
 
-  lvl->private->tile_sprite_map_basename = xstrdup ((const char *) data);
+  lvl->private->tile_sprite_map_basename = xstrduplwr ((const char *) data);
   data += 9;
   lvl->private->sound_track_alias = xstrdup ((const char *) data);
 }

@@ -28,14 +28,13 @@
 #include "display.h"
 #include "pcx.h"
 #include "sprite.h"
+#include "lvl.h"
 
 /* data for background tiles */
 
-enum tile_anim_kind { A_NONE, A_LOOP, A_PINGPONG };
-
 typedef struct {
   const pixel_t *source;	/* address of the tile's image */
-  enum tile_anim_kind kind;	/* kind of animation */
+  anim_kind_t kind;		/* kind of animation */
   int anim_speed;		/* speed for animated tiles */
   int anim_frames;		/* number of frames in an animation */
 } bg_data_t;

@@ -80,8 +80,8 @@ uninit_render_data (void)
 void
 init_render_data (void)
 {
-  unsigned pos;
-  unsigned max_pos = map_info.xt * map_info.yt;
+  tile_index_t pos;
+  tile_index_t max_pos = lvl.tile_count;
 
   dmsg (D_SECTION, "Initialize rendering data");
 
@@ -95,36 +95,22 @@ init_render_data (void)
 
     /* background data */
 
-    bg_data[pos].source = level_map[pos].number + tile_set_img.buffer;
-    if (level_map[pos].type == t_anim) {
-      /* Cyclic animation */
-      bg_data[pos].kind = A_LOOP;
-      bg_data[pos].anim_speed = level_map[pos].info.anim.speed + 1;
-      bg_data[pos].anim_frames = level_map[pos].info.anim.frame_nbr + 1;
-    } else if (((level_map[pos].info.param[4] & 0xf0) != 0)
-	       && (level_map[pos].type == t_speed
-		   || level_map[pos].type == t_boom
-		   || level_map[pos].type == t_stop
-		   || level_map[pos].type == t_ice
-		   || level_map[pos].type == t_outway
-		   || level_map[pos].type == t_dust)) {
-      /* Bounced animation */
-      bg_data[pos].kind = A_PINGPONG;
-      bg_data[pos].anim_speed = (level_map[pos].info.param[4] & 0x0f) + 1;
-      bg_data[pos].anim_frames = (level_map[pos].info.param[4] & 0xf0) >> 4;
-    } else {
-      /* Static tile */
-      bg_data[pos].kind = A_NONE;
-      bg_data[pos].anim_speed = 0;
-      bg_data[pos].anim_frames = 0;
-    }
+    bg_data[pos].source =
+      lvl_tile_sprite_offset (&lvl, pos) + tile_set_img.buffer;
+
+    lvl_animation_info (&lvl, pos, &bg_data[pos].anim_frames,
+			&bg_data[pos].anim_speed,
+			&bg_data[pos].kind);
 
     /* foreground data */
+    {
+      unsigned int ovlay = lvl_tile_sprite_overlay_offset (&lvl, pos);
 
-    if (level_map[pos].sprite)
-      fg_data[pos].sprite = get_tile_sprite (level_map[pos].sprite);
-    else
-      fg_data[pos].sprite = 0;
+      if (ovlay)
+	fg_data[pos].sprite = get_tile_sprite (ovlay);
+      else
+	fg_data[pos].sprite = 0;
+    }
     fg_data[pos].bonus = 0;
     fg_data[pos].big_dollar = 0;
   }

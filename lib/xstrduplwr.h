@@ -19,55 +19,9 @@
 | 02111-1307 USA                                                    |
 `------------------------------------------------------------------*/
 
-#include "system.h"
-#include "lvl_priv.h"
+#ifndef XSTRDUPLWR_H_
+#define XSTRDUPLWR_H_
 
-const char *
-lvl_sound_track (const level_t *lvl)
-{
-  return lvl->private->sound_track_alias;
-}
+char *xstrduplwr (const char *in);
 
-const char *
-lvl_tile_sprite_map_basename (const level_t *lvl)
-{
-  return lvl->private->tile_sprite_map_basename;
-}
-
-void
-lvl_start_position (const level_t *lvl, unsigned int player,
-		    square_coord_pair_t *coord, dir_t *dir)
-{
-  if (coord)
-    *coord = lvl->private->start_pos[player];
-  if (dir)
-    *dir = lvl->private->start_dir[player];
-}
-
-tile_type_t
-lvl_tile_type (const level_t *lvl, tile_type_t tile)
-{
-  return lvl->private->tile[tile].type;
-}
-
-unsigned int
-lvl_tile_sprite_offset (const level_t *lvl, tile_index_t tile)
-{
-  return lvl->private->tile[tile].sprite_offset;
-}
-
-unsigned int
-lvl_tile_sprite_overlay_offset (const level_t *lvl, tile_index_t tile)
-{
-  return lvl->private->tile[tile].sprite_overlay_offset;
-}
-
-void
-lvl_animation_info (const level_t *lvl, tile_index_t tile,
-		    unsigned int *frame_count, unsigned int *delay,
-		    anim_kind_t *kind)
-{
-  *kind = lvl->private->tile[tile].anim;
-  *frame_count = lvl->private->tile[tile].frame_count;
-  *delay = lvl->private->tile[tile].frame_delay;
-}
+#endif

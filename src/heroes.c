@@ -92,9 +92,8 @@ char ia_max_depth;
 char ia_cur_depth;
 char ia_is_invincible;
 char ia_player;
-int ia_target_x;
-int ia_targer_y;
-int ia_wrap_x, ia_wrap_y;
+square_coord_t ia_target_x, ia_targer_y;
+square_coord_t ia_wrap_x, ia_wrap_y;
 char ia_wrap_left, ia_wrap_right;
 
 #define DEMO_DURATION 90
@@ -147,7 +146,7 @@ add_color (char oui)
   int d;
   unsigned char b;
   do {
-    d = rand () % (map_info_2xt * map_info_2yt);
+    d = rand () % lvl.square_count;
   }
   while (square_object[d] != -1);
   if (oui && (rand () % 40 == 0))
@@ -165,7 +164,7 @@ add_cash (char oui)
   int d;
   unsigned char b = 0;
   do {
-    d = rand () % (map_info_2xt * map_info_2yt);
+    d = rand () % lvl.square_count;
   }
   while (square_object[d] != -1);
   if (oui && (rand () % 40 == 0))
@@ -179,191 +178,165 @@ erase_player (int i)
   dmsg (D_MISC, "erase player %d", i);
 
   if (!in_menu)
-    square_occupied[player[i].x2 + player[i].y2 * map_info_2xt] = 0xff;
+    square_occupied[player[i].x2 + player[i].y2 * lvl.square_width] = 0xff;
   if (player[i].way == w_left)
-    square_occupied[player[i].y2 * map_info_2xt +
-		    ((player[i].x2 - 1) & (map_info_2xwrap))] = 0xff;
+    square_occupied[player[i].y2 * lvl.square_width +
+		   ((player[i].x2 - 1) & lvl.square_width_wrap)] = 0xff;
   if (player[i].way == w_right)
-    square_occupied[player[i].y2 * map_info_2xt +
-		    ((player[i].x2 + 1) & (map_info_2xwrap))] = 0xff;
+    square_occupied[player[i].y2 * lvl.square_width +
+		   ((player[i].x2 + 1) & lvl.square_width_wrap)] = 0xff;
   if (player[i].way == w_up)
     square_occupied[player[i].x2 +
-		    ((player[i].y2 - 1) & (map_info_2ywrap)) * map_info_2xt] =
+		   ((player[i].y2 - 1) & lvl.square_height_wrap)
+		   * lvl.square_width] =
       0xff;
   if (player[i].way == w_down)
     square_occupied[player[i].x2 +
-		    ((player[i].y2 + 1) & (map_info_2ywrap)) * map_info_2xt] =
+		   ((player[i].y2 + 1) & lvl.square_height_wrap)
+		   * lvl.square_width] =
       0xff;
 }
 
 
 static void
-reinit_player (int i)
+reinit_player (unsigned p)
 {
-  int j, m, d;
-  char unusable;
-  unsigned char k, l;
+  int tries, m;
 
-  dmsg (D_MISC, "initialize player %d", i);
+  unsigned start_pos;		/* 0..3: one of the 4 starting positions.  */
+  square_coord_pair_t start_coord;
+  dir_t start_dir;
+  square_index_t start_idx, next_idx;
 
-  j = 4;
-  k = (unsigned char) (i - 1);
+  dmsg (D_MISC, "initialize player %d", p);
+
+  tries = 4;
+  start_pos = p - 1;
   do {
-    j--;
-    k = (unsigned char) ((k + 1) & 3);
-  } while (j != 0 && square_occupied[
-				     (map_info.start[k] % map_info.xt) * 2 +
-				     ((map_info.start_way[k] & 15) == 1
-				      || (map_info.start_way[k] & 15) ==
-				      3) +
-				     ((map_info.start[k] / map_info.xt) * 2 +
-				      ((map_info.start_way[k] & 15) == 2
-				       || (map_info.start_way[k] & 15) ==
-				       3)) * map_info_2xt] != 0xff);
+    --tries;
+    start_pos = (start_pos + 1) & 3;
+    lvl_start_position (&lvl, start_pos, &start_coord, &start_dir);
+    start_idx = SQR_COORDS_TO_INDEX (&lvl, start_coord.y, start_coord.x);
+    next_idx = lvl.square_move[start_dir][start_idx];
+  } while (tries && (next_idx == INVALID_INDEX ||
+		     square_occupied[next_idx] != 0xff));
 
-  player[i].way = (char) (map_info.start_way[k] >> 4);
-  player[i].square = (char) (map_info.start_way[k] & 15);
-  player[i].x = map_info.start[k] % map_info.xt;
-  player[i].x2 = player[i].x * 2 + (player[i].square == 1
-				    || player[i].square == 3);
-  player[i].y = map_info.start[k] / map_info.xt;
-  player[i].y2 = player[i].y * 2 + (player[i].square == 2
-				    || player[i].square == 3);
+  player[p].way = start_dir;
+  player[p].x2 = start_coord.x;
+  player[p].y2 = start_coord.y;
 
   /* ensure that the start position is usable,
      otherwise try another position (randomly) */
 
-  do {
-    char bitfl[4];
-    unusable = 0;
-    bitfl[3] = bitfl[2] = bitfl[1] = bitfl[0] = 0;
-    d = player[i].x2 + player[i].y2 * map_info_2xt;
+  for (;;) {
+    /* Make sure the selected square is usable (nobody already present,
+       and not out of the way).  */
+    if (lvl.square_type[start_idx] != T_OUTWAY
+	&& square_occupied[start_idx] == 0xff) {
 
-    /* is the square closed or already occupied? */
-    if (square_wall[d] == 15 || square_occupied[d] != 0xff)
-      unusable = 1;
-    else {
-      /* for each direction, there must not be a wall, neither shall
-         there be an occupied square */
-      if (square_wrap[(d << 2) + 0] == -1)
-	bitfl[0] = 1;
-      else if (square_occupied[square_wrap[(d << 2) + 0]] != 0xff)
-	bitfl[0] = 1;
-      if (square_wrap[(d << 2) + 1] == -1)
-	bitfl[1] = 1;
-      else if (square_occupied[square_wrap[(d << 2) + 1]] != 0xff)
-	bitfl[1] = 1;
-      if (square_wrap[(d << 2) + 2] == -1)
-	bitfl[2] = 1;
-      else if (square_occupied[square_wrap[(d << 2) + 2]] != 0xff)
-	bitfl[2] = 1;
-      if (square_wrap[(d << 2) + 3] == -1)
-	bitfl[3] = 1;
-      else if (square_occupied[square_wrap[(d << 2) + 3]] != 0xff)
-	bitfl[3] = 1;
+      square_index_t si;
+      bool dir_unusable[4] = { false, false, false, false };
+
+      /* Check directions which are not usable. */
+
+      if ((si = lvl.square_move[D_UP][start_idx]) == INVALID_INDEX
+	  || square_occupied[si] != 0xff)
+	dir_unusable[D_UP] = true;
+      if ((si = lvl.square_move[D_RIGHT][start_idx]) == INVALID_INDEX
+	  || square_occupied[si] != 0xff)
+	dir_unusable[D_RIGHT] = true;
+      if ((si = lvl.square_move[D_DOWN][start_idx]) == INVALID_INDEX
+	  || square_occupied[si] != 0xff)
+	dir_unusable[D_DOWN] = true;
+      if ((si = lvl.square_move[D_LEFT][start_idx]) == INVALID_INDEX
+	  || square_occupied[si] != 0xff)
+	dir_unusable[D_LEFT] = true;
+
       /* is at least one direction ok? */
-      if ((bitfl[0] + bitfl[1] + bitfl[2] + bitfl[3]) == 4)
-	unusable = 1;
-      else
-	/* rotate until we find a direction */
-	while (bitfl[player[i].way] == 1)
-	  player[i].way = (player[i].way + 1) & 3;
-    };
-    if (unusable) {
-      /* get a new position randomly on the map */
-      player[i].square = rand () & 3;
-      player[i].x = rand () % map_info.xt;
-      player[i].x2 = player[i].x * 2 + (player[i].square == 1
-					|| player[i].square == 3);
-      player[i].y = rand () % map_info.yt;
-      player[i].y2 = player[i].y * 2 + (player[i].square == 2
-					|| player[i].square == 3);
+      if (!(dir_unusable[D_UP]
+	    & dir_unusable[D_RIGHT]
+	    & dir_unusable[D_DOWN]
+	    & dir_unusable[D_LEFT])) {
+	/* then rotate until we find that direction */
+	while (dir_unusable[player[p].way])
+	  player[p].way = (player[p].way + 1) & 3;
+	break;
+      }
     }
-  } while (unusable);
-/**************/
-
-  player[i].ia_max_depth = (rand () & 1) + 5;
-  if (game_mode >= M_KILLEM && game_mode != M_DEATHM)
-    player[i].behaviour = 2;
-  else
-    player[i].behaviour = rand () & 1;
-
-  if (two_players)
-    player[i].target = col2plr[rand () & 1];
-  else
-    player[i].target = col2plr[0];
-
-  player[i].target |= (ia_skip_firsts_moves * 16);
-
-  player[i].d.e = 0;
-  player[i].turbo = 1;
-  player[i].turbo_level_delta = player[i].turbo_level = 1024;
-  player[i].vitp = player[i].v = 4369 * 3 / 2 + (opt.speed * 2 * 1092);
-  player[i].spec = 0;
-  player[i].delay = 0;
-  player[i].inversed_controls = 0;
-  player[i].speedup = 0;
-  player[i].rotozoom = 0;
-  player[i].waves = 0;
-  player[i].waves_begin = 0;
-  player[i].tunnel_inverse = 0;
-  player[i].next_way = player[i].old_old_way = player[i].old_way =
-    player[i].way;
-  if (!in_menu)
-    square_occupied[player[i].x2 + player[i].y2 * map_info_2xt] = i;
-  if (player[i].way == w_left)
-    square_occupied[player[i].y2 * map_info_2xt +
-		    ((player[i].x2 - 1) & (map_info_2xwrap))] =
-      (char) (i + 4);
-  if (player[i].way == w_right)
-    square_occupied[player[i].y2 * map_info_2xt +
-		    ((player[i].x2 + 1) & (map_info_2xwrap))] =
-      (char) (i + 4);
-  if (player[i].way == w_up)
-    square_occupied[player[i].x2 +
-		    ((player[i].y2 - 1) & (map_info_2ywrap)) * map_info_2xt] =
-      (char) (i + 4);
-  if (player[i].way == w_down)
-    square_occupied[player[i].x2 +
-		    ((player[i].y2 + 1) & (map_info_2ywrap)) * map_info_2xt] =
-      (char) (i + 4);
-/*     explofr[i]=0; */
-  j = player[i].x2 + player[i].y2 * map_info_2xt;
-  l = player[i].way;
-  square_way[j] = (char) ((player[i].way << 2) + player[i].way);
-  trail_offset[i] = 0;
-  for (m = /* trail_offset[i]+ */ trail_size[i] /* -1 */ ;
-       m >= 0 /* trail_offset[i] */ ;
-       m--) {
-    trail_pos[i][m] = j;
-    trail_way[i][m] = (char) ((l << 2) + l);
+    /* else, get a new position randomly on the map */
+    player[p].y2 = rand () % lvl.square_height;
+    player[p].x2 = rand () % lvl.square_width;
+    start_idx = SQR_COORDS_TO_INDEX (&lvl, player[p].y2, player[p].x2);
   }
 
+  player[p].x = player[p].x2 >> 1;
+  player[p].y = player[p].y2 >> 1;
+/**************/
+
+  player[p].ia_max_depth = (rand () & 1) + 5;
+  if (game_mode >= M_KILLEM && game_mode != M_DEATHM)
+    player[p].behaviour = 2;
+  else
+    player[p].behaviour = rand () & 1;
+
+  if (two_players)
+    player[p].target = col2plr[rand () & 1];
+  else
+    player[p].target = col2plr[0];
+
+  player[p].target |= (ia_skip_firsts_moves * 16);
+
+  player[p].d.e = 0;
+  player[p].turbo = 1;
+  player[p].turbo_level_delta = player[p].turbo_level = 1024;
+  player[p].vitp = player[p].v = 4369 * 3 / 2 + (opt.speed * 2 * 1092);
+  player[p].spec = 0;
+  player[p].delay = 0;
+  player[p].inversed_controls = 0;
+  player[p].speedup = 0;
+  player[p].rotozoom = 0;
+  player[p].waves = 0;
+  player[p].waves_begin = 0;
+  player[p].tunnel_inverse = 0;
+  player[p].next_way = player[p].old_old_way = player[p].old_way =
+    player[p].way;
+  if (!in_menu)
+    square_occupied[player[p].x2 + player[p].y2 * lvl.square_width] = p;
+  if (player[p].way == D_LEFT)
+    square_occupied[player[p].y2 * lvl.square_width +
+		   SQR_COORD_LEFT (&lvl, player[p].x2)] = (char) (p + 4);
+  if (player[p].way == D_RIGHT)
+    square_occupied[player[p].y2 * lvl.square_width +
+		   SQR_COORD_RIGHT (&lvl, player[p].x2)] = (char) (p + 4);
+  if (player[p].way == D_UP)
+    square_occupied[player[p].x2 +
+		   SQR_COORD_UP (&lvl, player[p].y2) * lvl.square_width] =
+      (char) (p + 4);
+  if (player[p].way == D_DOWN)
+    square_occupied[player[p].x2 +
+		   SQR_COORD_DOWN (&lvl, player[p].y2) * lvl.square_width] =
+      (char) (p + 4);
+/*     explofr[p]=0; */
+  start_dir = player[p].way;
+  square_way[start_idx] = (char) ((start_dir << 2) + start_dir);
+  trail_offset[p] = 0;
+  for (m = /* trail_offset[p]+ */ trail_size[p] /* -1 */ ;
+       m >= 0 /* trail_offset[p] */ ;
+       m--) {
+    trail_pos[p][m] = start_idx;
+    trail_way[p][m] = (char) ((start_dir << 2) + start_dir);
+  }
 }
 
-/* Each tunnel has two input/output squares, indiced 0 and 1.
-   tunnel_square_io[][] is used to build the map of square links as it
-   helps to locate the square used to exit from a tunnel, given the
-   direction of the output tunnel (first index), and the  square
-   input number (second index).
-   For instance, if tile A is a tunnel oriented up, linked to
-   tile B which is a tunnel oriented right, we need to:
-    link  A's square number 'tunnel_square_io[w_up][0]'
-      to  B's square number 'tunnel_square_io[w_right][0]'
-   and link  A's square number 'tunnel_square_io[w_up][1]'
-         to  B's square number 'tunnel_square_io[w_right][1]'
-*/
-int tunnel_square_io[4][2] = { {0, 1}, {1, 3}, {3, 2}, {2, 0} };
-
 static char
-load_level (char *nomlvl, char cont)
+load_level (char *filename, char cont)
 {
-  FILE *ftmp;
-  int i, j, k, k2, l, m;
+  unsigned int i, j, k, k2, l, m;
   int *ptr;
   lemming_t *ptir;
+  int err;
 
-  dmsg (D_FILE|D_LEVEL, "loading level: %s", nomlvl);
+  dmsg (D_FILE|D_LEVEL, "loading level: %s", filename);
 
   if (!in_menu) {
     if (two_players) {
@@ -385,277 +358,123 @@ load_level (char *nomlvl, char cont)
 
   clean_buffers ();
 
-  if ((ftmp = fopen (nomlvl, "rb")) == NULL) {
-    dmsg (D_LEVEL|D_FILE, "cannot open %s", nomlvl);
-    dperror ("fopen");
-    return (1);
+  err = lvl_load_file (filename, &lvl, true);
+  if (err) {
+    dmsg (D_LEVEL|D_FILE, "cannot open %s", filename);
+    dperror ("lvl_load_file");
+    return err;
   }
-  {
-    char* tmp = get_non_null_rsc_file ("tiles-sets-dir");
-    strcpy (tile_set_name, tmp);
-    strcpy (glenz_name, tmp);
-    free (tmp);
-  }
-  dmsg (D_FILE|D_LEVEL, "read level header");
-  if (fread (&map_info, sizeof (level_header_t), 1, ftmp) != 1)
-    return (2);
-
-  /* convert map_info to local endianess */
-  bswap_level_header (&map_info);
 
   dmsg (D_LEVEL, "size=(%u,%u) wrap=(%x,%x) tile=%s soundtrack=%s",
-	map_info.xt, map_info.yt,
-	map_info.xwrap, map_info.ywrap,
-	map_info.tile_set_name, map_info.soundtrack_name);
+	lvl.tile_width, lvl.tile_height,
+	lvl.tile_width_wrap, lvl.tile_height_wrap,
+	lvl_tile_sprite_map_basename (&lvl), lvl_sound_track (&lvl));
 
-  XMALLOC_ARRAY (level_map, map_info.xt * map_info.yt);
+  {
+    const char *bn = lvl_tile_sprite_map_basename (&lvl);
+    int fd;
+    char* tmp = get_non_null_rsc_file ("tiles-sets-dir");
+    stpcpy (stpcpy (stpcpy (tile_set_name, tmp), bn), ".pcx");
+    stpcpy (stpcpy (stpcpy (glenz_name, tmp), bn), ".glz");
+    free (tmp);
 
-  dmsg (D_LEVEL, "reading full level map (%d bytes)",
-	map_info.xt * map_info.yt * sizeof(tile_t));
+    pcx_load (tile_set_name, &tile_set_img);
 
-  i = fread (level_map, sizeof (tile_t), map_info.xt * map_info.yt, ftmp);
-  if (i != (int)(map_info.xt * map_info.yt))
-    return (4);
+    dmsg (D_LEVEL|D_FILE, "loading %s", glenz_name);
+    fd = open (glenz_name, O_RDONLY | O_BINARY);
+    if (fd == -1) {
+      dperror ("open");
+      return errno;
+    }
 
-  /* convert level_map to local endianess */
-  bswap_level_tiles (&map_info, level_map);
-
-  fclose (ftmp);
-  strlwr (map_info.tile_set_name);
-  strcat (strcat (tile_set_name, map_info.tile_set_name), ".pcx");
-  strcat (strcat (glenz_name, map_info.tile_set_name), ".glz");
-  pcx_load (tile_set_name, &tile_set_img);
-  dmsg (D_LEVEL|D_FILE, "loading %s", glenz_name);
-  if ((ftmp = fopen (glenz_name, "rb")) == NULL) {
-    dperror ("fopen");
-    return (7);
+    if (read (fd, glenz, 256 * 8) != 256 * 8) {
+      dperror ("read");
+      return errno;
+    }
+    close (fd);
   }
-  if (fread (glenz, 256, 8, ftmp) != 8)
-    return (6);
-  fclose (ftmp);
 
   init_render_data ();
 
   if (in_menu) {
     load_soundtrack_from_alias ("MENU");
   } else {
-    load_soundtrack_from_alias (map_info.soundtrack_name);
+    load_soundtrack_from_alias (lvl_sound_track (&lvl));
   }
 
   dmsg (D_LEVEL, "initialize variables and maps associated to the level");
 
-  map_info_2xt = map_info.xt << 1;
-  map_info_2yt = map_info.yt << 1;
-  map_info_2xwrap = (map_info.xwrap << 1) + 1;
-  map_info_2ywrap = (map_info.ywrap << 1) + 1;
-
-  XSALLOC_ARRAY (square_occupied, map_info_2xt * map_info_2yt, 0xff);
-  XCALLOC_ARRAY (square_radar_wall, map_info_2xt * map_info_2yt);
-  XCALLOC_ARRAY (square_wall, map_info_2xt * map_info_2yt);
-				/* What are the following `+ 1' for? */
-  XSALLOC_ARRAY (square_explosion, map_info_2xt * map_info_2yt + 1, 254);
-  XCALLOC_ARRAY (square_dead_explosion, map_info_2xt * map_info_2yt + 1);
+  XSALLOC_ARRAY (square_occupied, lvl.square_count, 0xff);
+  XSALLOC_ARRAY (square_explosion, lvl.square_count, 254);
+  XCALLOC_ARRAY (square_dead_explosion, lvl.square_count);
   last_explo = 0;
 
-  XMALLOC_ARRAY (square_explosion_type, map_info_2xt * map_info_2yt + 1);
-  for (i = map_info_2xt * map_info_2yt - 1; i >= 0; i--)
+  XMALLOC_ARRAY (square_explosion_type, lvl.square_count);
+  for (i = 0; i < lvl.square_count; ++i)
     square_explosion_type[i] = rand () % NBR_EXPLOSION_KINDS;
 
-  XMALLOC_ARRAY (square_way, map_info_2xt * map_info_2yt);
+  XMALLOC_ARRAY (square_way, lvl.square_count);
 
   if (init_bonuses_level ())
     return 15;
 
-  XMALLOC_ARRAY (square2tile, map_info_2xt * map_info_2yt);
+  XMALLOC_ARRAY (square2tile, lvl.square_count);
   k = 0;
-  for (i = 0, l = 0; i < (int)map_info.yt; i++, l += map_info_2xt * 2) {
-    for (j = 0, k2 = l; j < (int)map_info.xt; j++, k2 += 2, k++) {
+  for (i = 0, l = 0; i < lvl.tile_height; i++, l += lvl.square_width * 2) {
+    for (j = 0, k2 = l; j < lvl.tile_width; j++, k2 += 2, k++) {
       square2tile[k2] = k;
       square2tile[k2 + 1] = k;
-      square2tile[map_info_2xt + k2] = k;
-      square2tile[map_info_2xt + k2 + 1] = k;
+      square2tile[lvl.square_width + k2] = k;
+      square2tile[lvl.square_width + k2 + 1] = k;
     }
   }
 
-  XCALLOC_ARRAY (square_wrap, map_info_2xt * map_info_2yt * 4);
-  XCALLOC_ARRAY (square_offset2coord, map_info_2xt * map_info_2yt * 2);
+  XCALLOC_ARRAY (square_offset2coord, lvl.square_count * 2);
 
   if (game_mode == M_KILLEM) {
-    XCALLOC_ARRAY (square_lemmings_list, map_info_2xt * map_info_2yt);
-    XCALLOC_ARRAY (square_dead_lemmings_list, map_info_2xt * map_info_2yt);
+    XCALLOC_ARRAY (square_lemmings_list, lvl.square_count);
+    XCALLOC_ARRAY (square_dead_lemmings_list, lvl.square_count);
     memset (lemmings_support, 0, lemmings_total * sizeof (lemming_t));
   }
   if (game_mode >= M_TCASH) {
-    XMALLOC_ARRAY (square_object, map_info_2xt * map_info_2yt);
+    XMALLOC_ARRAY (square_object, lvl.square_count);
   }
 
-  square2offset[2] = map_info_2xt;
-  square2offset[3] = map_info_2xt + 1;
+  square2offset[2] = lvl.square_width;
+  square2offset[3] = lvl.square_width + 1;
 
-  j = 0;
-  l = 0;
-  for (k = 0; k < (int)map_info.yt; k++) {
-    for (i = 0; i < (int)map_info.xt; i++) {
-      square_radar_wall[j] = level_map[i + l].collision[0];
-      square_radar_wall[j + 1] = level_map[i + l].collision[1];
-      square_radar_wall[j + map_info_2xt] = level_map[i + l].collision[2];
-      square_radar_wall[j + map_info_2xt + 1] = level_map[i + l].collision[3];
-      if (level_map[i + l].type == t_boom) {
-	if (level_map[i + l].info.param[0] != 0)
-	  square_explosion[j] = 255;
-	if (level_map[i + l].info.param[1] != 0)
-	  square_explosion[j + 1] = 255;
-	if (level_map[i + l].info.param[2] != 0)
-	  square_explosion[j + map_info_2xt] = 255;
-	if (level_map[i + l].info.param[3] != 0)
-	  square_explosion[j + map_info_2xt + 1] = 255;
-      }
-      j += 2;
-    }
-    j += map_info_2xt;
-    l += map_info.xt;
-  }
-  if (map_info.ywrap != DONT_WRAP) {
-    for (i = 0; i < (int)map_info_2xt; i++) {
-      if (square_radar_wall[(map_info_2ywrap) * map_info_2xt + i] & c_down)
-	square_wall[i] |= d_up;
-      if (square_radar_wall[i] & c_up)
-	square_wall[(map_info_2ywrap) * map_info_2xt + i] |= d_down;
-    }
-  } else
-    for (i = 0; i < (int)map_info_2xt; i++) {
-      square_wall[i] |= d_up;
-      square_wall[(map_info_2yt - 1) * map_info_2xt + i] |= d_down;
-    };
-  if (map_info.xwrap != DONT_WRAP) {
-    for (i = 0; i < (int)map_info_2yt; i++) {
-      if (square_radar_wall[i * map_info_2xt + map_info_2xwrap] & c_right)
-	square_wall[i * map_info_2xt] |= d_left;
-      if (square_radar_wall[i * map_info_2xt] & c_left)
-	square_wall[map_info_2xwrap + i * map_info_2xt] |= d_right;
-    }
-  } else
-    for (i = 0; i < (int)map_info_2yt; i++) {
-      square_wall[i * map_info_2xt] |= d_left;
-      square_wall[map_info_2xt - 1 + i * map_info_2xt] |= d_right;
-    };
-  j = 0;
-  for (k = map_info_2yt - 1; k != 0; k--) {
-    for (i = 0; i < (int)map_info_2xt; i++) {
-      if (square_radar_wall[j + i] & c_down)
-	square_wall[j + i + map_info_2xt] |= d_up;
-      if (square_radar_wall[j + i + map_info_2xt] & c_up)
-	square_wall[j + i] |= d_down;
-    }
-    j += map_info_2xt;
-  }
-  j = 0;
-  for (k = map_info_2yt; k != 0; k--) {
-    for (i = 0; i < (int)map_info_2xt - 1; i++) {
-      if (square_radar_wall[j + i] & c_right)
-	square_wall[j + i + 1] |= d_left;
-      if (square_radar_wall[j + i + 1] & c_left)
-	square_wall[j + i] |= d_right;
-    }
-    j += map_info_2xt;
-  }
-
+  /* FIXME: I'm not sure this is useful.  */
   explo_nbr = 0;
-  for (i = map_info.xt * map_info.yt * 4 - 1; i >= 0; i--)
-    if (square_explosion[i] == 255)
-      explo_nbr++;
+  for (k = 0; k < lvl.square_count; k++)
+    if (lvl.square_type[k] == T_BOOM) {
+      square_explosion[k] = 255;
+      ++explo_nbr;
+    }
+
   if (explo_nbr != 0) {
     XMALLOC_ARRAY (explo_list_ptr, explo_nbr);
     XMALLOC_ARRAY (explo_list_pos_x, explo_nbr);
     XMALLOC_ARRAY (explo_list_pos_y, explo_nbr);
     j = 0;
-    for (i = map_info.xt * map_info.yt * 4 - 1; i >= 0; i--)
+    for (i = 0; i < lvl.square_count; ++i)
       if (square_explosion[i] == 255) {
 	explo_list_ptr[j] = square_explosion + i;
-	explo_list_pos_x[j] = i % (map_info_2xt);
-	explo_list_pos_y[j] = i / (map_info_2xt);
+	explo_list_pos_x[j] = i % lvl.square_width;
+	explo_list_pos_y[j] = i / lvl.square_width;
 	j++;
       }
   }
-  /* init square_wrap, the map of moves */
-  ptr = (int *) square_wrap;
-  k = 0;
-  for (j = 0; j < (int)map_info_2yt; j++)
-    for (i = 0; i < (int)map_info_2xt; i++) {
-      if (square_wall[k] & d_up)
-	l = -1;
-      else
-	l = i + ((j - 1) & (map_info_2ywrap)) * map_info_2xt;
-      *ptr++ = l;
-      if (square_wall[k] & d_right)
-	l = -1;
-      else
-	l = ((i + 1) & (map_info_2xwrap)) + j * map_info_2xt;
-      *ptr++ = l;
-      if (square_wall[k] & d_down)
-	l = -1;
-      else
-	l = i + ((j + 1) & (map_info_2ywrap)) * map_info_2xt;
-      *ptr++ = l;
-      if (square_wall[k] & d_left)
-	l = -1;
-      else
-	l = ((i - 1) & (map_info_2xwrap)) + j * map_info_2xt;
-      *ptr++ = l;
-      k++;
-    }
-  l = 0;
-  m = 0;
-  for (j = 0; j < (int)map_info.yt; j++) {	/* search for tunnels */
-    for (i = 0, k = 0; i < (int)map_info.xt; i++, m++, k += 8) {
-      if (level_map[m].type == t_tunnel) {
-	unsigned int way = d2w[level_map[m].info.tunnel.direction];
-	unsigned int output = level_map[m].info.tunnel.output;
-	unsigned int dest_way;
 
-	/* find which way should the vehicule seem to come from when
-	   it quit the tunnel */
-
-	if (level_map[output].type == t_tunnel)
-	  /* if the destination tile is a tunnel, use its direction */
-	  dest_way = d2w[level_map[output].info.tunnel.direction];
-	else
-	  /* else, consider the output as an imaginary tunnel whose
-	     direction is reversed */
-	  dest_way = way ^ 2;
-
-	/* each tunnel has two input/output squares that must be
-	   linked to the two corresponding i/o squares of the
-	   destination tile */
-
-	square_wrap[k + l /* current tile */
-		   + (square2offset [tunnel_square_io [way][0]] << 2) /* sqr */
-		   + way /* way */] =
-	  ((output % map_info.xt) << 1)
-	  + ((output / map_info.xt) << 1) * map_info_2xt
-	  + square2offset[tunnel_square_io[dest_way][1]];
-
-	square_wrap[k + l /* current tile */
-		   + (square2offset [tunnel_square_io [way][1]] << 2) /* sqr */
-		   + way /* way */] =
-	  ((output % map_info.xt) << 1)
-	  + ((output / map_info.xt) << 1) * map_info_2xt
-	  + square2offset[tunnel_square_io[dest_way][0]];
-      }
-    }
-    l += map_info.xt * 4 * 4;
-  }
   /* init square_offset2coord, map associating coordinates to offsets */
   ptr = (int *) square_offset2coord;
-  for (j = 0; j < (int)map_info_2yt; j++)
-    for (i = 0; i < (int)map_info_2xt; i++) {
+  for (j = 0; j < lvl.square_height; j++)
+    for (i = 0; i < lvl.square_width; i++) {
       *ptr++ = i;
       *ptr++ = j;
     }
-
   /* init of players  */
   if (!in_menu)
-    for (i = 3; i >= 0; i--) {
+    for (i = 0; i < 4; ++i) {
       /* trail_offset[i]=0; */
       if (game_mode == M_DEATHM) {
 	trail_size[i] = 32;
@@ -704,22 +523,22 @@ load_level (char *nomlvl, char cont)
   /*** init of lemmings ***/
   if (game_mode == M_KILLEM) {
     ptir = lemmings_support;
-    l = (map_info_2xt * map_info_2yt);
+    l = lvl.square_count;
     for (i = 0; i < 4; i++) {
       for (j = lemmings_per_players; j != 0; j--) {
 	do {
 	  do {
 	    k = rand () % l;
-	    assert (k < (int)(map_info_2xt * map_info_2yt));
-	  } while (square_wall[k] == 15 || square_occupied[k] != 0xff
+	    assert (k < lvl.square_count);
+	  } while (lvl.square_type[k] == T_OUTWAY || square_occupied[k] != 0xff
 		   || square_lemmings_list[k] != NULL);
 	  m = 0;
-	  while (square_wall[k] & (1 << m))
+	  while (lvl.square_walls_out[k] & (1 << m))
 	    m++;
-	  k2 = square_wrap[(k << 2) + m];
+	  k2 = lvl.square_move[m][k];
+	  assert (m < 4);
 	} while (square_occupied[k2] != 0xff
 		 || square_lemmings_list[k2] != NULL);
-	assert (m < 4);
 	ptir->pos1 = k;
 	ptir->pos2 = k2;
 	ptir->min = 0;
@@ -738,23 +557,23 @@ load_level (char *nomlvl, char cont)
   }
 
   if (game_mode >= M_TCASH) {
-    for (i = map_info_2xt * map_info_2yt - 1; i >= 0; i--)
-      if (square_wall[i] == 15)
+    for (i = 0; i < lvl.square_count; ++i)
+      if (lvl.square_type[i] == T_OUTWAY)
 	square_object[i] = -2;	/* -2 = you can't drive here */
       else
 	square_object[i] = -1;
     if (game_mode == M_COLOR) {
-      objects_nbr = map_info_2xt * map_info_2yt / 14 + 1;
+      objects_nbr = lvl.square_count / 14 + 1;
       for (i = objects_nbr; i != 0; i--)
 	add_color (1);
     }
     if (game_mode == M_TCASH) {
-      objects_nbr = map_info_2xt * map_info_2yt / 13 + 1;
+      objects_nbr = lvl.square_count / 13 + 1;
       for (i = objects_nbr; i != 0; i--)
 	add_cash (1);
     }
   }
-/* * * * * * * * * * * * * * * * * * */
+
   level_is_finished = 0;
 
   /* reset_htimer_with_offset (0, HZ(70)*1000); * what it is intended for? * */
@@ -772,7 +591,6 @@ unload_level (void)
   uninit_render_data ();
   uninit_bonuses_level ();
   img_free (&tile_set_img);
-  free (level_map);
   free (square_occupied);
   free (square_explosion);
   free (square_dead_explosion);
@@ -782,11 +600,8 @@ unload_level (void)
     free (explo_list_ptr);
   }
   free (square_explosion_type);
-  free (square_radar_wall);
-  free (square_wall);
   free (square_way);
   free (square2tile);
-  free (square_wrap);
   free (square_offset2coord);
   if (game_mode == M_KILLEM && !in_menu) {
     free (square_lemmings_list);
@@ -808,37 +623,37 @@ compute_corner (int p, int n)
     if (n > 16)
       n = 16;
 
-    if (map_info.xwrap == DONT_WRAP)
+    if (lvl.tile_width_wrap == DONT_WRAP)
       inert_x[p] = camera_x[p] =
 	inert_x[p] + n * (camera_x[p] - inert_x[p]) / 16;
     else {
       d1 = camera_x[p] - inert_x[p];
       d3 = abs (d1);
-      d2 = (map_info.xt << 16) - d3;
+      d2 = (lvl.tile_width << 16) - d3;
       if (d3 <= d2)
 	inert_x[p] = camera_x[p] = inert_x[p] + n * (d1) / 16;
       else if (d1 <= 0)
 	inert_x[p] = camera_x[p] =
-	  inert_x[p] + n * d2 / 16 - (map_info.xt << 16);
+	  inert_x[p] + n * d2 / 16 - (lvl.tile_width << 16);
       else
 	inert_x[p] = camera_x[p] =
-	  inert_x[p] - n * d2 / 16 + (map_info.xt << 16);
+	  inert_x[p] - n * d2 / 16 + (lvl.tile_width << 16);
     }
-    if (map_info.ywrap == DONT_WRAP)
+    if (lvl.tile_height_wrap == DONT_WRAP)
       inert_y[p] = camera_y[p] =
 	inert_y[p] + n * (camera_y[p] - inert_y[p]) / 16;
     else {
       d1 = camera_y[p] - inert_y[p];
       d3 = abs (d1);
-      d2 = (map_info.yt << 16) - d3;
+      d2 = (lvl.tile_height << 16) - d3;
       if (d3 <= d2)
 	inert_y[p] = camera_y[p] = inert_y[p] + n * (d1) / 16;
       else if (d1 <= 0)
 	inert_y[p] = camera_y[p] =
-	  inert_y[p] + n * d2 / 16 - (map_info.yt << 16);
+	  inert_y[p] + n * d2 / 16 - (lvl.tile_height << 16);
       else
 	inert_y[p] = camera_y[p] =
-	  inert_y[p] - n * d2 / 16 + (map_info.yt << 16);
+	  inert_y[p] - n * d2 / 16 + (lvl.tile_height << 16);
     }
   }
 
@@ -847,26 +662,26 @@ compute_corner (int p, int n)
   camera_stop_y[p] = camera_stop_x[p] = 0;
   x = (camera_x[p] - (nbr_tiles_cols << 15));
   y = (camera_y[p] - (nbr_tiles_rows << 15));
-  if (map_info.xwrap == DONT_WRAP) {
+  if (lvl.tile_width_wrap == DONT_WRAP) {
     if (x < 0) {
       x = 0;
       camera_stop_x[p] = 1;
-    } else if (x > (int)(map_info.xt << 16) - camera_center_x) {
-      x = (map_info.xt << 16) - camera_center_x;
+    } else if (x > (int)(lvl.tile_width << 16) - camera_center_x) {
+      x = (lvl.tile_width << 16) - camera_center_x;
       camera_stop_x[p] = 1;
     }
   }
-  if (map_info.ywrap == DONT_WRAP) {
+  if (lvl.tile_height_wrap == DONT_WRAP) {
     if (y < 0) {
       y = 0;
       camera_stop_y[p] = 1;
-    } else if (y > (int)(map_info.yt << 16) - 655360) {
-      y = (map_info.yt << 16) - 655360;
+    } else if (y > (int)(lvl.tile_height << 16) - 655360) {
+      y = (lvl.tile_height << 16) - 655360;
       camera_stop_y[p] = 1;
     }
   }
-  corner_dx[p] = (x >> 16) & map_info.xwrap;
-  corner_dy[p] = (y >> 16) & map_info.ywrap;
+  corner_dx[p] = (x >> 16) & lvl.tile_width_wrap;
+  corner_dy[p] = (y >> 16) & lvl.tile_height_wrap;
   corner_x[p] = ((x & 0xffff) * 24) >> 16;
   corner_y[p] = ((y & 0xffff) * 20) >> 16;
   corner[p] = render_buffer[p] + sbuf + corner_y[p] * xbuf + corner_x[p];
@@ -1437,9 +1252,9 @@ shrink_trail (int pl, int size)
 static void
 erase_trail (int c)
 {
-  int i;
+  square_index_t i;
 
-  for (i = map_info.xt * map_info.yt * 4 - 1; i >= 0; i--)
+  for (i = 0; i < lvl.square_count; ++i)
     if ((square_occupied[i] & 3) == c && square_occupied[i] < 16) {
       square_occupied[i] = 0xff;
       square_dead_explosion[i] = event_time;
@@ -1451,19 +1266,19 @@ erase_trail (int c)
 static unsigned int
 ia_eval_dist (int pos)
 {
-  int curx, cury, distx, disty;
+  square_coord_t curx, cury, distx, disty;
   curx = square_offset2coord[pos << 1];
   cury = square_offset2coord[(pos << 1) + 1];
   if (ia_wrap_left) {
     if (curx <= ia_wrap_x)
-      distx = curx + (map_info_2xt) - ia_target_x;
+      distx = curx + lvl.square_width - ia_target_x;
     else if (curx <= ia_target_x)
       distx = ia_target_x - curx;
     else
       distx = curx - ia_target_x;
   } else {
     if (curx >= ia_wrap_x)
-      distx = ia_target_x + (map_info_2xt) - curx;
+      distx = ia_target_x + lvl.square_width - curx;
     else if (curx <= ia_target_x)
       distx = ia_target_x - curx;
     else
@@ -1471,14 +1286,14 @@ ia_eval_dist (int pos)
   }
   if (ia_wrap_right) {
     if (cury <= ia_wrap_y)
-      disty = cury + (map_info_2yt) - ia_targer_y;
+      disty = cury + lvl.square_height - ia_targer_y;
     else if (cury <= ia_targer_y)
       disty = ia_targer_y - cury;
     else
       disty = cury - ia_targer_y;
   } else {
     if (cury >= ia_wrap_y)
-      disty = ia_targer_y + (map_info_2yt) - cury;
+      disty = ia_targer_y + lvl.square_height - cury;
     else if (cury <= ia_targer_y)
       disty = ia_targer_y - cury;
     else
@@ -1490,54 +1305,54 @@ ia_eval_dist (int pos)
 /* used by ia_goto_target
  */
 
-#define ia_eval_dir_target_inline(s_sens)			\
-    d=square_wrap[(pos<<2)+s_sens];				\
-    if (d!=-1)							\
-    if ((square_occupied[d]==0xff) &&				\
-       ((square_explosion[d]>=(NBR_EXPLOSION_FRAMES-1)*8+12) 	\
-        || ia_is_invincible)) {					\
-	    tmp=ia_eval_dir_target(d);				\
-	    if (tmp<mindist) mindist=tmp;			\
+#define ia_eval_dir_target_inline(dir)					\
+    idx = lvl.square_move[dir][pos];					\
+    if (idx != INVALID_INDEX)						\
+    if ((square_occupied[idx] == 0xff) &&				\
+       ((square_explosion[idx] >= (NBR_EXPLOSION_FRAMES-1)*8+12)	\
+        || ia_is_invincible)) {						\
+	    tmp = ia_eval_dir_target (idx);				\
+	    if (tmp < mindist) mindist = tmp;				\
     }
 
-#define ia_eval_dir_bonus_inline(s_sens)			\
-    d=square_wrap[(pos<<2)+s_sens];				\
-    if (d!=-1)							\
-    if ((square_occupied[d]==0xff) &&				\
-       ((square_explosion[d]>=(NBR_EXPLOSION_FRAMES-1)*8+12) 	\
-        || ia_is_invincible)) {					\
-            tmp=ia_eval_dir_bonus(d);				\
-	    if (tmp>mindist) mindist=tmp;			\
+#define ia_eval_dir_bonus_inline(dir)					\
+    idx = lvl.square_move[dir][pos];					\
+    if (idx != INVALID_INDEX)						\
+    if ((square_occupied[idx] == 0xff) &&				\
+       ((square_explosion[idx] >= (NBR_EXPLOSION_FRAMES-1)*8+12)	\
+        || ia_is_invincible)) {						\
+            tmp = ia_eval_dir_bonus (idx);				\
+	    if (tmp > mindist) mindist = tmp;				\
     }
 
-#define ia_eval_dir_lemming_inline(s_sens)			\
-    d=square_wrap[(pos<<2)+s_sens];				\
-    if (d!=-1)							\
-    if ((square_occupied[d]==0xff) &&				\
-       ((square_explosion[d]>=(NBR_EXPLOSION_FRAMES-1)*8+12) 	\
-        || ia_is_invincible)) {					\
-	    tmp=ia_eval_dir_lemming(d);				\
-	    if (tmp>mindist) mindist=tmp;			\
+#define ia_eval_dir_lemming_inline(dir)					\
+    idx = lvl.square_move[dir][pos];					\
+    if (idx != INVALID_INDEX)						\
+    if ((square_occupied[idx] == 0xff) &&				\
+       ((square_explosion[idx] >= (NBR_EXPLOSION_FRAMES-1)*8+12)	\
+        || ia_is_invincible)) {						\
+	    tmp = ia_eval_dir_lemming (idx);				\
+	    if (tmp > mindist) mindist = tmp;				\
     }
 
-#define ia_eval_dir_cash_inline(s_sens)				\
-    d=square_wrap[(pos<<2)+s_sens];				\
-    if (d!=-1)							\
-    if ((square_occupied[d]==0xff) &&				\
-       ((square_explosion[d]>=(NBR_EXPLOSION_FRAMES-1)*8+12) 	\
-        || ia_is_invincible)) {					\
-	    tmp=ia_eval_dir_cash(d);				\
-	    if (tmp>mindist) mindist=tmp;			\
+#define ia_eval_dir_cash_inline(dir)					\
+    idx = lvl.square_move[dir][pos];					\
+    if (idx != INVALID_INDEX)						\
+    if ((square_occupied[idx] == 0xff) &&				\
+       ((square_explosion[idx] >= (NBR_EXPLOSION_FRAMES-1)*8+12)	\
+        || ia_is_invincible)) {						\
+	    tmp = ia_eval_dir_cash (idx);				\
+	    if (tmp > mindist) mindist = tmp;				\
     }
 
-#define ia_eval_dir_color_inline(s_sens)			\
-    d=square_wrap[(pos<<2)+s_sens];				\
-    if (d!=-1)							\
-    if ((square_occupied[d]==0xff) &&				\
-       ((square_explosion[d]>=(NBR_EXPLOSION_FRAMES-1)*8+12) 	\
-        || ia_is_invincible)) {					\
-	    tmp=ia_eval_dir_color(d);				\
-	    if (tmp>mindist) mindist=tmp;			\
+#define ia_eval_dir_color_inline(dir)					\
+    idx = lvl.square_move[dir][pos];					\
+    if (idx != INVALID_INDEX)						\
+    if ((square_occupied[idx] == 0xff) &&				\
+       ((square_explosion[idx] >= (NBR_EXPLOSION_FRAMES-1)*8+12)	\
+        || ia_is_invincible)) {						\
+	    tmp = ia_eval_dir_color(idx);				\
+	    if (tmp > mindist) mindist = tmp;				\
     }
 
 /*
@@ -1550,31 +1365,31 @@ self (new) (128). : 1pts,
 */
 
 static int
-ia_eval_neighb_pos (char s_sens, int pos)
+ia_eval_neighb_pos (dir_t dir, square_index_t pos)
 {
-  int d;
+  square_index_t idx;
   unsigned char c;
-  d = square_wrap[(pos << 2) + s_sens];
-  if (d != -1) {
-    c = square_occupied[d];
+  idx = lvl.square_move[dir][pos];
+  if (idx != INVALID_INDEX) {
+    c = square_occupied[idx];
     if (c < 128) {
       if ((c & 3) == ia_player)
-	return (2);
+	return 2;
       else
-	return (5);
+	return 5;
     } else if (c == 128)
-      return (1);
+      return 1;
     else
-      return (0);
+      return 0;
   }
-  return (2);
+  return 2;
 }
 
 static unsigned int
-ia_eval_dir_target (int pos)
+ia_eval_dir_target (square_index_t pos)
 {
   u32_t mindist;
-  int d;
+  square_index_t idx;
   unsigned int tmp;
 
   ia_cur_depth--;
@@ -1582,18 +1397,18 @@ ia_eval_dir_target (int pos)
     square_occupied[pos] = 128;
     mindist = U32_MAX;
 
-    ia_eval_dir_target_inline (w_up);
-    ia_eval_dir_target_inline (w_right);
-    ia_eval_dir_target_inline (w_down);
-    ia_eval_dir_target_inline (w_left);
+    ia_eval_dir_target_inline (D_UP);
+    ia_eval_dir_target_inline (D_RIGHT);
+    ia_eval_dir_target_inline (D_DOWN);
+    ia_eval_dir_target_inline (D_LEFT);
 
     square_occupied[pos] = 0xff;
     ia_cur_depth++;
-    return (mindist);
+    return mindist;
   } else {
     ia_cur_depth++;
-    tmp = ia_eval_neighb_pos (w_up, pos) + ia_eval_neighb_pos (w_right, pos)
-      + ia_eval_neighb_pos (w_down, pos) + ia_eval_neighb_pos (w_left, pos);
+    tmp = ia_eval_neighb_pos (D_UP, pos) + ia_eval_neighb_pos (D_RIGHT, pos)
+      + ia_eval_neighb_pos (D_DOWN, pos) + ia_eval_neighb_pos (D_LEFT, pos);
     return ((ia_eval_dist (pos) << 16) + (tmp << 14) + ia_max_depth -
 	    ia_cur_depth);
   }
@@ -1601,9 +1416,10 @@ ia_eval_dir_target (int pos)
 }
 
 static int
-ia_eval_dir_lemming (int pos)
+ia_eval_dir_lemming (square_index_t pos)
 {
-  int mindist, d;
+  int mindist;
+  square_index_t idx;
   int tmp, tmp2;
   lemming_t *tmppti;
 
@@ -1621,30 +1437,31 @@ ia_eval_dir_lemming (int pos)
     } else
       tmp2 = 0;
 
-    ia_eval_dir_lemming_inline (w_up);
-    ia_eval_dir_lemming_inline (w_right);
-    ia_eval_dir_lemming_inline (w_down);
-    ia_eval_dir_lemming_inline (w_left);
+    ia_eval_dir_lemming_inline (D_UP);
+    ia_eval_dir_lemming_inline (D_RIGHT);
+    ia_eval_dir_lemming_inline (D_DOWN);
+    ia_eval_dir_lemming_inline (D_LEFT);
 
     mindist += tmp2;		/* *(5+ia_cur_depth); */
 
     square_occupied[pos] = 0xff;
     ia_cur_depth++;
-    return (mindist);
+    return mindist;
   } else {
     ia_cur_depth++;
-    tmp = ia_eval_neighb_pos (w_up, pos) + ia_eval_neighb_pos (w_right, pos)
-      + ia_eval_neighb_pos (w_down, pos) + ia_eval_neighb_pos (w_left, pos);
-    return (-(tmp << 2));
+    tmp = ia_eval_neighb_pos (D_UP, pos) + ia_eval_neighb_pos (D_RIGHT, pos)
+      + ia_eval_neighb_pos (D_DOWN, pos) + ia_eval_neighb_pos (D_LEFT, pos);
+    return -(tmp << 2);
   }
 
 }
 
 static int
-ia_eval_dir_color (int pos)
+ia_eval_dir_color (square_index_t pos)
 {
-  signed int mindist, d;
-  int tmp, tmp2;
+  signed int mindist;
+  square_index_t idx;
+  int d, tmp, tmp2;
 
   ia_cur_depth--;
   if (ia_cur_depth != 0) {
@@ -1669,30 +1486,30 @@ ia_eval_dir_color (int pos)
 	tmp2 = -40;
     }
 
-    ia_eval_dir_color_inline (w_up);
-    ia_eval_dir_color_inline (w_right);
-    ia_eval_dir_color_inline (w_down);
-    ia_eval_dir_color_inline (w_left);
+    ia_eval_dir_color_inline (D_UP);
+    ia_eval_dir_color_inline (D_RIGHT);
+    ia_eval_dir_color_inline (D_DOWN);
+    ia_eval_dir_color_inline (D_LEFT);
 
     mindist += tmp2;		/* *(5+ia_cur_depth); */
 
     square_occupied[pos] = 0xff;
     ia_cur_depth++;
-    return (mindist);
+    return mindist;
   } else {
     ia_cur_depth++;
-    tmp = ia_eval_neighb_pos (w_up, pos) + ia_eval_neighb_pos (w_right, pos)
-      + ia_eval_neighb_pos (w_down, pos) + ia_eval_neighb_pos (w_left, pos);
-    return (-(tmp << 2));
+    tmp = ia_eval_neighb_pos (D_UP, pos) + ia_eval_neighb_pos (D_RIGHT, pos)
+      + ia_eval_neighb_pos (D_DOWN, pos) + ia_eval_neighb_pos (D_LEFT, pos);
+    return -(tmp << 2);
   }
-
 }
 
 static int
-ia_eval_dir_cash (int pos)
+ia_eval_dir_cash (square_index_t pos)
 {
-  signed int mindist, d;
-  int tmp, tmp2;
+  signed int mindist;
+  square_index_t idx;
+  int d, tmp, tmp2;
 
   ia_cur_depth--;
   if (ia_cur_depth != 0) {
@@ -1705,33 +1522,34 @@ ia_eval_dir_cash (int pos)
     else
       tmp2 = -20;
 
-    ia_eval_dir_cash_inline (w_up);
-    ia_eval_dir_cash_inline (w_right);
-    ia_eval_dir_cash_inline (w_down);
-    ia_eval_dir_cash_inline (w_left);
+    ia_eval_dir_cash_inline (D_UP);
+    ia_eval_dir_cash_inline (D_RIGHT);
+    ia_eval_dir_cash_inline (D_DOWN);
+    ia_eval_dir_cash_inline (D_LEFT);
 
     mindist += tmp2;		/* *(5+ia_cur_depth); */
 
     square_occupied[pos] = 0xff;
     ia_cur_depth++;
-    return (mindist);
+    return mindist;
   } else {
     ia_cur_depth++;
-    tmp = ia_eval_neighb_pos (w_up, pos) + ia_eval_neighb_pos (w_right, pos)
-      + ia_eval_neighb_pos (w_down, pos) + ia_eval_neighb_pos (w_left, pos);
-    return (-(tmp << 2));
+    tmp = ia_eval_neighb_pos (D_UP, pos) + ia_eval_neighb_pos (D_RIGHT, pos)
+      + ia_eval_neighb_pos (D_DOWN, pos) + ia_eval_neighb_pos (D_LEFT, pos);
+    return -(tmp << 2);
   }
 
 }
 
 static int
-ia_eval_dir_bonus (int pos)
+ia_eval_dir_bonus (square_index_t pos)
 {
   ia_cur_depth--;
   if (ia_cur_depth != 0) {
     int tmp2 = 0;
     int mindist = 0;
     int d = square2tile[pos];
+    square_index_t idx;
     int tmp;
     square_occupied[pos] = 128;
     if (tile_bonus_cpu[d] == 0) {
@@ -1744,10 +1562,10 @@ ia_eval_dir_bonus (int pos)
 	  tmp2 = bonus_points[1][tmp - 129];
       }
     }
-    ia_eval_dir_bonus_inline (w_up);
-    ia_eval_dir_bonus_inline (w_right);
-    ia_eval_dir_bonus_inline (w_down);
-    ia_eval_dir_bonus_inline (w_left);
+    ia_eval_dir_bonus_inline (D_UP);
+    ia_eval_dir_bonus_inline (D_RIGHT);
+    ia_eval_dir_bonus_inline (D_DOWN);
+    ia_eval_dir_bonus_inline (D_LEFT);
 
     mindist += tmp2 * (5 + ia_cur_depth) /* /ia_max_depth */ ;
 
@@ -1755,212 +1573,212 @@ ia_eval_dir_bonus (int pos)
       tile_bonus_cpu[square2tile[pos]] = 0;
     square_occupied[pos] = 0xff;
     ia_cur_depth++;
-    return (mindist);
+    return mindist;
   } else {
     int tmp;
     ia_cur_depth++;
-    tmp = ia_eval_neighb_pos (w_up, pos) + ia_eval_neighb_pos (w_right, pos)
-      + ia_eval_neighb_pos (w_down, pos) + ia_eval_neighb_pos (w_left, pos);
-    return (-(tmp << 3));
+    tmp = ia_eval_neighb_pos (D_UP, pos) + ia_eval_neighb_pos (D_RIGHT, pos)
+      + ia_eval_neighb_pos (D_DOWN, pos) + ia_eval_neighb_pos (D_LEFT, pos);
+    return -(tmp << 3);
   }
 
 }
 
 /* give the *way* to follow to get a given position */
 
-#define ia_goto_target_inline(s_sens)				\
-    d=square_wrap[(pos<<2)+s_sens];				\
-    if (d!=-1)							\
-    if ((square_occupied[d]==0xff) &&				\
-       ((square_explosion[d]>=(NBR_EXPLOSION_FRAMES-1)*8+12) 	\
-        || ia_is_invincible)) {					\
-	  ia_cur_depth=ia_max_depth;				\
-	  tmp[s_sens]=ia_eval_dir_target(d);			\
-	  if (tmp[s_sens]<mindist) {				\
-		mindist=tmp[s_sens];				\
-		mindir=s_sens;					\
-	  }							\
+#define ia_goto_target_inline(dir)					\
+    idx = lvl.square_move[dir][pos];					\
+    if (idx != INVALID_INDEX)						\
+    if ((square_occupied[idx] == 0xff) &&				\
+       ((square_explosion[idx] >= (NBR_EXPLOSION_FRAMES-1)*8+12)	\
+        || ia_is_invincible)) {						\
+	  ia_cur_depth=ia_max_depth;					\
+	  tmp[dir] = ia_eval_dir_target (idx);				\
+	  if (tmp[dir] < mindist) {					\
+		mindist = tmp[dir];					\
+		mindir = dir;						\
+	  }								\
     }
 
-#define ia_goto_bonus_inline(s_sens)				\
-    d=square_wrap[(pos<<2)+s_sens];				\
-    if (d!=-1)							\
-    if ((square_occupied[d]==0xff) &&				\
-       ((square_explosion[d]>=(NBR_EXPLOSION_FRAMES-1)*8+12) 	\
-        || ia_is_invincible)) {					\
-	  ia_cur_depth=ia_max_depth;				\
-	  tmp[s_sens]=ia_eval_dir_bonus(d);			\
-	  if (tmp[s_sens]>mindist) {				\
-		mindist=tmp[s_sens];				\
-		mindir=s_sens;					\
-	  }							\
+#define ia_goto_bonus_inline(dir)					\
+    idx = lvl.square_move[dir][pos];					\
+    if (idx != INVALID_INDEX)						\
+    if ((square_occupied[idx] == 0xff) &&				\
+       ((square_explosion[idx] >= (NBR_EXPLOSION_FRAMES-1)*8+12)	\
+        || ia_is_invincible)) {						\
+	  ia_cur_depth = ia_max_depth;					\
+	  tmp[dir] = ia_eval_dir_bonus(idx);				\
+	  if (tmp[dir] > mindist) {					\
+		mindist = tmp[dir];					\
+		mindir = dir;						\
+	  }								\
     }
 
-#define ia_goto_lemming_inline(s_sens)				\
-    d=square_wrap[(pos<<2)+s_sens];				\
-    if (d!=-1)							\
-    if ((square_occupied[d]==0xff) &&				\
-       ((square_explosion[d]>=(NBR_EXPLOSION_FRAMES-1)*8+12) 	\
-        || ia_is_invincible)) {					\
-	  ia_cur_depth=ia_max_depth;				\
-	  tmp[s_sens]=ia_eval_dir_lemming(d);			\
-	  if (tmp[s_sens]>mindist) {				\
-		mindist=tmp[s_sens];				\
-		mindir=s_sens;					\
-	  }							\
+#define ia_goto_lemming_inline(dir)					\
+    idx = lvl.square_move[dir][pos];					\
+    if (idx != INVALID_INDEX)						\
+    if ((square_occupied[idx] == 0xff) &&				\
+       ((square_explosion[idx] >= (NBR_EXPLOSION_FRAMES-1)*8+12)	\
+        || ia_is_invincible)) {						\
+	  ia_cur_depth = ia_max_depth;					\
+	  tmp[dir] = ia_eval_dir_lemming(idx);				\
+	  if (tmp[dir] > mindist) {					\
+		mindist = tmp[dir];					\
+		mindir = dir;						\
+	  }								\
     }
 
-#define ia_goto_color_inline(s_sens)				\
-    d=square_wrap[(pos<<2)+s_sens];				\
-    if (d!=-1)							\
-    if ((square_occupied[d]==0xff) &&				\
-       ((square_explosion[d]>=(NBR_EXPLOSION_FRAMES-1)*8+12) 	\
-        || ia_is_invincible)) {					\
-	  ia_cur_depth=ia_max_depth;				\
-	  tmp[s_sens]=ia_eval_dir_color(d);			\
-	  if (tmp[s_sens]>mindist) {				\
-		mindist=tmp[s_sens];				\
-		mindir=s_sens;					\
-	  }							\
+#define ia_goto_color_inline(dir)					\
+    idx = lvl.square_move[dir][pos];					\
+    if (idx != INVALID_INDEX)						\
+    if ((square_occupied[idx] == 0xff) &&				\
+       ((square_explosion[idx] >= (NBR_EXPLOSION_FRAMES-1)*8+12)	\
+        || ia_is_invincible)) {						\
+	  ia_cur_depth = ia_max_depth;					\
+	  tmp[dir] = ia_eval_dir_color (idx);				\
+	  if (tmp[dir] > mindist) {					\
+		mindist = tmp[dir];					\
+		mindir = dir;						\
+	  }								\
     }
 
-#define ia_goto_cash_inline(s_sens)				\
-    d=square_wrap[(pos<<2)+s_sens];				\
-    if (d!=-1)							\
-    if ((square_occupied[d]==0xff) &&				\
-       ((square_explosion[d]>=(NBR_EXPLOSION_FRAMES-1)*8+12) 	\
-        || ia_is_invincible)) {					\
-	  ia_cur_depth=ia_max_depth;				\
-	  tmp[s_sens]=ia_eval_dir_cash(d);			\
-	  if (tmp[s_sens]>mindist) {				\
-		mindist=tmp[s_sens];				\
-		mindir=s_sens;					\
-	  }							\
+#define ia_goto_cash_inline(dir)					\
+    idx = lvl.square_move[dir][pos];					\
+    if (idx != INVALID_INDEX)						\
+    if ((square_occupied[idx] == 0xff) &&				\
+       ((square_explosion[idx] >= (NBR_EXPLOSION_FRAMES-1)*8+12)	\
+        || ia_is_invincible)) {						\
+	  ia_cur_depth = ia_max_depth;					\
+	  tmp[dir] = ia_eval_dir_cash(idx);				\
+	  if (tmp[dir] > mindist) {					\
+		mindist = tmp[dir];					\
+		mindir = dir;						\
+	  }								\
     }
 
 static char
 ia_goto_target (int c, int targetx_, int targety_)
 {
-  int d, pos;
+  square_index_t idx, pos;
   u32_t tmp[4] = { U32_MAX, U32_MAX, U32_MAX, U32_MAX };
   u32_t mindist = U32_MAX;
-  int mindir = 0;
+  dir_t mindir = 0;
 
   ia_player = c;
   ia_max_depth = player[c].ia_max_depth;
   ia_target_x = targetx_;
   ia_targer_y = targety_;
-  ia_wrap_x = ia_target_x + map_info.xt;
-  if (ia_wrap_x >= (int)map_info_2xt) {
-    ia_wrap_x -= map_info_2xt;
+  ia_wrap_x = ia_target_x + lvl.tile_width;
+  if (ia_wrap_x >= lvl.square_width) {
+    ia_wrap_x -= lvl.square_width;
     ia_wrap_left = 1;
   } else
     ia_wrap_left = 0;
-  ia_wrap_y = ia_targer_y + map_info.yt;
-  if (ia_wrap_y >= (int)map_info_2yt) {
-    ia_wrap_y -= map_info_2yt;
+  ia_wrap_y = ia_targer_y + lvl.tile_height;
+  if (ia_wrap_y >= lvl.square_height) {
+    ia_wrap_y -= lvl.square_height;
     ia_wrap_right = 1;
   } else
     ia_wrap_right = 0;
 
   ia_is_invincible = (player[c].invincible != 0);
   pos = player[c].pos;
-  ia_goto_target_inline (w_up);
-  ia_goto_target_inline (w_right);
-  ia_goto_target_inline (w_down);
-  ia_goto_target_inline (w_left);
+  ia_goto_target_inline (D_UP);
+  ia_goto_target_inline (D_RIGHT);
+  ia_goto_target_inline (D_DOWN);
+  ia_goto_target_inline (D_LEFT);
   if (tmp[player[c].way] == tmp[mindir])
-    return (player[c].way);
+    return player[c].way;
   else
-    return (mindir);
+    return mindir;
 }
 
 static char
 ia_goto_nearest_bonus (int c)
 {
-  int d, pos;
+  square_index_t idx, pos;
   int tmp[4] = { 0, 0, 0, 0 };
   int mindist = 0;
-  int mindir = 0;
+  dir_t mindir = 0;
 
   ia_player = c;
   ia_max_depth = player[c].ia_max_depth;
   ia_is_invincible = (player[c].invincible != 0);
   pos = player[c].pos;
-  ia_goto_bonus_inline (w_up);
-  ia_goto_bonus_inline (w_right);
-  ia_goto_bonus_inline (w_down);
-  ia_goto_bonus_inline (w_left);
+  ia_goto_bonus_inline (D_UP);
+  ia_goto_bonus_inline (D_RIGHT);
+  ia_goto_bonus_inline (D_DOWN);
+  ia_goto_bonus_inline (D_LEFT);
   if (tmp[player[c].way] == tmp[mindir])
-    return (player[c].way);
+    return player[c].way;
   else
-    return (mindir);
+    return mindir;
 }
 
 static char
 ia_goto_nearest_lemming (int c)
 {
-  int d, pos;
+  square_index_t idx, pos;
   int tmp[4] = { 0, 0, 0, 0 };
   int mindist = 0;
-  int mindir = 0;
+  dir_t mindir = 0;
 
   ia_player = c;
   ia_max_depth = player[c].ia_max_depth;
   ia_is_invincible = (player[c].invincible != 0);
   pos = player[c].pos;
-  ia_goto_lemming_inline (w_up);
-  ia_goto_lemming_inline (w_right);
-  ia_goto_lemming_inline (w_down);
-  ia_goto_lemming_inline (w_left);
+  ia_goto_lemming_inline (D_UP);
+  ia_goto_lemming_inline (D_RIGHT);
+  ia_goto_lemming_inline (D_DOWN);
+  ia_goto_lemming_inline (D_LEFT);
   if (tmp[player[c].way] == tmp[mindir])
-    return (player[c].way);
+    return player[c].way;
   else
-    return (mindir);
+    return mindir;
 }
 
 static char
 ia_goto_nearest_color (int c)
 {
-  int d, pos;
+  square_index_t idx, pos;
   int tmp[4] = { 0, 0, 0, 0 };
   int mindist = 0;
-  int mindir = 0;
+  dir_t mindir = 0;
 
   ia_player = c;
   ia_max_depth = player[c].ia_max_depth;
   ia_is_invincible = (player[c].invincible != 0);
   pos = player[c].pos;
-  ia_goto_color_inline (w_up);
-  ia_goto_color_inline (w_right);
-  ia_goto_color_inline (w_down);
-  ia_goto_color_inline (w_left);
+  ia_goto_color_inline (D_UP);
+  ia_goto_color_inline (D_RIGHT);
+  ia_goto_color_inline (D_DOWN);
+  ia_goto_color_inline (D_LEFT);
   if (tmp[player[c].way] == tmp[mindir])
-    return (player[c].way);
+    return player[c].way;
   else
-    return (mindir);
+    return mindir;
 }
 
 static char
 ia_goto_nearest_cash (int c)
 {
-  int d, pos;
+  square_index_t idx, pos;
   int tmp[4] = { 0, 0, 0, 0 };
   int mindist = 0;
-  int mindir = 0;
+  dir_t mindir = 0;
 
   ia_player = c;
   ia_max_depth = player[c].ia_max_depth;
   ia_is_invincible = (player[c].invincible != 0);
   pos = player[c].pos;
-  ia_goto_cash_inline (w_up);
-  ia_goto_cash_inline (w_right);
-  ia_goto_cash_inline (w_down);
-  ia_goto_cash_inline (w_left);
+  ia_goto_cash_inline (D_UP);
+  ia_goto_cash_inline (D_RIGHT);
+  ia_goto_cash_inline (D_DOWN);
+  ia_goto_cash_inline (D_LEFT);
   if (tmp[player[c].way] == tmp[mindir])
-    return (player[c].way);
+    return player[c].way;
   else
-    return (mindir);
+    return mindir;
 }
 
 /****************/
@@ -1972,18 +1790,19 @@ find_free_way (int c)
   int d = 0, n = 0, o[4] = { 0xff, 0xff, 0xff, 0xff }, e, f;
   int i, m;
 
-  m = (player[c].x2 + player[c].y2 * (map_info_2xt)) << 2;
+  m = player[c].x2 + player[c].y2 * lvl.square_width;
   e = 1;
   for (i = 0; i < 4; i++) {
-    if (square_wrap[m + i] != -1)
-      o[i] = square_occupied[square_wrap[m + i]];
+    square_index_t idx = lvl.square_move[i][m];
+    if (idx != INVALID_INDEX)
+      o[i] = square_occupied[idx];
 
     /* Forbid turn back.  This is usually not needed because the
        square behind the vehicle is aleady occupied, but on some
        tunnel configurations this may not be the case. */
     o[player[c].way ^ 2] = c;
 
-    if (o[i] != 0xff || square_wrap[m + i] == -1)
+    if (o[i] != 0xff || idx == INVALID_INDEX)
       d |= e;
     e += e;
   }
@@ -2041,7 +1860,9 @@ find_free_way (int c)
 static void
 update_player (int c)
 {
-  int a, b, d, e, l, i;
+  square_index_t idx;
+  tile_index_t d;
+  int l, i;
   unsigned int d2;
   int t;
   lemming_t *tmppti;
@@ -2102,7 +1923,7 @@ update_player (int c)
     }
   }
   update_player_bonus_vars (c);
-  d = (player[c].x2 >> 1) + (player[c].y2 >> 1) * map_info.xt;
+  d = (player[c].x2 >> 1) + (player[c].y2 >> 1) * lvl.tile_width;
   if (player[c].rotozoom != 0)
     player[c].rotozoom--;
   if (player[c].waves != 0) {
@@ -2158,7 +1979,8 @@ update_player (int c)
 
 /**** handling of trails ****/
     if (player[c].delay == 0) {
-      l = player[c].x2 + player[c].y2 * map_info_2xt;
+      int a;
+      l = player[c].x2 + player[c].y2 * lvl.square_width;
       square_occupied[l] = (char) (c + 8);
       trail_offset[c] = (char) ((trail_offset[c] - 1) & (maxq - 1));
       trail_pos[c][trail_offset[c]] = l;
@@ -2177,9 +1999,9 @@ update_player (int c)
 
     }
 
-    d2 = player[c].y2 * map_info_2xt + player[c].x2;
+    d2 = player[c].y2 * lvl.square_width + player[c].x2;
     if (player[c].delay == 0)
-      d2 = square_wrap[(d2 << 2) + player[c].way];
+      d2 = lvl.square_move[player[c].way][d2];
     player[c].pos = d2;
     player[c].x2 = square_offset2coord[d2 << 1];
     player[c].y2 = square_offset2coord[(d2 << 1) + 1];
@@ -2216,15 +2038,12 @@ update_player (int c)
 	player[c].invincible == 0)
       player[c].spec = 0xff;
 
-    player[c].square = (char) ((player[c].x2 & 1) + (player[c].y2 & 1) * 2);
-    d = (player[c].x2 >> 1) + (player[c].y2 >> 1) * map_info.xt;
+    d = (player[c].x2 >> 1) + (player[c].y2 >> 1) * lvl.tile_width;
 
-    if (level_map[d].type == t_ice
-	&& level_map[d].info.param[player[c].square] != 0)
+    if (lvl.square_type[player[c].pos] == T_ICE)
       player[c].spec = t_ice;
-    if ((level_map[d].type == t_stop
-	 && level_map[d].info.param[player[c].square] != 0
-	 && player[c].delay == 0) || player[c].notify_delay) {
+    if ((lvl.square_type[player[c].pos] == T_STOP && player[c].delay == 0)
+	|| player[c].notify_delay) {
       player[c].notify_delay = 0;
       player[c].delay = 100;
       player[c].d.e = 0;
@@ -2399,10 +2218,10 @@ update_player (int c)
       player[c].spec = 0;
     }
 
-    a = square_wrap[(d2 << 2) + player[c].way];
-    if (a == -1)
+    idx = lvl.square_move[player[c].way][d2];
+    if (idx == INVALID_INDEX)
       player[c].spec = 0xff;
-    else if (square_occupied[a] != 0xff)
+    else if (square_occupied[idx] != 0xff)
       player[c].spec = 0xff;
 
     if (player[c].spec == 0xff) {
@@ -2446,59 +2265,50 @@ update_player (int c)
     }
 
 /******************/
-    if (level_map[d].type == t_tunnel
-	&& level_map[d].info.tunnel.direction == (1 << player[c].next_way))
-      if (player[c].square ==
-	  tunnel_square_io[d2w[level_map[d].info.tunnel.direction]][0]
-	  || player[c].square ==
-	  tunnel_square_io[d2w[level_map[d].info.tunnel.direction]][1]) {
-	player[c].spec = t_tunnel;
-	if ((player[c].cpu == 2) && (!level_is_finished))
-	  event_sfx (69);
-	if (level_map[level_map[d].info.tunnel.output].type == t_tunnel) {
-	  b =
-	    d2w[level_map[level_map[d].info.tunnel.output].info.tunnel.
-		direction] ^ 2;
-	} else {
-	  b = d2w[level_map[d].info.tunnel.direction];
-	}
-	player[c].tunnel_way = (char) b;
-/*             player[c].way=player[c].tunnel_way; d2w[b]^2; */
-	player[c].next_way = player[c].tunnel_way;	/* d2w[b]^2; */
-	if (player[c].tunnel_inverse)
-	  player[c].next_way ^= 2;
-
-      }
+    if (lvl.square_type[player[c].pos] == T_TUNNEL
+	&& lvl.square_direction[player[c].pos] == player[c].next_way) {
+      dir_t dir;
+      square_index_t dest;
+      player[c].spec = t_tunnel;
+      if ((player[c].cpu == 2) && (!level_is_finished))
+	event_sfx (69);
+      dest = lvl.square_move[player[c].next_way][player[c].pos];
+      if (lvl.square_type[dest] == T_TUNNEL)
+	dir = lvl.square_direction[dest] ^ 2;
+      else
+	dir = lvl.square_direction[player[c].pos] ^ 2;
+      player[c].tunnel_way = dir;
+      player[c].next_way = player[c].tunnel_way;
+      if (player[c].tunnel_inverse)
+	player[c].next_way ^= 2;
+    }
 /*****************/
 
-
-
-/*    if (player[c].spec!=t_tunnel*8) */
+    /*    if (player[c].spec!=t_tunnel*8) */
     {
-      if (level_map[d].type == t_speed) {
-	e = level_map[d].info.param[player[c].square];
-	if ((1 << player[c].way) & e)
+      if (lvl.square_type[player[c].pos] == T_SPEED) {
+	dir_t dir = lvl.square_direction[player[c].pos];
+
+	if (player[c].way == dir)
 	  player[c].vi = player[c].v;
-	else if ((1 << (player[c].way ^ 2)) & e)
+	else if ((player[c].way ^ 2) == dir)
 	  player[c].vi = -(player[c].v >> 1);
 	else
 	  player[c].vi = 0;
       } else
 	player[c].vi = 0;
-      if (level_map[d].type == t_dust
-	  && level_map[d].info.param[player[c].square] != 0)
+
+      if (lvl.square_type[player[c].pos] == T_DUST)
 	player[c].vi = -(player[c].v >> 1);
-      if (square_explosion[d2] ==
-	  255) {
-	square_explosion[d2] =
-	  200;
+      if (square_explosion[d2] == 255) {
+	square_explosion[d2] = 200;
 	square_explosion_type[d2] = rand () % NBR_EXPLOSION_KINDS;
       }
     }
     player[c].delay = 0;
 
-    assert (square_wrap[(d2 << 2) + player[c].way] != -1);
-    square_occupied[square_wrap[(d2 << 2) + player[c].way]] = (char) (c + 4);
+    assert (lvl.square_move[player[c].way][d2] != INVALID_INDEX);
+    square_occupied[lvl.square_move[player[c].way][d2]] = (char) (c + 4);
   }
 }
 
@@ -2509,36 +2319,22 @@ static void
 update_explo (void)
 {
   int i;			/* ,x,y,m,x2; */
-  int x2;
-  int *m;
   unsigned char c;
   for (i = explo_nbr - 1; i >= 0; i--) {
     c = *explo_list_ptr[i];
     if (c <= 200)
       *explo_list_ptr[i] = (c - 1);
     if (c == 170) {
-      m = (int *) square_wrap;
-      m +=
-	((explo_list_pos_y[i] * (map_info_2xt)) + explo_list_pos_x[i]) << 2;
-      x2 = *m++;
-      if (x2 >= 0 && (square_explosion[x2] == 255)) {
-	square_explosion[x2] = 200;
-	square_explosion_type[x2] = rand () % NBR_EXPLOSION_KINDS;
-      }
-      x2 = *m++;
-      if (x2 >= 0 && (square_explosion[x2] == 255)) {
-	square_explosion[x2] = 200;
-	square_explosion_type[x2] = rand () % NBR_EXPLOSION_KINDS;
-      }
-      x2 = *m++;
-      if (x2 >= 0 && (square_explosion[x2] == 255)) {
-	square_explosion[x2] = 200;
-	square_explosion_type[x2] = rand () % NBR_EXPLOSION_KINDS;
-      }
-      x2 = *m++;
-      if (x2 >= 0 && (square_explosion[x2] == 255)) {
-	square_explosion[x2] = 200;
-	square_explosion_type[x2] = rand () % NBR_EXPLOSION_KINDS;
+      square_index_t x2;
+      square_index_t idx = explo_list_pos_y[i] * lvl.square_width
+	+ explo_list_pos_x[i];
+      int j;
+      for (j = 0; j < 4; ++j) {
+	x2 = lvl.square_move[j][idx];
+	if (x2 != INVALID_INDEX && (square_explosion[x2] == 255)) {
+	  square_explosion[x2] = 200;
+	  square_explosion_type[x2] = rand () % NBR_EXPLOSION_KINDS;
+	}
       }
     }
   }
@@ -2563,11 +2359,11 @@ update_lemmings (void)
       pti->pos1 = pti->pos2;
       square_lemmings_list[pti->pos1] = pti;
       e = 1;
-      d = square_wall[pti->pos1];
+      d = lvl.square_walls_out[pti->pos1];
       for (i = 0; i < 4; i++) {
-	if (			/*square_wrap[(pti->pos1<<2)+i]==-1 || */
-	     square_occupied[square_wrap[(pti->pos1 << 2) + i]] != 0xff ||
-	     square_lemmings_list[square_wrap[(pti->pos1 << 2) + i]] != NULL)
+	square_index_t dest = lvl.square_move[i][pti->pos1];
+	if (square_occupied[dest] != 0xff
+	    || square_lemmings_list[dest] != NULL)
 	  d |= e;
 	e += e;
       }
@@ -2584,18 +2380,17 @@ update_lemmings (void)
 	      n--;
 	  pti->way = i - 1;
 	  assert ((w2d[i - 1] & e) == 0);
-	  pti->pos2 = square_wrap[(pti->pos1 << 2) + pti->way];
-	  assert (pti->pos2 != U32_MAX);
+	  pti->pos2 = lvl.square_move[pti->way][pti->pos1];
+	  assert (pti->pos2 != INVALID_INDEX);
 	} else
 	  pti->way = 5;
       } else {
-	pti->pos2 = square_wrap[(pti->pos1 << 2) + pti->way];
-	assert (pti->pos2 != U32_MAX);
+	pti->pos2 = lvl.square_move[pti->way][pti->pos1];
+	assert (pti->pos2 != INVALID_INDEX);
       }
-      assert (pti->pos2 != U32_MAX);
+      assert (pti->pos2 != INVALID_INDEX);
       if (pti->pos1 != pti->pos2)
 	square_lemmings_list[pti->pos2] = pti;
-
     }
 }
 
@@ -2629,7 +2424,7 @@ update_all (char plr)
   }
 
   if (player[col2plr[0]].spec == t_tunnel && opt.inertia) {
-    p = square_wrap[(player[col2plr[0]].pos << 2) + player[col2plr[0]].way];
+    p = lvl.square_move[player[col2plr[0]].way][player[col2plr[0]].pos];
     camera_x[0] = square_offset2coord[p << 1] << 15;
     camera_y[0] = square_offset2coord[(p << 1) + 1] << 15;
   } else {
@@ -2647,7 +2442,7 @@ update_all (char plr)
     camera_y[0] += player[col2plr[0]].d.e >> 1;
   if (two_players) {
     if (player[col2plr[1]].spec == t_tunnel) {
-      p = square_wrap[(player[col2plr[1]].pos << 2) + player[col2plr[1]].way];
+      p = lvl.square_move[player[col2plr[1]].way][player[col2plr[1]].pos];
       camera_x[1] = square_offset2coord[p << 1] << 15;
       camera_y[1] = square_offset2coord[(p << 1) + 1] << 15;
     } else {

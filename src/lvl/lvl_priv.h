@@ -38,10 +38,12 @@ struct tile_data_t {
   /* Animation data.  */
   unsigned int frame_count;
   unsigned int frame_delay;
+  anim_kind_t anim;
   /* Tunnel data.  */
   /* dir_t tunnel_direction;  FIXME: Useless ? */
   /* Sprite data.  */
   unsigned int sprite_offset;
+  unsigned int sprite_overlay_offset;
 };
 
 /* Number of players handled by level format.  */

@@ -1,3 +1,58 @@
+2001-07-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Use the new level loading library to load levels in the game (not
+	the level editor).  This new loading code will export level infos
+	differently, hence many places have to be adapted to the new
+	representation.
+
+	* lib/xstrduplwr.h: New file.
+	* lib/xstrduplwr.c: New file.
+	* lib/Makefile.am: Add them.
+	* src/Makefile.am (LDADD): Rename as ...
+	(heroeslvl_LDADD): ... this.  Add lvl/libhlvl.a.
+	* src/const.c (map_info, map_info_2xt, map_info_2yt,
+	map_info_2xwrap, map_info_2ywrap, level_map, square_radar_wall,
+	square_wall, square_wrap): Remove these variables.
+	(lvl): New variable, which replace all the above.
+	* src/const.h: Likewise.
+	* src/bonus.c (add_bonus, mark_unreachable_places,
+	init_bonuses_level): Adjust to use the new level representation.
+	* src/heroes.c (ia_target_x, ia_targer_y, ia_wrap_x, ia_wrap_y):
+	Declare as square_coord_t.
+	(tunnel_square_io): Remove this variable.
+	(add_color, add_cash, erase_player, reinit_player, load_level,
+	compute_corner, shrink_trail, erase_trail, ia_eval_dist,
+	ia_eval_dir_target_inline, ia_eval_dir_bonus_inline,
+	ia_eval_dir_lemming_inline, ia_eval_dir_cash_inline,
+	ia_eval_dir_color_inline, ia_eval_neighb_pos, ia_eval_dir_target,
+	ia_eval_dir_lemming, ia_eval_dir_color, ia_eval_dir_cash,
+	ia_eval_dir_bonus, ia_goto_target_inline, ia_goto_bonus_inline,
+	ia_goto_lemming_inline, ia_goto_color_inline, ia_goto_cash_inline,
+	ia_goto_target, ia_goto_nearest_bonus, ia_goto_nearest_lemming,
+	ia_goto_nearest_color, ia_goto_nearest_cash, update_player,
+	update_explo, update_lemmings, update_all): Adjust to use
+	the new level representation.
+	* src/menu.c (background_menu): Likewise.
+	* src/render.c (draw_level): Likewise.
+	* src/renderdata.c (init_render_data): Likewise.
+	* src/struct.h (DONT_WRAP): Don't declare, it's done in lvl/lvl.h.
+	(player_t) <way, next_way, old_way,
+	old_old_way, tunnel_way>: Declare as dir_t.
+	(lemming_t) <way>: Likewise.
+	* src/renderdata.h (tile_anim_kind): Move to ...
+	* src/lvl/lvl.h (anim_kind_t): ... here.
+	(lvl_tile_sprite_overlay_offset): New function.
+	(lvl_animation_info): Return animation type too.
+	* src/lvl/de_body.c (TILE_SPRITE): Rename as ...
+	(TILE_OVERLAY): ... this.
+	(TILE_SPRITE): New.
+	(decode_level_body): Read the sprite overlay, handle animation types.
+	* src/lvl/de_head.c (decode_level_header): Lowercasify the sprite
+	map basename.
+	* src/lvl/lvl_priv.h (tile_data_t) <anim, sprite_overlay_offset>: New.
+	* src/lvl/privacc.c (lvl_tile_type, lvl_tile_sprite_offset,
+	lvl_tile_sprite_overlay_offset, lvl_animation_info): New functions.
+
 2001-07-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Some directories do not deserve their own Makefile (it

@@ -19,55 +19,25 @@
 | 02111-1307 USA                                                    |
 `------------------------------------------------------------------*/
 
-#include "system.h"
-#include "lvl_priv.h"
+#if HAVE_CONFIG_H
+# include <config.h>
+#endif
 
-const char *
-lvl_sound_track (const level_t *lvl)
-{
-  return lvl->private->sound_track_alias;
-}
+#include <sys/types.h>
+#include <ctype.h>
 
-const char *
-lvl_tile_sprite_map_basename (const level_t *lvl)
-{
-  return lvl->private->tile_sprite_map_basename;
-}
+#include "xalloc.h"
+#include "xstrduplwr.h"
 
-void
-lvl_start_position (const level_t *lvl, unsigned int player,
-		    square_coord_pair_t *coord, dir_t *dir)
-{
-  if (coord)
-    *coord = lvl->private->start_pos[player];
-  if (dir)
-    *dir = lvl->private->start_dir[player];
-}
+#define TOLOWER(Ch) (isupper (Ch) ? tolower (Ch) : (Ch))
 
-tile_type_t
-lvl_tile_type (const level_t *lvl, tile_type_t tile)
+char *
+xstrduplwr (const char *in)
 {
-  return lvl->private->tile[tile].type;
-}
-
-unsigned int
-lvl_tile_sprite_offset (const level_t *lvl, tile_index_t tile)
-{
-  return lvl->private->tile[tile].sprite_offset;
-}
-
-unsigned int
-lvl_tile_sprite_overlay_offset (const level_t *lvl, tile_index_t tile)
-{
-  return lvl->private->tile[tile].sprite_overlay_offset;
-}
-
-void
-lvl_animation_info (const level_t *lvl, tile_index_t tile,
-		    unsigned int *frame_count, unsigned int *delay,
-		    anim_kind_t *kind)
-{
-  *kind = lvl->private->tile[tile].anim;
-  *frame_count = lvl->private->tile[tile].frame_count;
-  *delay = lvl->private->tile[tile].frame_delay;
+  char *a = xmalloc (strlen (in) + 1);
+  char *b = a;
+  while (*in)
+    *b++ = tolower (*in++);
+  *b = 0;
+  return a;
 }

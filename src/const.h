@@ -28,6 +28,7 @@
 #include "pcx.h"
 #include "structs.h"
 #include "gameid.h"
+#include "lvl.h"
 
 extern int rounds_nbr_values[16];
 
@@ -66,10 +67,6 @@ extern int w2d[4];
 extern pixel_t glenz[8][256];
 void draw_glenz_box (pixel_t *dest, int c, int xt, int yt);
 
-extern level_header_t map_info;
-extern unsigned long int map_info_2xt, map_info_2yt;
-extern signed long int map_info_2xwrap, map_info_2ywrap;
-
 extern pcx_image_t main_font_img, vehicles_img;
 extern pcx_image_t bonus_font_img;
 extern pcx_image_t tile_set_img, font_deck_img;
@@ -88,14 +85,12 @@ extern char trail_size[4];	/* size of trails, minus one */
 extern int col2plr[4];
 extern int plr2col[4];
 
-extern tile_t *level_map;
-
 extern int last_explo;
+
+extern level_t lvl;
 
 extern unsigned char *square_occupied;
 extern unsigned char *square_way;
-extern unsigned char *square_radar_wall;
-extern unsigned char *square_wall;
 extern unsigned char *square_explosion;
 extern int *square_dead_explosion;
 extern unsigned char **explo_list_ptr;
@@ -104,7 +99,6 @@ extern int *explo_list_pos_y;
 extern int explo_nbr;
 extern unsigned char *square_explosion_type;
 extern int *square2tile;
-extern int *square_wrap;
 extern int *square_offset2coord;
 extern signed char *square_object;
 #define lemmings_per_players 50

@@ -157,7 +157,9 @@ struct level_t {
   LVL_MUTABLE level_bits_t *private;
 };
 
-#define DONT_WRAP (~0u)		/* Used for non wrapping directions.  */
+#ifndef DONT_WRAP
+# define DONT_WRAP (~0u)	/* Used for non wrapping directions.  */
+#endif
 
 /* Load a level from FILENAME to OUT.  Return 0 on success, !0
    otherwise.  If LOAD_BODY is true, parse the body, and compute the
@@ -182,8 +184,7 @@ void lvl_start_position (const level_t *lvl, unsigned int player,
 | has not been loaded (see the load_body argument of lvl_load_file).  |
 `--------------------------------------------------------------------*/
 
-/* Return the type of tile TILE on level LVL.
-   FIXME: do we really need this one?  */
+/* Return the type of tile TILE on level LVL.  */
 tile_type_t lvl_tile_type (const level_t *lvl, tile_type_t tile);
 
 /* Return the output direction of a tunnel on tile TILE.  This function
@@ -191,7 +192,16 @@ tile_type_t lvl_tile_type (const level_t *lvl, tile_type_t tile);
 dir_t lvl_tunnel_output_dir (const level_t *lvl, tile_index_t tile);
 
 /* Return the offset (to the first pixel) of the sprite used to draw TILE.  */
-unsigned int lvl_tile_sprite_offset (const level_t *lvl, tile_index_t tile);
+unsigned int lvl_tile_sprite_offset (const level_t *lvl,
+				     tile_index_t tile);
+/* Return the offset (to the first pixel) of the overlay sprite to
+   draw on TILE.  */
+unsigned int lvl_tile_sprite_overlay_offset (const level_t *lvl,
+					     tile_index_t tile);
+
+/* Kind of animation.  */
+typedef enum anim_kind_t anim_kind_t;
+enum anim_kind_t { A_NONE, A_LOOP, A_PINGPONG };
 
 /* Return information about a possible animation on tile TILE.
    FRAME_COUNT is the number of frames to display, and DELAY a number
@@ -201,7 +211,8 @@ unsigned int lvl_tile_sprite_offset (const level_t *lvl, tile_index_t tile);
 
    There is no animation if FRAME_COUNT is set to 0.  */
 void lvl_animation_info (const level_t *lvl, tile_index_t tile,
-			 unsigned int *frame_count, unsigned int *delay);
+			 unsigned int *frame_count, unsigned int *delay,
+			 anim_kind_t *kind);
 
 /*----------------.
 | Useful macros.  |

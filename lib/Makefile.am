@@ -42,7 +42,8 @@ hash.h \
 isdir.h \
 stripslash.h \
 w_dirent.h \
-xalloc.h
+xalloc.h \
+xstrduplwr.h
 
 # path for config.h and system.h
 INCLUDES = -I.. -I$(srcdir) -I../intl -I$(top_srcdir)/src
@@ -59,7 +60,8 @@ hash.c \
 isdir.c \
 stripslash.c \
 xmalloc.c \
-xstrdup.c
+xstrdup.c \
+xstrduplwr.c
 
 # Additional files to compile, when functions are missing.
 libheroes_a_LIBADD = @LIBOBJS@ @ALLOCA@
