@@ -1,3 +1,11 @@
+2000-09-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* TODO (Before 0.7): Add new items, consequence of reports
+	from Stéphane Denis <S.Denis@darkworks.com>.
+	(Before 1.0.0): Add heroeslvl.
+	* THANKS: Add cts.
+	* BUGS: Update.
+
 2000-09-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* doc/heroes.texi: Reword some passages, add comments,

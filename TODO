@@ -9,6 +9,29 @@ Before 0.7
 
   Try to fix the initialization crash on Linux/m68k
 
+  mkdir needs to be defined in common.h (userdir.c and hedlit.c should
+  not use TWO_ARGS_MKDIR).  The test for mkdir must be rewritten to
+  define HAVE_MKDIR and ONE_ARG_MKDIR.  _mkdir must be used under Windows.
+
+  timer.c:162 what is "clock_t c" for?
+
+  strcasecmp should define tolower
+
+  lib/w_dirent.c needs common.h
+
+  all printf and fprintf should be replaced by call to warning (or such)
+  function (to be written), so that they can be disabled (or redefined)
+  on systems such as Windows or MacOS.
+
+  a few memory leaks can be removed (see BUGS).
+
+  an option should allow to disable these warnings.
+
+  the default installation path on BeOS should not be /usr/local (?)
+
+  repeated slashes (foo//bar) seem to confuse BeOS, the installation
+  is thus broken (see BUGS).
+
 
 Before 1.0.0
 ------------
@@ -44,6 +67,11 @@ Before 1.0.0
   Perform real gamma correction, not basic lightening or shading of colors.
 
   Use {u,s}{8,16,32}_t types where it's important.
+
+  A separate binary (say heroeslvl) is needed to perform various task
+  on the level files (such modification of the header fields, automatic
+  generation of level.lst -- or maybe conversion of level format, should
+  we need to do this a day).
 
 
 Left for a 1.1.x development branch
