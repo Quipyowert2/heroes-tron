@@ -1,3 +1,10 @@
+2001-10-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* tools/autogen.sh (moreverb): Use automake --force-missing.
+	Don't run autoheader if AC_CONFIG_HEADER is not called.
+	Call autoconf before autoheader, so the latter can use
+	the traces cached during the run of the former.
+
 2001-10-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Rewrite the explosion code (again).  This fix some issues present

@@ -38,7 +38,7 @@ saferun ()
 generate ()
 {
   test -f configure.ac || test -f configure.in ||
-    die "Cannot find configure.in in current directory (`pwd`."
+    die "Cannot find configure.in in current directory (`pwd`)."
 
   if test -f Makefile.am; then
     # use the same aclocal flags as in Makefile.am, if specified
@@ -50,14 +50,19 @@ p
   # generate aclocal.m4
   saferun aclocal $aclocalflags ${moreverb}
 
-  # generate src/config.h.in
-  saferun autoheader ${moreverb}
-
   # generate configure
   saferun autoconf ${moreverb}
 
+  if grep AC_CONFIG_HEADER configure.* >/dev/null 2>/dev/null; then
+    # generate src/config.h.in
+    saferun autoheader ${moreverb}
+  fi
+
   # generate **/Makefile.in and add mssing files
-  saferun automake --add-missing ${moreverb}
+  # Use --force-missing, or it's possible that we'll use
+  # some obsolete files (for instance if the Automake location
+  # changer and the symlink still point to the old).
+  saferun automake --force-missing --add-missing ${moreverb}
 }
 
 while test $# -gt 0 ; do
