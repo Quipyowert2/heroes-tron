@@ -42,7 +42,9 @@ char *
 strcat_alloc (const char *fst, const char *snd)
 {
   char *res = xmalloc (strlen (fst) + strlen (snd) + 1);
-  return res ? strcat (strcpy (res,fst), snd) : NULL;
+  if (res)
+    stpcpy (stpcpy (res, fst), snd);
+  return res;
 }
 
 char *
