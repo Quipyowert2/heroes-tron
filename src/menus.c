@@ -181,7 +181,7 @@ menu_entry_t main_entries[] = {
   { "CREDITS", 0 },
   { "SCORES", 0 },
   { "EDITOR", 0 },
-  { "GO BACK", 0 },
+  { "QUIT", 0 },
   { 0, 0 }
 };
 
