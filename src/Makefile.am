@@ -50,7 +50,7 @@ heroes_LDFLAGS = $(LIBALT_XLDFLAGS) -export-dynamic
 ## needs to be re-linked).
 heroes_DEPENDENCIES = lvl/libhlvl.a rules/libhrules.a media/libhmcommon.a \
 	       ../lib/libheroes.a \
-	       $(LIBALT_LOCAL_XLDADD) Makefile $(pkglib_LTLIBRARIES)
+	       $(LIBALT_LOCAL_XLDADD) Makefile $(pkglib_LTLIBRARIES) $(LIBLTDL)
 heroes_SOURCES = \
 argv.c \
 argv.h \
