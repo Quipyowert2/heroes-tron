@@ -44,4 +44,11 @@ sprite_t *end_sprprogwav (void);
 #define draw_sprprogwav_if(cond, spr, dest) \
   ((cond) ? draw_sprprogwav : draw_sprprog) ((spr), (dest))
 
+/* update_text_waving should be called periodically */
+void init_text_waving_step (void);
+void uninit_text_waving_step (void);
+void update_text_waving_step (void);
+
+extern unsigned char text_waving_step;
+
 #endif /* HEROES__SPRPROGWAV__H */

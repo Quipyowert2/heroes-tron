@@ -65,6 +65,7 @@
 #include "sprtext.h"
 #include "explosions.h"
 #include "items.h"
+#include "sprprogwav.h"
 
 char tile_set_name[128];
 char glenz_name[128];

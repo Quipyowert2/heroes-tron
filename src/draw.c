@@ -20,33 +20,11 @@
 
 #include "system.h"
 #include "const.h"
-#include "timer.h"
 #include "fastmem.h"
 #include "options.h"
 #include "display.h"
 #include "draw.h"
-
-unsigned char text_waving_step = 0;
-static htimer_t text_waving_htimer = 0;
-
-void
-init_text_waving_step (void)
-{
-  text_waving_htimer = new_htimer (T_LOCAL, HZ (70));
-  text_waving_step = 0;
-}
-
-void
-uninit_text_waving_step (void)
-{
-  free_htimer (text_waving_htimer);
-}
-
-void
-update_text_waving_step (void)
-{
-  text_waving_step += read_htimer (text_waving_htimer);
-}
+#include "sprprogwav.h"
 
 void
 draw_text_bonus (const char* text, int posx, int posy, int p)

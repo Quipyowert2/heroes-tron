@@ -1,5 +1,19 @@
 2000-11-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/draw.c (text_waving_step, text_waving_htimer,
+	init_text_waving_step, uninit_text_waving_step,
+	update_text_waving_step): Move to ...
+	* src/sprprogwav.c (text_waving_step, text_waving_htimer,
+	init_text_waving_step, uninit_text_waving_step,
+	update_text_waving_step): ... here.
+	* src/draw.h (text_waving_step,	init_text_waving_step,
+	uninit_text_waving_step, update_text_waving_step): Move to ...
+	* src/sprprogwav.h (text_waving_step, init_text_waving_step,
+	uninit_text_waving_step, update_text_waving_step): ... here.
+	* src/heroes.c: Include sprprogwav.h.
+
+2000-11-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/font_deck.h: Delete.
 	* src/font_menu.h: Delete.
 	* src/Makefile.am (heroes_SOURCES): Remove font_deck.h and

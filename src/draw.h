@@ -38,10 +38,4 @@ void copy_rect_2 (const unsigned char *src, unsigned char *dest, int xt,
 void draw_demo_stick (const pixel_t* dest);
 void aff_buffer (void);
 
-void init_text_waving_step (void);
-void uninit_text_waving_step (void);
-void update_text_waving_step (void);
-
-extern unsigned char text_waving_step;
-
 #endif /* HEROES__DRAW__H */
