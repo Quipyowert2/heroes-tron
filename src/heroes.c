@@ -2057,6 +2057,12 @@ find_free_way (int c)
   for (i = 0; i < 4; i++) {
     if (square_wrap[m + i] != -1)
       o[i] = square_occupied[square_wrap[m + i]];
+
+    /* Forbid turn back.  This is usually not needed because the
+       square behind the vehicle is aleady occupied, but on some
+       tunnel configurations this may not be the case. */
+    o[player[c].way ^ 2] = c;
+
     if (o[i] != 0xff || square_wrap[m + i] == -1)
       d |= e;
     e += e;
