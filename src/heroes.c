@@ -3717,7 +3717,7 @@ get_input_directions (void)
 static void
 draw_end_level_info (int decal, char l)
 {
-  int i, j;
+  int i;
   char winner[128];
   char nbr[32];
 

@@ -1,5 +1,12 @@
 2000-11-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Fix some more warnings.
+
+	* src/heroes.c (draw_end_level_info): Remove j.
+	* src/gfx_reader.h (show_help): Add default case to switch.
+
+2000-11-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Add check that ought to be in since 2000-10-31.
 
 2000-11-04  Alexandre Duret-Lutz  <duret_g@epita.fr>

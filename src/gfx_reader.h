@@ -371,6 +371,8 @@ show_help (void)
       case HK_Home:
 	nextligne = 1;
 	break;
+      default:
+	t = 0;
       }
      } else
        t = 0;
