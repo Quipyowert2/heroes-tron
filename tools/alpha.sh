@@ -43,7 +43,7 @@ perl -pi -e "s/(${PACKAGEUP}_RELEASE\()[^,]*,\s*[\d-]+/\${1}${VERSION}, `date -I
 cat > ChangeLog.head <<EOF
 `date -I`  $WHOCL
 
-	   * src/version.m4 (${PACKAGEUP}_RELEASE): Bump to $VERSION.
+	* src/versions.m4 (${PACKAGEUP}_RELEASE): Bump to $VERSION.
 
 EOF
 mv ChangeLog ChangeLog.old
