@@ -1,5 +1,10 @@
 2000-08-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/menus.c (editor_menu): Call update_text_waving_step in
+	main loop.
+
+2000-08-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/timer.c (read_htimer): Thinko, slice rest must not be 
 	accounted if we are blocking.
 

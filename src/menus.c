@@ -1338,6 +1338,7 @@ editor_menu (void)
   corner[0] = render_buffer[0];
 
   do {
+    update_text_waving_step ();
     j = minisinus[read_htimer (waving_htimer) & 31];
     memcpy (corner[0], frmenu.buffer, 64000);
     copy_rect_transp_320 (main_font_img.buffer + 218 + 50 * 320 +
