@@ -84,6 +84,14 @@
 # endif
 #endif
 
+#if HAVE_DIRECT_H
+# include <direct.h>
+#endif
+
+#if HAVE_IO_H
+# include <io.h>
+#endif
+
 #if HAVE_VPRINTF || HAVE_DOPRNT
 # ifdef STDC_HEADERS
 #  include <stdarg.h>
@@ -111,6 +119,7 @@
 #if HAVE_WINDOWS_H
 # include <windows.h>
 # ifndef HAVE_READDIR
+   /* should be included after io.h */
 #  include "w_dirent.h"
 # endif
 # ifndef HAVE_SLEEP

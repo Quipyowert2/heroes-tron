@@ -11,10 +11,6 @@ Before 0.7
 
   timer.c:162 what is "clock_t c" for?
 
-  strcasecmp should define tolower
-
-  lib/w_dirent.c needs common.h
-
   all printf and fprintf should be replaced by call to warning (or such)
   function (to be written), so that they can be disabled (or redefined)
   on systems such as Windows or MacOS.

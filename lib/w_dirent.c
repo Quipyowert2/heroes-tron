@@ -13,19 +13,8 @@
  * by Alexandre Duret-Lutz <duret_g@epita.fr>
  */
 
-#include "config.h"
-#include <stdlib.h>
-#include <errno.h>
-#include <string.h>
-#include <io.h>
-#include <direct.h>
-#include <sys/stat.h>
-
+#include "common.h"
 #include "w_dirent.h"
-
-#ifdef HAVE_DMALLOC_H
-# include <dmalloc.h>
-#endif
 
 #define SUFFIX	"*"
 #define	SLASH	"\\"

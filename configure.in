@@ -409,6 +409,8 @@ fi
 AC_HEADER_STDC
 AC_HEADER_DIRENT
 AC_CHECK_HEADERS(
+ [direct.h] dnl
+ [io.h] dnl
  [memory.h] dnl
  [stdint.h] dnl
  [string.h] dnl

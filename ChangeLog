@@ -1,5 +1,16 @@
 2000-09-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.in: Check for direct.h and io.h.
+	* lib/w_dirent.c: Don't include system headers, 
+	include common.h instead.
+	* lib/w_dirent.h: Don't include io.h
+	* src/common.h: Include io.h and direct.h.
+	
+	* lib/strcasecmp.c (strcasecmp): Return 0 if the two pointers
+	are equal.
+
+2000-09-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Check for mkdir.  Check whether it takes only 
 	one argument instead of testing whether it takes two arguments.
 	* src/common.h (mkdir): Define as a macro mkdir when needed.

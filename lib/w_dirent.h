@@ -24,8 +24,6 @@
 #ifndef _DIRENT_H_
 #define _DIRENT_H_
 
-#include <io.h>
-
 #ifndef RC_INVOKED
 
 #ifdef __cplusplus
