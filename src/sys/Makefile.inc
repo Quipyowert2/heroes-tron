@@ -1,3 +1,4 @@
+##                                                        -*- Makefile -*-
 ## Copyright 2001  Alexandre Duret-Lutz <duret_g@epita.fr>
 ##
 ## This file is part of Heroes.
@@ -36,11 +37,11 @@ sys_libhstdm_a_SOURCES = \
 ## Use sys/std/main.c too.  Only the CFLAGS differs (they will
 ## usually include something like -Dmain=SDL_main).
 sys_libhsdlm_a_CFLAGS = \
-  @MORE_WARNINGS_CFLAGS@ @SDL_CFLAGS@
+  $(MORE_WARNINGS_CFLAGS) $(SDL_CFLAGS)
 sys_libhsdlm_a_SOURCES = \
   sys/std/main.c
 
 sys_libhallm_a_CFLAGS = \
-  @MORE_WARNINGS_CFLAGS@ @ALLEGRO_CFLAGS@
+  $(MORE_WARNINGS_CFLAGS) $(ALLEGRO_CFLAGS)
 sys_libhallm_a_SOURCES = \
   sys/allegro/main.c

@@ -24,20 +24,20 @@ INCLUDES = -I$(top_srcdir)/lib -I../lib -I../intl -I$(srcdir)/lvl -I$(srcdir)/me
 
 EXTRA_DIST = rsc_files.gperf debughash.gperf
 
-AM_CFLAGS = @MORE_WARNINGS_CFLAGS@
+AM_CFLAGS = $(MORE_WARNINGS_CFLAGS)
 
-heroeslvl_LDADD = lvl/libhlvl.a ../lib/libheroes.a @INTLLIBS@
+heroeslvl_LDADD = lvl/libhlvl.a ../lib/libheroes.a $(INTLLIBS)
 heroeslvl_SOURCES = heroeslvl.c
 
 heroes_LDADD = lvl/libhlvl.a media/libhmcommon.a ../lib/libheroes.a \
-	       @INTLLIBS@ @LIBALT_LOCAL_LDADD@ @LIBALT_LDADD@
-heroes_LDFLAGS = @LIBALT_LDFLAGS@
+	       $(INTLLIBS) $(LIBALT_LOCAL_LDADD) $(LIBALT_LDADD)
+heroes_LDFLAGS = $(LIBALT_LDFLAGS)
 
 ## Depend upon Makefile because the value of LIBALT_LOCAL_LDADD might
 ## change from one instantiation to the other (in which case heroes
 ## needs to be re-linked).
 heroes_DEPENDENCIES = lvl/libhlvl.a media/libhmcommon.a ../lib/libheroes.a \
-	       @LIBALT_LOCAL_LDADD@ Makefile
+	       $(LIBALT_LOCAL_LDADD) Makefile
 heroes_SOURCES = \
 argv.c \
 argv.h \
@@ -214,7 +214,7 @@ CLEANFILES = $(EXTRA_LIBRARIES)
 
 EXTRA_PROGRAMS = parafmt-check
 parafmt_check_SOURCES = parafmt.c
-parafmt_check_CFLAGS = @MORE_WARNINGS_CFLAGS@ -DTEST
+parafmt_check_CFLAGS = $(MORE_WARNINGS_CFLAGS) -DTEST
 
 EXTRA_DIST += etc/Makefile.inc
 include etc/Makefile.inc

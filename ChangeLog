@@ -1,3 +1,14 @@
+2001-11-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/Makefile.am, src/media/Makefile.inc, src/sys/Makefile.inc:
+	Use $(MUMBLE) instead of @MUMBLE@ for
+	AC_SUBST'ed variables.
+	* tools/Makefile.inc, src/etc/Makefile.inc: Add emacs hint for
+	Makefile mode.
+
+	* m4/gccwarn.m4 (CF_GCC_MORE_WARNINGS): Don't include $(CFLAGS) in
+	MORE_WARNINGS_CFLAGS.
+
 2001-11-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/media/Makefile.inc (DISTCLEANFILES): Add media/allegro/keydef.c.

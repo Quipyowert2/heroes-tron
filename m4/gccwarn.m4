@@ -77,5 +77,5 @@ EOF
   rm -f conftest*
   CFLAGS="$cf_save_CFLAGS"])
 fi
-MORE_WARNINGS_CFLAGS="${CFLAGS} ${ac_cv_prog_gcc_more_warn_flags}"
+MORE_WARNINGS_CFLAGS="${ac_cv_prog_gcc_more_warn_flags}"
 ])dnl
