@@ -238,6 +238,7 @@ Array = xrealloc ((Array), sizeof (*(Array)) * (N_items))
 /* keep this header at the end of the include list, because it may
    define macro to change the declaration of malloc functions */
 #ifdef HAVE_DMALLOC
+# define DMALLOC_FUNC_CHECK
 # include <dmalloc.h>
 #endif
 
