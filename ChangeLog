@@ -1,5 +1,14 @@
 2002-10-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.ac: Bump version to 0.29c.
+	* tools/alpha.sh: Really make the distribution if it doesn't exist.
+	* po/de.po: Add Plural-Forms header.
+	* po/it.po: Add missing plural form for rounds.
+	* po/fr.po: Update.
+	* tests/Makefile.am (lvlsave_LDADD): Add INTLLIBS.
+
+2002-10-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* libltdl/ltdl.c, m4/libtool.m4, m4/ltdl.m4: Update
 	from Libtool 1.4.3.
 

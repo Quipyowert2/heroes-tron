@@ -35,4 +35,5 @@ check_PROGRAMS = lvlsave
 lvlsave_SOURCES = lvlsave.c
 lvlsave_LDADD = \
   $(top_builddir)/src/lvl/libhlvl.a \
-  $(top_builddir)/lib/libheroes.a
+  $(top_builddir)/lib/libheroes.a \
+  $(INTLLIBS)

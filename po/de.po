@@ -5,14 +5,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.17a\n"
-"POT-Creation-Date: 2002-09-22 21:35+0200\n"
-"PO-Revision-Date: 2001-12-15 12:17+0100\n"
+"POT-Creation-Date: 2002-10-24 21:04+0200\n"
+"PO-Revision-Date: 2002-10-24 21:08+0200\n"
 "Last-Translator: Ingo van Lil <inguin@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: vim 5.6\n"
+"Plural-Forms: nplurals=2; plural=n != 1\n"
 
 #: lib/error.c:129 lib/error.c:157
 msgid "Unknown system error"
@@ -38,19 +39,16 @@ msgstr "%s: Die Option `%c%s' darf kein Argument haben.\n"
 msgid "%s: option `%s' requires an argument\n"
 msgstr "%s: Die Option `%s' erfordert ein Argument.\n"
 
-#. --option
 #: lib/getopt.c:771
 #, c-format
 msgid "%s: unrecognized option `--%s'\n"
 msgstr "%s: Unbekannte Option: `--%s'\n"
 
-#. +option or -option
 #: lib/getopt.c:775
 #, c-format
 msgid "%s: unrecognized option `%c%s'\n"
 msgstr "%s: Unbekannte Option: `%c%s'\n"
 
-#. 1003.2 specifies the format of this message.
 #: lib/getopt.c:801
 #, c-format
 msgid "%s: illegal option -- %c\n"
@@ -61,7 +59,6 @@ msgstr "%s: Ungültige Option: --%c\n"
 msgid "%s: invalid option -- %c\n"
 msgstr "%s: Ungültige Option --%c\n"
 
-#. 1003.2 specifies the format of this message.
 #: lib/getopt.c:834 lib/getopt.c:964
 #, c-format
 msgid "%s: option requires an argument -- %c\n"
@@ -77,8 +74,6 @@ msgstr "%s: Die Option `-W %s' ist nicht eindeutig\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: Die Option `-W %s' darf kein Argument haben.\n"
 
-#. If XALLOC_FAIL_FUNC is NULL, or does return, display this message
-#. before exiting when memory is exhausted.  Goes through gettext.
 #: lib/xmalloc.c:66
 msgid "memory exhausted"
 msgstr "Kein Speicher verfügbar"
@@ -225,11 +220,6 @@ msgstr ""
 "  -4, --quadruple             Anzeige vierfach strecken\n"
 "  -e, --even-lines            nur geradzahlige Linien anzeigen\n"
 
-#. TRANS: rotozoom is a graphical effect used in the demo of yore
-#. where the screen rotate and zoom (actually it doesn't zoom in Heroes);
-#. waves is another effect where the screen is agitated like some
-#. jelly (this was also called the `mushroom effect' in game like
-#. Death Rally).
 #: src/argv.c:190
 msgid ""
 "Miscellaneous options:\n"
@@ -970,42 +960,23 @@ msgstr "außerhalb"
 msgid "%sTunnels:\n"
 msgstr "%sTunnel:\n"
 
-#. TRANS: This is the header of an array (output by heroeslvl -p@),
-#. so the position of these words is important.
-#.
-#. SRCIDX is a short for 'source index' (entrance of a tunnel) and
-#. DESTIDX means 'destination index' (output of the tunnel).
 #: src/heroeslvl.c:395
 #, c-format
 msgid "%s  NBR  SRCIDX   Y   X  DIR      DESTIDX\n"
 msgstr "%s  NR   START    Y   X  RICHTUNG ZIEL\n"
 
-#. TRANS: `still' is used to describe tiles which are not animated.
 #: src/heroeslvl.c:426
 msgid "still"
 msgstr "Standbild"
 
-#. TRANS: `loop' is for animated tiles where frames are displayed
-#. from 1 to n, and then again from 1 to n, etc.
 #: src/heroeslvl.c:430
 msgid "loop"
 msgstr "Schleife"
 
-#. TRANS: `pingpong' is for tiles animated in loop where frame
-#. displayed from 1 to n, then from n to 1, and then again from 1
-#. to n, etc.
 #: src/heroeslvl.c:435
 msgid "pingpong"
 msgstr "Pingpong"
 
-#. TRANS: This is the header of an array (output by heroeslvl -pi) so
-#. the position of these word is important.
-#.
-#. SPRITE is the address of the sprite used to render the tile.  OVERLAY
-#. is the address of a sprite that should be displayed on top
-#. of the players (e.g. trees).  ANIM-TYPE is the kind of animation used
-#. for the tile, FRM the number of frame to display, DEL the delay
-#. between each frame.
 #: src/heroeslvl.c:453
 #, c-format
 msgid "%sTILE  Y  X    TYPE      SPRITE    OVERLAY  ANIM-TYPE FRM DEL\n"
@@ -1030,34 +1001,22 @@ msgstr "fehlender Dateiname."
 msgid "cannot open directory %s"
 msgstr "Kann Verzeicnis '%s' nicht öffnen."
 
-#. TRANS: in QUEST mode, the player goes throught all the levels, but
-#. have to search for specific powerups in order to jump to the next
-#. level.  Hence this is a `quest' for those powerups.
 #: src/menus.c:146
 msgid "QUEST"
 msgstr "QUEST"
 
-#. TRANS: in DEATH MATCH mode, the user has to kill all other players.
 #: src/menus.c:148
 msgid "DEATH MATCH"
 msgstr "DEATH MATCH"
 
-#. TRANS: in KILL'EM ALL mode there are lemmings moving on the ground
-#. and the player must run over them all.  You may want to translate
-#. `kill' as `run over', `squash', `mash' or something among those
-#. lines.
 #: src/menus.c:153
 msgid "KILL'EM ALL"
 msgstr "KILL'EM ALL"
 
-#. TRANS: in TIME CA$H mode, the player must collect dollars with
-#. restricted time.
 #: src/menus.c:156
 msgid "TIME CA$H"
 msgstr "TIME CA$H"
 
-#. TRANS: in COLOR mode, the player must collect some colored gems
-#. with restricted time.
 #: src/menus.c:159
 msgid "COLORS"
 msgstr "COLORS"
@@ -1092,12 +1051,10 @@ msgstr "EXTRAS"
 msgid "GO BACK"
 msgstr "ZURÜCK"
 
-#. play menu
 #: src/menus.c:205 src/menus.c:540
 msgid "PLAY"
 msgstr "SPIELEN"
 
-#. options menu
 #: src/menus.c:206 src/menus.c:527
 msgid "OPTIONS"
 msgstr "OPTIONEN"
@@ -1114,7 +1071,6 @@ msgstr "CREDITS"
 msgid "SCORES"
 msgstr "HIGHSCORE"
 
-#. editor first menu
 #: src/menus.c:210 src/menus.c:537
 msgid "EDITOR"
 msgstr "EDITOR"
@@ -1123,12 +1079,10 @@ msgstr "EDITOR"
 msgid "QUIT"
 msgstr "BEENDEN"
 
-#. TRANS: Create a new level.
 #: src/menus.c:219 src/menus.c:504
 msgid "NEW LEVEL"
 msgstr "NEUER LEVEL"
 
-#. TRANS: Load an existing level for edition.
 #: src/menus.c:221
 msgid "LOAD LEVEL"
 msgstr "LADE LEVEL"
@@ -1137,7 +1091,6 @@ msgstr "LADE LEVEL"
 msgid "CONTROL OPTIONS"
 msgstr "STEUERUNG"
 
-#. 1st player
 #: src/menus.c:378 src/menus.c:417 src/menus.c:434
 msgid "PLAYER 1"
 msgstr "SPIELER 1"
@@ -1146,7 +1099,6 @@ msgstr "SPIELER 1"
 msgid "AUTO PILOT"
 msgstr "AUTO-PILOT"
 
-#. 2nd player
 #: src/menus.c:382 src/menus.c:418 src/menus.c:442
 msgid "PLAYER 2"
 msgstr "SPIELER 2"
@@ -1259,12 +1211,10 @@ msgstr "EXTRAS: ALLE"
 msgid "EXTRAS: SELECT"
 msgstr "EXTRAS: AUSWAHL"
 
-#. pause menu
 #: src/menus.c:492
 msgid "PAUSE"
 msgstr "PAUSE"
 
-#. quit y/n menus
 #: src/menus.c:496
 msgid "QUIT THIS GAME?"
 msgstr "SPIEL BEENDEN?"
@@ -1289,29 +1239,18 @@ msgstr "BESTEHENDER LEVEL"
 msgid "NAME"
 msgstr "NAME"
 
-#. TRANS: in wrapped levels are unbounded level, e.g. whenever the
-#. player reach the left border it continue its way from the right border
-#. (except that the player doesn't even know there are borders, because
-#. the level is tiled infinitely).  In unwrapped levels there are explicit
-#. bounds that you cannot cross.  X-WRAP is a check box used to specified
-#. whether a level must be wrapped horizontally or not when creating a
-#. new level.
 #: src/menus.c:516
 msgid "X-WRAP"
 msgstr "X-UMLAUF"
 
-#. TRANS: Y-WRAP is a check box used to specified whether a level
-#. must be wrapped vertically or not.
 #: src/menus.c:519
 msgid "Y-WRAP"
 msgstr "Y-UMLAUF"
 
-#. TRANS: width of the level
 #: src/menus.c:521
 msgid "X-SIZE"
 msgstr "BREITE"
 
-#. TRANS: height of the level
 #: src/menus.c:523
 msgid "Y-SIZE"
 msgstr "HÖHE"
@@ -1320,12 +1259,10 @@ msgstr "HÖHE"
 msgid "EDIT"
 msgstr "EDIT"
 
-#. main menu
 #: src/menus.c:530
 msgid "HEROES"
 msgstr "HEROES"
 
-#. editor selector
 #: src/menus.c:533
 msgid "SELECT A LEVEL"
 msgstr "LEVEL WÄHLEN"
@@ -1342,7 +1279,6 @@ msgstr "ZWEI SPIELER"
 msgid "LOAD..."
 msgstr "LADE..."
 
-#. saved game selection
 #: src/menus.c:557
 msgid "CHOOSE A SAVE SLOT"
 msgstr "SICHERUNGS-PLATZ WÄHLEN"
@@ -1351,14 +1287,10 @@ msgstr "SICHERUNGS-PLATZ WÄHLEN"
 msgid "CHOOSE A LOAD SLOT"
 msgstr "LADE-PLATZ WÄHLEN"
 
-#. enter your name
 #: src/menus.c:563
 msgid "ENTER YOUR NAME:"
 msgstr "NAME EINGEBEN:"
 
-#. end level info
-#. TRANS: SIZE is the size of the player trail, PTS the
-#. number of PoinTS
 #: src/menus.c:569
 msgid "SIZE  PTS  LIVES"
 msgstr "LÄNGE PKT  LEBEN"
@@ -1367,8 +1299,6 @@ msgstr "LÄNGE PKT  LEBEN"
 msgid "PTS  LIVES"
 msgstr "PKT  LEBEN"
 
-#. TRANS: this is for KILL'EM ALL mode, and MEN is the number
-#. of lemmings killed by one player
 #: src/menus.c:575
 msgid " MEN  PTS  LIVES"
 msgstr " LEM  PKT  LEBEN"
@@ -1385,8 +1315,6 @@ msgstr "FARBEN  PKT  LEBEN"
 msgid "NEXT LEVEL"
 msgstr "NÄCHSTER LEVEL"
 
-#. TRANS: this is a menu entry that introduce the user to another
-#. menu.  This is NOT displayed DURING saving.
 #: src/menus.c:589
 msgid "SAVE..."
 msgstr "SPEICHERN..."
@@ -1399,7 +1327,6 @@ msgstr "DRÜCKE ENTER"
 msgid "WINS  PTS  LIVES"
 msgstr "SIEGE PKT  LEBEN"
 
-#. higher scores
 #: src/menus.c:614
 msgid "HIGHER SCORES"
 msgstr "DIE CHAMPIONS"
@@ -1510,6 +1437,26 @@ msgstr "Portierungen\n"
 #: src/people.c:97
 msgid "Other people we wish to thanks\n"
 msgstr "Weitere Personen, denen Dank gebührt\n"
+
+#: src/plugins.c:39 src/plugins.c:43
+#, fuzzy, c-format
+msgid "%s reported %d errors"
+msgstr "%s: Fehler beim Abschneiden"
+
+#: src/plugins.c:54
+#, c-format
+msgid "libltdl:lt_dlexit reported %d errors"
+msgstr ""
+
+#: src/plugins.c:63
+#, fuzzy, c-format
+msgid "failed to dlopen plug-in `%s'"
+msgstr "Konnte Visual %s nicht öffnen"
+
+#: src/plugins.c:66
+#, c-format
+msgid "no `initialize' symbol in plug-in `%s'"
+msgstr ""
 
 #: src/readmake.c:188
 #, c-format
@@ -1629,13 +1576,10 @@ msgstr "Kein Joystick gefunden (-J unterdrückt diese Meldung)"
 msgid "Heroes has been compiled without sound support."
 msgstr "Heroes wurde ohne Sound-Unterstützung compiliert."
 
-#. FIXME: ask to send a bug report with a trace
 #: src/media/ggi/video.c:174
 msgid "failed to get any direct buffer for this visual"
 msgstr "Konnte keinen Direkt-Puffer fuer dieses Visual bekommen"
 
-#. TRANS: a `visual' is associated by LibGGI to a display.  You can
-#. actually call it a `display', this makes no big difference.
 #: src/media/ggi/video.c:196
 msgid "failed to open visual."
 msgstr "Konnte Visual nicht öffnen"
@@ -1649,8 +1593,6 @@ msgstr "Kann keine korrekte Anzeige einrichten."
 msgid "negotiated video mode is too small (width=%d, height=%d)"
 msgstr "Videomodus ist zu klein (Breite=%d, Hoehe=%d)"
 
-#. TRANS: `display-memory' is the name of a LibGGI driver and
-#. make no sense to translate.
 #: src/media/ggi/video.c:224
 msgid "Failed to open an internal `display-memory' visual."
 msgstr "Konnte keine interne `Anzeigespeicher'-Visual öffnen."

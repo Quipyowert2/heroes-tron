@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.8c\n"
-"POT-Creation-Date: 2002-09-22 21:35+0200\n"
+"POT-Creation-Date: 2002-10-24 21:04+0200\n"
 "PO-Revision-Date: 2001-02-23 22:37+01:00\n"
 "Last-Translator: Jos Boersema <joshb@FIXME>\n"
 "Language-Team: none <LL@li.org>\n"
@@ -38,19 +38,16 @@ msgstr "%s: optie `%c%s' staat geen argument toe\n"
 msgid "%s: option `%s' requires an argument\n"
 msgstr "%s: optie `%s' vereist een argument\n"
 
-#. --option
 #: lib/getopt.c:771
 #, c-format
 msgid "%s: unrecognized option `--%s'\n"
 msgstr "%s: niet herkende optie `--%s'\n"
 
-#. +option or -option
 #: lib/getopt.c:775
 #, c-format
 msgid "%s: unrecognized option `%c%s'\n"
 msgstr "%s: niet herkende optie `%c%s'\n"
 
-#. 1003.2 specifies the format of this message.
 #: lib/getopt.c:801
 #, c-format
 msgid "%s: illegal option -- %c\n"
@@ -64,7 +61,6 @@ msgstr "%s: ongeldige optie -- %c\n"
 msgid "%s: invalid option -- %c\n"
 msgstr "%s: ongeldige optie -- %c\n"
 
-#. 1003.2 specifies the format of this message.
 #: lib/getopt.c:834 lib/getopt.c:964
 #, c-format
 msgid "%s: option requires an argument -- %c\n"
@@ -80,8 +76,6 @@ msgstr "%s: optie `-W %s' is dubbelzinnig\n"
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: optie `-W %s' staat geen argumenten toe\n"
 
-#. If XALLOC_FAIL_FUNC is NULL, or does return, display this message
-#. before exiting when memory is exhausted.  Goes through gettext.
 #: lib/xmalloc.c:66
 msgid "memory exhausted"
 msgstr "geheugen uitgeput"
@@ -235,11 +229,6 @@ msgstr ""
 
 # disable superposition of rotozoom and waves\n"
 #         ^^^^^^^^^^^^^^^^^^^^^^^^^ ? what does that mean ;)
-#. TRANS: rotozoom is a graphical effect used in the demo of yore
-#. where the screen rotate and zoom (actually it doesn't zoom in Heroes);
-#. waves is another effect where the screen is agitated like some
-#. jelly (this was also called the `mushroom effect' in game like
-#. Death Rally).
 #: src/argv.c:190
 #, fuzzy
 msgid ""
@@ -939,42 +928,23 @@ msgstr ""
 msgid "%sTunnels:\n"
 msgstr ""
 
-#. TRANS: This is the header of an array (output by heroeslvl -p@),
-#. so the position of these words is important.
-#.
-#. SRCIDX is a short for 'source index' (entrance of a tunnel) and
-#. DESTIDX means 'destination index' (output of the tunnel).
 #: src/heroeslvl.c:395
 #, c-format
 msgid "%s  NBR  SRCIDX   Y   X  DIR      DESTIDX\n"
 msgstr ""
 
-#. TRANS: `still' is used to describe tiles which are not animated.
 #: src/heroeslvl.c:426
 msgid "still"
 msgstr ""
 
-#. TRANS: `loop' is for animated tiles where frames are displayed
-#. from 1 to n, and then again from 1 to n, etc.
 #: src/heroeslvl.c:430
 msgid "loop"
 msgstr ""
 
-#. TRANS: `pingpong' is for tiles animated in loop where frame
-#. displayed from 1 to n, then from n to 1, and then again from 1
-#. to n, etc.
 #: src/heroeslvl.c:435
 msgid "pingpong"
 msgstr ""
 
-#. TRANS: This is the header of an array (output by heroeslvl -pi) so
-#. the position of these word is important.
-#.
-#. SPRITE is the address of the sprite used to render the tile.  OVERLAY
-#. is the address of a sprite that should be displayed on top
-#. of the players (e.g. trees).  ANIM-TYPE is the kind of animation used
-#. for the tile, FRM the number of frame to display, DEL the delay
-#. between each frame.
 #: src/heroeslvl.c:453
 #, c-format
 msgid "%sTILE  Y  X    TYPE      SPRITE    OVERLAY  ANIM-TYPE FRM DEL\n"
@@ -1004,23 +974,15 @@ msgstr "Kan directorie `%s' niet maken."
 # "quest" as in "journey": `TOCHT'
 # "quest" as in "search": `ZOEK', "searching": `ZOEKEN'
 # "quest" as in "adventure": "AVONTUUR" ;)
-#. TRANS: in QUEST mode, the player goes throught all the levels, but
-#. have to search for specific powerups in order to jump to the next
-#. level.  Hence this is a `quest' for those powerups.
 #: src/menus.c:146
 #, fuzzy
 msgid "QUEST"
 msgstr "TOCHT"
 
-#. TRANS: in DEATH MATCH mode, the user has to kill all other players.
 #: src/menus.c:148
 msgid "DEATH MATCH"
 msgstr "DOODS STRIJD"
 
-#. TRANS: in KILL'EM ALL mode there are lemmings moving on the ground
-#. and the player must run over them all.  You may want to translate
-#. `kill' as `run over', `squash', `mash' or something among those
-#. lines.
 #: src/menus.c:153
 msgid "KILL'EM ALL"
 msgstr "VERTRAPPEN DAT ONGEDIERTE"
@@ -1028,15 +990,11 @@ msgstr "VERTRAPPEN DAT ONGEDIERTE"
 # Technically should be "TIJD CONTANT-GELD" but that sound like nothing in
 # Dutch.
 # "tijd is geld" translates to "time is money"
-#. TRANS: in TIME CA$H mode, the player must collect dollars with
-#. restricted time.
 #: src/menus.c:156
 #, fuzzy
 msgid "TIME CA$H"
 msgstr "TIJD IS GELD"
 
-#. TRANS: in COLOR mode, the player must collect some colored gems
-#. with restricted time.
 #: src/menus.c:159
 msgid "COLORS"
 msgstr "KLEUREN"
@@ -1072,12 +1030,10 @@ msgstr "EXTRAS"
 msgid "GO BACK"
 msgstr "GA TERUG"
 
-#. play menu
 #: src/menus.c:205 src/menus.c:540
 msgid "PLAY"
 msgstr "SPEEL"
 
-#. options menu
 #: src/menus.c:206 src/menus.c:527
 msgid "OPTIONS"
 msgstr "OPTIES"
@@ -1097,7 +1053,6 @@ msgid "SCORES"
 msgstr "SCORES"
 
 # `editor' would do fine too though
-#. editor first menu
 #: src/menus.c:210 src/menus.c:537
 msgid "EDITOR"
 msgstr "TEXTVERWERKER"
@@ -1106,12 +1061,10 @@ msgstr "TEXTVERWERKER"
 msgid "QUIT"
 msgstr "STOP"
 
-#. TRANS: Create a new level.
 #: src/menus.c:219 src/menus.c:504
 msgid "NEW LEVEL"
 msgstr "NIEUW LEVEL"
 
-#. TRANS: Load an existing level for edition.
 #: src/menus.c:221
 msgid "LOAD LEVEL"
 msgstr "LAAD LEVEL"
@@ -1120,7 +1073,6 @@ msgstr "LAAD LEVEL"
 msgid "CONTROL OPTIONS"
 msgstr "CONTROLE OPTIES"
 
-#. 1st player
 #: src/menus.c:378 src/menus.c:417 src/menus.c:434
 msgid "PLAYER 1"
 msgstr "SPELER 1"
@@ -1129,7 +1081,6 @@ msgstr "SPELER 1"
 msgid "AUTO PILOT"
 msgstr "AUTOMATISCHE PILOOT"
 
-#. 2nd player
 #: src/menus.c:382 src/menus.c:418 src/menus.c:442
 msgid "PLAYER 2"
 msgstr "SPELER 2"
@@ -1244,12 +1195,10 @@ msgstr "EXTRAS: ALLES"
 msgid "EXTRAS: SELECT"
 msgstr "EXTRAS: KIES"
 
-#. pause menu
 #: src/menus.c:492
 msgid "PAUSE"
 msgstr "PAUZE"
 
-#. quit y/n menus
 #: src/menus.c:496
 msgid "QUIT THIS GAME?"
 msgstr "STOP DIT SPEL?"
@@ -1274,31 +1223,20 @@ msgstr "BESTAAND LEVEL"
 msgid "NAME"
 msgstr "NAAM"
 
-#. TRANS: in wrapped levels are unbounded level, e.g. whenever the
-#. player reach the left border it continue its way from the right border
-#. (except that the player doesn't even know there are borders, because
-#. the level is tiled infinitely).  In unwrapped levels there are explicit
-#. bounds that you cannot cross.  X-WRAP is a check box used to specified
-#. whether a level must be wrapped horizontally or not when creating a
-#. new level.
 #: src/menus.c:516
 #, fuzzy
 msgid "X-WRAP"
 msgstr "X-OMVOUWEN"
 
-#. TRANS: Y-WRAP is a check box used to specified whether a level
-#. must be wrapped vertically or not.
 #: src/menus.c:519
 #, fuzzy
 msgid "Y-WRAP"
 msgstr "Y-OMVOUWEN"
 
-#. TRANS: width of the level
 #: src/menus.c:521
 msgid "X-SIZE"
 msgstr "X-GROOTTE"
 
-#. TRANS: height of the level
 #: src/menus.c:523
 msgid "Y-SIZE"
 msgstr "Y-GROOTTE"
@@ -1307,12 +1245,10 @@ msgstr "Y-GROOTTE"
 msgid "EDIT"
 msgstr "BEWERKEN"
 
-#. main menu
 #: src/menus.c:530
 msgid "HEROES"
 msgstr "HEROES"
 
-#. editor selector
 #: src/menus.c:533
 msgid "SELECT A LEVEL"
 msgstr "KIES EEN LEVEL"
@@ -1331,7 +1267,6 @@ msgid "LOAD..."
 msgstr "LADEN..."
 
 # FIXME: shouldn't that be "choOse a save slot"?
-#. saved game selection
 #: src/menus.c:557
 #, fuzzy
 msgid "CHOOSE A SAVE SLOT"
@@ -1342,14 +1277,10 @@ msgstr "KIES EEN BEWAAR POSITIE"
 msgid "CHOOSE A LOAD SLOT"
 msgstr "KIES EEN LAAD POSITIE"
 
-#. enter your name
 #: src/menus.c:563
 msgid "ENTER YOUR NAME:"
 msgstr "GEEF UW NAAM:"
 
-#. end level info
-#. TRANS: SIZE is the size of the player trail, PTS the
-#. number of PoinTS
 #: src/menus.c:569
 msgid "SIZE  PTS  LIVES"
 msgstr "GROOTTE PUNTEN LEVENS"
@@ -1360,8 +1291,6 @@ msgstr "PUNTEN LEVENS"
 
 # "MEN" as in male-people?
 # "lives" translates to plural: `levens', cut `s' leaves "life"
-#. TRANS: this is for KILL'EM ALL mode, and MEN is the number
-#. of lemmings killed by one player
 #: src/menus.c:575
 #, fuzzy
 msgid " MEN  PTS  LIVES"
@@ -1379,8 +1308,6 @@ msgstr "KLEUR   PNT  LEVEN"
 msgid "NEXT LEVEL"
 msgstr "VOLGENDE LEVEL"
 
-#. TRANS: this is a menu entry that introduce the user to another
-#. menu.  This is NOT displayed DURING saving.
 #: src/menus.c:589
 msgid "SAVE..."
 msgstr "BEWAAR..."
@@ -1393,7 +1320,6 @@ msgstr "DRUK OP ENTER"
 msgid "WINS  PTS  LIVES"
 msgstr "WINS  PNT  LEVEN"
 
-#. higher scores
 #: src/menus.c:614
 msgid "HIGHER SCORES"
 msgstr "HOGERE SCORES"
@@ -1503,6 +1429,26 @@ msgstr ""
 
 #: src/people.c:97
 msgid "Other people we wish to thanks\n"
+msgstr ""
+
+#: src/plugins.c:39 src/plugins.c:43
+#, c-format
+msgid "%s reported %d errors"
+msgstr ""
+
+#: src/plugins.c:54
+#, c-format
+msgid "libltdl:lt_dlexit reported %d errors"
+msgstr ""
+
+#: src/plugins.c:63
+#, fuzzy, c-format
+msgid "failed to dlopen plug-in `%s'"
+msgstr "Openen van scherm mislukt: %s"
+
+#: src/plugins.c:66
+#, c-format
+msgid "no `initialize' symbol in plug-in `%s'"
 msgstr ""
 
 #: src/readmake.c:188
@@ -1618,13 +1564,10 @@ msgstr ""
 msgid "Heroes has been compiled without sound support."
 msgstr "Heroes werd zonde geluidsondersteuning gecompileerd"
 
-#. FIXME: ask to send a bug report with a trace
 #: src/media/ggi/video.c:174
 msgid "failed to get any direct buffer for this visual"
 msgstr ""
 
-#. TRANS: a `visual' is associated by LibGGI to a display.  You can
-#. actually call it a `display', this makes no big difference.
 #: src/media/ggi/video.c:196
 msgid "failed to open visual."
 msgstr "openen van scherm mislukt."
@@ -1638,8 +1581,6 @@ msgstr "kon geen correct scherm opzetten."
 msgid "negotiated video mode is too small (width=%d, height=%d)"
 msgstr ""
 
-#. TRANS: `display-memory' is the name of a LibGGI driver and
-#. make no sense to translate.
 #: src/media/ggi/video.c:224
 #, fuzzy
 msgid "Failed to open an internal `display-memory' visual."

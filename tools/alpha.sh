@@ -11,9 +11,11 @@ VERSION_=`echo $VERSION | tr . _`
 PACKAGEUP=`echo ${PACKAGE}_ALPHA | tr 'a-z-' 'A-Z_'`
 
 # make distribution if not already done.
-test -z $PACKAGE-$VERSION.tar.gz &&
-  test -z $PACKAGE-$VERSION.tar.bz2 &&
-    make distcheck
+if test -f $PACKAGE-$VERSION.tar.gz && test -f $PACKAGE-$VERSION.tar.bz2; then
+  :
+else
+  make distcheck
+fi
 
 # commit it, tag it
 clcommit

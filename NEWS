@@ -1,3 +1,13 @@
+Heroes 0.29c	October 24, 2002
+
+	* New translation: Spanish (Argentina).
+	* Fix segfault on Debian/PPC.
+	* Upgrade to
+	  - Autoconf 2.54a (CVS)
+	  - Automake 1.7.1
+	  - Gettext 0.11.5
+	  - Libtool 1.4.3
+
 Heroes 0.29b	July 15, 2002
 
 	* Initial sketch of the API documentation (for plug-ins).

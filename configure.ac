@@ -1,4 +1,4 @@
-dnl Copyright 2000, 2001  Alexandre Duret-Lutz <duret_g@epita.fr>
+dnl Copyright 2000, 2001, 2002  Alexandre Duret-Lutz <duret_g@epita.fr>
 dnl
 dnl This file is part of Heroes.
 dnl
@@ -18,7 +18,7 @@ dnl
 
 AC_PREREQ(2.52)
 
-AC_INIT([heroes], [0.29b], [heroes-bugs@lists.sourceforge.net])
+AC_INIT([heroes], [0.29c], [heroes-bugs@lists.sourceforge.net])
 AC_CONFIG_AUX_DIR(tools)
 AC_CONFIG_SRCDIR([src/heroes.c])
 AM_INIT_AUTOMAKE([1.7.1 gnits dist-bzip2])
