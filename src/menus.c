@@ -46,6 +46,8 @@
 #include "sprtext.h"
 #include "sprprogwav.h"
 #include "sound.h"
+#include "debugmsg.h"
+#include "timer.h"
 
 static sprite_t* left_arrow = 0;
 static sprite_t* right_arrow = 0;
@@ -68,12 +70,12 @@ static sprite_t* extra_menu_txt = 0;
 static sprite_t* extra_modes_txt[3] = { 0, 0, 0 };
 static sprite_t* extra_combine_txt[3] = { 0, 0, 0 };
 static sprite_t* credit_menu_txt = 0;
+static sprite_t* pause_menu_txt = 0;
 
 static sprite_t* jukebox_frame = 0;
 static sprite_t* jukebox_back = 0;
 static sprite_t* jukebox_forw = 0;
 static sprite_t* jukebox_quit = 0;
-
 
 void
 init_menus_sprites (void)
@@ -199,6 +201,9 @@ init_menus_sprites (void)
 				 9, 12, jukebox_img.width, xbuf);
   jukebox_quit = compile_sprrle (IMGPOS (jukebox_img, 19, 24), 0,
 				 9, 16, jukebox_img.width, xbuf);
+
+  /* pause menu */
+  pause_menu_txt = compile_menu_text ("PAUSE", T_CENTERED|T_WAVING, 5, 159);
 }
 
 void
@@ -238,6 +243,7 @@ uninit_menus_sprites (void)
   FREE_SPRITE0 (jukebox_forw);
   FREE_SPRITE0 (jukebox_back);
   FREE_SPRITE0 (jukebox_quit);
+  FREE_SPRITE0 (pause_menu_txt);
 }
 
 static void
@@ -1481,7 +1487,7 @@ draw_saved_games_info (int decal, int l, char h)
 	       corner[0] + decal + (35 + l * 14) * xbuf + 320 - 1 - 13);
 }
 
-void
+static void
 jukebox_draw (int pos)
 {
   int t, t2, dp;
@@ -1523,7 +1529,7 @@ jukebox_draw (int pos)
   aff_buffer ();
 }
 
-int
+static int
 jukebox_keys (int *pos)
 {
   keycode_t k;
@@ -1599,4 +1605,44 @@ jukebox_menu (void)
   event_sfx (76);
   in_jokebox = 0;
   free_htimer (lemming_htimer);
+}
+
+void
+pause_menu (void)
+{
+  int l = 0;
+  htimer_t pause_htimer;
+
+  dmsg (D_SECTION, "pause menu");
+
+  pause_htimer = new_htimer (T_GLOBAL, 1);
+
+  halve_volume ();
+  event_sfx (58);
+
+  backup_screen (render_buffer[0]);
+  shade_scr_area (render_buffer[0], render_buffer[1]);
+  corner[0] = render_buffer[0];
+
+  uninit_keyboard_map ();
+  do {
+    copy_scr_area (render_buffer[1], corner[0]);
+    update_text_waving_step ();
+
+    DRAW_SPRITE (pause_menu_txt, corner[0]);
+
+    jukebox_draw (l);
+  } while (jukebox_keys (&l));
+
+  init_keyboard_map ();
+  set_volume ();
+  enable_blit = 0;
+  event_sfx (59);
+
+  /* delay important timers that continued running during the pause */
+  shift_htimer (update_htimer, pause_htimer);
+  shift_htimer (event_htimer, pause_htimer);
+
+  free_htimer (pause_htimer);
+  dmsg (D_SECTION, "exit pause menu");
 }

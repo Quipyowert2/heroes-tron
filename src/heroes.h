@@ -35,11 +35,14 @@ extern htimer_t corner_htimer;
 extern htimer_t demo_trigger_htimer;
 extern htimer_t sound_track_htimer;
 extern long event_time;
+extern htimer_t event_htimer;
+extern htimer_t update_htimer;
 
 extern void compute_corner (int p, int n);
 extern void play_demo (void);
 
 extern int level_is_finished;
+extern char enable_blit;
 
 extern void grow_trail (int pl, int size);
 extern void shrink_trail (int pl, int size);

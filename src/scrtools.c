@@ -24,6 +24,8 @@
 #include "timer.h"
 #include "display.h"
 #include "options.h"
+#include "const.h"
+#include "fastmem.h"
 
 /* FIXME: perform gamma correction here */
 void
@@ -43,7 +45,7 @@ set_pal_with_luminance (const palette_t* palsrc)
 	(unsigned char) ((palsrc->global[i] * (64 - lum) + 63 * lum) >>6);
   } else if (opt.luminance > 3) {
     for (i = 767; i >= 0; i--)
-      paldest.global[i] = 
+      paldest.global[i] =
 	(unsigned char) ((palsrc->global[i] * 64) / (64 + lum));
   }
   set_pal (paldest.global, 0, 768);
@@ -55,4 +57,41 @@ vsynch (void)
   run_fader ();
   vsynchro ();
   update_htimers ();
+}
+
+void
+backup_screen (pixel_t *dest)
+{
+  unsigned row;
+  const pixel_t *src = screen;
+  for (row = 200; row; --row) {
+    fastmem4 (src, dest, 320/4);
+    src += 320;
+    dest += xbuf;
+  }
+}
+
+void
+shade_scr_area (const pixel_t *src, pixel_t *dest)
+{
+  unsigned row;
+  unsigned col;
+
+  for (row = 200; row; --row) {
+    for (col = 0; col < 320; ++col)
+      dest[col] = glenz[1][src[col]];
+    dest += xbuf;
+    src += xbuf;
+  }
+}
+
+void
+copy_scr_area (const pixel_t *src, pixel_t *dest)
+{
+  unsigned row;
+  for (row = 200; row; --row) {
+    fastmem4 (src, dest, 320/4);
+    src += xbuf;
+    dest += xbuf;
+  }
 }

@@ -3208,53 +3208,6 @@ main_menu (void)
   }
 }
 
-static void
-pause_menu (void)
-{
-  int i;
-  int l = 0;
-  unsigned char *src = render_buffer[0];
-  htimer_t pause_htimer;
-
-  /* FIXME: this works in 320x200, this is shame, this is broken. */
-
-  dmsg (D_SECTION, "pause menu");
-
-  pause_htimer = new_htimer (T_GLOBAL, 1);
-
-  halve_volume ();
-  event_sfx (58);
-  fastmem4 ((char *) screen, src, 64000 / 4);
-  corner[0] = src;
-  for (i = 64000; i != 0; i--)
-    *src++ = glenz[1][*src];
-  vsynch ();
-  fastmem4 ((char *) corner[0], (char *) screen, 64000 / 4);
-  fastmem4 ((char *) corner[0] + 90 * 320, (char *) corner[0], 20 * 320 / 4);
-  fastmem4 ((char *) corner[0], (char *) corner[0] + 20 * 320, 20 * 320 / 4);
-  uninit_keyboard_map ();
-  do {
-    update_text_waving_step ();
-    fastmem4 ((char *) corner[0] + 20 * 320, (char *) corner[0],
-	      20 * 320 / 4);
-    draw_text_waving_320 ("PAUSE", 159, 5, 1);
-
-    jukebox_draw (l);
-  } while (jukebox_keys (&l));
-
-  init_keyboard_map ();
-  set_volume ();
-  enable_blit = 0;
-  event_sfx (59);
-
-  /* delay important timers that continued running during the pause */
-  shift_htimer (update_htimer, pause_htimer);
-  shift_htimer (event_htimer, pause_htimer);
-
-  free_htimer (pause_htimer);
-  dmsg (D_SECTION, "exit pause menu");
-}
-
 
 
 static char

@@ -1,5 +1,22 @@
 2000-11-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Cleanup pause_menu.
+
+	* src/heroes.h (event_htimer, update_htimer, enable_blit): Export.
+	* src/heroes.c (pause_menu): Move to ...
+	* src/menus.c (pause_menu): ... here. Rewrite using the new sprite
+	routines, and using xbuf wide buffers.
+	(pause_menu_txt): New.
+	(init_menus_sprites): Initialize pause_menu_txt.
+	(uninit_menus_sprites): Free it.
+	(jukebox_draw, jukebox_keys): Tag static.
+	* src/menus.h (jukebox_draw, jukebox_keys): Remove.
+	(pause_menu): New.
+	* src/scrtools.c (backup_screen, shade_scr_area, copy_scr_area): New.
+	* src/scrtools.h (backup_screen, shade_scr_area, copy_scr_area): New.
+
+2000-11-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Fix A_LOOP tiles (which were not animated anymore...)
 
 	* src/render.c (draw_level): Parenthesize tile source computation.
