@@ -1,5 +1,13 @@
 2000-12-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Keys in the keyboard configuration menu were not
+	printed nor updated correctly.
+	Reported by Jean Delvare.
+
+	* src/menus.c (keyboard_menu): Thinko.
+
+2000-12-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Memory leaks.
 
 	* src/readmake.c (compile_reader_data): Free curstr_allocated.

@@ -937,20 +937,21 @@ keyboard_menu (void)
     /* Draw the key name,
        generate the associated sprite if needed. */
     for (i = 0; i < 12; ++i) {
-      if (l != reorder[i] || testing == 0) {
+      int oi = reorder[i];
+      if (l != i || testing == 0) {
 	if (!keyboard_keys_txt[i]) { /* need to generate a sprite ? */
 	  sprite_t *res;
-	  int key = opt.player_keys[i > 5][i > 5 ? i - 6 : i];
+	  int key = opt.player_keys[oi > 5][oi > 5 ? oi - 6 : oi];
 	  const char *keyname = search_keyname (key);
 
 	  if (!keyname) {	/* unknown key? print its code number */
 	    char name[64];
 	    sprintf (name, "(%d)", key);
 	    res = compile_menu_text (name, T_FLUSHED_RIGHT,
-				     keyline[reorder[i]], 295);
+				     keyline[i], 295);
 	  } else
 	    res = compile_menu_text (keyname, T_FLUSHED_RIGHT,
-				     keyline[reorder[i]], 295);
+				     keyline[i], 295);
 	  keyboard_keys_txt[i] = res;
 	}
 	DRAW_SPRITE (keyboard_keys_txt[i], corner[0]);
@@ -989,11 +990,12 @@ keyboard_menu (void)
 	  opt.player_keys[0][ll] = t;
 	else
 	  opt.player_keys[1][ll - 6] = t;
-	l++;
 
 	/* force the regeneration of key name on next display */
 	FREE_SPRITE0 (keyboard_keys_txt[l]);
 	keyboard_keys_txt[l] = 0;
+
+	l++;
 
 	testing = 0;
 	event_sfx (7);
