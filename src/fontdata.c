@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------.
-| Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>                 |
+| Copyright 2000, 2001  Alexandre Duret-Lutz <duret_g@epita.fr>           |
 |                                                                         |
 | This file is part of Heroes.                                            |
 |                                                                         |
@@ -22,6 +22,7 @@
 #include "const.h"
 #include "debugmsg.h"
 #include "fontdata.h"
+#include "errors.h"
 
 fontdata_t *edit_font = 0;
 fontdata_t *menu_font = 0;
@@ -36,11 +37,10 @@ initialize_menu_font (void)
   pixel_t *upl;			/* upper left pixel of the character */
   int ch;			/* current character */
 
-  XMALLOC_VAR (menu_font);
+  XCALLOC_VAR (menu_font);
   menu_font->height = 10;
   menu_font->line_skip = 2;
   menu_font->line_size = main_font_img.width;
-  memset (menu_font->width, 0, 256);
 
   for (ch = ' '; ch <= 'd'; ++ch) {
     unsigned int width, act_width;
@@ -71,11 +71,10 @@ initialize_deck_font (void)
   pixel_t *upl;			/* upper left pixel of the character */
   int ch;			/* current character */
 
-  XMALLOC_VAR (deck_font);
+  XCALLOC_VAR (deck_font);
   deck_font->height = 5;
   deck_font->line_skip = 1;
   deck_font->line_size = font_deck_img.width;
-  memset (deck_font->width, 0, 256);
 
   for (ch = ' '; ch <= '^'; ++ch) {
     unsigned int width, act_width;
@@ -113,11 +112,10 @@ initialize_bonus_font (void)
   pixel_t *upl;			/* upper left pixel of the character */
   int ch;			/* current character */
 
-  XMALLOC_VAR (bonus_font);
+  XCALLOC_VAR (bonus_font);
   bonus_font->height = 12;
   bonus_font->line_skip = 2;
   bonus_font->line_size = bonus_font_img.width;
-  memset (bonus_font->width, 0, 256);
 
   for (ch = ' '; ch <= 'd'; ++ch) {
     unsigned int width, act_width;
@@ -150,11 +148,10 @@ initialize_help_font (void)
 
   pcx_load_from_rsc ("help-font", &help_font_img);
 
-  XMALLOC_VAR (help_font);
+  XCALLOC_VAR (help_font);
   help_font->height = 9;
   help_font->line_skip = 1;
   help_font->line_size = help_font_img.width;
-  memset (help_font->width, 0, 256);
 
   for (ch = ' '; ch <= 127; ++ch) {
     unsigned int width, act_width;
@@ -226,3 +223,20 @@ compute_text_width (const fontdata_t *font, const char *text,
     *nspaces = ns;
   return width;
 }
+
+
+#if DEBUG
+void
+check_message_is_drawable (const fontdata_t *font, const char *text)
+{
+  const char *text_orig = text;
+
+  for (; *text; ++text) {
+    if (font->width[UCHAR (*text)] == 0) {
+      wmsg (_("character '%c' is not drawable (in message '%s')"),
+	    *text, text_orig);
+      break;
+    }
+  }
+}
+#endif

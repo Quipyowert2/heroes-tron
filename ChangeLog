@@ -1,3 +1,17 @@
+2001-02-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Report unprintable messages before crashing...
+
+	* src/system.h (XCALLOC_ARRAY): New.
+	* src/fontdata.c (initialize_menu_font, initialize_deck_font,
+	initialize_bonus_font, initialize_help_font): Use XCALLOC_VAR
+	instead of XMALLOC_VAR and memset.  This actually suppress a
+	mistake because memset was called mistakenly.
+	[DEBUG] (check_message_is_drawable): New function.
+	* src/fontdata.h (check_message_is_drawable): New.
+	* src/sprtext.c (compile_sprtext, compile_sprtext_color): Call
+	check_message_is_drawable.
+
 2001-02-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Dutsh translation from Jos Boersema <joshb@sourceforge.net>.

@@ -250,6 +250,7 @@ Array = xmalloc (sizeof (*(Array)) * (N_items))
 Array = xrealloc ((Array), sizeof (*(Array)) * (N_items))
 
 #define XMALLOC_VAR(Var) XMALLOC_ARRAY ((Var), 1)
+#define XCALLOC_VAR(Var) XCALLOC_ARRAY ((Var), 1)
 
 /* Like XMALLOC_ARRAY but also performs a memSet */
 #define XSALLOC_ARRAY(Array, N_items, Val)			\

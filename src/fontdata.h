@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------.
-| Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>                 |
+| Copyright 2000, 2001  Alexandre Duret-Lutz <duret_g@epita.fr>           |
 |                                                                         |
 | This file is part of Heroes.                                            |
 |                                                                         |
@@ -50,5 +50,11 @@ void uninit_fonts (void);
    space encountered. */
 unsigned int compute_text_width (const fontdata_t *font, const char *text,
 				 unsigned int *nspaces);
+
+#if DEBUG
+void check_message_is_drawable (const fontdata_t *font, const char *text);
+#else
+# define check_message_is_drawable(x, y)  ((void *) 0)
+#endif
 
 #endif /* HEROES__FONTDATA__H */

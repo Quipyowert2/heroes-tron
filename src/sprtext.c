@@ -43,6 +43,8 @@ compile_sprtext (const fontdata_t *font, const char *text,
   unsigned int nspaces;
   unsigned int text_width = 0;
 
+  check_message_is_drawable (font, text);
+
   if (topt & T_FLUSHED_LEFT) {	/* FLUSHED_LEFT or JUSTIFIED */
     if (topt & T_FLUSHED_RIGHT) { /* JUSTIFIED */
       text_width = compute_text_width (font, text, &nspaces);
@@ -96,6 +98,8 @@ compile_sprtext_color (const fontdata_t *font, const char *text,
   unsigned int text_width = 0;
   unsigned int colors[] = { 255, 111, 127, 143, 159, 16 };
   unsigned int c = colors[0];
+
+  check_message_is_drawable (font, text);
 
   if (topt & T_FLUSHED_LEFT) {	/* FLUSHED_LEFT or JUSTIFIED */
     if (topt & T_FLUSHED_RIGHT) { /* JUSTIFIED */
