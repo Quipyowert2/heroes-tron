@@ -26,6 +26,8 @@ Before 0.7
   generic_list.h: *_clear should be given a pointer to the cell destructor
   to be useful.
 
+  check for timeGetTime() and use it instead of clock() on Win32.
+
 
 Before 1.0.0
 ------------
@@ -53,6 +55,10 @@ Before 1.0.0
   __attribute__ ((packed)) are gcc-isms
 
   gfx_reader.h is a crap
+
+  Write a developer guide.
+
+  Perform real gamma correction, not basic lightening or shading of colors.
 
 
 Left for a 1.1.x development branch
