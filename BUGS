@@ -428,28 +428,3 @@ in      |  |                     |
 
 I suppose we better find that level and correct this. Playing 'Kill'em
 all' on such a level could take very long ;)
-
-Do we have a way of displaying a given level (by file) or to display the
-name of the map in use ? It would help in such cases.
-
-
-2* I had no sound nor music during a whole round. Sound came back
-in the next round. I can't remember if it was the same map or not.
-
-======================================================================
-
-From: Jean Delvare <delvare@ensicaen.ismra.fr>
-Date: Sun, 11 Feb 2001 13:29:41 +0100 (MET)
-Version: 0.8c
-
-Sometimes, I have no music nor sound in a level. The sound doesn't come
-back in the 'Quit ? Yes/No' menu, but comes back next, in the main menu.
-I ran a lot of Cash&Time games to get precisions on the levels it was
-happening in. Using 'ls -lu', I checked the last maps used. The last one
-would be any map, but the previous one was always 67 or 108. What do this
-map have special?
-
-I am using ALSA drivers 0.5.10 on a SB Live! soundcard, with libmikmod
-3.1.9. Anyone ever experienced that problem? If someone could try to
-reproduce it, it would demonstrate it is not dependant from my
-configuration.

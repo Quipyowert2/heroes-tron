@@ -1,5 +1,26 @@
 2001-06-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Jean reported several times that some levels play
+	without any sound.  These five levels are affected
+	| ~/usr/share/heroes/levels % grep heroes *
+	| Binary file niv038.lvl matches
+	| Binary file niv039.lvl matches
+	| Binary file niv049.lvl matches
+	| Binary file niv067.lvl matches
+	| Binary file niv108.lvl matches
+	because they use lowercase soundtrack aliases instead of
+	uppercase as the others.  This patch change the hashing
+	function used to lookup soundtrack aliases so that uppercase
+	and lowercase versions of the same aliase will be hashed to the
+	same value.
+
+	* src/musicfiles.c (hash_case_string): New function.
+	(st_hasher, get_sound_track_from_alias): Use hash_case_string
+	instead of hash_string.
+	* BUGS: Remove related entry.
+
+2001-06-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/menus.c (init_menus_sprites): Reverse the strings
 	"NEW LEVEL" and "EXISTING LEVEL".
 	Reported by Jean.

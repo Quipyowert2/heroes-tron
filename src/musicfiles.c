@@ -57,11 +57,26 @@ st_cmp (const void *left, const void *right)
   return strcasecmp ((*l)->alias, (*r)->alias);
 }
 
+/* This is like hash_string, defined in lib/hash.c, but it maps lower
+   and upercase strings to the same value.  */
+static unsigned
+hash_case_string (const char *string, unsigned n_buckets)
+{
+  unsigned value = 0;
+
+  while (*string) {
+    value = ((value * 31 + (int) (unsigned char) TOLOWER (*string))
+	     % n_buckets);
+    ++string;
+  }
+  return value;
+}
+
 static unsigned
 st_hasher (const void *data, unsigned size)
 {
   const sound_track_t *d = data;
-  return hash_string (d->alias, size);
+  return hash_case_string (d->alias, size);
 }
 
 static void
@@ -98,7 +113,7 @@ sound_track_t*
 get_sound_track_from_alias (const char* alias)
 {
   struct hash_entry *bucket
-    = st_hash->bucket + hash_string (alias, st_hash->n_buckets);
+    = st_hash->bucket + hash_case_string (alias, st_hash->n_buckets);
   struct hash_entry *cursor;
 
   assert (bucket < st_hash->bucket_limit);
