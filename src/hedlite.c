@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------.
-| Copyright (C) 1997,1998,2000 Alexandre Duret-Lutz <duret_g@epita.fr>    |
+| Copyright (C) 1996-1998,2000 Alexandre Duret-Lutz <duret_g@epita.fr>    |
 |                                                                         |
 | This file is part of Heroes.                                            |
 |                                                                         |
@@ -683,7 +683,6 @@ departfix (void)
 		 (29 + i * 9) * 320, screen + 306 + 99 * 320, 10, 9, 71);
     partiel4 (90, 112, 30, 27, 290, 112, &heditrsc);
     partiel4 (96 + c * 5, 139, 4, 4, 296 + c * 5, 112, &heditrsc);
-    mouse_show ();
     while (mouse12 () == 0 && key_ready () == 0);
     if (mouse1 ()) {
       x = mouse_x ();
@@ -720,7 +719,6 @@ departfix (void)
 	while (mouse12 () != 0);
       }
     }
-    mouse_hide ();
   }
   while (mouse_x () > 290 && (!key_ready ()) && mouse2 () == 0);
   majg ();
@@ -1851,6 +1849,7 @@ static void
 gestsrs2 (void)
 {
   int x = mouse_x (), y = mouse_y ();
+
   if (x >= 290) {
     if (y >= 144 && y <= 166) {
       if (x > 305)
@@ -1872,6 +1871,7 @@ gestsrs3 (void)
 {
   int x = mouse_x (), y = mouse_y ();
   int a, b;
+
   if (x < 144) {
     a = xplandec;
     b = yplandec;
@@ -2213,8 +2213,9 @@ askold ()
 /****************************************************************************/
 /****************************************************************************/
 /****************************************************************************/
-int hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2, char *argv3, char *argv4,
-	   char *argv5, char *argv6)
+int 
+hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2, 
+       char *argv3, char *argv4, char *argv5, char *argv6)
 {
   int i;
 
@@ -2414,7 +2415,6 @@ int hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2, char *ar
     mouse_show ();
     do {
       while (key_ready () == 0 && mouse12 () == 0);
-      mouse_hide ();
       if (key_ready ()) {
 	i = get_key ();
 	gestclav (i);
@@ -2431,7 +2431,6 @@ int hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2, char *ar
 	while (mouse12 () != 0);
 	notestmouse = 0;
       }
-      mouse_show ();
     } while (i != HK_Escape);
     mouse_hide ();
     outwayclose ();
