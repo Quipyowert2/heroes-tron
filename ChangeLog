@@ -1,5 +1,9 @@
 2000-08-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/rsc_files.gperf (end-scroller-txt): Typo.
+
+2000-08-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/debugmsg.c (dperror): Print an error message only
 	if debug_level is non null.
 	* src/extras.c (browse_extra_directory): Print an error
