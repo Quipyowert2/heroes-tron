@@ -1,5 +1,15 @@
 2000-10-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	rletextize the extra menu.
+	
+	* src/menus.c (extra_menu_txt,extra_modes_txt,extra_combine_txt): New.
+	(init_menus_sprites): Initialize the above variables.
+	(uninit_menus_sprites): Free them.
+	(extra_menu): Use them.  Use a local array of rleprogs for the
+	filenames.  Make 7 levels jumps on pugeup/pagedown (was 10).
+
+2000-10-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Use a rleprog_t to display the rounds number too.
 
 	* src/menus.c (game_rounds_txt): New.

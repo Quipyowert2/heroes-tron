@@ -60,6 +60,9 @@ rleprog_t* game_menu_txt = 0;
 rleprog_t* game_rounds_txt = 0;
 rleprog_t* keyboard_menu_txt = 0;
 rleprog_t* keyboard_keys_txt[12] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+rleprog_t* extra_menu_txt = 0;
+rleprog_t* extra_modes_txt[3] = { 0, 0, 0 };
+rleprog_t* extra_combine_txt[3] = { 0, 0, 0 };
 
 void
 init_menus_sprites (void)
@@ -167,6 +170,18 @@ init_menus_sprites (void)
 		  compile_menu_text (txti[101], T_FLUSHED_LEFT, 165, 25));
   concat_rleprog (keyboard_menu_txt,
 		  compile_menu_text (txti[102], T_FLUSHED_LEFT, 176, 25));
+
+  /* extra menu */
+
+  extra_menu_txt = compile_menu_text (txti[125], T_CENTERED|T_WAVING, 5, 169);
+  concat_rleprog (extra_menu_txt,
+		  compile_menu_text (txti[94], T_FLUSHED_LEFT, 180, 20));
+  extra_modes_txt[0] = compile_menu_text (txti[122], T_FLUSHED_LEFT, 35, 20);
+  extra_modes_txt[1] = compile_menu_text (txti[123], T_FLUSHED_LEFT, 35, 20);
+  extra_modes_txt[2] = compile_menu_text (txti[124], T_FLUSHED_LEFT, 35, 20);
+  extra_combine_txt[0] = compile_menu_text (txti[126], T_FLUSHED_LEFT, 57, 20);
+  extra_combine_txt[1] = compile_menu_text (txti[127], T_FLUSHED_LEFT, 57, 20);
+  extra_combine_txt[2] = compile_menu_text (txti[128], T_FLUSHED_LEFT, 57, 20);
 }
 
 void
@@ -206,6 +221,17 @@ uninit_menus_sprites (void)
     for (i = 11; i >= 0; --i) {
       free_rleprog (keyboard_keys_txt[i]);
       keyboard_keys_txt[i] = 0;
+    }
+  }
+  free_rleprog (extra_menu_txt);
+  extra_menu_txt = 0;
+  {
+    int i;
+    for (i = 2; i >= 0; --i) {
+      free_rleprog (extra_combine_txt[i]);
+      extra_combine_txt[i] = 0;
+      free_rleprog (extra_modes_txt[i]);
+      extra_modes_txt[i] = 0;
     }
   }
 }
@@ -833,24 +859,22 @@ extra_menu (void)
 {
   char l = 0;
   int t, i, ll = 0;
-  char lname[FILENAME_SIZE + 1];
+  /* We store only the RLE-prog for the displayed level names, as the list
+     can be big (hmmm... really?) */
+  rleprog_t* levelnames[7] = { 0, 0, 0, 0, 0, 0, 0 };
   
   std_white_fadein (&tile_set_img.palette);
   do {
     background_menu ();
-    draw_text_waving (txti[125], 159, 5, 1);
-    draw_text (txti[122 + opt.extras], 20, 35, 0);
+    exec_rleprog (extra_menu_txt, corner[0]);
+    exec_rleprog (extra_modes_txt[opt.extras], corner[0]);
+    
+
     if (opt.extras == 0)
-      draw_text (txti[126], 20, 57, 0);
-
-    else {
-      if (extrasel == 0)
-	draw_text (txti[127], 20, 57, 0);
-
-      else
-	draw_text (txti[128], 20, 57, 0);
-    }
-    draw_text (txti[94], 20, 180, 0);
+      exec_rleprog (extra_combine_txt[0], corner[0]);
+    else
+      exec_rleprog (extra_combine_txt[(extrasel == 0)?1:2], corner[0]);
+    
     if (extrasel && opt.extras != 0) {
       copy_rect_transp (main_font_img.buffer + 61 * 320,
 			corner[0] + (72) * xbuf + 100, 120, 3);
@@ -858,8 +882,17 @@ extra_menu (void)
 			corner[0] + (169) * xbuf + 100, 120, 3);
       for (i = -3; i <= 3; i++)
 	if ((i + ll) >= 0 && (unsigned int)(i + ll) < extra_nbr) {
-	  strcpy (lname, extra_list[i + ll].level_name);
-	  draw_text_array[i == 0] (lname, 200, 118 + i * 13, 2);
+	  if (!levelnames[3 + i]) {
+	    char lname[FILENAME_SIZE + 1];
+	    strcpy (lname, extra_list[i + ll].level_name);
+	    levelnames[3 + i] = compile_menu_text (lname, T_FLUSHED_RIGHT, 
+						   118, 200);
+	  }
+	  /* FIXME: the middle levelname used to be waving.
+	     This can't be done without additional support from rletext.c.
+	     An alternate solution may be to use a transparent ligne
+	     to highlight the background of this middle level. */
+	  exec_rleprog (levelnames[3 + i], corner[0] + i * 13 * xbuf);
 	  chkbox (115 + i * 13, 210, extra_selected_list[i + ll]);
 	}
     }
@@ -874,26 +907,44 @@ extra_menu (void)
 	if (t == HK_Home || t == HK_End || t == HK_PageUp || t == HK_PageDown)
 	  event_sfx (1);
 	if (t == HK_Up) {
-	  if (ll > 0)
+	  if (ll > 0) {
 	    ll--;
-	  else
+	    /* Rotate the levelnames. */
+	    free_rleprog (levelnames[6]);
+	    memmove (levelnames + 1, levelnames, 6 * sizeof (*levelnames));
+	    levelnames[0] = 0;
+	  } else
 	    l = 1;
 	}
 	if (t == HK_Down) {
-	  if ((unsigned int) (ll + 1) < extra_nbr)
+	  if ((unsigned int) (ll + 1) < extra_nbr) {
 	    ll++;
-	  else
+	    /* Rotate the levelnames. */
+	    free_rleprog (levelnames[0]);
+	    memmove (levelnames, levelnames + 1, 6 * sizeof (*levelnames));
+	    levelnames[6] = 0;
+	  } else
 	    l = 3;
 	}
-	if (t == HK_Home)
-	  ll = 0;
-	if (t == HK_End)
-	  ll = extra_nbr - 1;
-	if (t == HK_PageUp)
-	  ll = (ll > 10) ? (ll - 10) : 0;
-	if (t == HK_PageDown)
-	  ll = (((unsigned int) (ll + 11) < extra_nbr) ?
-		(ll + 10) : (extra_nbr - 1));
+	if (t == HK_Home || t == HK_End 
+	    || t == HK_PageUp || t == HK_PageDown) {
+	  int j;
+	  /* Free all levelnames. */
+	  for (j = 6; j >= 0; --j) {
+	    free_rleprog (levelnames[j]);
+	    levelnames[j] = 0;
+	  }
+
+	  if (t == HK_Home)
+	    ll = 0;
+	  else if (t == HK_End)
+	    ll = extra_nbr - 1;
+	  else if (t == HK_PageUp)
+	    ll = (ll > 7) ? (ll - 7) : 0;
+	  else /* t == HK_PageDown */
+	    ll = (((unsigned int) (ll + 7) < extra_nbr) ?
+		  (ll + 7) : (extra_nbr - 1));
+	}
       } else {
 	if (t == HK_Up) {
 	  if (l > 0)
@@ -943,6 +994,10 @@ extra_menu (void)
       t = 0;
   } while (t != HK_Enter || l != 3);
   event_sfx (8);
+
+  /* Free all levelnames. */
+  for (i = 6; i >= 0; --i)
+    free_rleprog (levelnames[i]);
 }
 
 void
