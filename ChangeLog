@@ -1,3 +1,27 @@
+2001-03-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Replace game magics by game IDs, which serve the same purpose
+	but are 128bits values.  See comments in src/gameid.h.
+
+	* src/gameid.h: New file.
+	* src/gameid.c: New file.
+	* src/Makefile.am (heroes_SOURCES): Add gameid.c and gameid.h.
+	* src/const.c (game_magic): Replace by ...
+	(game_id): ... this new variable.
+	* src/const.h: Likewise.
+	* src/heroes.c (play_menu, play_game): Adapt to use game IDs.
+	* src/menus.c (draw_saved_games_info): Likewise.
+	* src/savegame.c (clear_save_records, write_save_records,
+	load_save_records_read): Likewise.
+	(load_save_records_error): New function.
+	(compute_magic, set_magic, find_magic): Remove.
+	* src/savegame.h: Adjust.
+	* src/scores.c (find_score_by_gameid): New function.
+	(clear_scores, write_scores, load_scores_read): Adapt to yse
+	game IDs.
+	(load_scores_error): New function.
+	* src/scores.h: Adjust.
+
 2001-03-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/savegame.h: Copyright 2001.

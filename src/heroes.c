@@ -64,6 +64,7 @@
 #include "explosions.h"
 #include "items.h"
 #include "sprprogwav.h"
+#include "gameid.h"
 
 char tile_set_name[128];
 char glenz_name[128];
@@ -1133,11 +1134,11 @@ play_menu (void)
     gamemodeh = game_mode;
     cont = 0;
     current_quest_level = 0;
-    game_magic = compute_magic ();
+    create_gameid (game_id);
   } else {
     gamemodeh = game_mode = M_QUEST;
     current_quest_level = saverec[u].level;
-    game_magic = saverec[u].magic;
+    copy_gameid (game_id, saverec[u].gid);
     for (t = 0; t < 4; t++) {
       player[col2plr[t]].lifes = saverec[u].lifes[t];
       player[col2plr[t]].score = saverec[u].points[t];
@@ -1208,14 +1209,14 @@ play_menu (void)
   load_scores_and_keep_locked ();
   for (t = 0; t < 4; t++)
     if (player[t].cpu == 2) {
-      mag = find_magic (game_magic);
+      mag = find_score_by_gameid (game_id);
       if (mag == -1)
 	mag = 9;
       if (highs[gamemodeh][mag].points >= player[t].score)
 	mag = -1;
       if (mag != -1) {
 	enter_your_name (plr2col[t] + 1, highs[gamemodeh][mag].name);
-	highs[gamemodeh][mag].magic = game_magic;
+	copy_gameid (highs[gamemodeh][mag].gid, game_id);
 	highs[gamemodeh][mag].points = player[t].score;
 	sort_scores ();
       }
@@ -3413,7 +3414,7 @@ play_game (char cont)
 /*                saverec[l].questmode=questmode; */
 		for (u = 0; u < 4; u++) {
 		  saverec[l].points[u] = player[col2plr[u]].score;
-		  saverec[l].magic = game_magic;
+		  copy_gameid (saverec[l].gid, game_id);
 		  saverec[l].lifes[u] = player[col2plr[u]].lifes;
 		}
 		saverec[l].used = 1;

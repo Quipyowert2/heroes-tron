@@ -62,6 +62,8 @@ font.h \
 font_help.h \
 fontdata.c \
 fontdata.h \
+gameid.c \
+gameid.h \
 generic_list.h \
 hedlite.c \
 hedlite.h \

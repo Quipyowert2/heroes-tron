@@ -1,6 +1,5 @@
 /*------------------------------------------------------------------.
-| Copyright 1997, 1998, 2000, 2001  Alexandre Duret-Lutz            |
-|                                    <duret_g@epita.fr>             |
+| Copyright 2001  Alexandre Duret-Lutz <duret_g@epita.fr>           |
 |                                                                   |
 | This file is part of Heroes.                                      |
 |                                                                   |
@@ -20,27 +19,73 @@
 | 02111-1307 USA                                                    |
 `------------------------------------------------------------------*/
 
-#ifndef HEROES__SAVEGAME__H
-#define HEROES__SAVEGAME__H
-
+#include "system.h"
 #include "gameid.h"
 
-typedef struct
+void
+create_gameid (gameid_ptr gid)
 {
-  char name[16];
-  u32_t level;
-  u32_t points[4];
-  u32_t lifes[4];
-  gameid_t gid;
-  bool used;
-} saved_game;
+  int i;
+  for (i = 0; i < GAMEID_SIZE; ++i)
+    gid[i] = (u32_t) rand ();
+}
 
-extern saved_game saverec[10];
+void
+empty_gameid (gameid_ptr gid)
+{
+  int i;
+  for (i = 0; i < GAMEID_SIZE; ++i)
+    gid[i] = 0;
+}
 
-void clear_save_records (void);
-void write_save_records (void);
-void load_save_records (void);
-void load_save_records_and_keep_locked (void);
-void free_save_records (void);
+bool
+equal_gameid (const gameid_ptr gid1, const gameid_ptr gid2)
+{
+  int i;
+  for (i = 0; i < GAMEID_SIZE; ++i)
+    if (gid1[i] != gid2[i])
+      return false;
+  return true;
+}
 
-#endif /* HEROES__SAVEGAME__H */
+void
+copy_gameid (gameid_ptr gid1, const gameid_ptr gid2)
+{
+  int i;
+  for (i = 0; i < GAMEID_SIZE; ++i)
+    gid1[i] = gid2[i];
+}
+
+char *
+gameid_to_text (const gameid_ptr gid)
+{
+  int i;
+  char *result;
+  XMALLOC_ARRAY (result, GAMEID_SIZE * 8 + 1);
+
+  for (i = 0; i < GAMEID_SIZE; ++i)
+    sprintf (result + i * 8, "%08X", gid[i]);
+
+  return result;
+}
+
+bool
+text_to_gameid (const char *src, gameid_ptr gid)
+{
+  int i;
+  int j;
+  for (i = 0; i < GAMEID_SIZE; ++i) {
+    gid[i] = 0;
+    for (j = 8; j != 0; --j) {
+      int c = toupper (*src++);
+      gid[i] <<= 4;
+      if (c >= '0' && c <= '9')
+	gid[i] += c - '0';
+      else if (c >= 'A' && c <= 'F')
+	gid[i] += c - 'A' + 10;
+      else
+	return true;
+    }
+  }
+  return false;
+}

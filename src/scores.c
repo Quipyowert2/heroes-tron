@@ -58,6 +58,16 @@ sort_scores (void)
     qsort (highs[i], 10, sizeof (top_score), cmp_scores);
 }
 
+int
+find_score_by_gameid (gameid_ptr gid)
+{
+  int i;
+  for (i = 0; i < 10; i++)
+    if (equal_gameid (highs[0][i].gid, gid))
+      return (i);
+  return (-1);
+}
+
 void
 clear_scores (void)
 {
@@ -65,7 +75,7 @@ clear_scores (void)
   for (i = 0; i < 5; i++)
     for (j = 0; j < 10; j++) {
       strncpy (highs[i][j].name, "\0", 8);
-      highs[i][j].magic = 0;
+      empty_gameid (highs[i][j].gid);
       highs[i][j].points = (10 - j) * 250;
     }
 }
@@ -83,9 +93,10 @@ write_scores (void)
   /* Write down scores to disk.  */
   for (i = 0; i < 5; ++i)
     for (j = 0; j < 10; ++j) {
-      fprintf (fscores, "%u %u %u %u\n",
-	       i, j, highs[i][j].points, highs[i][j].magic);
-      fprintf (fscores, " %s\n", highs[i][j].name);
+      char *gidtxt = gameid_to_text (highs[i][j].gid);
+      fprintf (fscores, "%u %u %u\n %s\n  %s\n",
+	       i, j, highs[i][j].points, gidtxt, highs[i][j].name);
+      free (gidtxt);
     }
 
   fclose (fscores);
@@ -106,11 +117,18 @@ load_scores_open (const char *mode)
 }
 
 static void
+load_scores_error (int line)
+{
+  wmsg (_("%s:%d: parse error.  Clearing score table."),
+	score_file (), line);
+  clear_scores ();
+}
+
+static void
 load_scores_read (void)
 {
   unsigned int i, j;
   u32_t points;
-  u32_t magic = 0;
   int endline = 0;
   char* buf = 0;
   size_t bufsize = 0;
@@ -125,20 +143,21 @@ load_scores_read (void)
   while (getshline_numbered
          (&firstline, &endline, &buf, &bufsize, fscores) != -1) {
     if (*buf != ' ') {
-      if (sscanf (buf, "%u %u %u %u", &i, &j, &points, &magic) != 4
-	  || i > 5
-	  || j > 10) {
-	wmsg (_("%s:%d: parse error.  Clearing score file."),
-	      score_file (), firstline);
-	clear_scores ();
+      if (sscanf (buf, "%u %u %u", &i, &j, &points) != 3
+	  || i >= 5
+	  || j >= 10) {
+	load_scores_error (firstline);
 	return;
       }
       highs[i][j].points = points;
-      highs[i][j].magic = magic;
+    } else if (buf[1] != ' ') {
+      if (text_to_gameid (buf + 1, highs[i][j].gid)) {
+	load_scores_error (firstline);
+	return;
+      }
     } else {
-      strncpy (highs[i][j].name, buf + 1, PLAYER_NAME_SIZE + 1);
+      strncpy (highs[i][j].name, buf + 2, PLAYER_NAME_SIZE + 1);
       chomp (highs[i][j].name);
-      magic = 0;
     }
   }
   free (buf);

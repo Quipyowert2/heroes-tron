@@ -33,9 +33,7 @@
 #include "getshline.h"
 #include "errors.h"
 
-#define N_MAGICS 40
 saved_game saverec[10];
-unsigned char magics[N_MAGICS];
 
 static char *name = 0;
 static FILE *fsave = 0;
@@ -46,42 +44,6 @@ saved_games_file (void)
   if (!name)
     name = get_non_null_rsc_file ("saved-games-file");
   return name;
-}
-
-static void
-set_magic (unsigned char i)
-{
-  assert (i < N_MAGICS);
-  magics[i] = 1;
-}
-
-/* FIXME: The whole magic system need to be rethought.  */
-unsigned char
-compute_magic (void)
-{
-  int i;
-  memset (magics, 0, N_MAGICS * sizeof (unsigned char));
-  load_scores ();
-  for (i = 0; i < 10; i++)
-    if (saverec[i].used)
-      set_magic (saverec[i].magic);
-  for (i = 0; i < 10; i++)
-    set_magic (highs[0][i].magic);
-  for (i = 1; magics[i] == 1; i++);
-  assert (i > 0);
-  assert (i < N_MAGICS /* no more magics ?? */ );
-  assert (magics[i] == 0);
-  return (i);
-}
-
-signed char
-find_magic (unsigned char m)
-{
-  int i;
-  for (i = 0; i < 10; i++)
-    if (highs[0][i].magic == m)
-      return (i);
-  return (-1);
 }
 
 void
@@ -98,7 +60,7 @@ clear_save_records (void)
 	saverec[i].points[3] = (1 + i) * 1000;
       saverec[i].lifes[0] = saverec[i].lifes[1] = saverec[i].lifes[2] =
 	saverec[i].lifes[3] = 9;
-      saverec[i].magic = 0;
+      empty_gameid (saverec[i].gid);
       saverec[i].used = 1;
     }
   }
@@ -116,18 +78,29 @@ write_save_records (void)
 
   for (i = 0; i < 10; ++i) {
     saved_game *sg = saverec + i;
-    fprintf (fsave, "%u %u %u %u %u %u %u %u %u %u %u\n %s\n",
+    char *gidtxt = gameid_to_text (sg->gid);
+    fprintf (fsave, "%u %u %u %u %u %u %u %u %u %u\n %s\n  %s\n",
 	     sg->level,
 	     sg->points[0], sg->lifes[0],
 	     sg->points[1], sg->lifes[1],
 	     sg->points[2], sg->lifes[2],
 	     sg->points[3], sg->lifes[3],
-	     sg->magic, sg->used,
+	     sg->used,
+	     gidtxt,
 	     sg->name);
+    free (gidtxt);
   }
 
   fclose (fsave);
   fsave = 0;
+}
+
+static void
+load_save_records_error (int line)
+{
+  wmsg (_("%s:%d: parse error.  Clearing saved-games table."),
+	saved_games_file (), line);
+  clear_scores ();
 }
 
 static void
@@ -149,14 +122,12 @@ load_save_records_read (void)
          (&firstline, &endline, &buf, &bufsize, fsave) != -1) {
     saved_game *sg = saverec + i;
     if (*buf != ' ') {
-      unsigned int u[11];
-      if (sscanf (buf, "%u %u %u %u %u %u %u %u %u %u %u",
+      unsigned int u[10];
+      if (sscanf (buf, "%u %u %u %u %u %u %u %u %u %u",
 		  u, u + 1, u + 2, u + 3, u + 4, u + 5, u + 6,
-		  u + 7, u + 8, u + 9, u + 10) != 11
-	  || u[10] > 1) {
-	wmsg (_("%s:%d: parse error.  Clearing saved-game file."),
-	      saved_games_file (), firstline);
-	clear_scores ();
+		  u + 7, u + 8, u + 9) != 10
+	  || u[9] > 1) {
+	load_save_records_error (firstline);
 	return;
       }
       sg->level = u[0];
@@ -168,10 +139,14 @@ load_save_records_read (void)
       sg->lifes[2] = u[6];
       sg->points[3] = u[7];
       sg->lifes[3] = u[8];
-      sg->magic = u[9];
-      sg->used = u[10];
+      sg->used = u[9];
+    } else if (buf[1] != ' ') {
+      if (text_to_gameid (buf + 1, sg->gid)) {
+	load_save_records_error (firstline);
+	return;
+      }
     } else {
-      strncpy (sg->name, buf + 1, 16);
+      strncpy (sg->name, buf + 2, 16);
       chomp (sg->name);
       ++i;
     }

@@ -27,6 +27,7 @@
 
 #include "pcx.h"
 #include "structs.h"
+#include "gameid.h"
 
 extern int rounds_nbr_values[16];
 
@@ -118,8 +119,7 @@ extern int radar_target_pos;
 extern int radar_current_pos;
 
 extern int game_mode;
-/* extern char questmode; */
-extern unsigned char game_magic;
+extern gameid_t game_id;
 
 extern int camera_center_x;
 extern int lemmings_anim_offset;

@@ -1980,7 +1980,7 @@ draw_saved_games_info (int decal, int l, bool save)
 
   for (i = 0; i < 10; i++) {
     if (saverec[i].used != 0) {
-      if ((in_menu == 0) && (saverec[i].magic == game_magic))
+      if ((in_menu == 0) && equal_gameid (saverec[i].gid, game_id))
 	c = 5;
       else
 	c = 3;

@@ -23,14 +23,15 @@
 #ifndef HEROES__SCORES__H
 #define HEROES__SCORES__H
 
+#include "gameid.h"
+
 #define PLAYER_NAME_SIZE 8
 typedef struct
 {
   char name[PLAYER_NAME_SIZE + 1];
-  u8_t magic;
+  gameid_t gid;
   u32_t points;
-}
-ATTRIBUTE_PACKED top_score;
+} top_score;
 
 extern top_score highs[5][10];
 
@@ -40,5 +41,6 @@ void write_scores (void);
 void load_scores (void);
 void load_scores_and_keep_locked (void);
 void free_scores (void);
+int find_score_by_gameid (gameid_ptr gid);
 
 #endif /* HEROES__SCORES__H */
