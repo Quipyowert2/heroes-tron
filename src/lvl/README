@@ -8,8 +8,8 @@ de_head.c and de_body.c for precise details about the format of the
 header or the records.
 
 Level files used to be loaded directly by `load_level()' and stored
-into a variable of type level_header_t and an array type
-tile_info_t[].  level_header_t and tile_info_t being (packed) C
+into a variable of type a_level_header and an array of type
+a_tile_info[].  a_level_header and a_tile_info being (packed) C
 structs expressing the level file format.  The game was then dealing
 directly with these data.  This had some drawbacks (portability issue,
 impossibility to change the level format in the future, ...), hence

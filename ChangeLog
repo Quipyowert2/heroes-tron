@@ -1,5 +1,9 @@
 2001-09-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/lvl/README: Update typenames.
+
+2001-09-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	All typenames ending with`*_t' are officially reserved by POSIX.
 	In the past I already had to rename `timer_t' into `htimer_t' (see
 	2000-08-27) to avoid name clash with NetBSD.  Today I've
