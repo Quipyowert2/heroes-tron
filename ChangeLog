@@ -1,5 +1,21 @@
 2000-07-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Preliminary mouse support (this is only the GGI implementation).
+
+	* src/mouse.h: Delete.  Move most of the declarations to ...
+	* src/keyb.h: ... here.
+	(init_mouse,mouse_show,mouse_hide,mouse_x,mouse_y,
+	mouse1,mouse2,mouse12): Declare.
+	* src/keyb.c (enable_mouse,mouse_pos_x,mouse_pos_y,
+	mouse_button_left,mouse_button_right): New.
+	(mouse_x,mouse_y,mouse1,mouse2,mouse12): New.
+	[HAVE_PKG_GGI] (init_mouse,mouse_show,mouse_hide): New.
+	[HAVE_PKG_GGI] (process_input_events): Rewrite the events
+	processing loop as a switch and add mouse events handling.
+	[HAVE_SDL] (init_mouse,mouse_show,mouse_hide): New.
+	
+2000-07-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/heroes.c (quit_yes_no): Remove unsed `flag' variable,
 	and unused (#ifdefed-out) code.
 

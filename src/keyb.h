@@ -31,4 +31,18 @@ void process_input_events (void);
 int get_key (void);
 int key_ready (void);
 
+int init_mouse (void);
+void mouse_show (void);
+void mouse_hide (void);
+int mouse_x (void);
+int mouse_y (void);
+char mouse1 (void);
+char mouse2 (void);
+char mouse12 (void);
+/* 
+char mouse3 (void);
+char mouse123 (void);
+void set_mouse_pos (int, int); 
+*/
+
 #endif
