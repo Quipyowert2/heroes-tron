@@ -1,5 +1,12 @@
 2000-08-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	From Maxim Sobolev <sobomax@FreeBSD.org>.
+
+	* src/Makefile.am (keysdef-inc.h): Include SDL_keysyms.h,
+	not SDL/SDL_keysyms.h.
+
+2000-08-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/rsc_files.h (rsc_expand): Export this function.
 	* src/rsc_files.c (rsc_expand): Likewise.
 	* src/musicfiles.h (read_sound_config_file): The argument is no

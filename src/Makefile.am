@@ -125,7 +125,7 @@ BEGIN { print "/* Do not edit!  This is generated automaticaly */\n"	     \
               "#ifndef __KEYSDEF_SDL_H__\n"				     \
               "#define __KEYSDEF_SDL_H__\n"				     \
               "#include \"keysdef.h\"\n"				     \
-              "#include <SDL/SDL_keysym.h>\n\n"				     \
+              "#include <SDL_keysym.h>\n\n"				     \
               "const struct keynames_s keynames[] = {" }		     \
 $$1 ~ /SDLK_/ {								     \
 	print "\t{ \""toupper(substr($$1,index($$1,"_")+1))"\",", $$1,"}," } \
