@@ -1030,10 +1030,18 @@ keyboard_menu (void)
 	t = get_key ();
 
 	for (i = 0; i != 6; i++) {
-	  if (ll != i && opt.player_keys[0][i] == t)
+	  if (ll != i && opt.player_keys[0][i] == t) {
 	    opt.player_keys[0][i] = HK_NIL;
-	  if (ll != i + 6 && opt.player_keys[1][i] == t)
+	    /* force the regeneration of key name on next display */
+	    FREE_SPRITE0 (keyboard_keys_txt[reorder[i]]);
+	    keyboard_keys_txt[reorder[i]] = 0;
+	  }
+	  if (ll != i + 6 && opt.player_keys[1][i] == t) {
 	    opt.player_keys[1][i] = HK_NIL;
+	    /* force the regeneration of key name on next display */
+	    FREE_SPRITE0 (keyboard_keys_txt[reorder[i + 6]]);
+	    keyboard_keys_txt[reorder[i + 6]] = 0;
+	  }
 	}
 	if (ll < 6)
 	  opt.player_keys[0][ll] = t;

@@ -1,5 +1,11 @@
 2001-02-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/menus.c (keyboard_menu): Regenerate keyname sprites
+	for conflicting keys.
+	Reported by Jean Delvare <devare@ensicaen.ismra.fr>.
+
+2001-02-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Make sure no sticky bits go into the distribution.
 	Reported by Jean Delvare <devare@ensicaen.ismra.fr>.
 
