@@ -16,6 +16,18 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 #
 
+# The following definitions are not generated automatically by
+# Automake because these variable are created by generic m4 macros.
+# When automake is changed to use autoconf --trace, it will
+# declare them automatically.
+GGI_CFLAGS = @GGI_CFLAGS@
+GII_CFLAGS = @GII_CFLAGS@
+LIBMIKMOD_CFLAGS = @LIBMIKMOD_CFLAGS@
+SDL_CFLAGS = @SDL_CFLAGS@
+SDL_MIXER_CFLAGS = @SDL_MIXER_CFLAGS@
+ALLEGRO_CFLAGS = @ALLEGRO_CFLAGS@
+# ---
+
 AUTOMAKE_OPTIONS = subdir-objects
 
 bin_PROGRAMS = heroes heroeslvl

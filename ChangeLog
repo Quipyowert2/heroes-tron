@@ -1,3 +1,18 @@
+2001-12-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/Makefile.am (GGI_CFLAGS, GII_CFLAGS, LIBMIKMOD_CFLAGS,
+	SDL_CFLAGS, SDL_MIXER_CFLAGS, ALLEGRO_CFLAGS): Define.
+
+	* m4/gccwarn.m4 (CF_GCC_MORE_WARNINGS): Add -Werror.
+
+	* lib/cast.h, lib/cast.c: New files.
+	* lib/Makefile.am (libheroes_a_SOURCES): Add them.
+	* src/vars.c (var_get_value): Call const_cast_string ().
+	* src/musicfiles.c (get_sound_track_from_alias): Likewise.
+	* src/media/mikmod/strack.c (init_sound_engine): Likewise.
+	* src/media/sdl/video.c (uninit_video_low): Likewise.
+	(init_video_low): Cast SDL_ALLEVENTS to Uint8.
+
 2001-12-02  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.ac: Check for declaration of strerror.

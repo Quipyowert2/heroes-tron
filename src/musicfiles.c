@@ -26,6 +26,7 @@
 #include "errors.h"
 #include "hash.h"
 #include "dirname.h"
+#include "cast.h"
 
 /* we maintain the sound tracks in two structures: a hash and
    an array.  The hash is used for most lookups, and when building
@@ -112,7 +113,7 @@ a_sound_track *
 get_sound_track_from_alias (const char *alias)
 {
   a_sound_track st;
-  st.alias = alias;
+  st.alias = const_cast_string (alias);
   return hash_lookup (st_hash, &st);
 }
 

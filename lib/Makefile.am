@@ -25,6 +25,8 @@ noinst_LIBRARIES= libheroes.a
 libheroes_a_SOURCES= \
   basename.c \
   basename.h \
+  cast.c \
+  cast.h \
   dirname.c \
   dirname.h \
   error.c \

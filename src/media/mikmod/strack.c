@@ -26,6 +26,7 @@
 #include "musicfiles.h"
 #include "debugmsg.h"
 #include "errors.h"
+#include "cast.h"
 
 static char sound_initialized = 0;
 static char sound_track_loaded = 0;
@@ -99,7 +100,7 @@ init_sound_engine (void)
 	(md_mode & DMODE_HQMIXER)?"":", high quality mixer");
   if (driver_options)
     dmsg (D_SOUND_TRACK, "MikMod user options: %s", driver_options);
-  if (MikMod_Init (driver_options?driver_options:"")) {
+  if (MikMod_Init (driver_options ? driver_options : const_cast_string (""))) {
     wmsg (_("Could not initialize sound, reason: %s\n"
 	    "Disabling sound output (use -S to suppress this message)."),
 	  MikMod_strerror (MikMod_errno));

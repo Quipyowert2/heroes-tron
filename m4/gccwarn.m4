@@ -66,7 +66,8 @@ EOF
    Wmissing-prototypes \
    Wstrict-prototypes \
    Wshadow \
-   Wcast-qual
+   Wcast-qual \
+   Werror
   do
     CFLAGS="$cf_save_CFLAGS $ac_cv_prog_gcc_more_warn_flags -$cf_opt"
     if AC_TRY_EVAL(ac_compile); then

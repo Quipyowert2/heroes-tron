@@ -21,6 +21,7 @@
 #include "system.h"
 #include "hash.h"
 #include "vars.h"
+#include "cast.h"
 
 typedef struct a_var_entry a_var_entry;
 struct a_var_entry {
@@ -88,7 +89,7 @@ const char *
 var_get_value (const char *name)
 {
   a_var_entry ve;
-  ve.name = name;
+  ve.name = const_cast_string (name);
   return hash_lookup (var_hash, &ve);
 }
 

@@ -26,6 +26,7 @@
 #include "errors.h"
 #include "misc.h"
 #include "argv.h"
+#include "cast.h"
 
 static a_pixel *screen_rv = 0;	/* A pointer to the screen buffer associated
 				   to the render visual. */
@@ -111,7 +112,7 @@ init_video_low (int stretch_, int *pitch)
   /* setup event processing rules.
      FIXME: this does not really belong to display.c
      it should rather go to keyb.c */
-  SDL_EventState (SDL_ALLEVENTS, SDL_IGNORE);
+  SDL_EventState ((Uint8) SDL_ALLEVENTS, SDL_IGNORE);
   SDL_EventState (SDL_KEYDOWN, SDL_ENABLE);
   SDL_EventState (SDL_KEYUP, SDL_ENABLE);
   SDL_EventState (SDL_QUIT, SDL_ENABLE);
@@ -130,10 +131,7 @@ uninit_video_low (void)
     SDL_initialized = false;
   }
   if (sdl_videodriver) {
-    /* Remove `SDL_VIDEODRIVER=mumble' from environment before freeing
-       sdl_videodriver.  FIXME: This is not const-correct as putenv()
-       usually takes a mutable string argument.  */
-    putenv (SDL_VIDEODRIVER);
+    putenv (const_cast_string (SDL_VIDEODRIVER));
     XFREE0 (sdl_videodriver);
   }
 }
