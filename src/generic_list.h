@@ -23,18 +23,31 @@
  * written as a macro that will instanciate the list structures and
  * functions for a given type.
  *
- * Use this as you would use a generic Ada package.  Where, in Ada, you would
- * write:
- *   package Foo is new List(Integer);
- * you will write, in C:
- *   NEW_LIST(Foo,int);
+ * Three macros are defined:
  *
- * Once you have called that macro, each function/structure is available
- * with a `Foo_' prefix.  e.g.
- *   Foo_list_t = Foo_cons (12, Foo_cons (5, 0));
+ *   NEW_LIST_SPEC(PREFIX,TYPE)
+ *       generate the declarations, 
+ *
+ *   NEW_LIST_BODY(PREFIX,TYPE,EQUAL_P,DESTRUCTOR) 
+ *       generate the corresponding definitions
+ *
+ *   NEW_LIST(PREFIX,TYPE,EQUAL_P,DESTRUCTOR)
+ *       is a shorthand that generates both.
+ *
+ * PREFIX     is prepended to each function and structure created.
+ * TYPE       is the plain type of the data hold by the cells.
+ * EQUAL_P    is a binary function used to compare to cells.
+ * DESTRUCTOR is a fonction call before a cell is freed.
+ *
+ * Additionally, NULL_DESTRUCTOR can be used as a DESTRUCTOR argument
+ * when none are needed; and STD_EQUAL is the standard equal
+ * comparison function (==), meant to be used as a EQUAL_P argument.  
  */
 
-#define NEW_LIST(PREFIX,TYPE)						\
+#define NULL_DESTRUCTOR(x) ;
+#define STD_EQUAL(a, b) ((a) == (b))
+
+#define NEW_LIST_SPEC(PREFIX,TYPE)					\
 									\
 struct PREFIX##_list_s {						\
   TYPE car;								\
@@ -43,16 +56,14 @@ struct PREFIX##_list_s {						\
 									\
 typedef struct PREFIX##_list_s* PREFIX##_list_t;			\
 									\
-/* declarations */							\
-									\
 PREFIX##_list_t PREFIX##_cons   (TYPE value, PREFIX##_list_t tail);	\
 void            PREFIX##_delete (PREFIX##_list_t* list);		\
 PREFIX##_list_t PREFIX##_member (PREFIX##_list_t list, TYPE value);	\
 void            PREFIX##_push   (PREFIX##_list_t* list, TYPE value);	\
 TYPE            PREFIX##_pop    (PREFIX##_list_t* list);		\
-void		PREFIX##_clear  (PREFIX##_list_t* list);		\
-									\
-/* definitions */							\
+void		PREFIX##_clear  (PREFIX##_list_t* list);
+
+#define NEW_LIST_BODY(PREFIX,TYPE,EQUAL_P,DESTRUCTOR)			\
 									\
 PREFIX##_list_t 							\
 PREFIX##_cons (TYPE value, PREFIX##_list_t tail)			\
@@ -75,7 +86,7 @@ PREFIX##_list_t 							\
 PREFIX##_member (PREFIX##_list_t list, TYPE value)			\
 {									\
   while (list) {							\
-    if (list->car == value)						\
+    if (EQUAL_P (list->car, value))					\
       return list;							\
     list = list->cdr;							\
   }									\
@@ -103,7 +114,12 @@ PREFIX##_clear (PREFIX##_list_t* list)					\
 									\
   while (*list) {							\
     next = (*list)->cdr;						\
+    DESTRUCTOR ((*list)->car);						\
     free (*list);							\
     *list = next;							\
   }									\
 }
+
+#define NEW_LIST(PREFIX,TYPE,EQUAL_P,DESTRUCTOR)	\
+NEW_LIST_SPEC(PREFIX,TYPE)				\
+NEW_LIST_BODY(PREFIX,TYPE,EQUAL_P,DESTRUCTOR)

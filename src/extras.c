@@ -34,10 +34,12 @@ typedef struct {
   filename_t	filename;
   char		is_in_user_dir;	/* Is this extra level a user level?
 				 (user levels come from the ~/.heroes/level/
-				 directory */
+				 directory) */
 } extradir_info_t;
 
-NEW_LIST (extradir, extradir_info_t*);
+static void free_extradir_info (extradir_info_t* ei);
+
+NEW_LIST (extradir, extradir_info_t*, STD_EQUAL, free_extradir_info);
 
 extradir_list_t edir;
 
@@ -47,6 +49,13 @@ int extra_user_nbr = 0;		/* The number of user levels from */
 extra_level_t *extra_list = 0;	/* The list of extra-levels, the user's
 				   extra-levels are at the beginning */
 char *extra_selected_list = 0;	/* For each level: 1 if selected, 0 if not */
+
+
+static void free_extradir_info (extradir_info_t* ei)
+{
+  free (ei->filename);
+  free (ei);  
+}
 
 /* select only *.lvl files */
 static int
@@ -204,17 +213,8 @@ free_extra_list (void)
 void
 free_extra_directories (void)
 {
-  extradir_list_t next;
-
   dmsg (D_MISC, "free extra directories");
-
-  while (edir) {
-    next = edir->cdr;
-    free (edir->car->filename);
-    free (edir->car);
-    free (edir);
-    edir = next;
-  }
+  extradir_clear (&edir);
 
   free_levels_output_dir ();
 }

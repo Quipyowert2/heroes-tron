@@ -26,7 +26,7 @@
 #include "rsc_files.h"
 #include "debugmsg.h"
 
-NEW_LIST(st,sound_track_t*);
+NEW_LIST(st, sound_track_t*, STD_EQUAL, sound_track_delete);
 
 static st_list_t sound_track_list;
 
@@ -162,14 +162,6 @@ init_sound_track_list (void)
 void 
 uninit_sound_track_list (void)
 {
-  st_list_t next;
-
   dmsg (D_MISC, "free sound track list");
-
-  while (sound_track_list) {
-    next = sound_track_list->cdr;
-    sound_track_delete (sound_track_list->car);
-    free (sound_track_list);
-    sound_track_list = next;
-  }
+  st_clear (&sound_track_list);
 }

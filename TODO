@@ -23,9 +23,6 @@ Before 0.7
 
   Rewrite sleep() for lib/.
 
-  generic_list.h: *_clear should be given a pointer to the cell destructor
-  to be useful.
-
 
 Before 1.0.0
 ------------

@@ -1,3 +1,19 @@
+2000-09-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Improve the generic list by handling comparator and
+	destructor for the cells' type.
+
+	* src/generic_list.h (NEW_LIST): Split into NEW_LIST_SPEC and
+	NEW_LIST_BODY.  Let NEW_LIST be a call to both.  Handle two new
+	parameters to NEW_LIST_BODY (and hence NEW_LIST) for equality
+	test and destruction of cells.
+	(NULL_DESTRUCTOR,STD_EQUAL): New.
+	* src/extras.c: Adapt the call to NEW_LIST.
+	(free_extradir_info): New.
+	(free_extra_directories): Rewrite using extradir_clear.
+	* src/musicfiles.c: Adapt the call to NEW_LIST.
+	(uninit_sound_track_list): Rewrite using st_clear.
+
 2000-09-15  Uwe Hermann  <uh1763@bingo-ev.de>
 
 	* ChangeLog: Fix old ChangeLog-entries to use imperative mode (again).
