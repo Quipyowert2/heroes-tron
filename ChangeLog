@@ -1,5 +1,15 @@
 2000-10-11  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Remove most warning from src/intro.c.
+
+	* src/intro.c (erase_data,erase_data_cur,erase_color_ptr): Use pixel_t.
+	(i): Remove.
+	(compute_erase_data,erase,antialias): Use pixel_t.
+	(show_intro): Declare i.  Rewrite the set_pal calls.
+	(play_intro): Remove i.  Rewrite the set_pal calls.
+
+2000-10-11  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Use named values instead of 0xffffffff.
 
 	* configure.in (FLAGS): Remove -Wtraditional.

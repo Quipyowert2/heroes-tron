@@ -33,14 +33,15 @@
 #include "debugmsg.h"
 #include "fader.h"
 
+#include "scrtools.h"
+
 /******* data of the intro *******/
 palette_t fade_pal;
 pcx_image_t intro_img;
-unsigned char **erase_data;
-unsigned char **erase_data_cur;
+pixel_t **erase_data;
+pixel_t **erase_data_cur;
 int color_nbr[256 + 1];
-unsigned char **(erase_color_ptr[256]);
-int i;
+pixel_t **(erase_color_ptr[256]);
 int errori;
 htimer_t intro_frame_htimer;
 htimer_t intro_global_htimer;
@@ -93,8 +94,8 @@ copy_vehicle_2 (int x)
 static void
 compute_erase_data (void)
 {
-  unsigned char *dest = screen;
-  unsigned char *src = intro_img.buffer;
+  pixel_t *dest = screen;
+  pixel_t *src = intro_img.buffer;
   int i;
   for (i = 320 * 200; i > 0; i--)
     color_nbr[*src++]++;
@@ -109,15 +110,15 @@ compute_erase_data (void)
   }
 }
 
-static unsigned char **
-erase (unsigned char **src, int j)
+static pixel_t **
+erase (pixel_t **src, int j)
 {
   int nbr = color_nbr[j];
   color_nbr[j + 1] += nbr & 1;
   nbr >>= 1;
   while (nbr) {
-    char *a = src[0];
-    char *b = src[1];
+    pixel_t *a = src[0];
+    pixel_t *b = src[1];
     *a = 0;
     src += 2;
     --nbr;
@@ -127,7 +128,7 @@ erase (unsigned char **src, int j)
 }
 
 static void
-antialias (unsigned char *src, int nbr)
+antialias (pixel_t *src, int nbr)
 {
   unsigned int a, b, c, d;
   a = src[-1];
@@ -155,6 +156,7 @@ show_intro (void)
 {
   palette_t pal;
   fader_status_t fade_stat;
+  int i;
 
   load_soundtrack_from_alias ("INTRO");
   erase_data_cur = erase_data = malloc (64000 * sizeof (char *));
@@ -181,7 +183,7 @@ show_intro (void)
   for (i = 767; i >= 0; i--)
     fade_pal.global[i] = pal.global[i] = ((i >= 384) ? 63 : 0);
 
-  set_pal ((char *) &pal, 0, 768);
+  set_pal (pal.global, 0, 768);
   img2vram (&intro_img);
   while (read_htimer (intro_global_htimer) < 2) {
     vsynch ();
@@ -227,7 +229,7 @@ show_intro (void)
 
   memset (screen, 255, 32000);
   memset (screen + 32000, 0, 32000);
-  set_pal ((char *) &intro_img.palette, 0, 768);
+  set_pal (intro_img.palette.global, 0, 768);
 
   while (read_htimer (intro_global_htimer) < 14) {
     vsynch ();
@@ -291,8 +293,6 @@ show_intro (void)
 void
 play_intro (void)
 {
-  int i;
-
   dmsg (D_SECTION, "-- game introduction --");
   
   intro_frame_htimer = new_htimer (T_LOCAL|T_BLOCKING, HZ (70)); 
@@ -309,14 +309,14 @@ play_intro (void)
     for (i = 31; i >= 0; i -= read_htimer (intro_frame_htimer)) {
       pal2pal ((palette_t *) & pal, (palette_t *) & fade_pal, i << 1);
       vsynch ();
-      set_pal ((char *) &temppal, 0, 768);
+      set_pal (temppal.global, 0, 768);
     }
   } 
 #else
   show_intro ();
 #endif
-  memset ((char *) &pal, 0, 768);  
-  set_pal ((char *) &pal, 0, 768);
+  memset (pal.global, 0, 768);  
+  set_pal (pal.global, 0, 768);
   free (erase_data);
   unload_soundtrack ();
   while (key_or_joy_ready ())
