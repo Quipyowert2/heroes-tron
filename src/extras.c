@@ -42,10 +42,10 @@ static void free_extradir_info (extradir_info_t* ei);
 NEW_LIST (extradir, extradir_info_t*, STD_EQUAL, free_extradir_info);
 
 /* level_list_t is used for building a temporaly list of all extra
-   levels seen in directories.  The list will be converted to an
-   array, so though the data are pointer we don't want to free them
-   when cleaning the list with in level_clear */
-NEW_LIST (level, extra_level_t*, STD_EQUAL, NULL_DESTRUCTOR);
+   levels seen in directories.  The list will then be converted to an
+   array, by copying the pointed struct, therefore the destructor should
+   free only the struct, not the elements pointer by the struct's members. */
+NEW_LIST (level, extra_level_t*, STD_EQUAL, free);
 
 extradir_list_t edir;
 
@@ -151,8 +151,21 @@ browse_extra_directories (void)
     browse_extra_directory (ed->car->filename, ed->car->is_in_user_dir, &ll);
     ed = ed->cdr;
   }
+  
+  /* return if no extra level was found */
+  if (!extra_nbr) {
+    if (extra_list) {
+      free (extra_list);
+      extra_list = 0;
+    }
+    if (extra_selected_list) {
+      free (extra_selected_list);
+      extra_selected_list = 0;
+    }
+    return;
+  }
 
-  /* convert the list to an array (this array is called extra_list, BTW :)) */
+  /* convert the list to an array (BTW, this array is called extra_list :)) */
   extra_list = realloc (extra_list, extra_nbr * sizeof (*extra_list));
   for (i = 0, ll_cur = ll; ll_cur; ll_cur = ll_cur->cdr, ++i)
     extra_list[i] = *(ll_cur->car);

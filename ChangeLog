@@ -1,5 +1,14 @@
 2000-09-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Fix memory handling in src/extras.c (was leaking, and reallocating
+	0 sized buffers).
+
+	* src/extras.c (browse_extra_directories): Don't reallocate
+	extra_list and extra_selected_list of no extra level was found.
+	(NEW_LIST(level)): Use free as destructor.
+
+2000-09-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/timer.c (shift_htimer) [!HAVE_GETTIMEOFDAY]: Remove unused
 	variable.
 
