@@ -27,6 +27,7 @@
 #include "musicfiles.h"
 #include "generic_list.h"
 #include "config.h"
+#include "misc.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
@@ -81,6 +82,19 @@ get_sound_track_from_alias (const char* alias)
   return 0;
 }
 
+static char* 
+dirname (const char* filename)
+{
+  char* pos = strrchr (filename, '/');
+  char* res;
+  if (pos == 0)
+    return 0;
+  res = malloc (pos - filename + 2);
+  strncpy (res, filename, pos - filename + 1);
+  res[pos - filename + 1] = 0;
+  return res;
+}
+
 int 
 read_sound_config_file (const char* filename)
 {
@@ -88,11 +102,14 @@ read_sound_config_file (const char* filename)
   char* buf = 0;
   size_t bufsize = 0;
   int firstline = 0, endline = 0;
+  char* dir = dirname (filename);
 
   fs = fopen (filename, "r");
 
-  if (!fs)
+  if (!fs) {
+    free (dir);
     return 0;
+  }
 
   while (getshline_numbered 
 	 (&firstline, &endline, &buf, &bufsize, fs) != -1) {
@@ -112,13 +129,19 @@ read_sound_config_file (const char* filename)
     else if (!author || !author[0])
       fprintf (stderr, "%s:%d: missing author\n", 
 	       filename, firstline);	
-    else
-      add_sound_track_cons (alias, file, title, author);
+    else {
+      if (dir && file[0] != '/') {
+	char* tmp = strcat_alloc (dir, file);
+	add_sound_track_cons (alias, tmp, title, author);
+	free (tmp);
+      } else
+	add_sound_track_cons (alias, file, title, author);
+    }
   }
-
   fclose (fs);
   free (buf);
-
+  free (dir);
+  
   return 0;
 }
 

@@ -28,6 +28,7 @@ menu-pictures-img,	"$(data-dir)/sprites/fontem2.pcx",	0,0
 new-level-menu-img,	"$(data-dir)/hedit/newlevel.pcx",	0,0
 purple-bonus-img,	"$(data-dir)/sprites/bonusa.pcx",	0,0
 sfx-conf-txt,		"$(data-dir)/sfx/sfx.cfg",		0,0
+sfx-dir,		"$(data-dir)/sfx/",			0,0
 text-conf-txt,		"$(data-dir)/txt_cfg/txti.cfg",		0,0
 tiles-sets-dir,		"$(data-dir)/rsc/",			0,0
 trails-img,		"$(data-dir)/sprites/trail.pcx",	0,0

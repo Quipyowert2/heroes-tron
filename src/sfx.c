@@ -33,6 +33,7 @@
 #include "misc.h"
 #include <mikmod.h>
 #include "argv.h"
+#include "rsc_files.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
@@ -77,12 +78,21 @@ read_sfx_conf (void)
   char *tmpptr2;
   char c;
   int nbr;
+  char *sfxdir = get_non_null_rsc_file ("sfx-dir");
 
   if (nosfx)
     return (0);
 
-  if ((fconf = fopen (sfxdir "sfx.cfg", "rt")) == NULL)
-    return (-1);
+  {
+    char* conf = get_rsc_file ("sfx-conf-txt");
+    if (conf == 0)
+      return -1;
+    if ((*conf == 0) || (fconf = fopen (conf, "rt")) == NULL) {
+      free (conf);
+      return (-1);
+    }
+    free (conf);
+  }
   while (fgets (tmpptr, 256, fconf) != NULL) {
     c = toupper (tmp[0]);
     remove_comments (tmpptr);
@@ -116,6 +126,7 @@ read_sfx_conf (void)
     tmpptr = tmp;
   }
   fclose (fconf);
+  free (sfxdir);
   return (0);
 }
 

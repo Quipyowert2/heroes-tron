@@ -21,8 +21,4 @@
 xdir = @moddir@
 x_DATA = $(subst $(srcdir)/,,$(wildcard $(srcdir)/*.xm)) sound.conf
 
-EXTRA_DIST = $(subst $(srcdir)/,,$(wildcard $(srcdir)/*.xm)) sound.conf.in
-CLEANFILES = sound.conf
-
-sound.conf: sound.conf.in ../config.h
-	sed -e "s:%%moddir%%:$(moddir):" < $(srcdir)/sound.conf.in > $@
+EXTRA_DIST = $(subst $(srcdir)/,,$(wildcard $(srcdir)/*.xm)) sound.conf

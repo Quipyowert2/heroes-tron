@@ -1,5 +1,21 @@
 2000-07-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/musicfiles.c (dirname): New.
+	(read_sound_config_file): Allow files that does not begin by `/' 
+	to be loaded relatively to the config file directory.
+	* src/mod/Makefile.am: sound.conf does not need to be built from
+	sound.conf.in anymore.
+	(CLEANFILES,sound.conf): Remove.
+	(EXTRA_DIST): Keep sound.conf instead of sound.conf.in.
+	* src/mod/sound.conf: New file.
+	* src/mod/sound.conf.in: Delete.
+	
+	* src/rsc_files.gperf (sfx-dir): New.
+	* src/sfx.c (read_sfx_conf): Adapt to get the sfx directory and
+	sfx.cfg file from resources.
+
+2000-07-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/heroes.c (main): Search the environment for HEROES_DATA_DIR
 	or HEROES_DATADIR to set the value of the data-dir resource, or
 	fail back to the default value if no variable is found.
