@@ -416,10 +416,9 @@ if test $ac_cv_two_args_mkdir = yes; then
   AC_DEFINE(TWO_ARGS_MKDIR,1,[Define if mkdir take two arguments.])
 fi
 
-# AC_CHECK_FUNCS(mkdir)
-# test "$ac_cv_func_mkdir" = yes || LIBOBJS="$LIBOBJS mkdir.o"
+AC_REPLACE_FUNCS(alphasort scandir)
 
-# AC_SUBST(LIBOBJS)
+AC_SUBST(LIBOBJS)
 
 # Check for gnu getopt
 # AC_CHECK_HEADERS(getopt.h)

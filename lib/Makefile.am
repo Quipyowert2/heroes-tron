@@ -19,7 +19,7 @@
 
 noinst_LIBRARIES= libheroes.a
 
-# EXTRA_DIST =
+EXTRA_DIST = alphasort.c scandir.c
 
 noinst_HEADERS= \
 getopt.h \
@@ -35,5 +35,5 @@ getopt1.c \
 getshline.c
 
 # Additional files to compile, when functions are missing.
-# libheroes_a_LIBADD = @LIBOBJS@
-# libheroes_a_DEPENDENCIES = $(libheroes_a_LIBADD)
+libheroes_a_LIBADD = @LIBOBJS@
+libheroes_a_DEPENDENCIES = $(libheroes_a_LIBADD)

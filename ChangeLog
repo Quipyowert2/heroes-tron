@@ -1,5 +1,23 @@
 2000-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Move Mattias' alphasort and scandir functions to the lib/
+	directory and compile only when needed.
+
+	* configure.in: Check for alphasort and scandir, and substitute
+	LIBOBJS.
+	* lib/Makefile.am (EXTRADIST): Add alphasort.c and scandir.c.
+	(libheroes_a_LIBADD): New.
+	(libheroes_a_DEPENDENCIES): New.
+	* src/extras.c [!HAVE_ALPHASORT] (alphasort): Declare.
+	(asort): Move to ...
+	* lib/alphasort.c (alphasort): ... here.
+	* src/extras.c [!HAVE_SCANDIR] (scandir): Declare.
+	(myscandir): Move to ...	
+	* lib/scandir.c (scandir): ... here.
+	* src/extras.c (browse_extra_directory): Use scandir and alphadir.
+
+2000-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* NEWS: Update for next release.
 	* THANKS: Likewise.
 
