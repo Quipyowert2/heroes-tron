@@ -74,7 +74,6 @@ char in_jokebox;
 
 char kbjoy[6] = { 0, 0, 0, 0, 0, 0 };
 char kbjoyold[6] = { 0, 0, 0, 0, 0, 0 };
-palette_t temppal;
 
 int camera_x[2];
 int camera_y[2];
@@ -98,7 +97,6 @@ level_header_t map_info = { 0, 0, -1, -1,
 			    {0, 0, 0, 0}, {0, 0, 0, 0}, "", "", "" };
 unsigned long int map_info_2xt, map_info_2yt;
 signed long int map_info_2xwrap, map_info_2ywrap;
-palette_t pal;
 
 pcx_image_t main_font_img, vehicles_img;
 pcx_image_t bonus_font_img;

@@ -294,6 +294,7 @@ show_intro (void)
 void
 play_intro (void)
 {
+  palette_t pal;
   dmsg (D_SECTION, "-- game introduction --");
 
   intro_frame_htimer = new_htimer (T_LOCAL|T_BLOCKING, HZ (70));

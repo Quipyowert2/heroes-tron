@@ -2798,7 +2798,6 @@ play_demo (void)
     } while (buffer_pos != 0);
   }
 
-  memset (pal.global, 0, 768);
 /* * * * * * * * * * *\
 * MAIN LOOP in demos  *
 \* * * * * * * * * * */

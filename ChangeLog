@@ -1,5 +1,12 @@
 2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/const.c (temppal, pal): Remove.
+	* src/const.h (temppal, pal): Remove.
+	* src/heroes.c (play_demo): Don't set pal.global.
+	* src/intro.c (play_intro): Declare pal as local.
+
+2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/sprtext.c (compile_sprtext): Qualify maxwidth as unused to
 	suppress a warning.
 

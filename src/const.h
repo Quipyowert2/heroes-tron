@@ -59,7 +59,6 @@ keycode_t get_key_or_joy (void);
 
 extern char kbjoy[6];
 extern char kbjoyold[6];
-extern palette_t temppal;
 extern char in_jokebox;
 extern char in_menu;
 extern char in_demo;
@@ -79,7 +78,6 @@ void draw_glenz_box (pixel_t *dest, int c, int xt, int yt);
 extern level_header_t map_info;
 extern unsigned long int map_info_2xt, map_info_2yt;
 extern signed long int map_info_2xwrap, map_info_2ywrap;
-extern palette_t pal;
 
 extern pcx_image_t main_font_img, vehicles_img;
 extern pcx_image_t bonus_font_img;
