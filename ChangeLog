@@ -97,6 +97,7 @@
 	to compute s and u in read_htimer: this force u to be positive,
 	and thus (((s*(SECOND%d))%d)+u)%d is positive too (this wasn't the
 	case before and could cause stalls).
+	Stalls reported by David Olofson <david.olofson@reologica.se>.
 
 	* src/timer.c [HAVE_GETTIME_OF_DAY] (timeval_subtract,
 	last_time, xgettimeofday): New.
