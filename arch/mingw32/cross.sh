@@ -50,18 +50,18 @@ DESTDIR="$PWD/=inst"
 # command to strip binaries
 STRIPPROG="$BUILDNAME-strip"
 
-function cross_conf ()
+cross_conf ()
 {
   mkdir -p $BUILDDIR
   (cd $BUILDDIR && $CONFIGURE $CONFIGURE_OPTS)
 }
 
-function cross_build ()
+cross_build ()
 {
   (cd $BUILDDIR && make)
 }
 
-function cross_install ()
+cross_install ()
 {
   mkdir -p $DESTDIR
   (cd $BUILDDIR && make DESTDIR="$DESTDIR" install)
@@ -72,18 +72,20 @@ function cross_install ()
   for f in ABOUT-NLS \
 	   BUGS \
 	   ChangeLog \
+	   ChangeLog.00 \
 	   COPYING \
 	   NEWS \
 	   THANKS \
 	   TODO ; do
-    test -f $TOPSRC_DIR/$f && cp $TOPSRC_DIR/$f $DESTDIR/$PREFIX/doc/
+    test -f $TOPSRC_DIR/$f && cp -f $TOPSRC_DIR/$f $DESTDIR/$PREFIX/doc/
   done
-  (cd $DESTDIR/$PREFIX/doc && zip -9 -m ChangeLog.zip ChangeLog)
+  (cd $DESTDIR/$PREFIX/doc && zip -9 -m ChangeLog.zip ChangeLog ChangeLog.00)
   rm -rf $DESTDIR/$PREFIX/info
   rm -rf $DESTDIR/$PREFIX/man
+  rm -rf $DESTDIR/$PREFIX/lib # charset.alias is hardcoded under Windows.
 }
 
-function cross_pack ()
+cross_pack ()
 {
   # package name and version
   eval `cd $TOPSRC_DIR && autoconf --trace 'AC_INIT:VERSION=$2;PACKAGE=$1'`
@@ -96,12 +98,12 @@ function cross_pack ()
   cd $DESTDIR && zip -9 -r $ZIPFILE .$PREFIX
 }
 
-function cross_clean ()
+cross_clean ()
 {
   rm -rf $BUILDDIR $DESTDIR
 }
 
-function dispatch ()
+dispatch ()
 {
   case $1 in
     conf*)
