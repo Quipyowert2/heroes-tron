@@ -21,6 +21,7 @@ noinst_LIBRARIES += rules/libhrules.a
 rules_libhrules_a_SOURCES= \
   rules/ai.c \
   rules/ai.h \
+  rules/bonuses.c \
   rules/lemmings.c \
   rules/objects.c \
   rules/player.h \

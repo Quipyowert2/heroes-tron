@@ -67,8 +67,37 @@ struct a_level_state_bits {
 void add_color (a_level_state *state, const a_level *lvl, bool allow_clocks);
 void add_cash (a_level_state *state, const a_level *lvl, bool allow_clocks);
 
-void grow_trail (a_level_state *state, int pl, int size);
+void grow_trail (a_level_state *state, const a_level *lvl, int pl, int size);
 void shrink_trail (a_level_state *state, int pl, int size);
 void erase_trail (a_level_state *state, const a_level *lvl, int c);
+
+extern int bonus_points[2][17];	/* interest of bonuses,
+				   for CPU controled vehicles */
+
+extern int *bonus_time;
+extern int *bonus_list;
+
+extern int txt_bonus_tempo[4];
+
+extern void add_bonus (const a_level *lvl, int pos_in_list,
+		       unsigned char what);
+extern void add_random_bonus (a_level_state *state, const a_level *lvl,
+			      int pos_in_list);
+extern void rem_bonus (a_level_state *state, const a_level *lvl, int pos);
+
+/* reset and allocate bonus data for a given level */
+extern int init_bonuses_level (a_level_state *state, const a_level *lvl);
+extern void uninit_bonuses_level (void);
+
+extern void spread_bonuses (a_level_state *state, const a_level *lvl);
+
+extern void set_txt_bonus (int pl, const char *txt, int tempo);
+
+extern void add_end_level_bonuses (a_level_state *state, const a_level *lvl);
+extern void apply_bonus (a_level_state *state, const a_level *lvl,
+			 int pl, char bonus);
+
+extern void update_player_bonus_vars (int pl);
+extern void update_bonuses (a_level_state *state, const a_level *lvl);
 
 #endif /* HEROES__STATEPRIV__H */

@@ -22,41 +22,22 @@
 
 #include "pcx.h"
 #include "timer.h"
-
-extern int bonus_points[2][17];	/* interest of bonuses,
-				   for CPU controled vehicles */
+#include "sprite.h"
 
 extern a_timer bonus_anim_htimer;
 extern int bonus_anim_offset;
 
+#define N_BONUSES 16
+#define N_BONUS_FRAMES 13
+extern a_sprite *bonus_rle[2][N_BONUSES][N_BONUS_FRAMES];
+
 extern unsigned char *tile_bonus;
 extern unsigned char *tile_bonus_cpu;
-extern int *bonus_time;
-extern int *bonus_list;
-
-extern int txt_bonus_tempo[4];
-
-extern void add_bonus (int pos_in_list, unsigned char what);
-extern void add_random_bonus (int pos_in_list);
-extern void rem_bonus (int pos);
 
 /* globaly initialize bonuses */
 extern void init_bonuses (void);
 extern void uninit_bonuses (void);
 
-/* reset and allocate bonus data for a given level */
-extern int init_bonuses_level (void);
-extern void uninit_bonuses_level (void);
-
-extern void spread_bonuses (void);
-
-extern void set_txt_bonus (int pl, const char *txt, int tempo);
 extern void show_txt_bonus (int pl, a_pixel *dest);
-
-extern void add_end_level_bonuses (void);
-extern void apply_bonus (int pl, char bonus);
-
-extern void update_player_bonus_vars (int pl);
-extern void update_bonuses (void);
 
 #endif

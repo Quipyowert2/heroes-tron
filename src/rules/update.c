@@ -148,7 +148,7 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
     state->player[c].score_delta++;
     /* 1 life every 10.000 points */
     if (state->player[c].score_delta % (10000 << 2) == 0)
-      apply_bonus (c, 15);
+      apply_bonus (state, lvl, c, 15);
   }
 /* if ((state->player[c].score_delta>>2)>state->player[c].score) state->player[c].score_delta--; */
   if (state->player[c].turbo_level_delta < state->player[c].turbo_level) {
@@ -494,7 +494,7 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
     {
       int bonus = tile_bonus[d];
       if (bonus && bonus != 0xff) {
-	rem_bonus (d);
+	rem_bonus (state, lvl, d);
 	if (!state->private->level_is_finished) {
 	  state->player[c].score += 10;
 	  if (bonus & 128) {
@@ -502,9 +502,9 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
 	      event_sfx (39 + (bonus & 127));
 	    for (i = 0; i < 4; i++)
 	      if ((c != i) && (state->player[i].spec != 0xde))
-		apply_bonus (i, (bonus & 127));
+		apply_bonus (state, lvl, i, (bonus & 127));
 	  } else
-	    apply_bonus (c, bonus);
+	    apply_bonus (state, lvl, c, bonus);
 	}
 	if (state->player[c].notify_delay) {
 	  state->player[c].notify_delay = 0;

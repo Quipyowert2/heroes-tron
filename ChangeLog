@@ -1,5 +1,36 @@
 2002-01-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Move part of src/bonus.c to src/rules/bonuses.c.  The remaining of
+	the file is related to the level rendering.  (A small part of the
+	things moved are related to rendering too, but they are difficult
+	to split.)
+
+	* src/rules/bonuses.c: New file.
+	* src/rules/Makefile.inc (rules_libhrules_a_SOURCES): Add it.
+	* src/bonus.c (bonus_density, bonus_points, bonus_proba,
+	bonus_proba_sum, bonus_time, bonus_list, bonus_total_nbr,
+	bonus_real_nbr, next_bonus_to_update, txt_bonus, txt_bonus_tempo,
+	random_bonus, add_bonus, add_random_bonus, rem_bonus,
+	reset_bonus_mode, mark_unreachable_places, init_bonuses_level,
+	uninit_bonuses_level, spread_bonuses, set_txt_bonus,
+	add_end_level_bonuses,apply_bonus, update_player_bonus_vars,
+	update_bonuses): Move ...
+	* src/rules/bonuses.c: ... here.
+	* src/bonus.h (N_BONUSES, N_BONUS_FRAMES, bonus_rle): Export.
+	(bonus_points, bonus_time, bonus_list, txt_bonus_tempo,
+	add_bonus, add_random_bonus, rem_bonus, init_bonuses_level,
+	uninit_bonuses_level, spread_bonuses, set_txt_bonus,
+	add_end_level_bonuses, apply_bonus, update_player_bonus_vars,
+	update_bonuses): Move ...
+	* src/rules/statepriv.h: ... here.
+	* src/heroes.c (update_all, load_level): Adjust calls to
+	init_bonuses_level(), spead_bonuses(), and update_bonuses().
+	* src/rules/update.c (update_player): Adjust calls to apply_bonus(),
+	and rem_bonus().
+	* src/rules/trail.c (grow_trail): Add the lvl argument.
+
+2002-01-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Extract the update_player() and ai functions from heroes.c, and
 	move them to libhrules.a.  Note that the rules/ai.c and rules/ai.h
 	files are temporary.  When programmable vehicles are available,

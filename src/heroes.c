@@ -203,11 +203,11 @@ load_level (char *filename, char cont)
 
   allocate_explosions ();
   state_init (&state, &lvl, cont);
-  if (init_bonuses_level ())
+  if (init_bonuses_level (&state, &lvl))
     return 15;
 
   if (!in_menu)
-    spread_bonuses ();
+    spread_bonuses (&state, &lvl);
   return (0);
 }
 
@@ -705,7 +705,7 @@ update_all (char plr)
       update_player (&state, &lvl, 1);
       update_player (&state, &lvl, 2);
       update_player (&state, &lvl, 3);
-      update_bonuses ();
+      update_bonuses (&state, &lvl);
       if (radar_current_pos < radar_target_pos)
 	radar_current_pos++;
       else if (radar_current_pos > radar_target_pos)
