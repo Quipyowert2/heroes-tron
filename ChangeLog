@@ -1,5 +1,9 @@
 2000-11-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* doc/heroes.texi: Ispell it.
+
+2000-11-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Generate README automatically from the Texinfo manual.
 
 	* tools/readme.sed: New file.

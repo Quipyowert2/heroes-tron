@@ -31,14 +31,14 @@ your own trail.
 Nibbles, in Death Match you start with very long tails a must kill your
 opponents, in Kill'em All you must run over lemmings moving on the
 ground, in Time Cash or Color modes you must collect money or pyramids
-of color.  Heroes features 12 original soundtracks, 94 levels (in 10
-different tilesets) plus a level editor.
+of color.  Heroes features 12 original sound tracks, 94 levels (in 10
+different tile sets) plus a level editor.
 
    Heroes source code originates from an original MS-DOS game but has
 been heavily modified to enhance the portability and some new features
 have been added.  MS-DOS support has been lost my the meantime.  The
 original MS-DOS version can still be found on the Internet but is
-unmaintened and should be considered obsolete.
+unmaintained and should be considered obsolete.
 
    The current development focus on cleaning the code and port the game
 to available operating systems.  Our objective is to release the version
@@ -59,12 +59,12 @@ Where to fetch new releases?
 ----------------------------
 
    Heroes development is powered by the free services offered by
-SourceForge to the Open-Source compunity.  The web page of Heroes is
+SourceForge to the Open-Source community.  The web page of Heroes is
 `http://heroes.sourceforge.net/'.
 
    The latest releases of Heroes is always uploaded to SourceForge and
-available from `http://sourceforge.net/projects/heroes/'.  Annouces are
-sent to the `heroes-announce' mailing list (*note Mailing lists::).
+available from `http://sourceforge.net/projects/heroes/'.  Announces
+are sent to the `heroes-announce' mailing list (*note Mailing lists::).
 
    Source code releases are also uploaded to MetaLab (sunsite) in
 `/pub/linux/games'; see the MetaLab mirror list
@@ -207,7 +207,7 @@ help it, or to configure special features of Heroes.
      also turns off optimization options and imply `--enable-warnings'.
 
 `--enable-warnings'
-     Try to turn on a large bunch of compiler warnigs.
+     Try to turn on a large bunch of compiler warnings.
 
 `--disable-heroes-debug'
      Turn off tracing support.  See the description of the

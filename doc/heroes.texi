@@ -113,7 +113,7 @@ This document applies to Heroes version @value{VERSION}.
 Overview of Heroes
 
 * Getting Heroes::              Where to download Heroes from.
-* Mailing lists::
+* Mailing lists::               Where to talk about Heroes..
 * Bug Reporting::               Sending bugs, suggestions, contributions.
 * Authors::                     Who made Heroes.
 * Contributors::                Contributions to Heroes.
@@ -138,7 +138,7 @@ Running Heroes
 Level editor
 
 * editor-keys::                 Key used in the level editor.
-* editor-clicks::                How mouse is used in the editor.
+* editor-clicks::               How mouse is used in the editor.
 * tunnels::                     How to setup a tunnel.
 * sprites::                     How to setup a sprite.
 * animations::                  How to setup animations.
@@ -188,8 +188,8 @@ GNU General Public License that accompanies it.
 @node    Overview, Installation, Copying, Top
 @chapter Overview of Heroes
 @cindex  overview
-@cindex  nibbles
-@cindex  tron
+@cindex  Nibbles
+@cindex  Tron
 
 Heroes is similar to the "Tron" and "Nibbles" games of yore, but
 includes many graphical improvements and new game features.
@@ -202,13 +202,13 @@ There are five game modes available.  Quest is the classical Nibbles, in
 Death Match you start with very long tails a must kill your opponents,
 in Kill'em All you must run over lemmings moving on the ground, in
 Time Cash or Color modes you must collect money or pyramids of color.
-Heroes features 12 original soundtracks, 94 levels (in 10 different
-tilesets) plus a level editor.
+Heroes features 12 original sound tracks, 94 levels (in 10 different
+tile sets) plus a level editor.
 
 Heroes source code originates from an original MS-DOS game but has been
 heavily modified to enhance the portability and some new features have
 been added.  MS-DOS support has been lost my the meantime.  The original
-MS-DOS version can still be found on the Internet but is unmaintened and
+MS-DOS version can still be found on the Internet but is unmaintained and
 should be considered obsolete.
 @c The original MS-DOS source code is not available and will never be.
 @c People wanting MS-DOS support are invited to contribute the needed
@@ -221,7 +221,7 @@ such as network support or programmable vehicles.
 
 @menu
 * Getting Heroes::              Where to download Heroes from.
-* Mailing lists::
+* Mailing lists::               Where to talk about Heroes..
 * Bug Reporting::               Sending bugs, suggestions, contributions.
 * Authors::                     Who made Heroes.
 * Contributors::                Contributions to Heroes.
@@ -240,11 +240,11 @@ such as network support or programmable vehicles.
 @subsection Where to fetch new releases?
 
 Heroes development is powered by the free services offered by
-SourceForge to the Open-Source compunity.  The web page of Heroes is
+SourceForge to the Open-Source community.  The web page of Heroes is
 @uref{http://heroes.sourceforge.net/}.
 
 The latest releases of Heroes is always uploaded to SourceForge and
-available from @uref{http://sourceforge.net/projects/heroes/}.  Annouces
+available from @uref{http://sourceforge.net/projects/heroes/}.  Announces
 are sent to the @samp{heroes-announce} mailing list (@pxref{Mailing lists}).
 
 Source code releases are also uploaded to MetaLab (sunsite) in
@@ -366,8 +366,8 @@ anything else that you think would be helpful.
   When in doubt whether something is needed or not, include it.  It's
 better to include too much than to leave out something important.
 
-@cindex  coredump
-  To get useful coredumps, @samp{./configure} with @samp{--enable-debug}
+@cindex  core dump
+  To get useful core dumps, @samp{./configure} with @samp{--enable-debug}
 and @samp{--disable-sound}.
 
 @cindex   patch
@@ -411,13 +411,13 @@ drew the graphics, created most of the levels.
 Alexandre Liverneaux (Alexel) @email{alex.livernaux@@wanadoo.fr}@*
 @uref{http://alexel.planet-d.net/}
 
-Composed the soundtracks.
+Composed the sound tracks.
 
 @item
 Philippe Meisburger (Tnk) @email{philmeis@@mail.dotcom.fr}@*
 @uref{http://perso.club-internet.fr/philmeis/}
 
-Composed the soundtracks and created a few levels.
+Composed the sound tracks and created a few levels.
 
 @item
 Alexandre Duret-Lutz (Pollux) @email{duret_g@@epita.fr}@*
@@ -501,8 +501,8 @@ some songs from Clawz just to vary. These were 'overtaking' and
 Tnk's songs and he was asked to make some more Clawz-like musics. By the
 time, Alexel joined and came with 10 channels XM, thus all tunes are now
 8 or 10 channels XM... There were 13 tunes in the game (for a total of
-2.88Mb unpacked), these are the introtune, the menutune, the 10 levels,
-and the endtune (you can't hear the later without finishing the quest
+2.88Mb unpacked), these are the intro tune, the menu tune, the 10 levels,
+and the end tune (you can't hear the later without finishing the quest
 game); most of them have been done by Alexel.
 
 All sprites and pictures were drawn by Guen.  He first made some
@@ -667,7 +667,7 @@ optimization options and imply @samp{--enable-warnings}.
 
 @item --enable-warnings
 @cindex --enable-warnings
-Try to turn on a large bunch of compiler warnigs.
+Try to turn on a large bunch of compiler warnings.
 
 @item --disable-heroes-debug
 @cindex --disable-heroes-debug
@@ -736,7 +736,7 @@ Print a help message about these run-time options.
 @cindex -q
 @cindex --quiet
 Disable warning messages.  This can be useful on platform
-such as Windows were such messages will popup a text window.
+such as Windows were such messages will pop up a text window.
 
 @item -Q
 @itemx --really-quiet
@@ -779,7 +779,7 @@ Available drivers:
 @end example
 
 @samp{--list=resources} will dump the list of file resources.  File
-resources are kinds of aliases used internaly to name files and
+resources are kinds of aliases used internally to name files and
 directories.  They can be overwritten in you configuration file using
 the @samp{setrsc:} command.  This command will also list the original
 (default) value of the resource if it has been overwritten.
@@ -808,7 +808,7 @@ heroes -d freq=11050:buffers=512
 
 @item -S
 @itemx --no-sound
-Disable sound output completely (both sound tracks and soundeffects).
+Disable sound output completely (both sound tracks and sound effects).
 
 @item -X
 @itemx --no-sfx
@@ -886,7 +886,7 @@ Stretch the game threefold before blitting to screen.  This is even slower.
 @cindex -e
 @cindex --even-lines
 @cindex stretching
-Display only even lines, leaving blank scanlines
+Display only even lines, leaving blank scan lines
 as on real arcade monitors.  This will contribute to make
 options @samp{-2} and @samp{-3} faster.
 
@@ -1067,7 +1067,7 @@ You can also have line starting with @samp{setenv:}, followed by a
 variable name and a value (the rest of the line, after the variable name
 is taken as the value).  This will setup the corresponding environment
 variable.  This provide a way to configure the used libraries.  For example, to
-instruct SDL to use its dga driver, use the following line:
+instruct SDL to use its DGA driver, use the following line:
 @example
 setenv: SDL_VIDEODRIVER dga
 @end example
@@ -1088,17 +1088,17 @@ additional extra levels directories.
 @cindex soundconf:
 
 The @samp{soundconf:} lines are used to introduce configuration files
-defining the soundtracks played by the game.  The format of such a file
+defining the sound tracks played by the game.  The format of such a file
 is as follow:
 @example
 ALIAS:FILENAME:TITLE:AUTHOR
 ...
 @end example
-Where @samp{ALIAS} is the name of the soundtrack used internaly by
+Where @samp{ALIAS} is the name of the sound track used internally by
 Heroes (presently the set of used aliases include
 @samp{INTRO},@samp{MENU},@samp{HEROES01},@samp{HEROES02},...,@samp{HEROES10},
-and @samp{ENDSCROLL}), @samp{FILENAME} is the filename of the soundtrack
-you want to be loaded, @samp{TITLE} is the title of the soundtrack, and
+and @samp{ENDSCROLL}), @samp{FILENAME} is the filename of the sound track
+you want to be loaded, @samp{TITLE} is the title of the sound track, and
 @samp{AUTHOR} is the person who tracked that music.
 
 You may give several definitions for the same alias, in which case only
@@ -1115,13 +1115,13 @@ Second Reality:Purple Motion" > mymod
 % echo "soundconf: /home/adl/.heroes/mymod" >> heroesrc
 @end example
 
-In this example, the config file has been put in the @samp{~/.heroes}
+In this example, the configuration file has been put in the @samp{~/.heroes}
 directory but you can put it anywhere provided the filename given after
 @samp{soundconf:} points to it.
 
 All that sound configuration stuff should allow you to make drop-in
-remplacement for heroes modules.  You just make a set of modules
-available whith a config file that any user can get read from its
+replacement for heroes modules.  You just make a set of modules
+available with a configuration file that any user can get read from its
 @samp{~/.heroes/heroesrc}.
 
 You can run @samp{heroes --list=sound-tracks} to print the list of
@@ -1208,7 +1208,7 @@ some informations about the level and the selected (orange box) tile.
 
 @menu
 * editor-keys::                 Key used in the level editor.
-* editor-clics::                How mouse is used in the editor.
+* editor-clicks::               How mouse is used in the editor.
 * tunnels::                     How to setup a tunnel.
 * sprites::                     How to setup a sprite.
 * animations::                  How to setup animations.
@@ -1216,14 +1216,14 @@ some informations about the level and the selected (orange box) tile.
 @end menu
 
 @c ======================================================================
-@node    editor-keys, editor-clics, Level editor, Level editor
+@node    editor-keys, editor-clicks, Level editor, Level editor
 @comment node-name,  next,  previous,  up
 @subsection Editor keys
 @cindex  editor keys
 @cindex  keys, in editor
 
 Here is the list of keys used in the level-editor.  You will have to
-learn most of them because most of these actions are availables only as
+learn most of them because most of these actions are available only as
 key-bindings.
 
 @table @kbd
@@ -1285,10 +1285,10 @@ Play animations.
 @end table
 
 @c ======================================================================
-@node    editor-clics, tunnels, editor-keys, Level editor
+@node    editor-clicks, tunnels, editor-keys, Level editor
 @comment node-name,  next,  previous,  up
-@subsection Editor clics
-@cindex  editor clics
+@subsection Editor clicks
+@cindex  editor clicks
 @cindex  mouse, in editor
 
 You can select a tiles by clicking on it with the left mouse button.
@@ -1296,26 +1296,26 @@ Keeping this button pulled down will allow you to move the map without using
 the keyboard.
 
 @c The center button (if you have one) used in the left side will
-@c temporaly select a tile, as if you were using the @kbd{t} key.
+@c temporally select a tile, as if you were using the @kbd{t} key.
 
 The right button, used in the left side, will copy a tile to the pointed
 tile, in a way it behaves like the space key.
 
 @c ======================================================================
-@node    tunnels, sprites, editor-clics, Level editor
+@node    tunnels, sprites, editor-clicks, Level editor
 @comment node-name,  next,  previous,  up
 @subsection Tunnels
 @cindex  tunnels
 
 Copy your two tiles that are the entrances of your tunnel.  Move the
-box-pointer on one, and select it if the @kbd{@key{t}} key (or clic on
+box-pointer on one, and select it if the @kbd{@key{t}} key (or click on
 it with the middle button).  Once you will move the pointer, this tile
-will appear in a dashed box.  Move on the second tunnel and clic on the
+will appear in a dashed box.  Move on the second tunnel and click on the
 @samp{[GO TO]} box that is on the right of your screen.  Now you have
 set up the first way: for now if your were playing on this level you
 could go from this place to the dashed one, but from the dashed to this
 one.  So you also have to set up the tunnel in the other way: select the
-current tiles with @kbd{@key{t}}, move on the former and clic on
+current tiles with @kbd{@key{t}}, move on the former and click on
 @samp{[GO TO]}. That's all.
 
 Notice that with this technique you can also typeset some kind of
@@ -1323,7 +1323,7 @@ triangular tunnel. Let @samp{A}, @samp{B}, @samp{C} be the entrances,
 you could setup the way like that @samp{A->B}, @samp{B->C}, and
 @samp{C->A}.
 
-The coordinate @samp{0x0} if used forthe destination denotes a non-setup
+The coordinate @samp{0x0} if used for the destination denotes a non-setup
 way.  That's why you can't put a tunnel on the @samp{0x0} position.
 
 
@@ -1335,7 +1335,7 @@ way.  That's why you can't put a tunnel on the @samp{0x0} position.
 
 With some set of tiles (like the Egyptian one), there are tiles (like
 palm trees) designed to be used as `sprites', i.e. put over others with
-transparancy. You have to use the @kbd{@key{s}} key for this:
+transparency. You have to use the @kbd{@key{s}} key for this:
 
 @itemize @bullet
 @item
@@ -1355,9 +1355,9 @@ the level, press @kbd{@key{F3}}).
 You may have noticed that during the game, some tiles are animated:
 color cycle (like the speed arrows) or moving objects (ventilators).
 Each frame of an animation is actually a separate tile.  The different
-tiles of an animations are drawn horizontaly in the sets.  To setup an
+tiles of an animations are drawn horizontally in the sets.  To setup an
 animation, you just have to select the first one and copy it into your
-level.  Optionnaly, press @kbd{@key{Ctrl}-@key{RET}} to see the animation.
+level.  Optionally, press @kbd{@key{Ctrl}-@key{RET}} to see the animation.
 When the orange box is on an animated tile, you should find a button on
 the right to modify the speed: the greater the number is, the slower the
 animation goes.
@@ -1370,7 +1370,7 @@ animation goes.
 @cindex  departures
 
 Select a tile and press the @kbd{@key{d}} key. Then look at the right
-side, select a color and clic on the arrow you want (if you don't see
+side, select a color and click on the arrow you want (if you don't see
 any vehicle on the level, press @kbd{@key{F3}}).
 
 
@@ -1399,15 +1399,15 @@ in your @file{~/.heroes/heroesrc} file.
 Note: @samp{--gfx-options} has no effect if you are using SDL.
 
 We suggest you to run the game under X because in console modes (libvga,
-framebuffers, ...) it's easy to get stuck if the game freeze.
+frame buffers, ...) it's easy to get stuck if the game freeze.
 
 @subsection Keyboard
 @cindex keyboard
 @cindex keys
-@cindex keycodes
+@cindex key codes
 There is a menu `KEYS' in the submenu `OPTIONS' that lets you change the
 key bindings used during the game.  Please set the keys here before
-playing since keycodes can vary from place to place (hmm...  is that
+playing since key codes can vary from place to place (hmm...  is that
 right?).
 
 @subsection Sound effects
@@ -1434,7 +1434,7 @@ If Heroes try to tell you that:
 @example
 Could not initialize sound, reason: Could not set sample size
 @end example
-That means that MikMod couln't setup the 16bits output, may be because
+That means that MikMod couldn't setup the 16bits output, may be because
 your sound card doesn't support that.  Use the @samp{-8} option to
 have the game running with 8bits sound output.
 
