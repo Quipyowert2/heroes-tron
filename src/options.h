@@ -52,7 +52,7 @@ typedef struct
   /* extra in_menu options */
   u8_t extras;
 }
-options_t __attribute__ ((packed));
+ATTRIBUTE_PACKED options_t;
 
 extern options_t opt;
 extern char extrasel;

@@ -115,14 +115,14 @@ typedef struct
   u8_t tempo:4;
 #endif
 }
-__attribute__ ((packed)) tunnel_t;
+ATTRIBUTE_PACKED tunnel_t;
 
 typedef struct
 {
   u8_t frame_nbr;
   u8_t speed;		/* in VBL */
 }
-__attribute__ ((packed)) anim_t;
+ATTRIBUTE_PACKED anim_t;
 
 
 typedef union
@@ -131,7 +131,7 @@ typedef union
   tunnel_t tunnel;
   anim_t anim;
 }
-__attribute__ ((packed)) param_t;
+ATTRIBUTE_PACKED param_t;
 
 typedef struct
 {
@@ -141,7 +141,7 @@ typedef struct
   param_t info;
   u8_t type;
 }
-__attribute__ ((packed)) tile_t; /* 16 bytes */
+ATTRIBUTE_PACKED tile_t; /* 16 bytes */
 
 typedef struct
 {
@@ -149,7 +149,7 @@ typedef struct
   param_t info;
   u8_t type;
 }
-__attribute__ ((packed)) tile_info_t;  /* 10 bytes */
+ATTRIBUTE_PACKED tile_info_t;  /* 10 bytes */
 
 typedef struct
 {
@@ -163,7 +163,7 @@ typedef struct
   char soundtrack_name[9];
   char unused[10];
 }
-__attribute__ ((packed)) level_header_t; /* 64 bytes */
+ATTRIBUTE_PACKED level_header_t; /* 64 bytes */
 
 /*------------------ player records -------------------*/
 
@@ -251,7 +251,7 @@ typedef struct
   u8_t unused1, unused2;
   u32_t points;
 }
-__attribute__ ((packed)) top_score;
+ATTRIBUTE_PACKED top_score;
 
 
 /*------------------------------ SavedGames -------------------------------*/
@@ -264,7 +264,7 @@ typedef struct
   u8_t magic;
   char used;
 }
-__attribute__ ((packed)) saved_game;
+ATTRIBUTE_PACKED saved_game;
 
 /*------------------------------ ---------- -------------------------------*/
 

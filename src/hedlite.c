@@ -435,8 +435,8 @@ affgt (int t)
 }
 
 static void
-fn0 (int a __attribute__ ((unused)),
-     int b __attribute__ ((unused)), int c __attribute__ ((unused)))
+fn0 (int a ATTRIBUTE_UNUSED,
+     int b ATTRIBUTE_UNUSED, int c ATTRIBUTE_UNUSED)
 {
 }
 
@@ -504,7 +504,7 @@ stop_mod (int i, int x, int y)
 }
 
 static void
-tunnel_mod (int i, int x __attribute__ ((unused)), int y)
+tunnel_mod (int i, int x ATTRIBUTE_UNUSED, int y)
 {
 /* unsigned char m;
 
@@ -1957,7 +1957,7 @@ free_levels_output_dir (void)
 /****************************************************************************/
 /****************************************************************************/
 int
-hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2,
+hmain (int argc ATTRIBUTE_UNUSED, char *argv1, char *argv2,
        char *argv3, char *argv4, char *argv5, char *argv6)
 {
   int i;

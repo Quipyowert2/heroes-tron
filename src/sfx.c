@@ -343,7 +343,7 @@ void close_sfx_handle (void)
 {
 }
 
-void load_sfx_mode (signed char mode __attribute__ ((unused)))
+void load_sfx_mode (signed char mode ATTRIBUTE_UNUSED)
 {
 }
 
@@ -351,7 +351,7 @@ void free_all_sfx (void)
 {
 }
 
-void event_sfx (int event __attribute__ ((unused)))
+void event_sfx (int event ATTRIBUTE_UNUSED)
 {
 }
 

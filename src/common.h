@@ -225,4 +225,27 @@ int strcasecmp (const char *s1, const char *s2);
 # define S_ISDIR(mode) (((mode) & S_IFMT) == S_IFDIR)
 #endif
 
+#ifndef __attribute__
+# if __GNUC__ < 2 || (__GNUC__ == 2 && __GNUC_MINOR__ < 8) || __STRICT_ANSI__
+#  define __attribute__(x)
+# endif
+#endif
+
+#ifndef ATTRIBUTE_NORETURN
+# define ATTRIBUTE_NORETURN __attribute__ ((noreturn))
+#endif
+
+#ifndef ATTRIBUTE_UNUSED
+# define ATTRIBUTE_UNUSED __attribute__ ((unused))
+#endif
+
+#ifndef ATTRIBUTE_PACKED
+# define ATTRIBUTE_PACKED __attribute__ ((packed))
+#endif
+
+#ifndef ATTRIBUTE_PRINTF
+# define ATTRIBUTE_PRINTF(str,fst) __attribute__ ((format (printf, str, fst)))
+#endif
+
+
 #endif /* HEROES__COMMON__H */

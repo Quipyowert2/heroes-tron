@@ -1,3 +1,22 @@
+2000-10-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Define and use macros for common __attribute__ stuffs.
+
+	* src/common.h (__attribute__,ATTRIBUTE_NORETURN,ATTRIBUTE_UNUSED,
+	ATTRIBUTE_PRINTF): New.
+	* src/debugmsg.h (dmsg): Use the above macro(s).
+	* src/errors.h (wmsg,emsg,exit_heroes): Likewise.
+	* src/hedlite.c (fn0,tunnel_mod,hmain): Likewise.
+	* src/options.h (options_t): Likewise.
+	* src/pcx.h (header_): Likewise.
+	* src/sfx.c [!HAVE_LIBMIKMOD] [!HAVE_LIBSDL_MIXER] 
+	(load_sfx_mode,event_sfx): Likewise.
+	* src/sound.c [HAVE_LIBMIKMOD] (update_thread): Likewise.
+	[!HAVE_LIBSDL_MIXER] [!HAVE_LIBMIKMOD] (load_soundtrack,
+	decode_sound_options,load_soundtrack_from_alias): Likewise.
+	* src/structs.h (tunnel_t,anim_t,param_t,tile_t,
+	tile_info_t,level_header_t,top_score,saved_game): Likewise.
+
 2000-10-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Extract autoconf macro definitions from acinclude.m4

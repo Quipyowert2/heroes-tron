@@ -175,7 +175,7 @@ unload_soundtrack (void)
 }
 
 static void *
-update_thread (void *arg __attribute__ ((unused)))
+update_thread (void *arg ATTRIBUTE_UNUSED)
 {
   while (pthread_mutex_trylock (&playing) == EBUSY) {
     MikMod_Update ();
@@ -498,7 +498,7 @@ uninit_sound_engine (void)
 }
 
 void
-load_soundtrack (char *ptr __attribute__ ((unused)))
+load_soundtrack (char *ptr ATTRIBUTE_UNUSED)
 {
 }
 
@@ -519,14 +519,14 @@ print_drivers_list (void)
 }
 
 void
-decode_sound_options (char* optarg __attribute__ ((unused)), 
-		      char* argv0 __attribute__ ((unused)))
+decode_sound_options (char* optarg ATTRIBUTE_UNUSED), 
+		      char* argv0 ATTRIBUTE_UNUSED)
 {
 }
 
 
 void 
-load_soundtrack_from_alias (char* alias __attribute__ ((unused)))
+load_soundtrack_from_alias (char* alias ATTRIBUTE_UNUSED)
 {
 }
 

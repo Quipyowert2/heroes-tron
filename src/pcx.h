@@ -38,7 +38,7 @@ typedef struct pcx_header_type
   short int palette_kind;
   char rien[58];
 }
-header_ __attribute__ ((packed));
+header_ ATTRIBUTE_PACKED;
 
 typedef struct color_rgb
 {
