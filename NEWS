@@ -1,3 +1,18 @@
+Heroes 0.8e	February 14, 2001
+
+	* GGI usage enhancements:
+	  - use buffer locking
+          - do double buffering when possible
+	  - don't crossblit when the display is already 8bit (== speedup
+            for people running a 8bit display)
+	* Replace the stupid lightning formula with gamma correction
+          (the scale and default value have changed, this means that
+          your current saved setup is likely to be lighter than what
+          you expect)
+	* Bug fixes:
+	  - don't set palette for non-palletized modes [GGI]
+	  - strip large keynames in keyboard menu to prevent overstrike
+
 Heroes 0.8d	February 7, 2001
 
 	* Dutsh message catalog.

@@ -1,5 +1,11 @@
 2001-02-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.in: Bump to 0.8e.
+	* NEWS: Update for 0.8e.
+	* po/fr.po: Update.
+
+2001-02-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/const.c (tunnel_square_io): Move to ...
 	* src/heroes.c (tunnel_square_io): ... here.
 	* src/const.c (radar_trail_color, radar_wall_color): Move to ...
