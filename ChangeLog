@@ -1,5 +1,9 @@
 2000-12-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* NEWS: Update for 0.7a.
+
+2000-12-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Make sure compiled programs are still runnable once the library
 	selection have been done.  Otherwise next tests, such as
 	AC_HEADER_STDC, may fail (and thus produce some unrelated compile

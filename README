@@ -37,7 +37,7 @@ different tile sets) plus a level editor.
 
    Heroes source code originates from an original MS-DOS game but has
 been heavily modified to enhance the portability and some new features
-have been added.  MS-DOS support has been lost my the meantime.  The
+have been added.  MS-DOS support has been lost by the meantime.  The
 original MS-DOS version can still be found on the Internet but is
 unmaintained and should be considered obsolete.
 
@@ -239,6 +239,14 @@ Linux/i386 (SDL or GGI)
      Should build out of the box.  Packages for Debian and Red Hat are
      available from the web pages.
 
+     Red Hat 7.0 users, the compiler shipped with your distribution
+     (packaged as `gcc-2.96-54.i386.rpm') is an experimental version
+     which is still _bugged_ despite the pile of fixes applied.  It
+     actually produces unfaithful code for Heroes, so wplease use
+     another compiler.  Either upgrade to a new version
+     (`gcc-2.96-64.i386.rpm' is known to work) or use the one provided
+     by the `kgcc' package.
+
 Linux/ppc (SDL)
      Is reported to work when the sound (`SDL_mixer') is disabled
      (`configure --disable-sound' or `heroes -S').  Any feedback on
@@ -265,6 +273,10 @@ NetBSD (SDL)
      I had to tweak SDL 1.1.6 to get it working, and also force Heroes'
      configure to use the result of `sdl-config --static-libs' instead
      of `sdl-config --libs'.
+
+IRIX 6.5 (SDL)
+     Heroes 0.7 has been reported to compile and runs with SDL 1.1.3 and
+     `gcc' + libraries from `freeware.sgi.com' on IRIX 6.5.
 
    If you got Heroes working on a platform which is not listed here,
 please send a notice to <heroes-discuss@lists.sourceforge.net>.

@@ -1,4 +1,23 @@
-		      User visible changes in Heroes.
+Heroes 0.7a	December 7, 2000
+
+	* use autoconf 2.49b
+        * make sure in configure that the selected libraries are
+          correctly installed
+	* the file 'txt_cfg/txti.cfg' is no longer used
+	* New option:
+	  -4, --quadruple: stretch the screen fourfold.
+	* Bug fixes:
+	  - add a warning in the documentation and a workaround
+	    in the code for the buggy compiler shipped with
+	    Red Hat 7.0
+	  - fix the color selection function used when linked with SDL
+	  - fix wrapping of counters after 127 in TIME CASH and COLORS
+            modes
+	  - fix wrong timing calculation (could cause stalls)
+	  - adds @direntry and @dircategory commands in the Texinfo
+	    manual
+	  - explicitly forbid turn backs in the game (can otherwise
+	    cause segfaults on some levels)
 
 Heroes 0.7	November 29, 2000
 
