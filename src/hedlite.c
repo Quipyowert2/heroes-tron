@@ -127,12 +127,6 @@ static char dir_test[9][12] = {
 };
 
 static void
-fatalog (const char *ptr)
-{
-  emsg (ptr);
-}
-
-static void
 partiel4 (int xs, int ys, int xd, int yd, int xc, int yc, pcx_image_t *source)
 {
   int i = source->width;
@@ -1721,14 +1715,14 @@ hmain (const char* lname, const char* tset_name,
 
   if (!((ftmp = fopen (lvl_name, "rb")) == NULL)) {
     if (fread (&hplaninfo, sizeof (level_header_t), 1, ftmp) != 1)
-      fatalog ("Invalid level file.");
+      emsg (_("%s: invalid level file"), lvl_name);
     /* convert hplaninfo to local endianess */
     bswap_level_header (&hplaninfo);
 
     XMALLOC_ARRAY (level_map, hplaninfo.xt * hplaninfo.yt);
     if (fread (level_map, sizeof (tile_t), hplaninfo.xt * hplaninfo.yt, ftmp)
 	!= (hplaninfo.xt * hplaninfo.yt))
-      fatalog ("Invalid level file.");
+      emsg (_("%s: invalid level file"), lvl_name);
     fclose (ftmp);
     /* convert level_map to local endianess */
     bswap_level_tiles (&hplaninfo, level_map);

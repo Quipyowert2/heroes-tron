@@ -1,5 +1,11 @@
 2001-02-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/hedlite.c (fatalog): Remove.
+	(hmain): Replace calls to fatalog by calls to emsg,
+	gettextize the messages.
+
+2001-02-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/hedlite.c: Cosmetic changes, comment removal.
 	* src/structs.h (type_name, spd_test, dir_test): Move to ...
 	* src/hedlite.c (type_name, spd_test, dir_test): ... here.
