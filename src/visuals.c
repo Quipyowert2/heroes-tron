@@ -198,9 +198,9 @@ vertical_zoom_wave (pixel_t *src, pixel_t *dest, int oldsize, int newsize)
   newsize--;
   do {
     pixel_t *p;
-    p = src + ((y >> 16) * 3 << 7);
+    p = src + ((y >> 16) * xbuf);
     tmp1 = GETWORD(p);
-    p = src + (((y + deltay) >> 16) * 3 << 7);
+    p = src + (((y + deltay) >> 16) * xbuf);
     tmp2 = GETWORD(p);
     y += deltay << 1;
     *(u32_t *) dest = tmp1;

@@ -37,13 +37,6 @@
    comment ça marche, mais ça marche... */
 int tunnel_square_io[4][2] = { {0, 1}, {1, 3}, {3, 2}, {2, 0} };
 
-#define xbuf 384		/* pour des multiplications plus faciles */
-#define ybuf 300		/* une bande vide de 50 lignes au dessus et en dessous... */
-#define sbuf 50*xbuf		/* ...pour éviter de faire du clipping sur les explosions */
-
-#define NOGLENZPLR 108		/* colors pour les trainées sans glenz */
-#define NOGLENZRED 16		/* couleur pour le sang sans glenz */
-
 pixel_t radar_trail_color[16] =
   { 111, 127, 143, 159, 111, 127, 143, 159, 109, 125, 141, 157, 109, 125, 141,
   157
@@ -89,7 +82,7 @@ unsigned int nbr_tiles_rows = 11;
 char camera_stop_x[2];
 char camera_stop_y[2];
 
-pixel_t *(render_buffer[2]);		/* 384*260 */
+pixel_t *(render_buffer[2]);		/* xbuf * ybuf */
 
 pixel_t glenz[8][256];		/* glenz lines */
 
@@ -106,8 +99,6 @@ signed char minisinus[32];
 bool two_players = false;
 
 /****** JOUEURS ET TRAINEE ******/
-#define maxq 128
-/* maxq à reporter dans const.h !!! */
 player_t player[4];
 int trail_pos[4][maxq];
 char trail_way[4][maxq];
@@ -140,9 +131,6 @@ int *square2tile;
 int *square_wrap;
 int *square_offset2coord;
 signed char *square_object;
-#define lemmings_per_players 50
-#define lemmings_total (lemmings_per_players*4)
-/* constantes à reporter dans const.c */
 lemming_t **square_lemmings_list;
 lemming_t **square_dead_lemmings_list;
 lemming_t lemmings_support[lemmings_total];

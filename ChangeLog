@@ -1,5 +1,14 @@
 2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/const.h (xbuf): Set to 512.
+	* src/const.c (xbuf, ybuf, sbuf, NOGLENZPLR, NOGLENZRED, maxq,
+	lemmings_per_players, lemmings_total): Remove, since they are
+	defined in const.h.
+	* src/visuals.c (vertical_zoom_wave): Use xbuf.
+	* src/render.c (copy_square_transp): Use xbuf.
+
+2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/menus.c (jukebox_menu): Rename sinl as sh to suppress a
 	warning.
 	* src/render.c (draw_level): Adapt to remove the sinl local variable.

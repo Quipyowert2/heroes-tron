@@ -75,7 +75,7 @@ copy_square_transp (const pixel_t* src, pixel_t* dest, char d, char e)
       dest++;
     }
     src += 320 - 12 + d;
-    dest += 384 - 12 + d;
+    dest += xbuf - 12 + d;
   }
 }
 

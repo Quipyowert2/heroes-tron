@@ -21,17 +21,19 @@
 #ifndef HEROES__CONST__H
 #define HEROES__CONST__H
 
+/* this file carries too many unrelated stuffs */
+
 #include "pcx.h"
 #include "structs.h"
 
 extern int tunnel_square_io[4][2];
 
-#define xbuf 384		/* pour des multiplications plus faciles */
-#define ybuf 300		/* une bande vide de 50 lignes au dessus et en dessous... */
-#define sbuf 50*xbuf		/* ...pour éviter de faire du clipping */
-
-#define NOGLENZPLR 108		/* colors pour les trainées sans glenz */
-#define NOGLENZRED 16		/* couleur pour le sang sans glenz */
+/* the three macro below configure the rendering buffers used in the game */
+#define xbuf 512		/* large width to suppress any clipping need,
+				   power of two of easier multiplications */
+#define ybuf 300		/* height */
+#define sbuf (50*xbuf)		/* keep sbuf empty line on top of the buffers
+				   (to avoid clipping) */
 
 extern pixel_t radar_trail_color[16];
 extern pixel_t radar_wall_color[16];
@@ -52,7 +54,7 @@ extern unsigned int nbr_tiles_rows;	/*        ... rows ... */
 extern char camera_stop_x[2];
 extern char camera_stop_y[2];
 
-extern pixel_t *(render_buffer[2]);	/* 384*260 */
+extern pixel_t *(render_buffer[2]);	/* xbuf * ybuf */
 
 char key_or_joy_ready (void);
 keycode_t get_key_or_joy (void);
@@ -87,7 +89,7 @@ extern signed char minisinus[32];
 extern bool two_players;
 
 #define maxq 128
-/* maxq à reporter dans const.c !!! */
+
 extern player_t player[4];
 extern int trail_pos[4][maxq];
 extern char trail_way[4][maxq];
@@ -120,7 +122,6 @@ extern int *square_offset2coord;
 extern signed char *square_object;
 #define lemmings_per_players 50
 #define lemmings_total (lemmings_per_players*4)
-/* constantes à reporter dans const.c */
 extern lemming_t **square_lemmings_list;
 extern lemming_t **square_dead_lemmings_list;
 extern lemming_t lemmings_support[lemmings_total];
