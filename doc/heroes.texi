@@ -719,11 +719,11 @@ are available from the web pages.
 
 @cartouche
 Red Hat 7.0 users, the compiler shipped with your distribution (packaged
-as @samp{gcc-2.96-54.i386.rpm} at the time of writting) is an
-experimental version which is still @emph{bugged} despite the pile of
-fixes applied.  It actually produces unfaithful code for Heroes, so
-please use another compiler.  The one provided by the @samp{kgcc}
-package is ok.
+as @samp{gcc-2.96-54.i386.rpm}) is an experimental version which is
+still @emph{bugged} despite the pile of fixes applied.  It actually
+produces unfaithful code for Heroes, so wplease use another compiler.
+Either upgrade to a new version (@samp{gcc-2.96-64.i386.rpm} is known to
+work) or use the one provided by the @samp{kgcc} package.
 @end cartouche
 
 @item Linux/ppc (SDL)

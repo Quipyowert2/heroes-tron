@@ -1,5 +1,10 @@
 2000-12-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* doc/heroes.texi (Machines): Update to say that
+	gcc-2.96-64.i386.rpm is known to work.
+
+2000-12-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	The gcc shipped with Red Hat 7.0 produces unfaithful code in
 	src/timer.c (and maybe elsewhere).  In timer.c, it causes wrong
 	computation of orig_time for local timers: orig_time might be set
