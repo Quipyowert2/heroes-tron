@@ -22,6 +22,8 @@
 #ifndef HEROES__PIXEL__H
 #define HEROES__PIXEL__H
 
-extern void (*pixelize[7]) (char *, char *);
+#include "display.h"
+
+extern void (*pixelize[7]) (pixel_t *dest, const pixel_t *src);
 
 #endif /* HEROES__PIXEL__H */

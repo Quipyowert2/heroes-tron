@@ -904,18 +904,17 @@ draw_radar_map (int dx, int dy)
 }
 
 void
-draw_score (int c, int p, pixel_t* dest)
+draw_score (int c, int p, unsigned int offset)
 {
-  pixel_t* src = corner[p] + (int) dest;
+  pixel_t* src = corner[p] + offset;
   pixel_t* tmp = src + 22 + 2 * xbuf;
   pixel_t* tmp2 = src + 25 + 5 * xbuf + 53 * xbuf;
+  pixel_t* dest = src + 2 + 2 * xbuf;
   int x, y, i;
   char score[32];
 
   if (radar_current_pos > 60)
     return;
-
-  dest = src + 2 + 2 * xbuf;
 
   for (y = ((game_mode < M_TCASH) ? 63 : 75); y != 0; y--) {
     for (x = 33; x != 0; x--)

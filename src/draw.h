@@ -21,23 +21,23 @@
 #ifndef HEROES__DRAW__H
 #define HEROES__DRAW__H
 
-void draw_text (const unsigned char *texte, int posx, int posy, char cent);
-void draw_text_clipped_left (const unsigned char *texte, int posx, int posy,
+void draw_text (const char *text, int posx, int posy, char cent);
+void draw_text_clipped_left (const char *text, int posx, int posy,
 			     char cent);
-void draw_text_clipped_right (const unsigned char *texte, int posx, int posy,
+void draw_text_clipped_right (const char *text, int posx, int posy,
 			      char cent);
-void draw_text_waving (const unsigned char *texte, int posx, int posy,
+void draw_text_waving (const char *text, int posx, int posy,
 		       char cent);
-void draw_text_320 (const unsigned char *texte, int posx, int posy,
+void draw_text_320 (const char *text, int posx, int posy,
 		    char cent);
-void draw_text_waving_320 (const unsigned char *texte, int posx, int posy, char cent);
+void draw_text_waving_320 (const char *text, int posx, int posy, char cent);
 
-extern void (*draw_text_array[2]) (const unsigned char *, int, int, char);
-extern void (*draw_text_array_320[2]) (const unsigned char *, int, int, char);
+extern void (*draw_text_array[2]) (const char *, int, int, char);
+extern void (*draw_text_array_320[2]) (const char *, int, int, char);
 
-void draw_text_bonus (const unsigned char *texte, int posx, int posy, int p);
+void draw_text_bonus (const char *text, int posx, int posy, int p);
 
-void draw_deck_text (const unsigned char *texte, int posx, int posy, 
+void draw_deck_text (const char *text, int posx, int posy, 
 		     char cent);
 
 void copy_rect_transp (const unsigned char *src, unsigned char *dest, int xt,

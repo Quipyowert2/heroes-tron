@@ -25,10 +25,10 @@
 #include "pixelize.h"
 
 static void
-pixelize_1 (char *dd, char *ss)
+pixelize_1 (pixel_t *dd, const pixel_t *ss)
 {
-  char *dest = dd;
-  char *src = ss;
+  pixel_t *dest = dd;
+  const pixel_t *src = ss;
   int i;
 
   for (i = 200; i != 0; i--, src += xbuf, dest += 320)
@@ -36,12 +36,12 @@ pixelize_1 (char *dd, char *ss)
 }
 
 static void
-pixelize_2_inline (unsigned char *s, unsigned char *d)
+pixelize_2_inline (const pixel_t *s, pixel_t *d)
 {
   int y, x;
   for (y = 200 / 2; y; --y) {
     for (x = 320 / 4; x; --x) {
-      unsigned char t1, t2;
+      pixel_t t1, t2;
       t1 = s[0];
       t2 = s[1];
       d[0] = t1;
@@ -62,18 +62,18 @@ pixelize_2_inline (unsigned char *s, unsigned char *d)
 
 
 static void
-pixelize_2 (char *dd, char *ss)
+pixelize_2 (pixel_t *dd, const pixel_t *ss)
 {
   pixelize_2_inline (ss, dd);
 }
 
 static void
-pixelize_4_inline (unsigned char *s, int *d)
+pixelize_4_inline (const pixel_t *s, int *d)
 {
   int y, x;
   for (y = 200 / 4; y; --y) {
     for (x = 320 / 4; x; --x) {
-      unsigned char t1 = *s;
+      pixel_t t1 = *s;
       int t;
       t = t1 | (t1 << 8) | (t1 << 16) | (t1 << 24);
       d[0] = t;
@@ -89,21 +89,21 @@ pixelize_4_inline (unsigned char *s, int *d)
 }
 
 static void
-pixelize_4 (char *dd, char *ss)
+pixelize_4 (pixel_t *dd, const pixel_t *ss)
 {
   int *dest = ((int *) dd);
-  char *src = ss;
+  const pixel_t *src = ss;
 
   pixelize_4_inline (src, dest);
 }
 
 static void
-pixelize_8_inline (char *s, int *d)
+pixelize_8_inline (const pixel_t *s, int *d)
 {
   int y, x;
   for (y = 200 / 8; y; --y) {
     for (x = 320 / 8; x; --x) {
-      unsigned char t1 = *s;
+      pixel_t t1 = *s;
       int t;
       t = t1 | (t1 << 8) | (t1 << 16) | (t1 << 24);
       d[0] = t;
@@ -131,21 +131,21 @@ pixelize_8_inline (char *s, int *d)
 }
 
 static void
-pixelize_8 (char *dd, char *ss)
+pixelize_8 (pixel_t *dd, const pixel_t *ss)
 {
   int *dest = ((int *) dd);
-  char *src = ss;
+  const pixel_t *src = ss;
 
   pixelize_8_inline (src, dest);
 }
 
 static void
-pixelize_16_inline (char *s, int *d)
+pixelize_16_inline (const pixel_t *s, int *d)
 {
   int y, x, o;
   for (y = 200 / 16; y; --y) {
     for (x = 320 / 16; x; --x) {
-      unsigned char t1 = *s;
+      pixel_t t1 = *s;
       int t;
       t = t1 | (t1 << 8) | (t1 << 16) | (t1 << 24);
       for (o = 16 * 320 / 4; o >= 0; o -= 320 / 4) {
@@ -163,11 +163,11 @@ pixelize_16_inline (char *s, int *d)
 }
 
 static void
-pixel_16_inline_2 (char *s, int *d)
+pixel_16_inline_2 (const pixel_t *s, int *d)
 {
   int x, o;
   for (x = 320 / 16; x; --x) {
-    unsigned char t1 = *s;
+    pixel_t t1 = *s;
     int t;
     t = t1 | (t1 << 8) | (t1 << 16) | (t1 << 24);
     for (o = (200 % 16 - 1) * 320 / 4; o >= 0; o -= 320 / 4) {
@@ -182,22 +182,22 @@ pixel_16_inline_2 (char *s, int *d)
 }
 
 static void
-pixelize_16 (char *dd, char *ss)
+pixelize_16 (pixel_t *dd, const pixel_t *ss)
 {
   int *dest = ((int *) dd);
-  char *src = ss;
+  const pixel_t *src = ss;
 
   pixelize_16_inline (src, dest);
   pixel_16_inline_2 (src + xbuf * 192, dest + (320 * 192) / 4);
 }
 
 static void
-pixelize_32_inline (char *s, int *d)
+pixelize_32_inline (const pixel_t *s, int *d)
 {
   int y, x, o;
   for (y = 200 / 32; y; --y) {
     for (x = 320 / 32; x; --x) {
-      unsigned char t1 = *s;
+      pixel_t t1 = *s;
       int t;
       t = t1 | (t1 << 8) | (t1 << 16) | (t1 << 24);
       for (o = 32 * 320 / 4; o >= 0; o -= 320 / 4) {
@@ -219,11 +219,11 @@ pixelize_32_inline (char *s, int *d)
 }
 
 static void
-pixel_32_inline_2 (char *s, int *d)
+pixel_32_inline_2 (const pixel_t *s, int *d)
 {
   int x, o;
   for (x = 320 / 32; x; --x) {
-    unsigned char t1 = *s;
+    pixel_t t1 = *s;
     int t;
     t = t1 | (t1 << 8) | (t1 << 16) | (t1 << 24);
     for (o = (200 % 32 - 1) * 320 / 4; o >= 0; o -= 320 / 4) {
@@ -242,22 +242,22 @@ pixel_32_inline_2 (char *s, int *d)
 }
 
 static void
-pixelize_32 (char *dd, char *ss)
+pixelize_32 (pixel_t *dd, const pixel_t *ss)
 {
   int *dest = ((int *) dd);
-  char *src = ss;
+  const pixel_t *src = ss;
 
   pixelize_32_inline (src, dest);
   pixel_32_inline_2 (src + xbuf * 192, dest + (320 * 192) / 4);
 }
 
 static void
-pixelize_64_inline (char *s, int *d)
+pixelize_64_inline (const pixel_t *s, int *d)
 {
   int y, x, o;
   for (y = 200 / 64; y; --y) {
     for (x = 320 / 64; x; --x) {
-      unsigned char t1 = *s;
+      pixel_t t1 = *s;
       int t;
       t = t1 | (t1 << 8) | (t1 << 16) | (t1 << 24);
       for (o = 64 * 320 / 4; o >= 0; o -= 320 / 4) {
@@ -287,11 +287,11 @@ pixelize_64_inline (char *s, int *d)
 }
 
 static void
-pixel_64_inline_2 (char *s, int *d)
+pixel_64_inline_2 (const pixel_t *s, int *d)
 {
   int x, o;
   for (x = 320 / 64; x; --x) {
-    unsigned char t1 = *s;
+    pixel_t t1 = *s;
     int t;
     t = t1 | (t1 << 8) | (t1 << 16) | (t1 << 24);
     for (o = (200 % 64 - 1) * 320 / 4; o >= 0; o -= 320 / 4) {
@@ -318,16 +318,16 @@ pixel_64_inline_2 (char *s, int *d)
 }
 
 static void
-pixelize_64 (char *dd, char *ss)
+pixelize_64 (pixel_t *dest, const pixel_t *src)
 {
-  int *dest = ((int *) dd);
-  char *src = ss;
+  int *d = ((int *) dest);
+  const pixel_t *s = src;
 
-  pixelize_64_inline (src, dest);
-  pixel_64_inline_2 (src + xbuf * 192, dest + (320 * 192) / 4);
+  pixelize_64_inline (s, d);
+  pixel_64_inline_2 (s + xbuf * 192, d + (320 * 192) / 4);
 }
 
-void (*pixelize[7]) (char *, char *) =
+void (*pixelize[7]) (pixel_t *, const pixel_t *) =
 {
   pixelize_1, pixelize_2, pixelize_4, pixelize_8, pixelize_16, pixelize_32,
     pixelize_64};

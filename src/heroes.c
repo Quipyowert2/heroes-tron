@@ -175,8 +175,8 @@ add_random_bonus (int i)
     if (!(rand () & 3))
       b += 128;
 
-  tile_bonus[d] = (unsigned char) (b + 1);
-  bonus_ptr[i] = (unsigned char *) tile_bonus + d;
+  tile_bonus[d] = b + 1;
+  bonus_ptr[i] = tile_bonus + d;
   bonus_time[i] = event_time + (rand () % 511) - 256;
 }
 
@@ -190,7 +190,7 @@ add_bonus (int i, unsigned char b)
   while (tile_bonus[d] != 0);
 
   tile_bonus[d] = b;
-  bonus_ptr[i] = (char *) tile_bonus + d;
+  bonus_ptr[i] = tile_bonus + d;
   bonus_time[i] = event_time + (rand () % 511) - 256;
 }
 
@@ -459,7 +459,7 @@ load_level (char *nomlvl, char cont)
   /* convert map_info to local endianess */
   bswap_level_header (&map_info);
 
-  dmsg (D_LEVEL, "size=(%lu,%lu) wrap=(%lx,%lx) tile=%s soundtrack=%s",
+  dmsg (D_LEVEL, "size=(%u,%u) wrap=(%x,%x) tile=%s soundtrack=%s",
 	map_info.xt, map_info.yt,
 	map_info.xwrap, map_info.ywrap,
 	map_info.tile_set_name, map_info.soundtrack_name);
@@ -717,7 +717,7 @@ load_level (char *nomlvl, char cont)
     j = 0;
     for (i = map_info.xt * map_info.yt * 4 - 1; i >= 0; i--)
       if (square_explosion[i] == 255) {
-	explo_list_ptr[j] = (char *) square_explosion + i;
+	explo_list_ptr[j] = square_explosion + i;
 	explo_list_pos_x[j] = i % (map_info_2xt);
 	explo_list_pos_y[j] = i / (map_info_2xt);
 	j++;
@@ -1317,7 +1317,8 @@ static void loadlvlpasrandq2(int nbr,char cont)
 static void
 compute_level_full_list (void)
 {
-  int i, j;
+  int i;
+  unsigned int j;
 
   dmsg (D_SECTION, "compute level full list");
 
@@ -1723,7 +1724,7 @@ output_screen (char n)
     if (opt.radar_map)
       draw_radar_map (player[col2plr[0]].x2, player[col2plr[0]].y2);
     if (opt.display_infos)
-      draw_score (col2plr[0], 0, (char *) 5 + 5 * xbuf - radar_current_pos);
+      draw_score (col2plr[0], 0, 5 + 5 * xbuf - radar_current_pos);
     if (game_mode != M_QUEST) {
       if (radar_current_pos <= 70)
 	draw_logo_info (col2plr[0], loginf[0],
@@ -1815,13 +1816,11 @@ output_screen (char n)
 
     if (opt.display_infos) {
       if (swapside) {
-	draw_score (col2plr[0], 0,
-		    (char *) 122 + 5 * xbuf + radar_current_pos);
-	draw_score (col2plr[1], 1, (char *) 5 + 5 * xbuf - radar_current_pos);
+	draw_score (col2plr[0], 0, 122 + 5 * xbuf + radar_current_pos);
+	draw_score (col2plr[1], 1, 5 + 5 * xbuf - radar_current_pos);
       } else {
-	draw_score (col2plr[0], 0, (char *) 5 + 5 * xbuf - radar_current_pos);
-	draw_score (col2plr[1], 1,
-		    (char *) 122 + 5 * xbuf + radar_current_pos);
+	draw_score (col2plr[0], 0, 5 + 5 * xbuf - radar_current_pos);
+	draw_score (col2plr[1], 1, 122 + 5 * xbuf + radar_current_pos);
       }
     }
   }
@@ -4131,7 +4130,7 @@ draw_round_info (int decal)
 static unsigned char
 play_game (char cont)
 {
-  int n, tmp, i, t;
+  int n, i, t;
   char notbyebye = 1, flag;
   int l, pos, u;
   char editflag = 0;
@@ -4143,11 +4142,11 @@ play_game (char cont)
   in_menu = 0;
   tutor = (char) (game_mode == M_QUEST && current_quest_level == 0);
   if (loadulevel == 1) {
-    char* t = get_non_null_rsc_file ("levels-dir");
-    strappend (t, level_name);
+    char* tmp = get_non_null_rsc_file ("levels-dir");
+    strappend (tmp, level_name);
     if (load_level (level_name, cont))
       emsg ("Error during level loading");
-    free (t);
+    free (tmp);
   } else if (game_mode == M_QUEST /*&& questmode==0 */ )
     load_level_from_number (current_quest_level++, cont);
 /* else if (game_mode==M_QUEST) loadlvlpasrandq2(current_quest_level++,cont); */
@@ -4200,13 +4199,14 @@ play_game (char cont)
     pendulum_init ();
     n = 0;
     do {
+      pixel_t* tmp;
       pendulum_pos = pendulum_update (n);
       flip_buffer (pendulum_pos);
 
-      tmp = (int) corner[0];
+      tmp = corner[0];
       corner[0] = render_buffer[1];
       draw_text (bufstr, 159, 99, 1);
-      corner[0] = (char *) tmp;
+      corner[0] = tmp;
 
       vsynch ();
       display_buffer_tmp1 ();
@@ -4216,12 +4216,14 @@ play_game (char cont)
     } while (elapsed_time < 3000);
   }
   if (two_players) {
+    pixel_t *tmp;
     int buffer_pos = 39;
+
     memset (screen, 0, 64000);
-    tmp = (int) corner[0];
+    tmp = corner[0];
     corner[0] = screen;
     draw_text_320 (bufstr, 159, 99, 1);
-    corner[0] = (char *) tmp;
+    corner[0] = tmp;
 
     sleep (1);
 
@@ -4229,10 +4231,10 @@ play_game (char cont)
     do {
       corner[0] = corner[swapside];
       draw_text (bufstr, 159 + (buffer_pos << 2), 99, 1);
-      corner[0] = (char *) tmp;
+      corner[0] = tmp;
       corner[0] = corner[1 - swapside];
       draw_text (bufstr, 159 - (buffer_pos << 2) - 160, 99, 1);
-      corner[0] = (char *) tmp;
+      corner[0] = tmp;
       vsynch ();
       display_two_buffers_moving (buffer_pos);
       output_screen ((char) n);
@@ -4303,11 +4305,13 @@ play_game (char cont)
 	vsynch ();
 	aff_buffer ();
       } else {
-	tmp = (int) corner[0];
+	pixel_t* tmp;
+
+	tmp = corner[0];
 	draw_end_level_info (swapside ? -160 : 0, l);
 	corner[0] = corner[1];
 	draw_end_level_info (swapside ? 0 : -160, l);
-	corner[0] = (char *) tmp;
+	corner[0] = tmp;
 	vsynch ();
 	display_two_buffers ();
       }
@@ -4350,13 +4354,13 @@ play_game (char cont)
 	    vsynch ();
 	    aff_buffer ();
 	  } else {
-	    tmp = (int) corner[0];
-	    /*v */
+	    pixel_t *tmp;
+
+	    tmp = corner[0];
 	    draw_saved_games_info (swapside ? -160 : 0, l, 1);
 	    corner[0] = corner[1];
-	    /*v */
 	    draw_saved_games_info (swapside ? 0 : -160, l, 1);
-	    corner[0] = (char *) tmp;
+	    corner[0] = tmp;
 	    vsynch ();
 	    display_two_buffers ();
 	  }
@@ -4462,13 +4466,13 @@ play_game (char cont)
 	  vsynch ();
 	  display_buffer_moving (i);
 	} else {
-	  tmp = (int) corner[0];
-	  /*v */
+	  pixel_t *tmp;
+
+	  tmp = corner[0];
 	  draw_end_level_info (swapside ? -160 : 0, l);
 	  corner[0] = corner[1];
-	  /*v */
 	  draw_end_level_info (swapside ? 0 : -160, l);
-	  corner[0] = (char *) tmp;
+	  corner[0] = tmp;
 	  vsynch ();
 	  display_two_buffers_moving_and_clear (i);
 	}
@@ -4481,18 +4485,16 @@ play_game (char cont)
 	vsynch ();
 	display_buffer_moving (40);
       } else {
-	tmp = (int) corner[0];
-	/*v */
+	pixel_t *tmp;
+	tmp = corner[0];
 	draw_end_level_info (swapside ? -160 : 0, l);
 	corner[0] = corner[1];
-	/*v */
 	draw_end_level_info (swapside ? 0 : -160, l);
-	corner[0] = (char *) tmp;
+	corner[0] = tmp;
 	vsynch ();
 	display_two_buffers_moving_and_clear (40);
       }
     } else {
-/* round info !!!! */
       dmsg (D_SECTION, "print round info");
 
       l = 0;
@@ -4505,13 +4507,12 @@ play_game (char cont)
 	  vsynch ();
 	  aff_buffer ();
 	} else {
-	  tmp = (int) corner[0];
-	  /*v */
+	  pixel_t *tmp;
+	  tmp = corner[0];
 	  draw_round_info (swapside ? -160 : 0);
 	  corner[0] = corner[1];
-	  /*v */
 	  draw_round_info (swapside ? 0 : -160);
-	  corner[0] = (char *) tmp;
+	  corner[0] = tmp;
 	  vsynch ();
 	  display_two_buffers ();
 	}
@@ -4539,11 +4540,12 @@ play_game (char cont)
 	  vsynch ();
 	  display_buffer_moving (i);
 	} else {
-	  tmp = (int) corner[0];
+	  pixel_t *tmp;
+	  tmp = corner[0];
 	  draw_round_info (swapside ? -160 : 0);
 	  corner[0] = corner[1];
 	  draw_round_info (swapside ? 0 : -160);
-	  corner[0] = (char *) tmp;
+	  corner[0] = tmp;
 	  vsynch ();
 	  display_two_buffers_moving_and_clear (i);
 	}
@@ -4556,13 +4558,12 @@ play_game (char cont)
 	vsynch ();
 	display_buffer_moving (40);
       } else {
-	tmp = (int) corner[0];
-	/*v */
+	pixel_t *tmp;
+	tmp = corner[0];
 	draw_round_info (swapside ? -160 : 0);
 	corner[0] = corner[1];
-	/*v */
 	draw_round_info (swapside ? 0 : -160);
-	corner[0] = (char *) tmp;
+	corner[0] = tmp;
 	vsynch ();
 	display_two_buffers_moving_and_clear (40);
       }

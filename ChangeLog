@@ -1,3 +1,28 @@
+2000-10-11  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Remove more warnings.
+
+	* src/draw.h (draw_text, draw_text_clipped_left, 
+	draw_text_clipped_right, draw_text_waving, draw_text_320,
+	draw_text_waving_320, draw_text_array, draw_text_array_320,
+	draw_text_bonus, draw_deck_text): Fix signedness and use `text'
+	instead of `texte'.
+	* src/draw.c (draw_text, draw_text_clipped_left, 
+	draw_text_clipped_right, draw_text_waving, draw_text_320,
+	draw_text_waving_320, draw_text_array, draw_text_array_320,
+	draw_text_bonus, draw_deck_text): Likewise.
+	* src/heroes.c (add_random_bonus,add_bonus,
+	compute_level_full_list,output_screen): Fix signedness.
+	(load_level): Fix dmsg format.
+	(draw_round_info,play_game): Use temporary variables with a 
+	correct type to avoid casts.
+	* src/pixelize.c (pixelize_1, pixelize_2_inline, pixelize_2,
+	pixelize_4_inline, pixelize_4, pixelize_8_inline, pixelize_8,
+	pixelize_16_inline, pixelize_16_inline_2, pixelize_16,
+	pixelize_32_inline, pixelize_32_inline_2, pixelize_64_inline,
+	pixel_64_inline_2, pixelize_64, pixelize): Fix constness,
+	signedness, use pixel_t.
+
 2000-10-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Fix warnings from gfx_reader.h.

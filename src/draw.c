@@ -49,16 +49,16 @@
 #define Id(x) (x)
 
 void
-draw_text (const unsigned char *texte, int posx, int posy, char cent)
+draw_text (const char *text, int posx, int posy, char cent)
 {
   char j, c;
   int i, k, l, d = -1;
   unsigned char *dest = corner[0] + posx + posy * xbuf;
-  const unsigned char *src = texte;
+  const unsigned char *src = text;
 
   JUSTIF_CALC (Id);
-  for (; *texte != 0; texte++) {
-    i = (*texte - font_first_ascii);
+  for (; *text != 0; text++) {
+    i = (*text - font_first_ascii);
     src =
       main_font_img.buffer + font_pos + ((int) (i) % 14 * 22) +
       ((int) (i) / 14) * 320 * font_height;
@@ -78,18 +78,18 @@ draw_text (const unsigned char *texte, int posx, int posy, char cent)
 }
 
 void
-draw_text_clipped_left (const unsigned char *texte, int posx, int posy,
+draw_text_clipped_left (const char *text, int posx, int posy,
 			char cent)
 {
   char j, c;
   int i, k, l, d = -1;
   unsigned char *dest = corner[0] + posx + posy * xbuf;
   int clip = (int) (corner[0] + 0 + posy * xbuf);
-  const unsigned char *src = texte;
+  const unsigned char *src = text;
 
   JUSTIF_CALC (Id);
-  for (; *texte != 0; texte++) {
-    i = (*texte - font_first_ascii);
+  for (; *text != 0; text++) {
+    i = (*text - font_first_ascii);
     src =
       main_font_img.buffer + font_pos + ((int) (i) % 14 * 22) +
       ((int) (i) / 14) * 320 * font_height;
@@ -110,18 +110,18 @@ draw_text_clipped_left (const unsigned char *texte, int posx, int posy,
 }
 
 void
-draw_text_clipped_right (const unsigned char *texte, int posx, int posy,
+draw_text_clipped_right (const char *text, int posx, int posy,
 			 char cent)
 {
   char j, c;
   int i, k, l, d = -1;
   unsigned char *dest = corner[0] + posx + posy * xbuf;
   int clip = (int) (corner[0] + 320 + posy * xbuf);
-  const unsigned char *src = texte;
+  const unsigned char *src = text;
 
   JUSTIF_CALC (Id);
-  for (; *texte != 0; texte++) {
-    i = (*texte - font_first_ascii);
+  for (; *text != 0; text++) {
+    i = (*text - font_first_ascii);
     src =
       main_font_img.buffer + font_pos + ((int) (i) % 14 * 22) +
       ((int) (i) / 14) * 320 * font_height;
@@ -164,17 +164,17 @@ update_text_waving_step (void)
 }
 
 void
-draw_text_waving (const unsigned char *texte, int posx, int posy, char cent)
+draw_text_waving (const char *text, int posx, int posy, char cent)
 {
   char j, c;
   int i, m, k, l, d = -1;
   unsigned char *dest = corner[0] + posx + posy * xbuf;
-  const unsigned char *src = texte;
+  const unsigned char *src = text;
   unsigned char sinl = text_waving_step;
 
   JUSTIF_CALC (Id);
-  for (; *texte != 0; texte++) {
-    i = (*texte - font_first_ascii);
+  for (; *text != 0; text++) {
+    i = (*text - font_first_ascii);
     src =
       main_font_img.buffer + font_pos + ((int) (i) % 14 * 22) +
       ((int) (i) / 14) * 320 * font_height;
@@ -197,16 +197,16 @@ draw_text_waving (const unsigned char *texte, int posx, int posy, char cent)
 }
 
 void
-draw_text_320 (const unsigned char *texte, int posx, int posy, char cent)
+draw_text_320 (const char *text, int posx, int posy, char cent)
 {
   char j, c;
   int i, k, l, d = -1;
   unsigned char *dest = corner[0] + posx + posy * 320;
-  const unsigned char *src = texte;
+  const unsigned char *src = text;
 
   JUSTIF_CALC (toupper);
-  for (; *texte != 0; texte++) {
-    i = (toupper (*texte) - font_first_ascii);
+  for (; *text != 0; text++) {
+    i = (toupper (*text) - font_first_ascii);
     src =
       main_font_img.buffer + font_pos + ((int) (i) % 14 * 22) +
       ((int) (i) / 14) * 320 * font_height;
@@ -225,17 +225,17 @@ draw_text_320 (const unsigned char *texte, int posx, int posy, char cent)
 }
 
 void
-draw_text_waving_320 (const unsigned char *texte, int posx, int posy, char cent)
+draw_text_waving_320 (const char *text, int posx, int posy, char cent)
 {
   char j, c;
   int i, m, k, l, d = -1;
   unsigned char *dest = corner[0] + posx + posy * 320;
-  const unsigned char *src = texte;
+  const unsigned char *src = text;
   unsigned char sinl = text_waving_step;
 
   JUSTIF_CALC (toupper);
-  for (; *texte != 0; texte++) {
-    i = (toupper (*texte) - font_first_ascii);
+  for (; *text != 0; text++) {
+    i = (toupper (*text) - font_first_ascii);
     src =
       main_font_img.buffer + font_pos + ((int) (i) % 14 * 22) +
       ((int) (i) / 14) * 320 * font_height;
@@ -257,27 +257,27 @@ draw_text_waving_320 (const unsigned char *texte, int posx, int posy, char cent)
   }
 }
 
-void (*draw_text_array[2]) (const unsigned char *, int, int, char) = {
+void (*draw_text_array[2]) (const char*, int, int, char) = {
   &draw_text, 
   &draw_text_waving
 };
 
-void (*draw_text_array_320[2]) (const unsigned char *, int, int, char) = {
+void (*draw_text_array_320[2]) (const char*, int, int, char) = {
   &draw_text_320, 
   &draw_text_waving_320
 };
 
 void
-draw_text_bonus (const unsigned char *texte, int posx, int posy, int p)
+draw_text_bonus (const char* text, int posx, int posy, int p)
 {
   char j, c;
   int i, k, l, m;
   unsigned char *dest = corner[p] + posx + posy * xbuf;
-  const unsigned char *src = texte;
+  const unsigned char *src = text;
   unsigned char sinl = text_waving_step;
 
-  for (; *texte != 0; texte++) {
-    i = (*texte - 32);
+  for (; *text != 0; text++) {
+    i = (*text - 32);
     src =
       bonus_font_img.buffer + ((int) (i) % 26 * 12) +
       ((int) (i) / 26) * 320 * 12;
@@ -313,12 +313,12 @@ deck_text_conv (char i)
 }
 
 void
-draw_deck_text (const unsigned char *texte, int posx, int posy, char cent)
+draw_deck_text (const char *text, int posx, int posy, char cent)
 {
   char c;
   int i, j, k, l, d = -1;
   unsigned char *dest = corner[0] + posx + posy * xbuf;
-  const unsigned char *src = texte;
+  const unsigned char *src = text;
 
   if (cent == 0)		/* flushed left  */
     d = 0;
@@ -332,8 +332,8 @@ draw_deck_text (const unsigned char *texte, int posx, int posy, char cent)
   }
   dest += d;
 
-  for (; *texte != 0; texte++) {
-    i = deck_text_conv (*texte);
+  for (; *text != 0; text++) {
+    i = deck_text_conv (*text);
 
     src =  font_deck_img.buffer + ((int) (i) % 32 * 8) +
       ((int) (i) / 32) * 8 * 320 + 2 * 320;
