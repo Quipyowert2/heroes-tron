@@ -1,4 +1,4 @@
-I am pleased to announce the release of Heroes 0.18
+I am pleased to announce the release of Heroes 0.19
 
 Heroes is similar to the "Tron" and "Nibbles" games of yore, but
 includes many graphical improvements and new game features.
@@ -18,14 +18,13 @@ You are invited to visit the following links:
   screenshots:  http://heroes.sourceforge.net/screenshots.html
   download:     http://heroes.sourceforge.net/download.html
 
-This version adds Allegro (a game programming library) to the set of
-supported libraries, meaning it's now possible to configure Heroes for
-three different engines: GGI, SDL, or Allegro.
+NEWS in this version include:
+  - Brazilian Portuguese translations (thanks Luzemario Dantas Rocha!),
+  - computer players will stop and speed up (thanks Ingo van Lil!),
+  - Alt+Enter toggles full screen mode when using SDL (thanks Ingo van Lil!),
+  - `-G not8' will work around a bug in GGI.
 
-This version requires at least Heroes-data-1.4 (released a few days
-ago) because two languages (German and French) have been updated to
-use Latin-1 characters (new in Heroes-data-1.4).  Note you will have
-to upgrade to Heroes-data-1.4 even if you don't use these locales.
+This version requires at least Heroes-data-1.4.
 
 HELP!  Heroes development is open to anyone and we welcome any
 contribution.  In the hypothetical case you would like to spend some

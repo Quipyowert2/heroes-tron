@@ -1,5 +1,5 @@
 This is the Windows binary for Heroes, cross-compiled
-from Linux and linked statically against SDL 1.2.0,
+from Linux and linked statically against SDL 1.2.3,
 SDL_mixer 1.2.0 and MinGW (from the mingw32 Debian package).
 
 The man page and info file have been replaced by an html page in

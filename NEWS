@@ -1,3 +1,7 @@
+Heroes 0.19	January 28, 2002
+
+	* Minor portability tweaks for MinGW.
+
 Heroes 0.18b	January 23, 2002
 
 	* Alt+Enter toggles full screen mode (works only with the SDL
@@ -5,7 +9,7 @@ Heroes 0.18b	January 23, 2002
 	* Harmful turn backs are ignored even if the autopilot is
 	  disabled by the fire trails.
 
-Heroes 0.18a	January 09, 2002
+Heroes 0.18a	January 9, 2002
 
 	* Brazilian Portuguese translations.
 	* Computer players will stop and speed up.

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.18\n"
-"POT-Creation-Date: 2002-01-22 21:38+0100\n"
+"POT-Creation-Date: 2002-01-28 18:45+0100\n"
 "PO-Revision-Date: 2001-12-27 20:30+0100\n"
 "Last-Translator: Luzemario Dantas Rocha <luza.solucao@uol.com.br>\n"
 "Language-Team: none <LL@li.org>\n"
