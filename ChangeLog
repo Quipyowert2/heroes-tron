@@ -1,5 +1,26 @@
 2001-07-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Some directories do not deserve their own Makefile (it
+	takes time to recurse directories, and it's ugly).  Replace
+	some `Makefile.am' files by some `Makefile.inc' included from
+	the underlying `Makefile.am'.
+
+	* src/etc/Makefile.inc: New file.
+	* src/etc/Makefile.am: Delete.
+	* src/Makefile.am: Include src/etc/Makefile.inc.
+	* tools/genm4mam.sh: Create m4/Makefile.inc instead of m4/Makefile.am.
+	* arch/Makefile.inc: New file.
+	* arch/Makefile.am: Delete.
+	* configure.ac: Don't create src/etc/Makefile, m4/Makefile, and
+	arch/Makefile.am.
+	* Makefile.am: Include arch/Makefile.am and m4/Makefile.inc.
+	(SUBDIRS): Remove arch and m4.
+	(configure.ac): Don't create m4/Makefile, arch/Makefile, and
+	src/etc/Makefile.
+	* HACKING: Adjust.
+
+2001-07-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/lvl/Makefile.inc: New file.
 	* src/lvl/de_body.c: New file.
 	* src/lvl/de_head.c: New file.

@@ -204,15 +204,12 @@ AM_CONFIG_HEADER(config.h:src/config.h.in)
 
 AC_CONFIG_FILES([
  Makefile
- arch/Makefile
  doc/Makefile
  intl/Makefile
  lib/Makefile
- m4/Makefile
  man/Makefile
  po/Makefile.in
  src/Makefile
- src/etc/Makefile
  tools/Makefile
 ])
 AC_OUTPUT
