@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.17a\n"
-"POT-Creation-Date: 2002-01-09 19:34+0100\n"
+"POT-Creation-Date: 2002-01-22 21:38+0100\n"
 "PO-Revision-Date: 2001-12-15 12:17+0100\n"
 "Last-Translator: Ingo van Lil <inguin@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -815,44 +815,44 @@ msgstr ""
 "Alexandre Liverneaux und Philippe Meisburger.\n"
 "\n"
 
-#: src/heroes.c:676 src/heroes.c:762
+#: src/heroes.c:677 src/heroes.c:763
 #, c-format
 msgid "Cannot load level %s (error %d)"
 msgstr "Kann Level %s nicht laden (Fehler %d)"
 
-#: src/heroes.c:1991
+#: src/heroes.c:1969
 #, c-format
 msgid "INVERTED %d"
 msgstr "INVERTIERT %d"
 
-#: src/heroes.c:2025
+#: src/heroes.c:2003
 #, c-format
 msgid "STOPPED %d"
 msgstr "GESTOPPT %d"
 
 #. TRANS: %d, the number of remaining lives, is always
 #. positive.
-#: src/heroes.c:2322
+#: src/heroes.c:2300
 msgid "LAST LIFE"
 msgid_plural "%d LIVES LEFT"
 msgstr[0] "LETZTES LEBEN"
 msgstr[1] "NOCH %d LEBEN"
 
-#: src/heroes.c:2896
+#: src/heroes.c:2873
 msgid "Error during level loading"
 msgstr "Fehler beim Laden des Levels"
 
-#: src/heroes.c:2932
+#: src/heroes.c:2909
 #, c-format
 msgid "-LEVEL %d-"
 msgstr "-LEVEL %d-"
 
-#: src/heroes.c:2934
+#: src/heroes.c:2911
 #, c-format
 msgid "-ROUND %d/%d-"
 msgstr "-RUNDE %d/%d-"
 
-#: src/heroes.c:3439
+#: src/heroes.c:3416
 msgid "error in sfx.cfg"
 msgstr "Fehler in sfx.cfg"
 
@@ -1459,25 +1459,25 @@ msgid_plural "%d ROUNDS"
 msgstr[0] "%d RUNDE"
 msgstr[1] "%d RUNDEN"
 
-#: src/menus.c:2221
+#: src/menus.c:2220
 #, c-format
 msgid "PLAYER %d, YOU CAME IN THE TOP 10"
 msgstr "SPIELER %d, DU HAST DIE TOP 10 ERREICHT"
 
-#: src/menus.c:2288
+#: src/menus.c:2287
 #, c-format
 msgid "PLAYER %d WON!"
 msgstr "SPIELER %d GEWINNT!"
 
-#: src/menus.c:2294
+#: src/menus.c:2293
 msgid "EVERYONE LOST!"
 msgstr "ALLE HABEN VERLOREN!"
 
-#: src/menus.c:2296
+#: src/menus.c:2295
 msgid "YOU LOST!"
 msgstr "DU HAST VERLOREN!"
 
-#: src/menus.c:2375
+#: src/menus.c:2374
 #, c-format
 msgid "ROUND %d/%d"
 msgstr "RUNDE %d/%d"
@@ -1555,7 +1555,7 @@ msgstr "Portierungen\n"
 msgid "Other people we wish to thanks\n"
 msgstr "Weitere Personen, denen Dank gebührt\n"
 
-#: src/readmake.c:137
+#: src/readmake.c:188
 #, c-format
 msgid "Unknown option '%c' for command '%s'."
 msgstr "Unbekannte Option '%c' für Kommando '%s'."
@@ -1664,6 +1664,11 @@ msgstr ""
 msgid "Unable to load sample %s"
 msgstr "Kann Sample %s nicht laden"
 
+#: src/media/allegro/joystick.c:45 src/media/gii/joystick.c:109
+#: src/media/sdl/joystick.c:50
+msgid "No joystick found (run with `-J' to suppress this message)."
+msgstr "Kein Joystick gefunden (-J unterdrückt diese Meldung)"
+
 #: src/media/dummy/strack.c:75
 msgid "Heroes has been compiled without sound support."
 msgstr "Heroes wurde ohne Sound-Unterstützung compiliert."
@@ -1710,10 +1715,6 @@ msgstr "Konnte Direkt-Puffer nicht freigeben."
 #, c-format
 msgid "unexpected event %d\n"
 msgstr "unerwartetes Ereignis %d\n"
-
-#: src/media/gii/joystick.c:109 src/media/sdl/joystick.c:50
-msgid "No joystick found (run with `-J' to suppress this message)."
-msgstr "Kein Joystick gefunden (-J unterdrückt diese Meldung)"
 
 #: src/media/mikmod/strack.c:104
 #, c-format
@@ -1762,7 +1763,7 @@ msgstr ""
 "Argument '%s': Bereichsüberschreitung, muß zwischen %d und %d liegen.\n"
 "Benutze '%s --help' für weitere Informationen."
 
-#: src/media/sdl/video.c:98
+#: src/media/sdl/video.c:114
 #, c-format
 msgid "Failed to open visual: %s"
 msgstr "Konnte Visual %s nicht öffnen"

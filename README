@@ -239,6 +239,8 @@ warnings.
 
 `--disable-optimizations'
      Turn off compiler optimizations options.  This can ease debugging.
+     If you want to supply your own optimizations options, use
+     something like `--enable-optimizations='-O3 -march=pentium''.
 
 `--enable-warnings'
      Try to turn on a large bunch of compiler warnings.

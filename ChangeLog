@@ -1,3 +1,11 @@
+2002-01-23  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.ac: Bump version to 0.18b.
+	* NEWS: Update.
+
+	* tests/Makefile.am (EXTRA_PROGRAMS): Replace by ...
+	(check_PROGRAMS): ... this.
+
 2002-01-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* misc/copytile.c: New file.

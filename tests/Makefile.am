@@ -30,9 +30,8 @@ AM_CFLAGS = $(MORE_WARNINGS_CFLAGS)
 EXTRA_DIST = defs $(TESTS)
 TESTS = demo.test intro.test lvlsave.test
 
-EXTRA_PROGRAMS = lvlsave
+check_PROGRAMS = lvlsave
 
-lvlsave.test : lvlsave
 lvlsave_SOURCES = lvlsave.c
 lvlsave_LDADD = \
   $(top_builddir)/src/lvl/libhlvl.a \
