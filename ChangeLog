@@ -1,3 +1,9 @@
+2001-08-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/display.c (init_SDL): Don't initialize the sound device if
+	we are not going to use it.  Idem with the joystick.
+	Reported by Jean.
+
 2001-08-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.ac: Bump version to 0.12d.

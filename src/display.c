@@ -555,10 +555,10 @@ init_SDL (void)
 	"initialize SDL");
   SDL_Init (SDL_INIT_VIDEO
 #ifdef HAVE_LIBSDL_MIXER
-	    | SDL_INIT_AUDIO
+	    | ((nosound && nosfx) ? 0 : SDL_INIT_AUDIO)
 #endif
 #ifdef HAVE_SDL_JOYSTICKOPEN
-	    | SDL_INIT_JOYSTICK
+	    | (joyoff ? 0 : SDL_INIT_JOYSTICK)
 #endif
 #ifdef DEBUG
 	    | SDL_INIT_NOPARACHUTE
