@@ -27,7 +27,8 @@
 @c register Heroes in the info directory
 @dircategory Games
 @direntry
-* Heroes: (heroes).     A Nibbles clone, just better.
+* Heroes: (heroes).              A Nibbles clone, just better.
+* heroeslvl: (heroes)heroeslvl.  Inspect Heroes levels.
 @end direntry
 
 @ifinfo
@@ -99,6 +100,7 @@ translation approved by the Free Software Foundation.
 
 @c ======================================================================
 @node Top, Copying, (dir), (dir)
+@top Heroes
 
 @ifinfo
 This document describes Heroes, a Nibbles clone, just better.
@@ -111,6 +113,7 @@ This document applies to Heroes version @value{VERSION}.
 * Overview::                    Heroes in brief and contact information.
 * Installation::                Installing Heroes.
 * Running::                     Running Heroes.
+* heroeslvl::                   Inspect Heroes levels.
 * Index::                       A menu covering many topics.
 
 @detailmenu
@@ -134,7 +137,7 @@ Installation of Heroes
 
 Running Heroes
 
-* Invoking::                    Heroes launch-time options.
+* Invoking heroes::             Heroes launch-time options.
 * Environment::                 Environment variables used by Heroes.
 * heroesrc::                    Heroes configuration file.
 * Global score file::           Sharing a global score file.
@@ -150,6 +153,10 @@ Level editor
 * sprites::                     How to setup a sprite.
 * animations::                  How to setup animations.
 * departures::                  How to setup departures.
+
+@samp{heroeslvl}
+
+* Invoking heroeslvl::          heroeslvl launch-time option
 
 @end detailmenu
 @end menu
@@ -791,13 +798,13 @@ If you got Heroes working on a platform which is not listed here, please
 send a notice to @email{heroes-discuss@@lists.sourceforge.net}.
 
 @c ======================================================================
-@node    Running, Index, Installation, Top
+@node    Running, heroeslvl, Installation, Top
 @comment node-name,     next,           previous, up
 @chapter Running Heroes
 @cindex running
 
 @menu
-* Invoking::                    Heroes launch-time options.
+* Invoking heroes::             Heroes launch-time options.
 * Environment::                 Environment variables used by Heroes.
 * heroesrc::                    Heroes configuration file.
 * Global score file::           Sharing a global score file.
@@ -807,9 +814,9 @@ send a notice to @email{heroes-discuss@@lists.sourceforge.net}.
 @end menu
 
 @c ======================================================================
-@node    Invoking, Environment, Running, Running
+@node    Invoking heroes, Environment, Running, Running
 @comment node-name,  next,  previous,  up
-@section Heroes options
+@section @samp{heroes} options
 @cindex  options
 @cindex  runtime options
 
@@ -1091,7 +1098,7 @@ when heroes start.
 @end table
 
 @c ======================================================================
-@node    Environment, heroesrc, Invoking, Running
+@node    Environment, heroesrc, Invoking heroes, Running
 @comment node-name,  next,  previous,  up
 @section Environment variables
 @cindex  environment
@@ -1689,7 +1696,104 @@ support (@samp{./configure --disable-alsa}) so that it never crash
 for any application.
 
 @c ======================================================================
-@node    Index,  , Running, Top
+@node    heroeslvl, Index, Running, Top
+@comment node-name,     next,           previous, up
+@chapter @samp{heroeslvl}
+@cindex heroeslvl
+
+@samp{heroeslvl} is a tool that can be used to inspect the content of
+Heroes level files.  This is of almost no interest to the usual Heroes
+player, but can sometime be helpful to find bugs in levels.
+
+@menu
+* Invoking heroeslvl::          heroeslvl launch-time option
+@end menu
+
+@c ======================================================================
+@node    Invoking heroeslvl,  , heroeslvl, heroeslvl
+@comment node-name,     next,           previous, up
+@section @samp{heroeslvl} options
+@cindex Invoking heroeslvl
+
+@samp{heroeslvl} takes a list of levels to inspect in argument, and
+support the following options.
+
+When no options are given, @samp{heroeslvl} defaults to @samp{-ipfh}.
+
+@table @samp
+@item -v
+@itemx --version
+@cindex -v
+@cindex --version
+Display @samp{heroeslvl} version number and copyright informations.
+
+@item -h
+@itemx --help
+@cindex -h
+@cindex --help
+Print a help message about these run-time options.
+
+@item -p WHAT
+@itemx --print=WHAT
+@cindex -p
+@cindex --print
+Select what information @samp{heroeslvl} should display. @samp{WHAT} can
+be one or more of the following characters.
+
+@table @samp
+@item d
+@cindex -pd
+Print square directions.  Square directions are used on tunnel to indicate
+the entrance direction, and on speed tiles to indicate the direction of
+the acceleration.
+
+@item f
+@cindex -pf
+Print the filename of each processed file.
+
+@item h
+@cindex -ph
+Print header information.  This include level size, soundtrack and
+tilesets to use, starting positions...
+
+@item i
+@cindex -pi
+Print tile details.  This will display a list of all tiles, along with
+some of their attributes (type of the tile, adress of its sprite,
+animation information).
+
+@item t
+@cindex -pt
+Print square type map.  Display a map of the level, rendering
+each square with a character indicating the square type.
+
+@item T
+@cindex -pT
+Display the character used as type keys in the @samp{-pt} output.
+
+@item w
+@cindex -pw
+Print wall map.  Display a map of the level, rendering each square with
+a character indicating the number of neighboring walls.  (Walls are
+just bits indicating the directions that can be used to exit from a
+square; they not always map to something visible on the level.)
+
+@item @@
+@cindex -p@@
+Print the list of tunnels, with position, direction, and destination.
+
+@end table
+
+@item -i
+@itemx --indent
+@cindex -i
+@cindex --indent
+Indent everything but the filenames of each level processed.
+Note that filenames are only displayed if requested by @samp{-pf}.
+@end table
+
+@c ======================================================================
+@node    Index,  , heroeslvl, Top
 @comment node-name,     next,           previous, up
 @chapter Index
 @cindex index

@@ -1,3 +1,8 @@
+2001-08-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* doc/heroes.texi (direntry): Add heroeslvl.
+	(heroeslvl): New chapter.
+
 2001-08-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/heroes.c (find_lemming_direction): Allow lemmings to be
