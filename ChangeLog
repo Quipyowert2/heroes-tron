@@ -1,5 +1,11 @@
 2000-11-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/heroes.c (play_game): Continue to update event_time
+	once the game is finished so that explosions from dead players
+	are updated.
+
+2000-11-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/heroes.c (update_player): In TCASH or COLORS, when the level
 	is finished, mark all players whose time is null as dead.
 	Otherwise only the first player would be.  Reported by Jean Delvare.

@@ -3372,6 +3372,7 @@ play_game (char cont)
     else
       event_sfx (65);
     do {
+      event_time = read_htimer (event_htimer);
       update_text_waving_step ();
       if (two_players == false) {
 	draw_end_level_info (0, l);
@@ -3538,6 +3539,7 @@ play_game (char cont)
       if (l == 255)
 	event_sfx (68);		/* echap */
       for (i = 1; i <= 40; i += n) {
+	event_time = read_htimer (event_htimer);
 	update_text_waving_step ();
 	if (two_players == false) {
 	  draw_end_level_info (0, l);
@@ -3580,6 +3582,7 @@ play_game (char cont)
 
       event_sfx (129);
       do {
+	event_time = read_htimer (event_htimer);
 	update_text_waving_step ();
 	if (two_players == false) {
 	  draw_round_info (0);
@@ -3614,6 +3617,7 @@ play_game (char cont)
       if (l == 255)
 	event_sfx (68);		/*esc */
       for (i = 1; i <= 40; i += n) {
+	event_time = read_htimer (event_htimer);
 	update_text_waving_step ();
 	if (two_players == false) {
 	  draw_round_info (0);
