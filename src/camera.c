@@ -106,7 +106,7 @@ compute_corner (int p, int n)
      by moving half of the screen size.  Note that in two players
      mode, the screen is split vertically, hence we only account for
      half of the width.  */
-  if (two_players)
+  if (two_players && !in_menu)
     camera_width = (320 << 16) / 24 / 2;
   else
     camera_width = (320 << 16) / 24;

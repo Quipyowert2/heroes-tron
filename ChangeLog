@@ -1,5 +1,11 @@
 2001-12-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/camera.c (compute_corner): Don't take `two_player' into
+	account while we are `in_menu'.  (Fix a bug introduced in 0.12c.)
+	Reported by Ingo van Lil <inguin@gmx.de>.
+
+2001-12-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/fontdata.c (initialize_deck_font): Revert change from
 	2001-12-12.
 	Reported by Ingo van Lil <inguin@gmx.de>.
