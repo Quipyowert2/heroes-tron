@@ -47,7 +47,7 @@ pixel_t **(erase_color_ptr[256]);
 int errori;
 htimer_t intro_frame_htimer;
 htimer_t intro_global_htimer;
-
+static pixel_t *intro_buffer;
 /********************************/
 
 
@@ -61,11 +61,11 @@ copy_vehicle_1 (int x)
   if (x < 248) {
     dx = x;
     for (y = 31; y >= 0; y--)
-      memcpy (screen + (58 + y) * xbuf,
+      memcpy (intro_buffer + (58 + y) * xbuf,
 	      intro_img.buffer + (58 + y) * 320 + 306 - dx, dx);
   } else
     for (y = 31; y >= 0; y--)
-      memcpy (screen + (58 + y) * xbuf + x - 248,
+      memcpy (intro_buffer + (58 + y) * xbuf + x - 248,
 	      intro_img.buffer + (58 + y) * 320 + 58, dx);
 }
 
@@ -79,18 +79,18 @@ copy_vehicle_2 (int x)
   if (x < 248) {
     dx = x;
     for (y = 31; y >= 0; y--)
-      memcpy (screen + (110 + y) * xbuf,
+      memcpy (intro_buffer + (110 + y) * xbuf,
 	      intro_img.buffer + (110 + y) * 320 + 262 - dx, dx);
   } else
     for (y = 31; y >= 0; y--)
-      memcpy (screen + (110 + y) * xbuf + x - 248,
+      memcpy (intro_buffer + (110 + y) * xbuf + x - 248,
 	      intro_img.buffer + (110 + y) * 320 + 14, dx);
 }
 
 static void
 compute_erase_data (void)
 {
-  pixel_t *dest = screen;
+  pixel_t *dest = intro_buffer;
   pixel_t *src = intro_img.buffer;
   int i, j;
   for (i = 320 * 200; i > 0; i--)
@@ -127,27 +127,30 @@ erase (pixel_t **src, int j)
 }
 
 static void
-antialias (pixel_t *src, int nbr)
+antialias (pixel_t *src, int height)
 {
-  unsigned int a, b, c, d;
-  a = src[-1];
-  nbr >>= 1;
-  b = src[0];
   do {
-    c = src[1];
-    ++src;
-    a += c;
-    d = src[1];
-    a >>= 1;
-    b += d;
-    src[-1] = a;
-    b >>= 1;
-    a = c;
-    src[0] = b;
-    b = d;
-    ++src;
-    --nbr;
-  } while (nbr);
+    unsigned int a, b, c, d;
+    unsigned int width;
+    a = src[-1];
+    b = src[0];
+    for (width = 320 / 2; width; --width) {
+      c = src[1];
+      ++src;
+      a += c;
+      d = src[1];
+      a >>= 1;
+      b += d;
+      src[-1] = a;
+      b >>= 1;
+      a = c;
+      src[0] = b;
+      b = d;
+      ++src;
+    }
+    src += xbuf - 320;
+    --height;
+  } while (height);
 }
 
 static char
@@ -165,8 +168,8 @@ show_intro (void)
   play_soundtrack ();
   memset (color_nbr, 0, 256 * sizeof(*color_nbr));
   set_color (255, 0, 0, 0);
-  memset (screen, 255, xbuf * 100);
-  memset (screen + xbuf * 100, 0, xbuf * 100);
+  memset (intro_buffer, 255, xbuf * 100);
+  memset (intro_buffer + xbuf * 100, 0, xbuf * 100);
   reset_htimer (intro_frame_htimer);
   reset_htimer (intro_global_htimer);
   for (i = 0; i <= 63; i += read_htimer (intro_frame_htimer)) {
@@ -174,7 +177,7 @@ show_intro (void)
     fade_pal.indiv[255].r = i;
     fade_pal.indiv[255].g = i;
     fade_pal.indiv[255].b = i;
-    vsynch ();
+    flush_display (intro_buffer);
     if (key_or_joy_ready ()) {
       img_free (&intro_img);
       return (1);
@@ -184,9 +187,9 @@ show_intro (void)
     fade_pal.global[i] = pal.global[i] = ((i >= 384) ? 63 : 0);
 
   set_pal (pal.global, 0, 768);
-  copy_image_to_scr_area (&intro_img, screen);
+  copy_image_to_scr_area (&intro_img, intro_buffer);
   while (read_htimer (intro_global_htimer) < 2) {
-    vsynch ();
+    flush_display (intro_buffer);
     if (key_or_joy_ready ()) {
       img_free (&intro_img);
       return (1);
@@ -197,7 +200,7 @@ show_intro (void)
   std_palette_fade (&pal, &intro_img.palette);
   fader_status_flagback (&fade_stat);
   do {
-    vsynch ();
+    flush_display (intro_buffer);
     if (key_or_joy_ready ()) {
       img_free (&intro_img);
       return (1);
@@ -207,7 +210,7 @@ show_intro (void)
   img_free (&intro_img);
   pcx_load_from_rsc ("intro-vehicles-img", &intro_img);
   while (read_htimer (intro_global_htimer) < 9) {
-    vsynch ();
+    flush_display (intro_buffer);
     if (key_or_joy_ready ()) {
       img_free (&intro_img);
       return (1);
@@ -218,21 +221,21 @@ show_intro (void)
   fader_status_flagback (&fade_stat);
   fader_delay (64);
   do {
-    antialias (screen + 85 * 320, 13 * 320);
-    antialias (screen + 103 * 320, 13 * 320);
-    vsynch ();
+    antialias (intro_buffer + 85 * xbuf, 13);
+    antialias (intro_buffer + 103 * xbuf, 13);
+    flush_display (intro_buffer);
     if (key_or_joy_ready ()) {
       img_free (&intro_img);
       return (1);
     }
   } while (fade_stat != F_FINISHED);
 
-  memset (screen, 255, xbuf * 100);
-  memset (screen + xbuf * 100, 0, xbuf * 100);
+  memset (intro_buffer, 255, xbuf * 100);
+  memset (intro_buffer + xbuf * 100, 0, xbuf * 100);
   set_pal (intro_img.palette.global, 0, 768);
 
   while (read_htimer (intro_global_htimer) < 14) {
-    vsynch ();
+    flush_display (intro_buffer);
     if (key_or_joy_ready ()) {
       img_free (&intro_img);
       return (1);
@@ -245,7 +248,7 @@ show_intro (void)
   for (i = 0; i < 568; i += read_htimer (intro_frame_htimer)) {
     copy_vehicle_1 (i);
     copy_vehicle_2 (567 - i);
-    vsynch ();
+    flush_display (intro_buffer);
     if (key_or_joy_ready ()) {
       img_free (&intro_img);
       return (1);
@@ -255,7 +258,7 @@ show_intro (void)
 
   img_free (&intro_img);
   pcx_load_from_rsc ("intro-splash-img", &intro_img);
-  copy_image_to_scr_area (&intro_img, screen);
+  copy_image_to_scr_area (&intro_img, intro_buffer);
   intro_img.palette.indiv[254].r = 0;
   intro_img.palette.indiv[254].g = 0;
   intro_img.palette.indiv[254].b = 0;
@@ -264,7 +267,7 @@ show_intro (void)
   std_white_fadein (&intro_img.palette);
   fader_status_flagback (&fade_stat);
   do {
-    vsynch ();
+    flush_display (intro_buffer);
     if (key_or_joy_ready ())
       return (1);
   } while (fade_stat != F_FINISHED);
@@ -274,7 +277,7 @@ show_intro (void)
   img_free (&intro_img);
 
   while (read_htimer (intro_global_htimer) < 27) {
-    vsynch ();
+    flush_display (intro_buffer);
     if (key_or_joy_ready ())
       return (1);
   }
@@ -282,7 +285,7 @@ show_intro (void)
   erase_data_cur = erase_data;
   reset_htimer (intro_frame_htimer);
   for (i = 0; i <= 255; i += read_htimer (intro_frame_htimer)) {
-    vsynch ();
+    flush_display (intro_buffer);
     erase_data_cur = erase (erase_data_cur, i);
     if (key_or_joy_ready ())
       return (1);
@@ -298,24 +301,9 @@ play_intro (void)
 
   intro_frame_htimer = new_htimer (T_LOCAL|T_BLOCKING, HZ (70));
   intro_global_htimer = new_htimer (T_GLOBAL, HZ (2));
-
-#if 0
-  /* FIXME: This is no more possible with the new fader code
-     because we don't know the current palette.  This feature
-     should be easy to add, though. */
-  if (show_intro ()) {
-    fastmem4 ((char *) &fade_pal, (char *) &pal, 768 / 4);
-    memset ((char *) &pal, 0, 768);
-    reset_htimer (intro_frame_htimer);
-    for (i = 31; i >= 0; i -= read_htimer (intro_frame_htimer)) {
-      pal2pal ((palette_t *) & pal, (palette_t *) & fade_pal, i << 1);
-      vsynch ();
-      set_pal (temppal.global, 0, 768);
-    }
-  }
-#else
+  XMALLOC_ARRAY (intro_buffer, xbuf * 200);
   show_intro ();
-#endif
+  free (intro_buffer);
   memset (pal.global, 0, 768);
   set_pal (pal.global, 0, 768);
   free (erase_data);

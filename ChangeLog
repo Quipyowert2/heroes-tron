@@ -1,3 +1,16 @@
+2001-01-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Get rid of `screen' in intro.c.
+
+	* src/intro.c (antialias): Rewrite, assuming a xbuf-wide buffer,
+	drawing only in the first 320 pixels of a line.  Take the
+	height as second argument, not a number of pixels.
+	(intro_buffer): New variable.
+	(copy_vehicle_1, copy_vehicle_2, compute_erase_data): Adapt to use
+	intro_buffer instead of screen, flush_display instead of vsynch.
+	(show_intro): Likewise.  Adapt call to antialias.
+	(play_intro): Allocate intro_buffer.
+
 2001-01-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* m4/debug.m4: Default to -g, use -ggdb3 if enabled, and nothing
