@@ -21,6 +21,7 @@
 #include "common.h"
 #include "keyb.h"
 #include "argv.h"
+#include "errors.h"
 
 int enable_mouse = 0;
 int mouse_pos_x = 0;
@@ -314,8 +315,10 @@ process_input_events (void)
       keyboard_map[ev.key.keysym.sym] = 0;
     } else if (handle_mouse_events (&ev)) {
       /* Nothing to do, handle_mouse_events already did everything. */
+    } else if (ev.type == SDL_QUIT) {
+      exit_heroes (0);
     } else {
-      /*      printf ("unexpected event %d\n", ev.type); */
+      /* printf ("unexpected event %d\n", ev.type); */
     }
   }
   keyboard_modifiers = SDL_GetModState ();
@@ -339,9 +342,13 @@ get_key (void)
     }
     SDL_PumpEvents ();
     /* remove all events until we get a KEYDOWN event */
-    while (SDL_PeepEvents (&e, 1, SDL_GETEVENT, ~SDL_KEYDOWNMASK))
-      if (enable_mouse)		/* we need the handle mouse events */
+    while (SDL_PeepEvents (&e, 1, SDL_GETEVENT, ~SDL_KEYDOWNMASK)) {
+      /* we might need the handle mouse events, and Quit events */
+      if (enable_mouse)		
 	handle_mouse_events (&e);
+      if (e.type == SDL_QUIT)
+	exit_heroes (0);
+    }
   } while (!SDL_PeepEvents (&e, 1, SDL_GETEVENT, SDL_KEYDOWNMASK));
   
   keyboard_modifiers = SDL_GetModState ();
@@ -352,7 +359,9 @@ int
 key_ready (void)
 {
   SDL_PumpEvents ();
-  return SDL_PeepEvents (0, 1, SDL_GETEVENT, SDL_KEYDOWNMASK);
+  return SDL_PeepEvents (0, 1, SDL_GETEVENT, SDL_KEYDOWNMASK|SDL_QUITMASK);
+  /* return true if there is a pending SDL_QUIT event: the next call to 
+     get_key will process it */
 }
 
 #endif

@@ -11,10 +11,6 @@ Before 0.7
 
   Try to fix the initialization crash on Linux/m68k
 
-  Adapt the game to allow a clean exit at any time.
-
-  Handle SDL_quit events.
-
   JUSTIF_CALC in draw.c sometimes use tricky empty parameters, this does
   no work on VC6.0.
 

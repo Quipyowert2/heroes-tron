@@ -1,5 +1,12 @@
 2000-09-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/display.c (init_video): Enable SDL_QUIT events.
+	* src/keyb.c (process_input_events): Handle SDL_QUIT events.
+	(get_key): Likewise.
+	(key_ready): Return true if there is a pending SDL_QUIT event.
+
+2000-09-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Record the state of libraries (initialized or not) and
 	sound tracks (loaded, playing, none).  This allow to exit
 	the game anywhere, because we know what to uninitialize.
