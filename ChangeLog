@@ -1,3 +1,8 @@
+2000-09-08  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* BUGS: Add warning messages from windows.
+	* TODO: Complete, rewrite, reorder.
+
 2000-09-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Add support for arcade-style scanlined display (Adapted from

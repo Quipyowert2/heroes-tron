@@ -1,5 +1,6 @@
 From: Benjamin Preidecker <bpreidecker@gmx.de>
 Date: Thu, 03 Aug 2000 19:17:45 +0200
+Version: 0.5
 
 The game froze once when I exited a (quest-)game. I tried to reproduce
 the error, but had no success. The only info I can give you about the
@@ -15,3 +16,246 @@ Terminating on signal 2
 Linux kbd: couldn't restore mode: Bad file descriptor
 Linux kbd: tcseattr failed: Bad file descriptor
 Killed
+
+======================================================================
+
+From: =?iso-8859-1?Q?St=E9phane_Denis?= <S.Denis@darkworks.com>
+Date: Fri, 8 Sep 2000 15:08:07 +0200
+Version: 0.6
+
+Warnings from VC++6
+
+argv.c
+const.c
+c:\heroes\src\src\const.c(88) : warning C4305: 'initializing' : =
+truncation from 'const int ' to 'char '
+c:\heroes\src\src\const.c(88) : warning C4305: 'initializing' : =
+truncation from 'const int ' to 'char '
+c:\heroes\src\src\const.c(88) : warning C4305: 'initializing' : =
+truncation from 'const int ' to 'char '
+c:\heroes\src\src\const.c(88) : warning C4305: 'initializing' : =
+truncation from 'const int ' to 'char '
+c:\heroes\src\src\const.c(88) : warning C4305: 'initializing' : =
+truncation from 'const int ' to 'char '
+c:\heroes\src\src\const.c(88) : warning C4305: 'initializing' : =
+truncation from 'const int ' to 'char '
+c:\heroes\src\src\const.c(88) : warning C4305: 'initializing' : =
+truncation from 'const int ' to 'char '
+c:\heroes\src\src\const.c(90) : warning C4305: 'initializing' : =
+truncation from 'const int ' to 'char '
+debugmsg.c
+display.c
+c:\heroes\src\src\display.c(385) : warning C4305: 'function' : =
+truncation from 'const unsigned int ' to 'unsigned char '
+draw.c
+c:\heroes\src\src\draw.c(56) : warning C4003: not enough actual =
+parameters for macro 'JUSTIF_CALC'
+c:\heroes\src\src\draw.c(87) : warning C4003: not enough actual =
+parameters for macro 'JUSTIF_CALC'
+c:\heroes\src\src\draw.c(119) : warning C4003: not enough actual =
+parameters for macro 'JUSTIF_CALC'
+c:\heroes\src\src\draw.c(160) : warning C4244: '+=3D' : conversion from =
+'long ' to 'unsigned char ', possible loss of data
+c:\heroes\src\src\draw.c(172) : warning C4003: not enough actual =
+parameters for macro 'JUSTIF_CALC'
+endscroll.c
+c:\heroes\src\src\gfx_reader.h(354) : warning C4244: '+=3D' : conversion =
+from 'long ' to 'char ', possible loss of data
+c:\heroes\src\src\gfx_reader.h(469) : warning C4244: 'initializing' : =
+conversion from 'long ' to 'unsigned short ', possible loss of data
+c:\heroes\src\src\gfx_reader.h(470) : warning C4244: '=3D' : conversion =
+from 'unsigned short ' to 'unsigned char ', possible loss of data
+errors.c
+extras.c
+c:\heroes\src\src\extras.c(109) : warning C4013: 'scandir' undefined; =
+assuming extern returning int
+getshline.c
+hedlite.c
+c:\heroes\src\src\getshline.c(171) : warning C4761: integral size =
+mismatch in argument; conversion supplied
+c:\heroes\src\src\getshline.c(181) : warning C4761: integral size =
+mismatch in argument; conversion supplied
+c:\heroes\src\src\hedlite.c(1027) : warning C4244: '=3D' : conversion =
+from 'unsigned long ' to 'short ', possible loss of data
+c:\heroes\src\src\hedlite.c(1028) : warning C4244: '=3D' : conversion =
+from 'unsigned long ' to 'short ', possible loss of data
+c:\heroes\src\src\hedlite.c(1029) : warning C4244: '=3D' : conversion =
+from 'unsigned long ' to 'short ', possible loss of data
+c:\heroes\src\src\hedlite.c(1030) : warning C4244: '=3D' : conversion =
+from 'unsigned long ' to 'short ', possible loss of data
+c:\heroes\src\src\hedlite.c(1084) : warning C4244: '=3D' : conversion =
+from 'unsigned long ' to 'unsigned short ', possible loss of data
+c:\heroes\src\src\hedlite.c(1100) : warning C4244: '=3D' : conversion =
+from 'unsigned long ' to 'unsigned short ', possible loss of data
+c:\heroes\src\src\hedlite.c(1105) : warning C4244: '=3D' : conversion =
+from 'unsigned long ' to 'unsigned short ', possible loss of data
+c:\heroes\src\src\hedlite.c(1110) : warning C4244: '=3D' : conversion =
+from 'unsigned long ' to 'unsigned short ', possible loss of data
+c:\heroes\src\src\hedlite.c(1115) : warning C4244: '=3D' : conversion =
+from 'unsigned long ' to 'unsigned short ', possible loss of data
+c:\heroes\src\src\hedlite.c(1508) : warning C4244: '=3D' : conversion =
+from 'unsigned long ' to 'unsigned short ', possible loss of data
+c:\heroes\src\src\hedlite.c(1513) : warning C4244: '=3D' : conversion =
+from 'unsigned long ' to 'unsigned short ', possible loss of data
+c:\heroes\src\src\hedlite.c(1532) : warning C4244: '=3D' : conversion =
+from 'unsigned long ' to 'unsigned short ', possible loss of data
+c:\heroes\src\src\hedlite.c(1537) : warning C4244: '=3D' : conversion =
+from 'unsigned long ' to 'unsigned short ', possible loss of data
+c:\heroes\src\src\hedlite.c(1550) : warning C4244: '=3D' : conversion =
+from 'unsigned long ' to 'unsigned short ', possible loss of data
+c:\heroes\src\src\hedlite.c(1555) : warning C4244: '=3D' : conversion =
+from 'unsigned long ' to 'unsigned short ', possible loss of data
+c:\heroes\src\src\hedlite.c(1568) : warning C4244: '=3D' : conversion =
+from 'unsigned long ' to 'unsigned short ', possible loss of data
+c:\heroes\src\src\hedlite.c(1573) : warning C4244: '=3D' : conversion =
+from 'unsigned long ' to 'unsigned short ', possible loss of data
+c:\heroes\src\src\hedlite.c(1950) : warning C4013: 'mkdir' undefined; =
+assuming extern returning int
+hendian.c
+heroes.c
+c:\heroes\src\src\gfx_reader.h(469) : warning C4244: 'initializing' : =
+conversion from 'long ' to 'unsigned short ', possible loss of data
+c:\heroes\src\src\gfx_reader.h(470) : warning C4244: '=3D' : conversion =
+from 'unsigned short ' to 'unsigned char ', possible loss of data
+c:\heroes\src\src\heroes.c(1919) : warning C4244: 'return' : conversion =
+from 'double ' to 'int ', possible loss of data
+c:\heroes\src\src\heroes.c(4319) : warning C4013: 'sleep' undefined; =
+assuming extern returning int
+c:\heroes\src\src\heroes.c(4885) : warning C4244: '=3D' : conversion =
+from 'double ' to 'char ', possible loss of data
+intro.c
+c:\heroes\src\src\heroes.c(3407) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\heroes.c(3002) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\heroes.c(3737) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\heroes.c(1543) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\heroes.c(1589) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\heroes.c(1632) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\heroes.c(1635) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\heroes.c(1680) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\heroes.c(1742) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\heroes.c(3486) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\heroes.c(4395) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\heroes.c(4400) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\heroes.c(4402) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\heroes.c(4442) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\heroes.c(4448) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\heroes.c(4451) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\heroes.c(4554) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\heroes.c(4560) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\heroes.c(4563) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\heroes.c(4573) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\heroes.c(4579) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\heroes.c(4582) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+joystick.c
+c:\heroes\src\src\intro.c(323) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\intro.c(179) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\intro.c(179) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\intro.c(179) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\intro.c(203) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\intro.c(226) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\intro.c(278) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+keyb.c
+keysdef.c
+menus.c
+c:\heroes\src\src\menus.c(74) : warning C4244: '=3D' : conversion from =
+'double ' to 'unsigned long ', possible loss of data
+c:\heroes\src\src\menus.c(75) : warning C4244: '=3D' : conversion from =
+'double ' to 'unsigned long ', possible loss of data
+misc.c
+musicfiles.c
+options.c
+pcx.c
+pixelize.c
+render.c
+rsc_files.c
+c:\heroes\src\src\render.c(820) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\render.c(823) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\render.c(839) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+c:\heroes\src\src\render.c(842) : warning C4761: integral size mismatch =
+in argument; conversion supplied
+rsc_files_hash.c
+savegame.c
+scores.c
+sfx.c
+sound.c
+timer.c
+c:\heroes\src\src\timer.c(172) : warning C4101: 'c' : unreferenced local =
+variable
+txts.c
+userconf.c
+userdir.c
+c:\heroes\src\src\userdir.c(52) : warning C4013: 'S_ISDIR' undefined; =
+assuming extern returning int
+c:\heroes\src\src\userdir.c(72) : warning C4013: 'strlen' undefined; =
+assuming extern returning int
+c:\heroes\src\src\userdir.c(85) : warning C4013: 'mkdir' undefined; =
+assuming extern returning int
+visuals.c
+c:\heroes\src\src\visuals.c(260) : warning C4244: '=3D' : conversion =
+from 'double ' to 'float ', possible loss of data
+c:\heroes\src\src\visuals.c(261) : warning C4244: 'return' : conversion =
+from 'double ' to 'int ', possible loss of data
+c:\heroes\src\src\visuals.c(269) : warning C4244: '=3D' : conversion =
+from 'double ' to 'float ', possible loss of data
+c:\heroes\src\src\visuals.c(270) : warning C4244: 'return' : conversion =
+from 'double ' to 'int ', possible loss of data
+c:\heroes\src\src\visuals.c(277) : warning C4244: '=3D' : conversion =
+from 'double ' to 'float ', possible loss of data
+c:\heroes\src\src\visuals.c(278) : warning C4244: 'return' : conversion =
+from 'double ' to 'int ', possible loss of data
+c:\heroes\src\src\visuals.c(515) : warning C4244: '=3D' : conversion =
+from 'double ' to 'int ', possible loss of data
+c:\heroes\src\src\visuals.c(516) : warning C4244: '=3D' : conversion =
+from 'double ' to 'int ', possible loss of data
+c:\heroes\src\src\visuals.c(518) : warning C4244: '=3D' : conversion =
+from 'double ' to 'int ', possible loss of data
+c:\heroes\src\src\visuals.c(520) : warning C4244: '=3D' : conversion =
+from 'double ' to 'int ', possible loss of data
+c:\heroes\src\src\visuals.c(523) : warning C4244: '=3D' : conversion =
+from 'double ' to 'char ', possible loss of data
+Linking...
+argv.obj : error LNK2001: unresolved external symbol _optarg
+argv.obj : error LNK2001: unresolved external symbol _getopt_long
+argv.obj : error LNK2001: unresolved external symbol _optind
+extras.obj : error LNK2001: unresolved external symbol _scandir
+extras.obj : error LNK2001: unresolved external symbol _alphasort
+heroes.obj : error LNK2001: unresolved external symbol _sleep
+userdir.obj : error LNK2001: unresolved external symbol _S_ISDIR
+LIBCD.lib(wincrt0.obj) : error LNK2001: unresolved external symbol =
+_WinMain@16
+Debug/hrwin32.exe : fatal error LNK1120: 8 unresolved externals
+Error executing link.exe.
+
+hrwin32.exe - 9 error(s), 93 warning(s)

@@ -1,54 +1,95 @@
-This is my rough TODO list.  Just in case you want to
-contribute on these, or on the contrary if you don't
-want to work on something that somebody else may do :)
-If you think there is something that should be added
-to that list, please e-mail me.
-
-High priority
-=============
-
-GENERAL There are several comments in French.  They shall be translated.
-
-GENERAL The code is VERY UGLY and needs to be cleaned up.
+Tasks for Heroes.  If you think something is missing here,
+please send a note to <heroes-discuss@lists.sourceforge.net>.
 
 
-Medium priority
-===============
+Before 0.7
+----------
 
-GENERAL Port on other unices.
+  Write a common.h file for all macros used for portability.
 
-GENERAL Some filenames are in french, they should be translated.
+  Get rid of GETWORD, SETWORD and Cie, see src/endian.h.
 
-GENERAL Some parts of the code should be modularizedm especialy 
-        heroes.c and hedlite.c should be splited.
+  Try to fix the tunnel bug on Solaris.
 
-DISPLAY Direct X11 support would be nice.
+  Try to fix the initialization crash on Linux/m68k
 
-MISC    Saves of games/options/scores are only performed when quitting, this
-	may not be good.  Think of the case were two heroes process access
-	a global score file.
+  Adapt the game to allow a clean exit at any time.
 
-MISC	It would be nice to have games/options/scores files in text format.
+  Handle SDL_quit events.
 
-MISC	Try to load GGI, SDL, and MikMod libraries dymicaly (i.e. select
-        available library at run-time versus configure-time).
+  va_dcl may be used undeclared in debugmsg.c, this is wrong.
 
-INSTALL Some ./configure options should be added to specify data paths.
+  JUSTIF_CALC in draw.c sometimes use tricky empty parameters, this do
+  no work on VC6.0.
 
-I18N    Use gettext.
+  Check for <unistd.h> and include that file conditionnaly where 
+  it is used.
 
-Low priority
-============
+  Rewrite the extras.c code to use opendir/readdir/closedir, do not
+  depend on scandir.
 
-SOUND   Test with older version of MikMod.
+  Use FindFileFirst and Cie. in Windows.
 
-SOUND   Try to play with DMODE_SOFT_MUSIC and GUS.
+  Rewrite srccasecmp() for lib/.
 
-GFX	Would Hermes be faster than LibGGI's crossblit ?
+  Check and use <stdint.h>.
 
-EDITOR  The external editor should be ported too, it will need more work.
+  userdir.c should include string.h.
 
-FUTURE  Programmable vehicles (for CPU controled ones) would be nice.  It
-        would be fun to link with Guile and control the vehicles in scheme.
+  Rewrite sleep() for lib/.
 
-FUTURE  Network support.        
+  Check for S_ISDIR, what should be done if absent?
+
+
+Before 1.0.0
+------------
+
+  There are several comments in French.  They should be translated.
+
+  Write a clean 
+
+  The code is VERY UGLY and needs to be cleaned up.
+
+  Split heroes.c
+
+  Split hedlite.c
+
+  Think of the case were two heroes process access a global score file.
+
+  Save games/options/scores files in text format.
+
+  Add ./configure options to configure data paths.
+
+  Use gettext.
+
+
+Left for a 1.1.x development branch
+-----------------------------------
+
+  Direct X11 support would be nice.
+
+  The external editor should be ported too, it will need more work.
+
+  Programmable vehicles (for CPU controled ones) would be nice.  It
+  would be fun to link with Guile and control the vehicles in scheme.
+
+  Network support.        
+
+
+Miscellaneous
+-------------
+
+  What is the effect of removing the DMODE_SOFT_MUSIC from MikMod options ?
+
+  Would Hermes be faster than LibGGI's crossblit ?
+
+  Redesign the way menus are handled internaly.
+
+  Write assembly routines for stretching code.
+
+To be discussed
+---------------
+
+  Load GGI, SDL, and MikMod libraries dymicaly (i.e. select
+  available library at run-time versus configure-time).  This need
+  to be discussed.
