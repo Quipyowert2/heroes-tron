@@ -1,5 +1,15 @@
 2001-01-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Get rid of `screen' in hedlite.c.
+
+	* src/hedlite.c (hedit_buffer): New variable.
+	(partiel4, partiel2, frame, framept, draw_text, transpac, affgt,
+	affplan, majg, departfix, planfull, joueanim, gestclav): Use
+	hedit_buffer instead of screen.
+	(hmain): Likewise.  Allocate and free hedit_buffer.
+
+2001-01-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Get rid of `screen' in intro.c.
 
 	* src/intro.c (antialias): Rewrite, assuming a xbuf-wide buffer,
