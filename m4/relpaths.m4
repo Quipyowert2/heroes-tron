@@ -25,8 +25,7 @@ dnl adl_COMPUTE_RELATIVE_PATHS should also works with DOS filenames.
 dnl
 dnl You may want to use this macro in order to make your package
 dnl relocatable.  Instead of hardcoding $datadir into your programs
-dnl just encode $bin_to_data and try to determinate $bindir
-dnl at run-time.
+dnl just encode $bin_to_data and try to determine $bindir at run-time.
 dnl
 dnl This macro requires adl_NORMALIZE_PATH.
 dnl

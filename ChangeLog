@@ -1,5 +1,10 @@
 2001-05-23  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* m4/normpath.m4: Cleanup for submission to the autoconf archive.
+	* m4/relpaths.m4: Likewise.
+
+2001-05-23  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* tools/autogen.sh: Recurse directories to find configure.{ac,in}.
 
 2001-05-22  Alexandre Duret-Lutz  <duret_g@epita.fr>

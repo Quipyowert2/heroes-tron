@@ -1,13 +1,13 @@
 dnl @synopsis adl_NORMALIZE_PATH(VARNAME, [REFERENCE_STRING])
 dnl
-dnl Do some cleanups to the value of $VARNAME (interpreted as a path):
+dnl Perform some cleanups on the value of $VARNAME (interpreted as a path):
 dnl   - empty paths are changed to '.'
 dnl   - trailing slashes are removed
 dnl   - repeated slashes are squeezed except a leading doubled slash '//'
-dnl     which might indicate a networked disk on some OS).
+dnl     (which might indicate a networked disk on some OS).
 dnl
-dnl REFERENCE_STRING is used to turn '/' into '\' and vice-versa.
-dnl If REFERENCE_STRING contains some backslashes, all slashes and backslashes
+dnl REFERENCE_STRING is used to turn '/' into '\' and vice-versa:
+dnl if REFERENCE_STRING contains some backslashes, all slashes and backslashes
 dnl are turned into backslashes, otherwise they are all turned into slashes.
 dnl
 dnl This makes processing of DOS filenames quite easier, because you
