@@ -9,8 +9,8 @@ dnl Alexandre Duret-Lutz <duret_g@epita.fr>
 AC_DEFUN([AC_adl_PKG_GENERIC],[
   pushdef([UP], translit([$1], [a-z], [A-Z]))dnl
 
-  OLD_LIBS=$LIBS
-  OLD_CFLAGS=$CFLAGS
+  OLD_LIBS="$LIBS"
+  OLD_CFLAGS="$CFLAGS"
   jolly_good=true
   AC_PATH_GENERIC([$1],[$2],,[jolly_good=false])
   ifelse([$3],,,[if $jolly_good; then
@@ -20,11 +20,11 @@ AC_DEFUN([AC_adl_PKG_GENERIC],[
   fi])
   if $jolly_good; then
     ifelse([$4],,,[$4])
-    LIBS=$OLD_LIBS
-    CFLAGS=$OLD_CFLAGS
+    LIBS="$OLD_LIBS"
+    CFLAGS="$OLD_CFLAGS"
   else
-    LIBS=$OLD_LIBS
-    CFLAGS=$OLD_CFLAGS
+    LIBS="$OLD_LIBS"
+    CFLAGS="$OLD_CFLAGS"
     ifelse([$5],,,[$5])
   fi
 

@@ -47,10 +47,10 @@ AC_HELP_STRING([--without-]DOWNALT,[disables ]DOWN[ usage completely])],
 [DOWN[]_libdir="$withval"])
 
 if test "${with_[]DOWN}" != no ; then
-        OLD_LIBS=$LIBS
-        OLD_LDFLAGS=$LDFLAGS
-        OLD_CFLAGS=$CFLAGS
-        OLD_CPPFLAGS=$CPPFLAGS
+        OLD_LIBS="$LIBS"
+        OLD_LDFLAGS="$LDFLAGS"
+        OLD_CFLAGS="$CFLAGS"
+        OLD_CPPFLAGS="$CPPFLAGS"
 
         if test "${DOWN[]_libdir}" ; then
 		UP[]_LDFLAGS="-L${DOWN[]_libdir}"
@@ -67,10 +67,10 @@ if test "${with_[]DOWN}" != no ; then
 	dnl prevent HAVE_LIB$3 from being defined.
         AC_CHECK_LIB([$3],[$2],[:],[no_good=yes])
         AC_CHECK_HEADER([$4],,[no_good=yes])
- 	LIBS=$OLD_LIBS
- 	LDFLAGS=$OLD_LDFLAGS
- 	CPPFLAGS=$OLD_CPPFLAGS
- 	CFLAGS=$OLD_CFLAGS
+ 	LIBS="$OLD_LIBS"
+ 	LDFLAGS="$OLD_LDFLAGS"
+ 	CPPFLAGS="$OLD_CPPFLAGS"
+ 	CFLAGS="$OLD_CFLAGS"
         if test "$no_good" = yes; then
 dnl     broken
                 ifelse([$6], , , [$6])

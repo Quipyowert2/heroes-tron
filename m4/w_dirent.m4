@@ -13,5 +13,5 @@ AC_DEFUN([adl_FUNC_READDIR],
   [AC_DEFINE([HAVE_READDIR],1,[Define if you have readdir and friends.])],
    [AC_CHECK_HEADER([windows.h],
     [# build w_dirent if readdir is absent and windows.h exists
-     AC_LIBOBJ(w_dirent)]
+     AC_LIBOBJ(w_dirent)],
     [AC_MSG_ERROR([Could not find `readdir'.])])])])

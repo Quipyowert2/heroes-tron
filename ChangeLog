@@ -1,3 +1,11 @@
+2001-10-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* m4/checkpkg.m4 (AC_caolan_CHECK_PACKAGE): Quote strings.
+	* m4/pkgeneric.m4 (AC_adl_PKG_GENERIC): Likewise.
+	* m4/w_dirent.m4 (adl_FUNC_READIR): Add missing comma.  I wonder
+	how this macro could ever work.
+	* m4/h-sdlmixer.m4 (heroes_CHECK_SDL_MIXER): Use $SDL_LIBS.
+
 2001-09-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* lib/alloca.c, lib/basename.c, lib/dirname.c, lib/dirname.h,
