@@ -443,11 +443,9 @@ init_menus_sprites (void)
   add_sprprog0 (compile_menu_text (_("CODE:"), T_FLUSHED_LEFT, 93, 1));
   add_sprprog0 (compile_menu_text ("b POLLUX",
 				   T_FLUSHED_RIGHT|T_WAVING, 93, 318));
-  /* FIXME: rewrite when a paragraph formating function exists */
-  add_sprprog0 (compile_menu_text (_("SEE THE FILE"), T_CENTERED, 118, 159));
-  add_sprprog0 (compile_menu_text (_("THANKS"), T_CENTERED, 130, 159));
-  add_sprprog0 (compile_menu_text (_("FOR OTHER"), T_CENTERED, 142, 159));
-  add_sprprog0 (compile_menu_text (_("CONTRIBUTORS"), T_CENTERED, 154, 159));
+  add_sprprog0 (compile_menu_para
+		(_("PLEASE READ THE LIST OF OTHER CONTRIBUTORS IN THE FILE 'THANKS'"),
+		 T_CENTERED, 118, 159, 310));
   credit_menu_txt = end_sprprog ();
 
   jukebox_frame = compile_sprrle (IMGPOS (jukebox_img, 0, 0), 0,
@@ -537,13 +535,8 @@ init_menus_sprites (void)
 				       T_CENTERED|T_WAVING, 10, 159);
 
   /* enter your name */
-  /* FIXME: rewrite when a paragraph formating function exists */
-  new_sprprog ();
-  add_sprprog0 (compile_menu_text (_("CAME INT THE TOP 10"),
-				   T_CENTERED, 40, 159));
-  add_sprprog0 (compile_menu_text (_("ENTER YOUR NAME:"),
-				   T_CENTERED, 70, 159));
-  enter_your_name_txt = end_sprprog ();
+  enter_your_name_txt = compile_menu_text (_("ENTER YOUR NAME:"),
+					   T_CENTERED, 70, 159);
 
   /* end level info */
   info_mode_quest_txt = compile_menu_text (_("SIZE  PTS  LIVES"),
@@ -2174,8 +2167,8 @@ enter_your_name (char c, char* name)
   sprite_t *player_number;
   sprite_t *player_name = 0;
 
-  sprintf (head, _("PLAYER %d"), c);
-  player_number = compile_menu_text (head, T_CENTERED, 20, 159);
+  sprintf (head, _("PLAYER %d, YOU CAME IN THE TOP 10"), c);
+  player_number = compile_menu_para (head, T_CENTERED, 20, 159, 310);
 
   memset (name, 0, PLAYER_NAME_SIZE + 1);
 

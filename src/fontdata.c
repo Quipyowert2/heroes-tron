@@ -37,6 +37,7 @@ initialize_menu_font (void)
 
   XMALLOC_VAR (menu_font);
   menu_font->height = 10;
+  menu_font->line_skip = 2;
   menu_font->line_size = main_font_img.width;
   memset (menu_font->width, 0, 256);
 
@@ -60,6 +61,7 @@ initialize_menu_font (void)
     menu_font->width[ch] = act_width;
   }
   menu_font->width[' '] = 5;
+  menu_font->min_space_width = 3;
 }
 
 static void
@@ -70,6 +72,7 @@ initialize_deck_font (void)
 
   XMALLOC_VAR (deck_font);
   deck_font->height = 5;
+  deck_font->line_skip = 1;
   deck_font->line_size = font_deck_img.width;
   memset (deck_font->width, 0, 256);
 
@@ -94,6 +97,7 @@ initialize_deck_font (void)
   }
 
   deck_font->width[' '] = 4;
+  deck_font->min_space_width = 2;
 
   /* link the lower case characters to the upper */
   for (ch = 'a'; ch <= 'z'; ++ch) {
@@ -110,6 +114,7 @@ initialize_bonus_font (void)
 
   XMALLOC_VAR (bonus_font);
   bonus_font->height = 12;
+  bonus_font->line_skip = 2;
   bonus_font->line_size = bonus_font_img.width;
   memset (bonus_font->width, 0, 256);
 
@@ -133,6 +138,7 @@ initialize_bonus_font (void)
     bonus_font->width[ch] = act_width;
   }
   bonus_font->width[' '] = 5;
+  bonus_font->min_space_width = 2;
 }
 
 void

@@ -30,6 +30,9 @@ typedef struct {
 				    DO NOT use this pointer if the
 				    corresponding width is null. */
   unsigned int	line_size;	/* size of a line in the font buffer */
+  unsigned int	line_skip;	/* number of pixel to skip verticaly
+				   between lines, height is added. */
+  unsigned int	min_space_width; /* minimum width allowed for space */
 } fontdata_t;
 
 extern fontdata_t *edit_font;

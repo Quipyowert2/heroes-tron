@@ -38,10 +38,17 @@ sprite_t *compile_sprtext (const fontdata_t *font, const char *text,
 			   enum text_option topt, unsigned int maxwidth,
 			   int offset);
 
+sprite_t *compile_sprpara (const fontdata_t *font, const char *text,
+			   enum text_option topt, unsigned int maxwidth,
+			   int offset);
+
 /* short-hand functions */
 
 sprite_t *compile_menu_text (const char *text, enum text_option topt,
 			     int row, int col);
+
+sprite_t *compile_menu_para (const char *text, enum text_option topt,
+			     int row, int col, int maxwidth);
 
 sprite_t *compile_deck_text (const char *text, enum text_option topt,
 			     int row, int col);

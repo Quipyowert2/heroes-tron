@@ -39,7 +39,7 @@ typedef unsigned int width_t;
    to min_space_width, trying to use the value of wa[' '] ad much as
    possible.
 */
-char **parafmt (const char *str, width_t *wa,
+char **parafmt (const char *str, const width_t *wa,
 		width_t max_width, width_t min_space_width);
 
 /* free an array of strings, as returned by parafmt */

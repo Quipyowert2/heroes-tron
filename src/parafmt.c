@@ -272,7 +272,7 @@ convert_paragraph_to_array (paragraph_t *p)
 }
 
 char **
-parafmt (const char *str, width_t *wa,
+parafmt (const char *str, const width_t *wa,
 	 width_t max_width, width_t min_space_width)
 {
   char **result;

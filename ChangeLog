@@ -1,5 +1,23 @@
 2000-12-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Use a paragraph formating function in the CREDITS
+	and ENTER YOUR NAME menus.
+
+	* spr/sprtext.c (compile_sprpara): New.
+	(compil_menu_para): New.
+	* spr/sprtext.h (compile_sprpara): New.
+	(compil_menu_para): New.
+	* src/fontdata.h (fontdata_t): Add member line_skip and
+	min_space_width.
+	* src/fontdata.c (initialize_menu_font, initialize_deck_font,
+	initialize_bonus_font): Setup line_skip and min_space_width.
+	* src/menus.c (init_menus_sprites, enter_your_name): Use
+	compile_menu_para (and so, remove FIXME).
+	* src/parafmt.c (parafmt): Set constness of argument wa.
+	* src/parafmt.h (parafmt): Likewise.
+
+2000-12-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/Makefile.am (heroes_SOURCES): Add parafmt.c and parafmt.h.
 	(parafmt-check.o, parafmt-check): New.
 	* src/parafmt.h: New file.

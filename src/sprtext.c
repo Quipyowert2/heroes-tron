@@ -23,6 +23,7 @@
 #include "sprprogwav.h"
 #include "sprrle.h"
 #include "const.h"
+#include "parafmt.h"
 
 /*
  * Generate a sprite_t that display a text, using a given font.
@@ -33,7 +34,7 @@
  * it may be better to compute *one* S_RLE for the *whole* string.
  */
 
-sprite_t*
+sprite_t *
 compile_sprtext (const fontdata_t *font, const char *text,
 		 enum text_option topt, unsigned int maxwidth ATTRIBUTE_UNUSED,
 		 int offset)
@@ -70,6 +71,25 @@ compile_sprtext (const fontdata_t *font, const char *text,
     return end_sprprog ();
 }
 
+sprite_t *
+compile_sprpara (const fontdata_t *font, const char *text,
+		      enum text_option topt, unsigned int maxwidth,
+		      int offset)
+{
+  char **p = parafmt (text, font->width, maxwidth, font->min_space_width);
+  char **l = p;
+  unsigned voffset = 0;
+
+  new_sprprog ();
+  while (*l) {
+    add_sprprog (compile_sprtext (font, *l, topt, maxwidth, offset), voffset);
+    voffset += xbuf * (font->line_skip + font->height);
+    ++l;
+  }
+  free_pararray (p);
+  return end_sprprog ();
+}
+
 sprite_t*
 compile_menu_text (const char *text, enum text_option topt,
 		   int row, int col)
@@ -77,6 +97,12 @@ compile_menu_text (const char *text, enum text_option topt,
   return compile_sprtext (menu_font, text, topt, 0, row * xbuf + col);
 }
 
+sprite_t *
+compile_menu_para (const char *text, enum text_option topt,
+		   int row, int col, int maxwidth)
+{
+  return compile_sprpara (menu_font, text, topt, maxwidth , row * xbuf + col);
+}
 sprite_t*
 compile_deck_text (const char *text, enum text_option topt,
 		   int row, int col)
