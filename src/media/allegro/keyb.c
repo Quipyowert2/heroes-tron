@@ -20,62 +20,78 @@
 `------------------------------------------------------------------*/
 
 #include "system.h"
-#include "video_low.h"
+#include <assert.h>
+#include <allegro.h>
+#include "keyb_low.h"
+#include "errors.h"
 
-/* This is a dummy driver.  The functions do absolutely nothing.  */
+static int enable_mouse = 0;
 
-void
-set_display_params (const char *str)
+int mouse_pos_x = 0;
+int mouse_pos_y = 0;
+char mouse_button_left = 0;
+char mouse_button_right = 0;
+char mouse_button_middle = 0;
+
+int
+init_mouse (void)
 {
-  (void) str;
+  install_mouse ();
+  return 0;
 }
 
 void
-set_full_screen_mode (void)
+mouse_show (void)
 {
+  show_mouse (screen);
 }
 
 void
-init_video_low (int stretch, int *pitch)
+mouse_hide (void)
 {
-  (void) stretch;
-  (void) pitch;
+  show_mouse (0);
 }
 
 void
-uninit_video_low (void)
+update_mouse_state (void)
 {
+  poll_mouse ();
+  mouse_pos_x = mouse_x;
+  mouse_pos_y = mouse_y;
+  mouse_button_left = mouse_b & 1;
+  mouse_button_right = mouse_b & 2;
+  mouse_button_middle = mouse_b & 4;
 }
 
 void
-set_pal_entry (unsigned char c,
-	       unsigned char r, unsigned char g, unsigned char b)
+process_input_events (void)
 {
-  (void) c;
-  (void) r;
-  (void) g;
-  (void) b;
+  int i;
+
+  poll_keyboard ();
+
+  /* KEY_MAX is from Allegro, HKEY_MAX is from Heroes.  */
+  for (i = 0; i < KEY_MAX; ++i) {
+    keyboard_map[i] = key[i];
+  }
+
+  keyboard_modifiers = key_shifts;
 }
 
-void
-set_pal (const unsigned char *ptr, int p, int n)
+keycode_t
+get_key (void)
 {
-  (void) ptr;
-  (void) p;
-  (void) n;
+  return readkey () >> 8;
 }
 
-void
-vsynchro_low (const pixel_t *s, copy_function_t f)
+int
+key_ready (void)
 {
-  (void) s;
-  (void) f;
+  return keypressed ();
 }
 
-void
-vsynchro2_low (const pixel_t *s1, const pixel_t *s2, copy_function_t f)
+const char *
+keys_pref_group (void)
 {
-  (void) s1;
-  (void) s2;
-  (void) f;
+  return "allegro";
 }

@@ -1147,7 +1147,7 @@ sound_menu (void)
 	    opt.sfx_volume = 0;
 	}
       }
-      set_volume ();
+      adjust_volume ();
     } else
       t = 0;
   } while (t != HK_Enter || l != 4);
@@ -2132,7 +2132,7 @@ pause_menu (void)
   } while (jukebox_keys (&l, 0));
 
   init_keyboard_map ();
-  set_volume ();
+  adjust_volume ();
   enable_blit = 0;
   event_sfx (59);
 
@@ -2142,7 +2142,7 @@ pause_menu (void)
 
   free_htimer (pause_htimer);
   dmsg (D_SECTION, "exit pause menu");
-  set_palette (tile_set_img.palette.global);
+  force_palette (tile_set_img.palette.global);
 }
 
 char
@@ -2186,7 +2186,7 @@ quit_yes_no (void)
     } else
       t = 0;
   } while (t != HK_Enter);
-  set_volume ();
+  adjust_volume ();
   enable_blit = 0;
   if (l == 0)
     event_sfx (88);
@@ -2201,7 +2201,7 @@ quit_yes_no (void)
   reset_htimer (background_htimer);
   free_htimer (pause_htimer);
   dmsg (D_SECTION, "exit quit menu");
-  set_palette (tile_set_img.palette.global);
+  force_palette (tile_set_img.palette.global);
   return l;
 }
 

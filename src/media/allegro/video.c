@@ -20,9 +20,14 @@
 `------------------------------------------------------------------*/
 
 #include "system.h"
+#include <allegro.h>
 #include "video_low.h"
+#include "debugmsg.h"
+#include "errors.h"
+#include "argv.h"
 
-/* This is a dummy driver.  The functions do absolutely nothing.  */
+static int scr_w, scr_h;	/* rendering buffer width and height */
+static int scr_stretch;
 
 void
 set_display_params (const char *str)
@@ -35,47 +40,87 @@ set_full_screen_mode (void)
 {
 }
 
-void
-init_video_low (int stretch, int *pitch)
+static void
+init_allegro (void)
 {
-  (void) stretch;
-  (void) pitch;
+  dmsg (D_SYSTEM, "initialize allegro");
+  allegro_init ();
+  install_keyboard ();
+}
+
+void
+init_video_low (int stretch_, int *pitch)
+{
+  int gfxret;
+
+  init_allegro ();
+
+  scr_stretch = stretch_;
+  scr_w = 320 * scr_stretch;
+  scr_h = 200 * scr_stretch;
+
+  dmsg (D_VIDEO, "setup video mode");
+
+  set_color_depth (8);
+  gfxret = set_gfx_mode (GFX_AUTODETECT, scr_w, scr_h, 0, 0);
+
+  if (gfxret < 0)
+    emsg ("failed to setup video mode\n%s", allegro_error);
+
+  *pitch = VIRTUAL_W;
+
+  dmsg (D_VIDEO, "video mode is %dx%d",	SCREEN_W, SCREEN_H);
 }
 
 void
 uninit_video_low (void)
 {
+  dmsg (D_VIDEO, "setup text mode");
+  set_gfx_mode (GFX_TEXT, 0, 0, 0, 0);
 }
 
 void
 set_pal_entry (unsigned char c,
 	       unsigned char r, unsigned char g, unsigned char b)
 {
-  (void) c;
-  (void) r;
-  (void) g;
-  (void) b;
+  RGB p = { r, g, b };
+  dmsg (D_VIDEO, "set color %d=(%d,%d,%d)", c, r, g, b);
+  set_color (c, &p);
 }
 
 void
 set_pal (const unsigned char *ptr, int p, int n)
 {
-  (void) ptr;
-  (void) p;
-  (void) n;
+  PALETTE pal;
+  int i;
+  for (i = 0; i < 768; ++i) {
+    pal[i].r = *ptr++;
+    pal[i].g = *ptr++;
+    pal[i].b = *ptr++;
+  }
+  dmsg (D_VIDEO, "%d %d", p, n);
+  dmsg (D_VIDEO, "set %d colors (%d - %d)", n/3, p/3, p/3 + n/3 - 1);
+  set_palette_range (pal, p/3, p/3 + n/3 - 1, 0);
 }
 
 void
 vsynchro_low (const pixel_t *s, copy_function_t f)
 {
-  (void) s;
-  (void) f;
+  acquire_screen ();
+  bmp_select (screen);
+  vsync ();
+  dmsg (D_VIDEO, "%p", screen->line[0]);
+  f (s, screen->line[0], 320);
+  release_screen ();
 }
 
 void
 vsynchro2_low (const pixel_t *s1, const pixel_t *s2, copy_function_t f)
 {
-  (void) s1;
-  (void) s2;
-  (void) f;
+  acquire_screen ();
+  bmp_select (screen);
+  vsync ();
+  f (s1, screen->line[0], 160);
+  f (s2, screen->line[0] + 160 * scr_stretch, 160);
+  release_screen ();
 }

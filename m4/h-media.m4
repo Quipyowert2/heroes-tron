@@ -13,6 +13,16 @@ AC_DEFUN([heroes_MEDIALIB_SELECTION], [
   adl_LIBALT_OK([dumj], [none], [], [])
   adl_LIBALT_OK([stdm], [standard main], [], [])
   adl_LIBALT_OK([sdlm], [SDL_main], [], [], [sdlvkm])
+  # There is a trick here.  Usually our static library are added
+  # to LIBALT_LOCAL_LDADD which is listed before LIBALT_LDADD (the system
+  # libraries) on the link line.  However, Allegro is special: it's library
+  # refer to OUR code.  Practically liballegro-whatever.so refers to
+  # _mangled_main in sys/libhallm.a.  So in addition to adding sys/libhallm.a
+  # to LIBALT_LOCAL_LDADD (done automatically), we will also list it
+  # in LIBALT_LDADD (requested below).  It will be added after
+  # -lallegro-complicatedname because `vkm' libraries are selected before `m'
+  # libraries; that's exactly what we want.
+  adl_LIBALT_OK([allm], [Allegro mangled main], [], [sys/libhallm.a], [allvkm])
 
   # Heroes can run without display, but usually this is not what
   # the user wants :), so this "feature" is enabled only if
@@ -28,7 +38,7 @@ AC_DEFUN([heroes_MEDIALIB_SELECTION], [
   # If the user has no preference, we'll use our own preference list.
 
   if test -z "$user_selection_list_vkm"; then
-     selection_list_vkm="ggivkm sdlvkm dumvkm"
+     selection_list_vkm="ggivkm sdlvkm allvkm dumvkm"
   else
      selection_list_vkm="$user_selection_list_vkm dumvkm"
   fi
@@ -55,6 +65,6 @@ AC_DEFUN([heroes_MEDIALIB_SELECTION], [
 		    [media/libh])
   adl_LIBALT_EITHER([$selection_list_j], [joystick library], [selection_j],
 	            [media/libh])
-  adl_LIBALT_EITHER([sdlm stdm], [startup library], [selection_m],
+  adl_LIBALT_EITHER([sdlm allm stdm], [startup library], [selection_m],
 		    [sys/libh])
 ])

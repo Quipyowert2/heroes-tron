@@ -106,9 +106,9 @@
                                   "buf"))
                        ", \" \\t.:\");"))
      (define *types* '("u8_t"      "parse_unsigned" "0" "255"
-                       "u16_t"     "parse_unsigned" "0" "65535"
+                       "u16_t"     "parse_unsigned" "0" "UINT16_MAX"
                        "u32_t"     "parse_unsigned" "0" "UINT32_MAX"
-		       "keycode_t" "parse_unsigned" "0" "KEYCODE_MAX"
+		       "keycode_t" "parse_unsigned" "0" "HKEYCODE_MAX"
 		       "bool"      "parse_bool"     "false" "true"))
      (define (parse-pref)
         (let* ((type (sget ".type"))

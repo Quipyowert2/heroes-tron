@@ -26,14 +26,14 @@
 #include "errors.h"
 
 unsigned int keyboard_modifiers;
-unsigned char keyboard_map[KEY_MAX + 1];
+unsigned char keyboard_map[HKEY_MAX + 1];
 
 void
 init_keyboard_map (void)
 {
   int i;
 
-  for (i = KEY_MAX; i >= 0; i--)
+  for (i = HKEY_MAX; i >= 0; i--)
     keyboard_map[i] = 0;
   keyboard_modifiers = 0;
 }
@@ -44,14 +44,14 @@ uninit_keyboard_map (void)
 }
 
 int
-mouse_x (void)
+mouse_coord_x (void)
 {
   update_mouse_state ();
   return mouse_pos_x / stretch;
 }
 
 int
-mouse_y (void)
+mouse_coord_y (void)
 {
   update_mouse_state ();
   return mouse_pos_y / stretch;

@@ -1,3 +1,56 @@
+2001-08-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	This is the start of support for Allegro.  It does not work yet
+	(actually it segfault, and I've not yet understood why).  Allegro
+	do not use any naming convention for its symbols, neither does
+	Heroes, so presently this lead to many conflicts that had to be
+	resolved by renaming Heroes' symbols. :(
+
+	* m4/h-allegro.m4: New file.
+	* src/media/allegro/keyb.c: New file.
+	* src/media/allegro/keyvalues.c: New file.
+	* src/media/allegro/video.c: New file.
+	* src/sys/allegro/main.c: New file.
+	* m4/h-display.m4 (heroes_CHECK_DISPLAY_LIB): Call
+	heroes_CHECK_ALLEGRO.
+	* m4/h-media.m4 (heroes_MEDIALIB_SELECTION): Handle allm and allvkm.
+	* m4/libalt.m4 (adl_LIBALT_EITHER): Typo.
+	* m4/pkgeneric.m4 (AC_adl_PKG_GENERIC): Allow to not test for a
+	function presence.
+	* src/hedlite.c: Rename mouse_x and mouse_y into mouse_coord_x and
+	mouse_coord_y.
+	(save_pcx): Rename as ...
+	(save_level_as_pcx): ... this.
+	* src/intro.c: Rename set_color as set_pal_entry.
+	* src/menus.c: Rename set_volume and set_palette as adjust_volume
+	and force_palette.
+	* src/prefs.tpl: Rename KEYCODE_MAX as HKEYCODE_MAX.
+	* src/scrtools.c (set_palette): Rename as ...
+	(force_palette): ... this.
+	* src/scrtools.h: Idem.
+	* src/media/Makefile.inc (EXTRA_LIBRARIES): Add media/libhallvkm.a.
+	(media_libhallvkm_a_CFLAGS, media_libhallvkm_a_SOURCES,
+	nodist_media_libhallvkm_a_SOURCES): New variables.
+	(media/allegro/keysdef.c): New target.
+	* src/media/keyb.c: Rename KEY_MAX into HKEY_MAX, mouse_x into
+	mouse_coord_x, mouse_y into mouse_coord_y.
+	* src/media/keyb.h: Likewise.
+	* src/media/ggi/keyb.c: Likewise.
+	* src/media/sdl/keyb.c: Likewise.
+	* src/media/strack.h (set_volume): Rename as ...
+	(adjust_volume): ... this.
+	* src/media/dummy/strack.c: Likewise.
+	* src/media/mikmod/strack.c: Likewise.
+	* src/media/sdl_mixer/strack.c: Likewise.
+	* src/media/video.h (set_color): Rename as ...
+	(set_pal_entry): ... this.
+	* src/media/dummy/video.c: Likewise.
+	* src/media/ggi/video.c: Likewise.
+	* src/media/sdl/video.c: Likewise.
+	* src/sys/Makefile.inc (EXTRA_LIBRARIES): Add sys/libhallm.a.
+	(sys_libhallm_a_CFLAGS, sys_libhallm_a_SOURCES): New variables.
+
+
 2001-08-23  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Because some libraries need some special `main' arrangement

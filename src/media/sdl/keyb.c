@@ -118,10 +118,10 @@ process_input_events (void)
 
   while (SDL_PollEvent (&ev)) {
     if (ev.type == SDL_KEYDOWN) {
-      assert (ev.key.keysym.sym <= KEY_MAX);
+      assert (ev.key.keysym.sym <= HKEY_MAX);
       keyboard_map[ev.key.keysym.sym] = 1;
     } else if (ev.type == SDL_KEYUP) {
-      assert (ev.key.keysym.sym <= KEY_MAX);
+      assert (ev.key.keysym.sym <= HKEY_MAX);
       keyboard_map[ev.key.keysym.sym] = 0;
     } else if (handle_mouse_events (&ev)) {
       /* Nothing to do, handle_mouse_events already did everything. */

@@ -30,7 +30,7 @@
 #include "camera.h"
 
 void
-set_pal_with_luminance (const palette_t* palsrc)
+set_pal_with_luminance (const palette_t *palsrc)
 {
   palette_t paldest;
   int i;
@@ -49,7 +49,7 @@ set_pal_with_luminance (const palette_t* palsrc)
 }
 
 void
-set_palette (const unsigned char *palette)
+force_palette (const unsigned char *palette)
 {
   cancel_fader ();
   set_pal (palette, 0, 768);

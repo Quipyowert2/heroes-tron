@@ -23,15 +23,15 @@
 #ifndef HEROES__KEYB__H
 #define HEROES__KEYB__H
 
-#define KEY_MAX 0xffff
-#define KEYCODE_MAX	U16_MAX
-extern unsigned char keyboard_map[KEY_MAX + 1];
+#define HKEY_MAX 0xffff
+#define HKEYCODE_MAX	U16_MAX
+extern unsigned char keyboard_map[HKEY_MAX + 1];
 extern unsigned int keyboard_modifiers;
 
 void init_keyboard_map (void);
 void uninit_keyboard_map (void);
-int mouse_x (void);
-int mouse_y (void);
+int mouse_coord_x (void);
+int mouse_coord_y (void);
 char mouse1 (void);
 char mouse2 (void);
 char mouse3 (void);

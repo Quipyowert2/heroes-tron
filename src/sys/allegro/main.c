@@ -19,63 +19,13 @@
 | 02111-1307 USA                                                    |
 `------------------------------------------------------------------*/
 
-#include "system.h"
-#include "video_low.h"
+#include "main.h"
+#include <allegro.h>
 
-/* This is a dummy driver.  The functions do absolutely nothing.  */
-
-void
-set_display_params (const char *str)
+int
+main (int argc, char *argv[])
 {
-  (void) str;
+  return heroes_main (argc, argv);
 }
 
-void
-set_full_screen_mode (void)
-{
-}
-
-void
-init_video_low (int stretch, int *pitch)
-{
-  (void) stretch;
-  (void) pitch;
-}
-
-void
-uninit_video_low (void)
-{
-}
-
-void
-set_pal_entry (unsigned char c,
-	       unsigned char r, unsigned char g, unsigned char b)
-{
-  (void) c;
-  (void) r;
-  (void) g;
-  (void) b;
-}
-
-void
-set_pal (const unsigned char *ptr, int p, int n)
-{
-  (void) ptr;
-  (void) p;
-  (void) n;
-}
-
-void
-vsynchro_low (const pixel_t *s, copy_function_t f)
-{
-  (void) s;
-  (void) f;
-}
-
-void
-vsynchro2_low (const pixel_t *s1, const pixel_t *s2, copy_function_t f)
-{
-  (void) s1;
-  (void) s2;
-  (void) f;
-}
+END_OF_MAIN ()

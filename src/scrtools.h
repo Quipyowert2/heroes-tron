@@ -24,7 +24,7 @@
 #include "pcx.h"
 
 void set_pal_with_luminance (const palette_t* palsrc);
-void set_palette (const unsigned char *palette);
+void force_palette (const unsigned char *palette);
 
 void flush_display (const pixel_t *src);
 void flush_display2 (const pixel_t *src1, const pixel_t *src2);

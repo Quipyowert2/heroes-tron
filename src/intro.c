@@ -167,13 +167,13 @@ show_intro (void)
 
   play_soundtrack ();
   memset (color_nbr, 0, 256 * sizeof(*color_nbr));
-  set_color (255, 0, 0, 0);
+  set_pal_entry (255, 0, 0, 0);
   memset (intro_buffer, 255, xbuf * 100);
   memset (intro_buffer + xbuf * 100, 0, xbuf * 100);
   reset_htimer (intro_frame_htimer);
   reset_htimer (intro_global_htimer);
   for (i = 0; i <= 63; i += read_htimer (intro_frame_htimer)) {
-    set_color (255, i, i, i);
+    set_pal_entry (255, i, i, i);
     fade_pal.indiv[255].r = i;
     fade_pal.indiv[255].g = i;
     fade_pal.indiv[255].b = i;

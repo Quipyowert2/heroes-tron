@@ -140,7 +140,8 @@ uninit_video_low (void)
 }
 
 void
-set_color (unsigned char c, unsigned char r, unsigned char g, unsigned char b)
+set_pal_entry (unsigned char c,
+	       unsigned char r, unsigned char g, unsigned char b)
 {
   SDL_Color col;
   col.r = r * 4;

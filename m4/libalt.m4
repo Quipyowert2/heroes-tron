@@ -37,7 +37,7 @@ AC_DEFUN([adl_LIBALT_EITHER], [
       fi
     fi
   done
-  if test "x\$$3" = xNONE ; then
+  if test "x$$3" = xNONE ; then
      AC_MSG_ERROR([No $2 found.
 
 The supported libraries are listed in README.])

@@ -24,7 +24,8 @@
 
 EXTRA_LIBRARIES += \
   sys/libhstdm.a \
-  sys/libhsdlm.a
+  sys/libhsdlm.a \
+  sys/libhallm.a
 
 sys_libhstdm_a_SOURCES = \
   sys/std/main.c
@@ -35,3 +36,8 @@ sys_libhsdlm_a_CFLAGS = \
   @CFLAGS@ @MORE_WARNINGS_CFLAGS@ @SDL_CFLAGS@
 sys_libhsdlm_a_SOURCES = \
   sys/std/main.c
+
+sys_libhallm_a_CFLAGS = \
+  @CFLAGS@ @MORE_WARNINGS_CFLAGS@ @ALLEGRO_CFLAGS@
+sys_libhallm_a_SOURCES = \
+  sys/allegro/main.c

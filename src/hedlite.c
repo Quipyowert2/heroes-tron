@@ -747,8 +747,8 @@ departfix (void)
     vsynchro (hedit_buffer);
     while (mouse12 () == 0 && key_ready () == 0);
     if (mouse1 ()) {
-      x = mouse_x ();
-      y = mouse_y ();
+      x = mouse_coord_x ();
+      y = mouse_coord_y ();
       if (y < 112) {
 	l = 0;
 	if (y > 98) {
@@ -782,7 +782,7 @@ departfix (void)
       }
     }
   }
-  while (mouse_x () > 290 && (!key_ready ()) && mouse2 () == 0);
+  while (mouse_coord_x () > 290 && (!key_ready ()) && mouse2 () == 0);
   update_left_panel ();
 }
 
@@ -828,7 +828,7 @@ write_rle (pixel_t *src, int t, FILE * fpcx)
 }
 
 static void
-save_pcx (void)
+save_level_as_pcx (void)
 {
   FILE *fpcx;
   pcx_header_t headpcx;
@@ -914,13 +914,13 @@ display_level_map_fullscreen (void)
     draw_level_map (xplan, yplan, 7);
 
     t = 0;
-    while (key_ready () == 0 && (xm - mouse_x ()) <= 1
-	   && (mouse_x () - xm) <= 1 && (ym - mouse_y ()) <= 1
-	   && (mouse_y () - ym) <= 1 && mouse12 () == 0);
+    while (key_ready () == 0 && (xm - mouse_coord_x ()) <= 1
+	   && (mouse_coord_x () - xm) <= 1 && (ym - mouse_coord_y ()) <= 1
+	   && (mouse_coord_y () - ym) <= 1 && mouse12 () == 0);
     if (key_ready ())
       t = get_key ();
-    x = mouse_x ();
-    y = mouse_y ();
+    x = mouse_coord_x ();
+    y = mouse_coord_y ();
     if (t == HK_Right || (x - xm) > 1) {
       if (xplan < (hplaninfo.xt - 13) || hplaninfo.xwrap != DONT_WRAP)
 	xplan = ((xplan + 1) & hplaninfo.xwrap);
@@ -1446,7 +1446,7 @@ gestclav (keycode_t i, keycode_t mod)
     outwayflag ();
     update_left_panel();
   } else if (i == HK_p || i == HK_P) {
-    save_pcx ();
+    save_level_as_pcx ();
     update_left_panel ();
   } else if (i == HK_0) {
     i = 0;
@@ -1487,7 +1487,7 @@ gestclav (keycode_t i, keycode_t mod)
 static void
 gestsrs1 (void)
 {
-  int x = mouse_x (), y = mouse_y (), i, x2, y2;
+  int x = mouse_coord_x (), y = mouse_coord_y (), i, x2, y2;
   i = curdallep ();
 
   if (x >= 290) {
@@ -1520,8 +1520,8 @@ gestsrs1 (void)
     yplandec = (y / 20) * 20;
     update_left_panel ();
     do {
-      x2 = mouse_x ();
-      y2 = mouse_y ();
+      x2 = mouse_coord_x ();
+      y2 = mouse_coord_y ();
       if (x - x2 > 3) {
 	x = x2;
 	gestclav (HK_Right, HK_MOD_None);
@@ -1543,8 +1543,8 @@ gestsrs1 (void)
     ydalles = (y / 20) * 20;
     update_middle_panel ();
     do {
-      x2 = mouse_x ();
-      y2 = mouse_y ();
+      x2 = mouse_coord_x ();
+      y2 = mouse_coord_y ();
       if (x - x2 > 3) {
 	x = x2;
 	gestclav (HK_Right, HK_MOD_Ctrl);
@@ -1567,7 +1567,7 @@ gestsrs1 (void)
 static void
 gestsrs2 (void)
 {
-  int x = mouse_x (), y = mouse_y ();
+  int x = mouse_coord_x (), y = mouse_coord_y ();
 
   if (x >= 290) {
     if (y >= 144 && y <= 166) {
@@ -1587,7 +1587,7 @@ gestsrs2 (void)
 static void
 gestsrs3 (void)
 {
-  int x = mouse_x (), y = mouse_y ();
+  int x = mouse_coord_x (), y = mouse_coord_y ();
   int a, b;
 
   if (x < 144) {

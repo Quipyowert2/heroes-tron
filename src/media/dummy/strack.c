@@ -25,7 +25,7 @@
 #include "errors.h"
 
 void
-set_volume (void)
+adjust_volume (void)
 {
 }
 

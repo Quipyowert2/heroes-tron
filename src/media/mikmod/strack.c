@@ -40,7 +40,7 @@ static int nth_driver = 0;
 static char *driver_options = 0;
 
 void
-set_volume (void)
+adjust_volume (void)
 {
   if (opt.music)
     md_musicvolume = (13 - opt.music_volume) * 128 / 13;
@@ -122,7 +122,7 @@ init_sound_engine (void)
   sound_initialized = 1;
 
   pthread_mutex_init (&playing, 0);
-  set_volume ();
+  adjust_volume ();
 
   return 0;
 }

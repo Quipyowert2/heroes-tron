@@ -39,7 +39,7 @@ static int audio_channels;
 static int audio_buffers = 0;
 
 void
-set_volume (void)
+adjust_volume (void)
 {
   if (opt.music) {
     Mix_VolumeMusic ((13 - opt.music_volume) * MIX_MAX_VOLUME / 13);
@@ -108,7 +108,7 @@ init_sound_engine (void)
 
     sound_initialized = 1;
   }
-  set_volume ();
+  adjust_volume ();
 
   return 0;
 }

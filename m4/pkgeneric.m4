@@ -13,11 +13,11 @@ AC_DEFUN([AC_adl_PKG_GENERIC],[
   OLD_CFLAGS=$CFLAGS
   jolly_good=true
   AC_PATH_GENERIC([$1],[$2],,[jolly_good=false])
-  if $jolly_good; then
+  ifelse([$3],,,[if $jolly_good; then
     CFLAGS="$UP[]_CFLAGS $CFLAGS"
     LIBS="$UP[]_LIBS $LIBS"
     AC_CHECK_FUNC([$3],,[jolly_good=false])
-  fi
+  fi])
   if $jolly_good; then
     ifelse([$4],,,[$4])
     LIBS=$OLD_LIBS

@@ -52,12 +52,12 @@ process_input_events (void)
 	/* keboard events */
 
       case evKeyPress:
-	assert (ev.key.label <= KEY_MAX);
+	assert (ev.key.label <= HKEY_MAX);
 	keyboard_map[ev.key.label] = 1;
 	keyboard_modifiers = ev.key.modifiers;
 	break;
       case evKeyRelease:
-	assert (ev.key.label <= KEY_MAX);
+	assert (ev.key.label <= HKEY_MAX);
 	keyboard_map[ev.key.label] = 0;
 	keyboard_modifiers = ev.key.modifiers;
 	break;
