@@ -1,5 +1,12 @@
 2001-02-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	From Jean Delvare <devare@ensicaen.ismra.fr>.
+
+	* NEWS: s/two players game/two player game/.
+	* doc/heroes.texi: Likewise.
+
+2001-02-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/argv.c (version): Set copyright year to 2001.
 	Reported by Jean Delvare <devare@ensicaen.ismra.fr>.
 

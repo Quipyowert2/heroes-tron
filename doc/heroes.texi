@@ -1053,7 +1053,7 @@ created the next time Heroes run.
 @itemx --swap-sides
 @cindex -s
 @cindex --swap-sides
-Swap sides when playing in two players mode.  The default is to have
+Swap sides when playing in two player mode.  The default is to have
 player one on the right and player two on the left, because the default
 key bindings use the arrows for player one and left letters keys for
 player two.

@@ -316,7 +316,7 @@ Heroes 0.2	June 3, 2000
 	* Bugs fixed:
 	  - a buffer overflow in pixelize
           - backspace and delete didn't work in console
-	  - the `orange vertical line' when playing a two players game
+	  - the `orange vertical line' when playing a two player game
 
 Heroes 0.1	May 25, 2000
 
