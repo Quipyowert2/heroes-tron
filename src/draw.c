@@ -139,25 +139,25 @@ draw_text_clipped_right (const unsigned char *texte, int posx, int posy,
 }
 
 unsigned char text_waving_step = 0;
-timer_t text_waving_timer = 0;
+htimer_t text_waving_htimer = 0;
 
 void
 init_text_waving_step (void)
 {
-  text_waving_timer = new_timer (T_LOCAL, HZ (70));
+  text_waving_htimer = new_htimer (T_LOCAL, HZ (70));
   text_waving_step = 0;
 }
 
 void
 uninit_text_waving_step (void)
 {
-  free_timer (text_waving_timer);
+  free_htimer (text_waving_htimer);
 }
 
 void
 update_text_waving_step (void)
 {
-  text_waving_step += read_timer (text_waving_timer);
+  text_waving_step += read_htimer (text_waving_htimer);
 }
 
 void

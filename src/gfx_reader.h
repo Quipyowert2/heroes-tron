@@ -198,13 +198,13 @@ show_help (void)
   int t;
 #ifdef SDF
   int slices;
-  timer_t reader_timer;
+  htimer_t reader_htimer;
 #endif
 
 #ifndef SDF
   memset (pal.global, 63, 768);
 #else
-  reader_timer = new_timer (T_LOCAL, HZ (70));
+  reader_htimer = new_htimer (T_LOCAL, HZ (70));
 #endif
   p = 64;
 
@@ -214,7 +214,7 @@ show_help (void)
 #define scroll_speed 8
 #else
 #define scroll_speed 64
-    slices = read_timer (reader_timer);
+    slices = read_htimer (reader_htimer);
     render_background (slices);
     while (slices) {
       if ((nextligne * 10 == curligne) && (nextligne + 20 < nbr_lines))
@@ -349,7 +349,7 @@ show_help (void)
 #else
     vsynch ();
     if (p < 64) {
-      p += read_timer (reader_timer);
+      p += read_htimer (reader_htimer);
       if (p > 64)
 	p = 64;
       set_pal_fade (p);
@@ -392,7 +392,7 @@ show_help (void)
        t = 0;
   } while (t != HK_Escape);
 #ifdef SDF
-  free_timer (reader_timer);
+  free_htimer (reader_htimer);
 #endif
 }
 

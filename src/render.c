@@ -536,16 +536,16 @@ draw_level (int p)
   long anim_frame;
 
   clock_anim_offset = main_font_img.buffer + 81 * 320 + 52 + 
-    (read_timer (clock_timer) & 7) * 10;
+    (read_htimer (clock_htimer) & 7) * 10;
   lemmings_anim_offset = (lemmings_move_offset * 64 / 65536) & 7 << 3;
-  if (read_timer (blink_timer) & 1)
+  if (read_htimer (blink_htimer) & 1)
     for (bb = 3; bb >= 0; bb--)
       invincible[bb] = (player[bb].invincible != 0);
   else
     for (bb = 3; bb >= 0; bb--)
       invincible[bb] = 0;
 
-  bonus_anim_offset = read_timer (bonus_anim_timer) & 15;
+  bonus_anim_offset = read_htimer (bonus_anim_htimer) & 15;
   if (bonus_anim_offset > 8)
     bonus_anim_offset = 16 - bonus_anim_offset;
   bonus_anim_offset *= 24;
@@ -561,7 +561,7 @@ draw_level (int p)
     camera_stop_x[p] = 0;
 /******************** Affichage des tile_set_img ***********************/
 
-  anim_frame = read_timer (tiles_anim_timer);
+  anim_frame = read_htimer (tiles_anim_htimer);
 
   for (k = corner_dy[p], l = 11 - camera_stop_y[p]; l > 0; l--, k++) {
     k = k & map_info.ywrap;
@@ -804,7 +804,7 @@ draw_level (int p)
 /****************************** tutorial... *********************************/
 
   if (tutor) {
-    sinl = (signed char) minisinus[read_timer (waving_timer) & 31];
+    sinl = (signed char) minisinus[read_htimer (waving_htimer) & 31];
     dest = render_buffer[p] + sbuf - (7 + sinl) * xbuf + 15 + sinl - 48;
     if (trail_size[col2plr[p]] < 55)
       for (k = corner_dy[p] - 0, l = 1 + 11 - camera_stop_y[p]; l > 0;
@@ -857,7 +857,7 @@ draw_radar_map (int dx, int dy)
   unsigned char *src = corner[0] + 5 * xbuf + 239 + radar_current_pos;
   int x, y, tdx, tdy, tdym, dede = 50 * (radar_current_pos > 60);
   signed char tmp;
-  long blink = read_timer (blink_timer) & 2;
+  long blink = read_htimer (blink_htimer) & 2;
 
   if (radar_current_pos >= 81)
     return;

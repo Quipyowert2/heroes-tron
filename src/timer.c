@@ -33,15 +33,15 @@ clock_t current_time;
 #endif
 
 void
-reset_timer (timer_t timer)
+reset_htimer (htimer_t timer)
 {
   timer->orig_time = current_time;
 }
 
 void
-reset_timer_with_offset (timer_t timer, long sec)
+reset_htimer_with_offset (htimer_t timer, long sec)
 {
-  reset_timer (timer);
+  reset_htimer (timer);
 
 #ifdef HAVE_GETTIMEOFDAY
   timer->orig_time.tv_sec -= sec;
@@ -50,25 +50,25 @@ reset_timer_with_offset (timer_t timer, long sec)
 #endif
 }
 
-timer_t
-new_timer (enum timer_kind kind, long slice_duration)
+htimer_t
+new_htimer (enum htimer_kind kind, long slice_duration)
 {
-  timer_t result;
-  result = malloc (sizeof (timer_s));
+  htimer_t result;
+  result = malloc (sizeof (htimer_s));
   result->kind = kind;
   result->slice_duration = slice_duration;
-  reset_timer (result);
+  reset_htimer (result);
   return result;
 }
 
 void
-free_timer (timer_t timer)
+free_htimer (htimer_t timer)
 {
   free (timer);
 }
 
 void
-update_timers (void)
+update_htimers (void)
 {
 #ifdef HAVE_GETTIMEOFDAY
   gettimeofday (&current_time, 0);
@@ -78,13 +78,13 @@ update_timers (void)
 }
 
 void
-init_timer (void)
+init_htimer (void)
 {
-  update_timers ();
+  update_htimers ();
 }
 
 long
-read_timer (timer_t timer)
+read_htimer (htimer_t timer)
 {
 #if HAVE_GETTIMEOFDAY
   long s, u, d, res;
@@ -99,7 +99,7 @@ read_timer (timer_t timer)
   res = (s*(SEC/d)) + ((s*(SEC%d))/d) + ((((s*(SEC%d))%d)+u)/d);
 
   if (timer->kind & T_LOCAL) {
-    reset_timer (timer);
+    reset_htimer (timer);
     /* account for the time remaining from the last unfinished slice */
     timer->orig_time.tv_usec -= (((s*(SEC%d))%d)+u)%d;
     while (timer->orig_time.tv_usec < 0) {
@@ -125,7 +125,7 @@ read_timer (timer_t timer)
   res = c / d;
 
   if (timer->kind & T_LOCAL) {
-    reset_timer (timer);
+    reset_htimer (timer);
     /* account for the time remaining from the last unfinished slice */
     timer->orig_time -= c % d;
   }
@@ -139,7 +139,7 @@ read_timer (timer_t timer)
 }
 
 void
-shift_timer (timer_t to_shift, timer_t amount)
+shift_htimer (htimer_t to_shift, htimer_t amount)
 {
 #if HAVE_GETTIMEOFDAY
   long u,s;

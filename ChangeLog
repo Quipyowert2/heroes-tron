@@ -1,5 +1,18 @@
 2000-08-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	timer_t is already declared in <sys/time.h> on NetBSD.
+
+	* draw.c: Replace all occurences of timer_ by htimer_,
+	and _timer by _htimer.
+	* gfx_reader.h: Likewise.
+	* heroes.c: Likewise.
+	* heroes.h: Likewise.
+	* intro.c: Likewise.
+	* timer.c: Likewise.
+	* timer.h: Likewise.
+
+2000-08-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/Makefile.am (heroes_SOURCES): Remove start.h.
 	* src/heroes.c: Do not include start.h.
 	* src/start.h: Delete.

@@ -50,8 +50,8 @@ int color_nbr[256 + 1];
 unsigned char **(erase_color_ptr[256]);
 int i;
 int errori;
-timer_t intro_frame_timer;
-timer_t intro_global_timer;
+htimer_t intro_frame_htimer;
+htimer_t intro_global_htimer;
 
 /********************************/
 
@@ -172,9 +172,9 @@ show_intro (void)
   set_color (255, 0, 0, 0);
   memset (screen, 255, 32000);
   memset (screen + 32000, 0, 32000);
-  reset_timer (intro_frame_timer);
-  reset_timer (intro_global_timer);
-  for (i = 0; i <= 63; i += read_timer (intro_frame_timer)) {
+  reset_htimer (intro_frame_htimer);
+  reset_htimer (intro_global_htimer);
+  for (i = 0; i <= 63; i += read_htimer (intro_frame_htimer)) {
     set_color (255, i, i, i);
     fade_pal.indiv[255].r = i;
     fade_pal.indiv[255].g = i;
@@ -190,15 +190,15 @@ show_intro (void)
 
   set_pal ((char *) &pal, 0, 768);
   img2vram (&intro_img);
-  while (read_timer (intro_global_timer) < 3) {
+  while (read_htimer (intro_global_htimer) < 3) {
     vsynch ();
     if (key_or_joy_ready ()) {
       img_free (&intro_img);
       return (1);
     }
   }
-  reset_timer (intro_frame_timer);
-  for (i = 0; i <= 64; i += read_timer (intro_frame_timer)) {
+  reset_htimer (intro_frame_htimer);
+  for (i = 0; i <= 64; i += read_htimer (intro_frame_htimer)) {
     pal2pal ((palette_ *) & pal, &intro_img.palette, i);
     fastmem4 ((char *) &temppal, (char *) &fade_pal, 768 / 4);
     set_pal ((char *) &temppal, 0, 768);
@@ -213,15 +213,15 @@ show_intro (void)
 
   img_free (&intro_img);
   pcx_load_from_rsc ("intro-vehicles-img", &intro_img);
-  while (read_timer (intro_global_timer) < 12) {
+  while (read_htimer (intro_global_htimer) < 12) {
     vsynch ();
     if (key_or_joy_ready ()) {
       img_free (&intro_img);
       return (1);
     }
   }
-  reset_timer (intro_frame_timer);
-  for (i = 128; i >= 0; i -= read_timer (intro_frame_timer)) {
+  reset_htimer (intro_frame_htimer);
+  for (i = 128; i >= 0; i -= read_htimer (intro_frame_htimer)) {
     pal2pal ((palette_ *) & pal, &intro_img.palette, i >> 1);
     fastmem4 ((char *) &temppal, (char *) &fade_pal, 768 / 4);
     set_pal ((char *) &temppal, 0, 768);
@@ -238,7 +238,7 @@ show_intro (void)
   memset (screen + 32000, 0, 32000);
   set_pal ((char *) &intro_img.palette, 0, 768);
 
-  while (read_timer (intro_global_timer) < 18) {
+  while (read_htimer (intro_global_htimer) < 18) {
     vsynch ();
     if (key_or_joy_ready ()) {
       img_free (&intro_img);
@@ -247,9 +247,9 @@ show_intro (void)
   }
   
   /* For this sequence, slices will be 4 times shorter */
-  intro_frame_timer->slice_duration /= 4;
-  reset_timer (intro_frame_timer);
-  for (i = 0; i < 568; i += read_timer (intro_frame_timer)) {
+  intro_frame_htimer->slice_duration /= 4;
+  reset_htimer (intro_frame_htimer);
+  for (i = 0; i < 568; i += read_htimer (intro_frame_htimer)) {
     copy_vehicle_1 (i);
     copy_vehicle_2 (567 - i);
     vsynch ();
@@ -258,7 +258,7 @@ show_intro (void)
       return (1);
     }
   }
-  intro_frame_timer->slice_duration *= 4; /* revert old speed. */
+  intro_frame_htimer->slice_duration *= 4; /* revert old speed. */
 
   img_free (&intro_img);
   pcx_load_from_rsc ("intro-splash-img", &intro_img);
@@ -272,8 +272,8 @@ show_intro (void)
   intro_img.palette.indiv[254].b = 0;
   img_free (&intro_img);	/* will free the picture, not the palette */
 
-  reset_timer (intro_frame_timer);
-  for (i = 0; i <= 64; i += read_timer (intro_frame_timer)) {
+  reset_htimer (intro_frame_htimer);
+  for (i = 0; i <= 64; i += read_htimer (intro_frame_htimer)) {
     pal2pal ((palette_ *) & pal, &intro_img.palette, i);
     fastmem4 ((char *) &temppal, (char *) &fade_pal, 768 / 4);
     vsynch ();
@@ -287,15 +287,15 @@ show_intro (void)
   compute_erase_data ();
   img_free (&intro_img);
 
-  while (read_timer (intro_global_timer) < 40) {
+  while (read_htimer (intro_global_htimer) < 40) {
     vsynch ();
     if (key_or_joy_ready ())
       return (1);
   }
 
   erase_data_cur = erase_data;
-  reset_timer (intro_frame_timer);
-  for (i = 0; i <= 255; i += read_timer (intro_frame_timer)) {
+  reset_htimer (intro_frame_htimer);
+  for (i = 0; i <= 255; i += read_htimer (intro_frame_htimer)) {
     vsynch ();
     erase_data_cur = erase (erase_data_cur, i);
     if (key_or_joy_ready ())
@@ -309,14 +309,14 @@ play_intro (void)
 {
   int i;
   
-  intro_frame_timer = new_timer (T_LOCAL|T_BLOCKING, HZ (70)); 
-  intro_global_timer = new_timer (T_GLOBAL, HZ (2)); 
+  intro_frame_htimer = new_htimer (T_LOCAL|T_BLOCKING, HZ (70)); 
+  intro_global_htimer = new_htimer (T_GLOBAL, HZ (2)); 
 
   if (show_intro ()) {
     fastmem4 ((char *) &fade_pal, (char *) &pal, 768 / 4);
     memset ((char *) &pal, 0, 768);
-    reset_timer (intro_frame_timer);
-    for (i = 31; i >= 0; i -= read_timer (intro_frame_timer)) {
+    reset_htimer (intro_frame_htimer);
+    for (i = 31; i >= 0; i -= read_htimer (intro_frame_htimer)) {
       pal2pal ((palette_ *) & pal, (palette_ *) & fade_pal, i << 1);
       vsynch ();
       set_pal ((char *) &temppal, 0, 768);
@@ -329,6 +329,6 @@ play_intro (void)
   while (key_or_joy_ready ())
     get_key_or_joy ();
 
-  free_timer (intro_frame_timer);
-  free_timer (intro_global_timer);
+  free_htimer (intro_frame_htimer);
+  free_htimer (intro_global_htimer);
 }

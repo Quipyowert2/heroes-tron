@@ -126,19 +126,19 @@ char txt_tmp[20];
 char txt_bonus[4][20];
 int txt_bonus_tempo[4];
 
-timer_t blink_timer;
-timer_t clock_timer;
-timer_t bonus_anim_timer;
-timer_t tiles_anim_timer;
-timer_t corner_timer;
-timer_t event_timer;
-long event_time;		/* updated from event_timer on each frame */
-timer_t fading_timer;
-timer_t update_timer;
-timer_t waving_timer;
-timer_t background_timer;
-timer_t sound_track_timer;
-timer_t demo_trigger_timer;
+htimer_t blink_htimer;
+htimer_t clock_htimer;
+htimer_t bonus_anim_htimer;
+htimer_t tiles_anim_htimer;
+htimer_t corner_htimer;
+htimer_t event_htimer;
+long event_time;		/* updated from event_htimer on each frame */
+htimer_t fading_htimer;
+htimer_t update_htimer;
+htimer_t waving_htimer;
+htimer_t background_htimer;
+htimer_t sound_track_htimer;
+htimer_t demo_trigger_htimer;
 
 #include "gfx_reader.h"
 
@@ -906,8 +906,8 @@ load_level (char *nomlvl, char cont)
 /* * * * * * * * * * * * * * * * * * */
   level_is_finished = 0;
 
-  //  reset_timer_with_offset (0, HZ(70)*1000); /* what it is intended for? */
-  //  update_timer ();
+  //  reset_htimer_with_offset (0, HZ(70)*1000); /* what it is intended for? */
+  //  update_htimer ();
   if (!in_menu)
     for (i = bonus_real_nbr - 1; i >= 0; i--)
       add_random_bonus (i);
@@ -1156,7 +1156,7 @@ jukebox_menu (void)
   int t, t2, dp;
   signed char sinl;
   char l = 0;
-  timer_t lemming_timer = new_timer (T_GLOBAL, HZ (18));
+  htimer_t lemming_htimer = new_htimer (T_GLOBAL, HZ (18));
 
   in_jokebox = 1;
   memset (pal.global, 63, 768);
@@ -1165,7 +1165,7 @@ jukebox_menu (void)
     do {
       background_menu ();
 
-      sinl = minisinus[read_timer (waving_timer) & 31];
+      sinl = minisinus[read_htimer (waving_htimer) & 31];
       draw_glenz_box (corner[0] + (42 + sinl) * xbuf + 234, 2, 86, 6);
       draw_glenz_box (corner[0] + (62 + sinl) * xbuf + 244, 3, 76, 6);
       draw_glenz_box (corner[0] + (74 + sinl) * xbuf + 194, 4, 126, 6);
@@ -1189,7 +1189,7 @@ jukebox_menu (void)
       copy_rect_transp (main_font_img.buffer + 61 * 320,
 			corner[0] + (171) * xbuf + 100, 120, 3);
 
-      dp = read_timer (sound_track_timer);
+      dp = read_htimer (sound_track_htimer);
       t = dp/2;
       dp &= 1;
       if (t > 5999)
@@ -1226,12 +1226,12 @@ jukebox_menu (void)
 		   corner[0] + 186 * xbuf + 8 + 227, 6, 5);
 
       {
-	int lempos = read_timer (lemming_timer);
+	int lempos = read_htimer (lemming_htimer);
 	copy_rect_transp (main_font_img.buffer +
 			  81 * 320 + 132 + 6 * (lempos & 7),
 			  corner[0] + (190) * xbuf + (lempos / 2) - 6, 6, 10);
 	if ((lempos / 2) >= 332)
-	  reset_timer (lemming_timer);
+	  reset_htimer (lemming_htimer);
       }
 
       pal2pal (&tile_set_img.palette, &pal, p);
@@ -1276,7 +1276,7 @@ jukebox_menu (void)
 	unload_soundtrack ();
 	load_soundtrack_from_alias (soundtrack_list[soundtrack_current_nbr]);
 	play_soundtrack ();
-	reset_timer (sound_track_timer);
+	reset_htimer (sound_track_htimer);
       }
     }
   } while (t != HK_Escape);
@@ -1284,7 +1284,7 @@ jukebox_menu (void)
   p = 64;
   memset (pal.global, 63, 768);
   in_jokebox = 0;
-  free_timer (lemming_timer);
+  free_htimer (lemming_htimer);
 }
 
 static void
@@ -1681,7 +1681,7 @@ play_menu (void)
   load_sfx_mode (-1);
 
   play_soundtrack ();
-  reset_timer (sound_track_timer);
+  reset_htimer (sound_track_htimer);
   for (t = 0; t < 4; t++)
     if (player[t].cpu == 2) {
       mag = find_magic (game_magic);
@@ -3205,7 +3205,7 @@ update_all (char plr)
 {
   int n = 0;
   int p;
-  long frames = read_timer (update_timer);
+  long frames = read_htimer (update_htimer);
 
   for (; frames; --frames) {
     if (plr) {
@@ -3274,7 +3274,7 @@ play_demo (void)
 {
   int n, i, fade = -1;
   char notbyebye = 1;
-  timer_t demo_timer = new_timer (T_GLOBAL, HZ (1));
+  htimer_t demo_htimer = new_htimer (T_GLOBAL, HZ (1));
 
   in_menu = 0;
   tutor = 0;
@@ -3300,13 +3300,13 @@ play_demo (void)
   txt_bonus_tempo[3] = 0;
   n = 1;
 
-  update_timers ();
-  reset_timer_with_offset (event_timer, 4);
-  reset_timer (clock_timer);
-  reset_timer (bonus_anim_timer);
-  reset_timer (tiles_anim_timer);
-  reset_timer (blink_timer);
-  reset_timer (update_timer);
+  update_htimers ();
+  reset_htimer_with_offset (event_htimer, 4);
+  reset_htimer (clock_htimer);
+  reset_htimer (bonus_anim_htimer);
+  reset_htimer (tiles_anim_htimer);
+  reset_htimer (blink_htimer);
+  reset_htimer (update_htimer);
   output_screen ((char) n);	/* update corner[] */
 //   corner[0]=render_buffer[0];
 //   corner[1]=render_buffer[1];
@@ -3343,18 +3343,18 @@ play_demo (void)
 * MAIN LOOP in demos  *
 \* * * * * * * * * * */
   do {
-    event_time = read_timer (event_timer);
+    event_time = read_htimer (event_htimer);
     update_text_waving_step ();
     if (enable_blit) {
-      long duration = read_timer (demo_timer);
+      long duration = read_htimer (demo_htimer);
       if (duration >= (DEMO_DURATION - 1))
 	fade = 0;
       else {
-	reset_timer (fading_timer);
+	reset_htimer (fading_htimer);
 	vsynch ();
       }
       if (fade >= 0) {
-	fade += read_timer (fading_timer);
+	fade += read_htimer (fading_htimer);
 	if (fade > 64)
 	  fade = 64;
 	pal2pal (&tile_set_img.palette, &pal, fade);
@@ -3388,14 +3388,14 @@ play_demo (void)
 	fade = 0;
   } while (fade < 64);
 
-  free_timer (demo_timer);
+  free_htimer (demo_htimer);
   uninit_keyboard_map ();
   unload_level ();
   nbr_tiles_cols = 15;
   camera_center_x = 873813;
   in_menu = 1;
-  reset_timer (background_timer);
-  reset_timer (fading_timer);
+  reset_htimer (background_htimer);
+  reset_htimer (fading_htimer);
 }
 
 static void
@@ -3435,8 +3435,8 @@ load_demo (void)
   load_sfx_mode (-1);
 
   play_soundtrack ();
-  reset_timer (sound_track_timer);
-  reset_timer (demo_trigger_timer);
+  reset_htimer (sound_track_htimer);
+  reset_htimer (demo_trigger_htimer);
 }
 
 static void
@@ -3560,12 +3560,12 @@ main_menu (void)
   load_sfx_mode (-1);
 
   play_soundtrack ();
-  reset_timer (sound_track_timer);
-  reset_timer (background_timer);
-  reset_timer (fading_timer);
-  reset_timer (demo_trigger_timer);
-  reset_timer_with_offset (event_timer, 4);
-  event_time = read_timer (event_timer); 
+  reset_htimer (sound_track_htimer);
+  reset_htimer (background_htimer);
+  reset_htimer (fading_htimer);
+  reset_htimer (demo_trigger_htimer);
+  reset_htimer_with_offset (event_htimer, 4);
+  event_time = read_htimer (event_htimer); 
   do {
     p = 64;
     memset (pal.global, 63, 768);
@@ -3607,7 +3607,7 @@ main_menu (void)
 	  end_scroll ();
 	if (t == HK_d || t == HK_D || demo_ready) {
 	  event_sfx (130);
-	  reset_timer (corner_timer);
+	  reset_htimer (corner_htimer);
 	  for (;;) {
 	    background_menu ();
 	    draw_main_menu (l);
@@ -3697,7 +3697,7 @@ pause_menu (void)
   char l = 0;
   int t, t2, dp;
   unsigned char *src = render_buffer[0];
-  timer_t pause_timer = new_timer (T_GLOBAL, 1);
+  htimer_t pause_htimer = new_htimer (T_GLOBAL, 1);
 
   halve_volume ();
   event_sfx (58);
@@ -3718,7 +3718,7 @@ pause_menu (void)
 	      20 * 320 / 4);
     draw_text_waving_320 ("PAUSE", 159, 5, 1);
 
-    dp = read_timer (sound_track_timer);
+    dp = read_htimer (sound_track_htimer);
     t = dp/2;
     dp &= 1;
     if (t > 5999)
@@ -3794,7 +3794,7 @@ pause_menu (void)
 	  load_soundtrack_from_alias (soundtrack_list
 				      [soundtrack_current_nbr]);
 	  play_soundtrack ();
-	  reset_timer (sound_track_timer);
+	  reset_htimer (sound_track_htimer);
 	}
       }
       if (t == HK_Pause)
@@ -3808,10 +3808,10 @@ pause_menu (void)
   event_sfx (59);
 
   /* delay important timers that continued running during the pause */
-  shift_timer (update_timer, pause_timer);
-  shift_timer (event_timer, pause_timer);
+  shift_htimer (update_htimer, pause_htimer);
+  shift_htimer (event_htimer, pause_htimer);
 
-  free_timer (pause_timer);
+  free_htimer (pause_htimer);
 }
 
 
@@ -3823,7 +3823,7 @@ quit_yes_no (void)
   char l = 0;
   unsigned char *src = render_buffer[1];
   int t;
-  timer_t pause_timer = new_timer (T_GLOBAL, 1);
+  htimer_t pause_htimer = new_htimer (T_GLOBAL, 1);
 
   fastmem4 ((char *) screen, src, 64000 / 4);
   for (i = 64000; i != 0; i--)
@@ -3844,7 +3844,7 @@ quit_yes_no (void)
     draw_text_waving_320 (txti[40], 159, 75, 1);
     draw_text_array_320[l == 0] (txti[41], 159, 95, 1);
     draw_text_array_320[l == 1] (txti[42], 159, 110, 1);
-    j = minisinus[read_timer (waving_timer) & 31];
+    j = minisinus[read_htimer (waving_htimer) & 31];
     copy_rect_transp_320 (main_font_img.buffer + 134 + 50 * 320,
 			  corner[0] + j + (91 + 15 * l) * 320 + 90, 13, 20);
     copy_rect_transp_320 (main_font_img.buffer + 121 + 50 * 320,
@@ -3875,12 +3875,12 @@ quit_yes_no (void)
     event_sfx (87);
 
   /* delay important timers that continued running during the pause */
-  shift_timer (update_timer, pause_timer);
-  shift_timer (event_timer, pause_timer);
+  shift_htimer (update_htimer, pause_htimer);
+  shift_htimer (event_htimer, pause_htimer);
 
-  reset_timer (background_timer);
-  reset_timer (fading_timer);
-  free_timer (pause_timer);
+  reset_htimer (background_htimer);
+  reset_htimer (fading_htimer);
+  free_htimer (pause_htimer);
   return (1 - l);
 }
 
@@ -4073,7 +4073,7 @@ draw_end_level_info (int decal, char l)
   else if (game_mode == M_COLOR)
     draw_text (txti[57], 170 + decal, 50, 1);
   if ((level_is_finished != 15) && (game_mode == M_QUEST)) {
-    j = minisinus[read_timer (waving_timer) & 31];
+    j = minisinus[read_htimer (waving_htimer) & 31];
     draw_text_array[l == 0] (txti[58], 159 + decal, 150, 1);
     draw_text_array[l == 1] (txti[59], 159 + decal, 170, 1);
     copy_rect_transp (main_font_img.buffer + 134 + 50 * 320,
@@ -4175,7 +4175,7 @@ play_game (char cont)
 
 
   play_soundtrack ();
-  reset_timer (sound_track_timer);
+  reset_htimer (sound_track_htimer);
   set_pal_with_luminance (&tile_set_img.palette);
   radar_current_pos = 81;
   radar_target_pos = 0;
@@ -4196,13 +4196,13 @@ play_game (char cont)
   txt_bonus_tempo[3] = 0;
   n = 1;
 
-  update_timers ();
-  reset_timer_with_offset (event_timer, 4);
-  reset_timer (clock_timer);
-  reset_timer (bonus_anim_timer);
-  reset_timer (tiles_anim_timer);
-  reset_timer (blink_timer);
-  reset_timer (update_timer);
+  update_htimers ();
+  reset_htimer_with_offset (event_htimer, 4);
+  reset_htimer (clock_htimer);
+  reset_htimer (bonus_anim_htimer);
+  reset_htimer (tiles_anim_htimer);
+  reset_htimer (blink_htimer);
+  reset_htimer (update_htimer);
 
   output_screen ((char) n);	/* update corner[] */
   process_input_events ();
@@ -4270,7 +4270,7 @@ play_game (char cont)
 \* * * * * * * * * * * * * * */
 
   do {
-    event_time = read_timer (event_timer);
+    event_time = read_htimer (event_htimer);
     update_text_waving_step ();
     if (enable_blit) {
       if (two_players == 0) {
@@ -4744,19 +4744,19 @@ main (int argc, char *argv[])
 
   init_video ();
 
-  init_timer ();
-  clock_timer = new_timer (T_GLOBAL, HZ (10));
-  blink_timer = new_timer (T_GLOBAL, HZ (6));
-  event_timer = new_timer (T_GLOBAL, HZ (70));
-  waving_timer = new_timer (T_GLOBAL, HZ (70));
-  corner_timer = new_timer (T_GLOBAL, HZ (280));
-  fading_timer = new_timer (T_LOCAL, HZ (70));
-  update_timer = new_timer (T_LOCAL, HZ (70));
-  background_timer = new_timer (T_LOCAL, HZ (70));    
-  sound_track_timer = new_timer (T_GLOBAL, HZ (2));
-  bonus_anim_timer = new_timer (T_GLOBAL, HZ (35));
-  tiles_anim_timer = new_timer (T_GLOBAL, HZ (70));
-  demo_trigger_timer = new_timer (T_GLOBAL, HZ (1));
+  init_htimer ();
+  clock_htimer = new_htimer (T_GLOBAL, HZ (10));
+  blink_htimer = new_htimer (T_GLOBAL, HZ (6));
+  event_htimer = new_htimer (T_GLOBAL, HZ (70));
+  waving_htimer = new_htimer (T_GLOBAL, HZ (70));
+  corner_htimer = new_htimer (T_GLOBAL, HZ (280));
+  fading_htimer = new_htimer (T_LOCAL, HZ (70));
+  update_htimer = new_htimer (T_LOCAL, HZ (70));
+  background_htimer = new_htimer (T_LOCAL, HZ (70));    
+  sound_track_htimer = new_htimer (T_GLOBAL, HZ (2));
+  bonus_anim_htimer = new_htimer (T_GLOBAL, HZ (35));
+  tiles_anim_htimer = new_htimer (T_GLOBAL, HZ (70));
+  demo_trigger_htimer = new_htimer (T_GLOBAL, HZ (1));
   init_text_waving_step ();
 
   if (!directmenu) {
@@ -4789,18 +4789,18 @@ main (int argc, char *argv[])
   main_menu ();
 
   uninit_text_waving_step ();
-  free_timer (demo_trigger_timer);
-  free_timer (sound_track_timer);
-  free_timer (tiles_anim_timer);
-  free_timer (bonus_anim_timer);
-  free_timer (background_timer);
-  free_timer (update_timer);
-  free_timer (waving_timer);
-  free_timer (fading_timer);
-  free_timer (event_timer);
-  free_timer (corner_timer);
-  free_timer (clock_timer);
-  free_timer (blink_timer);
+  free_htimer (demo_trigger_htimer);
+  free_htimer (sound_track_htimer);
+  free_htimer (tiles_anim_htimer);
+  free_htimer (bonus_anim_htimer);
+  free_htimer (background_htimer);
+  free_htimer (update_htimer);
+  free_htimer (waving_htimer);
+  free_htimer (fading_htimer);
+  free_htimer (event_htimer);
+  free_htimer (corner_htimer);
+  free_htimer (clock_htimer);
+  free_htimer (blink_htimer);
 
   img_free (&font_deck_img);
   img_free (&jukebox_img);

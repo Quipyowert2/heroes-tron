@@ -488,7 +488,7 @@ corner_buffer_end (int i)
 extern int
 corner_buffer (void)
 {
-  int t2 = read_timer (corner_timer);
+  int t2 = read_htimer (corner_htimer);
 
   if (t2 < 200)
     corner_buffer_begin (t2);

@@ -24,16 +24,16 @@
 
 #include "timer.h"
 
-extern timer_t clock_timer;
-extern timer_t blink_timer;
-extern timer_t bonus_anim_timer;
-extern timer_t tiles_anim_timer;
-extern timer_t corner_timer;
-extern timer_t fading_timer;
-extern timer_t waving_timer;
-extern timer_t background_timer ;
-extern timer_t corner_timer ;
-extern timer_t demo_trigger_timer;
+extern htimer_t clock_htimer;
+extern htimer_t blink_htimer;
+extern htimer_t bonus_anim_htimer;
+extern htimer_t tiles_anim_htimer;
+extern htimer_t corner_htimer;
+extern htimer_t fading_htimer;
+extern htimer_t waving_htimer;
+extern htimer_t background_htimer ;
+extern htimer_t corner_htimer ;
+extern htimer_t demo_trigger_htimer;
 extern long event_time;
 
 void compute_corner (int p, int n);

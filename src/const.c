@@ -233,7 +233,7 @@ void
 vsynch (void)
 {
   vsynchro ();
-  update_timers ();
+  update_htimers ();
 }
 
 void
@@ -253,7 +253,7 @@ char
 key_or_joy_ready (void)
 {
   int i;
-  int ct = read_timer (demo_trigger_timer);
+  int ct = read_htimer (demo_trigger_htimer);
 
   if ((in_jokebox == 0)) {
     if (ct >= 30)
@@ -263,12 +263,12 @@ key_or_joy_ready (void)
     if (ct >= 60) {
       if (in_menu)
 	event_sfx (118 + (rand () & 1));
-      reset_timer (demo_trigger_timer);
+      reset_htimer (demo_trigger_htimer);
     }
   }
 
   if (key_ready ()) {
-    reset_timer (demo_trigger_timer);
+    reset_htimer (demo_trigger_htimer);
     return (1);
   }
   if ((joystick_detected & 1) && (opt.ctrl_one == 1 || opt.ctrl_two == 1)) {
@@ -287,7 +287,7 @@ key_or_joy_ready (void)
 	|| (kbjoy[3] && !kbjoyold[3])
 	|| (kbjoy[4] && !kbjoyold[4])
 	|| (kbjoy[5] && !kbjoyold[5])) {
-      reset_timer (demo_trigger_timer);
+      reset_htimer (demo_trigger_htimer);
       return (1);
     }
   }
