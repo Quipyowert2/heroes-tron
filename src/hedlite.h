@@ -21,5 +21,5 @@
 
 #ifndef __HEDLITE_H_plx__
 #define __HEDLITE_H_plx__
-hmain (int, char *, char *, char *, char *, char *, char *);
+int hmain (int, char *, char *, char *, char *, char *, char *);
 #endif

@@ -108,7 +108,7 @@ __attribute__ ((packed)) anim_t;
 
 typedef union
 {
-  unsigned char param[4];
+  unsigned char param[5];
   tunnel_t tunnel;
   anim_t anim;
 }

@@ -66,7 +66,7 @@ mouse2 (void)
 char 
 mouse12 (void)
 {
-  return mouse_button_left && mouse_button_right;
+  return mouse_button_left || mouse_button_right;
 }
 
 #ifdef HAVE_PKG_GGI

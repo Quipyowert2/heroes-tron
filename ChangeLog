@@ -1,5 +1,17 @@
 2000-07-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Shake the level editor code until it compile.
+
+	* src/hedlite.c: Adapt signedness, change prototypes, (re)move
+	functions, fix broken code, until it compile without warnings.
+	* src/hedlite.h (hmain): Fix prototype.
+	* src/Makefile.in (heroes_SOURCES): Add hedlite.c and hedlite.h.
+	* src/keyb.c (mouse12): Return 1 if either button are pressed.
+	* src/structs.c (param_u): Set size of the param array to 5,
+	since param[4] was accessed in the code.
+	
+2000-07-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Preliminary mouse support (this is only the GGI implementation).
 
 	* src/mouse.h: Delete.  Move most of the declarations to ...

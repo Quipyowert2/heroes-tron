@@ -47,6 +47,8 @@ getshline.h \
 getshline.c \
 generic_list.h \
 gfx_reader.h \
+hedlite.c \
+hedlite.h \
 heroes.c \
 heroes.h \
 intro.c \
