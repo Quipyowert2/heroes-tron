@@ -1,3 +1,7 @@
+2001-05-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* m4/relpaths.m4: Typos in comments.
+
 2001-05-23  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* m4/normpath.m4: Cleanup for submission to the autoconf archive.
