@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.9\n"
-"POT-Creation-Date: 2001-12-12 22:07+0100\n"
+"POT-Creation-Date: 2001-12-13 09:31+0100\n"
 "PO-Revision-Date: 2001-04-27 21:15+01:00\n"
 "Last-Translator: Alessandro Dotti <alessandro.dotti@libero.it>\n"
 "Language-Team: none <LL@li.org>\n"
@@ -320,6 +320,73 @@ msgstr "INVINCIBILE"
 #: src/bonus.c:391
 msgid "EXTRA-LIFE!"
 msgstr "VITA EXTRA"
+
+#: src/debughash.c:97 src/debughash.gperf:45
+msgid "all messages"
+msgstr "tutti i messaggi"
+
+#: src/debughash.c:98 src/debughash.gperf:49
+msgid "files and directories handling"
+msgstr "gestione di file e directory"
+
+#: src/debughash.c:99 src/debughash.gperf:50
+msgid "levels handling"
+msgstr "gestione di file e directory"
+
+#: src/debughash.c:100 src/debughash.gperf:47
+msgid "system related messages"
+msgstr "messaggi di sistema"
+
+#: src/debughash.c:102 src/debughash.gperf:48
+msgid "filename resources handling"
+msgstr "gestione dei nomi dei file"
+
+#: src/debughash.c:103 src/debughash.gperf:56
+msgid "miscellaneous events"
+msgstr "eventi vari"
+
+#: src/debughash.c:104 src/debughash.gperf:58
+msgid "bonus"
+msgstr "bonus"
+
+#: src/debughash.c:105 src/debughash.gperf:51
+msgid "sound track events"
+msgstr "eventi sonori"
+
+#: src/debughash.c:106 src/debughash.gperf:46
+msgid "different parts of the game"
+msgstr "diverse fasi del gioco"
+
+#: src/debughash.c:107 src/debughash.gperf:54
+#, fuzzy
+msgid "joystick initialization and events"
+msgstr "inizializzazione del joystick"
+
+#: src/debughash.c:109 src/debughash.gperf:55
+msgid "timer handling"
+msgstr "gestione del timer"
+
+#: src/debughash.c:111 src/debughash.gperf:57
+msgid "palette fade events"
+msgstr "dissolvenza della paletta"
+
+#: src/debughash.c:113 src/debughash.gperf:52
+msgid "sound effects events"
+msgstr "event degli effetti sonori"
+
+#: src/debughash.c:115 src/debughash.gperf:53
+msgid "communication with the display driver"
+msgstr "comunicazion con il driver video"
+
+#: src/debughash.c:165 src/debughash.gperf:87
+#, c-format
+msgid "%s: no such channel, assuming you meant '%s'."
+msgstr "%s: canale inesistente, suppongo volessi dire '%s'."
+
+#: src/debughash.c:168 src/debughash.gperf:90
+#, c-format
+msgid "%s: no such channel (--list=debug will list all known channels)"
+msgstr "%s: canale inesistente (--list=debug elenca tutti i canali)"
 
 #: src/endscroll.c:113
 msgid "THE END"
@@ -1579,73 +1646,6 @@ msgstr "%s:%d: parola chiave sconosciuta `%s'"
 #, c-format
 msgid "%s:%d: unknown keyword `%s'"
 msgstr "%s:%d: parola chiave sconosciuta `%s'"
-
-#: src/debughash.gperf:45
-msgid "all messages"
-msgstr "tutti i messaggi"
-
-#: src/debughash.gperf:46
-msgid "different parts of the game"
-msgstr "diverse fasi del gioco"
-
-#: src/debughash.gperf:47
-msgid "system related messages"
-msgstr "messaggi di sistema"
-
-#: src/debughash.gperf:48
-msgid "filename resources handling"
-msgstr "gestione dei nomi dei file"
-
-#: src/debughash.gperf:49
-msgid "files and directories handling"
-msgstr "gestione di file e directory"
-
-#: src/debughash.gperf:50
-msgid "levels handling"
-msgstr "gestione di file e directory"
-
-#: src/debughash.gperf:51
-msgid "sound track events"
-msgstr "eventi sonori"
-
-#: src/debughash.gperf:52
-msgid "sound effects events"
-msgstr "event degli effetti sonori"
-
-#: src/debughash.gperf:53
-msgid "communication with the display driver"
-msgstr "comunicazion con il driver video"
-
-#: src/debughash.gperf:54
-#, fuzzy
-msgid "joystick initialization and events"
-msgstr "inizializzazione del joystick"
-
-#: src/debughash.gperf:55
-msgid "timer handling"
-msgstr "gestione del timer"
-
-#: src/debughash.gperf:56
-msgid "miscellaneous events"
-msgstr "eventi vari"
-
-#: src/debughash.gperf:57
-msgid "palette fade events"
-msgstr "dissolvenza della paletta"
-
-#: src/debughash.gperf:58
-msgid "bonus"
-msgstr "bonus"
-
-#: src/debughash.gperf:87
-#, c-format
-msgid "%s: no such channel, assuming you meant '%s'."
-msgstr "%s: canale inesistente, suppongo volessi dire '%s'."
-
-#: src/debughash.gperf:90
-#, c-format
-msgid "%s: no such channel (--list=debug will list all known channels)"
-msgstr "%s: canale inesistente (--list=debug elenca tutti i canali)"
 
 #: src/media/sfx.c:94
 #, c-format

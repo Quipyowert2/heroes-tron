@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.17\n"
-"POT-Creation-Date: 2001-12-12 22:07+0100\n"
+"POT-Creation-Date: 2001-12-13 09:31+0100\n"
 "PO-Revision-Date: 2001-12-08 18:27GMT\n"
 "Last-Translator: Ingo van Lil <inguin@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -314,6 +314,72 @@ msgstr "UNBESIEGBAR!"
 #: src/bonus.c:391
 msgid "EXTRA-LIFE!"
 msgstr "EXTRA-LEBEN!"
+
+#: src/debughash.c:97 src/debughash.gperf:45
+msgid "all messages"
+msgstr "Alle Meldungen"
+
+#: src/debughash.c:98 src/debughash.gperf:49
+msgid "files and directories handling"
+msgstr "Datei- und Verzeichnisbehandlung"
+
+#: src/debughash.c:99 src/debughash.gperf:50
+msgid "levels handling"
+msgstr "Levelbehandlung"
+
+#: src/debughash.c:100 src/debughash.gperf:47
+msgid "system related messages"
+msgstr "Systembezogene Meldungen"
+
+#: src/debughash.c:102 src/debughash.gperf:48
+msgid "filename resources handling"
+msgstr "Dateinamen-Behandlung"
+
+#: src/debughash.c:103 src/debughash.gperf:56
+msgid "miscellaneous events"
+msgstr "sonstige Ereignisse"
+
+#: src/debughash.c:104 src/debughash.gperf:58
+msgid "bonus"
+msgstr "Bonus-Ereignisse"
+
+#: src/debughash.c:105 src/debughash.gperf:51
+msgid "sound track events"
+msgstr "Musik-Ereignisse"
+
+#: src/debughash.c:106 src/debughash.gperf:46
+msgid "different parts of the game"
+msgstr "verschiedene Teile des Spieles"
+
+#: src/debughash.c:107 src/debughash.gperf:54
+msgid "joystick initialization and events"
+msgstr "Joystick-Initialisierung und -Ereignisse"
+
+#: src/debughash.c:109 src/debughash.gperf:55
+msgid "timer handling"
+msgstr "Zeitgeber-Behandlung"
+
+#: src/debughash.c:111 src/debughash.gperf:57
+msgid "palette fade events"
+msgstr "Palettenblende-Effekte"
+
+#: src/debughash.c:113 src/debughash.gperf:52
+msgid "sound effects events"
+msgstr "Klangeffekt-Ereignisse"
+
+#: src/debughash.c:115 src/debughash.gperf:53
+msgid "communication with the display driver"
+msgstr "Kommunikation mit dem Bildschirmtreiber"
+
+#: src/debughash.c:165 src/debughash.gperf:87
+#, c-format
+msgid "%s: no such channel, assuming you meant '%s'."
+msgstr "%s: Kein solcher Kanal, ich vermute, Du meinst '%s'."
+
+#: src/debughash.c:168 src/debughash.gperf:90
+#, c-format
+msgid "%s: no such channel (--list=debug will list all known channels)"
+msgstr "%s: Kein solcher Kanal (--list=debug listet alle verfügbaren Kanäle)"
 
 #: src/endscroll.c:113
 msgid "THE END"
@@ -1577,72 +1643,6 @@ msgstr "%s:%d: %s: unbekannter Wert: `%s'"
 #, c-format
 msgid "%s:%d: unknown keyword `%s'"
 msgstr "%s:%d: unbekanntes Schlüsselwort `%s'"
-
-#: src/debughash.gperf:45
-msgid "all messages"
-msgstr "Alle Meldungen"
-
-#: src/debughash.gperf:46
-msgid "different parts of the game"
-msgstr "verschiedene Teile des Spieles"
-
-#: src/debughash.gperf:47
-msgid "system related messages"
-msgstr "Systembezogene Meldungen"
-
-#: src/debughash.gperf:48
-msgid "filename resources handling"
-msgstr "Dateinamen-Behandlung"
-
-#: src/debughash.gperf:49
-msgid "files and directories handling"
-msgstr "Datei- und Verzeichnisbehandlung"
-
-#: src/debughash.gperf:50
-msgid "levels handling"
-msgstr "Levelbehandlung"
-
-#: src/debughash.gperf:51
-msgid "sound track events"
-msgstr "Musik-Ereignisse"
-
-#: src/debughash.gperf:52
-msgid "sound effects events"
-msgstr "Klangeffekt-Ereignisse"
-
-#: src/debughash.gperf:53
-msgid "communication with the display driver"
-msgstr "Kommunikation mit dem Bildschirmtreiber"
-
-#: src/debughash.gperf:54
-msgid "joystick initialization and events"
-msgstr "Joystick-Initialisierung und -Ereignisse"
-
-#: src/debughash.gperf:55
-msgid "timer handling"
-msgstr "Zeitgeber-Behandlung"
-
-#: src/debughash.gperf:56
-msgid "miscellaneous events"
-msgstr "sonstige Ereignisse"
-
-#: src/debughash.gperf:57
-msgid "palette fade events"
-msgstr "Palettenblende-Effekte"
-
-#: src/debughash.gperf:58
-msgid "bonus"
-msgstr "Bonus-Ereignisse"
-
-#: src/debughash.gperf:87
-#, c-format
-msgid "%s: no such channel, assuming you meant '%s'."
-msgstr "%s: Kein solcher Kanal, ich vermute, Du meinst '%s'."
-
-#: src/debughash.gperf:90
-#, c-format
-msgid "%s: no such channel (--list=debug will list all known channels)"
-msgstr "%s: Kein solcher Kanal (--list=debug listet alle verfügbaren Kanäle)"
 
 #: src/media/sfx.c:94
 #, c-format

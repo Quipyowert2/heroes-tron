@@ -1,3 +1,9 @@
+Heroes 0.17a	December 13, 2001
+
+	* This version requires heroes-data-1.4.
+	* Support Allegro as display/keyboard/joystick interface.
+	* Support Latin-1 characters in `help reader' and `big' fonts.
+
 Heroes 0.17	November 19, 2001
 
 	* Bug fix:

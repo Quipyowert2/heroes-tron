@@ -43,15 +43,12 @@ messages: those printed on the console (--help output, error
 messages,...), and those drawn during the game (menu entries, online
 help,...).  The former cause no particular problem.  The latter use
 home-made fonts (coming with the heroes-data package) and those fonts
-lack accentuated characters (and sometimes even lowercase characters!):
-this basically means that you will have to restrict yourself to a
-specific range of charater, which can make translation difficult
-(just dropping the accents sometimes give a word which can be
-confounded with another one).
+do not always implement the full Latin-1 character set.
 
 You ought to configure Heroes with --enable-debug.  When configured
 like this, Heroes will check most messages at startup and report those
 who contains non-drawable characters.
+
 
 If you have done a new translation, want to try it, but don't want to
 install all the above tools (autoconf, automake, etc.), do the
@@ -382,8 +379,8 @@ group c) is not.
  - run tools/cvsboot.sh and make a dummy build
    (to update the generated file to the new version)
  - build the distribution using `make distcheck' in addition to making
-   a distribution, this will actually perform four builds of the
-   game using differents configurations (so you need both SDL and GGI
+   a distribution, this will actually perform five builds of the
+   game using differents configurations (so you need all supported libraries
    installed to do that)
 
 If the above was successful:
