@@ -238,8 +238,8 @@ fi
 if test x${with_sdl} = xno && test x${with_GGI} = xno; then
   AC_MSG_ERROR(Either GGI or SDL should be made available to heroes.)
 fi
-AM_CONDITIONAL(GGI, test "${with_GGI-yes}" = yes)
-AM_CONDITIONAL(SDL, test "${with_sdl-yes}" = yes)
+AM_CONDITIONAL(GGI, test "x${with_GGI}" != xno)
+AM_CONDITIONAL(SDL, test "x${with_sdl}" != xno)
 
 # =================
 # Joystick support.
