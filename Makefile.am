@@ -38,7 +38,7 @@ misc/05-po.patch
 
 # lib must be built after intl
 # man must be built after src
-SUBDIRS = tools intl lib src man po doc
+SUBDIRS = intl lib src man po doc
 
 README: $(top_srcdir)/doc/heroes.texi $(top_srcdir)/tools/readme.sed
 	LC_ALL=C $(MAKEINFO) --no-header -I $(top_srcdir)/doc heroes.texi | \
@@ -135,6 +135,7 @@ man-distcheck:
 dist-hook:
 	-chmod -R a-s $(distdir)
 
-EXTRA_DIST += arch/Makefile.inc m4/Makefile.inc
+EXTRA_DIST += arch/Makefile.inc m4/Makefile.inc tools/Makefile.inc
 include arch/Makefile.inc
 include m4/Makefile.inc
+include tools/Makefile.inc

@@ -1,3 +1,15 @@
+2001-07-23  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* tools/Makefile.inc: New file.
+	* tools/Makefile.am: Delete.
+	* tools/README: New file.
+	* tools/exnews.pl: New file.
+	* tools/alpha.sh: New file.
+	* configure.ac: Don't create tool/Makefile.in.
+	* Makefile.am: Include tools/Makefile.inc
+	(SUBDIRS): Remove tools.
+	(EXTRA_DIST): Add tools/Makefile.inc.
+
 2001-07-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/lvl/free.c: New file.
