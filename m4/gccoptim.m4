@@ -1,5 +1,9 @@
-AC_DEFUN([ADL_GCC_OPTIM],
-[if test -n "$GCC"; then
+dnl  Adapted from Akim Demaille <akim@epita.fr> ad_GCC_WARNINGS.
+AC_DEFUN([ad_GCC_OPTIM],
+[AC_ARG_ENABLE([optimizations],
+ [AC_HELP_STRING([--disable-optimizations],
+  [turn off aggressive optimizations])])
+ if test -n "$GCC" -a "${enable_optimizations-yes}" = "yes"; then
   AC_CACHE_CHECK([for gcc optimization options], ac_cv_prog_gcc_opt_flags,
   [changequote(,)dnl
   cat > conftest.$ac_ext <<EOF
@@ -22,6 +26,5 @@ EOF
   rm -f conftest*
   CFLAGS="$cf_save_CFLAGS $ac_cv_prog_gcc_opt_flags"])
 else
-  CFLAGS="$cf_save_CFLAGS -O"
-fi
-])dnl
+  CFLAGS="$CFLAGS -O"
+fi])

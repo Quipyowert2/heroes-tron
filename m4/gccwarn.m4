@@ -1,7 +1,7 @@
 dnl Check if the compiler supports useful warning options.  There's a few that
 dnl we don't use, simply because they're too noisy:
 dnl
-dnl -ansi (prevents declaration of functions like strdup, and because 
+dnl -ansi (prevents declaration of functions like strdup, and because
 dnl        it makes warning in system headers).
 dnl -Wconversion (useful in older versions of gcc, but not in gcc 2.7.x)
 dnl -Wtraditional (combines too many unrelated messages, only a few useful)
@@ -9,7 +9,6 @@ dnl -Wredundant-decls (system headers make this too noisy)
 dnl -pedantic
 dnl
 
-#serial 3
 AC_DEFUN([ad_GCC_WARNINGS],
 [AC_ARG_ENABLE([warnings],
 [AC_HELP_STRING([--enable-warnings],[enable compiler warnings])])
