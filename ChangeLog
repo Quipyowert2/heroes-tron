@@ -1,5 +1,11 @@
 2001-02-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Adapted from Jean Delvare <devare@ensicaen.ismra.fr>.
+
+	* src/menus.c (keyboard_menu): Strip wide keynames to 6 letters.
+
+2001-02-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	From Jos Boersema <joshb@sourceforge.net>.
 
 	* po/nl.po: Update.

@@ -968,9 +968,18 @@ keyboard_menu (void)
 	    sprintf (name, "(%d)", key);
 	    res = compile_menu_text (name, T_FLUSHED_RIGHT,
 				     keyline[i], 295);
-	  } else
-	    res = compile_menu_text (keyname, T_FLUSHED_RIGHT,
-				     keyline[i], 295);
+	  } else {
+	    /* make sure the key name is not too wide */
+	    char name[10];
+	    strncpy (name, keyname, 9);
+	    name[9] = 0;
+	    if (strlen (name) > 6) {
+	      name[6] = '.';
+	      name[7] = '.';
+	      name[8] = '.';
+	    }
+	    res = compile_menu_text (name, T_FLUSHED_RIGHT, keyline[i], 295);
+	  }
 	  keyboard_keys_txt[i] = res;
 	}
 	DRAW_SPRITE (keyboard_keys_txt[i], corner[0]);
