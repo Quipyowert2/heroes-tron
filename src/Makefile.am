@@ -146,6 +146,8 @@ $$1 ~ /SDLK_/ {								     \
 END { print "\t{ 0, 0 }};\n#endif\n" }' < @SDL_KEYSYM_H@ > $@
 endif
 
+if HAVE_GPERF
 rsc_files_hash.c: rsc_files.gperf
 	gperf -t -N in_rsc_set -k 1,7,$$ $(srcdir)/rsc_files.gperf | \
 	sed -e 's/{""}/{"",0,0,0}/g' > $@
+endif

@@ -1,3 +1,9 @@
+2000-07-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.in: Check for gperf.
+	* src/Makefile.am: Don't define a rule for rsc_files_hash.c if
+	gperf is not available.
+
 2000-07-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Setup the base structure for structure handling.  rsc_files*

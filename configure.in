@@ -105,6 +105,9 @@ AM_CONDITIONAL(USABLE_PERL, test x$usable_perl = xtrue)
 AC_PATH_PROG(HELP2MAN, help2man)
 AM_CONDITIONAL(HAVE_HELP2MAN, test \! -z "$HELP2MAN")
 
+AC_PATH_PROG(GPERF, gperf)
+AM_CONDITIONAL(HAVE_GPERF, test \! -z "$GPERF")
+
 AC_CACHE_SAVE
 
 # =====================
