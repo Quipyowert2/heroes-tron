@@ -524,7 +524,7 @@ init_menus_sprites (void)
      new level. */
   ed_x_wrap_txt = compile_menu_text (_("X-WRAP"), T_FLUSHED_LEFT, 85, 8);
   /* TRANS: Y-WRAP is a check box used to specified whether a level
-     must be wrapped horizontally or not.  */
+     must be wrapped vertically or not.  */
   ed_y_wrap_txt = compile_menu_text (_("Y-WRAP"), T_FLUSHED_LEFT, 106, 8);
   /* TRANS: width of the level */
   ed_x_size_txt = compile_menu_text (_("X-SIZE"), T_FLUSHED_LEFT, 137, 8);

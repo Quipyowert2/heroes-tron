@@ -56,7 +56,7 @@ install all the above tools (autoconf, automake, etc.), do the
 following: open the file `configure' in your favorite editor, locate
 the line starting with `ALL_LINGUAS=' and add your language here, then
 rerun configure and reinstall the game, your catalog should be
-installed with the others.  Note that you will still needs gettext
+installed with the others.  Note that you will still need gettext
 installed.  (For people who have the latest autoconf and automake, the
 correct way to add a new catalog is to edit the same line in
 configure.in, of course).
