@@ -1,5 +1,12 @@
 2000-09-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* lib/strcasecmp.c: New file.
+	* lib/Makefile.am (EXTRA_DIST): Add strcasecmp.
+	* configure.in: Check for strcasecmp.
+	* src/common.h [!HAVE_STRCASECMP]: Declare strcasecmp.
+
+2000-09-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Document undocumented AC_DEFINEs.
 	* acconfig.h: Likewise.
 

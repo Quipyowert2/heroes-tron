@@ -23,8 +23,6 @@ Before 0.7
 
   Use FindFileFirst and Cie. in Windows.
 
-  Rewrite srccasecmp() for lib/.
-
   Check and use <stdint.h>.
 
   Rewrite sleep() for lib/.

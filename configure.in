@@ -443,7 +443,7 @@ if test $ac_cv_two_args_mkdir = yes; then
   AC_DEFINE([TWO_ARGS_MKDIR],1,[Define if mkdir take two arguments.])
 fi
 
-AC_REPLACE_FUNCS([alphasort scandir])
+AC_REPLACE_FUNCS([alphasort scandir strcasecmp])
 
 AC_SUBST([LIBOBJS])
 

@@ -19,7 +19,7 @@
 
 noinst_LIBRARIES= libheroes.a
 
-EXTRA_DIST = alphasort.c scandir.c
+EXTRA_DIST = alphasort.c scandir.c strcasecmp.c
 
 noinst_HEADERS= \
 getopt.h \

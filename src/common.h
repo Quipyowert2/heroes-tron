@@ -145,5 +145,10 @@
 # include <dmalloc.h>
 #endif
 
+/* miscellaneous prototypes for replacement functions */
+
+#ifndef HAVE_STRCASECMP
+int strcasecmp (const char *s1, const char *s2);
+#endif
 
 #endif /* HEROES__COMMON__H */
