@@ -222,6 +222,7 @@ reinit_player (unsigned p)
   player[p].way = start_dir;
   player[p].x2 = start_coord.x;
   player[p].y2 = start_coord.y;
+  player[p].pos = start_idx;
 
   /* ensure that the start position is usable,
      otherwise try another position (randomly) */
@@ -1220,6 +1221,81 @@ erase_trail (int c)
 }
 
 /****************/
+
+/* Adjust speed of AI-player C.  */
+static void
+ai_throttle (int c)
+{
+  /* DEAD_END[C] is TRUE if player C stopped (or tried to) because
+     some opponent prevents it to move.  */
+  static bool dead_end[4] = {false, false, false, false};
+
+  unsigned free_directions = 4;
+  bool seen_opponent = false;
+  bool seen_opponent_head = false;
+  /* Check squares neighboring next position.  */
+  a_square_index next_pos = lvl.square_move[player[c].way][player[c].pos];
+  a_dir i;
+  for (i = 0; i < 4; i++) {
+    a_square_index idx = lvl.square_move[i][next_pos];
+    if (idx == INVALID_INDEX || i == REVERSE_DIR (player[c].way)) {
+      --free_directions;
+    } else {
+      a_u8 o = square_occupied[idx];
+      if (o != 0xff) {
+	if ((o & 3) != c) {
+	  seen_opponent = true;
+	  if (o < 8)
+	    seen_opponent_head = true;
+	}
+	--free_directions;
+      } else if (square_explo_state[idx] < EXPLOSION_IMMEDIATE + 2
+		 && ! ia_is_invincible) {
+	--free_directions;
+      }
+    }
+  }
+
+  if (! seen_opponent || free_directions > 1) {
+    /* If no opponent is wandering around, or there is at least
+       two free direction, there is no need to worry.  */
+    player[c].turbo = 1;
+    dead_end[c] = false;
+    return;
+  }
+
+  if (free_directions) {
+    /* There are some opponent in the vicinity, but there is at least
+       one free direction.
+
+       Speed up if we are near an opponent head (maybe he is trying to
+       overtake us).  Don't accelerate otherwise, because we would not
+       have the time to stop if he cuts us up.  */
+    if (seen_opponent_head)
+      player[c].turbo = 2;
+    else
+      player[c].turbo = 1;
+    dead_end[c] = false;
+    return;
+  }
+
+  if (! dead_end[c]) {
+    /* This is a cul de sac and we haven't yet stopped.
+       Better do it now.  */
+    int chance = 3;
+    assert (seen_opponent && free_directions == 0);
+    if (player[c].rotozoom)
+      --chance;
+    if (player[c].waves)
+      --chance;
+    if (rand() % 4 <= chance)
+      player[c].turbo = 0;
+    /* Remember we already tried to stop, so we don't give
+       another chance to this AI vehicle if it failed to stop.  */
+    dead_end[c] = true;
+  }
+}
+
 static unsigned int
 ia_eval_dist (int pos)
 {
@@ -1917,6 +1993,9 @@ update_player (int c)
   }
 
   if (player[c].delay == 0) {
+    /* Adjust speed of AI-controled vehicles.  */
+    if (cpuon && ((player[c].cpu & 2) == 0))
+      ai_throttle (c);
     if (player[c].turbo != 1 && player[c].turbo_level > 0
 	&& player[c].speedup == 0) {
       player[c].vitt = (player[c].v + player[c].vi) * player[c].turbo;

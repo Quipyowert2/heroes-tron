@@ -1,3 +1,10 @@
+2002-01-07  Ingo van Lil  <inguin@gmx.de>
+	    Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/heroes.c (ai_throttle): New function.
+	(update_player): Call it.
+	(reinit_player): Initialize player[p].pos.
+
 2002-01-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/Makefile.am (heroes_SOURCES): Remove font_help.hh
