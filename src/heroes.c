@@ -53,7 +53,6 @@
 #include "extras.h"
 #include "visuals.h"
 #include "render.h"
-#include "start.h"
 #include "pixelize.h"
 #include "txts.h"
 #include "misc.h"

@@ -88,7 +88,6 @@ sfx.c \
 sfx.h \
 sound.c \
 sound.h \
-start.h \
 structs.h \
 timer.c \
 timer.h \
