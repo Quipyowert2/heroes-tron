@@ -101,17 +101,15 @@ initialize_deck_font (void)
   deck_font->width[' '] = 4;
   deck_font->min_space_width = 2;
 
-#if !DEBUG
-  /* Link the lower case characters to the upper.
-     (We don't do that in debug mode because it's really a bug to
-     rely on such missing characters.)  */
+  /* Lower case letters are not supported, but since this font is used
+     to draw user-supplied string, it's better to convert lower case
+     characters to upper.  */
   for (ch = 'a'; ch <= 'z'; ++ch)
     if (deck_font->width[ch] == 0)
       {
 	deck_font->upper_left[ch] = deck_font->upper_left[TOUPPER(ch)];
 	deck_font->width[ch] = deck_font->width[TOUPPER(ch)];
       }
-#endif
 }
 
 static void

@@ -1,5 +1,11 @@
 2001-12-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/fontdata.c (initialize_deck_font): Revert change from
+	2001-12-12.
+	Reported by Ingo van Lil <inguin@gmx.de>.
+
+2001-12-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* po/de.po: Update (use new latin-1 characters).
 	From Ingo van Lil <inguin@gmx.de>.
 
@@ -29,8 +35,9 @@
 	* src/rsc_files.gperf: Add big-font.
 	* src/fontdata.c (big_font_img): New variable.
 	(uninit_fonts): Free big_font_img.
-	(initialize_menu_font): Use big_font_img.  Don't convert lowercase
-	letter to upper case letters in DEBUG mode.
+	(initialize_menu_font): Use big_font_img.
+	(initialize_deck_font): Don't convert lowercase	letters to
+	upper case letters in DEBUG mode.
 	(compute_text_width): Use UCHAR.
 	* src/sprtext.c (compile_sprtext, compile_sprtext_color):
 	Test whether width[ch]!=0 to make sure character ch is supported,
