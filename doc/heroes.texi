@@ -1270,8 +1270,7 @@ system wide @file{heroesrc} with a line like the following
 setrsc: score-file $(sys-dir)/scores
 @end example
 
-The same considerations apply to the saved games (@samp{saved-games-file})
-and the run-time preferences (@samp{pref-file}).
+The same considerations apply to saved games (@samp{saved-games-file}).
 
 @samp{$(sys-dir)} is another resource the value of which defaults
 to @samp{/var/games/heroes}.  According to the Filesystem Hierarchy

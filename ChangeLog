@@ -1,5 +1,10 @@
 2001-05-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/etc/heroesrc (soundconf): Don't say preferences can be global.
+	* doc/heroes.texi (Global score file): Likewise.
+
+2001-05-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Allow the user to use other score or save files.
 
 	* src/savegame.c (reinit_save_records_if_needed): New.
