@@ -97,6 +97,10 @@
 # endif
 #endif
 
+#if HAVE_WINDOWS_H
+# include <windows.h>
+#endif
+
 /* display-keyboard-mouse library */
 
 #if defined HAVE_PKG_GGI && defined HAVE_SDL

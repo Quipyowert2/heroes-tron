@@ -1,3 +1,20 @@
+2000-09-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Use timeGetTime instead of clock on Win32 targets, 
+	as suggested by	Stéphane Denis <S.Denis@darkworks.com>.
+
+	* configure.in: Check for windows.h.
+	* src/common.h [HAVE_WINDOWS_H]: Include it.
+	* src/timer.h (time_type): Define to struct timeval, DWORD or
+	clock_t according to the function used to read time.
+	[!HAVE_GETTIMEOFDAY]: Define get_current_time to the function
+	used to read time.  Add definition of SECOND for Win32 systems.
+	(htimer_s.orig_type): Use time_type.
+	* src/timer.c (current_time): Use time_type.
+	(update_htimers) [!HAVE_GETTIMEOFDAY]: Use get_current_time.
+	(read_htimer) [!HAVE_GETTIMEOFDAY]: Store c, d and res as unsigned
+	variables.  Use get_current_time.
+
 2000-09-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* Makefile.am (AUTOMAKE_OPTIONS): New, set gnits option.

@@ -23,11 +23,7 @@
 #include "display.h"
 #include "debugmsg.h"
 
-#ifdef HAVE_GETTIMEOFDAY
-struct timeval current_time;
-#else
-clock_t current_time;
-#endif
+time_type current_time;
 
 void
 reset_htimer (htimer_t timer)
@@ -73,7 +69,7 @@ update_htimers (void)
 #ifdef HAVE_GETTIMEOFDAY
   gettimeofday (&current_time, 0);
 #else
-  current_time = clock ();
+  current_time = get_current_time ();
 #endif
 }
 
@@ -118,7 +114,7 @@ read_htimer (htimer_t timer)
     }
   }
 #else
-  long c, d, res;
+  unsigned long c, d, res;
 
   c = current_time - timer->orig_time;
   d = timer->slice_duration;
@@ -129,7 +125,7 @@ read_htimer (htimer_t timer)
     if ((res != 0) || (((timer->kind & T_BLOCKING) == 0)))
       break;
     else			/* The timer is blocking */
-      c = clock () - timer->orig_time;
+      c = get_current_time () - timer->orig_time;
   }
 
   if (timer->kind & T_LOCAL) {

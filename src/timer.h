@@ -22,11 +22,20 @@
 #ifndef HEROES__TIMER__H
 #define HEROES__TIMER__H
 
-/* If gettimeofday does not exists, we use clock() */
+/* If gettimeofday() does not exists, we use timeGetTime(), or clock() */
 #if HAVE_GETTIMEOFDAY
 # define SECOND 1000000
+typedef struct timeval time_type;
 #else
-# define SECOND CLOCKS_PER_SEC
+# if HAVE_WINDOWS_H
+#  define SECOND 1000
+#  define get_current_time timeGetTime
+typedef DWORD time_type;
+# else
+#  define SECOND CLOCKS_PER_SEC
+#  define get_current_time clock
+typedef clock_t time_type;
+# endif
 #endif
 
 #define HZ(x)   (SECOND/(x))
@@ -40,11 +49,7 @@ enum htimer_kind { T_GLOBAL = 0,
 		  T_BLOCKING = 2};
 
 typedef struct {
-#if HAVE_GETTIMEOFDAY
-  struct timeval orig_time;
-#else
-  clock_t orig_time;
-#endif;
+  time_type orig_time;
   enum htimer_kind kind;
   long slice_duration;		/* duration of a slice in microseconds */
 } htimer_s;

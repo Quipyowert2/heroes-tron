@@ -26,8 +26,6 @@ Before 0.7
   generic_list.h: *_clear should be given a pointer to the cell destructor
   to be useful.
 
-  check for timeGetTime() and use it instead of clock() on Win32.
-
 
 Before 1.0.0
 ------------
