@@ -22,11 +22,39 @@
 #define HEROES__EXPLOSIONS__H
 
 #include "sprite.h"
+#include "lvl/lvl.h"
 
 #define NBR_EXPLOSION_FRAMES 15
 #define NBR_EXPLOSION_KINDS   2
 
+/* These are the sprites used to display
+   each frame of each kind of explosion.  */
 extern sprite_t *explosions[NBR_EXPLOSION_KINDS][NBR_EXPLOSION_FRAMES];
+
+#define EXPLOSION_SLICES_PER_FRAMES 8
+#define EXPLOSION_DELAY 8
+
+#define EXPLOSION_IMMEDIATE (NBR_EXPLOSION_FRAMES - 1)
+#define EXPLOSION_TRIGGERED (EXPLOSION_IMMEDIATE + EXPLOSION_DELAY)
+#define EXPLOSION_TRIGGER_NEIGHBORS (EXPLOSION_TRIGGERED - 3)
+#define EXPLOSION_UNTRIGGERED (EXPLOSION_TRIGGERED + 1)
+
+/*
+ * 0 <= n < NBR_EXPLOSION_FRAMES: frame number to display.
+ * NBR_EXPLOSION_FRAMES <= n <= EXPLOSION_TRIGGERED: about to explode.
+ * n == EXPLOSION_UNTRIGGERED: idle.
+ */
+typedef u8_t explosion_t;
+
+extern explosion_t *square_explo_state;
+extern explosion_t *square_explo_type;
+
+void allocate_explosions (void);
+void release_explosions (void);
+/* FRAME_START is expected to be EXPLOSION_IMMEDIATE or EXPLOSION_TRIGGERED. */
+void trigger_explosion (square_index_t idx, unsigned frame_start);
+void trigger_possible_explosion (square_index_t idx);
+void update_explosions (void);
 
 void init_explosions (void);
 void uninit_explosions (void);

@@ -80,19 +80,10 @@ extern char trail_size[4];	/* size of trails, minus one */
 extern int col2plr[4];
 extern int plr2col[4];
 
-extern int last_explo;
-
 extern level_t lvl;
 
 extern unsigned char *square_occupied;
 extern unsigned char *square_way;
-extern unsigned char *square_explosion;
-extern int *square_dead_explosion;
-extern unsigned char **explo_list_ptr;
-extern int *explo_list_pos_x;
-extern int *explo_list_pos_y;
-extern int explo_nbr;
-extern unsigned char *square_explosion_type;
 extern tile_index_t *square_tile;
 extern square_coord_pair_t *square_coord;
 extern signed char *square_object;

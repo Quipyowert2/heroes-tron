@@ -306,7 +306,6 @@ draw_level (int p)
   const lemming_t* tmppti;
   signed char bb;
   unsigned char b;
-  unsigned int ib;
   pixel_t *dest = render_buffer[p] + sbuf;
   pixel_t *dest2;
   long anim_frame;
@@ -546,49 +545,15 @@ draw_level (int p)
 	   j++, i++) {
 	i &= lvl.square_width_wrap;
 	if (((unsigned) i) < lvl.square_width) {
-	  b = square_explosion[m + i];
-	  if (b < (NBR_EXPLOSION_FRAMES - 1) * 8 - 1) {
-	    b++;
-	    DRAW_SPRITE (explosions[square_explosion_type[m + i]][b >> 3],
-			 dest);
-	  }
+	  b = square_explo_state[m + i];
+	  if (b <= EXPLOSION_IMMEDIATE)
+	    DRAW_SPRITE (explosions[square_explo_type[m + i]][b], dest);
 	}
 	dest += 12;
       }
       dest += xbuf * 10 - 24 * (nbr_tiles_cols - camera_stop_x[p]) - 2 * 12;
     } else
       dest += xbuf * 10;
-  }
-
-  /* Draw explosions from dead players */
-
-  if ((unsigned) (event_time - last_explo) <
-      (NBR_EXPLOSION_FRAMES - 1) * 8 - 1) {
-    dest = render_buffer[p] + sbuf - 12 - 11 * xbuf - 20 * xbuf - 12;
-    for (k = corner_dy[p] * 2 - 2, l = 0;
-	 l != 4 + (11 - camera_stop_y[p]) * 2; l++, k++) {
-      k &= lvl.square_height_wrap;
-      if (((unsigned) k) < lvl.square_height) {
-	tile_index_t m;
-	m = k * lvl.square_width;
-	for (i = corner_dx[p] * 2 - 1, j = 0;
-	     (unsigned)j != 2 + (nbr_tiles_cols - camera_stop_x[p]) * 2;
-	     j++, i++) {
-	  i &= lvl.square_width_wrap;
-	  if (((unsigned) i) < lvl.square_width) {
-	    ib = event_time - square_dead_explosion[m + i];
-	    if (ib < (NBR_EXPLOSION_FRAMES - 1) * 8 - 1) {
-	      ib++;
-	      DRAW_SPRITE (explosions[square_explosion_type[m + i]]
-			   [NBR_EXPLOSION_FRAMES - 2 - (ib >> 3)], dest);
-	    }
-	  }
-	  dest += 12;
-	}
-	dest += xbuf * 10 - 24 * (nbr_tiles_cols - camera_stop_x[p]) - 2 * 12;
-      } else
-	dest += xbuf * 10;
-    }
   }
 
   /* Draw tutorial arrows */

@@ -1,3 +1,44 @@
+2001-07-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Rewrite the way explosions are handled.  There used to be two
+	distinct explosion types: those from T_BOOM squares and those
+	triggered by player death.  Both where handled separately and in
+	different ways.  This is now homogeneous.  Two noticeable
+	differences are that death explosions are now harmful to other
+	players and will propagate to neighbor T_BOOM squares.
+
+	* src/const.c (last_explo, square_explosion,
+	square_dead_explosion, explo_list_ptr, explo_list_pos_x,
+	explo_list_pos_y, explo_nbr, square_explosion_type): Delete.
+	* src/const.h: Likewise.
+	* src/explosions.c (square_explo_state): New variable, replace
+	suqare_explosion and square_dead_explosion.
+	(square_explo_type): New variable, replace square_explosion_type.
+	(explosion_info_t, explo_list, explo_list_max,
+	explo_list_first_unused, explo_timer, explo_time,
+	allocate_explosions, release_explosions, trigger_explosion,
+	trigger_possible_explosion, update_explosions): New.
+	* src/explosions.h (EXPLOSION_SLICES_PER_FRAMES, EXPLOSION_DELAY,
+	EXPLOSION_IMMEDIATE, EXPLOSION_TRIGGERED,
+	EXPLOSION_TRIGGER_NEIGHBORS, EXPLOSION_UNTRIGGERED, explosion_t,
+	square_explo_state, square_explo_type, allocate_explosions,
+	release_explosions, trigger_explosion, trigger_possible_explosion,
+	update_explosions): New.
+	* src/heroes.c (load_level): Adjust to call allocate_explosions().
+	(unload_level): Adjust to call release_explosions().
+	(erase_trail): Adjust to call trigger_explosion().
+	(ia_eval_dir_target_inline, ia_eval_dir_bonus_inline,
+	ia_eval_dir_lemming_inline, ia_eval_dir_cash_inline,
+	ia_eval_dir_color_inline, ia_goto_target_inline,
+	ia_goto_bonus_inline, ia_goto_lemming_inline,
+	ia_goto_color_inline, ia_goto_cash_inline): Adjust to use
+	square_explo_state.
+	(update_explo): Remove.
+	(update_all): Call update_explosions() instead of update_explo().
+	* src/render.c: (render): Adjust to use square_explo_type and
+	square_explo_state, suppress the separate rendering loop for
+	players' death explosions.
+
 2001-07-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/const.h (d2w, w2d, square_offset): Delete.

@@ -404,13 +404,8 @@ load_level (char *filename, char cont)
   dmsg (D_LEVEL, "initialize variables and maps associated to the level");
 
   XSALLOC_ARRAY (square_occupied, lvl.square_count, 0xff);
-  XSALLOC_ARRAY (square_explosion, lvl.square_count, 254);
-  XCALLOC_ARRAY (square_dead_explosion, lvl.square_count);
-  last_explo = 0;
 
-  XMALLOC_ARRAY (square_explosion_type, lvl.square_count);
-  for (i = 0; i < lvl.square_count; ++i)
-    square_explosion_type[i] = rand () % NBR_EXPLOSION_KINDS;
+  allocate_explosions ();
 
   XMALLOC_ARRAY (square_way, lvl.square_count);
 
@@ -441,28 +436,6 @@ load_level (char *filename, char cont)
 
   square2offset[2] = lvl.square_width;
   square2offset[3] = lvl.square_width + 1;
-
-  /* FIXME: I'm not sure this is useful.  */
-  explo_nbr = 0;
-  for (k = 0; k < lvl.square_count; k++)
-    if (lvl.square_type[k] == T_BOOM) {
-      square_explosion[k] = 255;
-      ++explo_nbr;
-    }
-
-  if (explo_nbr != 0) {
-    XMALLOC_ARRAY (explo_list_ptr, explo_nbr);
-    XMALLOC_ARRAY (explo_list_pos_x, explo_nbr);
-    XMALLOC_ARRAY (explo_list_pos_y, explo_nbr);
-    j = 0;
-    for (i = 0; i < lvl.square_count; ++i)
-      if (square_explosion[i] == 255) {
-	explo_list_ptr[j] = square_explosion + i;
-	explo_list_pos_x[j] = i % lvl.square_width;
-	explo_list_pos_y[j] = i / lvl.square_width;
-	j++;
-      }
-  }
 
   /* Init square_coord, map offsets to coordinates.   */
   for (j = 0; j < lvl.square_height; j++)
@@ -590,14 +563,7 @@ unload_level (void)
   uninit_bonuses_level ();
   img_free (&tile_set_img);
   free (square_occupied);
-  free (square_explosion);
-  free (square_dead_explosion);
-  if (explo_nbr != 0) {
-    free (explo_list_pos_x);
-    free (explo_list_pos_y);
-    free (explo_list_ptr);
-  }
-  free (square_explosion_type);
+  release_explosions ();
   free (square_way);
   free (square_tile);
   free (square_coord);
@@ -1255,9 +1221,8 @@ erase_trail (int c)
   for (i = 0; i < lvl.square_count; ++i)
     if ((square_occupied[i] & 3) == c && square_occupied[i] < 16) {
       square_occupied[i] = 0xff;
-      square_dead_explosion[i] = event_time;
+      trigger_explosion (i, EXPLOSION_IMMEDIATE);
     }
-  last_explo = event_time;
 }
 
 /****************/
@@ -1307,7 +1272,7 @@ ia_eval_dist (int pos)
     idx = lvl.square_move[dir][pos];					\
     if (idx != INVALID_INDEX)						\
     if ((square_occupied[idx] == 0xff) &&				\
-       ((square_explosion[idx] >= (NBR_EXPLOSION_FRAMES-1)*8+12)	\
+       ((square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)		\
         || ia_is_invincible)) {						\
 	    tmp = ia_eval_dir_target (idx);				\
 	    if (tmp < mindist) mindist = tmp;				\
@@ -1317,7 +1282,7 @@ ia_eval_dist (int pos)
     idx = lvl.square_move[dir][pos];					\
     if (idx != INVALID_INDEX)						\
     if ((square_occupied[idx] == 0xff) &&				\
-       ((square_explosion[idx] >= (NBR_EXPLOSION_FRAMES-1)*8+12)	\
+       ((square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)		\
         || ia_is_invincible)) {						\
             tmp = ia_eval_dir_bonus (idx);				\
 	    if (tmp > mindist) mindist = tmp;				\
@@ -1327,7 +1292,7 @@ ia_eval_dist (int pos)
     idx = lvl.square_move[dir][pos];					\
     if (idx != INVALID_INDEX)						\
     if ((square_occupied[idx] == 0xff) &&				\
-       ((square_explosion[idx] >= (NBR_EXPLOSION_FRAMES-1)*8+12)	\
+       ((square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)		\
         || ia_is_invincible)) {						\
 	    tmp = ia_eval_dir_lemming (idx);				\
 	    if (tmp > mindist) mindist = tmp;				\
@@ -1337,7 +1302,7 @@ ia_eval_dist (int pos)
     idx = lvl.square_move[dir][pos];					\
     if (idx != INVALID_INDEX)						\
     if ((square_occupied[idx] == 0xff) &&				\
-       ((square_explosion[idx] >= (NBR_EXPLOSION_FRAMES-1)*8+12)	\
+       ((square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)		\
         || ia_is_invincible)) {						\
 	    tmp = ia_eval_dir_cash (idx);				\
 	    if (tmp > mindist) mindist = tmp;				\
@@ -1347,7 +1312,7 @@ ia_eval_dist (int pos)
     idx = lvl.square_move[dir][pos];					\
     if (idx != INVALID_INDEX)						\
     if ((square_occupied[idx] == 0xff) &&				\
-       ((square_explosion[idx] >= (NBR_EXPLOSION_FRAMES-1)*8+12)	\
+       ((square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)		\
         || ia_is_invincible)) {						\
 	    tmp = ia_eval_dir_color(idx);				\
 	    if (tmp > mindist) mindist = tmp;				\
@@ -1588,7 +1553,7 @@ ia_eval_dir_bonus (square_index_t pos)
     idx = lvl.square_move[dir][pos];					\
     if (idx != INVALID_INDEX)						\
     if ((square_occupied[idx] == 0xff) &&				\
-       ((square_explosion[idx] >= (NBR_EXPLOSION_FRAMES-1)*8+12)	\
+       ((square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)		\
         || ia_is_invincible)) {						\
 	  ia_cur_depth=ia_max_depth;					\
 	  tmp[dir] = ia_eval_dir_target (idx);				\
@@ -1602,7 +1567,7 @@ ia_eval_dir_bonus (square_index_t pos)
     idx = lvl.square_move[dir][pos];					\
     if (idx != INVALID_INDEX)						\
     if ((square_occupied[idx] == 0xff) &&				\
-       ((square_explosion[idx] >= (NBR_EXPLOSION_FRAMES-1)*8+12)	\
+       ((square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)		\
         || ia_is_invincible)) {						\
 	  ia_cur_depth = ia_max_depth;					\
 	  tmp[dir] = ia_eval_dir_bonus(idx);				\
@@ -1616,7 +1581,7 @@ ia_eval_dir_bonus (square_index_t pos)
     idx = lvl.square_move[dir][pos];					\
     if (idx != INVALID_INDEX)						\
     if ((square_occupied[idx] == 0xff) &&				\
-       ((square_explosion[idx] >= (NBR_EXPLOSION_FRAMES-1)*8+12)	\
+       ((square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)		\
         || ia_is_invincible)) {						\
 	  ia_cur_depth = ia_max_depth;					\
 	  tmp[dir] = ia_eval_dir_lemming(idx);				\
@@ -1630,7 +1595,7 @@ ia_eval_dir_bonus (square_index_t pos)
     idx = lvl.square_move[dir][pos];					\
     if (idx != INVALID_INDEX)						\
     if ((square_occupied[idx] == 0xff) &&				\
-       ((square_explosion[idx] >= (NBR_EXPLOSION_FRAMES-1)*8+12)	\
+       ((square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)		\
         || ia_is_invincible)) {						\
 	  ia_cur_depth = ia_max_depth;					\
 	  tmp[dir] = ia_eval_dir_color (idx);				\
@@ -1644,7 +1609,7 @@ ia_eval_dir_bonus (square_index_t pos)
     idx = lvl.square_move[dir][pos];					\
     if (idx != INVALID_INDEX)						\
     if ((square_occupied[idx] == 0xff) &&				\
-       ((square_explosion[idx] >= (NBR_EXPLOSION_FRAMES-1)*8+12)	\
+       ((square_explo_state[idx] >= EXPLOSION_IMMEDIATE + 2)		\
         || ia_is_invincible)) {						\
 	  ia_cur_depth = ia_max_depth;					\
 	  tmp[dir] = ia_eval_dir_cash(idx);				\
@@ -2032,7 +1997,7 @@ update_player (int c)
 	player[c].target -= 16;
     }
     square_occupied[d2] = c;
-    if ((square_explosion[d2] <= (NBR_EXPLOSION_FRAMES - 1) * 8 - 1) &&
+    if ((square_explo_state[d2] <= EXPLOSION_IMMEDIATE) &&
 	player[c].invincible == 0)
       player[c].spec = 0xff;
 
@@ -2298,10 +2263,7 @@ update_player (int c)
 
       if (lvl.square_type[player[c].pos] == T_DUST)
 	player[c].vi = -(player[c].v >> 1);
-      if (square_explosion[d2] == 255) {
-	square_explosion[d2] = 200;
-	square_explosion_type[d2] = rand () % NBR_EXPLOSION_KINDS;
-      }
+      trigger_possible_explosion (d2);
     }
     player[c].delay = 0;
 
@@ -2310,33 +2272,6 @@ update_player (int c)
   }
 }
 
-
-/* propagate explosions */
-
-static void
-update_explo (void)
-{
-  int i;			/* ,x,y,m,x2; */
-  unsigned char c;
-  for (i = explo_nbr - 1; i >= 0; i--) {
-    c = *explo_list_ptr[i];
-    if (c <= 200)
-      *explo_list_ptr[i] = (c - 1);
-    if (c == 170) {
-      square_index_t x2;
-      square_index_t idx = explo_list_pos_y[i] * lvl.square_width
-	+ explo_list_pos_x[i];
-      int j;
-      for (j = 0; j < 4; ++j) {
-	x2 = lvl.square_move[j][idx];
-	if (x2 != INVALID_INDEX && (square_explosion[x2] == 255)) {
-	  square_explosion[x2] = 200;
-	  square_explosion_type[x2] = rand () % NBR_EXPLOSION_KINDS;
-	}
-      }
-    }
-  }
-}
 
 /* lemming moves */
 static void
@@ -2400,13 +2335,14 @@ update_all (char plr)
   int p;
   long frames = read_htimer (update_htimer);
 
+  update_explosions ();
+
   for (; frames; --frames) {
     if (plr) {
       update_player (0);
       update_player (1);
       update_player (2);
       update_player (3);
-      update_explo ();
       update_bonuses ();
       if (radar_current_pos < radar_target_pos)
 	radar_current_pos++;
