@@ -53,7 +53,7 @@ media_libhmcommon_a_SOURCES = \
   media/sfx.h
 
 media_libhggivkm_a_CFLAGS = \
-  @CFLAGS@ @MORE_WARNINGS_CFLAGS@ @GGI_CFLAGS@
+  @MORE_WARNINGS_CFLAGS@ @GGI_CFLAGS@
 media_libhggivkm_a_SOURCES = \
   media/ggi/keyb.c \
   media/ggi/keyvalues.c \
@@ -62,18 +62,18 @@ nodist_media_libhggivkm_a_SOURCES = \
   media/ggi/keysdef.c
 
 media_libhgiij_a_CFLAGS = \
-  @CFLAGS@ @MORE_WARNINGS_CFLAGS@ @GGI_CFLAGS@ @GII_CFLAGS@
+  @MORE_WARNINGS_CFLAGS@ @GGI_CFLAGS@ @GII_CFLAGS@
 media_libhgiij_a_SOURCES = \
   media/gii/joystick.c
 
 media_libhmiks_a_CFLAGS = \
-  @CFLAGS@ @MORE_WARNINGS_CFLAGS@ @LIBMIKMOD_CFLAGS@
+  @MORE_WARNINGS_CFLAGS@ @LIBMIKMOD_CFLAGS@
 media_libhmiks_a_SOURCES = \
   media/mikmod/strack.c \
   media/mikmod/sfx.c
 
 media_libhsdlvkm_a_CFLAGS = \
-  @CFLAGS@ @MORE_WARNINGS_CFLAGS@ @SDL_CFLAGS@
+  @MORE_WARNINGS_CFLAGS@ @SDL_CFLAGS@
 media_libhsdlvkm_a_SOURCES = \
   media/sdl/keyb.c \
   media/sdl/keyvalues.c \
@@ -82,18 +82,18 @@ nodist_media_libhsdlvkm_a_SOURCES = \
   media/sdl/keysdef.c
 
 media_libhsdlj_a_CFLAGS = \
-  @CFLAGS@ @MORE_WARNINGS_CFLAGS@ @SDL_CFLAGS@
+  @MORE_WARNINGS_CFLAGS@ @SDL_CFLAGS@
 media_libhsdlj_a_SOURCES = \
   media/sdl/joystick.c
 
 media_libhsdls_a_CFLAGS = \
-  @CFLAGS@ @MORE_WARNINGS_CFLAGS@ @SDL_CFLAGS@ @SDL_MIXER_CFLAGS@
+  @MORE_WARNINGS_CFLAGS@ @SDL_CFLAGS@ @SDL_MIXER_CFLAGS@
 media_libhsdls_a_SOURCES = \
   media/sdl_mixer/strack.c \
   media/sdl_mixer/sfx.c
 
 media_libhallvkm_a_CFLAGS = \
-  @CFLAGS@ @MORE_WARNINGS_CFLAGS@ @ALLEGRO_CFLAGS@
+  @MORE_WARNINGS_CFLAGS@ @ALLEGRO_CFLAGS@
 media_libhallvkm_a_SOURCES = \
   media/allegro/keyb.c \
   media/allegro/keyvalues.c \

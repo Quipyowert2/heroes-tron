@@ -1,4 +1,4 @@
-# Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>
+# Copyright 2000, 2001  Alexandre Duret-Lutz <duret_g@epita.fr>
 #
 # This file is part of Heroes.
 #
@@ -16,54 +16,37 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 #
 
-noinst_LIBRARIES= libheroes.a
-
-CFLAGS = @CFLAGS@ @GGI_CFLAGS@ @GII_CFLAGS@ @LIBMIKMOD_CFLAGS@ @SDL_CFLAGS@ @SDL_MIXER_CFLAGS@
-
-EXTRA_DIST= \
-ftruncate.c \
-getopt.c \
-getopt1.c \
-malloc.c \
-memrchr.c \
-realloc.c \
-stpcpy.c \
-strcasecmp.c \
-strndup.c \
-w_dirent.c
-
-noinst_HEADERS= \
-basename.h \
-dirname.h \
-error.h \
-filelock.h \
-fstrcmp.h \
-gnugetopt.h \
-getshline.h \
-hash.h \
-isdir.h \
-w_dirent.h \
-xalloc.h \
-xstrduplwr.h
-
 # path for config.h and system.h
 INCLUDES = -I.. -I$(srcdir) -I../intl -I$(top_srcdir)/src
 
+noinst_LIBRARIES= libheroes.a
+
 # These files are always compiled
 libheroes_a_SOURCES= \
-basename.c \
-dirname.c \
-error.c \
-filelock.c \
-fstrcmp.c \
-getshline.c \
-hash.c \
-isdir.c \
-stripslash.c \
-xmalloc.c \
-xstrdup.c \
-xstrduplwr.c
+  basename.c \
+  basename.h \
+  dirname.c \
+  dirname.h \
+  error.c \
+  error.h \
+  filelock.c \
+  filelock.h \
+  fstrcmp.c \
+  fstrcmp.h \
+  getshline.c \
+  getshline.h \
+  gnugetopt.h \
+  hash.c \
+  hash.h \
+  isdir.c \
+  isdir.h \
+  stripslash.c \
+  w_dirent.h \
+  xalloc.h \
+  xmalloc.c \
+  xstrdup.c \
+  xstrduplwr.c \
+  xstrduplwr.h
 
 # Additional files to compile, when functions are missing.
 libheroes_a_LIBADD = @LIBOBJS@ @ALLOCA@
-libheroes_a_DEPENDENCIES = $(libheroes_a_LIBADD)

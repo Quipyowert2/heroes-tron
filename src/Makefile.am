@@ -24,7 +24,7 @@ INCLUDES = -I$(top_srcdir)/lib -I../lib -I../intl -I$(srcdir)/lvl -I$(srcdir)/me
 
 EXTRA_DIST = rsc_files.gperf debughash.gperf
 
-CFLAGS = @CFLAGS@ @MORE_WARNINGS_CFLAGS@
+AM_CFLAGS = @MORE_WARNINGS_CFLAGS@
 
 heroeslvl_LDADD = lvl/libhlvl.a ../lib/libheroes.a @INTLLIBS@
 heroeslvl_SOURCES = heroeslvl.c
@@ -214,7 +214,7 @@ CLEANFILES = $(EXTRA_LIBRARIES)
 
 EXTRA_PROGRAMS = parafmt-check
 parafmt_check_SOURCES = parafmt.c
-parafmt_check_CFLAGS = @CFLAGS@ @MORE_WARNINGS_CFLAGS@ -DTEST
+parafmt_check_CFLAGS = @MORE_WARNINGS_CFLAGS@ -DTEST
 
 EXTRA_DIST += etc/Makefile.inc
 include etc/Makefile.inc

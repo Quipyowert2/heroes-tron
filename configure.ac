@@ -18,10 +18,10 @@ dnl
 
 AC_PREREQ(2.50)
 
-AC_INIT([heroes], [0.14], [heroes-bugs@lists.sourceforge.net])
+AC_INIT([heroes], [0.15], [heroes-bugs@lists.sourceforge.net])
 AC_CONFIG_AUX_DIR(tools)
 AC_CONFIG_SRCDIR([src/heroes.c])
-AM_INIT_AUTOMAKE([heroes], [0.14])
+AM_INIT_AUTOMAKE([heroes], [0.15])
 
 AC_COPYRIGHT([Copyright 2000, 2001  Alexandre Duret-Lutz])
 
@@ -129,7 +129,7 @@ adl_FUNC_READDIR
 AC_FUNC_VPRINTF
 AC_FUNC_MKDIR
 
-AC_REPLACE_FUNCS([memrchr stpcpy strcasecmp])
+AC_REPLACE_FUNCS([memrchr stpcpy strndup strcasecmp])
 jm_FUNC_MALLOC
 
 # We used to clear LIBS to work around a bug (?) on

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.9\n"
-"POT-Creation-Date: 2001-09-21 18:20+0200\n"
+"POT-Creation-Date: 2001-10-20 16:18+0200\n"
 "PO-Revision-Date: 2001-03-18 18:27GMT\n"
 "Last-Translator: Hermann J. Beckers <beckers@st-oneline.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -14,65 +14,65 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 0.8\n"
 
-#: lib/error.c:117
+#: lib/error.c:126
 msgid "Unknown system error"
 msgstr "unbekannter Systemfehler"
 
-#: lib/getopt.c:686
+#: lib/getopt.c:694
 #, c-format
 msgid "%s: option `%s' is ambiguous\n"
 msgstr "%s: Die Option `%s' ist nicht eindeutig\n"
 
-#: lib/getopt.c:711
+#: lib/getopt.c:719
 #, c-format
 msgid "%s: option `--%s' doesn't allow an argument\n"
 msgstr "%s: Die Option `--%s' darf kein Argument haben.\n"
 
-#: lib/getopt.c:716
+#: lib/getopt.c:724
 #, c-format
 msgid "%s: option `%c%s' doesn't allow an argument\n"
 msgstr "%s: Die Option `%c%s' darf kein Argument haben.\n"
 
-#: lib/getopt.c:734 lib/getopt.c:907
+#: lib/getopt.c:742 lib/getopt.c:915
 #, c-format
 msgid "%s: option `%s' requires an argument\n"
 msgstr "%s: Die Option `%s' erfordert ein Argument.\n"
 
 #. --option
-#: lib/getopt.c:763
+#: lib/getopt.c:771
 #, c-format
 msgid "%s: unrecognized option `--%s'\n"
 msgstr "%s: Unbekannte Option `--%s'\n"
 
 #. +option or -option
-#: lib/getopt.c:767
+#: lib/getopt.c:775
 #, c-format
 msgid "%s: unrecognized option `%c%s'\n"
 msgstr "%s: Option nicht erkannt `%c%s'\n"
 
 #. 1003.2 specifies the format of this message.
-#: lib/getopt.c:793
+#: lib/getopt.c:801
 #, c-format
 msgid "%s: illegal option -- %c\n"
 msgstr "%s: Ungueltige Option --%c\n"
 
-#: lib/getopt.c:796
+#: lib/getopt.c:804
 #, c-format
 msgid "%s: invalid option -- %c\n"
 msgstr "%s: Ungueltige Option --%c\n"
 
 #. 1003.2 specifies the format of this message.
-#: lib/getopt.c:826 lib/getopt.c:956
+#: lib/getopt.c:834 lib/getopt.c:964
 #, c-format
 msgid "%s: option requires an argument -- %c\n"
 msgstr "%s: Die Option erfordert ein Argument --%c\n"
 
-#: lib/getopt.c:873
+#: lib/getopt.c:881
 #, c-format
 msgid "%s: option `-W %s' is ambiguous\n"
 msgstr "%s: Die Option `-W %s' ist nicht eindeutig\n"
 
-#: lib/getopt.c:891
+#: lib/getopt.c:899
 #, c-format
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: Die Option `-W %s' darf kein Argument haben.\n"
@@ -1509,11 +1509,11 @@ msgstr ""
 msgid "Unknown option '%c' for command '%s'."
 msgstr ""
 
-#: src/relocate.c:71
+#: src/relocate.c:70
 msgid "HOME variable not found in environment, defaulting to `.'"
 msgstr "Variable HOME nicht gesetzt, Fehlwert '.'."
 
-#: src/relocate.c:183
+#: src/relocate.c:182
 msgid ""
 "It looks like the game is not correctly installed.\n"
 "Maybe the data files have not been installed with the same configure "

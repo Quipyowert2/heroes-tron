@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.8c\n"
-"POT-Creation-Date: 2001-09-21 18:20+0200\n"
+"POT-Creation-Date: 2001-10-20 16:18+0200\n"
 "PO-Revision-Date: 2001-02-23 22:37+01:00\n"
 "Last-Translator: Jos Boersema <joshb@FIXME>\n"
 "Language-Team: none <LL@li.org>\n"
@@ -14,44 +14,44 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: lib/error.c:117
+#: lib/error.c:126
 msgid "Unknown system error"
 msgstr "Onbekende systeem-fout"
 
-#: lib/getopt.c:686
+#: lib/getopt.c:694
 #, c-format
 msgid "%s: option `%s' is ambiguous\n"
 msgstr "%s: optie `%s' is dubbelzinnig\n"
 
-#: lib/getopt.c:711
+#: lib/getopt.c:719
 #, c-format
 msgid "%s: option `--%s' doesn't allow an argument\n"
 msgstr "%s: optie `--%s' staat geen argument toe\n"
 
-#: lib/getopt.c:716
+#: lib/getopt.c:724
 #, c-format
 msgid "%s: option `%c%s' doesn't allow an argument\n"
 msgstr "%s: optie `%c%s' staat geen argument toe\n"
 
-#: lib/getopt.c:734 lib/getopt.c:907
+#: lib/getopt.c:742 lib/getopt.c:915
 #, c-format
 msgid "%s: option `%s' requires an argument\n"
 msgstr "%s: optie `%s' vereist een argument\n"
 
 #. --option
-#: lib/getopt.c:763
+#: lib/getopt.c:771
 #, c-format
 msgid "%s: unrecognized option `--%s'\n"
 msgstr "%s: niet herkende optie `--%s'\n"
 
 #. +option or -option
-#: lib/getopt.c:767
+#: lib/getopt.c:775
 #, c-format
 msgid "%s: unrecognized option `%c%s'\n"
 msgstr "%s: niet herkende optie `%c%s'\n"
 
 #. 1003.2 specifies the format of this message.
-#: lib/getopt.c:793
+#: lib/getopt.c:801
 #, c-format
 msgid "%s: illegal option -- %c\n"
 msgstr "%s: ongeldige optie -- %c\n"
@@ -59,23 +59,23 @@ msgstr "%s: ongeldige optie -- %c\n"
 # "illegal" and "invalid" both translate as `ongeldig'.
 # if you want difference: make the above `verkeerde optie' ("wrong option")
 # (or email me/someone-nl ofcource...)
-#: lib/getopt.c:796
+#: lib/getopt.c:804
 #, c-format
 msgid "%s: invalid option -- %c\n"
 msgstr "%s: ongeldige optie -- %c\n"
 
 #. 1003.2 specifies the format of this message.
-#: lib/getopt.c:826 lib/getopt.c:956
+#: lib/getopt.c:834 lib/getopt.c:964
 #, c-format
 msgid "%s: option requires an argument -- %c\n"
 msgstr "%s: optie vereist een argument -- %c\n"
 
-#: lib/getopt.c:873
+#: lib/getopt.c:881
 #, c-format
 msgid "%s: option `-W %s' is ambiguous\n"
 msgstr "%s: optie `-W %s' is dubbelzinnig\n"
 
-#: lib/getopt.c:891
+#: lib/getopt.c:899
 #, c-format
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: optie `-W %s' staat geen argumenten toe\n"
@@ -1548,11 +1548,11 @@ msgstr ""
 msgid "Unknown option '%c' for command '%s'."
 msgstr ""
 
-#: src/relocate.c:71
+#: src/relocate.c:70
 msgid "HOME variable not found in environment, defaulting to `.'"
 msgstr "HOME variabele niet gevonden in omgeving, neem `.'"
 
-#: src/relocate.c:183
+#: src/relocate.c:182
 msgid ""
 "It looks like the game is not correctly installed.\n"
 "Maybe the data files have not been installed with the same configure "

@@ -1,5 +1,30 @@
 2001-10-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.ac: Bump version to 0.15.
+	* NEWS, ANNOUNCE: Update for 0.15.
+
+	Modernize lib/Makefile.am.
+
+	* lib/Makefile.am (CFLAGS): Remove (useless).
+	(EXTRA_DIST, libheroes_a_DEPENDENCIES): Remove (automatically
+	filled by Automake).
+	(noinst_HEADERS): Merge with libheroes_a_SOURCES.
+	* configure.ac: AC_REPLACE_FUNC strndup.
+
+	Avoid duplication of CFLAGS on targets using per-target CFLAGS.
+
+	* src/Makefile.am (CFLAGS): Don't define this variable, but ...
+	(AM_CFLAGS): ... define this one instead.
+	(parafmt_check_CFLAGS): Remove @CFLAGS@.
+	* src/media/Makefile.am (media_libhggivkm_a_CFLAGS,
+	media_libhgiij_a_CFLAGS, media_libhmiks_a_CFLAGS,
+	media_libhsdlvkm_a_CFLAGS, media_libhsdlj_a_CFLAGS,
+	media_libhsdls_a_CFLAGS, media_libhallvkm_a_CFLAGS): Likewise.
+	* src/sys/Makefile.inc (sys_libhsdlm_a_CFLAGS,
+	sys_libhallm_a_CFLAGS): Likewise.
+
+2001-10-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* BUGS: Update with input from Eero Tamminen <oak@welho.fi>.
 
 2001-10-20  Alexandre Duret-Lutz  <duret_g@epita.fr>

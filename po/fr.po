@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.14\n"
-"POT-Creation-Date: 2001-09-21 18:20+0200\n"
+"POT-Creation-Date: 2001-10-20 16:18+0200\n"
 "PO-Revision-Date: 2001-08-25 14:45+0200\n"
 "Last-Translator: Alexandre Duret-Lutz <duret_g@epita.fr>\n"
 "Language-Team: none <LL@li.org>\n"
@@ -14,65 +14,65 @@ msgstr ""
 "Content-Transfer-Encoding: 8-bit\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
 
-#: lib/error.c:117
+#: lib/error.c:126
 msgid "Unknown system error"
 msgstr "Erreur système inconnue"
 
-#: lib/getopt.c:686
+#: lib/getopt.c:694
 #, c-format
 msgid "%s: option `%s' is ambiguous\n"
 msgstr "%s: l'option `%s' est ambiguë\n"
 
-#: lib/getopt.c:711
+#: lib/getopt.c:719
 #, c-format
 msgid "%s: option `--%s' doesn't allow an argument\n"
 msgstr "%s: l'option `--%s' ne requiert pas de paramètre.\n"
 
-#: lib/getopt.c:716
+#: lib/getopt.c:724
 #, c-format
 msgid "%s: option `%c%s' doesn't allow an argument\n"
 msgstr "%s: l'option `%c%s' ne requiert pas de paramètre.\n"
 
-#: lib/getopt.c:734 lib/getopt.c:907
+#: lib/getopt.c:742 lib/getopt.c:915
 #, c-format
 msgid "%s: option `%s' requires an argument\n"
 msgstr "%s: l'option `%s' requiert un paramètre.\n"
 
 #. --option
-#: lib/getopt.c:763
+#: lib/getopt.c:771
 #, c-format
 msgid "%s: unrecognized option `--%s'\n"
 msgstr "%s: option non reconnue `--%s'\n"
 
 #. +option or -option
-#: lib/getopt.c:767
+#: lib/getopt.c:775
 #, c-format
 msgid "%s: unrecognized option `%c%s'\n"
 msgstr "%s: option non reconnue `%c%s'\n"
 
 #. 1003.2 specifies the format of this message.
-#: lib/getopt.c:793
+#: lib/getopt.c:801
 #, c-format
 msgid "%s: illegal option -- %c\n"
 msgstr "%s: option illégale --%c\n"
 
-#: lib/getopt.c:796
+#: lib/getopt.c:804
 #, c-format
 msgid "%s: invalid option -- %c\n"
 msgstr "%s: option invalide --%c\n"
 
 #. 1003.2 specifies the format of this message.
-#: lib/getopt.c:826 lib/getopt.c:956
+#: lib/getopt.c:834 lib/getopt.c:964
 #, c-format
 msgid "%s: option requires an argument -- %c\n"
 msgstr "%s: l'option requiert un paramètre --%c\n"
 
-#: lib/getopt.c:873
+#: lib/getopt.c:881
 #, c-format
 msgid "%s: option `-W %s' is ambiguous\n"
 msgstr "%s: l'option `-W %s' est ambiguë\n"
 
-#: lib/getopt.c:891
+#: lib/getopt.c:899
 #, c-format
 msgid "%s: option `-W %s' doesn't allow an argument\n"
 msgstr "%s: l'option `-W %s' ne requiert pas de paramètre.\n"
@@ -1563,11 +1563,11 @@ msgstr "Autres personnes que nous souhaitons remercier\n"
 msgid "Unknown option '%c' for command '%s'."
 msgstr "L'option '%c' est inconnue pour la commande '%s'."
 
-#: src/relocate.c:71
+#: src/relocate.c:70
 msgid "HOME variable not found in environment, defaulting to `.'"
 msgstr "Variable d'environment `HOME' inexistante, `.' utilisé à défaut."
 
-#: src/relocate.c:183
+#: src/relocate.c:182
 msgid ""
 "It looks like the game is not correctly installed.\n"
 "Maybe the data files have not been installed with the same configure "
