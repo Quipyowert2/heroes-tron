@@ -1,5 +1,10 @@
 2000-07-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.in: Use `#' for comments, not `dnl', so they can
+	be read in the configure script.
+
+2000-07-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Ensure that -DNDEBUG gets added to CFLAGS even
 	when the user has specified its own CFLAGS (unless
 	--enable-debug).
