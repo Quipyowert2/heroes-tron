@@ -100,6 +100,13 @@ decode_level_body (const a_u8 *data, a_level *lvl)
   tcount = lvl->tile_count;
   square_walls_in = xmalloc (lvl->square_count);
 
+  /* Initialize the default direction for all squares.  Although for
+     square where it matters, the direction is initialized below, we need
+     a default direction for tools like 'heroeslvl' who attempt to
+     dump the entire 'square_direction' array.  */
+  memset (lvl->square_direction, D_UP,
+	  lvl->square_count * sizeof *lvl->square_direction);
+
   /* Read each tile.  */
   for (ti = 0; ti < tcount; ++ti, data += LVL_RECORD_SIZE) {
     a_tile_type tt;		/* Tile type.  */
