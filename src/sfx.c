@@ -211,6 +211,7 @@ static void
 std_sfx_set (void)
 {
   int i;
+  mark_sfx (1);
   for (i = 20; i < 36; i++)
     mark_sfx (i);
   for (i = 37; i < 70; i++)

@@ -1,3 +1,10 @@
+2000-11-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/sfx.c (std_sfx_set): Mark sfx #1 for loading, it is needed
+	by move_updown(), now called by quit_yes_no() which can be used in
+	any modes. This fix the "Assertion `sfx_loaded[event_handle[event]]'
+	failed"	bug reported by Jean Delvare.
+
 2000-11-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/menus.c (main_entries): Display "QUIT" for the exit entry.
