@@ -90,7 +90,7 @@ fi
 
   AC_SUBST(UP[]_CFLAGS)
   AC_SUBST(UP[]_LIBS)
-  AC_SUBST(UP[]_LDALL)
+  AC_SUBST(UP[]_LDFLAGS)
 
   popdef([UP])
   popdef([DOWN])

@@ -1,5 +1,12 @@
 2001-07-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.ac: Show a summary of CFLAGS and LIBS for each
+	libraries.
+	* m4/checkpkg.m4: Typo, s/_LDALL/_LDFLAGS/.
+	* src/Makefile.am (heroes_LDFLAGS): Typo, s/_LIBS/_LDFLAGS/.
+
+2001-07-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.ac: Remove the jm_FUNC_REALLOC kludge.
 
 2001-07-29  Alexandre Duret-Lutz  <duret_g@epita.fr>

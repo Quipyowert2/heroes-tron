@@ -33,7 +33,7 @@ heroeslvl_LDADD = lvl/libhlvl.a ../lib/libheroes.a
 heroeslvl_SOURCES = heroeslvl.c
 
 heroes_LDADD = lvl/libhlvl.a ../lib/libheroes.a @INTLLIBS@  @GGI_LIBS@ @GII_LIBS@ @LIBMIKMOD_LIBS@ @SDL_LIBS@ @SDL_MIXER_LIBS@
-heroes_LDFLAGS = @GGI_LIBS@ @GII_LIBS@ @SDL_MIXER_LIBS@
+heroes_LDFLAGS = @GGI_LDFLAGS@ @GII_LDFLAGS@ @SDL_MIXER_LDFLAGS@
 heroes_SOURCES = \
 argv.c \
 argv.h \

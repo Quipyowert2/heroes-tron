@@ -231,10 +231,14 @@ Heroes version           : $VERSION
 host                     : $host
 display & keyboard       : ${display_lib}
 joystick                 : ${joystick_lib}
+  CFLAGS                 : $GGI_CFLAGS $GII_CFLAGS $SDL_CFLAGS
+  LIBS                   : $GGI_LDFLAGS $GII_LDFLAGS $GGI_LIBS $GII_LIBS $SDL_LIBS
 sound                    : ${sound_lib}
+  CFLAGS                 : $SDL_MIXER_CFLAGS $LIBMIKMOD_CFLAGS
+  LIBS                   : $SDL_MIXER_LDFLAGS $SDL_MIXER_LIBS $LIBMIKMOD_LIBS
 compiler                 : $CC
-compiler flags           : $CFLAGS
-linker flags             : $LDFLAGS $LIBS
+  CFLAGS                 : $CFLAGS $MORE_WARNINGS_CFLAGS
+  LIBS                   : $LDFLAGS $LIBS
 binary install path      : $bindir
 data install path        : ${datadir}/heroes
 manual page install path : $mandir
