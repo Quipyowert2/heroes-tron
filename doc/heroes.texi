@@ -33,7 +33,7 @@
 @ifinfo
 This file documents Heroes, a Nibbles clone, just better.
 
-Copyright 2000  Alexandre Duret-Lutz
+Copyright 2000, 2001  Alexandre Duret-Lutz
 
 Permission is granted to make and distribute verbatim
 copies of this manual provided the copyright notice and
@@ -75,7 +75,7 @@ translation approved by the Free Software Foundation.
 @c  start the copyright page.
 @page
 @vskip 0pt plus 1filll
-Copyright 2000  Alexandre Duret-Lutz
+Copyright 2000, 2001  Alexandre Duret-Lutz
 
 Permission is granted to make and distribute verbatim
 copies of this manual provided the copyright notice and

@@ -1,5 +1,14 @@
 2001-01-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Missing copyright updates from previous patches.
+
+	* doc/heroes.texi: Copyright 2001.
+	* src/menus.c: Likewise.
+	* src/render.h: Likewise.
+	* src/scrtools.h: Likewise.
+
+2001-01-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/helptext.c (help_text1): Point users at the arrow keys.
 	Suggested by Daniel Burrows.
 
