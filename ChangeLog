@@ -1,3 +1,8 @@
+2000-09-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.in: Document undocumented AC_DEFINEs.
+	* acconfig.h: Likewise.
+
 2000-09-09  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Delete src/optionss.h.

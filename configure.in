@@ -63,12 +63,12 @@ AC_HELP_STRING([--without-mikmod],[disables libMikMod usage completely])])
 
 if test "x$enable_debug" = xyes; then
   # disabled by default
-  AC_DEFINE([DEBUG],1,[Define if you want debuging code and symbols])
+  AC_DEFINE([DEBUG],1,[Define if you want debuging code and symbols.])
 fi;
 
 if test "x$enable_heroes_debug" != xno; then
   # enabled by default
-  AC_DEFINE([USE_HEROES_DEBUG],1,[Define if you want tracing code])
+  AC_DEFINE([USE_HEROES_DEBUG],1,[Define if you want tracing code.])
 fi;
 
 # --with-sdl-exec-prefix should imply --with-sdl, and vice-versa
@@ -230,7 +230,7 @@ fi
 if test "${with_sdl-yes}" != no; then
 
 AC_adl_PKG_GENERIC(sdl,[1.0.1],[SDL_Init],
-[AC_DEFINE([HAVE_SDL],1,[Define if you have the SDL library])],
+[AC_DEFINE([HAVE_SDL],1,[Define if you have the SDL library.])],
 [with_sdl=no])
 
 fi
@@ -325,7 +325,7 @@ joystick_lib='LibGII'
 fi
 
 if test "${enable_joystick-yes}" = yes; then
-  AC_DEFINE([JOYSTICK_SUPPORT],1,[Define if you want joystick support])
+  AC_DEFINE([JOYSTICK_SUPPORT],1,[Define if you want joystick support.])
 fi
 
 # ===================
@@ -373,7 +373,7 @@ AC_adl_PKG_GENERIC([libmikmod],[3.1.7],[MikMod_Init],
 [sound_lib="libmikmod dnl
 $libmikmod_config_major_version.$libmikmod_config_minor_version.dnl
 $libmikmod_config_micro_version"
-]AC_DEFINE([HAVE_LIBMIKMOD],1,[Define if you have the LibMikMod library]))
+]AC_DEFINE([HAVE_LIBMIKMOD],1,[Define if you have the LibMikMod library.]))
 
 fi
 
@@ -388,7 +388,7 @@ mallocdbg='';
 if test "x${enable_mem_debug}" = xyes; then
   AC_CHECK_LIB([dmalloc],[malloc],[mallocdbg='dmalloc'; 
 malloc_lib='dmalloc'; LIBS="-ldmalloc $LIBS";
-AC_DEFINE([HAVE_DMALLOC],1,[Define if you link with the dmalloc library])])
+AC_DEFINE([HAVE_DMALLOC],1,[Define if you link with the dmalloc library.])])
 fi
 
 # =========================
@@ -517,13 +517,16 @@ fi
 
 user_dir=no
 if test "${enable_user_scores-yes}" != no; then
-  AC_DEFINE([USER_SCORES_FILE])
+  AC_DEFINE([USER_SCORES_FILE],1,
+            [Define if scores must be saved in the user directory.])
 fi
 if test "${enable_user_config-yes}" != no; then
-  AC_DEFINE([USER_CONFIG_FILE])
+  AC_DEFINE([USER_CONFIG_FILE],1,
+            [Define if configuration must be saved in the user directory.])
 fi
 if test "${enable_user_saves-yes}" != no; then
-  AC_DEFINE([USER_SAVES_FILE])
+  AC_DEFINE([USER_SAVES_FILE],1,
+            [Define if games must be saved in the user directory.])
 fi
 
 confdir=${datadir}/heroes/txt_cfg/
@@ -539,7 +542,7 @@ AC_SUBST([scoresdir])
 AC_SUBST([textdir])
 AC_SUBST([etcdir])
 
-AC_DEFINE_DIR([datadir],[data_dir],[data directory])
+AC_DEFINE_DIR([datadir],[data_dir],[Path to the data directory.])
 
 # ===================
 # HTML documentation. 
