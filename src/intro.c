@@ -34,8 +34,8 @@
 #include "fader.h"
 
 /******* data of the intro *******/
-palette_ fade_pal;
-image_ intro_img;
+palette_t fade_pal;
+pcx_image_t intro_img;
 unsigned char **erase_data;
 unsigned char **erase_data_cur;
 int color_nbr[256 + 1];
@@ -49,7 +49,7 @@ htimer_t intro_global_htimer;
 
 
 static void
-img2vram (image_ * image)
+img2vram (pcx_image_t * image)
 {
   fastmem4 (image->buffer, screen, 64000 / 4);
 }
@@ -153,7 +153,7 @@ antialias (unsigned char *src, int nbr)
 static char
 show_intro (void)
 {
-  palette_ pal;
+  palette_t pal;
   fader_status_t fade_stat;
 
   load_soundtrack_from_alias ("INTRO");
@@ -307,7 +307,7 @@ play_intro (void)
     memset ((char *) &pal, 0, 768);
     reset_htimer (intro_frame_htimer);
     for (i = 31; i >= 0; i -= read_htimer (intro_frame_htimer)) {
-      pal2pal ((palette_ *) & pal, (palette_ *) & fade_pal, i << 1);
+      pal2pal ((palette_t *) & pal, (palette_t *) & fade_pal, i << 1);
       vsynch ();
       set_pal ((char *) &temppal, 0, 768);
     }

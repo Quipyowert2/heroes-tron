@@ -58,6 +58,7 @@
 
 #include "structs.h"
 #include "const.h"
+#include "scrtools.h"
 
 char tile_set_name[128];
 char glenz_name[128];
@@ -1072,7 +1073,7 @@ save_pcx (char q)
   FILE *fpcx;
   static char nompcx[13];
   static int pcxnbr;
-  header_ headpcx;
+  pcx_header_t headpcx;
   int i1;
 
   headpcx.signature = 10;
@@ -1102,7 +1103,7 @@ save_pcx (char q)
     dperror ("fopen");
     return;
   }
-  fwrite ((char *) &headpcx, 1, sizeof (header_), fpcx);
+  fwrite ((char *) &headpcx, 1, sizeof (pcx_header_t), fpcx);
 
   if (q == 0)
     write_rle (screen, 320 * 200, fpcx);
@@ -1119,7 +1120,7 @@ save_pcx (char q)
 }
 
 /*
-static void debugsavepcx(image_ *img)
+static void debugsavepcx(pcx_image_t *img)
 {
  FILE *fpcx;
  static char nompcx[13];

@@ -41,6 +41,7 @@
 #include "rsc_files.h"
 #include "endian.h"
 #include "fader.h"
+#include "scrtools.h"
 
 void
 background_menu (void)
@@ -1090,7 +1091,7 @@ char tile_sets_names[10][3] =
   { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10" };
 
 static void
-load_tile_set_preview (int num, image_ * ici)
+load_tile_set_preview (int num, pcx_image_t * ici)
 {
   char *t = get_non_null_rsc_file ("editor-preview-prefix");
   t = strappend (t, tile_sets_names[num]);
@@ -1174,7 +1175,7 @@ editor_selector (void)
 static void
 editor_menu (void)
 {
-  image_ frmenu, tilesprev;
+  pcx_image_t frmenu, tilesprev;
   int l = 0, t = 0, pos = 0, i;
   int xwrap = 15;
   int ywrap = 15;
@@ -1199,8 +1200,8 @@ editor_menu (void)
   tmp1[6] = 0;
   tmp1[7] = 0;
   tmp1[8] = 0;
-  pcx_load_from_rsc ("new-level-menu-img", (image_ *) & frmenu);
-  load_tile_set_preview (0, (image_ *) & tilesprev);
+  pcx_load_from_rsc ("new-level-menu-img", (pcx_image_t *) & frmenu);
+  load_tile_set_preview (0, (pcx_image_t *) & tilesprev);
   for (i = 0; i < 52; i++)
     memcpy (frmenu.buffer + 217 + 74 * 320 + i * 320,
 	    tilesprev.buffer + i * 62, 62);
@@ -1309,8 +1310,8 @@ editor_menu (void)
 	  else
 	    tiles = 9;
 	}
-	img_free ((image_ *) & tilesprev);
-	load_tile_set_preview (tiles, (image_ *) & tilesprev);
+	img_free ((pcx_image_t *) & tilesprev);
+	load_tile_set_preview (tiles, (pcx_image_t *) & tilesprev);
 	for (i = 0; i < 52; i++)
 	  memcpy (frmenu.buffer + 217 + 74 * 320 + i * 320,
 		  tilesprev.buffer + i * 62, 62);
@@ -1346,8 +1347,8 @@ editor_menu (void)
 	      xwrap = BSWAP32 (plinfo.xwrap);
 	      ywrap = BSWAP32 (plinfo.ywrap);
 	      tiles = atol ((char *) &(plinfo.tile_set_name[5])) - 1;
-	      img_free ((image_ *) & tilesprev);
-	      load_tile_set_preview (tiles, (image_ *) & tilesprev);
+	      img_free ((pcx_image_t *) & tilesprev);
+	      load_tile_set_preview (tiles, (pcx_image_t *) & tilesprev);
 	      for (i = 0; i < 52; i++)
 		memcpy (frmenu.buffer + 217 + 74 * 320 + i * 320,
 			tilesprev.buffer + i * 62, 62);

@@ -22,7 +22,8 @@
 #ifndef HEROES__DISPLAY__H
 #define HEROES__DISPLAY__H
 
-extern unsigned char *screen;
+typedef u8_t pixel_t;
+extern pixel_t* screen;
 
 void set_display_params (const char* str);
 void set_full_screen_mode (void);
@@ -32,6 +33,6 @@ void uninit_video (void);
 void set_color (unsigned char c, unsigned char r, unsigned char g,
 		unsigned char b);
 void vsynchro (void);
-void set_pal (unsigned char *ptr, int p, int n);
+void set_pal (const unsigned char *ptr, int p, int n);
 
 #endif /* HEROES__DISPLAY__H */

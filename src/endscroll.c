@@ -35,7 +35,7 @@ static unsigned int *jumps;
 static char *colors;
 /* static int nbrsauts; */
 
-static image_ background_img;
+static pcx_image_t background_img;
 
 #define LPI (1<<14)
 #define LS(x) ( (x) * (LPI-(x)) >> 20 )

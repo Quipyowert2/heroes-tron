@@ -26,7 +26,7 @@
 #include "debugmsg.h"
 
 static void
-img_init (image_ * image)
+img_init (pcx_image_t * image)
 {
   image->buffer = malloc (image->size);
   if (image->buffer == NULL)
@@ -34,13 +34,13 @@ img_init (image_ * image)
 }
 
 void
-img_free (image_ * image)
+img_free (pcx_image_t * image)
 {
   free ((char *) image->buffer);
 }
 
 static void
-delta (image_ * image)
+delta (pcx_image_t * image)
 {
   int i;
   char *src = image->buffer + image->width;
@@ -49,7 +49,7 @@ delta (image_ * image)
 }
 
 char
-pcx_load (const char *file, image_ * image)
+pcx_load (const char *file, pcx_image_t * image)
 {
   unsigned long compteur;
   FILE *fptr;
@@ -60,9 +60,9 @@ pcx_load (const char *file, image_ * image)
   dmsg (D_FILE, "opening image file: %s", file);
 
   if ((fptr = fopen (file, "rb")) == NULL) {
-    emsg ("Cannot open %d\n", file);
+    emsg ("Cannot open %s\n", file);
   }
-  fread (&(image->header), sizeof (header_), 1, fptr);
+  fread (&(image->header), sizeof (pcx_header_t), 1, fptr);
 
   /* convert to local endianess */
   image->header.x = BSWAP16 (image->header.x);
@@ -112,7 +112,7 @@ pcx_load (const char *file, image_ * image)
 }
 
 char 
-pcx_load_from_rsc (const char *rsc, image_ * image)
+pcx_load_from_rsc (const char *rsc, pcx_image_t * image)
 {
   char* res = get_rsc_file (rsc);
   char error;

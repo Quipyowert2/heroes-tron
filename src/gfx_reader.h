@@ -33,7 +33,7 @@
 static int nbr_lines;
 static unsigned char *txtptr;
 static unsigned char **strptr;
-static image_ font_help_img, help_pics_img;
+static pcx_image_t font_help_img, help_pics_img;
 
 #ifdef SDF
 /* end scroller */

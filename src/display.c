@@ -26,7 +26,7 @@
 #include "fastmem.h"
 #include "errors.h"
 
-unsigned char *screen_rv = 0;	/* A pointer to the screen buffer associated
+pixel_t* screen_rv = 0;		/* A pointer to the screen buffer associated
 				   to the render visual. */
 
 /* screen_rv may be a direct pointer to the hardware video buffer, or
@@ -35,7 +35,7 @@ unsigned char *screen_rv = 0;	/* A pointer to the screen buffer associated
    emulated etc.).  If screen_rv points directly to hardware video
    it might requires locking. */
 
-unsigned char *screen = 0;	/* A pointer to the screen buffer, 
+pixel_t* screen = 0;		/* A pointer to the screen buffer, 
 				   used throughout the game
 				   (screen is always 320x200). */
 
@@ -60,13 +60,13 @@ char video_initialized = 0;	/* has the driver been initialized? */
 static void
 stretch_twofold (void)
 {
-  unsigned char* s = screen;
-  unsigned char* d = screen_rv;
+  pixel_t* s = screen;
+  pixel_t* d = screen_rv;
   int rows_left, columns_left;
 
   for (rows_left = 200; rows_left; --rows_left) {
     for (columns_left = 320 / 2; columns_left; --columns_left) {
-      unsigned char t1, t2;
+      pixel_t t1, t2;
       t1 = s[0];
       t2 = s[1];
       d[0] = t1;
@@ -87,8 +87,8 @@ stretch_twofold (void)
 static void
 stretch_twofold_even (void)
 {
-  unsigned char* s = screen;
-  unsigned char* d = screen_rv;
+  pixel_t* s = screen;
+  pixel_t* d = screen_rv;
   int rows_left, columns_left;
 
   for (rows_left = 200; rows_left; --rows_left) {
@@ -104,13 +104,13 @@ stretch_twofold_even (void)
 static void
 stretch_threefold (void)
 {
-  unsigned char* s = screen;
-  unsigned char* d = screen_rv;
+  pixel_t* s = screen;
+  pixel_t* d = screen_rv;
   int rows_left, columns_left;
 
   for (rows_left = 200; rows_left; --rows_left) {
     for (columns_left = 320 / 2; columns_left; --columns_left) {
-      unsigned char t1, t2;
+      pixel_t t1, t2;
       t1 = s[0];
       t2 = s[1];
       d[0] = t1;
@@ -141,13 +141,13 @@ stretch_threefold (void)
 static void
 stretch_threefold_even (void)
 {
-  unsigned char* s = screen;
-  unsigned char* d = screen_rv;
+  pixel_t* s = screen;
+  pixel_t* d = screen_rv;
   int rows_left, columns_left;
 
   for (rows_left = 200 / 2; rows_left; --rows_left) {
     for (columns_left = 320; columns_left; --columns_left) {
-      unsigned char t1, t2;
+      pixel_t t1, t2;
       t1 = s[0];
       t2 = s[320];
       d[0] = t1;
@@ -170,7 +170,7 @@ stretch_threefold_even (void)
 static void
 erase_odd_lines (void)
 {
-  unsigned char* s = screen+320;
+  pixel_t* s = screen+320;
   int i;
   for (i = 100; i; --i, s += 640)
     memset (s, 0, 320);
@@ -179,8 +179,8 @@ erase_odd_lines (void)
 static void
 copy_screen (void)
 {
-  unsigned char* s = screen;
-  unsigned char* d = screen_rv;
+  pixel_t* s = screen;
+  pixel_t* d = screen_rv;
   int i;
   for (i = 200; i; --i, s += 320, d += scr_pitch)
     fastmem4 (s, d, 320/4);
@@ -355,7 +355,7 @@ set_color (unsigned char c, unsigned char r, unsigned char g, unsigned char b)
 }
 
 void
-set_pal (unsigned char *ptr, int p, int n)
+set_pal (const unsigned char *ptr, int p, int n)
 {
   signed i;
 
@@ -499,7 +499,7 @@ set_color (unsigned char c, unsigned char r, unsigned char g, unsigned char b)
 }
 
 void
-set_pal (unsigned char *ptr, int p, int n)
+set_pal (const unsigned char *ptr, int p, int n)
 {
   signed i;
 
@@ -529,3 +529,4 @@ vsynchro (void)
 }
 
 #endif
+

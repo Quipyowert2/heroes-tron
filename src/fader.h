@@ -33,19 +33,19 @@ typedef enum {F_UNKNOWN, F_STARTED, F_FINISHED} fader_status_t;
 
 /* Configure a standard fade-in, from white to the given palette, 
    using 64 steps at 70Hz */
-void std_white_fadein (const palette_* to);
+void std_white_fadein (const palette_t* to);
 
 /* Configure a standard fade-in, from black to the given palette, 
    using 64 steps at 70Hz */
-void std_black_fadein (const palette_* to);
+void std_black_fadein (const palette_t* to);
 
 /* Configure a standard fade-out, from the given palette to black, 
    using 64 steps at 70Hz */
-void std_black_fadeout (const palette_* from);
+void std_black_fadeout (const palette_t* from);
 
 /* Configure a standard fade between two palettes,
    using 64 steps at 70Hz */
-void std_palette_fade (const palette_* from, const palette_* to);
+void std_palette_fade (const palette_t* from, const palette_t* to);
 
 /* update the display palette (if needed).
  * NOTE: 1) usualy, there is no need to call this directly, since it is

@@ -91,6 +91,8 @@ savegame.c \
 savegame.h \
 scores.c \
 scores.h \
+scrtools.c \
+scrtools.h \
 sfx.c \
 sfx.h \
 sound.c \

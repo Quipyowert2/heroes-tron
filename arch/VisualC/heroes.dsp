@@ -371,6 +371,14 @@ SOURCE=..\src\sound.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\src\scrtools.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\scrtools.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\src\start.h
 # End Source File
 # Begin Source File
@@ -429,11 +437,6 @@ SOURCE=.\config.h
 
 SOURCE=".\keysdef-inc.h"
 # End Source File
-# Begin Source File
-
-SOURCE=.\mikmod.h
-# End Source File
-# End Group
 # Begin Group "Resource Files"
 
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"

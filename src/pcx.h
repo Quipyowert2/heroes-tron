@@ -38,33 +38,33 @@ typedef struct pcx_header_type
   short int palette_kind;
   char rien[58];
 }
-header_ ATTRIBUTE_PACKED;
+pcx_header_t ATTRIBUTE_PACKED;
 
-typedef struct color_rgb
+typedef struct
 {
   unsigned char r, g, b;
 }
-color_;
+color_rvb_t;
 
-typedef union			/*palette_rvb */
+typedef union
 {
-  color_ indiv[256];
+  color_rvb_t indiv[256];
   unsigned char global[256 * 3];
 }
-palette_, palette_rvb;
+palette_t;
 
 typedef struct img_type
 {
-  header_ header;
-  palette_ palette;
+  pcx_header_t header;
+  palette_t palette;
   unsigned int width, height;
   unsigned int size;
   char *buffer;
 }
-image_;
+pcx_image_t;
 
-void img_free (image_ * image);
-char pcx_load (const char *file, image_ * image);
-char pcx_load_from_rsc (const char *rsc, image_ * image);
+void img_free (pcx_image_t * image);
+char pcx_load (const char *file, pcx_image_t * image);
+char pcx_load_from_rsc (const char *rsc, pcx_image_t * image);
 
 #endif /* HEROES__PCX__H */

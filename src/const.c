@@ -32,7 +32,6 @@
 #include "const.h"
 #include "timer.h"
 #include "heroes.h"
-#include "fader.h"
 
 /* Def. des 15 sprites de l'explosion1, à l'envers (14->0). */
 #define nfrexplo1 15
@@ -125,7 +124,7 @@ char in_jokebox;
 
 char kbjoy[6] = { 0, 0, 0, 0, 0, 0 };
 char kbjoyold[6] = { 0, 0, 0, 0, 0, 0 };
-palette_ temppal;
+palette_t temppal;
 
 unsigned long int camera_x[2];		/* virgule fixe 16b,16b */
 unsigned long int camera_y[2];		/* idem */
@@ -148,11 +147,11 @@ level_header_t map_info = { 0, 0, -1, -1,
 			    {0, 0, 0, 0}, {0, 0, 0, 0}, "", "", "" };
 unsigned long int map_info_2xt, map_info_2yt;
 signed long int map_info_2xwrap, map_info_2ywrap;
-palette_ pal;
+palette_t pal;
 
-image_ main_font_img, icons_img, vehicles_img, trailimg;
-image_ bonus_a_img, bonus_b_img, bonus_font_img, jukebox_img;
-image_ tile_set_img, font_deck_img;
+pcx_image_t main_font_img, icons_img, vehicles_img, trailimg;
+pcx_image_t bonus_a_img, bonus_b_img, bonus_font_img, jukebox_img;
+pcx_image_t tile_set_img, font_deck_img;
 
 char tmp1[512];
 char tmp2[512];
@@ -222,14 +221,6 @@ int lemmings_anim_offset;
 int lemmings_move_offset;
 
 char invincible[4];
-
-void
-vsynch (void)
-{
-  run_fader ();
-  vsynchro ();
-  update_htimers ();
-}
 
 char demo_ready = 0;
 
@@ -311,28 +302,4 @@ draw_glenz_box (unsigned char *dest, int c, int xt, int yt)
     dest += xbuf - xt;
   }
 
-}
-
-void
-set_pal_with_luminance (palette_ * palsrc)
-{
-  palette_ paldest;
-  int i;
-  if (opt.luminance == 3) {
-    set_pal ((char *) palsrc, 0, 768);
-    return;
-  }
-  if (opt.luminance < 3) {
-    for (i = 767; i >= 0; i--)
-      paldest.global[i] =
-	(unsigned
-	 char) ((palsrc->global[i] * (64 - (3 - opt.luminance) * 6) +
-		 64 * 6 * (3 - opt.luminance)) >>6);
-  } else if (opt.luminance > 3) {
-    for (i = 767; i >= 0; i--)
-      paldest.global[i] = (unsigned char) ((palsrc->global[i] * 64)
-					   /(64 + (opt.luminance - 3) * 6));
-/* ((src->global[i]*(64-step))+(dest->global[i]*step))>>6; */
-  }
-  set_pal ((char *) &paldest, 0, 768);
 }

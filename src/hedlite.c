@@ -48,7 +48,7 @@
 
 
 
-static image_ heditrsc, tile_set_img;
+static pcx_image_t heditrsc, tile_set_img;
 
 unsigned short int xdalles = 0, ydalles = 0, xdallesdec = 0;
 unsigned short int xplan = 0, yplan = 0;
@@ -99,7 +99,7 @@ fatalog (char *ptr)
 static void
 partiel4 (xs, ys, xd, yd, xc, yc, source)
      short int xs, ys, xd, yd, xc, yc;
-     image_ *source;
+     pcx_image_t *source;
 {
   int i = source->width;
   int j;
@@ -209,7 +209,7 @@ sousdalletranspc (char *src, char *dest)
 static void
 partiel2 (xs, ys, xd, yd, xc, yc, source)
      short int xs, ys, xd, yd, xc, yc;
-     image_ *source;
+     pcx_image_t *source;
 {
   int i = source->width;
   int j;
@@ -992,7 +992,7 @@ static void
 save_pcx (void)
 {
   FILE *fpcx;
-  header_ headpcx;
+  pcx_header_t headpcx;
   unsigned int i1, i3, n;
   unsigned int j3;
   char *tempc, *dest;
@@ -1019,7 +1019,7 @@ save_pcx (void)
   headpcx.nbrplanes = 1;
   if ((fpcx = fopen (pcxnom, "wb")) == NULL)
     return;
-  fwrite ((char *) &headpcx, 1, sizeof (header_), fpcx);
+  fwrite ((char *) &headpcx, 1, sizeof (pcx_header_t), fpcx);
 
   for (i3 = 0; i3 < hplaninfo.yt; i3++) {
     j3 = hplaninfo.xt * i3;

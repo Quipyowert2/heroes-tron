@@ -61,14 +61,12 @@ extern char camera_stop_y[2];
 
 extern char *(render_buffer[2]);	/* BUFFER DE RENDU 384*260 */
 
-void vsynch (void);
 char key_or_joy_ready (void);
 int get_key_or_joy (void);
-void set_pal_with_luminance (palette_ * palsrc);
 
 extern char kbjoy[6];
 extern char kbjoyold[6];
-extern palette_ temppal;
+extern palette_t temppal;
 extern char in_jokebox;
 extern char in_menu;
 extern char in_demo;
@@ -88,11 +86,11 @@ void draw_glenz_box (unsigned char *dest, int c, int xt, int yt);
 extern level_header_t map_info;
 extern unsigned long int map_info_2xt, map_info_2yt;
 extern signed long int map_info_2xwrap, map_info_2ywrap;
-extern palette_ pal;
+extern palette_t pal;
 
-extern image_ main_font_img, icons_img, vehicles_img, trailimg;
-extern image_ bonus_a_img, bonus_b_img, bonus_font_img, jukebox_img;
-extern image_ tile_set_img, font_deck_img;
+extern pcx_image_t main_font_img, icons_img, vehicles_img, trailimg;
+extern pcx_image_t bonus_a_img, bonus_b_img, bonus_font_img, jukebox_img;
+extern pcx_image_t tile_set_img, font_deck_img;
 
 extern char tmp1[512];
 extern char tmp2[512];
