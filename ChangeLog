@@ -1,3 +1,9 @@
+2002-04-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/media/sdl/joystick.c (get_joystick_state): Make sure we
+	never use SDL's Joystick API if it wasn't initialized.
+	Reported by William Black.
+
 2002-04-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/rules/player.h (a_player) <x, y, x2, y2, pos>: Rename as ...

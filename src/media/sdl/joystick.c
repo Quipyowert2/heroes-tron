@@ -63,6 +63,13 @@ char joyinit (void)
 
 void get_joystick_state (void)
 {
+  /* Make sure we never use SDL's Joystick API if it wasn't
+     initialized (this happens when the game is run with -J): crashes
+     have been reported by a Windows user.  More generally, avoid
+     these extra calls if no joystick was detected.  */
+  if (joystick_detected == 0)
+    return;
+
   SDL_JoystickUpdate();
   if (joystick[0]) {
     joystick_b[0] = (joystick_b[0] & ~1) |
