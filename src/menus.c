@@ -1485,7 +1485,7 @@ draw_play_menu (int l)
   hrule (177);
   draw_sprprogwav_if (l == 7, playmenu_goback_txt, corner[0]);
   waving_arrows (41 + l * 16 + 5 * (l > 1) - 15 * (l == 0) +
-		 13 * (l == 6) + 23 * (l == 7), 30);
+		 13 * (l == 6) + 23 * (l == 7), 5);
 }
 
 void
