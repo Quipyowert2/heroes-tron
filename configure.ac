@@ -133,12 +133,11 @@ AC_FUNC_MKDIR
 AC_REPLACE_FUNCS([memrchr strcasecmp])
 jm_FUNC_MALLOC
 
-# KLUDGE: clear LIBS to work around a bug (?) on alphaev56-dec-osf4.0d
-# where conftest never exits when linked with `-lgii' or `-lggi'.
-old_libs="$LIBS"
-LIBS=''
+# We used to clear LIBS to work around a bug (?) on
+# alphaev56-dec-osf4.0d where conftest (run by jm_FUNC_REALLOC) never
+# exits when linked with `-lgii' or `-lggi'.  But today `-lggi' and
+# `-lgii' are not put in LIBS any longer.
 jm_FUNC_REALLOC
-LIBS="$old_libs"
 
 # for error.c
 AC_CHECK_FUNCS([strerror])

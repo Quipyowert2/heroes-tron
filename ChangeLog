@@ -1,5 +1,9 @@
 2001-07-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.ac: Remove the jm_FUNC_REALLOC kludge.
+
+2001-07-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Because intl/ and lib/ contains third party code which does not
 	conform to the same level of "strictness" as the code in src/,
 	enable some -Woptions in src/ only.
