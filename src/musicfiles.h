@@ -18,8 +18,8 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-#ifndef __MUSICFILES_H__
-#define __MUSICFILES_H__
+#ifndef HEROES__MUSICFILES__H
+#define HEROES__MUSICFILES__H
 
 typedef struct sound_track_s {
   char* alias;		/* name used in level files */
@@ -40,4 +40,4 @@ int read_sound_config_file (char* filename);
 int init_sound_track_list (void);
 void uninit_sound_track_list (void);
 
-#endif
+#endif /* HEROES__MUSICFILES__H */

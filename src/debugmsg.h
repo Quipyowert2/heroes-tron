@@ -20,10 +20,8 @@
 
 /* Debugging messages falicity */
 
-#ifndef __DEBUG_MSG_H__
-#define __DEBUG_MSG_H__
-
-#include "config.h"
+#ifndef HEROES__DEBUGMSG__H
+#define HEROES__DEBUGMSG__H
 
 enum debug_lvl { D_SECTION = 1,
 		 D_SYSTEM = 4,
@@ -44,7 +42,7 @@ extern enum debug_lvl debug_level;
 # define dmsg while (0) while
 # define dperror while (0) while
 #else
-# if defined (__STDC__) && __STDC__
+# ifdef VA_START
 void dmsg (enum debug_lvl dlvl, char* msg, ...);
 # else
 void dmsg ();
@@ -54,5 +52,4 @@ void dperror (const char* s);
 
 void dmsg_init (const char* prgname);
 
-
-#endif /* __DEBUG_MSG_H__ */
+#endif /* HEROES__DEBUGMSG__H */

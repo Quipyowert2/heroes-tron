@@ -18,9 +18,8 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-#ifndef __VISUALS_H_plx__
-#define __VISUALS_H_plx__
+#ifndef HEROES__VISUALS__H
+#define HEROES__VISUALS__H
 
 extern int rotosinus[256];
 extern int rotocosinus[256];
@@ -40,4 +39,4 @@ int corner_buffer (void);	/* "removing" the screen from the corner */
 
 void compute_lut (void);	/* init tables sin/cos */
 
-#endif
+#endif /* HEROES__VISUALS__H */

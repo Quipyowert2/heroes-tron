@@ -19,15 +19,14 @@
 `------------------------------------------------------------------------*/
 
 
-#ifndef __KEYS_HEROES_H__
-#define __KEYS_HEROES_H__
+#ifndef HEROES__KEYS_HEROES__H
+#define HEROES__KEYS_HEROES__H
 
-#include "config.h"
+#include "common.h"
 
 /* Define keys hard coded into heroes code */
 
 #ifdef HAVE_PKG_GGI
-#include <ggi/keyboard.h>
 
 #define	HK_MOD_None	0
 #define	HK_MOD_Shift	GII_MOD_SHIFT
@@ -99,8 +98,6 @@
 
 #ifdef HAVE_SDL
 
-#include <SDL_keysym.h>
-
 #define	HK_MOD_None	0
 #define	HK_MOD_Shift	KMOD_SHIFT
 #define	HK_MOD_Ctrl	KMOD_CTRL
@@ -169,4 +166,4 @@
 
 #endif /* HAVE_SDL */
 
-#endif /* __KEYS_HEROES_H__ */
+#endif /* HEROES__KEYS_HEROES__H */

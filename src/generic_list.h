@@ -18,14 +18,6 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-/* Id: */
-
-#include "config.h"
-#include <stdlib.h>
-#ifdef HAVE_DMALLOC
-#include <dmalloc.h>
-#endif
-
 /*
  * This is a generic list.  Since `void*' is evil, all that file is
  * written as a macro that will instanciate the list structures and
@@ -34,7 +26,7 @@
  * Use this as you would use a generic Ada package.  Where, in Ada, you would
  * write:
  *   package Foo is new List(Integer);
- * you will write:
+ * you will write, in C:
  *   NEW_LIST(Foo,int);
  *
  * Once you have called that macro, each function/structure is available

@@ -18,13 +18,41 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
 /* chargement, et reinitialisation des options d'Heroes */
 
-#ifndef __OPTIONS_H__
-#define __OPTIONS_H__
+#ifndef HEROES__OPTIONS__H
+#define HEROES__OPTIONS__H
 
-#include "optionss.h"
+typedef struct
+{
+  /* screen in_menu options */
+  char screen_size;		// 0=max
+  char radar_map;
+  char use_glenz;
+  char display_infos;
+  char luminance;
+  char inertia;
+  /* music in_menu options */
+  char music;
+  char music_volume;		// 0=max
+  char sfx;
+  char sfx_volume;		// 0=max
+  /* control in_menu options */
+  char ctrl_one;		// 0=keyboard
+  char ctrl_two;		// 1=joystick
+  char autopilot_one;
+  char autopilot_two;
+  /* game in_menu options */
+  char ghosts;
+  char speed;
+  int gamerounds;
+  int player_color[4];
+  /* keyboard in_menu options */
+  int player_keys[2][6];
+  /* extra in_menu options */
+  char extras;
+}
+options_t __attribute__ ((packed));
 
 extern options_t opt;
 extern char extrasel;
@@ -33,4 +61,4 @@ void write_options (void);
 void reinit_options (void);
 void free_options (void);
 
-#endif
+#endif /* HEROES__OPTIONS__H */

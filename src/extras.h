@@ -18,9 +18,8 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-#ifndef __EXTRAS_H__
-#define __EXTRAS_H__
+#ifndef HEROES__EXTRAS__H
+#define HEROES__EXTRAS__H
 
 typedef	char*	filename_t;
 
@@ -41,4 +40,4 @@ void add_default_extra_directories (void);
 void free_extra_list (void);
 void free_extra_directories (void);
 
-#endif
+#endif /* HEROES__EXTRAS__H */

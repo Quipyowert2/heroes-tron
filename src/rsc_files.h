@@ -18,12 +18,12 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-#ifndef __RSC_FILES_H__
-#define __RSC_FILES_H__
+#ifndef HEROES__RSC_FILES__H
+#define HEROES__RSC_FILES__H
 
 int set_rsc_file (const char* rsc_name, const char* file_name);
 char* get_rsc_file (const char* rsc_name);
 char* get_non_null_rsc_file (const char* rsc_name);
 char* rsc_expand (char* value);
 
-#endif
+#endif /* HEROES__RSC_FILES__H */

@@ -18,8 +18,9 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
+#ifndef HEROES__ENDSCROLL__H
+#define HEROES__ENDSCROLL__H
 
-#ifndef __SDF__h__
-#define __SDF__h__
 extern void end_scroll (void);
-#endif
+
+#endif /* HEROES__ENDSCROLL__H */

@@ -18,10 +18,7 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-#include "config.h"
-#include <stdlib.h>
-#include <stdio.h>
-
+#include "common.h"
 #include "pcx.h"
 #include "display.h"
 #include "const.h"
@@ -29,9 +26,6 @@
 #include "timer.h"
 #include "fastmem.h"
 #include "endscroll.h"
-#ifdef HAVE_DMALLOC
-#include <dmalloc.h>
-#endif
 
 #define XBUF 128
 #define YBUF 324

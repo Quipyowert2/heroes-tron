@@ -19,23 +19,14 @@
 `------------------------------------------------------------------------*/
 
 
-#ifndef __TIMER_H__
-#define __TIMER_H__
-
-#include "config.h"
-
-#if HAVE_SYS_TIME_H
-# include <sys/time.h>
-#else
-# include <time.h>
-#endif
+#ifndef HEROES__TIMER__H
+#define HEROES__TIMER__H
 
 /* If gettimeofday does not exists, we use clock() */
-
 #if HAVE_GETTIMEOFDAY
-#  define SECOND 1000000
+# define SECOND 1000000
 #else
-#  define SECOND CLOCKS_PER_SEC
+# define SECOND CLOCKS_PER_SEC
 #endif
 
 #define HZ(x)   (SECOND/(x))
@@ -69,4 +60,4 @@ void update_htimers (void);
 void init_htimer (void);
 void shift_htimer (htimer_t to_shift, htimer_t amount);
 
-#endif
+#endif /* HEROES__TIMER__H */

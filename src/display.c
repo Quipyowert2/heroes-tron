@@ -18,8 +18,8 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-#include "config.h"
+#include "common.h"
+#include "display.h"
 #include "misc.h"
 #include "argv.h"
 #include "debugmsg.h"
@@ -183,19 +183,6 @@ stretch_display (void)
 
 #ifdef HAVE_PKG_GGI
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <ggi/ggi.h>
-#include "display.h"
-#ifdef HAVE_STRING_H
-#  include <string.h>
-#else
-#  include <strings.h>
-#endif
-#ifdef HAVE_DMALLOC
-#include <dmalloc.h>
-#endif
-
 ggi_visual_t visu;		/* The real display, which receive events. */
 static ggi_visual_t render_visu; /* A 8bit memory-display on which the game 
 				    is drawn */
@@ -355,10 +342,6 @@ vsynchro (void)
 
 #endif
 #ifdef HAVE_SDL
-
-#include <stdlib.h>
-#include <SDL.h>
-#include "display.h"
 
 SDL_Surface* visu;
 unsigned char* screen;

@@ -18,8 +18,7 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-#include <ctype.h>
+#include "common.h"
 #include "const.h"
 #include "timer.h"
 #include "fastmem.h"
@@ -29,6 +28,7 @@
 #include "display.h"
 #include "draw.h"
 
+/* This really needs a rewrite */
 #define JUSTIF_CALC(FCT)						\
   if (cent==0)                               /* flushed left  */	\
 	d=0;								\

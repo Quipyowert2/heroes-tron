@@ -1,0 +1,149 @@
+/*------------------------------------------------------------------------.
+| Copyright (C) 2000 Alexandre Duret-Lutz <duret_g@epita.fr>              |
+|                                                                         |
+| This file is part of Heroes.                                            |
+|                                                                         |
+| Heroes is free software; you can redistribute it and/or modify it under |
+| the terms of the GNU General Public License as published by the Free    |
+| Software Foundation; either version 2 of the License, or (at your       |
+| option) any later version.                                              |
+|                                                                         |
+| Heroes is distributed in the hope that it will be useful, but WITHOUT   |
+| ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or   |
+| FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   |
+| for more details.                                                       |
+|                                                                         |
+| You should have received a copy of the GNU General Public License along |
+| with this program; if not, write to the Free Software Foundation, Inc., |
+| 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
+`------------------------------------------------------------------------*/
+
+/*
+ * Every .c file SHOULD include this file as the FIRST.
+ *
+ * It defines macros needed for portability, and includes system
+ * headers that may be needed by some parts of the game.  This means
+ * that all .c files will therefore include all these system headers,
+ * even if they don't need it; but since most of these headers can
+ * have different names or may not be needed at all on some systems,
+ * its safer if the selection is done in one unique place.  
+ *
+ * Since this file is always included first, local .h files can assume
+ * that this file has already been included.
+ *
+ * Do NOT include local headers (except config.h), only system
+ * headers are included here.
+ */
+
+#ifndef HEROES__COMMON__H
+#define HEROES__COMMON__H
+
+#include "config.h"
+
+#include <stdio.h>
+#include <sys/types.h>
+
+#if STDC_HEADERS
+# include <stdlib.h>
+#endif
+
+#include <ctype.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <assert.h>
+#include <math.h>
+#include <errno.h>
+
+#ifdef HAVE_STRING_H
+# if (!defined STDC_HEADERS) && defined HAVE_MEMORY_H
+#  include <memory.h>
+# endif
+# include <string.h>
+#else
+# ifdef HAVE_STRINGS_H
+#  include <strings.h>
+# endif
+#endif
+
+#ifdef HAVE_UNISTD_H
+# include <unistd.h>
+#endif
+
+#ifdef HAVE_DIRENT_H
+# include <dirent.h>
+#endif
+
+#if HAVE_VPRINTF || HAVE_DOPRNT
+# ifdef STDC_HEADERS
+#  include <stdarg.h>
+#  define VA_START(args, lastarg) va_start(args, lastarg)
+# else
+#  include <varargs.h>
+#  define VA_START(args, lastarg) va_start(args)
+# endif
+#else
+# define va_alist a1, a2, a3, a4, a5, a6, a7, a8
+# define va_dcl char *a1, *a2, *a3, *a4, *a5, *a6, *a7, *a8;
+#endif
+
+#if TIME_WITH_SYS_TIME
+# include <sys/time.h>
+# include <time.h>
+#else
+# if HAVE_SYS_TIME_H
+#  include <sys/time.h>
+# else
+#  include <time.h>
+# endif
+#endif
+
+/* display-keyboard-mouse library */
+
+#if defined HAVE_PKG_GGI && defined HAVE_SDL
+# error "HAVE_PKG_GGI and HAVE_SDL can't be defined both"
+#endif
+#ifdef HAVE_PKG_GGI
+# include <ggi/ggi.h>
+#endif
+#ifdef HAVE_SDL
+# include <SDL.h>
+#endif
+
+/* joystick library */
+
+#ifdef JOYSTICK_SUPPORT
+# if defined HAVE_PKG_GII && defined HAVE_SDL_JOYSTICKOPEN
+#  error "HAVE_PKG_GII and HAVE_SDL_JOYSTICKOPEN can't be defined both"
+# endif
+# ifdef HAVE_PKG_GII
+#  include <ggi/gii.h>
+# endif
+# ifdef HAVE_SDL_JOYSTICKOPEN
+#  include <SDL.h>
+# endif
+#endif
+
+/* sound library */
+
+#if defined HAVE_LIBMIKMOD && defined HAVE_LIBSDL_MIXER
+# error "HAVE_LIBMIKMOD and HAVE_LIBSDL_MIXER can't be defined both"
+#endif
+#ifdef HAVE_LIBMIKMOD
+# include <mikmod.h>
+# include <pthread.h>
+#endif
+#ifdef HAVE_LIBSDL_MIXER
+# ifndef HAVE_SDL
+#  error "HAVE_LIBSDL_MIXER can't be defined if HAVE_SDL isn't"
+# endif
+# include <SDL_mixer.h>
+#endif
+
+/* keep this header at the end of the include list, because it may
+   define macro to change the declaration of malloc functions */
+#ifdef HAVE_DMALLOC
+# include <dmalloc.h>
+#endif
+
+
+#endif /* HEROES__COMMON__H */

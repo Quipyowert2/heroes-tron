@@ -18,20 +18,13 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-#include <stdio.h>
-#ifdef HAVE_STRING_H
-#  include <string.h>
-#else
-#  include <strings.h>
-#endif
+#include "common.h"
 #include "timer.h"
 #include "keys_heroes.h"
 #include "pcx.h"
 #include "font_help.h"
 #include "errors.h"
 #include "display.h"
-#include "config.h"
 #include "rsc_files.h"
 #include "debugmsg.h"
 #include "endian.h"

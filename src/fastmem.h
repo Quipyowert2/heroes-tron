@@ -19,18 +19,22 @@
 `------------------------------------------------------------------------*/
 
 
-#ifndef _FASTMEM_H_plx_
-#define _FASTMEM_H_plx_
+#ifndef HEROES__FASTMEM__H
+#define HEROES__FASTMEM__H
 
-#include "config.h"
-#ifdef HAVE_STRING_H
-#  include <string.h>
-#else
-#  include <strings.h>
-#endif
+/* In the good old days when Heroes was still a DOS game these three
+ * macros used the be inline assembly instructions.
+ *
+ * Today, since gcc can optimize memcpy as an inline copy loop, they are
+ * just synonyms for memcpy.  
+ *
+ * Still, it's a good idea to keep using these macros (and not memcpy)
+ * since they may be helpfull to acheive some optimization with other
+ * compilers.  
+ */
 
 #define fastmem1(src,dest,size) memcpy((dest),(src),(size))
 #define fastmem2(src,dest,size) memcpy((dest),(src),(size)<<1)
 #define fastmem4(src,dest,size) memcpy((dest),(src),(size)<<2)
 
-#endif
+#endif /* HEROES__FASTMEM__H */

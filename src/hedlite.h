@@ -19,8 +19,8 @@
 `------------------------------------------------------------------------*/
 
 
-#ifndef __HEDLITE_H_plx__
-#define __HEDLITE_H_plx__
+#ifndef HEROES__HEDLITE__H
+#define HEROES__HEDLITE__H
 
 #define hedlit_output_dir "levels"
 
@@ -29,4 +29,4 @@ int create_levels_output_dir (void);
 int hmain (int, char *, char *, char *, char *, char *, char *);
 void free_levels_output_dir (void);
 
-#endif
+#endif /* HEROES__HEDLITE__H */

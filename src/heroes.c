@@ -18,24 +18,7 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-//#define DEBUG
-//#define NOREP
-
-#include "config.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <assert.h>
-#include <ctype.h>
-#ifdef HAVE_STRING_H
-#  include <string.h>
-#else
-#  include <strings.h>
-#endif
-#include <math.h>
-#include <time.h>
-#include <unistd.h>
-
+#include "common.h"
 #include "display.h"
 #include "pcx.h"
 #include "keyb.h"
@@ -74,9 +57,6 @@
 
 #include "structs.h"
 #include "const.h"
-#ifdef HAVE_DMALLOC
-#include <dmalloc.h>
-#endif
 
 char tile_set_name[128];
 char glenz_name[128];

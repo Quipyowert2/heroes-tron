@@ -19,9 +19,9 @@
 `------------------------------------------------------------------------*/
 
 
-#ifndef _ERREURS_H_plx_
-#define _ERREURS_H_plx_
+#ifndef HEROES__ERRORS__H
+#define HEROES__ERRORS__H
 
-void fatal_error (char message[]);
+void fatal_error (const char message[]);
 
-#endif
+#endif  /* HEROES__ERRORS__H */

@@ -18,30 +18,17 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-#include "config.h"
+#include "common.h"
 #include "sfx.h"
 
 #if defined HAVE_LIBMIKMOD || defined HAVE_LIBSDL_MIXER
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
-#include <ctype.h>
-#ifdef HAVE_STRING_H
-#  include <string.h>
-#else
-#  include <strings.h>
-#endif
 #include "errors.h"
 #include "options.h"
 #include "misc.h"
 #include "argv.h"
 #include "rsc_files.h"
 #include "debugmsg.h"
-#ifdef HAVE_DMALLOC
-#include <dmalloc.h>
-#endif
 
 #define max_events 151
 
@@ -55,7 +42,6 @@ static int max_sfx = 0;
 
 #ifdef HAVE_LIBMIKMOD
 
-#include <mikmod.h>
 static struct SAMPLE **sfx_handles;
 
 static struct SAMPLE*
@@ -87,7 +73,6 @@ _play_sfx (struct SAMPLE* sfx)
 
 #ifdef HAVE_LIBSDL_MIXER
 
-#include <SDL_mixer.h>
 static Mix_Chunk **sfx_handles;
 
 static Mix_Chunk*

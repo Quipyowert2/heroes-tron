@@ -19,8 +19,8 @@
 `------------------------------------------------------------------------*/
 
 
-#ifndef _VGA__H_plx_
-#define _VGA__H_plx_
+#ifndef HEROES__DISPLAY__H
+#define HEROES__DISPLAY__H
 
 extern unsigned char *screen;
 
@@ -34,4 +34,4 @@ void set_color (unsigned char c, unsigned char r, unsigned char g,
 void vsynchro (void);
 void set_pal (unsigned char *ptr, int p, int n);
 
-#endif
+#endif /* HEROES__DISPLAY__H */

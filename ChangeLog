@@ -1,3 +1,102 @@
+2000-09-09  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Delete src/optionss.h.
+
+	* src/optionss.h (options_t): Move to...
+	* src/options.h (options_t): ...here.
+	* src/optionss.h: Delete.
+	* src/Makefile.am (heroes_SOURCES): Remove src/optionss.h.
+
+	Add a common.h file for all system headers inclusions; ensure that
+	all .c files include common.h instead of config.h (and before
+	anything else).
+
+	* src/common.h: New file.
+	* src/Makefile.am (heroes_SOURCES): Add common.h.
+	[GGI,SDL] (keysdef-inc.h): Do not generate #include in output file.
+	* argv.c: Adapt to include common.h.
+	* const.c: Likewise.
+	* debugmsg.c: Likewise.
+	* display.c: Likewise.
+	* draw.c: Likewise.
+	* endscroll.c: Likewise.
+	* errors.c: Likewise.
+	* extras.c: Likewise.
+	* hedlite.c: Likewise.
+	* hendian.c: Likewise.
+	* heroes.c: Likewise.
+	* intro.c: Likewise.
+	* joystick.c: Likewise.
+	* keyb.c: Likewise.
+	* keysdef.c: Likewise.
+	* menus.c: Likewise.
+	* misc.c: Likewise.
+	* musicfiles.c: Likewise.
+	* options.c: Likewise.
+	* pcx.c: Likewise.
+	* pixelize.c: Likewise.
+	* render.c: Likewise.
+	* rsc_files.c: Likewise.
+	* rsc_files.gperf: Likewise.
+	* savegame.c: Likewise.
+	* scores.c: Likewise.
+	* sfx.c: Likewise.
+	* sound.c: Likewise.
+	* timer.c: Likewise.
+	* txts.c: Likewise.
+	* userconf.c: Likewise.
+	* userdir.c: Likewise.
+	* visuals.c: Likewise.
+
+	Adapt the .h files, because they can now assume
+	that common.h was already included.  Also, rename
+	the inclusion guards, using names like HEROES__FILE__H.
+
+	* argv.h: Rename guard.
+	* const.h: Rename guard.
+	* debugmsg.h: Adapt includes and rename guard.
+	* display.h: Rename guard.
+	* draw.h: Rename guard.
+	* endian.h: Adapt includes and rename guard.
+	* endscroll.h: Rename guard.
+	* errors.h: Rename guard.
+	* extras.h: Rename guard.
+	* fastmem.h: Adapt includes and rename guard.
+	* generic_list.h: Adapt includes.
+	* gfx_reader.h: Adapt includes.
+	* hedlite.h: Rename guard.
+	* hendian.h: Adapt includes and rename guard.
+	* heroes.h: Rename guard.
+	* intro.h: Rename guard.
+	* joystick.h: Rename guard.
+	* keyb.h: Rename guard.
+	* keys_heroes.h: Adapt includes and rename guard.
+	* keysdef.h: Rename guard.
+	* menus.h: Rename guard.
+	* misc.h: Rename guard.
+	* musicfiles.h: Rename guard.
+	* options.h: Rename guard.
+	* pcx.h: Rename guard.
+	* pixelize.h: Rename guard.
+	* render.h: Rename guard.
+	* rsc_files.h: Rename guard.
+	* rsc_files_hash.h: Rename guard.
+	* savegame.h: Rename guard.
+	* scores.h: Rename guard.
+	* sfx.h: Rename guard.
+	* sound.h: Rename guard.
+	* structs.h: Adapt includes and rename guard.
+	* timer.h: Adapt includes and rename guard.
+	* txts.h: Rename guard.
+	* userconf.h: Rename guard.
+	* userdir.h: Rename guard.
+	* visuals.h: Rename guard.
+
+	Add a few tests to configure.
+
+	* configure.in: Check for memory.h, strings.h, unistd.h. Call
+	AC_HEADER_TIME.  Check for memcpy.
+
 2000-09-08  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* BUGS: Add warning messages from windows.

@@ -18,19 +18,9 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-/* game saving ... */
-
-#include "config.h"
-#include <stdio.h>
+#include "common.h"
 #include "structs.h"
-#ifdef HAVE_STRING_H
-#  include <string.h>
-#else
-#  include <strings.h>
-#endif
 #include "scores.h"
-#include "assert.h"
 #include "savegame.h"
 #include "argv.h"
 #include "misc.h"

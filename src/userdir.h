@@ -18,9 +18,8 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-#ifndef __USERDIR_H__
-#define __USERDIR_H__
+#ifndef HEROES__USERDIR__H
+#define HEROES__USERDIR__H
 
 extern char* userdir;
 
@@ -28,4 +27,4 @@ int exists_dir (char* dir);
 int setup_userdir (void); /* return !0 if failure */
 void free_userdir (void);
 
-#endif
+#endif /* HEROES__USERDIR__H */

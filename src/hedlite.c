@@ -28,18 +28,7 @@
 #define __HEDITver__ "1.5"
 #define __HEDLITE__
 
-#include "config.h"
-#include <stdio.h>
-#include <stdlib.h>
-#ifdef HAVE_STRING_H
-#  include <string.h>
-#else
-#  include <strings.h>
-#endif
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <fcntl.h>
+#include "common.h"
 
 #include "display.h"
 #include "pcx.h"
@@ -55,9 +44,6 @@
 #include "userdir.h"
 #include "rsc_files.h"
 #include "debugmsg.h"
-#ifdef HAVE_DMALLOC
-#include <dmalloc.h>
-#endif
 
 
 

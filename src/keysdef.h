@@ -18,9 +18,8 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-#ifndef __KEYSDEF_H__
-#define __KEYSDEF_H__
+#ifndef HEROES__KEYSDEF__H
+#define HEROES__KEYSDEF__H
 
 struct keynames_s { 
   char* name; 
@@ -29,4 +28,4 @@ struct keynames_s {
 
 extern const struct keynames_s keynames[];
 
-#endif
+#endif /* HEROES__KEYSDEF__H */

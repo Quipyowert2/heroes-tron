@@ -18,10 +18,9 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-#ifndef __USERCONF_H__
-#define __USERCONF_H__
+#ifndef HEROES__USERCONF__H
+#define HEROES__USERCONF__H
 
 int read_userconf (const char* file, const char* argv0);
 
-#endif
+#endif /* HEROES__USERCONF__H */

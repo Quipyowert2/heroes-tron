@@ -18,35 +18,15 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
+#include "common.h"
 #include "debugmsg.h"
-
-#include <stdio.h>
-#include <stdlib.h>
-#ifdef HAVE_STRING_H
-#  include <string.h>
-#else
-#  include <strings.h>
-#endif
-
-#if HAVE_VPRINTF || HAVE_DOPRNT
-# if __STDC__
-#  include <stdarg.h>
-#  define VA_START(args, lastarg) va_start(args, lastarg)
-# else
-#  include <varargs.h>
-#  define VA_START(args, lastarg) va_start(args)
-# endif
-#else
-# define va_alist a1, a2, a3, a4, a5, a6, a7, a8
-# define va_dcl char *a1, *a2, *a3, *a4, *a5, *a6, *a7, *a8;
-#endif
 
 enum debug_lvl debug_level = 0;
 const char* progname = 0;
 
 #ifndef dmsg
 
-#if defined VA_START && __STDC__
+#if defined VA_START
 void 
 dmsg (enum debug_lvl dlvl, char* msg, ...)
 #else

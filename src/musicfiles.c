@@ -18,23 +18,13 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-#include "config.h"
-#ifdef HAVE_STRING_H
-#  include <string.h>
-#else
-#  include <strings.h>
-#endif
-#include <stdlib.h>
-#include <stdio.h>
+#include "common.h"
 #include "getshline.h"
 #include "musicfiles.h"
 #include "generic_list.h"
 #include "misc.h"
 #include "rsc_files.h"
 #include "debugmsg.h"
-#ifdef HAVE_DMALLOC
-#include <dmalloc.h>
-#endif
 
 NEW_LIST(st,sound_track_t*);
 

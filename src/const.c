@@ -21,8 +21,7 @@
 
 /* constantes d'Heroes ... */
 
-#include <stdio.h>
-#include "stdlib.h"
+#include "common.h"
 #include "keyb.h"
 #include "keys_heroes.h"
 #include "joystick.h"

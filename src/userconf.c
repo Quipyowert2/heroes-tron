@@ -18,17 +18,8 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-#include "config.h"
+#include "common.h"
 #define USERCONFIG_FILE "heroesrc"
-
-#ifdef HAVE_STRING_H
-#  include <string.h>
-#else
-#  include <strings.h>
-#endif
-#include <stdlib.h>
-#include <stdio.h>
 #include "userdir.h"
 #include "misc.h"
 #include "getshline.h"
@@ -38,9 +29,6 @@
 #include "musicfiles.h"
 #include "rsc_files.h"
 #include "debugmsg.h"
-#ifdef HAVE_DMALLOC
-#include <dmalloc.h>
-#endif
 
 int 
 read_userconf (const char* file, const char* argv0)

@@ -19,14 +19,8 @@
 `------------------------------------------------------------------------*/
 
 
-#ifndef _PCX_H_plx_
-#define _PCX_H_plx_
-
-/*
-#include "stdio.h"
-#include "malloc.h"
-#include "errors.h"
-*/
+#ifndef HEROES__PCX__H
+#define HEROES__PCX__H
 
 typedef struct pcx_header_type
 {
@@ -73,4 +67,4 @@ void img_free (image_ * image);
 char pcx_load (const char *file, image_ * image);
 char pcx_load_from_rsc (const char *rsc, image_ * image);
 
-#endif
+#endif /* HEROES__PCX__H */

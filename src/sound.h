@@ -18,9 +18,8 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-#ifndef __SOUND_H_plx__
-#define __SOUND_H_plx__
+#ifndef HEROES__SOUND__H
+#define HEROES__SOUND__H
 
 char* soundtrack_author;
 char* soundtrack_title;
@@ -37,5 +36,4 @@ void decode_sound_options (char* optarg, char* argv0);
 
 void load_soundtrack_from_alias (char* alias);
 
-
-#endif
+#endif /* HEROES__SOUND__H */

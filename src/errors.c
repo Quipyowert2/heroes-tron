@@ -18,15 +18,12 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-#include <stdio.h>
-#include <stdlib.h>
+#include "common.h"
 #include "display.h"
-
 #include "errors.h"
 
 void
-fatal_error (char *message)
+fatal_error (const char *message)
 {
   uninit_video ();
   printf (message);

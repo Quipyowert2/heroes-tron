@@ -18,10 +18,7 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-#include "config.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "common.h"
 #include "joystick.h"
 #include "debugmsg.h"
 
@@ -32,8 +29,6 @@ char joystick_detected = 0;
 
 #ifdef JOYSTICK_SUPPORT
 #ifdef HAVE_PKG_GII
-
-#include <ggi/gii.h>
 
 gii_input_t* joystick;
 
@@ -132,7 +127,6 @@ get_joystick_state (void)
 
 #endif /* HAVE_PKG_GII */
 #ifdef HAVE_SDL_JOYSTICKOPEN
-#include <SDL.h>
 
 SDL_Joystick* joystick[2] = { 0, 0 }; 
 int joystick0_butnbr = 0;	/* The number of button of 

@@ -19,10 +19,8 @@
 `------------------------------------------------------------------------*/
 
 
-#ifndef _PIECE_H_plx_
-#define _PIECE_H_plx_
-
-#include "config.h"
+#ifndef HEROES__STRUCTS__H
+#define HEROES__STRUCTS__H
 
 /*----------------------- directions constants -----------------------*/
 #define d_up   1
@@ -257,4 +255,4 @@ __attribute__ ((packed)) saved_game;
 
 /*------------------------------ ---------- -------------------------------*/
 
-#endif
+#endif /* HEROES__STRUCTS__H */

@@ -18,11 +18,10 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-#ifndef __RSC_FILES_HASH_H__
-#define __RSC_FILES_HASH_H__
+#ifndef HEROES__RSC_FILES_HASH__H
+#define HEROES__RSC_FILES_HASH__H
 
 struct rsc_file { char* name; char* value; int modified, expanded; };
 struct rsc_file* in_rsc_set (const char* str, unsigned int len);
 
-#endif
-
+#endif /* HEROES__RSC_FILES_HASH__H */

@@ -18,9 +18,8 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-#ifndef _JOYSTICK_H_plx_
-#define _JOYSTICK_H_plx_
+#ifndef HEROES__JOYSTICK__H
+#define HEROES__JOYSTICK__H
 
 extern int joystick_x[2];
 extern int joystick_y[2];
@@ -38,4 +37,4 @@ void get_joystick_state (void);
 #define is_joystick_button_a(j)  (joystick_b[j]&1)
 #define is_joystick_button_b(j)  (joystick_b[j]&2)
 
-#endif
+#endif /* HEROES__JOYSTICK__H */

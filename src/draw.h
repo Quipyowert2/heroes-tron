@@ -18,20 +18,8 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-/*
-*  Affichage de texte, avec la grosse main_font_img,
-*                      avec la main_font_img des bonus
-*  Sprites transparents
-*  Flammes "transparentes"
-*  Sprites opaques
-*  Logo "demoversion"
-*  Affichage buffer -> ecran
-*  Transparent ombré
-*/
-
-#ifndef __AFFVGA_H_plx__
-#define __AFFVGA_H_plx__
+#ifndef HEROES__DRAW__H
+#define HEROES__DRAW__H
 
 void draw_text (const unsigned char *texte, int posx, int posy, char cent);
 void draw_text_clipped_left (const unsigned char *texte, int posx, int posy,
@@ -80,4 +68,4 @@ void init_text_waving_step (void);
 void uninit_text_waving_step (void);
 void update_text_waving_step (void);
 
-#endif
+#endif /* HEROES__DRAW__H */

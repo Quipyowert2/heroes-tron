@@ -18,18 +18,12 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-#include <stdio.h>
-#include <stdlib.h>
+#include "common.h"
 #include "errors.h"
 #include "pcx.h"
 #include "rsc_files.h"
-#include "config.h"
 #include "endian.h"
 #include "debugmsg.h"
-#ifdef HAVE_DMALLOC
-#include <dmalloc.h>
-#endif
 
 static void
 img_init (image_ * image)

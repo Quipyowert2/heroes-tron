@@ -20,14 +20,7 @@
 
 /* l'intro du jeu */
 
-#include "config.h"
-#include <stdio.h>
-#include <stdlib.h>
-#ifdef HAVE_STRING_H
-#  include <string.h>
-#else
-#  include <strings.h>
-#endif
+#include "common.h"
 #include "display.h"
 #include "pcx.h"
 #include "timer.h"
@@ -38,9 +31,6 @@
 
 #include "intro.h"
 #include "debugmsg.h"
-#ifdef HAVE_DMALLOC
-#include <dmalloc.h>
-#endif
 
 /******* datas de l'intro *******/
 palette_ fade_pal;

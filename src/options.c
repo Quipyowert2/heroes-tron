@@ -21,9 +21,7 @@
 
 /* chargement, et reinitialisation des options d'Heroes */
 
-#include "config.h"
-#include <stdio.h>
-#include "optionss.h"
+#include "common.h"
 #include "options.h"
 #include "misc.h"
 #include "userdir.h"

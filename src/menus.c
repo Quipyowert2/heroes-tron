@@ -18,10 +18,7 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-#include "config.h"
-#include <stdlib.h>
-#include <stdio.h>
+#include "common.h"
 #include "const.h"
 #include "sfx.h"
 #include "options.h"
@@ -30,12 +27,6 @@
 #include "keysdef.h"
 #include "draw.h"
 #include "heroes.h"
-#ifdef HAVE_STRING_H
-#  include <string.h>
-#else
-#  include <strings.h>
-#endif
-#include <math.h>
 #include "structs.h"
 #include "extras.h"
 #include "display.h"
@@ -44,14 +35,10 @@
 #include "render.h"
 #include "sound.h"
 #include "txts.h"
-
 #include "menus.h"
 #include "keyb.h"
 #include "misc.h"
 #include "rsc_files.h"
-#ifdef HAVE_DMALLOC
-#include <dmalloc.h>
-#endif
 #include "endian.h"
 
 void

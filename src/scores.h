@@ -18,11 +18,8 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-/* sauvegarde des scores d'Heroes */
-
-#ifndef __SCORES_H_plx__
-#define __SCORES_H_plx__
+#ifndef HEROES__SCORES__H
+#define HEROES__SCORES__H
 
 #include "structs.h"
 
@@ -34,4 +31,4 @@ void write_scores (void);
 void load_scores (void);
 void free_scores (void);
 
-#endif
+#endif /* HEROES__SCORES__H */

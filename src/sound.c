@@ -18,28 +18,14 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-#include "config.h"
-#include <stdlib.h>
-#ifdef HAVE_STRING_H
-#  include <string.h>
-#else
-#  include <strings.h>
-#endif
+#include "common.h"
 #include "sound.h"
-
-#ifdef HAVE_LIBMIKMOD
-#include <mikmod.h>
-#include <pthread.h>
-#include <signal.h>
-#include <errno.h>
-#include <unistd.h>
 #include "options.h"
 #include "argv.h"
 #include "musicfiles.h"
 #include "debugmsg.h"
-#ifdef HAVE_DMALLOC
-#include <dmalloc.h>
-#endif
+
+#ifdef HAVE_LIBMIKMOD
 
 MODULE* module;
 pthread_t polling_thread;
@@ -277,16 +263,9 @@ load_soundtrack_from_alias (char* alias)
   }
 }
 
-#else // not HAVE_LIBMIKMOD
+#else /* not HAVE_LIBMIKMOD */
 
 #ifdef HAVE_LIBSDL_MIXER
-
-#include <stdio.h>
-#include <SDL_mixer.h>
-#include "argv.h"
-#include "options.h"
-#include "musicfiles.h"
-#include "debugmsg.h"
 
 static Mix_Music *music = NULL;
 

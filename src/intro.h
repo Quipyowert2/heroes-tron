@@ -18,12 +18,9 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-/* l'intro du jeu */
-
-#ifndef __INTRO_H__
-#define __INTRO_H__
+#ifndef HEROES__INTRO__H
+#define HEROES__INTRO__H
 
 void play_intro (void);
 
-#endif
+#endif /* HEROES__INTRO__H */

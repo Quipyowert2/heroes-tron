@@ -18,9 +18,8 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-#ifndef __MENUS_H_plx__
-#define __MENUS_H_plx__
+#ifndef HEROES__MENUS__H
+#define HEROES__MENUS__H
 
 void background_menu (void);
 /*
@@ -41,4 +40,4 @@ void editor_first_menu (void);
 
 void draw_saved_games_info (int decal, char l, char h);
 
-#endif
+#endif /* HEROES__MENUS__H */

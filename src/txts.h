@@ -18,12 +18,11 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-#ifndef __TXTS_H__
-#define __TXTS_H__
+#ifndef HEROES__TXTS__H
+#define HEROES__TXTS__H
 
 extern char **txti;
 void read_txti_cfg (void);
 void close_txti (void);
 
-#endif
+#endif /* HEROES__TXTS__H */

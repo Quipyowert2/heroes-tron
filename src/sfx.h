@@ -18,9 +18,8 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-#ifndef _SFX_H_plx_
-#define _SFX_H_plx_
+#ifndef HEROES__SFX__H
+#define HEROES__SFX__H
 
 char read_sfx_conf (void);
 void close_sfx_handle (void);
@@ -28,4 +27,4 @@ void load_sfx_mode (signed char mode);
 void free_all_sfx (void);
 void event_sfx (int event);
 
-#endif
+#endif /* HEROES__SFX__H */

@@ -1,4 +1,5 @@
 %{
+#include "common.h"
 #include "rsc_files_hash.h"
 %}
 struct rsc_file;

@@ -18,9 +18,8 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-#ifndef __RENDER_H_plx__
-#define __RENDER_H_plx__
+#ifndef HEROES__RENDER__H
+#define HEROES__RENDER__H
 
 extern char tutor;
 
@@ -34,4 +33,4 @@ void display_two_buffers (void);
 void display_two_buffers_moving (int x);
 void display_two_buffers_moving_and_clear (int x);
 
-#endif
+#endif /* HEROES__RENDER__H */

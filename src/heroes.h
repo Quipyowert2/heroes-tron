@@ -19,8 +19,8 @@
 `------------------------------------------------------------------------*/
 
 
-#ifndef __HEROES_H_plx__
-#define __HEROES_H_plx__
+#ifndef HEROES__HEROES__H
+#define HEROES__HEROES__H
 
 #include "timer.h"
 
@@ -31,12 +31,12 @@ extern htimer_t tiles_anim_htimer;
 extern htimer_t corner_htimer;
 extern htimer_t fading_htimer;
 extern htimer_t waving_htimer;
-extern htimer_t background_htimer ;
-extern htimer_t corner_htimer ;
+extern htimer_t background_htimer;
+extern htimer_t corner_htimer;
 extern htimer_t demo_trigger_htimer;
 extern long event_time;
 
 void compute_corner (int p, int n);
 void play_demo (void);
 
-#endif
+#endif /* HEROES__HEROES__H */

@@ -20,22 +20,11 @@
 
 /* this file will be obsolete once gettext is used */
 
-#include "config.h"
-#include <stdlib.h>
-#include <stdio.h>
-#ifdef HAVE_STRING_H
-#  include <string.h>
-#else
-#  include <strings.h>
-#endif
-#include <ctype.h>
+#include "common.h"
 #include "errors.h"
 #include "txts.h"
 #include "rsc_files.h"
 #include "debugmsg.h"
-#ifdef HAVE_DMALLOC
-#include <dmalloc.h>
-#endif
 
 static unsigned max_txti;
 char **txti = NULL;

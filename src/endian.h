@@ -18,11 +18,8 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-#ifndef __ENDIAN_H__
-#define __ENDIAN_H__
-
-#include "config.h"
+#ifndef HEROES__ENDIAN__H
+#define HEROES__ENDIAN__H
 
 #ifdef WORDS_BIGENDIAN
 
@@ -72,4 +69,4 @@ BSWAP32(unsigned long int x)
 
 #endif /* ! BIGENDIAN */
 
-#endif /* __ENDIAN_H__ */
+#endif /* HEROES__ENDIAN__H */

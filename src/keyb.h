@@ -19,8 +19,8 @@
 `------------------------------------------------------------------------*/
 
 
-#ifndef _KEYB_H_plx_
-#define _KEYB_H_plx_
+#ifndef HEROES__KEYB__H
+#define HEROES__KEYB__H
 
 #define KEY_MAX 0xffff
 extern unsigned char keyboard_map[KEY_MAX + 1];
@@ -46,4 +46,4 @@ char mouse123 (void);
 void set_mouse_pos (int, int); 
 */
 
-#endif
+#endif /* HEROES__KEYB__H */

@@ -18,11 +18,8 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-/* sauvegardes... */
-
-#ifndef __SAVEGAME_H__
-#define __SAVEGAME_H__
+#ifndef HEROES__SAVEGAME__H
+#define HEROES__SAVEGAME__H
 
 #include "structs.h"
 
@@ -35,4 +32,4 @@ unsigned char compute_magic (void);
 signed char find_magic (unsigned char m);
 void free_save_records (void);
 
-#endif
+#endif /* HEROES__SAVEGAME__H */

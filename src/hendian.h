@@ -18,14 +18,10 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-#ifndef __HENDIAN_H__
-#define __HENDIAN_H__
-
-#include "endian.h"
-#include "structs.h"
+#ifndef HEROES__HENDIAN__H
+#define HEROES__HENDIAN__H
 
 void bswap_level_header (level_header_t* level_info);
 void bswap_level_tiles (const level_header_t* level_info, tile_t* level_map);
 
-#endif /* __HENDIAN_H__ */
+#endif /* HEROES__HENDIAN__H */

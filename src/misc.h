@@ -18,9 +18,8 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-#ifndef __MISC_H__
-#define __MISC_H__
+#ifndef HEROES__MISC__H
+#define HEROES__MISC__H
 
 char* strlwr (char *in);
 char* strupr (char *in);
@@ -28,4 +27,4 @@ char* strupr (char *in);
 char* strcat_alloc (const char *fst, const char* snd);
 char* strappend (char *fst, const char* snd);
 
-#endif // __MISC_H__
+#endif /* HEROES__MISC__H */

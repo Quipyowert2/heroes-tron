@@ -18,11 +18,8 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-/* constantes d'Heroes ... variables et fonctions diverses */
-
-#ifndef __CONST_H_plx__
-#define __CONST_H_plx__
+#ifndef HEROES__CONST__H
+#define HEROES__CONST__H
 
 #include "pcx.h"
 #include "structs.h"
@@ -168,4 +165,4 @@ extern int lemmings_move_offset;
 
 extern char invincible[4];
 
-#endif
+#endif /* HEROES__CONST__H */

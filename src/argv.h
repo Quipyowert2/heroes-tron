@@ -18,6 +18,8 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
+#ifndef HEROES__ARGV__H
+#define HEROES__ARGV__H
 
 int parse_argv (int argc, char **argv);
 
@@ -41,3 +43,5 @@ extern int hqmix;
 extern int stretch;
 extern int nosound;
 extern int even_lines;
+
+#endif /* HEROES__ARGV__H */

@@ -18,15 +18,7 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
-#include "config.h"
-#include <stdio.h>
-#ifdef HAVE_STRING_H
-#  include <string.h>
-#else
-#  include <strings.h>
-#endif
-#include <stdlib.h>
+#include "common.h"
 #include "getopt.h"
 #include "const.h"
 #include "argv.h"
@@ -34,9 +26,6 @@
 #include "display.h"
 #include "misc.h"
 #include "debugmsg.h"
-#ifdef HAVE_DMALLOC
-#include <dmalloc.h>
-#endif
 
 int snap = 0;
 int cpuon = 1;

@@ -18,18 +18,8 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-#include "config.h"
-#include <ctype.h>
-#ifdef HAVE_STRING_H
-#  include <string.h>
-#else
-#  include <strings.h>
-#endif
-#include <stdlib.h>
+#include "common.h"
 #include "misc.h"
-#ifdef HAVE_DMALLOC
-#include <dmalloc.h>
-#endif
 
 char *
 strlwr (char *in)

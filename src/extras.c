@@ -18,29 +18,17 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
 /*
  *   Create the list of extra levels.
  */
 
-#include "config.h"
-#include <stdlib.h>
-#include <stdio.h>
-#ifdef HAVE_STRING_H
-#  include <string.h>
-#else
-#  include <strings.h>
-#endif
-#include <dirent.h>
+#include "common.h"
 #include "extras.h"
 #include "generic_list.h"
 #include "hedlite.h"
 #include "misc.h"
 #include "rsc_files.h"
 #include "debugmsg.h"
-#ifdef HAVE_DMALLOC
-#include <dmalloc.h>
-#endif
 
 typedef struct {
   filename_t	filename;

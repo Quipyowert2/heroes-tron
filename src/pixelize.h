@@ -19,9 +19,9 @@
 `------------------------------------------------------------------------*/
 
 
-#ifndef __PIXEL_H_plx__
-#define __PIXEL_H_plx__
+#ifndef HEROES__PIXEL__H
+#define HEROES__PIXEL__H
 
 extern void (*pixelize[7]) (char *, char *);
 
-#endif
+#endif /* HEROES__PIXEL__H */

@@ -406,9 +406,10 @@ fi
 # Checks for header files.
 # ========================
 
-AC_HEADER_DIRENT
 AC_HEADER_STDC
-AC_CHECK_HEADERS([string.h sys/time.h])
+AC_HEADER_DIRENT
+AC_CHECK_HEADERS([string.h memory.h strings.h unistd.h sys/time.h])
+AC_HEADER_TIME
 
 # ==============================================================
 # Checks for typedefs, structures, and compiler characteristics.
@@ -432,7 +433,7 @@ fi
 # Checks for library functions.
 # =============================
 
-AC_CHECK_FUNCS([gettimeofday])
+AC_CHECK_FUNCS([gettimeofday memcpy])
 AC_FUNC_VPRINTF
 
 AC_CACHE_CHECK([whether mkdir takes two arguments],[ac_cv_two_args_mkdir],

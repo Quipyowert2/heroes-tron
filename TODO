@@ -5,8 +5,6 @@ please send a note to <heroes-discuss@lists.sourceforge.net>.
 Before 0.7
 ----------
 
-  Write a common.h file for all macros used for portability.
-
   Get rid of GETWORD, SETWORD and Cie, see src/endian.h.
 
   Try to fix the tunnel bug on Solaris.
@@ -17,13 +15,8 @@ Before 0.7
 
   Handle SDL_quit events.
 
-  va_dcl may be used undeclared in debugmsg.c, this is wrong.
-
   JUSTIF_CALC in draw.c sometimes use tricky empty parameters, this do
   no work on VC6.0.
-
-  Check for <unistd.h> and include that file conditionnaly where 
-  it is used.
 
   Rewrite the extras.c code to use opendir/readdir/closedir, do not
   depend on scandir.
@@ -34,11 +27,12 @@ Before 0.7
 
   Check and use <stdint.h>.
 
-  userdir.c should include string.h.
-
   Rewrite sleep() for lib/.
 
   Check for S_ISDIR, what should be done if absent?
+
+  generic_list.h: *_clear should be given a pointer to the cell destructor
+  to be useful.
 
 
 Before 1.0.0
@@ -46,13 +40,15 @@ Before 1.0.0
 
   There are several comments in French.  They should be translated.
 
-  Write a clean 
+  Check every place were filenames are used, use buffer allocated dynamicaly.
 
   The code is VERY UGLY and needs to be cleaned up.
 
   Split heroes.c
 
   Split hedlite.c
+
+  const.[ch] should not exist.
 
   Think of the case were two heroes process access a global score file.
 
@@ -61,6 +57,10 @@ Before 1.0.0
   Add ./configure options to configure data paths.
 
   Use gettext.
+
+  __attribute__ ((packed)) are gcc-isms
+
+  gfx_reader.h is a crap
 
 
 Left for a 1.1.x development branch
@@ -87,8 +87,9 @@ Miscellaneous
 
   Write assembly routines for stretching code.
 
-To be discussed
----------------
+
+Ideas, to be discussed
+----------------------
 
   Load GGI, SDL, and MikMod libraries dymicaly (i.e. select
   available library at run-time versus configure-time).  This need
