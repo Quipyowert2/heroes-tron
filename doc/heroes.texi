@@ -860,9 +860,9 @@ A solution is to run Alsa in OSS-emulation mode: simply run @samp{heroes
 set of device drivers that provide a uniform API across all the major
 UNIX architectures.  The Linux kernel contain free code from the
 commercial OSS (See @uref{http://www.linux.org.uk/OSS/,this page} for
-details).}, interface.
+details).} interface.
 
-A more extreme solution, you may want to compile LibMikMod without Alsa
+As a more extreme solution, you may want to compile LibMikMod without Alsa
 support so that it never crash for any application.
 
 @node    Index,  , Running, Top
