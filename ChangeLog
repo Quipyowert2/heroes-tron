@@ -1,5 +1,10 @@
 2001-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/render.c (draw_vehicle_tail): Thinko, resulting in a SEGV :(
+	Reported by Daniel.
+
+2001-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.ac: Bump version to 0.16.
 	* NEWS, ANNOUNCE: Update for 0.16.
 

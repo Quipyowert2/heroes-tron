@@ -113,7 +113,7 @@ draw_vehicle_tail (int c, a_pixel* dest)
 		    REVERSE_DIR(player[c].way));
   const a_sprite *spr;
 
-  if (s & 1) {
+  if (player[c].way & 1) {
     d = player[c].d.h.l / 5462;
     spr = trails[s][12 - (d + 12) / 2];
   } else {
