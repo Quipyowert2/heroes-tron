@@ -1,3 +1,8 @@
+2001-05-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* arch/Makefile.am: Comment out all the VisualC stuff.  It's
+	out of date.
+
 2001-05-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* GNUmakefile (src/people.c): New target.
