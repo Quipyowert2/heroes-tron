@@ -97,6 +97,18 @@ copy_scr_area (const pixel_t *src, pixel_t *dest)
 }
 
 void
+copy_image_to_scr_area (const pcx_image_t *src, pixel_t *dest)
+{
+  unsigned row;
+  const pixel_t *s = src->buffer;
+  for (row = 200; row; --row) {
+    fastmem4 (s, dest, src->width/4);
+    s += src->width;
+    dest += xbuf;
+  }
+}
+
+void
 clear_scr_area (pixel_t *dest)
 {
   unsigned row;

@@ -1,5 +1,22 @@
 2000-11-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Adapt editor_menu to xbuf-wide buffer and new sprite functions.
+
+	* src/menus.c (bigarr_cursor, sqr_cursor, small_arrows,
+	ed_new_level_txt, ed_existing_level_txt, ed_name_txt,
+	ed_x_wrap_txt, ed_y_wrap_txt, ed_x_size_txt, ed_y_size_txt,
+	ed_edit_txt): New.
+	(init_menus_sprites): Compile the above sprites.
+	(uninit_menus_sprites): Free them.
+	(editor_menu): Adapt to use a xbuf wide buffers, and the new
+	sprite routines.  Also change the color palette when the
+	tileset preview change (a bug introduced with fader on
+	2000-09-27).
+	* src/scrtools.c (copy_image_to_scr_area): New.
+	* src/scrtools.h (copy_image_to_scr_area): New.
+
+2000-11-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/heroes.c (play_game): Do not call draw_text_320 to
 	display the level name, use the sprtext routines instead.
 	Bugfix: reset update_htimer after the sleep, the we see the
