@@ -57,7 +57,7 @@ copy_tile (const pixel_t* src, pixel_t* dest, int tx)
     t2 = s[5];
     d[2] = t1;
     d[5] = t2;
-    s = (const u32_t *) (((pixel_t *) s) + tx);
+    s = (const u32_t *) (((const pixel_t *) s) + tx);
     d = (u32_t *) (((pixel_t *) d) + xbuf);
   }
 }
@@ -84,7 +84,6 @@ draw_trail_real (int c, unsigned char s, pixel_t* dest,
 		 unsigned char fixe)
 {
   const sprite_t *spr;
-  pixel_t ch;
   int d = 0;
 
   if (fixe) {

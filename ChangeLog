@@ -1,5 +1,11 @@
 2000-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/system.h (INT_TO_PTR): Fix.
+	* src/render.c (copy_tile): Fix constness.
+	(draw_trail_real): Remove useless local variable.
+
+2000-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/const.c (camera_x, camera_y, corner_x, corner_y, corner_dx,
 	corner_dy, inert_x, inert_y): Declare as int (not long). Change
 	signedness.
