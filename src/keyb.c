@@ -30,6 +30,8 @@ char mouse_button_right = 0;
 
 unsigned char keyboard_map[KEY_MAX + 1];
 
+void update_mouse_state (void);
+
 void
 init_keyboard_map (void)
 {
@@ -42,30 +44,35 @@ init_keyboard_map (void)
 int 
 mouse_x (void)
 {
+  update_mouse_state ();
   return mouse_pos_x;
 }
 
 int 
 mouse_y (void)
 {
+  update_mouse_state ();
   return mouse_pos_y;
 }
 
 char 
 mouse1 (void)
 {
+  update_mouse_state ();
   return mouse_button_left;
 }
 
 char 
 mouse2 (void)
 {
+  update_mouse_state ();
   return mouse_button_right;
 }
 
 char 
 mouse12 (void)
 {
+  update_mouse_state ();
   return mouse_button_left || mouse_button_right;
 }
 
@@ -103,9 +110,6 @@ process_input_events (void)
 
   unsigned int mask = emKeyPress | emKeyRelease | emKeyRepeat;
 
-  if (enable_mouse)
-    mask |= emPointer;
-
   if (ggiEventPoll (visu, mask, &t) 
       != emZero) {
     int nbr;
@@ -129,6 +133,35 @@ process_input_events (void)
       case evKeyRepeat:
 	/* NOP */
 	break;
+
+      default:
+	printf ("unexpected event %d\n", ev.any.type);
+      }
+    }
+  }
+}
+
+void
+update_mouse_state (void)
+{
+  struct timeval t = { 0, 0 };
+
+  unsigned int mask = emPointer;
+
+  /*
+  if (!enable_mouse)
+    return;
+  */
+
+  if (ggiEventPoll (visu, mask, &t) 
+      != emZero) {
+    int nbr;
+    ggi_event ev;
+
+    nbr = ggiEventsQueued (visu, mask);
+    for (; nbr; --nbr) {
+      ggiEventRead (visu, &ev, mask);
+      switch (ev.any.type) {
 
 	/* mouse events */
 
@@ -159,6 +192,7 @@ process_input_events (void)
     }
   }
 }
+
 
 void
 uninit_keyboard_map (void)

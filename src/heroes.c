@@ -38,10 +38,6 @@
 #include "fastmem.h"
 //#include "freemem.h"
 //#include "extinfo.h"
-#ifdef PORT
-     /* FIXME: MOUSE */
-#include "mouse.h"
-#endif
 #include "sfx.h"
 #include "options.h"
 #include "scores.h"
@@ -127,7 +123,7 @@ char enable_blit;
 int bonus_proba[17];
 int bonus_proba_sum = 0;
 
-char mouse_found = 0;
+char mouse_found = 1;
 /***********************/
 
 //char odbg=0;

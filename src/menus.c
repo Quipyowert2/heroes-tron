@@ -36,10 +36,7 @@
 #include "extras.h"
 #include "display.h"
 #include "savegame.h"
-#ifdef PORT
-/* FIXME: EDITOR */
 #include "hedlite.h"
-#endif /*  */
 #include "render.h"
 #include "sound.h"
 #include "txts.h"
@@ -1226,11 +1223,8 @@ editor_selector (void)
 
 //      sprintf(tmp2,"%s A A A A A",tmp1);
 //      spawnl(P_WAIT,"HEDLITE.EXE","HEDLITE.EXE",tmp2,NULL);
-#ifdef PORT
-/* FIXME: EDITOR */
-    hmain (7, tmp1, "A", "A", "A", "A", "A");
 
-#endif /*  */
+    hmain (7, tmp1, "A", "A", "A", "A", "A");
     return;
   }
   memset (pal.global, 63, 768);
@@ -1296,11 +1290,8 @@ editor_selector (void)
 
 //    sprintf(tmp2,"%s A A A A A",tmp1);
 //    spawnl(P_WAIT,"HEDLITE.EXE","HEDLITE.EXE",tmp2,NULL);
-#ifdef PORT
-/* FIXME: EDITOR */
-    hmain (7, tmp1, "A", "A", "A", "A", "A");
 
-#endif /*  */
+    hmain (7, tmp1, "A", "A", "A", "A", "A");
   } else
     event_sfx (8);
 }
@@ -1596,15 +1587,10 @@ editor_menu (void)
 	     ((ywrap == -1) ? '!' : (ywrap + ' ')));
     tmp2[1] = tmp2[3] = tmp2[5] = 0;
 
-#ifdef PORT
-/* FIXME: EDITOR */
     hmain (7, tmp1, tile_sets_names[tiles], tmp2, tmp2 + 2, tmp2 + 4,
 	   tmp2 + 6);
-
-#endif /*  */
     /* met … jour la table des extras */
-    free (extra_list);
-    free (extra_selected_list);
+    free_extra_list ();
     make_extra_list ();
   }
   frame_old = frame_cur;

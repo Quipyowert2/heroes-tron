@@ -94,3 +94,17 @@ make_extra_list (void)
 {
   browse_extra_directory (extradir);
 }
+
+void
+free_extra_list (void)
+{
+  int i;
+
+  for (i = 0; i < extra_nbr; ++i)
+    free (extra_list[i]);
+  extra_nbr = 0;
+  free (extra_list);
+  extra_list = 0;
+  free (extra_selected_list);
+  extra_selected_list = 0;
+}

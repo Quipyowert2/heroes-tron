@@ -27,5 +27,6 @@ extern char *extra_selected_list;
 extern int extra_nbr;
 void browse_extra_directory (const char* directory);
 void make_extra_list (void);
+void free_extra_list (void);
 
 #endif

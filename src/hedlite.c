@@ -37,7 +37,7 @@
 #include "errors.h"
 #include "fastmem.h"
 #include "keyb.h"
-
+#include "keys_heroes.h"
 #include "font.h"
 #include "structs.h"
 #include "misc.h"
@@ -507,6 +507,7 @@ majd (void)
   draw_text (nombre, 302, 64, 15, 2);
   sprintf (nombre, "%u", ydalles / 20);
   draw_text (nombre, 307, 64, 15, 0);
+  vsynchro ();
 }
 
 static void
@@ -638,6 +639,7 @@ majg (void)
   draw_text (nombre, 302, 57, 8, 2);
   sprintf (nombre, "%lu", ((yplan + yplandec / 20) & hplaninfo.ywrap));
   draw_text (nombre, 307, 57, 8, 0);
+  vsynchro ();
 }
 
 static void
@@ -1012,35 +1014,35 @@ planfull (void)
 	   && (mouse_y () - ym) <= 1 && mouse12 () == 0);
     if (key_ready ())
       t = get_key ();
-    if (t == 0x4d00 || (mouse_x () - xm) > 1) {
+    if (t == HK_Right || (mouse_x () - xm) > 1) {
       if (xplan < (hplaninfo.xt - 13) || hplaninfo.xwrap != 0xffffffff)
 	xplan = ((xplan + 1) & hplaninfo.xwrap);
 #ifdef PORT /* mouse */
       set_mouse_pos (128, mouse_y ());
 #endif
     }
-    if (t == 0x4b00 || (xm - mouse_x ()) > 1) {
+    if (t == HK_Left || (xm - mouse_x ()) > 1) {
       if (xplan > 0 || hplaninfo.xwrap != 0xffffffff)
 	xplan = ((xplan - 1) & hplaninfo.xwrap);
 #ifdef PORT /* mouse */
       setmouse (128, mouse_y ());
 #endif
     }
-    if (t == 0x5000 || (mouse_y () - ym) > 1) {
+    if (t == HK_Down || (mouse_y () - ym) > 1) {
       if (yplan < (hplaninfo.yt - 10) || hplaninfo.ywrap != 0xffffffff)
 	yplan = ((yplan + 1) & hplaninfo.ywrap);
 #ifdef PORT /* mouse */
       setmouse (mousex (), 100);
 #endif
     }
-    if (t == 0x4800 || (ym - mouse_y ()) > 1) {
+    if (t == HK_Up || (ym - mouse_y ()) > 1) {
       if (yplan > 0 || hplaninfo.ywrap != 0xffffffff)
 	yplan = ((yplan - 1) & hplaninfo.ywrap);
 #ifdef PORT /* mouse */
       setmouse (mouse_x (), 100);
 #endif
     }
-  } while (t != 0x1c0d && t != 0x3920 && t != 0x11b && mouse12 () == 0);
+  } while (t != HK_Enter && t != HK_Space && t != HK_Escape && mouse12 () == 0);
   memset (screen, 0, 64000);
   partiel2 (0, 0, 30, 200, 290, 0, &heditrsc);
   draw_text (levelnomshort, 305, 29, 8, 1);
@@ -1362,7 +1364,7 @@ gestclav (int i)
   char t;
   int j, k;
   switch (i) {
-  case 0x3b00:
+  case HK_F1:
 #ifdef PORT /* help */
     modevga (TEXT);
 //                  spawnl(P_WAIT,"READER.EXE","READER.EXE","HEDLITE.DOC",NULL);
@@ -1380,7 +1382,7 @@ gestclav (int i)
     majg ();
 #endif
     break;
-  case 0x7400:
+  case 0x7400: /* CtrlRight */
     if (xdalles + 168U < tile_set_img.width) {
       xdalles += 24;
       majd ();
@@ -1389,7 +1391,7 @@ gestclav (int i)
       majd ();
     }
     break;
-  case 0x7300:
+  case 0x7300: /* CtrlLeft */
     if (xdalles > 0) {
       xdalles -= 24;
       majd ();
@@ -1398,15 +1400,15 @@ gestclav (int i)
       majd ();
     }
     break;
-  case 0x7700:
+  case 0x7700: /* CtrlHome */
     xdalles = 0;
     majd ();
     break;
-  case 0x7500:
+  case 0x7500: /* CtrlEnd */
     xdalles = (tile_set_img.width / 24) * 24 - 144;
     majd ();
     break;
-  case 0x7600:
+  case 0x7600: /* PgDown */
     if (ydalles < 180) {
       ydalles += 20;
       majd ();
@@ -1415,7 +1417,7 @@ gestclav (int i)
       majd ();
     }
     break;
-  case 0x8400:
+  case 0x8400: /* PgUp */
     if (ydalles > 0) {
       ydalles -= 20;
       majd ();
@@ -1424,35 +1426,35 @@ gestclav (int i)
       majd ();
     }
     break;
-  case 0x4d00:
+  case HK_Right:
     if (xplan < (hplaninfo.xt - 6) || hplaninfo.xwrap != 0xffffffff) {
       xplan = ((xplan + 1) & hplaninfo.xwrap);
       majg ();
     } else
-      gestclav (0x4d36);
+      gestclav (0x4d36); /* ShRight */
     break;
-  case 0x4b00:
+  case HK_Left:
     if (xplan > 0 || hplaninfo.xwrap != 0xffffffff) {
       xplan = ((xplan - 1) & hplaninfo.xwrap);
       majg ();
     } else
-      gestclav (0x4b34);
+      gestclav (0x4b34); /* ShLeft */
     break;
-  case 0x5000:
+  case HK_Down:
     if (yplan < (hplaninfo.yt - 10) || hplaninfo.ywrap != 0xffffffff) {
       yplan = ((yplan + 1) & hplaninfo.ywrap);
       majg ();
     } else
-      gestclav (0x5032);
+      gestclav (0x5032); /* ShDown */
     break;
-  case 0x4800:
+  case HK_Up:
     if (yplan > 0 || hplaninfo.ywrap != 0xffffffff) {
       yplan = ((yplan - 1) & hplaninfo.ywrap);
       majg ();
     } else
-      gestclav (0x4838);
+      gestclav (0x4838); /* ShUp */
     break;
-  case 0x4d36:
+  case 0x4d36: /* ShRight */
     if (xplandec < 120)
       xplandec += 24;
     else if (xplan < (hplaninfo.xt - 6) || hplaninfo.xwrap != 0xffffffff) {
@@ -1460,7 +1462,7 @@ gestclav (int i)
     }
     majg ();
     break;
-  case 0x4b34:
+  case 0x4b34: /* ShLeft */
     if (xplandec > 0)
       xplandec -= 24;
     else if (xplan > 0 || hplaninfo.xwrap != 0xffffffff) {
@@ -1468,7 +1470,7 @@ gestclav (int i)
     }
     majg ();
     break;
-  case 0x5032:
+  case 0x5032: /* ShDown */
     if (yplandec < 180)
       yplandec += 20;
     else if (yplan < (hplaninfo.yt - 10) || hplaninfo.ywrap != 0xffffffff) {
@@ -1476,7 +1478,7 @@ gestclav (int i)
     }
     majg ();
     break;
-  case 0x4838:
+  case 0x4838: /* ShUp */
     if (yplandec > 0)
       yplandec -= 20;
     else if (yplan > 0 || hplaninfo.ywrap != 0xffffffff) {
@@ -1486,10 +1488,11 @@ gestclav (int i)
     break;
 //     case 0x0f09: cote^=1;majd();majg();
 //                  break;
-  case 0x1c0d:
+  case HK_Enter:
     planfull ();
     break;
-  case 0x3920:			//if (((*etatclav)&3)==0)
+  case HK_Space: 
+    //if (((*etatclav)&3)==0)
     //{
     j = curdallep ();
     level_map[j].number = xdalles + xdallesdec + ydalles * (tile_set_img.width);
@@ -1520,12 +1523,12 @@ gestclav (int i)
        if (tempd!=0xfffffff)
        level_map[curdallep()]=level_map[tempd];
      */
-    gestclav (0x1769);
-    gestclav (0x184f);
+    gestclav (HK_i); 
+    gestclav (HK_O);
     majg ();
     break;
-  case 0x1769:			// I
-  case 0x1749:			//if (i==0x1769) fprintf(hlog,"\t[i] used\n");
+  case HK_i:			// I
+  case HK_I:			//if (i==0x1769) fprintf(hlog,"\t[i] used\n");
     // else          fprintf(hlog,"\t[I] used\n");
     for (j = hplaninfo.xt * hplaninfo.yt - 1; j >= 0; j--) {
       level_map[j].collision[0] = 0;
@@ -1585,17 +1588,17 @@ gestclav (int i)
     }
 //                  majg();
     break;
-  case 0x1c0a:
+  case 0x1c0a: /* CtrlEnter */
     joueanim ();
     break;
-  case 0x2106:
+  case 0x2106: /* CtrlF */
     for (j = hplaninfo.xt * hplaninfo.yt - 1; j >= 0; j--) {
       level_map[j].number = xdalles + xdallesdec + ydalles * (tile_set_img.width);
       level_map[j].type = ddef[curdalled ()].type;
       level_map[j].info = ddef[curdalled ()].info;
     }
     break;
-  case 0x2100:
+  case 0x2100: /* AltF */
     for (j = hplaninfo.xt * hplaninfo.yt - 1; j >= 0; j--)
 
       level_map[j].number =
@@ -1603,16 +1606,16 @@ gestclav (int i)
 	tile_set_img.width;
     majg ();
     break;
-  case 0x3d00:
+  case HK_F3:
     sprhide ^= 1;
     majg ();
     break;
-  case 0x4000:
+  case HK_F6:
     afftests ^= 1;
     majg ();
     break;
-  case 0x1f73:			// S
-  case 0x1f53:
+  case HK_s:			// S
+  case HK_S:
     if (level_map[curdallep ()].sprite == 0)
 
       level_map[curdallep ()].sprite =
@@ -1621,38 +1624,66 @@ gestclav (int i)
       level_map[curdallep ()].sprite = 0;
     majg ();
     break;
-  case 0x2064:			// D
-  case 0x2044:
+  case HK_d:			// D
+  case HK_D:
     t = level_map[curdallep ()].type;
     if (t != t_boom && t != t_anim && t != t_outway)
       departfix ();
     break;
-  case 0x1474:			// T
-  case 0x1454:
+  case HK_t:			// T
+  case HK_T:
     if (tempd == curdallep ())
       tempd = 0xffffffff;
     else
       tempd = curdallep ();
     majg ();
     break;
-  case 0x184f:			// O
-  case 0x186f:			//fprintf(hlog,"\t[O] used\n");
+  case HK_o:			// O
+  case HK_O:			//fprintf(hlog,"\t[O] used\n");
     outwayflag ();		/*majg(); */
     break;
-  case 0x1970:			// P
-  case 0x1950:
+  case HK_p:			// P
+  case HK_P:
     save_pcx ();
     majg ();
     break;
+  case HK_0:
+    i = 0;
+    goto handle_numbers;
+  case HK_1:
+    i = 1;
+    goto handle_numbers;    
+  case HK_2:
+    i = 2;
+    goto handle_numbers;
+  case HK_3:
+    i = 3;
+    goto handle_numbers;
+  case HK_4:
+    i = 4;
+    goto handle_numbers;
+  case HK_5:
+    i = 5;
+    goto handle_numbers;
+  case HK_6:
+    i = 6;
+    goto handle_numbers;
+  case HK_7:
+    i = 7;
+    goto handle_numbers;
+  case HK_8:
+    i = 8;
+    /*    goto handle_numbers;
+	  case HK_9:
+	  i = 9;
+    */
+  handle_numbers:
+    level_map[curdallep ()].type = i;
+    level_map[curdallep ()].info.tunnel.output = 0;
+    level_map[curdallep ()].info.param[4] = 0;
+    majg ();
+    break;
   default:
-    if ((i & 0xff00) == 0xb00)
-      i = 0x150;
-    if (i >= 0x150 && i <= 0xa00) {
-      level_map[curdallep ()].type = (i >> 8) - 1;
-      level_map[curdallep ()].info.tunnel.output = 0;
-      level_map[curdallep ()].info.param[4] = 0;
-      majg ();
-    }
     break;
   }
 }
@@ -1685,12 +1716,12 @@ gestsrs1 (void)
 
   if (x >= 290) {
     if (y < 19)
-      gestclav (0x1c0d);
+      gestclav (HK_Enter);
     if (y >= 144 && y <= 166) {
       if (x > 305)
-	gestclav (0x7400);
+	gestclav (0x7400); /* CtrlRight */
       else
-	gestclav (0x7300);
+	gestclav (0x7300); /* CtrlLeft */
     }
 /*            if (y>=71 && y<=84)
                                               { level_map[i].type=menutype(level_map[i].type);
@@ -1744,23 +1775,23 @@ gestsrs1 (void)
 #ifdef PORT /* mouse */
 	set_mouse_pos (x, y);
 #endif
-	gestclav (0x4d00);
+	gestclav (HK_Right);
       } else if (x - x2 > 3) {
 #ifdef PORT /* mouse */
 	set_mouse_pos (x, y);
 #endif
-	gestclav (0x4b00);
+	gestclav (HK_Left);
       }
       if (y2 - y > 3) {
 #ifdef PORT /* mouse */
 	set_mouse_pos (x, y);
 #endif
-	gestclav (0x5000);
+	gestclav (HK_Down);
       } else if (y - y2 > 3) {
 #ifdef PORT /* mouse */
 	set_mouse_pos (x, y);
 #endif
-	gestclav (0x4800);
+	gestclav (HK_Up);
       }
     } while (mouse12 () != 0);
   }
@@ -1793,23 +1824,23 @@ gestsrs1 (void)
 #ifdef PORT /* mouse */
 	set_mouse_pos (x, y);
 #endif
-	gestclav (0x7400);
+	gestclav (0x7400); /* CtrlRight */
       } else if (x - x2 > 3) {
 #ifdef PORT /* mouse */
 	set_mouse_pos (x, y);
 #endif
-	gestclav (0x7300);
+	gestclav (0x7300); /* CtrlLeft */
       }
       if (y2 - y > 3) {
 #ifdef PORT /* mouse */
 	set_mouse_pos (x, y);
 #endif
-	gestclav (0x7600);
+	gestclav (0x7600); /* CtrlPgDn */
       } else if (y - y2 > 3) {
 #ifdef PORT /* mouse */
 	set_mouse_pos (x, y);
 #endif
-	gestclav (0x8400);
+	gestclav (0x8400); /* CtrlPgUp */
       }
     } while (mouse12 () != 0);
   }
@@ -1823,16 +1854,16 @@ gestsrs2 (void)
   if (x >= 290) {
     if (y >= 144 && y <= 166) {
       if (x > 305)
-	gestclav (0x7500);
+	gestclav (0x7500); /* CtrlEnd */
       else
-	gestclav (0x7700);
+	gestclav (0x7700); /* CtrlHome */
     }
 //            if (y>=86 && y<=108) gestclav(0x2e63);
   }
   if (x < 144) {
     xplandec = (x / 24) * 24;
     yplandec = (y / 20) * 20;
-    gestclav (0x3920);
+    gestclav (HK_Space);
   }
 }
 
@@ -1846,7 +1877,7 @@ gestsrs3 (void)
     b = yplandec;
     xplandec = (x / 24) * 24;
     yplandec = (y / 20) * 20;
-    gestclav (0x1474);
+    gestclav (HK_t); 
     xplandec = a;
     yplandec = b;
     majg ();
@@ -1902,36 +1933,36 @@ select_ (char *quoi, char *resultat)
       }
     t = get_key ();
     switch (t) {
-    case 0x5000:
+    case HK_Down:
       if (i + 1 < j)
 	i++;
       break;
-    case 0x4800:
+    case HK_Up:
       if (i > 0)
 	i--;
       break;
-    case 0x5100:
+    case HK_PgDn:
       if (i + 10 < j)
 	i += 10;
       else
 	i = j - 1;
       break;
-    case 0x4900:
+    case HK_PgUp:
       if (i > 10)
 	i -= 10;
       else
 	i = 0;
       break;
-    case 0x4700:
+    case HK_Home:
       i = 0;
       break;
-    case 0x4f00:
+    case HK_End:
       i = j - 1;
       break;
     }
   }
-  while (t != 0x1c0d && t != 0x11b);
-  if (t == 0x11b)
+  while (t != HK_Enter && t != HK_Escape);
+  if (t == HK_Escape)
     resultat[0] = 0;
   else
     strcpy (resultat, (char *) &(tableau[i]));
@@ -1967,14 +1998,14 @@ boiteask (char *question, char *entree, int taille)
     qwritep (ligne, x + 2 + i, 26, 15 + 16);
     t = get_key ();
     switch (t) {
-    case 0xe08:
+    case HK_Backspace:
       if (l > 0) {
 	l--;
 	tmp[l] = 0;
       }
       break;
-    case 0x1c0d:
-    case 0x11b:
+    case HK_Enter:
+    case HK_Escape:
       break;
     default:
       if ((char) t > 32 && l < taille) {
@@ -1984,8 +2015,8 @@ boiteask (char *question, char *entree, int taille)
       }
       break;
     }
-  } while (t != 0x1c0d && t != 0x11b);
-  if (t == 0x1c0d)
+  } while (t != HK_Enter && t != HK_Escape);
+  if (t == HK_Enter)
     strcpy (entree, (char *) &tmp);
   _fmemcpy (screentxt, scrbak, 8000);
   free (scrbak);
@@ -2022,11 +2053,11 @@ asknew ()
       qwritel (&nombre, 42, 27, 10 + 112, 5);
       qwrite (((hplaninfo.ywrap != -1) ? "Yes" : "No "), 42, 28, 10 + 112);
       i = get_key ();
-      if (i == 0x5000)
+      if (i == HK_Down)
 	l = (l + 1) & 7;
-      if (i == 0x4800)
+      if (i == HK_Up)
 	l = (l - 1) & 7;
-      if (i == 0x1c0d)
+      if (i == HK_Enter)
 	switch (l) {
 	case 0:
 	  boiteask ("Enter level's name:", &levelnomshort, 8);
@@ -2098,13 +2129,13 @@ asknew ()
 	    hplaninfo.ywrap = 0xffffffff;
 	  break;
 	}
-    } while (i != 0x1c0d && i != 0x11b);
-  } while (l != 7 && i != 0x11b);
+    } while (i != HK_Enter && i != HK_Escape);
+  } while (l != 7 && i != HK_Escape);
 
-  if (i == 0x11b)
+  if (i == HK_Escape)
     _fmemcpy (screentxt, scrbak, 8000);
   free (scrbak);
-  if (i == 0x11b)
+  if (i == HK_Escape)
     return (0);
   else
     return (1);
@@ -2134,11 +2165,11 @@ askold ()
       qwrite (((hplaninfo.xwrap != -1) ? "Yes" : "No "), 42, 26, 10 + 112);
       qwrite (((hplaninfo.ywrap != -1) ? "Yes" : "No "), 42, 27, 10 + 112);
       i = get_key ();
-      if (i == 0x5000)
+      if (i == HK_Down)
 	l = ((l == 4) ? 0 : (l + 1));
-      if (i == 0x4800)
+      if (i == HK_Up)
 	l = ((l == 0) ? 4 : (l - 1));
-      if (i == 0x1c0d)
+      if (i == HK_Enter)
 	switch (l) {
 	case 0:
 	  select (rscdir "\\*.pcx", &entree);
@@ -2167,12 +2198,12 @@ askold ()
 	    hplaninfo.ywrap = 0xffffffff;
 	  break;
 	}
-    } while (i != 0x1c0d && i != 0x11b);
-  } while (l != 4 && i != 0x11b);
+    } while (i != HK_Enter && i != HK_Escape);
+  } while (l != 4 && i != HK_Escape);
 
   _fmemcpy (screentxt, scrbak, 8000);
   free (scrbak);
-  if (i == 0x11b)
+  if (i == HK_Escape)
     return (0);
   else
     return (1);
@@ -2231,18 +2262,18 @@ int hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2, char *ar
 	  qwrite (" CREATE NEW LEVEL ", 32, 25, 14 + 112 - 64 * (l == 1));
 	  qwrite (" MODIFY LVL-PARAM ", 32, 27, 14 + 112 - 64 * (l == 2));
 	  i = get_key ();
-	  if (i == 0x11b) {
+	  if (i == HK_Escape) {
 	    modevga (TEXT);
 	    printf ("Heroes Little Editor v" __HEDITver__
 		    " (c) 1996-97 RealTech & Olympus\n");
 	    printf ("Compiled on " __DATE__ " at " __TIME__ "\n");
 	    return;
 	  }
-	  if (i == 0x5000)
+	  if (i == HK_Down)
 	    l = ((l == 2) ? 0 : (l + 1));
-	  if (i == 0x4800)
+	  if (i == HK_Up)
 	    l = ((l == 0) ? 2 : (l - 1));
-	} while (i != 0x1c0d);
+	} while (i != HK_Enter);
 	if (l == 0) {
 	  select (nivdir "\\*.lvl", &levelnomshort);
 	  if (levelnomshort[0] == 0)
@@ -2366,6 +2397,7 @@ int hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2, char *ar
 /*************************************/
     if (outwayinit ())
       return 1;
+    memset (screen, 0, 64000);
     set_pal ((char *) &tile_set_img.palette, 0, 256 * 3);
     partiel2 (0, 0, 30, 200, 290, 0, &heditrsc);
     strupr (levelnomshort);
@@ -2374,6 +2406,7 @@ int hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2, char *ar
     draw_text (nombre, 302, 43, 8, 2);
     sprintf (nombre, "%lu", hplaninfo.yt);
     draw_text (nombre, 307, 43, 8, 0);
+
     majd ();
     majg ();
     while (key_ready ())
@@ -2386,22 +2419,20 @@ int hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2, char *ar
 	i = get_key ();
 	gestclav (i);
       } else {
-	switch (mouse12 ()) {
-	case 1:
+	if (mouse1 ()) {
 	  gestsrs1 ();
-	  break;
-	case 2:
+	} else if (mouse2 ()) {
 	  gestsrs2 ();
-	  break;
-	case 4:
-	  gestsrs3 ();
-	  break;
 	}
+	/* else if (mouse3 ()) {
+	  gestsrs3 ();
+	}
+	*/
 	while (mouse12 () != 0);
 	notestmouse = 0;
       }
       mouse_show ();
-    } while (i != 0x11b);
+    } while (i != HK_Escape);
     mouse_hide ();
     outwayclose ();
 #ifdef PORT
@@ -2422,16 +2453,16 @@ int hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2, char *ar
 	qwrite (" SAVE TILES ONLY     ", 30, 25, 14 + 112 - 64 * (l == 2));
 	qwrite (" DON'T SAVE ANYTHING ", 30, 27, 14 + 112 - 64 * (l == 3));
 	i = get_key ();
-	if (i == 0x5000)
+	if (i == HK_Down)
 	  l = (l + 1) & 3;
-	if (i == 0x4800)
+	if (i == HK_UP)
 	  l = (l - 1) & 3;
-	if ((i == 0x11b && l != 3)) {
+	if ((i == HK_Escape && l != 3)) {
 	  l = 3;
 	  i = 0;
 	}
-      } while (i != 0x1c0d && !(i == 0x11b && l == 3));
-      if (i == 0x11b)
+      } while (i != HK_Enter && !(i == HK_Escape && l == 3));
+      if (i == HK_Escape)
 	l = 3;
 //   printf("\%d\n",l);
       if ((l & 3) != 3) {

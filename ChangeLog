@@ -1,3 +1,27 @@
+2000-07-11  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Link the level editor into the menu, and adapt
+	the level editor to Heroes keycodes (most of them).
+	Install editor data.
+	
+	* src/hedit/Makefile.am: New.
+	* configure.in: Generate src/hedit/Makefile.
+	* src/Makefile.am: Add hedit directory.
+	* src/extras.c (free_extra_list): New.
+	* src/extras.h (free_extra_list): New.
+	* src/hedlite.c (majd,majg): Call vsynchro to update the display.
+	(planfull,gestclav,gestsrs1,gestsrs2,gestsrs3,hmain): Replace 
+	hardcoded keyvalues by keysyms (most of them).
+	(hmain): Clear the screen.
+	* src/heroes.c: Remove unused include. 
+	(mouse_found): Set to 1 (should this variable be removed?).
+	* src/keyb.c (update_mouse_state): New.
+	(mouse_x,mouse_y,mouse_1,mouse_2,mouse_12): Call update_mouse_state.
+	(process_input_events): Move mouse handling to update_mouse_state.
+	* src/keys_heroes.h: Add new needed keysyms.
+	* src/menus.c (editor_selector,editor_menu): Uncomment.
+	(editor_menu): Adapt to call free_extra_list.
+
 2000-07-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Shake the level editor code until it compile.

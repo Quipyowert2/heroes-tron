@@ -432,7 +432,8 @@ dnl Output files
 dnl ============
 
 AM_CONFIG_HEADER(src/config.h)
-AC_OUTPUT(Makefile src/Makefile src/extralvl/Makefile src/intro/Makefile
+AC_OUTPUT(Makefile src/Makefile src/extralvl/Makefile
+	src/hedit/Makefile src/intro/Makefile
 	src/level/Makefile src/rsc/Makefile src/sprites/Makefile
 	src/txt_cfg/Makefile src/mod/Makefile src/sfx/Makefile
 	man/Makefile doc/Makefile)
