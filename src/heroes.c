@@ -3716,6 +3716,8 @@ main (int argc, char *argv[])
 {
   int i;
 
+  mtrace (); /* GNU libc's malloc debugging facility */
+
   dmsg_init (argv[0]);
   dmsg (D_SECTION,"initialization");
 

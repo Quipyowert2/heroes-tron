@@ -1,16 +1,66 @@
 dnl Some macros to configure with malloc() debugging libraries.
 dnl
 dnl Main functions:
+dnl  adl_WITH_MTRACE		handle the --with-mtrace option
 dnl  adl_WITH_DMALLOC		handle the --with-dmalloc option
 dnl  adl_WITH_EFENCE		handle the --with-efence option
 dnl  adl_ENABLE_MEM_DEBUG	handle the --enable-mem-debug option
-dnl				(i.e. link with either dmalloc or efence)
+dnl				(i.e. use mtrace or link with dmalloc
+dnl                              or efence, whatever the first found is)
 dnl
 dnl Auxiliary functions:
+dnl  adl_CHECK_MTRACE		actually check for mtrace availability
 dnl  adl_CHECK_DMALLOC		actually check for dmalloc availability
-dnl  adl_CHECK_EFENCE		actually check for efence avalability
+dnl  adl_CHECK_EFENCE		actually check for efence availability
 dnl
 dnl Written by Alexandre Duret-Lutz <duret_g@epita.fr>
+
+
+
+dnl adl_CHECK_MTRACE([ACTION-IF-FOUND], [ACTION-IF-NOT-FOUND])
+dnl Check for mtrace (GNU libc malloc debugging functions).
+dnl
+dnl This will define HAVE_MTRACE if mcheck.h and mtrace() exists.
+dnl
+dnl Use this macro in conjunction with the following code.
+dnl #if HAVE_MTRACE
+dnl # include <mcheck.h>
+dnl #else
+dnl # define mtrace()
+dnl # define muntrace()
+dnl #endif
+dnl and put the call to mtrace and muntrace where appropriate.
+
+AC_DEFUN([adl_CHECK_MTRACE],
+ [test_failed='no'
+  # should we check for mtrace?
+  if test "$with_mtrace" = no; then
+    test_failed='yes'
+  else
+    AC_CHECK_HEADER([mcheck.h],
+     [AC_CHECK_FUNCS([mtrace],[$1],[test_failed=yes])],
+     [test_failed=yes])
+    ifelse([$2],,
+     [if test $test_failed = 'yes'; then
+       AC_MSG_ERROR([Cannot find mtrace])
+      fi])
+  fi
+  ifelse([$2],,,
+   [if test "$test_failed" = yes; then
+     $2
+    fi])])
+
+
+dnl adl_WITH_MTRACE ([ACTION-IF-FOUND], [ACTION-IF-NOT-FOUND])
+dnl Check for dmalloc on user request.
+
+AC_DEFUN([adl_WITH_MTRACE],
+ [AC_ARG_WITH([mtrace],
+  [AC_HELP_STRING([--with-mtrace],
+   [use GNU libc's mtrace for malloc () debugging])])
+  if test "$with_mtrace" = yes; then
+   adl_CHECK_MTRACE
+  fi])
 
 
 dnl adl_CHECK_DMALLOC ([ACTION-IF-FOUND], [ACTION-IF-NOT-FOUND])
@@ -35,14 +85,14 @@ AC_DEFUN([adl_CHECK_DMALLOC],
   else
   # see if dmalloc is usable
     AC_CHECK_LIB([dmalloc],[malloc],
-     [ifelse([$1],,,[$1])
+     [$1
       LIBS="-ldmalloc $LIBS"
       AC_CHECK_HEADER([dmalloc.h])],
      [ifelse([$2],,[AC_MSG_ERROR([Cannot find dmalloc])],[test_failed='yes'])])
   fi
   ifelse([$2],,,
    [if test "$test_failed" = yes; then
-     $2;
+     $2
     fi])])
 
 
@@ -69,14 +119,14 @@ AC_DEFUN([adl_CHECK_EFENCE],
   else
   # see if efence is usable
     AC_CHECK_LIB([efence],[malloc],
-     [ifelse([$1],,,[$1])
+     [$1
       LIBS="-lefence $LIBS"],
      [ifelse([$2],,[AC_MSG_ERROR([Cannot find Electric Fence])],
       [test_failed='yes'])])
   fi
   ifelse([$2],,,
    [if test "$test_failed" = yes; then
-     $2;
+     $2
     fi])])
 
 
@@ -99,11 +149,13 @@ AC_DEFUN([adl_ENABLE_MEM_DEBUG],
  [# don't test anything if --with-dmalloc or --with-efence
   # was given (assume that adl_WITH_DMALLOC or adl_WITH_EFENCE
   # has already run).
-  if test x"${with_dmalloc-no}" = xno -a x"${with_efence-no}" = xno; then
+  if test "${with_mtrace-no}" = no &&
+     test "${with_dmalloc-no}" = no &&
+     test "${with_efence-no}" = no; then
     AC_ARG_ENABLE([mem-debug],
     [AC_HELP_STRING([--enable-mem-debug],
      [link with any malloc() debugger available])])
     if test "$enable_mem_debug" = yes; then
-     adl_CHECK_DMALLOC(,[adl_CHECK_EFENCE(,[mallocdbg="\<none\>"])])
+     adl_CHECK_MTRACE(,[adl_CHECK_DMALLOC(,[adl_CHECK_EFENCE])])
     fi
   fi])

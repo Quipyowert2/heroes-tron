@@ -708,6 +708,11 @@ This can slow down things a bit.
 @cindex --enable-devel
 Is a shorthand for @samp{--enable-debug --disable-optimizations --enable-warnings --enable-assert}.
 
+@item --with-mtrace
+@cindex --with-mtrace
+@cindex mtrace
+Use GNU libc's @samp{mtrace()} facility to check @samp{malloc()} usage.
+
 @item --with-dmalloc
 @cindex --with-dmalloc
 @cindex dmalloc
@@ -720,7 +725,7 @@ Link with Electric Fence, a @samp{malloc()} debugger.
 
 @item --enable-mem-debug
 @cindex --enable-mem-debug
-Check for Dmalloc, or Electric Fence.  Use the first library found.
+Check for @samp{mtrace()}, Dmalloc, or Electric Fence.  Use the first found.
 
 @item --enable-gprof
 @cindex --enable-gprof

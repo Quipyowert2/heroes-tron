@@ -70,6 +70,7 @@ AC_CHECK_LIB([m],[sin])
 # Check for any malloc() debugger.
 # ================================
 
+adl_WITH_MTRACE
 adl_WITH_DMALLOC
 adl_WITH_EFENCE
 adl_ENABLE_MEM_DEBUG

@@ -258,6 +258,13 @@ Array = xrealloc ((Array), sizeof (*(Array)) * (N_items))
     memset ((Array), (Val), sizeof (*(Array)) * (N_items));	\
   } while (0)
 
+#if HAVE_MTRACE
+# include <mcheck.h>
+#else
+# define mtrace()
+# define muntrace()
+#endif
+
 /* keep this header at the end of the include list, because it may
    define some macros to change the declaration of malloc functions */
 #if HAVE_DMALLOC_H
