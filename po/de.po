@@ -889,11 +889,11 @@ msgstr "COLORS"
 
 #: src/menus.c:190
 msgid "GAME"
-msgstr "Spiel"
+msgstr "SPIEL"
 
 #: src/menus.c:191
 msgid "SCREEN"
-msgstr "Bildschirm"
+msgstr "BILDSCHIRM"
 
 #: src/menus.c:192
 msgid "SOUND"
@@ -914,7 +914,7 @@ msgstr "EXTRAS"
 #: src/menus.c:196 src/menus.c:373 src/menus.c:383 src/menus.c:397
 #: src/menus.c:409 src/menus.c:419 src/menus.c:442 src/menus.c:560
 msgid "GO BACK"
-msgstr "zurueck"
+msgstr "ZURUECK"
 
 #. play menu
 #: src/menus.c:203 src/menus.c:554
@@ -932,7 +932,7 @@ msgstr "INFOS"
 
 #: src/menus.c:206 src/menus.c:459
 msgid "CREDITS"
-msgstr "Dank an"
+msgstr "CREDITS"
 
 #: src/menus.c:207
 msgid "SCORES"
