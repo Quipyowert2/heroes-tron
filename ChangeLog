@@ -1,5 +1,12 @@
 2000-11-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* arch/VisualC/heroes.dsp: New version from Stéphane Denis
+	<S.Denis@darkworks.com>.
+	* src/gfx_reader.h (show_help): Do a break in the default case to
+	satisfy VisualC.
+
+2000-11-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/sound.c: Remove trailing '\n' in all warning or debug messages.
 	* src/scrtools.c (set_pal_with_luminance): Fix computation.
 

@@ -135,14 +135,6 @@ SOURCE=..\src\display.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\draw.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\src\draw.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\src\endian.h
 # End Source File
 # Begin Source File
@@ -187,14 +179,6 @@ SOURCE=..\src\fader.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\fader.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\src\fader.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\src\fastmem.h
 # End Source File
 # Begin Source File
@@ -203,23 +187,15 @@ SOURCE=..\src\font.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\font_deck.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\src\font_help.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\font_menu.h
+SOURCE=..\src\fontdata.c
 # End Source File
 # Begin Source File
 
 SOURCE=..\src\fontdata.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\src\fontdata.c
 # End Source File
 # Begin Source File
 
@@ -260,6 +236,14 @@ SOURCE=..\src\intro.c
 # Begin Source File
 
 SOURCE=..\src\intro.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\items.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\items.h
 # End Source File
 # Begin Source File
 
@@ -347,6 +331,14 @@ SOURCE=..\src\render.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\src\renderdata.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\renderdata.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\src\rsc_files.c
 # End Source File
 # Begin Source File
@@ -379,6 +371,14 @@ SOURCE=..\src\scores.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\src\scrtools.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\scrtools.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\src\sfx.c
 # End Source File
 # Begin Source File
@@ -395,7 +395,11 @@ SOURCE=..\src\sound.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\sprite.h
+SOURCE=..\src\sprglenz.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\sprglenz.h
 # End Source File
 # Begin Source File
 
@@ -403,15 +407,15 @@ SOURCE=..\src\sprite.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\sprrle.h
+SOURCE=..\src\sprite.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\sprrle.c
+SOURCE=..\src\spropaque.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\sprprog.h
+SOURCE=..\src\spropaque.h
 # End Source File
 # Begin Source File
 
@@ -419,7 +423,7 @@ SOURCE=..\src\sprprog.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\sprprogwav.h
+SOURCE=..\src\sprprog.h
 # End Source File
 # Begin Source File
 
@@ -427,7 +431,15 @@ SOURCE=..\src\sprprogwav.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\sprshade.h
+SOURCE=..\src\sprprogwav.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\sprrle.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\sprrle.h
 # End Source File
 # Begin Source File
 
@@ -435,7 +447,7 @@ SOURCE=..\src\sprshade.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\sprtext.h
+SOURCE=..\src\sprshade.h
 # End Source File
 # Begin Source File
 
@@ -443,11 +455,23 @@ SOURCE=..\src\sprtext.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\sprzcol.h
+SOURCE=..\src\sprtext.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\sprunish.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\sprunish.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\src\sprzcol.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\sprzcol.h
 # End Source File
 # Begin Source File
 
@@ -509,6 +533,11 @@ SOURCE=.\config.h
 
 SOURCE=".\keysdef-inc.h"
 # End Source File
+# Begin Source File
+
+SOURCE=.\mikmod.h
+# End Source File
+# End Group
 # Begin Group "Resource Files"
 
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
@@ -522,43 +551,23 @@ SOURCE=..\lib\error.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\lib\error.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\lib\fstrcmp.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\lib\fstrcmp.h
+SOURCE=..\src\..\lib\getopt.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\lib\getopt.c
+SOURCE=..\src\..\lib\getopt.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\lib\getopt.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\lib\getopt1.c
+SOURCE=..\src\..\lib\getopt1.c
 # End Source File
 # Begin Source File
 
 SOURCE=..\lib\getshline.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\lib\getshline.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\lib\getshline.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\lib\hash.h
 # End Source File
 # Begin Source File
 
@@ -566,15 +575,15 @@ SOURCE=..\lib\hash.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\lib\w_dirent.c
+SOURCE=..\src\..\lib\strcasecmp.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\lib\w_dirent.h
+SOURCE=..\src\..\lib\w_dirent.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\lib\xalloc.h
+SOURCE=..\src\..\lib\w_dirent.h
 # End Source File
 # Begin Source File
 

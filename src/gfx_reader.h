@@ -373,6 +373,7 @@ show_help (void)
 	break;
       default:
 	/* NOP */
+	break;
       }
      } else
        t = 0;
