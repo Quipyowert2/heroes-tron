@@ -133,7 +133,7 @@ dir_name (char const *path)
 {
   char const *result;
   size_t length = dir_name_r (path, &result);
-  int append_dot = (length && length == FILESYSTEM_PREFIX_LEN (newpath));
+  int append_dot = (length && length == FILESYSTEM_PREFIX_LEN (path));
   char *newpath = (char *) malloc (length + append_dot + 1);
   if (newpath == 0)
     return 0;

@@ -35,7 +35,6 @@ SDLPREFIX="/usr/local/$BUILDNAME"
 # configuration options
 CONFIGURE_OPTS="--host=$BUILDNAME --enable-html-doc=$PREFIX/doc \
 --prefix=$PREFIX --program-suffix=.exe --with-sdl=$SDLPREFIX"
-LIBS='-luser32 -lgdi32 -lwinmm -ldxguid'
 
 # top level directory
 TOPSRC_DIR=`cd ../..; pwd`
@@ -54,7 +53,7 @@ STRIPPROG="$BUILDNAME-strip"
 function cross_conf ()
 {
   mkdir -p $BUILDDIR
-  (cd $BUILDDIR && $CONFIGURE $CONFIGURE_OPTS LIBS="$LIBS")
+  (cd $BUILDDIR && $CONFIGURE $CONFIGURE_OPTS)
 }
 
 function cross_build ()

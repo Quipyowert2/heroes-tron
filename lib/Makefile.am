@@ -40,6 +40,7 @@ gnugetopt.h \
 getshline.h \
 hash.h \
 isdir.h \
+stripslash.h \
 w_dirent.h \
 xalloc.h
 
@@ -56,6 +57,7 @@ fstrcmp.c \
 getshline.c \
 hash.c \
 isdir.c \
+stripslash.c \
 xmalloc.c \
 xstrdup.c
 

@@ -27,6 +27,7 @@
 #include "rsc_files.h"
 #include "dirname.h"
 #include "misc.h"
+#include "stripslash.h"
 
 static void
 check_localedir_env (void)
@@ -93,7 +94,10 @@ static bool
 check_installation (void)
 {
   char *dir = get_non_null_rsc_file ("levels-dir");
-  bool ok = isdir (dir);
+  bool ok;
+
+  strip_trailing_slashes (dir);
+  ok = isdir (dir);
   dmsg (D_SYSTEM,
 	ok ? "directory %s found": "%s absent or not a directory",
 	dir);
@@ -140,10 +144,10 @@ try_to_explore_path (void)
 
   /* If a semicolon is present in the PATH, assume it is the PATH
      separator character, otherwise we'll use a colon.  */
-  pathsep = strchr (path, ';') ? ";" : ":";
+  pathsep = strchr (path_env, ';') ? ";" : ":";
 
   /* Duplicate the string because it will be destroyed by strtok.  */
-  path = strdup (path_env);
+  path = xstrdup (path_env);
 
   last = strtok (path, pathsep);
   while (last) {

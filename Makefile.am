@@ -38,7 +38,9 @@ misc/04-intl.patch \
 misc/04-m4.patch \
 misc/05-po.patch
 
-SUBDIRS = arch tools lib intl src m4 man po doc
+# lib must be built after intl
+# man must be built after src
+SUBDIRS = arch tools intl lib src m4 man po doc
 
 README: $(top_srcdir)/doc/heroes.texi $(top_srcdir)/tools/readme.sed
 	LC_ALL=C $(MAKEINFO) --no-header -I $(top_srcdir)/doc heroes.texi | \

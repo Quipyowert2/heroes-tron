@@ -4,19 +4,10 @@ Installation intructions
    2 to 4 depending on whether you want sound support or not).
    See http://heroes.sourceforge.net/download.html for details.
 
- - Unzip the all archives in the same directory.
-
- - Edit the file run.bat, change the first line to the directory
-   where you installed the game (the default assume you unpacked
-   the archives in the root directory of drive C:\), be sure to keep
-   the `heroes\share\heroes' suffix.
-   The next lines run heroes with options to output 8bit audio at 11Khz
-   (which could be better and you can tune this of course, but I'm getting
-   a weird behaviour when I change this on my machine...).  You may
-   want to add some other options (such as -F, for full screen display),
-   see the manual for details.
+ - Unzip all archives in the same directory.
 
  - Run `run.bat' to launch Heroes.
+   You may want to customize this file, see the embedded comments.
 
  - Documentation files are in the subdirectory `doc'. The manual
    is `doc\heroes.html' please read it before reporting bugs.

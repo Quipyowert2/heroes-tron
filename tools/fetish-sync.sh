@@ -39,6 +39,7 @@ lib/isdir.c
 lib/malloc.c
 lib/realloc.c
 lib/strcasecmp.c
+lib/stripslash.c
 lib/strndup.c
 lib/xalloc.h
 lib/xmalloc.c

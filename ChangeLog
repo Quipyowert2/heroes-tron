@@ -1,3 +1,26 @@
+2001-05-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Hopefully, Heroes now works back with MinGW.
+
+	* lib/stripslash.c: New file from fileutils-4.1.
+	* lib/stripslash.h: New file.
+	* src/relocalte.c (check_installation): Strip slashes before calling
+	isdir.
+	(try_to_explore_path): Check path_env against ';', not path.
+	* tools/fetish-sync.sh (files): Add stripslash.c.
+
+	* lib/dirname.c (dir_name): Compute append_dot using path, not
+	newpath.
+
+	* Makefile.am (SUBDIRS): Make intl before lib because lib needs
+	libintl.h.
+
+	* arch/mingw32/dest-readme-lib: Update to SDL 1.2.0 and
+	SDL_mixer 1.2.0.
+	* arch/mingw32/cross.sh: Likewise.
+	* arch/mingw32/dest-run-bat: Update for i18n and relocation.
+	* arch/mingw32/dest-readme-txt: Likewise.
+
 2001-05-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* m4/h-paths.m4: Adjust the definition of localedir to the one used
