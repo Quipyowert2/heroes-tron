@@ -19,7 +19,6 @@
 `------------------------------------------------------------------*/
 
 #include "system.h"
-#include "generic_list.h"
 #include "hooks.h"
 #include "debugmsg.h"
 

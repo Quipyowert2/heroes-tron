@@ -73,6 +73,7 @@
 #include "main.h"
 #include "pendulum.h"
 #include "hookscore.h"
+#include "ai.h"
 
 char tile_set_name[128];
 char glenz_name[128];
@@ -1683,6 +1684,8 @@ heroes_main (int argc, char *argv[])
   dmsg (D_SYSTEM, "randomize");
   srand (time (0));
 
+  standard_ai_initialize();
+
   read_level_list ();
   if (showlevels) {
     print_level_list ();
@@ -1772,6 +1775,8 @@ heroes_main (int argc, char *argv[])
   dummy_moving_background_init ();
   update_htimers ();
   main_menu ();
+
+  standard_ai_finalize();
 
   dummy_moving_background_uninit ();
   uninit_menus_sprites ();

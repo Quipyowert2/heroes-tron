@@ -1,5 +1,19 @@
 2002-03-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/opponents.c: New file.
+	* src/Makefile.am (heroes_SOURCES): Add it
+	* src/opponents.h (opponent_register, opponent_unregister,
+	opponent_get_random): New functions.
+	* src/heroes.c (heroes_main): Call standard_ai_initialize, and
+	standard_ai_finalize.
+	* src/hooks.c: Don't include unneeded generic_list.h.
+	* src/rules/ai.c (standard_ai_finalize, standard_ai_initialize):
+	New functions.
+	* src/rules/ai.h: Likewise.
+	* src/rules/state.c (state_init): Use opponent_get_random.
+
+2002-03-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/opponents.h: New file.
 	* src/Makefile.am (heroes_SOURCES): Add it.
 	* src/rules/ai.c, src/rules/ai.h: Reorganize to present the AI in ...

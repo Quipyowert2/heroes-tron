@@ -101,5 +101,9 @@ struct an_opponent_sig {
 };
 
 
+void opponent_register (an_opponent_sig *opp);
+void opponent_unregister (an_opponent_sig *opp);
+
+an_opponent_sig *opponent_get_random (a_game_mode mode);
 
 #endif /* HEROES__OPPONENTS__H */

@@ -25,6 +25,7 @@
 #include "prefs.h"		/* FIXME: Get rid of this include. */
 #include "ai.h"
 #include "debugmsg.h"
+#include "opponents.h"
 
 void
 state_init (a_level_state *state, const a_level *lvl, char cont,
@@ -86,28 +87,9 @@ state_init (a_level_state *state, const a_level *lvl, char cont,
     for (i = 0; i < 4; ++i) {
 
       if ((state->player[i].cpu & 2) == 0) {
-	switch (state->game_mode) {
-	case M_QUEST:
-	  if (rand () & 1)
-	    bits->opponent[i] = &ai_standard_deathm;
-	  else
-	    bits->opponent[i] = &ai_standard_quest;
-	  break;
-	case M_DEATHM:
-	  bits->opponent[i] = &ai_standard_deathm;
-	  break;
-	case M_KILLEM:
-	  bits->opponent[i] = &ai_standard_killem;
-	  break;
-	case M_TCASH:
-	  bits->opponent[i] = &ai_standard_tcash;
-	  break;
-	case M_COLOR:
-	  bits->opponent[i] = &ai_standard_color;
-	  break;
-	}
+	bits->opponent[i] = opponent_get_random (state->game_mode);
 	bits->opponent_data[i] =
-	  bits->opponent[i]->initialize_player(state, i);
+	  bits->opponent[i]->initialize_player (state, i);
       } else {
 	bits->opponent[i] = 0;
 	bits->opponent_data[i] = 0;

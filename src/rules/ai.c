@@ -25,6 +25,7 @@
 #include "statepriv.h"
 #include "ai.h"
 #include "hooks.h"
+#include "opponents.h"
 
 char ia_max_depth;
 char ia_cur_depth;
@@ -749,3 +750,24 @@ an_opponent_sig ai_standard_tcash = {
   &ia_goto_nearest_cash,
   &ai_throttle
 };
+
+
+void
+standard_ai_initialize (void)
+{
+  opponent_register (&ai_standard_quest);
+  opponent_register (&ai_standard_deathm);
+  opponent_register (&ai_standard_killem);
+  opponent_register (&ai_standard_color);
+  opponent_register (&ai_standard_tcash);
+}
+
+void
+standard_ai_finalize (void)
+{
+  opponent_unregister (&ai_standard_quest);
+  opponent_unregister (&ai_standard_deathm);
+  opponent_unregister (&ai_standard_killem);
+  opponent_unregister (&ai_standard_color);
+  opponent_unregister (&ai_standard_tcash);
+}
