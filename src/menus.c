@@ -48,7 +48,16 @@
 rleprog_t* left_arrow = 0;
 rleprog_t* right_arrow = 0;
 rleprog_t* checked_box[2] = {0, 0};
+rleprog_t* cursor_bg = 0;
+rleprog_t* cursor_fg = 0;
+
 rleprog_t* control_menu_txt = 0;
+rleprog_t* sound_menu_txt = 0;
+rleprog_t* music_vol_txt = 0;
+rleprog_t* sfx_vol_txt = 0;
+rleprog_t* screen_menu_txt = 0;
+rleprog_t* game_menu_txt = 0;
+
 
 void
 init_menus_sprites (void)
@@ -61,9 +70,13 @@ init_menus_sprites (void)
 				    14, 21, main_font_img.width, xbuf);
   checked_box[1] = compile_rleprog (IMGPOS (main_font_img, 50, 239), 0,
 				    14, 21, main_font_img.width, xbuf);
+  cursor_bg = compile_rleprog (IMGPOS (main_font_img, 53, 181), 0,
+			       10, 37, main_font_img.width, xbuf);
+  cursor_fg = compile_rleprog (IMGPOS (main_font_img, 51, 174), 0,
+			       14, 7, main_font_img.width, xbuf);
 
   /* control menu */
-  control_menu_txt = compile_menu_text (txti[90], T_CENTERED|T_WAVING, 1, 159);
+  control_menu_txt = compile_menu_text (txti[90], T_CENTERED|T_WAVING, 5, 159);
   concat_rleprog (control_menu_txt, 
 		  compile_menu_text (txti[91], T_FLUSHED_LEFT, 39, 56));
   concat_rleprog (control_menu_txt, 
@@ -74,6 +87,48 @@ init_menus_sprites (void)
 		  compile_menu_text (txti[92], T_FLUSHED_LEFT, 144, 56));
   concat_rleprog (control_menu_txt, 
 		  compile_menu_text (txti[94], T_FLUSHED_LEFT, 182, 56));
+
+  /* sound menu */
+  sound_menu_txt = compile_menu_text (txti[104], T_CENTERED|T_WAVING, 5, 159);
+  concat_rleprog (sound_menu_txt, 
+		  compile_menu_text (txti[107], T_FLUSHED_LEFT, 39, 56));
+  concat_rleprog (sound_menu_txt, 
+		  compile_menu_text (txti[108], T_FLUSHED_LEFT, 109, 56));
+  concat_rleprog (sound_menu_txt, 
+		  compile_menu_text (txti[94], T_FLUSHED_LEFT, 179, 56));
+
+  music_vol_txt = compile_menu_text (txti[105], T_FLUSHED_LEFT, 74, 56);
+  sfx_vol_txt = compile_menu_text (txti[106], T_FLUSHED_LEFT, 144, 56);
+
+  /* screen menu */  
+  screen_menu_txt = compile_menu_text (txti[109], T_CENTERED|T_WAVING, 5, 159);
+  concat_rleprog (screen_menu_txt,
+		  compile_menu_text (txti[110], T_FLUSHED_LEFT, 34, 56));
+  concat_rleprog (screen_menu_txt,
+		  compile_menu_text (txti[111], T_FLUSHED_LEFT, 63, 56));
+  concat_rleprog (screen_menu_txt,
+		  compile_menu_text (txti[112], T_FLUSHED_LEFT, 92, 56));
+  concat_rleprog (screen_menu_txt,
+		  compile_menu_text (txti[113], T_FLUSHED_LEFT, 121, 56));
+  concat_rleprog (screen_menu_txt,
+		  compile_menu_text (txti[114], T_FLUSHED_LEFT, 150, 56));
+  concat_rleprog (screen_menu_txt,
+		  compile_menu_text (txti[94], T_FLUSHED_LEFT, 179, 56));
+
+  /* game menu */
+  game_menu_txt = compile_menu_text (txti[115], T_CENTERED|T_WAVING, 5, 159);
+  concat_rleprog (game_menu_txt,
+		  compile_menu_text (txti[116], T_FLUSHED_LEFT, 33, 56));
+  concat_rleprog (game_menu_txt,
+		  compile_menu_text (txti[117], T_FLUSHED_LEFT, 57, 56));
+  concat_rleprog (game_menu_txt,
+		  compile_menu_text (txti[118], T_FLUSHED_LEFT, 81, 56));
+  concat_rleprog (game_menu_txt,
+		  compile_menu_text (txti[119], T_FLUSHED_LEFT, 105, 56));
+  concat_rleprog (game_menu_txt,
+		  compile_menu_text (txti[120], T_FLUSHED_LEFT, 129, 56));
+  concat_rleprog (game_menu_txt,
+		  compile_menu_text (txti[94], T_FLUSHED_LEFT, 177, 56));
 }
 
 void
@@ -87,9 +142,23 @@ uninit_menus_sprites (void)
   checked_box[0] = 0;
   free_rleprog (checked_box[1]);
   checked_box[1] = 0;
+  free_rleprog (cursor_bg);
+  cursor_bg = 0;
+  free_rleprog (cursor_fg);
+  cursor_fg = 0;
 
   free_rleprog (control_menu_txt);
   control_menu_txt = 0;
+  free_rleprog (sound_menu_txt);
+  sound_menu_txt = 0;
+  free_rleprog (music_vol_txt);
+  music_vol_txt = 0;
+  free_rleprog (sfx_vol_txt);
+  sfx_vol_txt = 0;
+  free_rleprog (game_menu_txt);
+  game_menu_txt = 0;
+  free_rleprog (screen_menu_txt);
+  screen_menu_txt = 0;
 }
 
 static void
@@ -103,6 +172,14 @@ static void
 chkbox (unsigned int row, unsigned int col, int checked)
 {
   exec_rleprog (checked_box[checked], corner[0] + row * xbuf + col);
+}
+
+static void
+cursor (unsigned int row, unsigned int col, 
+	unsigned int value, unsigned int max)
+{
+  exec_rleprog (cursor_bg, corner[0] + (row + 2) * xbuf + col);
+  exec_rleprog (cursor_fg, corner[0] + row * xbuf + col + 2 + (25*value/max));
 }
 
 void
@@ -384,30 +461,16 @@ sound_menu (void)
       copy_rect_4 (icons_img.buffer +
 		   (68 + 19 * (opt.music_volume / 2)) * 320 + 36,
 		   corner[0] + 70 * xbuf + 20, 32, 18);
-      copy_rect_transp (main_font_img.buffer + 181 + 53 * 320,
-			corner[0] + 74 * xbuf + 251, 37, 10);
-      copy_rect_transp (main_font_img.buffer + 173 + 51 * 320,
-			corner[0] + 72 * xbuf + 253 + 2 + 2 * (11 -
-							       opt.
-							       music_volume),
-			8, 14);
-      draw_text (txti[105], 56, 74, 0);
+      cursor (72, 251, 13 - opt.music_volume, 13);
+      exec_rleprog (music_vol_txt, corner[0]);
     }
     if (opt.sfx) {
       copy_rect_4 (icons_img.buffer + (68 + 19 * (opt.sfx_volume / 2)) * 320 +
 		   72, corner[0] + 140 * xbuf + 20, 32, 18);
-      copy_rect_transp (main_font_img.buffer + 181 + 53 * 320,
-			corner[0] + 144 * xbuf + 251, 37, 10);
-      copy_rect_transp (main_font_img.buffer + 173 + 51 * 320,
-			corner[0] + 142 * xbuf + 253 + 2 + 2 * (11 -
-								opt.
-								sfx_volume),
-			8, 14); draw_text (txti[106], 56, 144, 0);
+      cursor (142, 251, 13 - opt.sfx_volume, 13);
+      exec_rleprog (sfx_vol_txt, corner[0]);
     }
-    draw_text_waving (txti[104], 159, 5, 1);
-    draw_text (txti[107], 56, 39, 0);
-    draw_text (txti[108], 56, 109, 0);
-    draw_text (txti[94], 56, 179, 0);
+    exec_rleprog (sound_menu_txt, corner[0]);
     vsynch ();
     aff_buffer ();
     if (key_or_joy_ready ()) {
@@ -496,7 +559,7 @@ sound_menu (void)
 static void
 screen_menu (void)
 {
-  char l = /* 0 */ 1;
+  char l = 1;
   int t;
 
   std_white_fadein (&tile_set_img.palette);
@@ -519,23 +582,10 @@ screen_menu (void)
     chkbox (60, 260, opt.use_glenz);
     chkbox (89, 260, opt.display_infos);
 
-    copy_rect_transp (main_font_img.buffer + 181 + 53 * 320,
-		      corner[0] + 122 * xbuf + 251, 37, 10);
-    copy_rect_transp (main_font_img.buffer + 173 + 51 * 320,
-		      corner[0] + 120 * xbuf + 253 + 4 * (6 - opt.luminance),
-		      8, 14);
-    
+    cursor (120, 251, 6 - opt.luminance, 6);
     chkbox (147, 260, opt.inertia);
+    exec_rleprog (screen_menu_txt, corner[0]);
 
-    draw_text_waving (txti[109], 159, 5, 1);
-
-    /* draw_text("SIZE",56,29,0); */
-    draw_text (txti[110], 56, 34, 0);
-    draw_text (txti[111], 56, 63, 0);
-    draw_text (txti[112], 56, 92, 0);
-    draw_text (txti[113], 56, 121, 0);
-    draw_text (txti[114], 56, 150, 0);
-    draw_text (txti[94], 56, 179, 0);
     vsynch ();
     aff_buffer ();
     if (key_or_joy_ready ()) {
@@ -646,32 +696,17 @@ game_menu (void)
     copy_rect_4 (icons_img.buffer + (11 + 19 * (4 - opt.speed * 2)) * 320 +
 		 216, corner[0] + 125 * xbuf + 20, 32, 18);
 
-/*   copy_rect_4(icons_img.buffer+(163+19*opt.ghosts)*320+108,corner[0]+132*xbuf+20,32,18); */
     copy_rect_4 (icons_img.buffer + (68 + 19 * 4) * 320 + 144,
-		 corner[0] + 149 /*154 */  * xbuf + 20, 32, 18);
-    copy_rect_transp (main_font_img.buffer + 181 + 53 * 320,
-		      corner[0] + 130 * xbuf + 251, 37, 10);
-    copy_rect_transp (main_font_img.buffer + 173 + 51 * 320,
-		      corner[0] + 128 * xbuf + 255 + 5 * opt.speed * 2, 8,
-		      14);
-
-    copy_rect_transp (main_font_img.buffer + 181 + 53 * 320,
-		      corner[0] + 154 /*161 */  * xbuf + 251, 37, 10);
-    copy_rect_transp (main_font_img.buffer + 173 + 51 * 320,
-		      corner[0] + 152 /*159 */  * xbuf + 254 +
-		      (3 * opt.gamerounds) / 2, 8, 14);
+		 corner[0] + 149 * xbuf + 20, 32, 18);
+    cursor (128, 251, opt.speed, 2);
+    cursor (154, 251, opt.gamerounds, 15);
     arrows (29 + l * 24 + 24 * (l > 2), 1);
-    draw_text_waving (txti[115], 159, 5, 1);
-    draw_text (txti[116], 56, 33, 0);
-    draw_text (txti[117], 56, 57, 0);
-    draw_text (txti[118], 56, 81, 0);
-    draw_text (txti[119], 56, 105, 0);
-    draw_text (txti[120], 56, 129, 0);
+    exec_rleprog (game_menu_txt, corner[0]);
 
     sprintf (rounds, txti[121], rounds_nbr_values[opt.gamerounds],
 	     (opt.gamerounds == 0) ? '\0' : 'S');
     draw_text (rounds, 56, 153, 0);
-    draw_text (txti[94], 56, 177, 0);
+
     vsynch ();
     aff_buffer ();
     if (key_or_joy_ready ()) {

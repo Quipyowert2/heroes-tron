@@ -1,5 +1,15 @@
 2000-10-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/menus.c (cursor_bg,cursor_fg,control_menu_txt,sound_menu_txt,
+	music_vol_txt, sfx_vol_txt, screen_menu_txt, game_menu_txt): New.
+	(init_menus_sprites): Initialize the above RLE-programs.
+	(uninit_menus_sprites): Free them.
+	(cursor): New.
+	(sound_menu, screen_menu, game_menu): Adapt to use cursor,
+	and the new _txt RLE-programs.
+
+2000-10-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Support for waving strings in rletext.  Try it in control menu.
 
 	* src/draw.c (text_waving_htimer): Declare static.
