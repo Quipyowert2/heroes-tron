@@ -23,22 +23,33 @@
 #include "misc.h"
 #include "argv.h"
 #include "debugmsg.h"
+#include "fastmem.h"
 
-unsigned char *screen_rv;	/* A pointer to the screen buffer associated
+unsigned char *screen_rv = 0;	/* A pointer to the screen buffer associated
 				   to the render visual. */
-unsigned char *screen;		/* A pointer to the screen buffer, 
-				   used throughout the game. */
 
-/* When no display stretching is needed screen == screen_rv, otherwise
-   screen is a separate mallocated buffer whose content is stretched
-   to screen_rv before blitting.  This is a kluge because when the
-   blit is made accross different depths (common case: the game is
-   drawn in 8bits and most display are 16 or 24 bits today) the
-   stretching should be performed *during* the crossblit to be
-   efficient. */
+/* screen_rv may be a direct pointer to the hardware video buffer, or
+   it may be a pointer to system (mallocated) memory, this depends on
+   the display driver (if the videomode were available or needed to be
+   emulated etc.).  If screen_rv points directly to hardware video
+   it might requires locking. */
 
-static int scr_w, scr_h;	/* screen_rv width and height,
-				   (screen is always 320x200) */
+unsigned char *screen = 0;	/* A pointer to the screen buffer, 
+				   used throughout the game
+				   (screen is always 320x200). */
+
+char screen_allocated = 0;	/* Whether screen has been mallocated */
+
+/* If no display stretching is needed and screen_rv is not a pointer
+   to hardware, then screen == screen_rv.  Otherwise, screen is a
+   separate mallocated buffer (screen_allocated==1) whose content is
+   stretched or copied to screen_rv before blitting.  This is a kluge
+   because when the blit is made accross different depths (common
+   case: the game is drawn in 8bits and most display are 16 or 24 bits
+   today) the stretching should be performed *during* the crossblit to
+   be efficient. */
+
+static int scr_w, scr_h;	/* screen_rv width and height */
 
 /* slow stretching routines */
 
@@ -161,10 +172,14 @@ erase_odd_lines (void)
     memset (s, 0, 320);
 }
 
-/* perform stretching wether options have been set or not */
+/* Copy the rendered display (screen) to the visual (screen_rv).  This
+   may require stretching, if the user asked for.  There may be
+   nothing to do (in the case where screen = screen_rv).  */
 static void
-stretch_display (void)
+copy_display (void)
 {
+  /* the result of stretching routines is written directly
+     to the video memory */
   if (stretch == 2) {
     if (even_lines)
       stretch_twofold_even ();
@@ -178,6 +193,8 @@ stretch_display (void)
   } else {			/* stretch == 1 */
     if (even_lines)    
       erase_odd_lines ();
+    if (screen_allocated)
+      fastmem4 (screen, screen_rv, 320 * 200 / 4);
   }
 }
 
@@ -270,9 +287,10 @@ init_video (void)
   }
   screen_rv = db->write;
 
-  if (stretch > 1)
+  if (stretch > 1) {
     screen = malloc (320*200);
-  else
+    screen_allocated = 1;
+  } else
     screen = screen_rv;
 
   dmsg (D_VIDEO, "set display flags");
@@ -289,7 +307,7 @@ uninit_video (void)
     dmsg (D_MISC, "free display_params");
     free (display_params);
   }
-  if (stretch > 1) {
+  if (screen_allocated) {
     dmsg (D_MISC, "free screen buffer");
     free (screen);
   }
@@ -333,7 +351,7 @@ set_pal (unsigned char *ptr, int p, int n)
 void
 vsynchro (void)
 {
-  stretch_display ();
+  copy_display ();
   ggiCrossBlit (render_visu, 0, 0, scr_w, scr_h, visu, 
 		(vid_mode.visible.x - scr_w)/2, 
 		(vid_mode.visible.y - scr_h)/2);
@@ -400,11 +418,18 @@ init_video (void)
     fprintf (stderr, "Failed to open visual: %s\n", SDL_GetError());
     exit (EXIT_FAILURE);
   }
-  screen_rv = visu->pixels;
-
-  if (stretch > 1)
-    screen = malloc (320*200);
+  if (SDL_MUSTLOCK (visu))
+    dmsg (D_VIDEO, "visual require locking");
   else
+    screen_rv = visu->pixels;
+
+  if (stretch > 1 || SDL_MUSTLOCK (visu)) {
+    /* If the game needs stretching or the visual needs locking, we
+       don't draw directly on it, we use a separate buffer and
+       then copy that buffer to the video memory. */
+    screen = malloc (320*200);
+    screen_allocated = 1;
+  } else
     screen = screen_rv;
 
   dmsg (D_VIDEO, "set misc. video parameters");
@@ -462,8 +487,16 @@ set_pal (unsigned char *ptr, int p, int n)
 void
 vsynchro (void)
 {
-  stretch_display ();
-  SDL_Flip (visu);
+  if (SDL_MUSTLOCK (visu))
+    SDL_LockSurface (visu);
+
+  screen_rv = visu->pixels;
+  copy_display ();
+
+  if (SDL_MUSTLOCK (visu))
+    SDL_UnlockSurface (visu);
+
+  SDL_Flip (visu);		/* can change visu->pixels */
 }
 
 #endif

@@ -1,3 +1,18 @@
+2000-09-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Lock visual when needed (SDL only).
+
+	* src/display.c (screen_allocated): New.
+	(stretch_display): Rename to ...
+	(copy_display): ... this.  Copy the screen if needed.
+	[HAVE_PKG_GGI] (init_video): Set screen_allocated.
+	[HAVE_PKG_GGI,HAVE_SDL] (uninit_video): Use screen_allocated.
+	[HAVE_PKG_GGI] (vsynchro): Adapt to call copy_display.
+	[HAVE_SDL] (init_video): Set screen_allocated.  Don't set screen_rv
+	if the visual require locking, allocate screen instead.
+	[HAVE_SDL] (vsynchro): Adapt to call copy_display.  Lock the
+	surface	if needed and set screen_rv.
+	
 2000-09-11  Uwe Hermann  <uh1763@bingo-ev.de>
 
 	* AUTHORS, TODO, doc/heroes.texi: Fixed several typos and some other
