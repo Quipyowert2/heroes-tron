@@ -1,3 +1,13 @@
+2000-10-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Adapt keyboard_menu to use rleprogs.
+
+	* src/menus.c (keyboard_menu_txt, keyboard_keys_txt): New.
+	(init_menus_sprites): Initialize keyboard_menu_txt.
+	(uninit_menus_sprites): Free keyboard_menu_txt and keyboard_keys_txt.
+	(draw_key): Remove (insert in next function).
+	(keyboard_menu): Adapt to use keyboard_menu_txt and keyboard_keys_txt.
+
 2000-10-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/menus.c (cursor_bg,cursor_fg,control_menu_txt,sound_menu_txt,

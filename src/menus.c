@@ -57,7 +57,8 @@ rleprog_t* music_vol_txt = 0;
 rleprog_t* sfx_vol_txt = 0;
 rleprog_t* screen_menu_txt = 0;
 rleprog_t* game_menu_txt = 0;
-
+rleprog_t* keyboard_menu_txt = 0;
+rleprog_t* keyboard_keys_txt[12] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 void
 init_menus_sprites (void)
@@ -129,6 +130,42 @@ init_menus_sprites (void)
 		  compile_menu_text (txti[120], T_FLUSHED_LEFT, 129, 56));
   concat_rleprog (game_menu_txt,
 		  compile_menu_text (txti[94], T_FLUSHED_LEFT, 177, 56));
+
+  /* keyboard menu */
+  keyboard_menu_txt = 
+    compile_menu_text (txti[95], T_CENTERED|T_WAVING, 5, 159);
+  concat_rleprog (keyboard_menu_txt,
+		  compile_menu_text (txti[94], T_CENTERED, 188, 159));
+  /* 1st player */
+  concat_rleprog (keyboard_menu_txt,
+		  compile_menu_text (txti[96], T_CENTERED, 25, 159));
+  concat_rleprog (keyboard_menu_txt,
+		  compile_menu_text (txti[97], T_FLUSHED_LEFT, 38, 25));
+  concat_rleprog (keyboard_menu_txt,
+		  compile_menu_text (txti[98], T_FLUSHED_LEFT, 60, 25));
+  concat_rleprog (keyboard_menu_txt,
+		  compile_menu_text (txti[99], T_FLUSHED_LEFT, 49, 25));
+  concat_rleprog (keyboard_menu_txt,
+		  compile_menu_text (txti[100], T_FLUSHED_LEFT, 71, 25));
+  concat_rleprog (keyboard_menu_txt,
+		  compile_menu_text (txti[101], T_FLUSHED_LEFT, 82, 25));
+  concat_rleprog (keyboard_menu_txt,
+		  compile_menu_text (txti[102], T_FLUSHED_LEFT, 93, 25));
+  /* 2nd player */
+  concat_rleprog (keyboard_menu_txt,
+		  compile_menu_text (txti[96], T_CENTERED, 108, 159));
+  concat_rleprog (keyboard_menu_txt,
+		  compile_menu_text (txti[97], T_FLUSHED_LEFT, 121, 25));
+  concat_rleprog (keyboard_menu_txt,
+		  compile_menu_text (txti[98], T_FLUSHED_LEFT, 143, 25));
+  concat_rleprog (keyboard_menu_txt,
+		  compile_menu_text (txti[99], T_FLUSHED_LEFT, 132, 25));
+  concat_rleprog (keyboard_menu_txt,
+		  compile_menu_text (txti[100], T_FLUSHED_LEFT, 154, 25));
+  concat_rleprog (keyboard_menu_txt,
+		  compile_menu_text (txti[101], T_FLUSHED_LEFT, 165, 25));
+  concat_rleprog (keyboard_menu_txt,
+		  compile_menu_text (txti[102], T_FLUSHED_LEFT, 176, 25));
 }
 
 void
@@ -159,6 +196,15 @@ uninit_menus_sprites (void)
   game_menu_txt = 0;
   free_rleprog (screen_menu_txt);
   screen_menu_txt = 0;
+  free_rleprog (keyboard_menu_txt);
+  keyboard_menu_txt = 0;
+  {
+    int i;
+    for (i = 11; i >= 0; --i) {
+      free_rleprog (keyboard_keys_txt[i]);
+      keyboard_keys_txt[i] = 0;
+    }
+  }
 }
 
 static void
@@ -281,85 +327,48 @@ search_keyname (int key)
 }
 
 static void
-draw_key (int key, int line)
-{
-  const char* keyname = search_keyname (key);
-  
-  if (!keyname) {
-    char name[64];
-    sprintf (name, "(%d)", key);
-    draw_text (name, 295, line, 2);
-  } else 
-    draw_text (keyname, 295, line, 2);
-}
-
-static void
 keyboard_menu (void)
 {
-  char l = 0, testing = 0;
-  int ll, i, t;
+  int l = 0, testing = 0;
+  int i, t;
   int unconfigured_keys = -1;
-  
+  /* line for each keyname */
+  int keyline[12] = { 38, 49, 60, 71, 82, 93, 121, 132, 143, 154, 165, 176 };
+  /* array used to change the order in which keys are printed. */
+  int reorder[12] = { 0, 2, 1, 3, 4, 5, 6, 8, 7, 9, 10, 11 };
+
   std_white_fadein (&tile_set_img.palette);
   do {
     background_menu ();
 
     arrows (11 * l + 33 + 15 * (l >= 6) + 4 * (l == 12), 1);
+    exec_rleprog (keyboard_menu_txt, corner[0]);
 
-    draw_text_waving (txti[95], 159, 5, 1);
-    draw_text (txti[96], 159, 25, 1);
-    draw_text (txti[97], 25, 38, 0);
-    if (testing == 0 || l != 0)
-      draw_key (opt.player_keys[0][0], 38);
-    draw_text (txti[98], 25, 60, 0);
-    if (testing == 0 || l != 2)
-      draw_key (opt.player_keys[0][1], 60);
-    draw_text (txti[99], 25, 49, 0);
-    if (testing == 0 || l != 1)
-      draw_key (opt.player_keys[0][2], 49);
-    draw_text (txti[100], 25, 71, 0);
-    if (testing == 0 || l != 3)
-      draw_key (opt.player_keys[0][3], 71);
-    draw_text (txti[101], 25, 82, 0);
-    if (testing == 0 || l != 4)
-      draw_key (opt.player_keys[0][4], 82);
-    draw_text (txti[102], 25, 93, 0);
-    if (testing == 0 || l != 5)
-      draw_key (opt.player_keys[0][5], 93);
-    draw_text (txti[103], 159, 108, 1);
-    draw_text (txti[97], 25, 121, 0);
-    if (testing == 0 || l != 6)
-      draw_key (opt.player_keys[1][0], 121);
-    draw_text (txti[98], 25, 143, 0);
-    if (testing == 0 || l != 8)
-      draw_key (opt.player_keys[1][1], 143);
-    draw_text (txti[99], 25, 132, 0);
-    if (testing == 0 || l != 7)
-      draw_key (opt.player_keys[1][2], 132);
-    draw_text (txti[100], 25, 154, 0);
-    if (testing == 0 || l != 9)
-      draw_key (opt.player_keys[1][3], 154);
-    draw_text (txti[101], 25, 165, 0);
-    if (testing == 0 || l != 10)
-      draw_key (opt.player_keys[1][4], 165);
-    draw_text (txti[102], 25, 176, 0);
-    if (testing == 0 || l != 11)
-      draw_key (opt.player_keys[1][5], 176);
-    draw_text (txti[94], 159, 188, 1);
+    /* Draw the key name, 
+       generate the associated RLE-program if needed. */
+    for (i = 0; i < 12; ++i) {
+      if (l != reorder[i] || testing == 0) {
+	if (!keyboard_keys_txt[i]) { /* need to generate a RLE-prog ? */
+	  rleprog_t* res;
+	  int key = opt.player_keys[i > 5][i > 5 ? i - 6 : i];
+	  const char* keyname = search_keyname (key);
+
+	  if (!keyname) {	/* unknown key? print its code number */
+	    char name[64];
+	    sprintf (name, "(%d)", key);
+	    res = compile_menu_text (name, T_FLUSHED_RIGHT, 
+				     keyline[reorder[i]], 295);
+	  } else 
+	    res = compile_menu_text (keyname, T_FLUSHED_RIGHT, 
+				     keyline[reorder[i]], 295);
+	  keyboard_keys_txt[i] = res;
+	}
+	exec_rleprog (keyboard_keys_txt[i], corner[0]);
+      }
+    }
     vsynch ();
     aff_buffer ();
-    ll = l;
-    if (l == 1)
-      ll = 2;
 
-    else if (l == 2)
-      ll = 1;
-
-    else if (l == 7)
-      ll = 8;
-
-    else if (l == 8)
-      ll = 7;
     if (testing == 0) {
       if (key_or_joy_ready ()) {
 	t = get_key_or_joy ();
@@ -395,6 +404,8 @@ keyboard_menu (void)
       }
     } else if (testing == 2) {
       if (key_ready ()) {
+	int ll = reorder[l];
+
 	t = get_key ();
 
 	for (i = 0; i != 6; i++) {
@@ -408,6 +419,10 @@ keyboard_menu (void)
 	else
 	  opt.player_keys[1][ll - 6] = t;
 	l++;
+
+	/* force the regeneration of key name on next display */
+	free_rleprog (keyboard_keys_txt[l]);
+	keyboard_keys_txt[l] = 0;
 
 	testing = 0;
 	event_sfx (7);
