@@ -117,12 +117,13 @@ AC_HEADER_STAT
 AM_C_PROTOTYPES
 AC_C_CONST
 AC_TYPE_UID_T     dnl This checks for gid_t too.
+AC_CHECK_TYPES([ssize_t])
 
 # =============================
 # Checks for library functions.
 # =============================
 
-AC_CHECK_DECLS([malloc, realloc, calloc, free, memrchr])
+AC_CHECK_DECLS([malloc, realloc, calloc, free, memrchr, stpcpy, strcasecmp])
 AC_CHECK_FUNCS([gettimeofday memcpy sleep getegid setegid setregid])
 
 adl_FUNC_READDIR
@@ -130,7 +131,7 @@ adl_FUNC_READDIR
 AC_FUNC_VPRINTF
 AC_FUNC_MKDIR
 
-AC_REPLACE_FUNCS([memrchr strcasecmp])
+AC_REPLACE_FUNCS([memrchr stpcpy strcasecmp])
 jm_FUNC_MALLOC
 
 # We used to clear LIBS to work around a bug (?) on

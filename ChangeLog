@@ -1,3 +1,22 @@
+2001-08-02  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Reestablish MinGW32 support.
+
+	* lib/stpcpy.c: New file, from fileutils 4.1.
+	* lib/Makefile.am (EXTRA_DIST): Add it.
+	* tools/fetish-sync.sh (files): Add stpcpy.c.
+	* src/Makefile.am (heroes_LDADD): Put SDL_MIXER_LIBS before SDL_MIXER
+	since the former needs the latter.
+	(heroeS_LDADD): Add INTLLIBS.
+	* src/lvl/load.c (lvl_load_body_file): Type length as size_t,
+	add rlength and use it.
+	* src/system.h [!HAVE_SSIZE_T] (ssize_t): Define.
+	[!HAVE_DECL_STPCPY] (stpcpy): Declare.
+	[!HAVE_STRCASESTR] (strcasestr): Redeclare ...
+	[!HAVE_DECL_STRCASESTR] (strcasestr): ... in this case.
+	* configure.ac: Check for declaration of ssize_t, strcasestr,
+	and stpcpy.  Replace stpcpy if needed.
+
 2001-08-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Some Autoconf internal functions have changed between 2.50 and

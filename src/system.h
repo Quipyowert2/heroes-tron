@@ -255,6 +255,11 @@ typedef signed short int	s16_t;
 typedef signed char		s8_t;
 #define U32_MAX		(0xffffffffU)
 #endif
+
+#if ! HAVE_SSIZE_T
+typedef int ssize_t;
+#endif
+
 #define UCHAR(c) ((unsigned char) (c))
 
 /* xalloc.h (from fileutils.h) define __attribute__ only for gcc >= 2.8
@@ -320,8 +325,14 @@ Array = xrealloc ((Array), sizeof (*(Array)) * (N_items))
 
 /* miscellaneous prototypes for replacement functions */
 
-#if ! HAVE_STRCASECMP
+#if ! HAVE_DECL_STRCASECMP
 int strcasecmp (const char *s1, const char *s2);
+#endif
+
+#if ! HAVE_DECL_STPCPY
+# ifndef stpcpy
+char *stpcpy (const char *s1, const char *s2);
+# endif
 #endif
 
 #if HAVE_MKDIR

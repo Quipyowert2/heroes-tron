@@ -77,10 +77,11 @@ lvl_load_body_mem (u8_t *data, level_t *out)
 static int
 lvl_load_body_file (int fd, level_t *out)
 {
-  ssize_t length = out->tile_count * LVL_RECORD_SIZE;
+  size_t length = out->tile_count * LVL_RECORD_SIZE;
   u8_t *data = xmalloc (length);
+  ssize_t rlength = read (fd, data, length);
 
-  if (read (fd, data, length) != length) {
+  if (rlength < 0 | (size_t) rlength != length) {
     free (data);
     return -1;
   }

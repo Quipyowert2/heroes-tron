@@ -224,6 +224,7 @@ Avoid any change to these files, if possible.
  lib/malloc.c      (from fetish)
  lib/realloc.h     (from fetish)
  lib/realloc.h     (from fetish)
+ lib/stpcpy.c      (from fetish)
  lib/strcasecmp.c  (from fetish)
  lib/stripslash.c  (from fetish)
  lib/strndup.c     (from glibc)

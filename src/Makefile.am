@@ -26,13 +26,23 @@ INCLUDES = -I$(top_srcdir)/lib -I../lib -I../intl -I$(srcdir)/lvl -I.. -I.
 EXTRA_DIST = rsc_files.gperf debughash.gperf
 
 # We use a global CFLAGS, rather than a per-target CFLAGS because otherwise
-# Automake has to generate a compile rule for *each* object.
+# Automake has to generate a compile rule for *each* object (how ugly!).
+# However the with globals CFLAGS is that flags meaningful to `heroes'
+# might not be so for heroeslvl.  For instance under MinGW32 @SDL_CFLAGS@
+# contains -Dmain=SDL_main because main is defined in libSDL_main.a; but
+# we don't we to link libSDL_main.a in heroeslvl, so the -Dmain=SDL_main is
+# harmful here.  This perticular problem is worked around in heroeslvl.c
+# by undefining main.
+#
+# Later, I'd like to move the GGI/GII/MikMod/SDL/SDL_mixer dependent code
+# to convenient libraries, and use per-library CFLAGS for them, keeping
+# only @CFLAGS@ @MORE_WARNINGS_CFLAGS@ as global CFLAGS.
 CFLAGS = @CFLAGS@ @MORE_WARNINGS_CFLAGS@ @GGI_CFLAGS@ @GII_CFLAGS@ @LIBMIKMOD_CFLAGS@ @SDL_CFLAGS@ @SDL_MIXER_CFLAGS@
 
-heroeslvl_LDADD = lvl/libhlvl.a ../lib/libheroes.a
+heroeslvl_LDADD = lvl/libhlvl.a ../lib/libheroes.a @INTLLIBS@
 heroeslvl_SOURCES = heroeslvl.c
 
-heroes_LDADD = lvl/libhlvl.a ../lib/libheroes.a @INTLLIBS@  @GGI_LIBS@ @GII_LIBS@ @LIBMIKMOD_LIBS@ @SDL_LIBS@ @SDL_MIXER_LIBS@
+heroes_LDADD = lvl/libhlvl.a ../lib/libheroes.a @INTLLIBS@ @GGI_LIBS@ @GII_LIBS@ @LIBMIKMOD_LIBS@ @SDL_MIXER_LIBS@ @SDL_LIBS@
 heroes_LDFLAGS = @GGI_LDFLAGS@ @GII_LDFLAGS@ @SDL_MIXER_LDFLAGS@
 heroes_SOURCES = \
 argv.c \

@@ -28,6 +28,7 @@ getopt1.c \
 malloc.c \
 memrchr.c \
 realloc.c \
+stpcpy.c \
 strcasecmp.c \
 strndup.c \
 w_dirent.c
