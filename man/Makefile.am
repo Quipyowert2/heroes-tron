@@ -18,14 +18,15 @@
 
 man_MANS = heroes.6
 EXTRA_DIST = $(man_MANS)
+MAINTAINERCLEANFILES = heroes.6
 
 heroes.6 : $(srcdir)/../src/argv.c $(top_srcdir)/configure.in
 	@if test -f $(top_builddir)/src/heroes; then \
-	  echo "Updating man page $@"; \
+	  echo "Updating man page heroes.6"; \
 	  $(HELP2MAN) -n 'a game like Nibbles or Tron, just better' \
-	    -s6 $(top_builddir)/src/heroes | sed -e 's/ FSF//' > $@; \
+	    -s6 $(top_builddir)/src/heroes | sed -e 's/ FSF//' > heroes.6; \
 	else \
-	  echo "WARNING: The man page $@ cannot be updated yet."; \
+	  echo "WARNING: The man page heroes.6 cannot be updated yet."; \
 	  echo "         Retry once the corresponding executable is built."; \
 	fi
 

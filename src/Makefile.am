@@ -186,7 +186,7 @@ BEGIN { print "/* Do not edit!\n" \
 	      "const struct keynames_s keynames[] = {" } \
 $$2 ~ /(GIIK_|GIIUC_)/ { \
 	print "\t{ \""toupper(substr($$2,index($$2,"_")+1))"\",", $$2,"}," } \
-END { print "\t{ 0, 0 }};\n#endif\n" }' < @GGI_KEYBOARD_H@ > $@
+END { print "\t{ 0, 0 }};\n#endif\n" }' < @GGI_KEYBOARD_H@ > keysdef-inc.h
 else
 if SDL
 keysdef-inc.h:
@@ -199,10 +199,10 @@ BEGIN { print "/* Do not edit!\n" \
 	      "const struct keynames_s keynames[] = {" } \
 $$1 ~ /SDLK_/ { \
 	print "\t{ \""toupper(substr($$1,index($$1,"_")+1))"\",", $$1,"}," } \
-END { print "\t{ 0, 0 }};\n#endif\n" }' < @SDL_KEYSYM_H@ > $@
+END { print "\t{ 0, 0 }};\n#endif\n" }' < @SDL_KEYSYM_H@ > keysdef-inc.h
 else
 keysdef-inc.h:
-	echo "const struct keynames_s keynames[] = { { 0, 0 } };" > $@
+	echo "const struct keynames_s keynames[] = { { 0, 0 } };" > keysdef-inc.h
 endif
 endif
 
@@ -210,34 +210,43 @@ if HAVE_GPERF
 rsc_files_hash.c: rsc_files.gperf
 	gperf -t -L ANSI-C -G -N in_rsc_set -W rsc_set \
 	      -k 1,3,7,$$ $(srcdir)/rsc_files.gperf | \
-	sed -e 's/{""}/{"",0,0,0,false}/g' > $@
+	sed -e 's/{""}/{"",0,0,0,false}/g' > rsc_files_hash.c
 
 debughash.c: debughash.gperf
 	gperf -t -L ANSI-C -G -N in_channel_set -W channel_set \
 	      -k 1,3,$$ $(srcdir)/debughash.gperf | \
-	sed -e 's/{""}/{"",0,0}/g' > $@
+	sed -e 's/{""}/{"",0,0}/g' > debughash.c
 endif
 
 debughash.gperf: debugchn.def debugchn.tpl
-	$(AUTOGEN) -o 'gperf=$@' $<
+	$(AUTOGEN) -o 'gperf=debughash.gperf' debugchn.def
 
 debugchn.h: debugchn.def debugchn.tpl
-	$(AUTOGEN) -o 'h=$@' $<
+	$(AUTOGEN) -o h debugchn.def
 
 prefs.h: prefs.def prefs.tpl
-	$(AUTOGEN) -o h $<
+	$(AUTOGEN) -o h prefs.def
 
 prefs.c: prefs.def prefs.tpl
-	$(AUTOGEN) -o c $<
+	$(AUTOGEN) -o c prefs.def
 
 people.c: people.def people.tpl
-	$(AUTOGEN) -o c $<
+	$(AUTOGEN) -o c people.def
+
+MAINTAINERCLEANFILES = \
+debugchn.h \
+debughash.c \
+debughash.gperf \
+people.c \
+prefs.c \
+prefs.h \
+rsc_files_hash.c
 
 # This is handled manually, until Automake allows per-target CFLAGS
 parafmt-check.o: parafmt.c
 	@rm -f parafmt-check.o
-	$(COMPILE) -DTEST $< -c -o $@
+	$(COMPILE) -DTEST parafmt.c -c -o parafmt-check.o
 
 parafmt-check: parafmt-check.o
 	@rm -f parafmt-check
-	$(LINK) $< $(heroes_LDADD) -o $@
+	$(LINK) parafmt-check.o $(heroes_LDADD) -o parafmt-check

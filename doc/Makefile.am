@@ -35,9 +35,9 @@ SUFFIXES = .html
 	cd $(srcdir) && $(MAKEINFO) --html `echo $< | sed 's,.*/,,'`
 
 debugchn.texi: $(top_srcdir)/src/debugchn.def $(top_srcdir)/src/debugchn.tpl
-	$(AUTOGEN) -L $(top_srcdir)/src -o 'texi=$@' $<
+	$(AUTOGEN) -L $(top_srcdir)/src -o 'texi=$@' $(top_srcdir)/src/debugchn.def
 
 people.texi: $(top_srcdir)/src/people.def $(top_srcdir)/src/people.tpl
-	$(AUTOGEN) -L $(top_srcdir)/src -o 'texi=$@' $<
+	$(AUTOGEN) -L $(top_srcdir)/src -o 'texi=$@' $(top_srcdir)/src/people.def
 
 CLEANFILES = heroes.cps heroes.vrs

@@ -40,19 +40,29 @@ misc/05-po.patch
 
 SUBDIRS = arch tools lib intl src m4 man po doc
 
-# Remove this file here (it is created via configure), not from within intl.
-DISTCLEANFILES = intl/libintl.h
-
 README: $(top_srcdir)/doc/heroes.texi $(top_srcdir)/tools/readme.sed
 	LC_ALL=C $(MAKEINFO) --no-header -I $(top_srcdir)/doc heroes.texi | \
 	sed -n -f $(top_srcdir)/tools/readme.sed > README.tmp
 	mv README.tmp README
 
 THANKS: $(top_srcdir)/src/people.def $(top_srcdir)/src/people.tpl
-	$(AUTOGEN) -L $(top_srcdir)/src -o 'thanks=THANKS' $<
+	$(AUTOGEN) -L $(top_srcdir)/src -o 'thanks=THANKS' $(top_srcdir)/src/people.def
 
 AUTHORS: $(top_srcdir)/src/people.def $(top_srcdir)/src/people.tpl
-	$(AUTOGEN) -L $(top_srcdir)/src -o 'authors=AUTHORS' $<
+	$(AUTOGEN) -L $(top_srcdir)/src -o 'authors=AUTHORS' $(top_srcdir)/src/people.def
+
+MAINTAINERCLEANFILES = \
+ABOUT-NLS \
+AUTHORS \
+COPYING \
+INSTALL \
+THANKS \
+aclocal.m4 \
+configure \
+m4/Makefile.am \
+po/POTFILES.in \
+po/heroes.pot \
+src/config.h.in
 
 # additional checks to perform during distcheck.
 # this is heavily inspired from Jim Meyring's setup

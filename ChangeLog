@@ -1,5 +1,19 @@
 2001-05-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* Makefile.am: Avoid non-portable use of $< and $@ in
+	explicit rules.
+	* doc/Makefile.am: Likewise.
+	* man/Makefile.am: Likewise.
+	* src/Makefile.am: Likewise.
+
+	* Makefile.am (MAINTAINERCLEANFILES): New target.
+	(DISTCLEANFILES): Remove (intl/libintl.h is now removed
+	from intl/Makefile).
+	* man/Makefile.am (MAINTAINERCLEANFILES): New target.
+	* src/Makefile.am (MAINTAINERCLEANFILES): New target.
+
+2001-05-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* arch/Makefile.am: Comment out all the VisualC stuff.  It's
 	out of date.
 
