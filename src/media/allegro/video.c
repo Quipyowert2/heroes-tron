@@ -50,12 +50,24 @@ init_allegro (void)
   install_mouse ();
 }
 
+
+void heroes_init_allegro (void);
+void
+heroes_init_allegro (void)
+{
+  static bool done = false;
+  if (done)
+    return;
+  done = true;
+  init_allegro ();
+}
+
 void
 init_video_low (int stretch_, int *pitch)
 {
   int gfxret;
 
-  init_allegro ();
+  heroes_init_allegro ();
 
   scr_stretch = stretch_;
   scr_w = 320 * scr_stretch;

@@ -16,7 +16,6 @@ AC_DEFUN([heroes_CHECK_ALLEGRO],
  if test "${with_allegro-no}" != no; then
   if test "${with_allegro-no}" != no; then
      user_selection_list_vkm="$user_selection_list_vkm allvkm"
-#     user_selection_list_j="$user_selection_list_j allj"
   fi
 
   dnl I'd like to check that `install_allegro()' is present.

@@ -34,6 +34,7 @@ EXTRA_LIBRARIES += \
   media/libhsdlj.a \
   media/libhsdls.a \
   media/libhallvkm.a \
+  media/libhallj.a \
   media/libhdumvkm.a \
   media/libhdumj.a \
   media/libhdums.a
@@ -103,6 +104,13 @@ media_libhallvkm_a_SOURCES = \
   media/allegro/video.c
 nodist_media_libhallvkm_a_SOURCES = \
   media/allegro/keysdef.c
+
+# Don't use $(MORE_WARNINGS_CFLAGS) with Allegro.  There are too many
+# warnings in the Allegro header files!
+media_libhallj_a_CFLAGS = \
+  $(WARNINGS_CFLAGS) $(ALLEGRO_CFLAGS)
+media_libhallj_a_SOURCES = \
+  media/allegro/joystick.c
 
 media_libhdumvkm_a_SOURCES = \
   media/dummy/keyb.c \

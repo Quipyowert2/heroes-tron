@@ -56,7 +56,8 @@ AC_DEFUN([heroes_MEDIALIB_SELECTION], [
   if test -z "$user_selection_list_j"; then
      # Keep sdlj first.  It won't be used if sdlvkm is not selected,
      # but otherwise it should be prefered over giij.
-     selection_list_j="sdlj giij dumj"
+     # Keep allj second for the same reason.
+     selection_list_j="sdlj allj giij dumj"
   else
      selection_list_j="$user_selection_list_j dumj"
   fi

@@ -21,6 +21,17 @@ $sdl_config_micro_version], [], [], [sdlvkm])])
     LIBS="$OLIBS"
   fi
 
+  # -- Joystick support in Allegro is OK.
+  if test "${with_allegro-yes}" != no; then
+    if test "${with_allegro-no}" != no; then
+      user_selection_list_j="$user_selection_list_j allj"
+    fi
+    adl_LIBALT_OK([allj], [Allegro dnl
+$allegro_config_major_version.dnl
+$allegro_config_minor_version.dnl
+$allegro_config_micro_version], [], [], [allvkm])
+  fi
+
   # -- check for LibGII (another way to get joystick support)
 
   if test "${with_gii-yes}" != no;  then

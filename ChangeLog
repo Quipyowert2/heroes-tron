@@ -1,5 +1,21 @@
 2001-12-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Joystick support for Allegro.  (Untested yet, I have no joystick
+	on this host...)
+
+	* m4/h-joystick.m4: Add LIBALT support for the Allegro joystick
+	driver (allj).
+	* m4/h-allegro.m4: Don't handle allj here.
+	* m4/h-media.m4: Consider allk for selection.
+
+	* src/media/allegro/joystick.c: New file.
+	* src/media/allegro/video.c (heroes_init_allegro): New function.
+	(init_video_low): Call heroes_init_allegro() instead of init_allegro().
+	* src/media/Makefile.inc (EXTRA_LIBRARIES): Add media/libhallj.a.
+	(media_libhallj_a_CFLAGS, media_libhallj_a_SOURCES): New variables.
+
+2001-12-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/media/allegro/keyb.c (process_input_events): Call	clear_keybuf().
 	* src/heroes.c (play_game): Call keycode_to_ascii().
 
