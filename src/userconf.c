@@ -88,6 +88,7 @@ read_userconf (const char* file, const char* argv0)
 	  return err;
       }
     } else if (!strcasecmp (argv[0], "setenv:")) {
+      char *s;
       /* get the variable name */
       argv [1] = strtok (0, " \t\n");
       if (argv[1] == 0) {
@@ -99,7 +100,10 @@ read_userconf (const char* file, const char* argv0)
 #ifdef DEBUG
       printf ("setenv(%s,%s)\n", argv[1], argv[2]);
 #endif
-      setenv (argv[1], argv[2], 1);
+      s = malloc (strlen (argv[1]) + strlen (argv[2]) + 2);
+      sprintf (s, "%s=%s", argv[1], argv[2]);
+      putenv (s);
+      free (s);
     } else if (!strcasecmp (argv[0], "extradir:")) {
       argv[1] = strtok (0, "\n");
       add_extra_directory (argv[1]);

@@ -1,3 +1,22 @@
+2000-08-02  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	From Mattias Engdegård <f91-men@nada.kth.se>.
+	First fixes needed to compile on Solaris.
+	
+	* configure.in: Check for getopt.h and getopt_long.
+	* src/argv.c: Include getopt.h conditionnaly, hand-define
+	[!HAVE_GETOPT_LONG] (struct option,getopt_long): Define.
+	* src/display.c (set_display_params): Use putenv, not setenv.
+	* src/extras.c (asort,myscandir): New.
+	(browse_extra_directory): Use myscandir and asort instead of 
+	scandir and alphasort.
+	* src/menus.c: Include endian.h.
+	* src/pcx.c: Likewise.
+	* src/scores.c: Swap the points, not the whole struct.
+	* src/userconf.c (read_userconf): Use putenv, not setenv.
+	* src/extralvl/Makefile.am (x_DATA): Use $(shell echo) instead
+	of broken $(wildcard).
+
 2000-08-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Move data to a separate package `heroes-data'.

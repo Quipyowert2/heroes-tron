@@ -19,11 +19,13 @@
 `------------------------------------------------------------------------*/
 
 
+#include "config.h"
 #include <stdio.h>
+#ifdef HAVE_GETOPT_H
 #include <getopt.h>
+#endif
 #include <string.h>
 #include <stdlib.h>
-#include "config.h"
 #include "const.h"
 #include "argv.h"
 #include "sound.h"
@@ -50,6 +52,23 @@ char* level_name;
 int mono = 0;
 int bits8 = 0;
 int hqmix = 0;
+
+#ifndef HAVE_GETOPT_LONG
+struct option {
+    const char *name;
+    int has_arg;
+    int *flag;
+    int val;
+};
+
+int 
+getopt_long(int argc, char * const argv[],
+	    const char *optstring,
+	    const struct option *longopts, int *longindex)
+{
+    return getopt (argc, argv, optstring);
+}
+#endif
 
 static void
 version ()

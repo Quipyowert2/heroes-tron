@@ -73,7 +73,42 @@ cmp_extralevels (const extra_level_t* l, const extra_level_t* r)
 
   if (d != 0)
     return d;
-  return strcasecmp(l->level_name, r->level_name);
+  return strcasecmp (l->level_name, r->level_name);
+}
+
+/* reimplementation of alphasort, a BSDism */
+static int 
+asort (const struct dirent **a, const struct dirent **b)
+{
+    return strcmp ((*a)->d_name, (*b)->d_name);
+}
+
+/* reimplementation of scandir, another BSDism */
+static int 
+myscandir (const char *dir, struct dirent ***namelist,
+	   int (*select)(const struct dirent *),
+	   int (*compar)(const struct dirent **, const struct dirent **))
+{
+    int n = 0, nalloc = 0;
+    struct dirent *de, **list = NULL;
+    DIR *d = opendir (dir);
+    if (!d)
+	return -1;
+    while ((de = readdir (d)) != NULL) {
+	if (select (de)) {
+	    if (n == nalloc)
+		list = realloc (list, 
+				(nalloc += 8) * sizeof (struct dirent *));
+	    list[n] = malloc (de->d_reclen);
+	    memcpy (list[n], de, de->d_reclen);
+	    n++;
+	}
+    }
+    *namelist = list;
+    if (list)
+	qsort (list, n, sizeof (struct dirent *),
+	       (int(*)(const void*,const void*))compar);
+    return n;
 }
 
 static void
@@ -84,7 +119,7 @@ browse_extra_directory (const char* directory, char is_in_user_dir)
   int extra_nbr_here, old_nbr;
 
   /* get the files list of the directory */
-  extra_nbr_here = scandir (directory, &tmp_list, select_file, alphasort);
+  extra_nbr_here = myscandir (directory, &tmp_list, select_file, asort);
 
   if (extra_nbr_here == -1) {
     fprintf (stderr, "extradir: ");

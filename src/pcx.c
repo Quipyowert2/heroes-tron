@@ -28,6 +28,7 @@
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
+#include "endian.h"
 
 static void
 img_init (image_ * image)

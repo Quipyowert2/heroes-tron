@@ -49,6 +49,7 @@
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
+#include "endian.h"
 
 void
 background_menu (void)

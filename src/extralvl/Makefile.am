@@ -19,6 +19,6 @@
 # $Id: Makefile.am 1.1 Wed, 10 May 2000 18:33:22 +0200 pollux $
 
 xdir = @extradir@
-x_DATA = $(subst $(srcdir)/,,$(wildcard $(srcdir)/*.lvl))
+x_DATA = $(subst $(srcdir)/,,$(shell echo $(srcdir)/*.lvl))
 
 EXTRA_DIST = $(x_DATA)

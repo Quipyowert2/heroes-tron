@@ -96,7 +96,7 @@ bswap_scores (void)
   int j;
 
   for (j = 0; j < 50; ++j)
-    highs[0][j] = BSWAP32 (highs[0][j]);
+    highs[0][j].points = BSWAP32 (highs[0][j].points);
 }
 
 void

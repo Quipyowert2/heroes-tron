@@ -27,6 +27,7 @@
 #include <ggi/ggi.h>
 #include "display.h"
 #include <string.h>
+#include "misc.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
@@ -170,7 +171,9 @@ int visu_options = SDL_HWPALETTE | SDL_DOUBLEBUF;
 
 void set_display_params (const char* str)
 {
-  setenv ("SDL_VIDEODRIVER", str, 1);
+  char* s = strcat_alloc ("SDL_VIDEODRIVER=", str);
+  putenv (s);
+  free (s);
 }
 
 void set_full_screen_mode (void)
