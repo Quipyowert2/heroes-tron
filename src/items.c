@@ -29,9 +29,11 @@ sprite_t *big_dollar = 0;
 sprite_t *small_dollar = 0;
 sprite_t *clocks[NBR_CLOCK_FRAMES];
 sprite_t *pyramids[NBR_PYRAMIDS];
-sprite_t *catch_this = 0;
 sprite_t *trails[16][12];
 sprite_t *red_cross[4] = { 0, 0, 0, 0 };
+sprite_t *tutorial_arrow[NBR_ARROW_FRAMES] = {
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+};
 
 int trail_row[16] = {
   110, 0, -1, 30, 100, 20, 70, -1, -1, 10, 80, 40, 90, -1, 60, 50 };
@@ -40,8 +42,8 @@ int trail_row[16] = {
 void
 init_items (void)
 {
-  int i;
-  pcx_image_t trailimg;
+  int i, j;
+  pcx_image_t trailimg, arrow_img;
 
   big_dollar = compile_sprshade (IMGPOS (main_font_img, 81, 0),
 				 0, 1, glenz[0],
@@ -57,13 +59,17 @@ init_items (void)
     pyramids[i] = compile_sprshade (IMGPOS (main_font_img, 64, i * 16),
 				    0, 1, glenz[0],
 				    7, 9, main_font_img.width, xbuf);
-  catch_this = compile_sprunish (IMGPOS (main_font_img, 91, 17),
-				 0, 82 , glenz[0], 10,
-				 13, 49, main_font_img.width, xbuf);
+
+  pcx_load_from_rsc ("arrow-img", &arrow_img);
+  for (i = 0; i < 3; ++i)
+    for (j = 0; j < 4; ++j)
+      tutorial_arrow[i * 4 + j] =
+	compile_sprunish (IMGPOS (arrow_img, i * 26, j * 26),
+			  0, 200, glenz[0], 10, 26, 26, arrow_img.width, xbuf);
+  img_free (&arrow_img);
 
   pcx_load_from_rsc ("trails-img", &trailimg);
   for (i = 0; i < 16; ++i) {
-    int j;
     if (trail_row[i] < 0)
       for (j = 0 ; j < 12; ++j)
 	trails[i][j] = 0;
@@ -91,7 +97,8 @@ uninit_items (void)
     FREE_SPRITE0 (clocks[i]);
   for (i = 0; i < NBR_PYRAMIDS; ++i)
     FREE_SPRITE0 (pyramids[i]);
-  FREE_SPRITE0 (catch_this);
+  for (i = 0; i < NBR_ARROW_FRAMES; ++i)
+    FREE_SPRITE0 (tutorial_arrow[i]);
   for (i = 0; i < 16; ++i) {
     int j;
     for (j = 0 ; j < 12; ++j)

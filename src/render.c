@@ -585,18 +585,30 @@ draw_level (int p)
 
   if (tutor) {
     int bonus_to_show = trail_size[col2plr[p]] < 55 ? 1 : 12;
-    int sh = minisinus[read_htimer (waving_htimer) & 31];
-    dest = render_buffer[p] + sbuf - (7 + sh) * (xbuf - 1) - 40;
+    long wavepos = read_htimer (waving_htimer);
+    /* Angle is the angle of the tail of the arrow, i.e.
+       `<-' is 0 and `->' is M_PI.
+       1 rotation per second.  */
+    double angle = M_PI_4 - (wavepos * 2.0 * M_PI / 70.0);
+    int arrow_index = (wavepos * NBR_ARROW_FRAMES / 70) % NBR_ARROW_FRAMES;
+    sprite_t *s = tutorial_arrow[arrow_index];
+    double d  = 10.0 + 4.0 * sin (wavepos / 40.0); /* arbitrary */
+    /* Substract M_PI_4 so the arrow looks a bit inclinded.  */
+    int dx =   d * cos (angle - M_PI_4);
+    int dy = - d * sin (angle - M_PI_4);
+    int color = minisinus[wavepos & 31] + 10;
+
+    dest = render_buffer[p] + sbuf + (dy - 4) * xbuf + dx - 25;
 
     for (k = corner_dy[p] - 0, l = 1 + 11 - camera_stop_y[p]; l > 0;
 	 l--, k++) {
       k &= map_info.ywrap;
       m = k * map_info.xt;
-      for (i = corner_dx[p] - 2, j = 2 + nbr_tiles_cols - camera_stop_x[p];
+      for (i = corner_dx[p] - 1, j = 2 + nbr_tiles_cols - camera_stop_x[p];
 	   j > 0; j--, i++) {
 	i &= map_info.xwrap;
 	if (tile_bonus[i + m] == bonus_to_show)
-	  draw_sprunish_custom (catch_this, dest, 10 + sh);
+	  draw_sprunish_custom (s, dest, color);
 	dest += 24;
       }
       dest += xbuf * 20 - 24 * (2 + nbr_tiles_cols - camera_stop_x[p]);

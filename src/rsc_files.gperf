@@ -25,6 +25,7 @@
 %}
 struct rsc_file;
 %%
+arrow-img,		"$(data-dir)/pics/arrow.pcx",		0,0,true
 bonus-font,		"$(data-dir)/pics/typonus.pcx",		0,0,true
 brown-bonus-img,	"$(data-dir)/pics/bonusb.pcx",		0,0,true
 data-dir,		"$(prefix)/"FORWARD_RELATIVE_PKGDATADIR,0,0,true

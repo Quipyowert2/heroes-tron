@@ -1,3 +1,15 @@
+2001-05-08  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/items.c (catch_this): Remove.
+	(tutorial_arrow): New.
+	(init_item, unit_items): Handle tutorial_arrow instead of catch_this.
+	* src/items.h (catch_this): Remove.
+	(tutorial_arrow, NBR_ARROW_FRAMES): New.
+	* src/render.c (draw_level): Change the tutorial arror rendering
+	the draw loops with the new arrow.
+	* src/rsc_files.gperf (arrow-img): New.
+	* src/system.h (M_PI, M_PI_2, M_PI_4): New.
+
 2001-05-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/helptext.c (help_text1): Draw the two pictures in the
