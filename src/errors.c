@@ -76,7 +76,7 @@ emsg (msg, va_alist)
   va_list args;
 #endif
 
-  if (disable_emsg) {
+  if (!disable_emsg) {
     fprintf (stderr, "%s: ", progname);
 #ifdef VA_START
     VA_START (args, msg);

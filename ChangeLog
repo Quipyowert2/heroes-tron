@@ -1,5 +1,9 @@
 2000-10-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/errors.c (emsg): Thinko.
+
+2000-10-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Error introduced by the renaming of getopt.h into gnugetopt.h.
 
 	* lib/getopt.c: Include gnugetopt.h.
