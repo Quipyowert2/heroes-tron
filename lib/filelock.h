@@ -17,5 +17,18 @@
 | 02111-1307 USA                                                     |
 `-------------------------------------------------------------------*/
 
-void file_lock (FILE *f, const char *mode);
-void file_unlock (FILE *f);
+/* Lock a file, blocking if needed.
+   If EXCLUSIVE is 0 then many processes can lock the
+   file (usually this is for reading), otherwise only one
+   process can lock the file (for writing).
+
+   Return 0 on success, something else on error. */
+int file_lock (int fd, int exlusive);
+
+/* Unlock a file.  */
+int file_unlock (int fd);
+
+/* WARNING: under Windows, these functions will lock or unlock
+   the 10 next bytes.  Therefore you should make sure that
+   you always call these functions from the same position.
+*/

@@ -1,3 +1,16 @@
+2001-06-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* lib/filelock.h: Change protoype.
+	* lib/filelock.c: Likewise, supply flock() and _locking()
+	implementations, not really tested.
+	* m4/filelock.m4: New file.
+	* m4/fopenlock.m4: Remove (obsolete).
+	* src/scores.c: Adjust to new filelock and fileunlock prototypes.
+	* src/savegame.c: Likewise.
+	* src/savegame.c (write_save_records_locked, load_save_records):
+	Seek to the beginning of file before unlocking.
+	* src/scores.c (write_scores_locked, load_scores): Likewise.
+
 2001-05-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/joystick.c [HAVE_LIBGII] (_get_joystick_state): Fix

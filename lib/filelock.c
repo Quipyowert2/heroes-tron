@@ -28,40 +28,85 @@
 # include <fcntl.h>
 #endif
 
+#if HAVE_SYS_FILE_H
+# include <sys/file.h>
+#endif
+
+/* These two files are for Windows (MinGW actually).  */
+#if HAVE_IO_H
+# include <io.h>
+#endif
+#if HAVE_SYS_LOCKING_H
+# include <sys/locking.h>
+#endif
+
 #include "filelock.h"
 
-void
-file_lock (FILE *f, const char *mode)
+/* fcntl() locking is prefered because it works over NFS, otherwise
+   we fall back to flock(), or _locking() (this one is for Windows).  */
+
+int
+file_lock (int fd, int exclusive)
 {
-#ifdef F_SETLKW
-  {
-    struct flock lock;
-    lock.l_type = ((*mode == 'r' && mode[1] != '+') ? F_RDLCK : F_WRLCK);
-    lock.l_whence = SEEK_SET;
-    lock.l_start = 0;
-    lock.l_len = 0;		/* Lock the whole file.  */
-    fcntl (fileno (f), F_SETLKW, &lock);
-  }
-#else
-  /* FIXME: implement other kind of locking for system
-     which doesn't have fcntl locking.  */
-#endif
+#if HAVE_FCNTL && defined(F_SETLKW)
+
+  struct flock lock;
+  lock.l_type = exclusive ? F_WRLCK : F_RDLCK;
+  lock.l_whence = SEEK_SET;
+  lock.l_start = 0;
+  lock.l_len = 0;		/* Lock the whole file.  */
+  return fcntl (fd, F_SETLKW, &lock);
+
+#else /* !(HAVE_FCNTL && defined(F_SETLKW)) */
+# if HAVE_FLOCK
+
+  return flock (fd, exclusive ? LOCK_EX : LOCK_SH);
+
+# else /* !HAVE_FLOCK */
+#  if HAVE__LOCKING
+
+  /* Lock the 10 next bytes.  */
+  return _locking (fd, exclusive ? _LK_LOCK : _LK_RLCK, 10);
+
+#  else /* !HAVE__LOCKING */
+
+  /* FIXME: implement other kind of locking for system.  */
+  return -1;
+
+#  endif /* !HAVE_LOCKING */
+# endif /* !HAVE_FLOCK */
+#endif /* !(HAVE_FCNTL && defined(F_SETLKW)) */
 }
 
-void
-file_unlock (FILE *f)
+int
+file_unlock (int fd)
 {
-#ifdef F_SETLKW
-  {
-    struct flock lock;
-    lock.l_type = F_UNLCK;
-    lock.l_whence = SEEK_SET;
-    lock.l_start = 0;
-    lock.l_len = 0;		/* Unlock the whole file.  */
-    fcntl (fileno (f), F_SETLKW, &lock);
-  }
-#else
-  /* FIXME: implement other kind of locking for system
-     which doesn't have fcntl locking.  */
-#endif
+#if HAVE_FCNTL && defined(F_SETLKW)
+
+  struct flock lock;
+  lock.l_type = F_UNLCK;
+  lock.l_whence = SEEK_SET;
+  lock.l_start = 0;
+  lock.l_len = 0;		/* Unlock the whole file.  */
+  return fcntl (fd, F_SETLKW, &lock);
+
+#else /* !(HAVE_FCNTL && defined(F_SETLKW)) */
+# if HAVE_FLOCK
+
+  return flock (fd, LOCK_UN);
+
+# else /* !HAVE_FLOCK */
+#  if HAVE__LOCKING
+
+  /* Unlock the 10 next bytes.  */
+  return _locking (fd, _LK_UNLOCK, 10);
+
+#  else /* !HAVE__LOCKING */
+
+  /* FIXME: implement other kind of locking for system.  */
+  return -1;
+
+#  endif /* !HAVE__LOCKING */
+# endif /* !HAVE_FLOCK */
+#endif /* !(HAVE_FCNTL && defined(F_SETLKW)) */
 }

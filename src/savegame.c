@@ -113,8 +113,11 @@ write_save_records_locked (void)
 	       sg->name);
       free (gidtxt);
     }
+    /* We need to seek to the beginning of file before
+       calling file_unlock on some systems.  */
+    fseek (fsave, 0L, SEEK_SET);
     dmsg (D_FILE | D_SYSTEM, "unlocking %s", name);
-    file_unlock (fsave);
+    file_unlock (fileno (fsave));
   }
 }
 
@@ -181,31 +184,34 @@ load_save_records_read (void)
 }
 
 static void
-load_save_records_seek (const char *mode)
+load_save_records_seek (bool exclusive)
 {
   dmsg (D_FILE, "reading saved games from %s", name);
   if (fsave) {
     fseek (fsave, 0L, SEEK_SET);
-    dmsg (D_FILE | D_SYSTEM, "locking %s (%s)", name, mode);
-    file_lock (fsave, mode);
+    dmsg (D_FILE | D_SYSTEM, "locking %s", name);
+    file_lock (fileno (fsave), exclusive);
   }
 }
 
 void
 load_save_records (void)
 {
-  load_save_records_seek ("rt");
+  load_save_records_seek (false);
   load_save_records_read ();
   if (fsave) {
+    /* We need to seek to the beginning of file before
+       calling file_unlock on some systems.  */
+    fseek (fsave, 0L, SEEK_SET);
     dmsg (D_FILE | D_SYSTEM, "unlocking %s", name);
-    file_unlock (fsave);
+    file_unlock (fileno (fsave));
   }
 }
 
 void
 load_save_records_and_keep_locked (void)
 {
-  load_save_records_seek ("r+t");
+  load_save_records_seek (true);
   load_save_records_read ();
   if (fsave)
     fseek (fsave, 0L, SEEK_SET);
@@ -214,7 +220,7 @@ load_save_records_and_keep_locked (void)
 void
 write_save_records (void)
 {
-  load_save_records_seek ("wt");
+  load_save_records_seek (true);
   write_save_records_locked ();
 }
 

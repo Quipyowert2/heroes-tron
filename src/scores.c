@@ -119,26 +119,29 @@ write_scores_locked (void)
 		 i, j, highs[i][j].points, gidtxt, highs[i][j].name);
 	free (gidtxt);
       }
+    /* We need to seek to the beginning of file before
+       calling file_unlock on some systems.  */
+    fseek (fscores, 0L, SEEK_SET);
     dmsg (D_FILE | D_SYSTEM, "unlocking %s", name);
-    file_unlock (fscores);
+    file_unlock (fileno (fscores));
   }
 }
 
 static void
-load_scores_seek (const char *mode)
+load_scores_seek (bool exclusive)
 {
   dmsg (D_FILE, "reading scores from %s", name);
   if (fscores) {
     fseek (fscores, 0L, SEEK_SET);
-    dmsg (D_FILE | D_SYSTEM, "locking %s (%s)", name, mode);
-    file_lock (fscores, mode);
+    dmsg (D_FILE | D_SYSTEM, "locking %s", name);
+    file_lock (fileno (fscores), exclusive);
   }
 }
 
 void
 write_scores (void)
 {
-  load_scores_seek ("wt");
+  load_scores_seek (true);
   write_scores_locked ();
 }
 
@@ -191,18 +194,21 @@ load_scores_read (void)
 void
 load_scores (void)
 {
-  load_scores_seek ("rt");
+  load_scores_seek (false);
   load_scores_read ();
   if (fscores) {
+    /* We need to seek to the beginning of file before
+       calling file_unlock on some systems.  */
+    fseek (fscores, 0L, SEEK_SET);
     dmsg (D_FILE | D_SYSTEM, "unlocking %s", name);
-    file_unlock (fscores);
+    file_unlock (fileno (fscores));
   }
 }
 
 void
 load_scores_and_keep_locked (void)
 {
-  load_scores_seek ("r+t");
+  load_scores_seek (true);
   load_scores_read ();
   if (fscores)
     fseek (fscores, 0L, SEEK_SET);
