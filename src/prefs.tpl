@@ -337,6 +337,7 @@ load_preferences (void)
     free (line);
   }
 
+  free (buf);
   fclose (fs);
   return false;
 }

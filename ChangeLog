@@ -1,3 +1,7 @@
+2001-04-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/prefs.tpl (load_preferences): Free buf.
+
 2001-04-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* lib/basename.c: New file.
