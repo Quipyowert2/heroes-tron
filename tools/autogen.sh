@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>
+# Copyright 2000, 2001  Alexandre Duret-Lutz <duret_g@epita.fr>
 #
 # This file is free software; you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free

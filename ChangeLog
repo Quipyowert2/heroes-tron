@@ -1,5 +1,22 @@
 2001-05-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Update copyright year for recently modified files.
+
+	* src/debugmsg.c: Copyright 2001.
+	* src/misc.c: Likewise.
+	* src/misc.h: Likewise.
+	* src/pcx.c: Likewise.
+	* src/rsc_files.c: Likewise.
+	* src/rsc_files.gperf: Likewise.
+	* src/rsc_files_hash.h: Likewise.
+	* src/userconf.h: Likewise.
+	* src/userconf.c: Likewise.
+	* tools/autogen.sh: Likewise.
+	* tools/cvsboot.sh: Likewise.
+	* tools/fetish-sync.sh: Likewise.
+
+2001-05-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/pcx.c (delta): Remove.
 	(pcx_load): Remove call to delta, and do some cosmetic cleanups.
 
