@@ -1,3 +1,7 @@
+2001-02-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* NEWS: Update for 0.8d.
+
 2001-02-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* doc/heroes.texi (configure options): Say that --enable-debug

@@ -223,6 +223,8 @@ warnings.
      helpfull coredumps, without slowing down the game.  You may want to
      use `--enable-debug' to include more debugging data and turn on
      some debugging code.  Use `--disable-debug' to turn this off.
+     Translators: you _want_ to use this option, really!  Because the
+     debugging code include some check on the translated messages.
 
 `--disable-optimizations'
      Turn off compiler optimizations options.  This can ease debugging.
