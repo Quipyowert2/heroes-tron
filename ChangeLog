@@ -1,5 +1,9 @@
 2000-11-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* HACKING (Where to announce): Typo.
+
+2000-11-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Set version to 0.7a.
 
 2000-11-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
