@@ -1407,8 +1407,7 @@ extra_menu (void)
 	  else if (t == HK_PageUp)
 	    ll = (ll > 7) ? (ll - 7) : 0;
 	  else /* t == HK_PageDown */
-	    ll = (((unsigned int) (ll + 7) < extra_nbr) ?
-		  (ll + 7) : (extra_nbr - 1));
+	    ll = (ll + 7 < (int) extra_nbr) ? ll + 7 : ((int) extra_nbr - 1);
 	}
       } else {
 	if (t == HK_Up) {
@@ -1603,8 +1602,8 @@ editor_selector (void)
       } else if (t == HK_PageUp) {
 	l = (l > 10) ? (l - 10) : 0;
       } else if (t == HK_PageDown)
-	l = (((unsigned int) (l + 11) < extra_user_nbr)
-	     ? (l + 10) : (extra_user_nbr - 1));
+	l = ((l + 11 < (int) extra_user_nbr)
+	     ? l + 10 : ((int)extra_user_nbr - 1));
     } else
       t = 0;
   } while (t != HK_Enter && t != HK_Escape);
