@@ -28,7 +28,7 @@ unclipped_run (const rleprog_t* prog, pixel_t* dest)
   pixel_t*	cur;		/* current writting possition */
   u8_t*		pc;		/* program counter */
   u8_t*		epc;		/* end of program code */
-    
+
   cur = dest + prog->dest_offset;
 
   if (prog->func_offset)
@@ -36,7 +36,7 @@ unclipped_run (const rleprog_t* prog, pixel_t* dest)
 
   pc = prog->code;
   epc = prog->end_code;
-    
+
   while (pc < epc) {
     unsigned m, n;
     m = *pc++;
@@ -51,7 +51,7 @@ unclipped_run (const rleprog_t* prog, pixel_t* dest)
   }
 }
 
-void 
+void
 exec_rleprog (const rleprog_t* prog, pixel_t* dest)
 {
   while (prog) {
@@ -62,7 +62,7 @@ exec_rleprog (const rleprog_t* prog, pixel_t* dest)
 }
 
 
-rleprog_t* 
+rleprog_t*
 compile_rleprog (const pixel_t* src, pixel_t transp_color,
 		 unsigned int block_height, unsigned int block_width,
 		 unsigned int src_width, unsigned int dest_width)
@@ -71,24 +71,23 @@ compile_rleprog (const pixel_t* src, pixel_t transp_color,
   unsigned int row;
   unsigned int code_size;
   u8_t* pc;			/* program counter */
-  
-  
+
+
   /* In the worst case (start with an opaque pixel and alternate
      transparant and opaque), we need three bytes to encode two
      pixels, plus three byte for the first pixel, and two for the end
      of line. */
   code_size = block_height * ((block_width / 2 + 1) * 3 + 2);
 
-  if (!(prog = malloc (sizeof (*prog))) ||
-      !(prog->code = malloc (code_size)))
-    emsg ("Out of memory");
-  
+  XMALLOC_VAR (prog);
+  XMALLOC_ARRAY (prog->code, code_size);
+
   /* encode the bloc */
   pc = prog->code;
   for (row = block_height; row; --row) {
     unsigned int m, n;
     const pixel_t* eol = src + block_width; /* end of line */
-    
+
     /* encode a line */
     do {
       /* count the number of transparant pixels */
@@ -97,7 +96,7 @@ compile_rleprog (const pixel_t* src, pixel_t transp_color,
       /* count the number of opaque pixels */
       for (n = 0; src[n] != transp_color && src + n < eol;)
 	++n;
-      
+
       /* write the corresponding program */
       *pc++ = m;
       *pc++ = n;
@@ -107,7 +106,7 @@ compile_rleprog (const pixel_t* src, pixel_t transp_color,
     /* output an end of line */
     *pc++ = 0;
     *pc++ = 0;
-      
+
     /* prepare for next line */
     src += src_width - block_width;
   }
@@ -120,7 +119,7 @@ compile_rleprog (const pixel_t* src, pixel_t transp_color,
   prog->latest_known = 0;
   prog->func_offset = 0;
   prog->func_data = 0;
-  
+
   assert (pc < prog->code + code_size);
 
   return prog;
@@ -136,11 +135,11 @@ free_rleprog (rleprog_t* prog)
   }
 }
 
-rleprog_t* 
+rleprog_t*
 concat_rleprog (rleprog_t* head, rleprog_t* tail)
 {
   rleprog_t* pos = head;
-  
+
   if (!head)
     return tail;
 
@@ -152,9 +151,9 @@ concat_rleprog (rleprog_t* head, rleprog_t* tail)
     pos = pos->next_prog;
 
   pos->next_prog = tail;
-  
+
   /* update latest_known for next uses */
   head->latest_known = tail->latest_known ? tail->latest_known : tail;
-  
+
   return head;
 }

@@ -26,21 +26,19 @@
 #include "debugmsg.h"
 
 static void
-img_init (pcx_image_t * image)
+img_init (pcx_image_t *image)
 {
-  image->buffer = malloc (image->size);
-  if (image->buffer == NULL)
-    emsg ("[PCX] Not enough memory.");
+  XMALLOC_ARRAY (image->buffer, image->size);
 }
 
 void
-img_free (pcx_image_t * image)
+img_free (pcx_image_t *image)
 {
-  free ((char *) image->buffer);
+  free (image->buffer);
 }
 
 static void
-delta (pcx_image_t * image)
+delta (pcx_image_t *image)
 {
   int i;
   pixel_t *src = image->buffer + image->width;
@@ -49,7 +47,7 @@ delta (pcx_image_t * image)
 }
 
 char
-pcx_load (const char *file, pcx_image_t * image)
+pcx_load (const char *file, pcx_image_t *image)
 {
   unsigned long compteur;
   FILE *fptr;
@@ -78,7 +76,7 @@ pcx_load (const char *file, pcx_image_t * image)
   image->height = (image->header.height - image->header.y + 1);
   image->size = image->width * image->height;
 
-  dmsg (D_FILE, "size=(%d,%d) rle=%d", 
+  dmsg (D_FILE, "size=(%d,%d) rle=%d",
 	image->header.width + 1, image->header.height + 1, image->header.rle);
 
   img_init (image);
@@ -111,15 +109,11 @@ pcx_load (const char *file, pcx_image_t * image)
   return (0);
 }
 
-char 
-pcx_load_from_rsc (const char *rsc, pcx_image_t * image)
+char
+pcx_load_from_rsc (const char *rsc, pcx_image_t *image)
 {
-  char* res = get_rsc_file (rsc);
-  char error;
-
-  if (res == 0) 
-    emsg ("Empty resource (%s)", rsc);
-  error = pcx_load (res, image);
+  char *res = get_non_null_rsc_file (rsc);
+  char error = pcx_load (res, image);
   free (res);
   return error;
 }

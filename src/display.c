@@ -35,7 +35,7 @@ pixel_t* screen_rv = 0;		/* A pointer to the screen buffer associated
    emulated etc.).  If screen_rv points directly to hardware video
    it might requires locking. */
 
-pixel_t* screen = 0;		/* A pointer to the screen buffer, 
+pixel_t* screen = 0;		/* A pointer to the screen buffer,
 				   used throughout the game
 				   (screen is always 320x200). */
 
@@ -200,12 +200,12 @@ copy_display (void)
     else
       stretch_twofold ();
   } else if (stretch == 3) {
-    if (even_lines)    
+    if (even_lines)
       stretch_threefold_even ();
     else
       stretch_threefold ();
   } else {			/* stretch == 1 */
-    if (even_lines)    
+    if (even_lines)
       erase_odd_lines ();
     if (screen_allocated)
       copy_screen ();
@@ -215,7 +215,7 @@ copy_display (void)
 #ifdef HAVE_PKG_GGI
 
 ggi_visual_t visu = 0;		/* The real display, which receive events. */
-static ggi_visual_t render_visu = 0; /* A 8bit memory-display on which 
+static ggi_visual_t render_visu = 0; /* A 8bit memory-display on which
 					the game is drawn */
 
 static ggi_mode vid_mode;
@@ -225,9 +225,8 @@ static int	full_screen = 0;
 void
 set_display_params (const char* str)
 {
-  if (display_params)
-    free (display_params);
-  display_params = strdup (str);
+  XFREE0 (display_params);
+  display_params = xstrdup (str);
 }
 
 void set_full_screen_mode (void)
@@ -249,12 +248,12 @@ init_video (void)
   video_initialized = 1;
 
   dmsg (D_VIDEO, "open main visual (%s)",
-	display_params ? display_params : "null"); 
+	display_params ? display_params : "null");
   visu = ggiOpen (display_params);
   if (!visu)
     emsg ("Failed to open visual.");
 
-  dmsg (D_VIDEO, "open display-memory visual");  
+  dmsg (D_VIDEO, "open display-memory visual");
   render_visu = ggiOpen ("display-memory", NULL);
   if (!render_visu)
     emsg ("Failed to open an internal `display-memory' visual.");
@@ -270,7 +269,7 @@ init_video (void)
   vid_mode.dpp.x = vid_mode.dpp.y = GGI_AUTO;
   vid_mode.graphtype = GT_8BIT;
 
-  dmsg (D_VIDEO, "negociate video mode");  
+  dmsg (D_VIDEO, "negociate video mode");
   if (ggiSetMode (render_visu, &vid_mode) ||
       /* Try to get a 8bit display */
       ((ggiCheckGraphMode (visu, GGI_AUTO, GGI_AUTO, scr_w, scr_h, GT_8BIT,
@@ -280,7 +279,7 @@ init_video (void)
        (ggiCheckGraphMode (visu, GGI_AUTO, GGI_AUTO, scr_w, scr_h, GGI_AUTO,
 			   &vid_mode) ||
 	ggiSetGraphMode (visu, GGI_AUTO, GGI_AUTO, scr_w, scr_h, GGI_AUTO)))) {
-    if (!full_screen || 
+    if (!full_screen ||
 	/* try to get any recommanded video mode */
 	(ggiCheckGraphMode (visu, GGI_AUTO, GGI_AUTO, scr_w, scr_h, GT_8BIT,
 			    &vid_mode) &&
@@ -288,9 +287,9 @@ init_video (void)
       emsg ("Couldn't setup a correct display.");
     }
   }
-  dmsg (D_VIDEO, "video mode is %dx%dx%d", 
+  dmsg (D_VIDEO, "video mode is %dx%dx%d",
 	vid_mode.visible.x, vid_mode.visible.y, GT_DEPTH (vid_mode.graphtype));
-  
+
   dmsg (D_VIDEO, "ask for a direct-buffer");
   db = ggiDBGetBuffer (render_visu, 0);
   if (!db || !(db->type & GGI_DB_SIMPLE_PLB))
@@ -299,7 +298,7 @@ init_video (void)
   screen_rv = db->write;
 
   if (stretch > 1) {
-    screen = malloc (320*200);
+    XMALLOC_ARRAY (screen, 320 * 200);
     screen_allocated = 1;
   } else
     screen = screen_rv;
@@ -314,19 +313,12 @@ init_video (void)
 void
 uninit_video (void)
 {
-  if (display_params) {
-    dmsg (D_MISC, "free display_params");
-    free (display_params);
-    display_params = 0;
-  }
-  if (screen_allocated) {
-    dmsg (D_MISC, "free screen buffer");
-    free (screen);
-    screen = 0;
-  }
+  dmsg (D_MISC, "uninitialize video");
+  XFREE0 (display_params);
+  XFREE0 (screen);
   if (render_visu) {
     dmsg (D_VIDEO, "close memory visual");
-    ggiClose (render_visu);  
+    ggiClose (render_visu);
     render_visu = 0;
   }
   if (visu) {
@@ -374,8 +366,8 @@ void
 vsynchro (void)
 {
   copy_display ();
-  ggiCrossBlit (render_visu, 0, 0, scr_w, scr_h, visu, 
-		(vid_mode.visible.x - scr_w)/2, 
+  ggiCrossBlit (render_visu, 0, 0, scr_w, scr_h, visu,
+		(vid_mode.visible.x - scr_w)/2,
 		(vid_mode.visible.y - scr_h)/2);
   ggiFlush (visu);
 }
@@ -400,17 +392,17 @@ void set_full_screen_mode (void)
   visu_options |= SDL_FULLSCREEN;
 }
 
-/* init the SDL library, this can be called from joystick.c 
+/* init the SDL library, this can be called from joystick.c
    or from init_video() */
 void  init_SDL (void);
-void 
+void
 init_SDL (void)
 {
   if (SDL_initialized)
     return;
   dmsg (D_SYSTEM|D_VIDEO|D_JOYSTICK|D_SOUND_TRACK|D_SOUND_EFFECT,
 	"initialize SDL");
-  SDL_Init (SDL_INIT_VIDEO 
+  SDL_Init (SDL_INIT_VIDEO
 #ifdef HAVE_LIBSDL_MIXER
 	    | SDL_INIT_AUDIO
 #endif
@@ -448,7 +440,7 @@ init_video (void)
     /* If the game needs stretching or the visual needs locking, we
        don't draw directly on it, we use a separate buffer and
        then copy that buffer to the video memory. */
-    screen = malloc (320*200);
+    XMALLOC_ARRAY (screen, 320 * 200);
     screen_allocated = 1;
   } else
     screen = screen_rv;
@@ -477,8 +469,7 @@ uninit_video (void)
 {
   if (screen_allocated) {
     dmsg (D_MISC, "free screen buffer");
-    free (screen);
-    screen = 0;
+    XFREE0 (screen);
     screen_allocated = 0;
   }
   if (SDL_initialized) {
@@ -495,7 +486,7 @@ set_color (unsigned char c, unsigned char r, unsigned char g, unsigned char b)
   cmap[c].g = g * 4;
   cmap[c].b = b * 4;
   dmsg (D_VIDEO, "set color %d=(%d,%d,%d)",c,r,g,b);
-  SDL_SetColors (visu, cmap, c, 1); 
+  SDL_SetColors (visu, cmap, c, 1);
 }
 
 void
@@ -529,4 +520,3 @@ vsynchro (void)
 }
 
 #endif
-

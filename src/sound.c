@@ -34,7 +34,7 @@ char sound_track_playing = 0;
 
 MODULE* module;
 pthread_t polling_thread;
-pthread_mutex_t playing;	/* this mutex is used to tell the polling 
+pthread_mutex_t playing;	/* this mutex is used to tell the polling
 				   thread that it must continue polling ... */
 int nth_driver = 0;
 char* driver_options = 0;
@@ -47,7 +47,7 @@ set_volume (void)
   else
     md_musicvolume = 0;
   dmsg (D_SOUND_TRACK, "set volume to %d/128", md_musicvolume);
-  /* 
+  /*
      This doesn't want to work.  I'm changing the volume of each sample
      as a work around, see event_sfX() in sfx.c.
 
@@ -80,7 +80,7 @@ init_sound_engine (void)
   MikMod_RegisterAllDrivers ();
   dmsg (D_SOUND_TRACK, "libMikMod driver registered");
 
-  /* register the all module loader 
+  /* register the all module loader
      (the user can use something else than .xm) */
   MikMod_RegisterAllLoaders ();
   dmsg (D_SOUND_TRACK, "libMikMod loader registered");
@@ -94,8 +94,8 @@ init_sound_engine (void)
     md_mode &= ~DMODE_16BITS;
   if (hqmix)
     md_mode |= DMODE_HQMIXER;
-  dmsg (D_SOUND_TRACK, "Opening audio device #%d, with %dbits, %s%s", 
-	nth_driver, (md_mode & DMODE_16BITS)?16:8, 
+  dmsg (D_SOUND_TRACK, "Opening audio device #%d, with %dbits, %s%s",
+	nth_driver, (md_mode & DMODE_16BITS)?16:8,
 	(md_mode & DMODE_STEREO)?"stereo":"mono",
 	(md_mode & DMODE_HQMIXER)?"":", high quality mixer");
   if (driver_options)
@@ -216,12 +216,12 @@ print_drivers_list (void)
 }
 
 /* This function is adapted from from Mikmod 3.1.6 */
-static void 
+static void
 get_int (char *arg, int *value, int min, int max, char* argv0)
 {
   char *end = NULL;
   int t = min - 1;
-  
+
   if (arg)
     t = strtol (arg, &end, 10);
   if (end && (!*end) && (t >= min) && (t <= max))
@@ -232,7 +232,7 @@ get_int (char *arg, int *value, int min, int max, char* argv0)
 	  arg?arg:"(not given)", min, max, argv0);
 }
 
-void 
+void
 decode_sound_options (char* option_string, char* argv0)
 {
   /* This is adapted from Mikmod 3.1.6 */
@@ -240,29 +240,29 @@ decode_sound_options (char* option_string, char* argv0)
     char* opts = strchr (option_string, ',');
     if (opts) {
       *opts=0;
-      
+
       /* numeric driver specification ? */
       if (opts - option_string <= 2)
 	get_int (optarg, &nth_driver, 0, 99, argv0);
-      else    
+      else
 	nth_driver = MikMod_DriverFromAlias(option_string);
       if (driver_options)
 	free (driver_options);
-      driver_options = strdup (opts+1);
-    } else  
+      driver_options = xstrdup (opts+1);
+    } else
       nth_driver = MikMod_DriverFromAlias (option_string);
-  } else  
+  } else
     get_int(option_string, &nth_driver, 0, 99, argv0);
 }
 
-void 
+void
 load_soundtrack_from_alias (const char* alias)
 {
   if (!nosound) {
     sound_track_t* st = get_sound_track_from_alias (alias);
 
     dmsg (D_SOUND_TRACK, "loading sound track from alias %s", alias);
-    
+
     if (st) {
       load_soundtrack (st->filename);
       soundtrack_title = st->title;
@@ -330,16 +330,16 @@ init_sound_engine (void)
     /* Use small values for audio buffer to reduce the duration between
        the moment where a sample is mixed and the moment where it is heard. */
     audio_buffers = (hqmix ? 2048 : 1024);
-  
+
   init_SDL ();
   /* Open the audio device */
-  dmsg (D_SOUND_TRACK, 
-	"opening audio at %d Hz %d bit %s, %d bytes audio buffer\n", 
+  dmsg (D_SOUND_TRACK,
+	"opening audio at %d Hz %d bit %s, %d bytes audio buffer\n",
 	audio_rate,
 	(audio_format&0xFF),
-	(audio_channels > 1) ? "stereo" : "mono", 
+	(audio_channels > 1) ? "stereo" : "mono",
 	audio_buffers);
-  if (Mix_OpenAudio (audio_rate, audio_format, audio_channels, audio_buffers) 
+  if (Mix_OpenAudio (audio_rate, audio_format, audio_channels, audio_buffers)
       < 0) {
     wmsg ("Couldn't open audio: %s\n"
 	  "Disabling sound output (use -S to suppress this message).\n",
@@ -347,11 +347,11 @@ init_sound_engine (void)
     nosfx = nosound = 1;
   } else {
     Mix_QuerySpec(&audio_rate, &audio_format, &audio_channels);
-    dmsg (D_SOUND_TRACK, 
-	  "opened audio at %d Hz %d bit %s, %d bytes audio buffer\n", 
+    dmsg (D_SOUND_TRACK,
+	  "opened audio at %d Hz %d bit %s, %d bytes audio buffer\n",
 	  audio_rate,
 	  (audio_format&0xFF),
-	  (audio_channels > 1) ? "stereo" : "mono", 
+	  (audio_channels > 1) ? "stereo" : "mono",
 	  audio_buffers);
 
     sound_initialized = 1;
@@ -426,38 +426,38 @@ void
 decode_sound_options (char* optarg, char* argv0)
 {
   if (optarg) {
-    char* buf = strdup (optarg);
+    char* buf = xstrdup (optarg);
     optarg = strtok (buf, " \t:=,;");
     while (optarg) {
       if (!strcasecmp (optarg, "freq")) {
 	optarg = strtok (0, " \t:=,;");
 	if (optarg)
 	  audio_rate = atol (optarg);
-	else 
+	else
 	  wmsg ("%s: missing parameter for 'freq'", argv0);
       } else if (!strcasecmp (optarg, "buffers")) {
 	optarg = strtok (0, " \t:=,;");
 	if (optarg)
 	  audio_buffers = atol (optarg);
-	else 
+	else
 	  wmsg ("%s: missing parameter for `buffers'", argv0);
       } else
 	wmsg ("%s: recognized sound options"
 	      "are freq=nnn and buffers=nnn", argv0);
-      optarg = strtok (0, " \t:=,;");      
+      optarg = strtok (0, " \t:=,;");
     }
     free (buf);
   }
 }
 
-void 
+void
 load_soundtrack_from_alias (const char* alias)
 {
   if (!nosound) {
     sound_track_t* st = get_sound_track_from_alias (alias);
 
     dmsg (D_SOUND_TRACK, "loading sound track from alias %s", alias);
-    
+
     if (st) {
       load_soundtrack (st->filename);
       soundtrack_title = st->title;
@@ -519,13 +519,13 @@ print_drivers_list (void)
 }
 
 void
-decode_sound_options (char* optarg ATTRIBUTE_UNUSED, 
+decode_sound_options (char* optarg ATTRIBUTE_UNUSED,
 		      char* argv0 ATTRIBUTE_UNUSED)
 {
 }
 
 
-void 
+void
 load_soundtrack_from_alias (const char* alias ATTRIBUTE_UNUSED)
 {
 }

@@ -159,7 +159,8 @@ show_intro (void)
   int i;
 
   load_soundtrack_from_alias ("INTRO");
-  erase_data_cur = erase_data = malloc (64000 * sizeof (char *));
+  XMALLOC_ARRAY (erase_data, 320 * 200);
+  erase_data_cur = erase_data;
   pcx_load_from_rsc ("intro-logos-img", &intro_img);
 
   play_soundtrack ();
@@ -238,7 +239,7 @@ show_intro (void)
       return (1);
     }
   }
-  
+
   /* For this sequence, slices will be 4 times shorter */
   intro_frame_htimer->slice_duration /= 4;
   reset_htimer (intro_frame_htimer);
@@ -294,14 +295,14 @@ void
 play_intro (void)
 {
   dmsg (D_SECTION, "-- game introduction --");
-  
-  intro_frame_htimer = new_htimer (T_LOCAL|T_BLOCKING, HZ (70)); 
-  intro_global_htimer = new_htimer (T_GLOBAL, HZ (2)); 
+
+  intro_frame_htimer = new_htimer (T_LOCAL|T_BLOCKING, HZ (70));
+  intro_global_htimer = new_htimer (T_GLOBAL, HZ (2));
 
 #if 0
   /* FIXME: This is no more possible with the new fader code
      because we don't know the current palette.  This feature
-     should be easier to add, though. */
+     should be easy to add, though. */
   if (show_intro ()) {
     fastmem4 ((char *) &fade_pal, (char *) &pal, 768 / 4);
     memset ((char *) &pal, 0, 768);
@@ -311,11 +312,11 @@ play_intro (void)
       vsynch ();
       set_pal (temppal.global, 0, 768);
     }
-  } 
+  }
 #else
   show_intro ();
 #endif
-  memset (pal.global, 0, 768);  
+  memset (pal.global, 0, 768);
   set_pal (pal.global, 0, 768);
   free (erase_data);
   unload_soundtrack ();

@@ -31,18 +31,18 @@ NEW_LIST(st, sound_track_t*, STD_EQUAL, sound_track_delete);
 
 static st_list_t sound_track_list;
 
-sound_track_t* 
+sound_track_t*
 sound_track_cons (char* alias, char* filename, char* title, char* author)
 {
-  sound_track_t* st = malloc (sizeof (*st));
-  st->alias = strdup (alias);
-  st->filename = strdup (filename);
-  st->title = strdup (title);
-  st->author = strdup (author);
+  NEW (sound_track_t, st);
+  st->alias = xstrdup (alias);
+  st->filename = xstrdup (filename);
+  st->title = xstrdup (title);
+  st->author = xstrdup (author);
   return st;
 }
 
-void 
+void
 sound_track_delete (sound_track_t* st)
 {
   free (st->alias);
@@ -52,19 +52,19 @@ sound_track_delete (sound_track_t* st)
   free (st);
 }
 
-void 
+void
 add_sound_track (sound_track_t* st)
 {
   st_push(&sound_track_list, st);
 }
 
-void 
+void
 add_sound_track_cons (char* alias, char* filename, char* title, char* author)
 {
   add_sound_track (sound_track_cons (alias, filename, title, author));
 }
 
-sound_track_t* 
+sound_track_t*
 get_sound_track_from_alias (const char* alias)
 {
   st_list_t list = sound_track_list;
@@ -77,20 +77,20 @@ get_sound_track_from_alias (const char* alias)
   return 0;
 }
 
-static char* 
+static char*
 dir_name (const char* filename)
 {
   char* pos = strrchr (filename, '/');
   char* res;
   if (pos == 0)
     return 0;
-  res = malloc (pos - filename + 2);
+  XMALLOC_ARRAY (res, pos - filename + 2);
   strncpy (res, filename, pos - filename + 1);
   res[pos - filename + 1] = 0;
   return res;
 }
 
-int 
+int
 read_sound_config_file (char* filename)
 {
   FILE* fs;
@@ -112,20 +112,20 @@ read_sound_config_file (char* filename)
     return 0;
   }
 
-  while (getshline_numbered 
+  while (getshline_numbered
 	 (&firstline, &endline, &buf, &bufsize, fs) != -1) {
     char* alias = strtok (buf, ":\n");
     char* file  = strtok (0, ":\n");
     char* title  = strtok (0, ":\n");
-    char* author  = strtok (0, "\n");    
+    char* author  = strtok (0, "\n");
     if (!alias || !alias[0])
-      wmsg ("%s:%d: missing alias name\n", filename, firstline);	
+      wmsg ("%s:%d: missing alias name\n", filename, firstline);
     else if (!file || !file[0])
-      wmsg ("%s:%d: missing file name\n", filename, firstline);	
+      wmsg ("%s:%d: missing file name\n", filename, firstline);
     else if (!title || !title[0])
-      wmsg ("%s:%d: missing title\n", filename, firstline);	
+      wmsg ("%s:%d: missing title\n", filename, firstline);
     else if (!author || !author[0])
-      wmsg ("%s:%d: missing author\n", filename, firstline);	
+      wmsg ("%s:%d: missing author\n", filename, firstline);
     else {
       if (dir && file[0] != '/') {
 	char* tmp = strcat_alloc (dir, file);
@@ -144,19 +144,19 @@ read_sound_config_file (char* filename)
   return 0;
 }
 
-int 
+int
 init_sound_track_list (void)
 {
   /* No soundtrack by default */
   /*
-  add_sound_track_cons ("MENU", moddir "menu.xm", 
+  add_sound_track_cons ("MENU", moddir "menu.xm",
 			"Heroes Menu", "Alexel");
 	...
   */
   return 0;
 }
 
-void 
+void
 uninit_sound_track_list (void)
 {
   dmsg (D_MISC, "free sound track list");

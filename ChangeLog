@@ -1,3 +1,47 @@
+2000-11-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Use xmalloc-based macros or functions.  As a consequence
+	do not perform error checking on malloc return anymore.
+
+	* lib/xstrdup.c: New file.
+	* lib/Makefile.am (linheroes_a_SOURCES): Add xstrdup.c.
+	* src/system.h (XFREE0, XCALLOC_ARRAY, XMALLOC_ARRAY,
+	XSALLOC_ARRAY, XREALLOC_ARRAY, XMALLOC_VAR): New.
+	* src/bonus.c (init_bonuses_level, uninit_bonuses_level):
+	Use xmalloc-based macros.
+	* src/argv.c (parse_argv): Likewise.
+	* src/debugmsg.c (dmsg_parse_string): Likewise.
+	* src/display.c [HAVE_PKG_GGI] (set_display_params): Likewise.
+	[HAVE_PKG_GGI,HAVE_SDL] (init_video): Likewise.
+	* src/extras.c (browse_extra_directory, browse_extra_directories
+	add_extra_directory, add_extra_in_user_directory, free_extra_list):
+	Likewise.
+	* src/fontdata.c (initialize_menu_font, uninit_fonts): Likewise.
+	* src/hedlite.c (save_pcx, outwayinit, free_levels_output_dir, hmain):
+	Likewise.
+	* src/heroes.c (init_buffers, load_level, compute_level_full_list,
+	read_level_list): Likewise.
+	* src/intro.c (show_intro): Likewise.
+	* src/menus.c (editor_menu): Likewise.
+	* src/misc.c (strcat_alloc, strappend): Likewise.
+	* src/musicfiles.c (sound_track_cons, dir_name): Likewise.
+	* src/pcx.c (img_init): Likewise.
+	* src/renderdata.c (init_render_data): Likewise.
+	* src/rleprog.c (compile_rleprog): Likewise.
+	* src/rsc_files.c (set_rsc_file, rsc_expand, get_rsc_file): Likewise.
+	* src/sfx.c (_load_sfx, close_sfx_handle): Likewise.
+	* src/source.c [HAVE_LIBMIKMOD] (decode_sound_options): Likewise.
+	* src/timer.c (new_htimer, free_htimer): Likewise.
+	* src/userconf.c (read_userconf): Likewise.
+
+	Misc fixes.
+
+	* src/heroes.c (free_level_full_list, load_random_level): Enhance
+	error message.
+	* src/pcx.c (pcx_load_from_rsc): Use get_non_null_rsc_file.
+	* src/rsc_files.c (get_non_null_rsc_file): Also ensure that the
+	resulting string is not empty.
+
 2000-10-31  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Rename common.h into system.h for consistency with

@@ -93,19 +93,19 @@ print_help (char* argv0)
 	"  -q, --quiet\t\t"	    "    don't print warning messages\n"
 	"  -Q, --really-quiet\t"    "    don't even print error messages\n"
 	"  -v, --verbose=OPTIONS\t" "    enable debugging messages\n"
-	"  -l, --list=WORD\t"	    
+	"  -l, --list=WORD\t"
                            "    show some internal information; WORD can be\n"
 	"\t\t\t"		    "      `resources' or `sound-drivers'.\n"
 	"\nSound options:\n"
-	"  -d, --driver=N[,OPTIONS]" 
+	"  -d, --driver=N[,OPTIONS]"
 	                  "  use Nth driver for sound output (0: autodetect)\n"
 	"  -S, --no-sound\t"        "    disable sound\n"
 	"  -X, --no-sfx\t\t"        "    disable sound-effects\n"
 	"  -m, --mono\t\t"          "    non-stereo output\n"
 	"  -8, --8bits\t\t"	    "    8bits sound output\n"
 	"  -i, --high-quality\t"    "    high quality mixer\n"
-	"\nDisplay options:\n"	
-	"  -G, --gfx-options=OPTIONS" 
+	"\nDisplay options:\n"
+	"  -G, --gfx-options=OPTIONS"
                                     " options to give to the display driver\n"
 	"  -F, --full-screen\t"     "    full screen mode\n"
 	"  -2, --double\t\t"        "    stretch the display twofold\n"
@@ -117,7 +117,7 @@ print_help (char* argv0)
 	"      --default-options\t" "    restore default options file\n"
 	"      --default-saves\t"   "    restore default saves file\n"
 	"  -s, --swap-sides\t"      "    swap sides in two player mode\n"
-	"      --no-double-fx\t"    
+	"      --no-double-fx\t"
                            "    disable superposition of rotozoom and waves\n"
 	"  -g, --go\t\t"            "    skip the introduction\n"
 	"  -J, --no-joystick\t"     "    disable joystick handling\n"
@@ -175,7 +175,7 @@ parse_argv (int argc, char **argv)
   for (;;) {
     int option_index = 0;
 
-    c = getopt_long (argc, argv, "238d:eFgG:hiJl::L:mnqQsSv::X", 
+    c = getopt_long (argc, argv, "238d:eFgG:hiJl::L:mnqQsSv::X",
 		     long_options, &option_index);
 
     /* Detect the end of the options. */
@@ -213,7 +213,7 @@ parse_argv (int argc, char **argv)
       list (optarg);
       return 1;
     case 'L':
-      level_name = strdup (optarg);
+      level_name = xstrdup (optarg);
       level_name = strappend (level_name, ".lvl");
       loadulevel = 1;
       break;
@@ -224,7 +224,7 @@ parse_argv (int argc, char **argv)
       wmsg ("-n is an obsolete option, you should use --list=sound-drivers");
       print_drivers_list ();
       return 1;
-    case 'd': 
+    case 'd':
       decode_sound_options (optarg, argv[0]);
       break;
     case 'G':

@@ -126,10 +126,8 @@ static unsigned char play_game (char);
 static void
 init_buffers (void)
 {
-  render_buffer[0] = malloc (xbuf * ybuf);
-  render_buffer[1] = malloc (xbuf * ybuf);
-  if ((render_buffer[0]) == NULL || (render_buffer[1]) == NULL)
-    emsg ("init_buffer(): mem error");
+  XMALLOC_ARRAY (render_buffer[0], xbuf * ybuf);
+  XMALLOC_ARRAY (render_buffer[1], xbuf * ybuf);
 }
 
 static void
@@ -399,9 +397,7 @@ load_level (char *nomlvl, char cont)
 	map_info.xwrap, map_info.ywrap,
 	map_info.tile_set_name, map_info.soundtrack_name);
 
-  level_map = malloc (map_info.xt * map_info.yt * sizeof (tile_t));
-  if (level_map == NULL)
-    return (3);
+  XMALLOC_ARRAY (level_map, map_info.xt * map_info.yt);
 
   dmsg (D_LEVEL, "reading full level map (%d bytes)",
 	map_info.xt * map_info.yt * sizeof(tile_t));
@@ -446,56 +442,26 @@ load_level (char *nomlvl, char cont)
   map_info_2yt = map_info.yt << 1;
   map_info_2xwrap = (map_info.xwrap << 1) + 1;
   map_info_2ywrap = (map_info.ywrap << 1) + 1;
-  square_occupied = malloc (map_info_2xt * map_info_2yt *
-			    sizeof (*square_occupied));
-  if (square_occupied == NULL)
-    return (9);
-  memset (square_occupied, 0xff, map_info_2xt * map_info_2yt);
-  square_radar_wall = malloc (map_info_2xt * map_info_2yt *
-			      sizeof (*square_radar_wall));
-  if (square_radar_wall == NULL)
-    return (10);
-  memset (square_radar_wall, 0, map_info_2xt * map_info_2yt);
-  square_wall = malloc (map_info_2xt * map_info_2yt *
-                        sizeof (*square_wall));
-  if (square_wall == NULL)
-    return (11);
-  memset (square_wall, 0, map_info_2xt * map_info_2yt);
-  square_explosion = malloc ((map_info_2xt * map_info_2yt + 1) *
-		     sizeof (*square_explosion));
-  /* +1 ?????? */
-  if (square_explosion == NULL)
-    return (12);
-  memset (square_explosion, 254,
-	  (map_info_2xt * map_info_2yt + 1) * sizeof (*square_explosion));
-  square_dead_explosion =
-    malloc ((map_info_2xt * map_info_2yt + 1) * sizeof (int));
-    /* ??? */
-  if (square_dead_explosion == NULL)
-    return (12);
-  memset (square_dead_explosion, 0,
-	  (map_info_2xt * map_info_2yt + 1) * sizeof (int));
-  last_explo = 0;
-  square_explosion_type = malloc ((map_info_2xt * map_info_2yt + 1) *
-			          sizeof (*square_explosion_type));
-  if (square_explosion_type == NULL)
-    return (13);
 
+  XSALLOC_ARRAY (square_occupied, map_info_2xt * map_info_2yt, 0xff);
+  XCALLOC_ARRAY (square_radar_wall, map_info_2xt * map_info_2yt);
+  XCALLOC_ARRAY (square_wall, map_info_2xt * map_info_2yt);
+				/* What are the following `+ 1' for? */
+  XSALLOC_ARRAY (square_explosion, map_info_2xt * map_info_2yt + 1, 254);
+  XCALLOC_ARRAY (square_dead_explosion, map_info_2xt * map_info_2yt + 1);
+  last_explo = 0;
+
+  XMALLOC_ARRAY (square_explosion_type, map_info_2xt * map_info_2yt + 1);
   for (i = map_info_2xt * map_info_2yt - 1; i >= 0; i--)
     square_explosion_type[i] = rand () & 1;
-  square_way = malloc (map_info_2xt * map_info_2yt * sizeof (*square_way));
-  if (square_way == NULL)
-    return (14);
+
+  XMALLOC_ARRAY (square_way, map_info_2xt * map_info_2yt);
 
   if (init_bonuses_level ())
     return 15;
 
-  square2tile = malloc (map_info_2xt * map_info_2yt * sizeof (*square2tile));
-  if (square2tile == NULL)
-    return (15);
-
+  XMALLOC_ARRAY (square2tile, map_info_2xt * map_info_2yt);
   k = 0;
-
   for (i = 0, l = 0; i < (int)map_info.yt; i++, l += map_info_2xt * 2) {
     for (j = 0, k2 = l; j < (int)map_info.xt; j++, k2 += 2, k++) {
       square2tile[k2] = k;
@@ -505,38 +471,16 @@ load_level (char *nomlvl, char cont)
     }
   }
 
-  square_wrap =
-    malloc (map_info_2xt * map_info_2yt * 4 * sizeof (*square_wrap));
-  if (square_wrap == NULL)
-    return (16);
-  memset (square_wrap, 0,
-	  map_info_2xt * map_info_2yt * 4 * sizeof (*square_wrap));
-  square_offset2coord = malloc (map_info_2xt * map_info_2yt * 2 *
-                                sizeof (*square_offset2coord));
-  if (square_offset2coord == NULL)
-    return (17);
-  memset (square_offset2coord, 0,
-	  map_info_2xt * map_info_2yt * 2 * sizeof (*square_offset2coord));
+  XCALLOC_ARRAY (square_wrap, map_info_2xt * map_info_2yt * 4);
+  XCALLOC_ARRAY (square_offset2coord, map_info_2xt * map_info_2yt * 2);
+
   if (game_mode == M_KILLEM) {
-    square_lemmings_list = malloc ((map_info_2xt * map_info_2yt) *
-                                   sizeof (lemming_t *));
-    square_dead_lemmings_list = malloc ((map_info_2xt * map_info_2yt) *
-                                        sizeof (lemming_t *));
-    /* lemmings_support= malloc(lemmings_total*sizeof(lemming_t)); */
-    if (square_lemmings_list == NULL
-	|| /*lemmings_support==NULL || */ square_dead_lemmings_list == NULL)
-      return (18);
-    memset (square_lemmings_list, 0,
-	    (map_info_2xt * map_info_2yt) * sizeof (lemming_t *));
-    memset (square_dead_lemmings_list, 0,
-	    (map_info_2xt * map_info_2yt) * sizeof (lemming_t *));
+    XCALLOC_ARRAY (square_lemmings_list, map_info_2xt * map_info_2yt);
+    XCALLOC_ARRAY (square_dead_lemmings_list, map_info_2xt * map_info_2yt);
     memset (lemmings_support, 0, lemmings_total * sizeof (lemming_t));
   }
   if (game_mode >= M_TCASH) {
-    square_object = malloc (map_info_2xt * map_info_2yt *
-                            sizeof (*square_object));
-    if (square_object == NULL)
-      return (19);
+    XMALLOC_ARRAY (square_object, map_info_2xt * map_info_2yt);
   }
 
   square2offset[2] = map_info_2xt;
@@ -615,15 +559,9 @@ load_level (char *nomlvl, char cont)
     if (square_explosion[i] == 255)
       explo_nbr++;
   if (explo_nbr != 0) {
-    explo_list_ptr = malloc (explo_nbr * sizeof (*explo_list_ptr));
-    if (explo_list_ptr == NULL)
-      return (34);
-    explo_list_pos_x = malloc (explo_nbr * sizeof (*explo_list_pos_x));
-    if (explo_list_pos_x == NULL)
-      return (35);
-    explo_list_pos_y = malloc (explo_nbr * sizeof (*explo_list_pos_x));
-    if (explo_list_pos_y == NULL)
-      return (36);
+    XMALLOC_ARRAY (explo_list_ptr, explo_nbr);
+    XMALLOC_ARRAY (explo_list_pos_x, explo_nbr);
+    XMALLOC_ARRAY (explo_list_pos_y, explo_nbr);
     j = 0;
     for (i = map_info.xt * map_info.yt * 4 - 1; i >= 0; i--)
       if (square_explosion[i] == 255) {
@@ -929,8 +867,6 @@ compute_corner (int p, int n)
   corner_x[p] = ((x & 0xffff) * 24) >> 16;
   corner_y[p] = ((y & 0xffff) * 20) >> 16;
   corner[p] = render_buffer[p] + sbuf + corner_y[p] * xbuf + corner_x[p];
-  /* corner_dy[p]=corner_dx[p]=0; */
-  /* printf("Camera \%d\t\%d\nCorner \%d\t\%d\n",camera_x,camera_y,corner_x,corner_y); */
 }
 
 static void
@@ -1196,8 +1132,7 @@ compute_level_full_list (void)
   dmsg (D_SECTION, "compute level full list");
 
   level_full_list_size = level_list_nbr + extra_nbr;
-  level_full_list = malloc (level_full_list_size * sizeof (int));
-  assert (level_full_list != NULL);
+  XMALLOC_ARRAY (level_full_list, level_full_list_size);
 
   if (extra_nbr == 0) {
     extrasel = 0;
@@ -1221,6 +1156,7 @@ compute_level_full_list (void)
 	level_full_list[i++] = (j | 0x10000);
   level_full_list_size = i;
 }
+
 static void
 free_level_full_list (void)
 {
@@ -1259,7 +1195,7 @@ load_random_wrapped_level (char c, char cont)
   }
   e = load_level ((char *) tmp, cont);
   if (e != 0) {
-    emsg ("Error %d during loading level", e);
+    emsg ("Error %d occured while loading level %s", e, tmp);
   }
 }
 
@@ -1283,7 +1219,7 @@ load_random_level (char cont)
   }
   e = load_level ((char *) tmp, cont);
   if (e != 0) {
-    emsg (tmp, "Error %d during loading level", e);
+    emsg ("Error %d occured while loading level %s", e, tmp);
   }
 
 }
@@ -4359,8 +4295,8 @@ read_level_list (void)
       level_list_nbr++;
   }
   fseek (f, 0, 0);
-  level_list = malloc (level_list_nbr * 13 * sizeof (char));
-  levelinf = malloc (level_list_nbr);
+  XMALLOC_ARRAY (level_list, level_list_nbr * 13);
+  XMALLOC_ARRAY (levelinf, level_list_nbr);
   while (!feof (f)) {
     char *tmp;
     fgets ((char *) string, 32, f);
@@ -4383,32 +4319,6 @@ read_level_list (void)
   fclose (f);
   dmsg (D_FILE|D_SECTION, "... done");
 }
-
-/*
-static void readlvllstq2(void)
-{ FILE *f;int i=0;
-  char string[32];
-  if ((f=fopen(nivdir"q2.lst","rt"))==NULL) fatal_error("Q2.LST not found");
-  while (!feof(f))
-  {
-   fgets((char*)string,32,f);
-   if (string[0]!=0) levelnbrq2++;
-  }
-  fseek(f,0,0);
-  levellstq2=malloc(levelnbrq2*13);
-  while (!feof(f))
-  {
-   fgets((char*)string,32,f);
-   *strchr((char*)string,0xd)=0;
-   *strchr((char*)string,0xa)=0;
-   string[13]=0;
-   strncpy(levellstq2[i],(char*)&(string[0]),13);
-   i++;
-  }
-  fclose(f);
-}
-*/
-
 
 int
 main (int argc, char *argv[])

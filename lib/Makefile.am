@@ -44,7 +44,8 @@ libheroes_a_SOURCES= \
 error.c \
 fstrcmp.c \
 getshline.c \
-xmalloc.c
+xmalloc.c \
+xstrdup.c
 
 # Additional files to compile, when functions are missing.
 libheroes_a_LIBADD = @LIBOBJS@

@@ -47,7 +47,7 @@ htimer_t
 new_htimer (enum htimer_kind kind, long slice_duration)
 {
   htimer_t result;
-  result = malloc (sizeof (htimer_s));
+  XMALLOC_VAR (result);
   result->kind = kind;
   result->slice_duration = slice_duration;
   reset_htimer (result);
@@ -60,7 +60,7 @@ void
 free_htimer (htimer_t timer)
 {
   dmsg (D_TIMER, "free timer %p", timer);
-  free (timer);
+  XFREE (timer);
 }
 
 void
@@ -134,7 +134,7 @@ read_htimer (htimer_t timer)
     timer->orig_time -= c % d;
   }
 #endif
-  
+
   dmsg (D_TIMER, "read timer %p, return %ld", timer, res);
   return res;
 }
@@ -152,7 +152,7 @@ shift_htimer (htimer_t to_shift, htimer_t amount)
     u += SECOND;
     --s;
   }
-  
+
   /* add this amount from the timer's origin */
   to_shift->orig_time.tv_usec += u;
   to_shift->orig_time.tv_sec += s;

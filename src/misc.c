@@ -40,15 +40,15 @@ strupr (char *in)
 }
 
 char *
-strcat_alloc (const char *fst, const char* snd)
+strcat_alloc (const char *fst, const char *snd)
 {
-  char *res = malloc (strlen (fst) + strlen (snd) + 1);
+  char *res = xmalloc (strlen (fst) + strlen (snd) + 1);
   return res ? strcat (strcpy (res,fst), snd) : NULL;
 }
 
 char *
-strappend (char *fst, const char* snd)
+strappend (char *fst, const char *snd)
 {
-  char *res = realloc (fst, strlen (fst) + strlen (snd) + 1);
+  char *res = xrealloc (fst, strlen (fst) + strlen (snd) + 1);
   return res ? strcat (res, snd) : NULL;
 }

@@ -48,7 +48,7 @@ static struct SAMPLE*
 _load_sfx (char* file)
 {
   struct SAMPLE* tmp;
-  
+
   tmp = Sample_Load (file);
   if (tmp)
     tmp->panning = (PAN_RIGHT + PAN_LEFT) / 2;
@@ -159,11 +159,10 @@ read_sfx_conf (void)
 	return (-1);
       tmpptr = forward_spaces (tmpptr + 1);
       max_sfx = atol (tmpptr);
-
-      sfx_names = calloc (max_sfx, sizeof (filename_t));
-      sfx_loaded = calloc (max_sfx, sizeof (char));
-      sfx_handles = calloc (max_sfx, sizeof (*sfx_handles));
-      play_handles = calloc (max_sfx, sizeof (int));
+      XCALLOC_ARRAY (sfx_names, max_sfx);
+      XCALLOC_ARRAY (sfx_loaded, max_sfx);
+      XCALLOC_ARRAY (sfx_handles, max_sfx);
+      XCALLOC_ARRAY (play_handles, max_sfx);
     } else if (c == 'F') {
       tmpptr = forward_spaces (tmpptr + 1);
       tmpptr2 = strchr (tmpptr, ' ');
@@ -192,15 +191,14 @@ void
 close_sfx_handle (void)
 {
   int i;
-  
+
   if (nosfx)
     return;
   free (play_handles);
   free (sfx_handles);
   free (sfx_loaded);
   for (i = 0; i < max_sfx; ++i)
-    if (sfx_names[i])
-      free (sfx_names[i]);
+    XFREE (sfx_names[i]);
   free (sfx_names);
 }
 
@@ -256,7 +254,7 @@ load_sfx_mode (signed char mode)
 
   switch (mode) {
     /* menus */
-  case -1:			
+  case -1:
     for (i = 1; i < 20; i++)
       mark_sfx (i);
     for (i = 70; i < 80; i++)
@@ -267,24 +265,24 @@ load_sfx_mode (signed char mode)
       mark_sfx (i);
     break;
 
-  /*quest */ 
+  /*quest */
   case 0:
     std_sfx_set ();
     break;
 
-  /*death */ 
+  /*death */
   case 1:
     std_sfx_set ();
     break;
 
-    /*kilem */ 
+    /*kilem */
   case 2:
     for (i = 90; i < 100; i++)
       mark_sfx (i);
     std_sfx_set ();
     break;
 
-  /*tca$h */ 
+  /*tca$h */
   case 3:
     mark_sfx (36);
     mark_sfx (80);
@@ -292,13 +290,13 @@ load_sfx_mode (signed char mode)
     std_sfx_set ();
     break;
 
-  /*color */ 
+  /*color */
   case 4:
     for (i = 100; i < 106; i++)
       mark_sfx (i);
     std_sfx_set ();
     break;
-    
+
   default:
     assert (0 /* unknown sfx-mode */ );
     break;
@@ -326,14 +324,14 @@ event_sfx (int event)
   assert (event_handle[event] < max_sfx);
   if (event_handle[event] != 0) {
     assert (sfx_loaded[event_handle[event]]);
-    if (opt.sfx) 
+    if (opt.sfx)
       _play_sfx (sfx_handles[event_handle[event]]);
   }
 }
 
 #else /* !HAVE_LIBMIKMOD and !HAVE_LIBSDL_MIXER */
 
-char 
+char
 read_sfx_conf (void)
 {
   return 0;

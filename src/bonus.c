@@ -199,14 +199,8 @@ init_bonuses_level (void)
 
   reset_bonus_mode (game_mode);
 
-  tile_bonus = calloc (map_info.xt * map_info.yt, sizeof (*tile_bonus));
-  if (tile_bonus == NULL)
-    return -1;
-
-  tile_bonus_cpu = calloc (map_info.xt * map_info.yt,
-			   sizeof (*tile_bonus_cpu));
-  if (tile_bonus_cpu == NULL)
-    return -1;
+  XCALLOC_ARRAY (tile_bonus, map_info.xt * map_info.yt);
+  XCALLOC_ARRAY (tile_bonus_cpu, map_info.xt * map_info.yt);
 
   bonus_total_nbr = (map_info.xt * map_info.yt / 90) + 3;
   bonus_real_nbr = bonus_total_nbr - 2;
@@ -215,13 +209,8 @@ init_bonuses_level (void)
   dmsg (D_BONUS, "bonus_total_nbr=%d, bonus_real_nbr=%d",
 	bonus_total_nbr, bonus_real_nbr);
 
-  bonus_time = malloc (bonus_total_nbr * sizeof (*bonus_time));
-  if (bonus_time == NULL)
-    return -1;
-
-  bonus_list = malloc (bonus_total_nbr * sizeof (*bonus_list));
-  if (bonus_list == NULL)
-    return -1;
+  XMALLOC_ARRAY (bonus_time, bonus_total_nbr);
+  XMALLOC_ARRAY (bonus_list, bonus_total_nbr);
 
   mark_unreachable_places ();
 
@@ -238,22 +227,10 @@ uninit_bonuses_level (void)
 {
   dmsg (D_BONUS, "Uninitialize bonuses for level.");
 
-  if (tile_bonus) {
-    free (tile_bonus);
-    tile_bonus = 0;
-  }
-  if (tile_bonus_cpu) {
-    free (tile_bonus_cpu);
-    tile_bonus_cpu = 0;
-  }
-  if (bonus_time) {
-    free (bonus_time);
-    bonus_time = 0;
-  }
-  if (bonus_time) {
-    free (bonus_list);
-    bonus_list = 0;
-  }
+  XFREE0 (tile_bonus);
+  XFREE0 (tile_bonus_cpu);
+  XFREE0 (bonus_time);
+  XFREE0 (bonus_list);
 }
 
 void

@@ -85,30 +85,30 @@ init_menus_sprites (void)
 
   /* control menu */
   control_menu_txt = compile_menu_text (txti[90], T_CENTERED|T_WAVING, 5, 159);
-  concat_rleprog (control_menu_txt, 
+  concat_rleprog (control_menu_txt,
 		  compile_menu_text (txti[91], T_FLUSHED_LEFT, 39, 56));
-  concat_rleprog (control_menu_txt, 
+  concat_rleprog (control_menu_txt,
 		  compile_menu_text (txti[92], T_FLUSHED_LEFT, 72, 56));
-  concat_rleprog (control_menu_txt, 
+  concat_rleprog (control_menu_txt,
 		  compile_menu_text (txti[93], T_FLUSHED_LEFT, 111, 56));
-  concat_rleprog (control_menu_txt, 
+  concat_rleprog (control_menu_txt,
 		  compile_menu_text (txti[92], T_FLUSHED_LEFT, 144, 56));
-  concat_rleprog (control_menu_txt, 
+  concat_rleprog (control_menu_txt,
 		  compile_menu_text (txti[94], T_FLUSHED_LEFT, 182, 56));
 
   /* sound menu */
   sound_menu_txt = compile_menu_text (txti[104], T_CENTERED|T_WAVING, 5, 159);
-  concat_rleprog (sound_menu_txt, 
+  concat_rleprog (sound_menu_txt,
 		  compile_menu_text (txti[107], T_FLUSHED_LEFT, 39, 56));
-  concat_rleprog (sound_menu_txt, 
+  concat_rleprog (sound_menu_txt,
 		  compile_menu_text (txti[108], T_FLUSHED_LEFT, 109, 56));
-  concat_rleprog (sound_menu_txt, 
+  concat_rleprog (sound_menu_txt,
 		  compile_menu_text (txti[94], T_FLUSHED_LEFT, 179, 56));
 
   music_vol_txt = compile_menu_text (txti[105], T_FLUSHED_LEFT, 74, 56);
   sfx_vol_txt = compile_menu_text (txti[106], T_FLUSHED_LEFT, 144, 56);
 
-  /* screen menu */  
+  /* screen menu */
   screen_menu_txt = compile_menu_text (txti[109], T_CENTERED|T_WAVING, 5, 159);
   concat_rleprog (screen_menu_txt,
 		  compile_menu_text (txti[110], T_FLUSHED_LEFT, 34, 56));
@@ -139,7 +139,7 @@ init_menus_sprites (void)
 		  compile_menu_text (txti[94], T_FLUSHED_LEFT, 177, 56));
 
   /* keyboard menu */
-  keyboard_menu_txt = 
+  keyboard_menu_txt =
     compile_menu_text (txti[95], T_CENTERED|T_WAVING, 5, 159);
   concat_rleprog (keyboard_menu_txt,
 		  compile_menu_text (txti[94], T_CENTERED, 188, 159));
@@ -263,7 +263,7 @@ chkbox (unsigned int row, unsigned int col, int checked)
 }
 
 static void
-cursor (unsigned int row, unsigned int col, 
+cursor (unsigned int row, unsigned int col,
 	unsigned int value, unsigned int max)
 {
   exec_rleprog (cursor_bg, corner[0] + (row + 2) * xbuf + col);
@@ -335,7 +335,7 @@ control_menu (void)
 {
   int l = 0;
   keycode_t t;
-  
+
   std_white_fadein (&tile_set_img.palette);
   do {
     background_menu ();
@@ -408,7 +408,7 @@ keyboard_menu (void)
     arrows (11 * l + 33 + 15 * (l >= 6) + 4 * (l == 12), 1);
     exec_rleprog (keyboard_menu_txt, corner[0]);
 
-    /* Draw the key name, 
+    /* Draw the key name,
        generate the associated RLE-program if needed. */
     for (i = 0; i < 12; ++i) {
       if (l != reorder[i] || testing == 0) {
@@ -420,10 +420,10 @@ keyboard_menu (void)
 	  if (!keyname) {	/* unknown key? print its code number */
 	    char name[64];
 	    sprintf (name, "(%d)", key);
-	    res = compile_menu_text (name, T_FLUSHED_RIGHT, 
+	    res = compile_menu_text (name, T_FLUSHED_RIGHT,
 				     keyline[reorder[i]], 295);
-	  } else 
-	    res = compile_menu_text (keyname, T_FLUSHED_RIGHT, 
+	  } else
+	    res = compile_menu_text (keyname, T_FLUSHED_RIGHT,
 				     keyline[reorder[i]], 295);
 	  keyboard_keys_txt[i] = res;
 	}
@@ -541,7 +541,7 @@ sound_menu (void)
 	 in the same direction. */
       if ((!opt.music && l == 1) || (!opt.sfx && l == 3))
 	t = move_updown (t, &l, 4);
-      
+
       if (t == HK_Right || t == HK_Left || t == HK_Enter) {
 	if (l != 4) {
 	  if (l & 1)
@@ -781,19 +781,19 @@ extra_menu (void)
   /* We store only the RLE-prog for the displayed level names, as the list
      can be big (hmmm... really?) */
   rleprog_t* levelnames[7] = { 0, 0, 0, 0, 0, 0, 0 };
-  
+
   std_white_fadein (&tile_set_img.palette);
   do {
     background_menu ();
     exec_rleprog (extra_menu_txt, corner[0]);
     exec_rleprog (extra_modes_txt[opt.extras], corner[0]);
-    
+
 
     if (opt.extras == 0)
       exec_rleprog (extra_combine_txt[0], corner[0]);
     else
       exec_rleprog (extra_combine_txt[(extrasel == 0)?1:2], corner[0]);
-    
+
     if (extrasel && opt.extras != 0) {
       hrule (72);
       hrule (169);
@@ -802,7 +802,7 @@ extra_menu (void)
 	  if (!levelnames[3 + i]) {
 	    char lname[FILENAME_SIZE + 1];
 	    strcpy (lname, extra_list[i + ll].level_name);
-	    levelnames[3 + i] = compile_menu_text (lname, T_FLUSHED_RIGHT, 
+	    levelnames[3 + i] = compile_menu_text (lname, T_FLUSHED_RIGHT,
 						   118, 200);
 	  }
 	  /* FIXME: the middle levelname used to be waving.
@@ -843,7 +843,7 @@ extra_menu (void)
 	  } else
 	    l = 3;
 	}
-	if (t == HK_Home || t == HK_End 
+	if (t == HK_Home || t == HK_End
 	    || t == HK_PageUp || t == HK_PageDown) {
 	  int j;
 	  /* Free all levelnames. */
@@ -922,7 +922,7 @@ option_menu (void)
 {
   int l = 0;
   int t;
-  
+
   do {
     std_white_fadein (&tile_set_img.palette);
     do {
@@ -985,7 +985,7 @@ quit_menu (void)
 {
   int l = 0;
   keycode_t t;
-  
+
   std_white_fadein (&tile_set_img.palette);
   do {
     background_menu ();
@@ -1027,7 +1027,7 @@ draw_play_menu (int l)
   draw_text_array[l == 6] (txti[148], 159, 160, 1);
   hrule (177);
   draw_text_array[l == 7] (txti[94], 159, 187, 1);
-  waving_arrows (41 + l * 16 + 5 * (l > 1) - 15 * (l == 0) + 
+  waving_arrows (41 + l * 16 + 5 * (l > 1) - 15 * (l == 0) +
 		 13 * (l == 6) + 23 * (l == 7), 30);
 }
 
@@ -1059,7 +1059,7 @@ load_tile_set_preview (int num, pcx_image_t * ici)
 {
   char *t = get_non_null_rsc_file ("editor-preview-prefix");
   t = strappend (t, tile_sets_names[num]);
-  t = strappend (t, ".pcx"); 
+  t = strappend (t, ".pcx");
   pcx_load (t, ici);
   free (t);
 }
@@ -1116,7 +1116,7 @@ editor_selector (void)
       if (t == HK_PageUp)
 	l = (l > 10) ? (l - 10) : 0;
       if (t == HK_PageDown)
-	l = (((unsigned int) (l + 11) < extra_user_nbr) 
+	l = (((unsigned int) (l + 11) < extra_user_nbr)
 	     ? (l + 10) : (extra_user_nbr - 1));
     } else
       t = 0;
@@ -1290,8 +1290,10 @@ editor_menu (void)
 	  flag = 1;
 	}
 	if (flag) {
-	  char* filename = malloc (strlen (levels_output_dir) + 1
-				   + strlen (lname) + 5);
+	  char *filename;
+
+	  XMALLOC_ARRAY (filename, (strlen (levels_output_dir) + 1
+				    + strlen (lname) + 5));
 	  sprintf(filename, "%s/%s.lvl", levels_output_dir, lname);
 	  tmphdl = fopen (filename, "rb");
 	  if (tmphdl != NULL) {
@@ -1392,7 +1394,7 @@ editor_menu (void)
   img_free (&frmenu);
   img_free (&tilesprev);
   if (l == 6 && t == HK_Enter) {
-    event_sfx (116);    
+    event_sfx (116);
     hmain (lname, tile_sets_names[tiles], xsize, ysize, xwrap, ywrap);
 
     /* update extra-levels list */
@@ -1479,6 +1481,6 @@ draw_saved_games_info (int decal, int l, char h)
     draw_text (saverec[i].name, 159 + decal, 40 + i * 14, 1);
 
   exec_rleprog (left_arrow, corner[0] + decal + (35 + l * 14) * xbuf + 1);
-  exec_rleprog (right_arrow, 
+  exec_rleprog (right_arrow,
 		corner[0] + decal + (35 + l * 14) * xbuf + 320 - 1 - 13);
 }

@@ -47,7 +47,7 @@ set_rsc_file (const char* rsc_name, const char* file_name)
   dmsg (D_RESOURCE, "set resource $(%s)=%s", rsc_name, file_name);
   if (res->modified_value)
     free (res->modified_value);
-  res->modified_value = strdup (file_name);
+  res->modified_value = xstrdup (file_name);
   return 0;
 }
 
@@ -56,9 +56,10 @@ char*
 rsc_expand (char* value)
 {
   int size = strlen (value) + 1;
-  char* result = malloc (size);
+  char* result;
   int dest;
 
+  XMALLOC_ARRAY (result, size);
   for (dest = 0; *value; ++value)
     if (*value != '$' || value[1] != '(')
       result[dest++] = *value;
@@ -85,7 +86,7 @@ rsc_expand (char* value)
 	  char* src;
 
 	  size += strlen (expanded) - (end - value + 3);
-	  result = realloc (result, size);
+	  XREALLOC_ARRAY (result, size);
 	  for (src = expanded; *src;)
 	    result[dest++] = *src++;
 	  free (expanded);
@@ -112,8 +113,8 @@ get_rsc_file (const char* rsc_name)
     return 0;
   res->expanded = 1;
 
-  /* strdup the value, rsc_expand will modify it */
-  tmp = strdup (res->modified_value ? res->modified_value : res->value);
+  /* duplicate the value because rsc_expand will modify it */
+  tmp = xstrdup (res->modified_value ? res->modified_value : res->value);
   dmsg (D_RESOURCE, "get resource $(%s)=%s", rsc_name, tmp);
   result = rsc_expand (tmp);
   dmsg (D_RESOURCE, "expanded resource $(%s)=%s", rsc_name, result);
@@ -128,5 +129,7 @@ get_non_null_rsc_file (const char* rsc_name)
   char* tmp = get_rsc_file (rsc_name);
   if (tmp == 0)
     emsg ("%s: null resource", rsc_name);
+  if (!strcmp(tmp, ""))
+    emsg ("%s: empty resource", rsc_name);
   return tmp;
 }

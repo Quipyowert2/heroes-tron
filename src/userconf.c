@@ -30,7 +30,7 @@
 #include "debugmsg.h"
 #include "errors.h"
 
-int 
+int
 read_userconf (const char* file, const char* argv0)
 {
   FILE* fs;
@@ -38,7 +38,7 @@ read_userconf (const char* file, const char* argv0)
   char* buf = 0;
   size_t bufsize = 0;
 #define MAX_ARGC 10
-  
+
   dmsg (D_SECTION|D_FILE, "reading configuration file: %s ...", file);
 
   fs = fopen (file, "r");
@@ -49,7 +49,7 @@ read_userconf (const char* file, const char* argv0)
     return 0;
   }
 
-  while (getshline_numbered 
+  while (getshline_numbered
 	 (&firstline, &endline, &buf, &bufsize, fs) != -1) {
     int argc;
     char* argv[MAX_ARGC];
@@ -69,8 +69,8 @@ read_userconf (const char* file, const char* argv0)
       {
 	char* pname;
 	int err;
-	pname = malloc (sizeof(char) * (strlen (file) + strlen (argv0) 
-					+ strlen ("::999999") + 1));
+	XMALLOC_ARRAY (pname, (strlen (file) + strlen (argv0)
+			       + strlen ("::999999") + 1));
 	sprintf (pname, "%s:%s:%d", argv0, file, firstline);
 	argv[0] = pname;
 	err = parse_argv (argc, argv);
@@ -83,12 +83,12 @@ read_userconf (const char* file, const char* argv0)
       /* get the variable name */
       argv [1] = strtok (0, " \t\n");
       if (argv[1] == 0) {
-	wmsg ("%s:%d: missing variable name\n", file, firstline);	
+	wmsg ("%s:%d: missing variable name\n", file, firstline);
 	goto non_fatal_error;
       }
       argv[2] = strtok (0, "\n");
       dmsg (D_SYSTEM, "setenv(%s,%s)", argv[1], argv[2]);
-      s = malloc (strlen (argv[1]) + strlen (argv[2]) + 2);
+      XMALLOC_ARRAY (s, strlen (argv[1]) + strlen (argv[2]) + 2);
       sprintf (s, "%s=%s", argv[1], argv[2]);
       putenv (s);
       free (s);
@@ -113,7 +113,7 @@ read_userconf (const char* file, const char* argv0)
     }
   non_fatal_error:
     ;
-  } 
+  }
   free (buf);
   fclose (fs);
   dmsg (D_SECTION|D_FILE, "... finished reading %s.", file);

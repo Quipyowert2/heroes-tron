@@ -60,7 +60,7 @@ char *extra_selected_list = 0;	/* For each level: 1 if selected, 0 if not */
 static void free_extradir_info (extradir_info_t* ei)
 {
   free (ei->filename);
-  free (ei);  
+  free (ei);
 }
 
 /* select only *.lvl files */
@@ -102,20 +102,21 @@ browse_extra_directory (extradir_info_t* edi, level_list_t* ll)
        maybe system wide configured or hard coded in the source;
        it's best to assume this is not an error (this allow the
        addition of extra levels as packages or such).  */
-    if (edi->is_in_user_dir) 
+    if (edi->is_in_user_dir)
       perror (edi->filename);
     dperror ("scandir");
     return;
   }
-    
+
   while ((de = readdir (dir)))
     if (select_file (de)) {
       /* add the file to the list */
-      extra_level_t* tmp = malloc (sizeof (*tmp));
-      char* fn = malloc (strlen (edi->filename) + 1 + 
-			 strlen (de->d_name) + 1);
+      char* fn;
+      NEW (extra_level_t, tmp);
 
-      tmp->level_name = strdup (de->d_name);
+      XMALLOC_ARRAY (fn, (strlen (edi->filename) + 1 +
+			  strlen (de->d_name) + 1));
+      tmp->level_name = xstrdup (de->d_name);
       sprintf (fn, "%s/%s", edi->filename, tmp->level_name);
       tmp->full_name = fn;
       tmp->is_in_user_dir = edi->is_in_user_dir;
@@ -150,22 +151,16 @@ browse_extra_directories (void)
     browse_extra_directory (ed->car, &ll);
     ed = ed->cdr;
   }
-  
+
   /* return if no extra level was found */
   if (!extra_nbr) {
-    if (extra_list) {
-      free (extra_list);
-      extra_list = 0;
-    }
-    if (extra_selected_list) {
-      free (extra_selected_list);
-      extra_selected_list = 0;
-    }
+    XFREE0 (extra_list);
+    XFREE0 (extra_selected_list);
     return;
   }
 
   /* convert the list to an array (BTW, this array is called extra_list :)) */
-  extra_list = realloc (extra_list, extra_nbr * sizeof (*extra_list));
+  XREALLOC_ARRAY (extra_list, extra_nbr);
   for (i = 0, ll_cur = ll; ll_cur; ll_cur = ll_cur->cdr, ++i)
     extra_list[i] = *(ll_cur->car);
   assert (i == extra_nbr);
@@ -178,24 +173,24 @@ browse_extra_directories (void)
 	 (int (*)(const void*,const void*))cmp_extralevels);
 
   /* allocate the selection array */
-  extra_selected_list = realloc (extra_selected_list, extra_nbr);
+  XREALLOC_ARRAY (extra_selected_list, extra_nbr);
   memset (extra_selected_list, 0, extra_nbr);
 }
 
-void 
+void
 add_extra_directory (filename_t fn)
 {
-  extradir_info_t* tmp = malloc (sizeof (*tmp));
-  tmp->filename = strdup (fn);
+  NEW (extradir_info_t, tmp);
+  tmp->filename = xstrdup (fn);
   tmp->is_in_user_dir = 0;
   extradir_push (&edir, tmp);
 }
 
-static void 
+static void
 add_extra_in_user_directory (filename_t fn)
 {
-  extradir_info_t* tmp = malloc (sizeof (*tmp));
-  tmp->filename = strdup (fn);
+  NEW (extradir_info_t, tmp);
+  tmp->filename = xstrdup (fn);
   tmp->is_in_user_dir = 1;
   extradir_push (&edir, tmp);
 }
@@ -230,10 +225,8 @@ free_extra_list (void)
   }
   extra_nbr = 0;
   extra_user_nbr = 0;
-  free (extra_list);
-  extra_list = 0;
-  free (extra_selected_list);
-  extra_selected_list = 0;
+  XFREE0 (extra_list);
+  XFREE0 (extra_selected_list);
 }
 
 void

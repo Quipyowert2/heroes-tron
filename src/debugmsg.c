@@ -86,7 +86,7 @@ dmsg_parse_string (const char* opt)
       debug_level = atol (opt);
     } else {
       /* the option is a string */
-      buf = strdup (opt);
+      buf = xstrdup (opt);
       opt = strtok (buf, " \t:,|&");
       while (opt) {
 	int neg = 0;

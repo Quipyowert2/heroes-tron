@@ -87,7 +87,7 @@ static void fn0 (int, int, int);
 static void speed_mod (int, int, int);
 static void stop_mod (int, int, int);
 
-void (*fnptr[type_nbr]) (int, int, int) = { 
+void (*fnptr[type_nbr]) (int, int, int) = {
   &fn0, &stop_mod, &speed_mod, &tunnel_mod, &stop_mod,
   &anim_mod, &stop_mod, &stop_mod, &fn0};
 
@@ -826,7 +826,7 @@ save_pcx (void)
   pixel_t *dest;
   int sdec[4];
 
-  tempc = malloc (hplaninfo.xt * 20 * 24);
+  XMALLOC_ARRAY (tempc, hplaninfo.xt * 20 * 24);
   sdec[0] = 0;
   sdec[1] = 12;
   sdec[2] = hplaninfo.xt * 24 * 10;
@@ -855,7 +855,7 @@ save_pcx (void)
       if (sprhide == 0) {
 	for (n = 0; n < 4; n++)
 	  if (i1 + j3 == hplaninfo.start[n])
-	    copy_square_transp_pcx (heditrsc.buffer + 
+	    copy_square_transp_pcx (heditrsc.buffer +
 				    (16 + (n << 4)) * 320 + 256 +
 				    (hplaninfo.start_way[n] & 0xf0),
 				    dest + sdec[hplaninfo.start_way[n] & 0xf]);
@@ -941,17 +941,12 @@ planfull (void)
   majg ();
 }
 
-static char
+static void
 outwayinit (void)
 {
-  outwaymap = malloc (hplaninfo.xt * hplaninfo.yt * 4);
-  if (outwaymap == NULL)
-    return (1);
-  if ((hdradar = malloc (hplaninfo.xt * hplaninfo.yt * 4)) == NULL)
-    return (1);
-  if ((hdcolli = malloc (hplaninfo.xt * hplaninfo.yt * 4)) == NULL)
-    return (1);
-  return (0);
+  XMALLOC_ARRAY (outwaymap, hplaninfo.xt * hplaninfo.yt * 4);
+  XMALLOC_ARRAY (hdradar, hplaninfo.xt * hplaninfo.yt * 4);
+  XMALLOC_ARRAY (hdcolli, hplaninfo.xt * hplaninfo.yt * 4);
 }
 
 static void
@@ -1215,7 +1210,7 @@ gestclav (int i, int mod)
   case HK_F1:
 #ifdef PORT			/* help */
     modevga (TEXT);
-    /* spawnl(P_WAIT,"READER.EXE","READER.EXE","HEDLITE.DOC",NULL); */ 
+    /* spawnl(P_WAIT,"READER.EXE","READER.EXE","HEDLITE.DOC",NULL); */
     /* spawnl(P_WAIT,"MEM.EXE",NULL); */
     rmain (2, "txt_cfg\\hedlite_.doc", "hedlite.doc");
     modevga (G320x200x256);
@@ -1730,18 +1725,15 @@ create_levels_output_dir (void)
 void
 free_levels_output_dir (void)
 {
-  if (levels_output_dir) {
-    dmsg (D_MISC, "free levels output dir");
-    free (levels_output_dir);
-    levels_output_dir = 0;
-  }
+  dmsg (D_MISC, "free levels output dir");
+  XFREE0 (levels_output_dir);
 }
 
 /****************************************************************************/
 /****************************************************************************/
 /****************************************************************************/
-int 
-hmain (const char* lname, const char* tset_name, 
+int
+hmain (const char* lname, const char* tset_name,
        u32_t xsize, u32_t ysize, u32_t xwrap, u32_t ywrap)
 {
   int i;
@@ -1778,8 +1770,8 @@ hmain (const char* lname, const char* tset_name,
 
   strcat (strcpy (pcxnom, levelnomshort), ".pcx");
 
-  lvl_name = malloc (strlen (levels_output_dir) + 1 + 
-		     strlen (levelnomshort) + 4 + 1);
+  XMALLOC_ARRAY (lvl_name, (strlen (levels_output_dir) + 1
+			    + strlen (levelnomshort) + 4 + 1));
   sprintf (lvl_name, "%s/%s.lvl", levels_output_dir, levelnomshort);
 
   /* initialize level_map */
@@ -1790,21 +1782,15 @@ hmain (const char* lname, const char* tset_name,
     /* convert hplaninfo to local endianess */
     bswap_level_header (&hplaninfo);
 
-    if ((level_map = malloc (hplaninfo.xt * hplaninfo.yt * sizeof (tile_t)))
-	== NULL)
-      fatalog ("Not enough memory to allocate for level info");
-    if (fread
-	(level_map, sizeof (tile_t), hplaninfo.xt * hplaninfo.yt,
-	 ftmp) != (hplaninfo.xt * hplaninfo.yt))
+    XMALLOC_ARRAY (level_map, hplaninfo.xt * hplaninfo.yt);
+    if (fread (level_map, sizeof (tile_t), hplaninfo.xt * hplaninfo.yt, ftmp)
+	!= (hplaninfo.xt * hplaninfo.yt))
       fatalog ("Invalid level file.");
     fclose (ftmp);
     /* convert level_map to local endianess */
     bswap_level_tiles (&hplaninfo, level_map);
   } else {
-    if ((level_map = malloc (hplaninfo.xt * hplaninfo.yt * sizeof (tile_t)))
-	== NULL)
-      fatalog ("Not enough memory to allocate for level info");
-    memset (level_map, 0, hplaninfo.xt * hplaninfo.yt * sizeof (tile_t));
+    XCALLOC_ARRAY (level_map, hplaninfo.xt * hplaninfo.yt);
     hplaninfo.start[0] = 0;
     hplaninfo.start[1] = 0;
     hplaninfo.start[2] = 0;
@@ -1817,29 +1803,22 @@ hmain (const char* lname, const char* tset_name,
 
   /* fprintf(hlog,"\tUsing %s (PCX,PIE) and %s (XM)\n",hplaninfo.tile_set_name,hplaninfo.soundtrack_name); */
 
-  tile_set_name = strappend (strappend (tile_set_name, 
+  tile_set_name = strappend (strappend (tile_set_name,
 					hplaninfo.tile_set_name), ".pcx");
-  dallepie = strappend (strappend (dallepie, 
+  dallepie = strappend (strappend (dallepie,
 				   hplaninfo.tile_set_name), ".pie");
 
   pcx_load_from_rsc ("editor-img", &heditrsc);
   pcx_load (tile_set_name, &tile_set_img);
 
   /*********** tiles info init  ***********/
-  if ((ddef = malloc ((tile_set_img.width / 24) * 10 * sizeof (tile_t))) ==
-      NULL) fatalog ("Not enough memory to allocate for tiles-info");
-  memset (ddef, 0, (tile_set_img.width / 24) * 10 * sizeof (tile_info_t));
+  XCALLOC_ARRAY (ddef, (tile_set_img.width / 24) * 10);
 
-  /*   for (i=0;i<((tile_set_img.xt/24)*10);i++) ddef[i]=.type=0;ddef[i].type=0 */
   if (!((ftmp = fopen (dallepie, "rb")) == NULL))
     fread (ddef, sizeof (tile_info_t), (tile_set_img.width / 24) * 10, ftmp);
   fclose (ftmp);
   /*************************************/
-  if (outwayinit ()) {
-    free (dallepie);
-    free (tile_set_name);
-    return 1;
-  }
+  outwayinit ();
   memset (screen, 0, 64000);
   set_pal (tile_set_img.palette.global, 0, 256 * 3);
   partiel2 (0, 0, 30, 200, 290, 0, &heditrsc);

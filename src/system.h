@@ -200,6 +200,33 @@ typedef signed char		s8_t;
 
 #include "xalloc.h"
 
+/* Like XFREE, but also zeroes Var */
+#define XFREE0(Var)				\
+  do {						\
+    if (Var) {					\
+      free (Var);				\
+      (Var) = 0;				\
+    }						\
+  } while (0)
+
+#define XCALLOC_ARRAY(Array, N_items) \
+Array = xcalloc (sizeof (*(Array)), (N_items))
+
+#define XMALLOC_ARRAY(Array, N_items) \
+Array = xmalloc (sizeof (*(Array)) * (N_items))
+
+#define XREALLOC_ARRAY(Array, N_items) \
+Array = xrealloc ((Array), sizeof (*(Array)) * (N_items))
+
+#define XMALLOC_VAR(Var) XMALLOC_ARRAY ((Var), 1)
+
+/* Like XMALLOC_ARRAY but also performs a memSet */
+#define XSALLOC_ARRAY(Array, N_items, Val)			\
+  do {								\
+    XMALLOC_ARRAY ((Array), (N_items));				\
+    memset ((Array), (Val), sizeof (*(Array)) * (N_items));	\
+  } while (0)
+
 /* keep this header at the end of the include list, because it may
    define macro to change the declaration of malloc functions */
 #ifdef HAVE_DMALLOC

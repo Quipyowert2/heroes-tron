@@ -47,16 +47,11 @@ init_render_data (void)
 
   dmsg (D_SECTION, "Initialize rendering data");
 
-  bg_data = malloc (max_pos * sizeof (*bg_data));
-  if (!bg_data)
-    emsg ("Not enough memory, cannot allocate bg_data.");
-
-  fg_data = malloc (max_pos * sizeof (*fg_data));
-  if (!fg_data)
-    emsg ("Not enough memory, cannot allocate fg_data.");
+  XMALLOC_ARRAY (bg_data, max_pos);
+  XMALLOC_ARRAY (fg_data, max_pos);
 
   /* initialize background tile information */
-    
+
   for (pos = 0; pos < max_pos; ++pos) {
 
     /* background data */
@@ -68,7 +63,7 @@ init_render_data (void)
       bg_data[pos].anim_speed = level_map[pos].info.anim.speed + 1;
       bg_data[pos].anim_frames = level_map[pos].info.anim.frame_nbr + 1;
     } else if (((level_map[pos].info.param[4] & 0xf0) != 0)
-	       && (level_map[pos].type == t_speed 
+	       && (level_map[pos].type == t_speed
 		   || level_map[pos].type == t_boom
 		   || level_map[pos].type == t_stop
 		   || level_map[pos].type == t_ice
