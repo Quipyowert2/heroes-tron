@@ -1,3 +1,21 @@
+2001-02-11  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Important revamp of the LibGGI display driver to not use
+	the `render_visu' intermediate buffer when crossblitting is
+	unneeded, perform double buffering and locking.
+
+	* src/display.c (screen_rv): Move to ...
+	[HAVE_LIBSDL] (screen_rv): ... here.
+	[HAVE_LIBGGI] (db, current_frame): New variables.
+	[HAVE_LIBGGI] (setup_320x200x8_display, setup_320x200xB_display,
+	setup_WWWxHHHxB_display, get_directbuffers): New functions.
+	[HAVE_LIBGGI] (init_video): Revise, using the above functions.
+	[HAVE_LIBGGI] (set_color, set_pal): Don't set paletter on render_visu
+	when render_visu == NULL.
+	[HAVE_LIBGGI] (vsynchro): Rewrite as a call to vsynchro2.
+	[HAVE_LIBGGI] (vsynchro2): Revise to perform double buffering,
+	locking, and write to visu or render_visu.
+
 2001-02-08  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	From Jos Boersema <joshb@sourceforge.net>.
