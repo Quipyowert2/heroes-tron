@@ -25,6 +25,9 @@
 #include "rsc_files.h"
 #include "vars.h"
 
+bool keep_sgid = false;
+bool keep_suid = false;
+
 static uid_t sys_uid;
 static gid_t sys_gid;
 static uid_t user_uid;
@@ -71,9 +74,14 @@ user_persona (void)
 void
 user_persona_definitively (void)
 {
-  dmsg (D_SYSTEM, "switching to the user persona definitively");
-  setreuid (user_uid, user_uid);
-  setregid (user_gid, user_gid);
+  if (! keep_suid) {
+    dmsg (D_SYSTEM, "switching to the user's USER persona definitively");
+    setreuid (user_uid, user_uid);
+  }
+  if (! keep_sgid) {
+    dmsg (D_SYSTEM, "switching to the user's GROUP persona definitively");
+    setregid (user_gid, user_gid);
+  }
   print_persona ();
 }
 

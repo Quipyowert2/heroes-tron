@@ -30,6 +30,7 @@
 #include "debugmsg.h"
 #include "errors.h"
 #include "vars.h"
+#include "persona.h"
 
 int
 read_userconf (const char* file, bool secure)
@@ -118,8 +119,36 @@ read_userconf (const char* file, bool secure)
 	  if (!strcasecmp (argv[0], "endif"))
 	    break;
 	}
-    } else if (!strcasecmp (argv[0], "endif")){
+    } else if (!strcasecmp (argv[0], "endif")) {
       /* Ignore.  */
+    } else if (!strcasecmp (argv[0], "keepsgid:")) {
+      if (!secure)
+	emsg (_("%s:%d: "
+		"%s: can only be used from the system configuration file"),
+	      file, firstline, "keepsgid");
+      argv[1] = strtok (0, " \t\n");
+      if (!strcasecmp (argv[1], "yes")) {
+	keep_sgid = true;
+      } else if (!strcasecmp (argv[1], "no")) {
+	keep_sgid = false;
+      } else {
+	emsg (_("%s:%d: %s: unknown value: %s"),
+	      file, firstline, "keepsgid", argv[1]);
+      }
+    } else if (!strcasecmp (argv[0], "keepsuid:")) {
+      if (!secure)
+	emsg (_("%s:%d: "
+		"%s: can only be used from the system configuration file"),
+	      file, firstline, "keepsuid");
+      argv[1] = strtok (0, " \t\n");
+      if (!strcasecmp (argv[1], "yes")) {
+	keep_suid = true;
+      } else if (!strcasecmp (argv[1], "no")) {
+	keep_suid = false;
+      } else {
+	emsg (_("%s:%d: %s: unknown value: %s"),
+	      file, firstline, "keepsuid", argv[1]);
+      }
     } else {
       wmsg (_("%s:%d: unknown keyword `%s'"), file, firstline, argv[0]);
       return 1;

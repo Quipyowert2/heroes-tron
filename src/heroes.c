@@ -3259,8 +3259,10 @@ main (int argc, char *argv[])
   } else
     joyinit ();
 
+  sys_persona ();
   if (init_sound_engine ())
     exit (2);
+  user_persona ();
 
   /* We read the SFX configuration only once the sound engine has
      been initialized, because during this initialization we might
@@ -3269,7 +3271,9 @@ main (int argc, char *argv[])
   if (read_sfx_conf ())
     emsg (_("error in sfx.cfg"));
 
+  sys_persona ();
   init_video ();
+  user_persona ();
 
   init_htimer ();
   clock_htimer = new_htimer (T_GLOBAL, HZ (10));

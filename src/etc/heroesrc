@@ -6,10 +6,9 @@
 ## Try to get the sound-tracks filenames from here:
 soundconf: $(data-dir)/mod/sound.conf
 
-## Uncomment the following lines if you want to share
-## a global score file, or global game saves.
-## The path must exists, Heroes is not smart
-## enough to create missing directories.  You will probably also
+## Uncomment the following lines if you want to share a global score
+## file, or global game saves.  The path must exists, Heroes is not
+## smart enough to create missing directories.  You will probably also
 ## want to create the file yourself in order to set the file's
 ## permissions and/or ownership, and maybe given some
 ## additional permissions to the heroes binary.
@@ -22,3 +21,18 @@ soundconf: $(data-dir)/mod/sound.conf
 
 ## $(sys-dir) defaults to /var/games/heroes, is this what you want?
 #setrsc: sys-dir /another/path/heroes
+
+## By default, if Heroes has a sgid-bit or suid-bit, it will drop
+## all privileges once the score and saved games are open.  This
+## happens before the user configuration is read, and therefore before
+## the display and sound are initialized.
+##
+## Sometime you do not want these privileges to be dropped because
+## your setup requires them.  For instance your display driver might
+## require read/write access to /dev/mem, or a similar requirement may
+## exist for the sound library).
+##
+## The commands below allow Heroes to keep the s-bit privileges for
+## its whole life.
+#keepsuid: yes
+#keepsgid: yes

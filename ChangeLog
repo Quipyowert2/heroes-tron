@@ -1,5 +1,17 @@
 2001-07-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/heroes.c (main): Switch to sys_persona() before calling
+	init_sound_engine() and init_video(), and back to user_persona() after.
+	* src/persona.h (keep_sgid, keepsuid): New variables.
+	* src/persona.c (keep_sgid, keepsuid): New variables.
+	(user_persona_definitively): Use them.
+	* src/userconf.c (read_userconf): Handle keepsuid: and keepsgid:.
+	* src/etc/heroesrc (soundconf): Add commented lines for keepsuid and
+	keepsgid.
+	* doc/heroes.texi (heroesrc): Document keepsuid and keepsgid.
+
+2001-07-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Build a man page for heroeslvl.
 
 	* man/Makefile.am (heroeslvl.6): New target.

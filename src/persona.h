@@ -29,6 +29,9 @@
  * difference only if the program has a sgid or suid bit.
  */
 
+bool keep_sgid;			/* Whether we should keep the  */
+bool keep_suid;			/* SGID or SUID priviledge. */
+
 /* Get information about the current persona,
    and switch to the user persona.  */
 void init_persona (void);
