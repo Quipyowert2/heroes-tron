@@ -1211,24 +1211,6 @@ gestclav (int i, int mod)
   char t;
   int j, k;
   switch (i) {
-  case HK_F1:
-#ifdef PORT			/* help */
-    modevga (TEXT);
-    /* spawnl(P_WAIT,"READER.EXE","READER.EXE","HEDLITE.DOC",NULL); */
-    /* spawnl(P_WAIT,"MEM.EXE",NULL); */
-    rmain (2, "txt_cfg\\hedlite_.doc", "hedlite.doc");
-    modevga (G320x200x256);
-    set_pal ((char *) &tile_set_img.palette, 0, 256 * 3);
-    partiel2 (0, 0, 30, 200, 290, 0, &heditrsc);
-    draw_text (levelnomshort, 305, 29, 8, 1);
-    sprintf (nombre, "%u", hplaninfo.xt);
-    draw_text (nombre, 302, 43, 8, 2);
-    sprintf (nombre, "%u", hplaninfo.yt);
-    draw_text (nombre, 307, 43, 8, 0);
-    majd ();
-    majg ();
-#endif
-    break;
   case HK_Home:
     if (mod & HK_MOD_Ctrl) {
       xdalles = 0;

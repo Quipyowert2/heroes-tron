@@ -774,13 +774,6 @@ unload_level (void)
   free (square_wrap);
   free (square_offset2coord);
   if (game_mode == M_KILLEM && !in_menu) {
-#ifdef PORT
-    /* what was the use of this ? */
-    memset (square_lemmings_list, 0,
-	    (map_info_2xt * map_info_2yt) * sizeof (lemming_t *));
-    memset (square_dead_lemmings_list, 0,
-	    (map_info_2xt * map_info_2yt) * sizeof (lemming_t *));
-#endif
     free (square_lemmings_list);
     free (square_dead_lemmings_list);
   }
@@ -3672,13 +3665,8 @@ main (int argc, char *argv[])
   dmsg (D_SYSTEM, "randomize");
   srand (time (0));
 
-#ifdef PORT
-  /* FIXME: */
-  run1st ();
-#endif
-
   read_level_list ();
-/* readlvllstq2(); */
+
   browse_extra_directories ();
   if (reinitopt)
     reinit_options ();
@@ -3705,12 +3693,6 @@ main (int argc, char *argv[])
     opt.ctrl_two = 0;
   } else
     joyinit ();
-
-#ifdef PORT
-  /* FIXME: MOUSE */
-  if (mouseinit () == -1)
-    mouse_found = 1;
-#endif
 
   if (init_sound_engine ())
     exit (2);

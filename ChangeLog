@@ -1,5 +1,12 @@
 2001-01-31  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Remove obsolete code (that was already commented out).
+
+	* src/hedlite.c (gestclav) [PORT]: Remove.
+	* src/heroes.c (unload_level, main) [PORT]: Remove.
+
+2001-01-31  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Handle the middle button if the level editor, fix some compiler
 	warning as well as two bugs.
 
