@@ -605,6 +605,24 @@ draw_level (int p)
 }
 
 
+/* colors used to draw trails on the radar (the indice is the value
+   of the square_occupied array) */
+static const pixel_t radar_trail_color[16] = {
+  111, 127, 143, 159,		/* vehicle head */
+  111, 127, 143, 159,		/* vehicle tail */
+  109, 125, 141, 157,		/* trail */
+  109, 125, 141, 157		/* trail tail */
+};
+
+/* colors use to draw walls on the radar (the indice is the value
+   if the square_wall array) */
+static const pixel_t radar_wall_color[16] = {
+  0, 89, 89, 91,
+  89, 91, 91, 93,
+  89, 91, 91, 93,
+  91, 93, 93, 95
+};
+
 void
 draw_radar_map (int dx, int dy)
 {

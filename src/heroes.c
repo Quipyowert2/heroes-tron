@@ -340,6 +340,20 @@ reinit_player (int i)
 
 }
 
+/* Each tunnel has two input/output squares, indiced 0 and 1.
+   tunnel_square_io[][] is used to build the map of square links as it
+   helps to locate the square used to exit from a tunnel, given the
+   direction of the output tunnel (first index), and the  square
+   input number (second index).
+   For instance, if tile A is a tunnel oriented up, linked to
+   tile B which is a tunnel oriented right, we need to:
+    link  A's square number 'tunnel_square_io[w_up][0]'
+      to  B's square number 'tunnel_square_io[w_right][0]'
+   and link  A's square number 'tunnel_square_io[w_up][1]'
+         to  B's square number 'tunnel_square_io[w_right][1]'
+*/
+int tunnel_square_io[4][2] = { {0, 1}, {1, 3}, {3, 2}, {2, 0} };
+
 static char
 load_level (char *nomlvl, char cont)
 {

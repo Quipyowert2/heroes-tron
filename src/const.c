@@ -35,45 +35,15 @@
 #include "timer.h"
 #include "heroes.h"
 
-/* correspondance entree-output pour les virages de tunnels, je sais plus
-   comment ça marche, mais ça marche... */
-int tunnel_square_io[4][2] = { {0, 1}, {1, 3}, {3, 2}, {2, 0} };
 
-pixel_t radar_trail_color[16] =
-  { 111, 127, 143, 159, 111, 127, 143, 159, 109, 125, 141, 157, 109, 125, 141,
-  157
+/* available round numbers */
+int rounds_nbr_values[16] = {
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20, 30, 50, 100
 };
-pixel_t radar_wall_color[16] =
-  { 0, 89, 89, 91, 89, 91, 91, 93, 89, 91, 91, 93, 91, 93, 93, 95 };
-
-
-/* differentes possibilités pour le nbr de rounds */
-int rounds_nbr_values[16] =
-  { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20, 30, 50, 100 };
 
 int square_offset[4] = { 0, 12, xbuf * 10, xbuf * 10 + 12 };
 
-char mode_name[5][12] = {
-  /* TRANS: in QUEST mode, the player goes throught all the levels, but
-     have to search for specific powerups in order to jump to the next
-     level.  Hence this is a `quest' for those powerups. */
-  N_("QUEST"),
-  /* TRANS: in DEATH MATCH mode, the user has to kill all other players. */
-  N_("DEATH MATCH"),
-  /* TRANS: in KILL'EM ALL mode there are lemmings moving on the ground
-     and the player must run over them all.  You may want to translate
-     `kill' as `run over', `squash', `mash' or something among those
-     lines. */
-  N_("KILL'EM ALL"),
-  /* TRANS: in TIME CA$H mode, the player must collect dollars with
-     restricted time. */
-  N_("TIME CA$H"),
-  /* TRANS: in COLOR mode, the player must collect some colored gems
-     with restricted time. */
-  N_("COLORS")
-};
-
-/* traductions way<->directions */
+/* mapping way <-> direction */
 int d2w[9] = { 0, 0, 1, 1, 2, 2, 2, 2, 3 };
 int w2d[4] = { d_up, d_right, d_down, d_left };
 
@@ -115,21 +85,17 @@ pcx_image_t tile_set_img, font_deck_img;
 signed char minisinus[32];
 bool two_players = false;
 
-/****** JOUEURS ET TRAINEE ******/
 player_t player[4];
 int trail_pos[4][maxq];
 char trail_way[4][maxq];
 int trail_offset[4];
-char trail_size[4];		/* Taille de la trainée MOINS UN */
-/*******************************/
+char trail_size[4];		/* trail size, minus one */
 
-/* correspondance couleur<->player_t */
+/* mapping color <-> player */
 int col2plr[4];
 int plr2col[4];
 
-/****** STOCKAGE DU LEVEL ******/
-
-tile_t *level_map;		/* pointeur sur le level_map du niveau */
+tile_t *level_map;
 
 int last_explo;
 
@@ -152,13 +118,13 @@ lemming_t **square_lemmings_list;
 lemming_t **square_dead_lemmings_list;
 lemming_t lemmings_support[lemmings_total];
 int objects_nbr;
-int square2offset[4] = { 0, 1, 0, 0 };	/* deux dernières valeurs calculées plus tard */
+int square2offset[4] = { 0, 1, 0, 0 };	/* the last two value are computer
+					   one the level is loaded */
 
 int radar_target_pos;
 int radar_current_pos;
 
 int game_mode = 0;
-/* char questmode=0; */
 unsigned char game_magic;
 int camera_center_x = 873813;
 int lemmings_anim_offset;

@@ -28,11 +28,6 @@
 #include "pcx.h"
 #include "structs.h"
 
-extern int tunnel_square_io[4][2];
-
-extern pixel_t radar_trail_color[16];
-extern pixel_t radar_wall_color[16];
-
 extern int rounds_nbr_values[16];
 
 extern int camera_x[2];		/* fixed point 16b,16b */
@@ -64,7 +59,6 @@ extern char demo_ready;
 
 extern int square_offset[4];
 
-extern char mode_name[5][12];
 extern int d2w[9];
 extern int w2d[4];
 
@@ -88,14 +82,12 @@ extern player_t player[4];
 extern int trail_pos[4][maxq];
 extern char trail_way[4][maxq];
 extern int trail_offset[4];
-extern char trail_size[4];	/* Taille de la trainée MOINS UN */
+extern char trail_size[4];	/* size of trails, minus one */
 
 extern int col2plr[4];
 extern int plr2col[4];
 
-/****** STOCKAGE DU LEVEL ******/
-
-extern tile_t *level_map;	/* pointeur sur le level_map du niveau */
+extern tile_t *level_map;
 
 extern int last_explo;
 
@@ -120,7 +112,7 @@ extern lemming_t **square_lemmings_list;
 extern lemming_t **square_dead_lemmings_list;
 extern lemming_t lemmings_support[lemmings_total];
 extern int objects_nbr;
-extern int square2offset[4]; /* deux dernières valeurs calculées plus tard */
+extern int square2offset[4];
 
 extern int radar_target_pos;
 extern int radar_current_pos;

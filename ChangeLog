@@ -1,5 +1,16 @@
 2001-02-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/const.c (tunnel_square_io): Move to ...
+	* src/heroes.c (tunnel_square_io): ... here.
+	* src/const.c (radar_trail_color, radar_wall_color): Move to ...
+	* src/render.c (radar_trail_color, radar_wall_color): ... here.
+	* src/const.c (mode_names): Move to ...
+	* src/menus.c (mode_names): ... here.
+	* src/const.h (tunnel_square_io, radar_trail_color, radar_wall_color,
+	mode_names): Remove.
+
+2001-02-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* TODO: Update.
 
 2001-02-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
