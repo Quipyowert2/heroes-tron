@@ -18,8 +18,8 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-#ifndef HEROES__ENDIAN__H
-#define HEROES__ENDIAN__H
+#ifndef HEROES__BYTESEX__H
+#define HEROES__BYTESEX__H
 
 #ifdef WORDS_BIGENDIAN
 
@@ -34,14 +34,14 @@
 
 #else /* ! linux */
 
-static __inline__ unsigned short int 
-BSWAP16(unsigned short int x) 
+static __inline__ unsigned short int
+BSWAP16(unsigned short int x)
 {
   return (x<<8) | (x>>8);
 }
 
 static __inline__ unsigned long int
-BSWAP32(unsigned long int x) 
+BSWAP32(unsigned long int x)
 {
   return (x<<24) | ((x<<8) & 0x00ff0000) | ((x>>8) & 0x0000ff00) | (x>>24);
 }
@@ -69,4 +69,4 @@ BSWAP32(unsigned long int x)
 
 #endif /* ! BIGENDIAN */
 
-#endif /* HEROES__ENDIAN__H */
+#endif /* HEROES__BYTESEX__H */

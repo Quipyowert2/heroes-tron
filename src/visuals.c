@@ -23,7 +23,7 @@
 #include "display.h"
 #include "fastmem.h"
 #include "visuals.h"
-#include "endian.h"
+#include "bytesex.h"
 #include "timer.h"
 #include "heroes.h"
 

@@ -27,7 +27,7 @@
 #include "display.h"
 #include "rsc_files.h"
 #include "debugmsg.h"
-#include "endian.h"
+#include "bytesex.h"
 #include "fader.h"
 #include "scrtools.h"
 

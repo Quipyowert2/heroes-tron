@@ -26,7 +26,7 @@
 #include "misc.h"
 #include "userdir.h"
 #include "keys_heroes.h"
-#include "endian.h"
+#include "bytesex.h"
 #include "debugmsg.h"
 #include "rsc_files.h"
 

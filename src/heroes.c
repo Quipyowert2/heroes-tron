@@ -48,7 +48,7 @@
 #include "userdir.h"
 #include "userconf.h"
 #include "musicfiles.h"
-#include "endian.h"
+#include "bytesex.h"
 #include "hendian.h"
 #include "rsc_files.h"
 #include "rsc_files_hash.h"

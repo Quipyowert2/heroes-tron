@@ -21,9 +21,9 @@
 #include "system.h"
 #include "structs.h"
 #include "hendian.h"
-#include "endian.h"
+#include "bytesex.h"
 
-void 
+void
 bswap_level_header (level_header_t* level_info)
 {
   level_info->xt = BSWAP32 (level_info->xt);
@@ -36,7 +36,7 @@ bswap_level_header (level_header_t* level_info)
   level_info->start[3] = BSWAP32 (level_info->start[3]);
 }
 
-void 
+void
 bswap_level_tiles (const level_header_t* level_info, tile_t* level_map)
 {
   int i;
@@ -45,7 +45,7 @@ bswap_level_tiles (const level_header_t* level_info, tile_t* level_map)
     level_map[i].number = BSWAP32 (level_map[i].number);
     level_map[i].sprite = BSWAP16 (level_map[i].sprite);
     if (level_map[i].type == t_tunnel)
-      level_map[i].info.tunnel.output = 
+      level_map[i].info.tunnel.output =
 	BSWAP32 (level_map[i].info.tunnel.output);
   }
 }

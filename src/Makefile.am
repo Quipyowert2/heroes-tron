@@ -31,6 +31,7 @@ argv.c \
 argv.h \
 bonus.c \
 bonus.h \
+bytesex.h \
 const.c \
 const.h \
 debughash.c \
@@ -39,7 +40,6 @@ debugmsg.c \
 debugmsg.h \
 display.c \
 display.h \
-endian.h \
 endscroll.c \
 endscroll.h \
 errors.c \

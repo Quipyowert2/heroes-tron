@@ -23,7 +23,7 @@
 #include "scores.h"
 #include "misc.h"
 #include "userdir.h"
-#include "endian.h"
+#include "bytesex.h"
 #include "debugmsg.h"
 #include "rsc_files.h"
 
@@ -94,11 +94,11 @@ write_scores (void)
   unsigned int i;
 
   fs = fopen (scores_file (), "wb");
-  
+
   dmsg (D_FILE, "writing scores to %s", scores_file ());
 
   i = check_scores ();
-  
+
   /* convert from local endianess to little-endian */
   bswap_scores ();
   i = BSWAP32 (i);
@@ -107,7 +107,7 @@ write_scores (void)
   fwrite (highs, sizeof (top_score), 50, fs);
   fwrite ((int *) &i, 4, 1, fs);
   fclose (fs);
-  
+
   /* revert scores endianess */
   bswap_scores ();
 }
@@ -141,7 +141,7 @@ load_scores (void)
   }
 }
 
-void 
+void
 free_scores (void)
 {
   dmsg (D_MISC, "free scores");

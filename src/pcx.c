@@ -22,7 +22,7 @@
 #include "errors.h"
 #include "pcx.h"
 #include "rsc_files.h"
-#include "endian.h"
+#include "bytesex.h"
 #include "debugmsg.h"
 
 static void

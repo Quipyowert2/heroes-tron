@@ -41,7 +41,7 @@
 #include "structs.h"
 #include "misc.h"
 #include "hedlite.h"
-#include "endian.h"
+#include "bytesex.h"
 #include "hendian.h"
 #include "userdir.h"
 #include "rsc_files.h"

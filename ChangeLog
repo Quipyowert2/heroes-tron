@@ -1,5 +1,25 @@
 2000-12-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	`endian.h' is the name of a system file, having the
+	same filename in another -I'ncluded directory cause
+	troubles.  Rename it as bytesex.h.
+
+	* src/endian.h: Move to ...
+	* src/bytesex.h: ... here.
+	* src/Makefile.am (heroes_SOURCES): Rename endian.h as bytesex.h.
+	* src/gfx_reader.h: Adapt inclusion.
+	* src/hedlite.c: Likewise.
+	* src/hendian.c: Likewise.
+	* src/heroes.c: Likewise.
+	* src/menus.c: Likewise.
+	* src/options: Likewise.
+	* src/pcx.c: Likewise.
+	* src/savegame.c: Likewise.
+	* src/scores.c: Likewise.
+	* src/visuals.c: Likewise.
+
+2000-12-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Bump to 0.7b.
 
 2000-12-07  Alexandre Duret-Lutz  <duret_g@epita.fr>

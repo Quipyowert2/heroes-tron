@@ -37,7 +37,7 @@
 #include "keyb.h"
 #include "misc.h"
 #include "rsc_files.h"
-#include "endian.h"
+#include "bytesex.h"
 #include "fader.h"
 #include "scrtools.h"
 #include "sprrle.h"

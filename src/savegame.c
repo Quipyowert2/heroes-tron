@@ -25,7 +25,7 @@
 #include "argv.h"
 #include "misc.h"
 #include "userdir.h"
-#include "endian.h"
+#include "bytesex.h"
 #include "debugmsg.h"
 #include "rsc_files.h"
 
@@ -179,7 +179,7 @@ load_save_records (void)
     }
 }
 
-void 
+void
 free_save_records (void)
 {
   dmsg (D_MISC, "free save records");
