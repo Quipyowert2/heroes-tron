@@ -243,6 +243,12 @@ person = {
 };
 
 person = {
+  name    = "Nicolas Tisserand";
+  email   = tisser_n@lrde.epita.fr;
+  bugs;
+};
+
+person = {
   name    = "Ingo van Lil";
   email   = inguin@gmx.de;
   i18n    = German;

@@ -482,7 +482,7 @@ Latin-1 characters in fonts.
 @item
 @email{duret_g@@epita.fr,Alexandre Duret-Lutz} (French)
 @item
-@email{the_end@@bbs.frc.utn.edu.ar,Ariel Fermani} (Spanish (Argentina))
+@email{the_end@@bbs.frc.utn.edu.ar,Ariel Fermani} (Spanish for Argentina)
 @item
 @email{inguin@@gmx.de,Ingo van Lil} (German)
 @end itemize
