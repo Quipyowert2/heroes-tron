@@ -1,3 +1,8 @@
+2002-10-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* libltdl/ltdl.c, m4/libtool.m4, m4/ltdl.m4: Update
+	from Libtool 1.4.3.
+
 2002-10-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* Makefile.am, src/Makfile.am: Don't EXTRA_DIST included Makefile
