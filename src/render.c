@@ -831,17 +831,6 @@ draw_logo_info (int c, int nbr, pixel_t* dest)
 }
 
 void
-display_buffer_tmp1 (void)
-{
-  const pixel_t* src = render_buffer[1];
-  pixel_t* dest = screen;
-  int i;
-
-  for (i = 200; i > 0; i--, src += xbuf, dest += xbuf)
-    fastmem4 (src, dest, 320 / 4);
-}
-
-void
 display_buffer_moving (int x)
 {
   const pixel_t* src = corner[0];
@@ -855,19 +844,6 @@ display_buffer_moving (int x)
     for (j = (x << 1); j != 0; j--)
       *desti++ = 0;
     fastmem4 (src + 160, dest + 160 + (x << 2), 160 / 4 - x);
-  }
-}
-void
-display_two_buffers (void)
-{
-  const pixel_t* src1 = corner[swapside];
-  const pixel_t* src2 = corner[1 - swapside];
-  pixel_t *dest = screen;
-  int i;
-
-  for (i = 200; i > 0; i--, src1 += xbuf, src2 += xbuf, dest += xbuf) {
-    fastmem4 (src1, dest, 160 / 4);
-    fastmem4 (src2, dest + 160, 160 / 4);
   }
 }
 

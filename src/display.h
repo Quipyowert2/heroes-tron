@@ -41,7 +41,12 @@ void init_video (void);
 void uninit_video (void);
 void set_color (unsigned char c, unsigned char r, unsigned char g,
 		unsigned char b);
+
+/* dump the supplied buffer (assumed xbuf-wide) to the screen */
 void vsynchro (const pixel_t *s);
+/* likewise, but construct the screen from two buffers (used
+   in two player mode). */
+void vsynchro2 (const pixel_t *s1, const pixel_t *s2);
 void set_pal (const unsigned char *ptr, int p, int n);
 
 #endif /* HEROES__DISPLAY__H */

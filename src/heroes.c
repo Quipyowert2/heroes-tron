@@ -2736,8 +2736,7 @@ play_demo (void)
       if (two_players == false) {
 	flush_display (corner[0]);
       } else {
-	display_two_buffers ();
-	vsynch ();
+	flush_display2 (corner[0], corner[1]);
       }
     }
     enable_blit = 1;
@@ -3235,8 +3234,7 @@ play_game (char cont)
       if (two_players == false) {
 	flush_display (corner[0]);
       } else {
-	display_two_buffers ();
-	vsynch ();
+	flush_display2 (corner[0], corner[1]);
       }
     }
     enable_blit = 1;
@@ -3286,8 +3284,7 @@ play_game (char cont)
 	corner[0] = corner[1];
 	draw_end_level_info (swapside ? 0 : -160, l);
 	corner[0] = tmp;
-	display_two_buffers ();
-	vsynch ();
+	flush_display2 (corner[0], corner[1]);
       }
       output_screen ((char) n);
       n = update_all (1);
@@ -3334,8 +3331,7 @@ play_game (char cont)
 	    corner[0] = corner[1];
 	    draw_saved_games_info (swapside ? 0 : -160, l, true);
 	    corner[0] = tmp;
-	    display_two_buffers ();
-	    vsynch ();
+	    flush_display2 (corner[0], corner[1]);
 	  }
 	  output_screen ((char) n);
 	  n = update_all (1);
@@ -3493,8 +3489,7 @@ play_game (char cont)
 	  corner[0] = corner[1];
 	  draw_round_info (swapside ? 0 : -160);
 	  corner[0] = tmp;
-	  vsynch ();
-	  display_two_buffers ();
+	  flush_display2 (corner[0], corner[1]);
 	}
 	if (keyboard_map[HK_Enter] == 0)
 	  flag = 0;

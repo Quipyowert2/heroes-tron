@@ -56,13 +56,12 @@ char video_initialized = 0;	/* has the driver been initialized? */
 /* slow stretching routines */
 
 static void
-stretch_twofold (const pixel_t *s)
+stretch_twofold (const pixel_t *s, pixel_t *d, unsigned width)
 {
-  pixel_t *d = screen_rv;
   int rows_left, columns_left;
 
   for (rows_left = 200; rows_left; --rows_left) {
-    for (columns_left = 320 / 2; columns_left; --columns_left) {
+    for (columns_left = width / 2; columns_left; --columns_left) {
       pixel_t t1, t2;
       t1 = s[0];
       t2 = s[1];
@@ -77,36 +76,34 @@ stretch_twofold (const pixel_t *s)
       s += 2;
       d += 4;
     }
-    d += 2 * (scr_pitch - 320);
-    s += xbuf - 320;
+    d += 2 * (scr_pitch - width);
+    s += xbuf - width;
   }
 }
 
 static void
-stretch_twofold_even (const pixel_t *s)
+stretch_twofold_even (const pixel_t *s, pixel_t *d, unsigned width)
 {
-  pixel_t *d = screen_rv;
   int rows_left, columns_left;
 
   for (rows_left = 200; rows_left; --rows_left) {
-    for (columns_left = 320; columns_left; --columns_left) {
+    for (columns_left = width; columns_left; --columns_left) {
       d[1] = d[0] = *s;
       ++s;
       d += 2;
     }
-    d += 2 * (scr_pitch - 320);
-    s += xbuf - 320;
+    d += 2 * (scr_pitch - width);
+    s += xbuf - width;
   }
 }
 
 static void
-stretch_threefold (const pixel_t* s)
+stretch_threefold (const pixel_t* s, pixel_t *d, unsigned width)
 {
-  pixel_t *d = screen_rv;
   int rows_left, columns_left;
 
   for (rows_left = 200; rows_left; --rows_left) {
-    for (columns_left = 320 / 2; columns_left; --columns_left) {
+    for (columns_left = width / 2; columns_left; --columns_left) {
       pixel_t t1, t2;
       t1 = s[0];
       t2 = s[1];
@@ -131,19 +128,18 @@ stretch_threefold (const pixel_t* s)
       s += 2;
       d += 6;
     }
-    d += 3 * (scr_pitch - 320);
-    s += xbuf - 320;
+    d += 3 * (scr_pitch - width);
+    s += xbuf - width;
   }
 }
 
 static void
-stretch_threefold_even (const pixel_t *s)
+stretch_threefold_even (const pixel_t *s, pixel_t *d, unsigned width)
 {
-  pixel_t *d = screen_rv;
   int rows_left, columns_left;
 
   for (rows_left = 200 / 2; rows_left; --rows_left) {
-    for (columns_left = 320; columns_left; --columns_left) {
+    for (columns_left = width; columns_left; --columns_left) {
       pixel_t t1, t2;
       t1 = s[0];
       t2 = s[xbuf];
@@ -159,20 +155,19 @@ stretch_threefold_even (const pixel_t *s)
       ++s;
       d += 3;
     }
-    d += 3 * (2 * scr_pitch - 320);
-    s += 2 * xbuf - 320;
+    d += 3 * (2 * scr_pitch - width);
+    s += 2 * xbuf - width;
   }
 }
 
 static void
-stretch_fourfold (const pixel_t *s)
+stretch_fourfold (const pixel_t *s, pixel_t *d, unsigned width)
 {
-  pixel_t *d = screen_rv;
   int rows_left, columns_left;
 
   for (rows_left = 200; rows_left; --rows_left) {
     u32_t *d2 = (unsigned int *)d;
-    for (columns_left = 320; columns_left; --columns_left) {
+    for (columns_left = width; columns_left; --columns_left) {
       pixel_t c = *s;
       u32_t i = (c << 24) | (c << 16) | (c << 8) | c;
       d2[0] = i;
@@ -183,19 +178,18 @@ stretch_fourfold (const pixel_t *s)
       ++d2;
     }
     d += 4 * scr_pitch;
-    s += xbuf - 320;
+    s += xbuf - width;
   }
 }
 
 static void
-stretch_fourfold_even (const pixel_t* s)
+stretch_fourfold_even (const pixel_t* s, pixel_t *d, unsigned width)
 {
-  pixel_t *d = screen_rv;
   int rows_left, columns_left;
 
   for (rows_left = 200; rows_left; --rows_left) {
     u32_t *d2 = (unsigned int *)d;
-    for (columns_left = 320; columns_left; --columns_left) {
+    for (columns_left = width; columns_left; --columns_left) {
       pixel_t c = *s;
       u32_t i = (c << 24) | (c << 16) | (c << 8) | c;
       d2[0] = i;
@@ -204,55 +198,53 @@ stretch_fourfold_even (const pixel_t* s)
       ++d2;
     }
     d += 4 * scr_pitch;
-    s += xbuf - 320;
+    s += xbuf - width;
   }
 }
 
 static void
-copy_screen_even (const pixel_t *s)
+copy_screen_even (const pixel_t *s, pixel_t *d, unsigned width)
 {
-  pixel_t *d = screen_rv;
   int i;
   for (i = 200; i; --i, s += xbuf * 2, d += 2 * scr_pitch)
-    fastmem4 (s, d, 320/4);
+    fastmem4 (s, d, width / 4);
 }
 
 static void
-copy_screen (const pixel_t *s)
+copy_screen (const pixel_t *s, pixel_t *d, unsigned width)
 {
-  pixel_t *d = screen_rv;
   int i;
   for (i = 200; i; --i, s += xbuf, d += scr_pitch)
-    fastmem4 (s, d, 320/4);
+    fastmem4 (s, d, width / 4);
 }
 
 /* Copy the rendered display (s) to the visual (screen_rv).  This
    may require stretching, if the user asked for.  */
 static void
-copy_display (const pixel_t *s)
+copy_display (const pixel_t *s, pixel_t *d, unsigned width)
 {
   /* the result of stretching routines is written directly
      to the video memory */
   if (stretch == 2) {
     if (even_lines)
-      stretch_twofold_even (s);
+      stretch_twofold_even (s, d, width);
     else
-      stretch_twofold (s);
+      stretch_twofold (s, d, width);
   } else if (stretch == 3) {
     if (even_lines)
-      stretch_threefold_even (s);
+      stretch_threefold_even (s, d, width);
     else
-      stretch_threefold (s);
+      stretch_threefold (s, d, width);
   } else if (stretch == 4) {
     if (even_lines)
-      stretch_fourfold_even (s);
+      stretch_fourfold_even (s, d, width);
     else
-      stretch_fourfold (s);
+      stretch_fourfold (s, d, width);
   } else {			/* stretch == 1 */
     if (even_lines)
-      copy_screen_even (s);
+      copy_screen_even (s, d, width);
     else
-      copy_screen (s);
+      copy_screen (s, d, width);
   }
 }
 
@@ -405,7 +397,18 @@ set_pal (const unsigned char *ptr, int p, int n)
 void
 vsynchro (const pixel_t *s)
 {
-  copy_display (s);
+  copy_display (s, screen_rv, 320);
+  ggiCrossBlit (render_visu, 0, 0, scr_w, scr_h, visu,
+		(vid_mode.visible.x - scr_w)/2,
+		(vid_mode.visible.y - scr_h)/2);
+  ggiFlush (visu);
+}
+
+void
+vsynchro2 (const pixel_t *s1, const pixel_t *s2)
+{
+  copy_display (s1, screen_rv, 160);
+  copy_display (s2, screen_rv + 160 * stretch, 160);
   ggiCrossBlit (render_visu, 0, 0, scr_w, scr_h, visu,
 		(vid_mode.visible.x - scr_w)/2,
 		(vid_mode.visible.y - scr_h)/2);
@@ -542,12 +545,29 @@ vsynchro (const pixel_t *s)
     SDL_LockSurface (visu);
 
   screen_rv = visu->pixels;
-  copy_display (s);
+  copy_display (s, screen_rv, 320);
 
   if (SDL_MUSTLOCK (visu))
     SDL_UnlockSurface (visu);
 
   SDL_Flip (visu);		/* can change visu->pixels */
 }
+
+void
+vsynchro2 (const pixel_t *s1, const pixel_t *s2)
+{
+  if (SDL_MUSTLOCK (visu))
+    SDL_LockSurface (visu);
+
+  screen_rv = visu->pixels;
+  copy_display (s1, screen_rv, 160);
+  copy_display (s2, screen_rv + 160 * stretch, 160);
+
+  if (SDL_MUSTLOCK (visu))
+    SDL_UnlockSurface (visu);
+
+  SDL_Flip (visu);		/* can change visu->pixels */
+}
+
 
 #endif /* HAVE_LIBSDL */

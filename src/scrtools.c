@@ -26,6 +26,7 @@
 #include "options.h"
 #include "const.h"
 #include "fastmem.h"
+#include "argv.h"
 
 /* FIXME: perform gamma correction here */
 void
@@ -59,6 +60,18 @@ flush_display (const pixel_t *src)
   update_htimers ();
 }
 
+void
+flush_display2 (const pixel_t *src1, const pixel_t *src2)
+{
+  run_fader ();
+  if (swapside)
+    vsynchro2 (src2, src1);
+  else
+    vsynchro2 (src1, src2);
+  update_htimers ();
+}
+
+/* FIXME: remove */
 void
 vsynch (void)
 {
