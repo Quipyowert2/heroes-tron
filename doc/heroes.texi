@@ -8,7 +8,7 @@
 @include version.texi
 
 @ifinfo
-This file documents Heroes, a nibble clone, just better.
+This file documents Heroes, a Nibbles clone, just better.
 
 Copyright 2000 Alexandre Duret-Lutz
 
@@ -45,7 +45,7 @@ translation approved by the Free Software Foundation.
 
 @titlepage
 @title Heroes Manual
-@subtitle A nibble clone, just better
+@subtitle A Nibbles clone, just better
 @author Alexandre Duret-Lutz
 
 @c  The following two commands
@@ -77,7 +77,7 @@ translation approved by the Free Software Foundation.
 @node Top, Copying, (dir), (dir)
 
 @ifinfo
-This document describes Heroes, a nibble clone, just better.
+This document describes Heroes, a Nibbles clone, just better.
 
 This document applies to Heroes version @value{VERSION}.
 @end ifinfo
@@ -166,7 +166,8 @@ General Public Licenses that accompany it.
 @comment node-name,     next,           previous, up
 @chapter Overview of Heroes
 @cindex  overview
-@cindex  nibble
+@cindex  nibbles
+@cindex  tron
 Heroes is a game inspired from Nibbles (or Tron), but with a lot of
 enhancements.
 
@@ -184,7 +185,7 @@ or Time Cash you must collect money or pyramids of color.
 
 It features 12 original soundtracks, 94 levels (in 10 different
 tilesets) plus a level editor.  There are five game modes like Quest
-(the classical nibbles), or Kill'em all (run over lemmings).
+(the classical Nibbles), or Kill'em all (run over lemmings).
 
 Heroes was a DOS game and this is the Linux port.  Presently, the port
 is complete, but it needs cleaning.
@@ -211,8 +212,8 @@ This page has been designed by Romuald Genevois
 @email{rgenevois@@besancon.net}.  See also the project home page on
 SourceForge: @uref{http://sourceforge.net/projects/heroes/}.
 
-The latest version of Heroes is always uploaded to
-@uref{ftp://download.sourceforge.net/pub/sourceforge/heroes/} and
+The latest version of Heroes is always uploaded to@*
+@uref{ftp://download.sourceforge.net/pub/sourceforge/heroes/} and@*
 @uref{http://www.epita.fr/~duret_g/heroes/linux/}, the former site being
 faster.  
 
@@ -221,7 +222,7 @@ see @uref{http://metalab.unc.edu/pub/linux/MIRRORS.html,the MetaLab
 mirror list} to find your nearest mirror. You will have to wait three or
 four days to have files available on MetaLab after a release.
 
-A public CVS server is accessible.  See
+A public CVS server is accessible.  See@*
 @uref{ftp://download.sourceforge.net/pub/sourceforge/heroes/,this page}
 for details.
 
@@ -315,27 +316,27 @@ augment a lot the size of the archive.
 
 @itemize @bullet
 @item
-Romuald Genevois (Guen) @email{rgenevois@@besancon.net}
-  @uref{http://www.realtech.scene.org/romualdgenevois}
+Romuald Genevois (Guen) @email{rgenevois@@besancon.net}@*
+@uref{http://www.realtech.scene.org/romualdgenevois}
 
 Had the idea of that game, designed most of it, 
 drew the graphisms, created most of the levels.
 
 @item
-Alexandre Liverneaux (Alexel) @email{alex.livernaux@@wanadoo.fr}
-  @uref{http://alexel.planet-d.net/}
+Alexandre Liverneaux (Alexel) @email{alex.livernaux@@wanadoo.fr}@*
+@uref{http://alexel.planet-d.net/}
 
 Composed the soundtracks.
 
 @item
-Philippe Meisburger (Tnk) @email{philmeis@@mail.dotcom.fr}
-  @uref{http://perso.club-internet.fr/philmeis/}
+Philippe Meisburger (Tnk) @email{philmeis@@mail.dotcom.fr}@*
+@uref{http://perso.club-internet.fr/philmeis/}
 
 Composed the soundtracks and created a few levels.
 
 @item
-Alexandre Duret-Lutz (Pollux) @email{duret_g@@epita.fr}
-  @uref{http://www.epita.fr/~duret_g/}
+Alexandre Duret-Lutz (Pollux) @email{duret_g@@epita.fr}@*
+@uref{http://www.epita.fr/~duret_g/}
 
 Wrote the original source code, ported it to Linux 
 and created a few levels.
@@ -816,7 +817,8 @@ To give one full example, imagine you want to hear
 the second world (desert and pyramids).  What you do is this
 @example
 % cd ~/.heroes
-% echo "HEROES02:/music/2nd-reality.s3m:Second Reality:Purple Motion" > mymod
+% echo "HEROES02:/music/2nd-reality.s3m:\
+Second Reality:Purple Motion" > mymod
 % echo "soundconf: /home/adl/.heroes/mymod" >> heroesrc
 @end example
 
@@ -886,14 +888,14 @@ Toggle collide tests display.
 @item @key{ESC}
 Quit and save.
 
-@item Ctrl-@key{Left}
-@itemx Ctrl-@key{Right}
-@itemx Ctrl-@key{Up}
-@itemx Ctrl-@key{Down}
-@itemx Ctrl-@key{PageUp}
-@itemx Ctrl-@key{PageDown}
-@itemx Ctrl-@key{Home}
-@itemx Ctrl-@key{End}
+@item @key{Ctrl}-@key{Left}
+@itemx @key{Ctrl}-@key{Right}
+@itemx @key{Ctrl}-@key{Up}
+@itemx @key{Ctrl}-@key{Down}
+@itemx @key{Ctrl}-@key{PageUp}
+@itemx @key{Ctrl}-@key{PageDown}
+@itemx @key{Ctrl}-@key{Home}
+@itemx @key{Ctrl}-@key{End}
 Move the cursor in the tiles side.
 
 @item @key{Left}
@@ -905,31 +907,31 @@ Move the cursor in the level side.
 @item @key{SPC}
 Copy a tile.
 
-@item d
+@item @key{d}
 Setup starting positions on the selected tile.
 
-@item Ctrl-f
+@item @key{Ctrl}-@key{f}
 Fill the whole level with the selected tile.
 
-@item Meta-f
-@itemx Alt-f
+@item @key{Meta}-@key{f}
+@itemx @key{Alt}-@key{f}
 Fill the whole level with the two first tiles (for the 10th set of tiles).
 
-@item p
+@item @key{p}
 Output the level map as a big @file{pcx} file.  The file is saved in the
 current directory, and the file name is made by appending @samp{.pcx} to
 the level name.
 
-@item s
+@item @key{s}
 Copy a sprite, or remove a sprite.
 
-@item t
+@item @key{t}
 Select the tile for tunnel destination.
 
 @item @key{RET}
 View the level map in full screen.
 
-@item Ctrl-@key{RET}
+@item @key{Ctrl}-@key{RET}
 Play animations.
 
 @end table
@@ -956,15 +958,15 @@ tile, in a way it behaves like the space key.
 @cindex  tunnels
 
 Copy your two tiles that are the entrances of your tunnel.  Move the
-box-pointer on one, and select it if the @kbd{t} key (or clic on it with
-the middle button).  Once you will move the pointer, this tile will
-appear in a dashed box.  Move on the second tunnel and clic on the
+box-pointer on one, and select it if the @kbd{@key{t}} key (or clic on
+it with the middle button).  Once you will move the pointer, this tile
+will appear in a dashed box.  Move on the second tunnel and clic on the
 @samp{[GO TO]} box that is on the right of your screen.  Now you have
 set up the first way: for now if your were playing on this level you
 could go from this place to the dashed one, but from the dashed to this
 one.  So you also have to set up the tunnel in the other way: select the
-current tiles with @kbd{T}, move on the former and clic on @samp{[GO
-TO]}. That's all.
+current tiles with @kbd{@key{t}}, move on the former and clic on
+@samp{[GO TO]}. That's all.
 
 Notice that with this technique you can also typeset some kind of
 triangular tunnel. Let @samp{A}, @samp{B}, @samp{C} be the entrances,
@@ -982,13 +984,13 @@ way.  That's why you can't put a tunnel on the @samp{0x0} position.
 
 With some set of tiles (like the Egyptian one), there are tiles (like
 palm trees) designed to be used as `sprites', i.e. put over others with
-transparancy. You have to use the @kbd{s} key for this:
+transparancy. You have to use the @kbd{@key{s}} key for this:
 
 @itemize @bullet
 @item
 copy the ground tile with @kbd{@key{SPC}} or the first button
 @item
-copy the sprite tile with @kbd{s} (and if you don't see any sprite on
+copy the sprite tile with @kbd{@key{s}} (and if you don't see any sprite on
 the level, press @kbd{@key{F3}}).
 @end itemize
 
@@ -1003,7 +1005,7 @@ color cycle (like the speed arrows) or moving objects (ventilators).
 Each frame of an animation is actually a separate tile.  The different
 tiles of an animations are drawn horizontaly in the sets.  To setup an
 animation, you just have to select the first one and copy it into your
-level.  Optionnaly, press @kbd{Ctrl-@key{RET}} to see the animation.
+level.  Optionnaly, press @kbd{@key{Ctrl}-@key{RET}} to see the animation.
 When the orange box is on an animated tile, you should find a button on
 the right to modify the speed: the greater the number is, the slower the
 animation goes.
@@ -1014,9 +1016,9 @@ animation goes.
 @subsection Departures
 @cindex  departures
 
-Select a tile and press the @kbd{d} key. Then look at the right side,
-select a color and clic on the arrow you want (if you don't see any
-vehicle on the level, press @kbd{@key{F3}}).
+Select a tile and press the @kbd{@key{d}} key. Then look at the right
+side, select a color and clic on the arrow you want (if you don't see
+any vehicle on the level, press @kbd{@key{F3}}).
 
 
 @node    Troubleshooting,  , Level editor, Running
@@ -1100,8 +1102,8 @@ to type them every time you run the game.
 @cindex MikMod and Alsa
 
 If you are using Alsa 0.5.x drivers@footnote{Alsa is a project to
-improve the Linux sound subsystem (See
-@uref{http://www.alsa-project.org/,the Alsa page} for details).} Heroes
+improve the Linux sound subsystem@*
+(See @uref{http://www.alsa-project.org/,the Alsa page} for details).} Heroes
 is likely to crash during it's startup.  This is because the current
 version of LibMikMod (3.1.9 at the time of writing) lacks support for
 Alsa 0.5.
@@ -1126,3 +1128,5 @@ for any application.
 @printindex cp
 
 @contents
+@bye
+

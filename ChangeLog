@@ -1,3 +1,9 @@
+2000-07-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* doc/heroes.texi: Write Nibbles with an s in more places.
+	Allow heroes.texi to produce dvi files.  Insert line breaks
+	in some places. Markup all keys with @keys{}.
+
 2000-07-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/musicfiles.c (dirname): New.

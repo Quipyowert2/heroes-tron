@@ -3,3 +3,15 @@ Makefile.in
 version.texi
 stamp-vti
 heroes.info
+heroes.log
+heroes.dvi
+heroes.aux
+heroes.cp
+heroes.fn
+heroes.vr
+heroes.tp
+heroes.ky
+heroes.pg
+heroes.toc
+heroes.cps
+heroes.vrs
