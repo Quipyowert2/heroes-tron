@@ -1,5 +1,9 @@
 2001-08-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/sys/Makefile.inc (EXTRA_DIST): Add main.h.
+
+2001-08-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* TODO: Update.
 	* ANNOUNCE: Prepare for 0.13.
 

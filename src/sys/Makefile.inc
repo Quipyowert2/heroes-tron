@@ -27,6 +27,9 @@ EXTRA_LIBRARIES += \
   sys/libhsdlm.a \
   sys/libhallm.a
 
+EXTRA_DIST += \
+  sys/main.h
+
 sys_libhstdm_a_SOURCES = \
   sys/std/main.c
 
