@@ -432,9 +432,6 @@ load_level (char *filename, char cont)
     XMALLOC_ARRAY (square_object, lvl.square_count);
   }
 
-  square2offset[2] = lvl.square_width;
-  square2offset[3] = lvl.square_width + 1;
-
   /* Init square_coord, map offsets to coordinates.   */
   for (j = 0; j < lvl.square_height; j++)
     for (i = 0; i < lvl.square_width; i++) {

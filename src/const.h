@@ -79,7 +79,6 @@ extern lemming_t **square_lemmings_list;
 extern lemming_t **square_dead_lemmings_list;
 extern lemming_t lemmings_support[lemmings_total];
 extern int objects_nbr;
-extern int square2offset[4];
 
 extern int radar_target_pos;
 extern int radar_current_pos;
@@ -90,7 +89,5 @@ extern gameid_t game_id;
 extern int camera_center_x;
 extern int lemmings_anim_offset;
 extern int lemmings_move_offset;
-
-extern char invincible[4];
 
 #endif /* HEROES__CONST__H */

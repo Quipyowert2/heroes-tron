@@ -1,3 +1,11 @@
+2001-07-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/const.h (square2offset, invincible): Delete.
+	* src/const.c (square2offset): Delete.
+	(invincible): Move to ...
+	* src/render.c (invincible): ... here.
+	* src/heroes.c (load_level): Don't initialize square2offset.
+
 2001-07-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	A report from William Black <psychopheles@users.sourceforge.net>

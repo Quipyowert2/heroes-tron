@@ -41,6 +41,12 @@
 char tutor = 0;
 static sprite_t *clock_anim;
 
+static bool invincible[4];	/* When a cell is true, the corresponding
+				   player is highlighted.  This happens
+				   pariodically when the player is
+				   invincible (blinking). */
+
+
 static void
 copy_tile (const pixel_t* src, pixel_t* dest, int tx)
 {

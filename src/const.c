@@ -81,8 +81,6 @@ lemming_t **square_lemmings_list;
 lemming_t **square_dead_lemmings_list;
 lemming_t lemmings_support[lemmings_total];
 int objects_nbr;
-int square2offset[4] = { 0, 1, 0, 0 };	/* the last two value are computer
-					   one the level is loaded */
 
 int radar_target_pos;
 int radar_current_pos;
@@ -92,8 +90,6 @@ gameid_t game_id;
 int camera_center_x = 873813;
 int lemmings_anim_offset;
 int lemmings_move_offset;
-
-char invincible[4];
 
 char demo_ready = 0;
 
