@@ -1,5 +1,14 @@
 2001-05-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.in: Move to ...
+	* configure.ac: ... here.  Make it dependent on autoconf 2.50.
+	* tools/autogen.sh: Be configure.ac aware.
+	* tools/upgettext.sh: Likewise.
+	* HACKING: s/configure.in/configure.ac/.
+	* man/Makefile.am (heroes.6): Likewise.
+
+2001-05-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* arch/Makefile.am: Remove the commented rules to please automake
 	1.4f (which bugs on trailing backslashes in comments).  After all
 	we can get the old rules back from CVS.

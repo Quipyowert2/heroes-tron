@@ -49,11 +49,13 @@ while test $# -gt 0 ; do
   esac
 done
 
-test -f configure.in || die "Cannot find configure.in in current directory."
+test -f configure.ac || test -f configure.in ||
+  die "Cannot find configure.in in current directory."
 
 # install gettext by copying files to patch them
+saferun touch configure.in # gettextize 0.10.37 doesn't yet know configure.ac
 saferun gettextize --force --copy
-saferun rm -f po/ChangeLog
+saferun rm -f po/ChangeLog configure.in
 
 for i in misc/*-intl.patch misc/*-po.patch ; do
   patch -f -p0 < $i

@@ -53,7 +53,8 @@ while test $# -gt 0 ; do
   esac
 done
 
-test -f configure.in || die "Cannot find configure.in in current directory."
+test -f configure.ac || test -f configure.in ||
+  die "Cannot find configure.in in current directory."
 
 if test -f Makefile.am; then
   # use the same aclocal flags as in Makefile.am, if specified

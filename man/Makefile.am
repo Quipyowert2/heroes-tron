@@ -20,7 +20,7 @@ man_MANS = heroes.6
 EXTRA_DIST = $(man_MANS)
 MAINTAINERCLEANFILES = heroes.6
 
-heroes.6 : $(srcdir)/../src/argv.c $(top_srcdir)/configure.in
+heroes.6 : $(srcdir)/../src/argv.c $(top_srcdir)/configure.ac
 	@if test -f $(top_builddir)/src/heroes; then \
 	  echo "Updating man page heroes.6"; \
 	  $(HELP2MAN) -n 'a game like Nibbles or Tron, just better' \
