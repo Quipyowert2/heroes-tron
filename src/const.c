@@ -45,9 +45,6 @@ char in_demo = 0;
 /* int error; */
 char in_jokebox;
 
-char kbjoy[6] = { 0, 0, 0, 0, 0, 0 };
-char kbjoyold[6] = { 0, 0, 0, 0, 0, 0 };
-
 a_pixel *(render_buffer[2]);		/* xbuf * ybuf */
 
 a_pixel glenz[8][256];		/* glenz lines */
@@ -64,6 +61,15 @@ a_level_state state;
 
 a_gameid game_id;
 char demo_ready = 0;
+
+/*
+ * An array of joystick buttons.  KBJOYOLD is the previous state.
+ * Button N has been pressed is KBJOY[N] && !KBJOYOLD[N].  Initially
+ * we assume that old buttons are down, so any button down before the
+ * first call to get_key_or_joy() is ignored.
+ */
+static bool kbjoy[6] = { true, true, true, true, true, true };
+static bool kbjoyold[6];
 
 char
 key_or_joy_ready (void)
@@ -129,6 +135,16 @@ get_key_or_joy (void)
     return (HK_Escape);
   printf ("get_key_or_joy(): no event.");
   return (0);
+}
+
+void
+key_or_joy_reset (void)
+{
+  /* Assume that all joystick buttons were down, so that
+     get_key_or_joy will not detect buttons that are already down.  */
+  int i;
+  for (i = 0; i < 6; i++)
+    kbjoy[i] = true;
 }
 
 void

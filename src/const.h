@@ -36,9 +36,8 @@ extern a_pixel *(render_buffer[2]);	/* xbuf * ybuf */
 
 char key_or_joy_ready (void);
 a_keycode get_key_or_joy (void);
+void key_or_joy_reset (void);
 
-extern char kbjoy[6];
-extern char kbjoyold[6];
 extern char in_jokebox;
 extern char in_menu;
 extern char in_demo;

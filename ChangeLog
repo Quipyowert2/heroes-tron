@@ -1,3 +1,13 @@
+2002-06-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/const.c (kbjoy, kbjoyold): Redefine as static bool[].
+	(key_or_joy_reset): New function.
+	* src/const.h (kbjoy, kbjoyold): Don't export.
+	(key_or_joy_reset): New function.
+	* src/menus.c (quit_yes_no): Don't wait for joystick buttons to go up.
+	(pause_menu, quit_yes_no): Call key_or_joy_reset.
+	* src/heroes.c (play_demo, play_game): Likewise.
+
 2002-05-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* doc/heroes-api.texi (Explosions): New node.
