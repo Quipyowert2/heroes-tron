@@ -1,5 +1,18 @@
-In short
-========
+Summary
+*******
+
+  * Overview of Heroes
+    - License
+    - Getting Heroes
+    - Reporting bugs, sending suggestions or contribution
+
+  * Installation of Heroes
+    - Needed Libraries
+    - configure generic instructions
+    - configure options for Heroes
+
+Overview of Heroes
+******************
 
    Heroes is similar to the "Tron" and "Nibbles" games of yore, but
 includes many graphical improvements and new game features.
@@ -71,20 +84,25 @@ don't evolve as often as the code does.
    A public CVS server is accessible.  See
 `http://sourceforge.net/cvs/?group_id=7982' for details.
 
+Reporting bugs, sending suggestions or contribution
+===================================================
+
+   We welcome bug reports or suggestions for Heroes (both program or
+documentation).  Please email them to <heroes-bugs@lists.sourceforge.net>
+or <heroes-discuss@lists.sourceforge.net>.  Please, see the Texinfo 
+documentation of Heroes for guidelines regarding bug reporting.
+
+
+Installation of Heroes
+**********************
+
 Needed Libraries
 ================
 
    Heroes can be configured to use several libraries to handle display,
-sound output and joystick support.
-
-   Here is a list of supported libraries (hopefully you won't have to
-install all of them but just a subset).
-
-   * LibMikMod is the only sound engine supported. You don't need it if
-     you want to compile Heroes without sound support.  Get it from
-     `http://mikmod.darkorb.net/'.  If you install LibMikMod from
-     sources you may want to compile LibMikMod without Alsa support
-     (*note Troubleshooting::).
+sound output and joystick support.  Following is a list of supported
+libraries (hopefully you won't have to install all of them but just a
+subset).
 
    * LibGGI (General Graphic Interface) can be used as a display and
      keyboard driver. Get it from `http://www.ggi-project.org/'.
@@ -92,17 +110,30 @@ install all of them but just a subset).
    * LibGII (General Input Interface) will provide joystick support
      (the game can be compiled without).  Get it from
      `http://www.ggi-project.org/'.  It is needed by LibGGI, by the way.
+
    * SDL can be used as a display and keyboard driver.  Recent revision
      will also provide support for joysticks.  Get it from
-     `http://www.devolution.com/~slouken/SDL/'.
+     `http://www.libsdl.org/'.
+
+   * LibMikMod is a sound engine. You don't need it if you want to
+     compile Heroes without sound support.  Get it from
+     `http://mikmod.darkorb.net/'.  If you install LibMikMod from
+     sources you may want to compile LibMikMod without Alsa support.
+
+   * SDL_Mixer is an alternate sound engine that can be used only if
+     you use SDL as display driver. You don't need it if you want to
+     compile Heroes without sound support.  Get it from
+     `http://www.devolution.com/~slouken/SDL/projects/SDL_mixer/'.
+
 
    To summarize, install at least LibGGI or SDL to get video output and
-keyboard handling.  Install LibMikMod if you want sound output.  Install
-LibGII to get joystick support, unless you have a recent SDL.
+keyboard handling.  Install LibGII to get joystick support, unless you
+have a recent SDL.  And install LibMikMod (or SDL_mixer if you have SDL)
+you want sound output.
 
-   My personal preference goes to LibGGI which seems to be faster than
-SDL.  On the other hand, SDL seems better at doing full screen display
-and is maintained actively.
+   My personal preference goes to LibGGI/LibGII and LibMikMod which give
+you more control over the driver used.  On the other hand, SDL seems
+better at doing full screen display and is maintained actively.
 
    Heroes also support memory debugging library, such as `dmalloc' or
 `efence'.  See the `--enable-mem-debug' option below.
@@ -115,8 +146,9 @@ configure generic instructions
 configure options for Heroes
 ============================
 
-   You may give several options to `configure' to configure the
-building of Heroes.
+   `configure' will do its best to find the library and functions
+needed by the game.  Still, you may give several options to `configure'
+help it, or to configure special features of Heroes.
 
 `--disable-sound'
      Do not link with LibMikMod, thus compiling Heroes without sound
@@ -142,8 +174,16 @@ building of Heroes.
      you installed LibGGI in some non-standard place, you can specify
      the installation path as an argument
 
-`--with-libmikmod-prefix[=DIR]'
-     Specify where LibMikMod is installed.
+`--with-libmikmod[=DIR]'
+     Link with LibMikMod.  This is the default if LibMikMod is installed
+     and LibGGI have been selected.  You may specify where LibMikMod is
+     installed using the optionnal argument.
+
+`--with-sdl_mixer[=DIR]'
+     Link with SDL_mixer (note the underscore in the option name).
+     This is the default if SDL_mixer is installed and SDL have been
+     selected.  You may specify where SDL_mixer is installed using the
+     optionnal argument.  Using this options imply -with-sdl.
 
 `--enable-debug'
      Turn on debugging options: compile and link with debugging symbols,
@@ -152,8 +192,8 @@ building of Heroes.
 
 `--enable-mem-debug'
      Turn on support for malloc debugging libraries such as electric
-     fence or dmalloc (dmalloc will be used if both are installed).
-     This is disable by default.
+     fence or dmalloc (dmalloc will be preferred if both libraries are
+     installed).  This is disables by default.
 
 `--disable-user-config'
      Don't use a per-user configuration file, but a system wide file
@@ -191,10 +231,3 @@ building of Heroes.
      you specify this option they will be saved in
      `DATADIR/heroes/txt_cfg/savegame.dat'.
 
-Reporting bugs, sending suggestions or contribution
-===================================================
-
-   We welcome bug reports or suggestions for Heroes (both program or
-documentation).  Please email them to <heroes-bugs@lists.sourceforge.net>
-or <heroes-discuss@lists.sourceforge.net>.  Please, see the Texinfo 
-documentation of Heroes for guidelines regarding bug reporting.

@@ -1,5 +1,14 @@
 2000-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* doc/heroes.texi (Libraries): Describe SDL_mixer.
+	(configure options): Describe new configure options.
+	(Troubleshooting): Rename the subsection about Alsa and 
+	MikMod.
+	(History): Flush left.
+	* README: Update accordingly.  Add a Summary section.
+
+2000-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/sfx.c (_play_sfx): Use MIX_MAX_VOLUME.
 	* src/sound.c (set_volume,halve_volume): Implement.
 	* src/etc/heroesrc: New in CVS. Read $(datadir)/mod/sound.conf, not
