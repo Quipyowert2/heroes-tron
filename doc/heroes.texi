@@ -249,6 +249,7 @@ such as network support or programmable vehicles.
 @cindex   download
 @cindex   sunsite
 @cindex   metalab
+@cindex   ibiblio
 
 @subsection Where to fetch new releases?
 
@@ -260,11 +261,11 @@ The latest releases of Heroes is always uploaded to SourceForge and
 available from @uref{http://sourceforge.net/projects/heroes/}.  Announces
 are sent to the @samp{heroes-announce} mailing list (@pxref{Mailing lists}).
 
-Source code releases are also uploaded to MetaLab (sunsite) in
-@file{/pub/linux/games}; see
-@uref{http://metalab.unc.edu/pub/linux/MIRRORS.html,the MetaLab mirror
-list} to find your nearest mirror.  You will have to wait three or four
-days to have the files available on MetaLab after a release.
+Source code releases are also uploaded to Ibiblio (formerly MetaLab, and
+Sunsite)) in @file{/pub/linux/games}; see
+@uref{http://ibiblio.org/pub/linux/MIRRORS.html,the Ibiblio mirror list}
+to find your nearest mirror.  You will have to wait three or four days
+to have the files available on Ibiblio after a release.
 
 A public CVS server is also accessible.  See@*
 @uref{http://sourceforge.net/cvs/?group_id=7982} for details.
@@ -525,11 +526,11 @@ also provide support for joysticks.  Get it from
 @uref{http://www.libsdl.org/}.
 
 @item
-LibMikMod is a sound library. You don't need it if you
-want to compile Heroes without sound support.  Get it from
-@uref{http://mikmod.darkorb.net/}.  If you install LibMikMod from
-sources you may want to compile LibMikMod without Alsa support
-(@pxref{Troubleshooting}).
+LibMikMod is a sound library. You don't need it if you want to compile
+Heroes without sound support.  Get it from @uref{http://www.mikmod.org/}
+or from @uref{ftp://ftp.ibiblio.org/pub/linux/apps/sound/libs/}.  If you
+install LibMikMod from sources you may want to compile LibMikMod without
+Alsa support (@pxref{Troubleshooting}).
 
 @item
 SDL_Mixer is an alternative sound engine that can be used only if you

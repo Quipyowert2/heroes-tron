@@ -29,8 +29,8 @@ License\
 =======\
 \
    The full game (that is: source code, pictures, sound-tracks, and levels)\
-is distributed under the terms of the GNU General Public License.  See the\
-file COPYING for details.\
+is distributed under the terms of the GNU General Public License version 2.\
+See the file COPYING for details.\
 
 }
 

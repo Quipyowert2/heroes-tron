@@ -1,5 +1,11 @@
 2001-09-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* tools/readme.sed: Update License.
+	* doc/heroes.texi (Getting Heroes): Update Metalab link, now Ibiblio.
+	(Libraries): Update the LibMikMod home page.
+
+2001-09-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Change the license from 'GPL version 2 or any later version'
 	to 'GPL version 2'.
 

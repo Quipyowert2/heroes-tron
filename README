@@ -50,9 +50,9 @@ works such as network support or programmable vehicles.
 License
 =======
 
-   The full game (that is: source code, pictures, sound-tracks, and
-levels) is distributed under the terms of the GNU General Public
-License version 2.  See the file COPYING for details.
+   The full game (that is: source code, pictures, sound-tracks, and levels)
+is distributed under the terms of the GNU General Public License version 2.
+See the file COPYING for details.
 
 Getting Heroes
 ==============
@@ -68,11 +68,11 @@ SourceForge to the Open-Source community.  The web page of Heroes is
 available from `http://sourceforge.net/projects/heroes/'.  Announces
 are sent to the `heroes-announce' mailing list (*note Mailing lists::).
 
-   Source code releases are also uploaded to MetaLab (sunsite) in
-`/pub/linux/games'; see the MetaLab mirror list
-(http://metalab.unc.edu/pub/linux/MIRRORS.html) to find your nearest
+   Source code releases are also uploaded to Ibiblio (formerly MetaLab,
+and Sunsite)) in `/pub/linux/games'; see the Ibiblio mirror list
+(http://ibiblio.org/pub/linux/MIRRORS.html) to find your nearest
 mirror.  You will have to wait three or four days to have the files
-available on MetaLab after a release.
+available on Ibiblio after a release.
 
    A public CVS server is also accessible.  See
 `http://sourceforge.net/cvs/?group_id=7982' for details.
@@ -132,9 +132,10 @@ subset).
 
    * LibMikMod is a sound library. You don't need it if you want to
      compile Heroes without sound support.  Get it from
-     `http://mikmod.darkorb.net/'.  If you install LibMikMod from
-     sources you may want to compile LibMikMod without Alsa support
-     (*note Troubleshooting::).
+     `http://www.mikmod.org/' or from
+     `ftp://ftp.ibiblio.org/pub/linux/apps/sound/libs/'.  If you
+     install LibMikMod from sources you may want to compile LibMikMod
+     without Alsa support (*note Troubleshooting::).
 
    * SDL_Mixer is an alternative sound engine that can be used only if
      you use SDL as display driver. You don't need it if you want to
@@ -373,3 +374,4 @@ BeOS (SDL)
 
    If you got Heroes working on a platform which is not listed here,
 please send a notice to <heroes-discuss@lists.sourceforge.net>.
+
