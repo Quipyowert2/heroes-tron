@@ -1,3 +1,13 @@
+2002-03-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Use a local array to mark inspected squares.  This way this
+	plug-in does not have to *write* in the level state any longer.
+
+	* src/plugins/stdai.c (square_marks): New array.
+	(ai_level_initialize, ai_level_finalize): Allocate/free it.
+	(ia_eval_neighb_pos, ia_eval_dir_target, ia_eval_dir_lemming,
+	ia_eval_dir_color, ia_eval_dir_cash): Use it.
+
 2002-03-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Extract src/plugins/plugin.h from various source files.

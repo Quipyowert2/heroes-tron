@@ -20,7 +20,7 @@
 `------------------------------------------------------------------*/
 
 #include "system.h"
-#include "statepriv.h"
+#include "state.h"
 #include "hooks.h"
 #include "opponents.h"
 
@@ -33,6 +33,8 @@ a_square_coord ia_wrap_x, ia_wrap_y;
 char ia_wrap_left, ia_wrap_right;
 
 a_u8 *tile_bonus_cpu = 0;
+bool *square_marks = 0;		/* Mark the squares inspected while recursing
+				   around the current position.  */
 
 /* interest of each bonus, for the CPU controled vehicles */
 int bonus_points[2][17] =
@@ -47,6 +49,8 @@ ai_level_initialize (const a_level_state *state, int player)
   (void) player;
   if (tile_bonus_cpu == 0)
     XCALLOC_ARRAY (tile_bonus_cpu, state->level->tile_count);
+  if (square_marks == 0)
+    XCALLOC_ARRAY (square_marks, state->level->square_count);
   return 0;
 }
 
@@ -56,6 +60,7 @@ ai_level_finalize (const a_level_state *state, int player, void *callback_data)
   (void) callback_data;
   (void) state;
   (void) player;
+  XFREE0 (square_marks);
   XFREE0 (tile_bonus_cpu);
 }
 
@@ -236,7 +241,7 @@ ia_eval_dist (const a_level_state *state, const a_level *lvl, int pos)
 neighb wall ..... : 2pts,
 neighb enemy .... : 5pts,
 self (old) ...... : 2pts,
-self (new) (128). : 1pts,
+self (new = mark) : 1pts,
 4pts count as one square in the distance function
 */
 
@@ -248,16 +253,15 @@ ia_eval_neighb_pos (const a_level_state *state, const a_level *lvl,
   unsigned char c;
   idx = lvl->square_move[dir][pos];
   if (idx != INVALID_INDEX) {
-    c = state->square_occupied[idx];
-    if (c < 128) {
-      if ((c & 3) == ia_player)
-	return 2;
-      else
-	return 5;
-    } else if (c == 128)
+    if (square_marks[idx])
       return 1;
-    else
+    c = state->square_occupied[idx];
+    if (c >= 128)
       return 0;
+    if ((c & 3) == ia_player)
+      return 2;
+    else
+      return 5;
   }
   return 2;
 }
@@ -272,7 +276,7 @@ ia_eval_dir_target (const a_level_state *state, const a_level *lvl,
 
   ia_cur_depth--;
   if (ia_cur_depth != 0) {
-    state->square_occupied[pos] = 128;
+    square_marks[pos] = true;
     mindist = U32_MAX;
 
     ia_eval_dir_target_inline (D_UP);
@@ -280,7 +284,7 @@ ia_eval_dir_target (const a_level_state *state, const a_level *lvl,
     ia_eval_dir_target_inline (D_DOWN);
     ia_eval_dir_target_inline (D_LEFT);
 
-    state->square_occupied[pos] = 0xff;
+    square_marks[pos] = false;
     ia_cur_depth++;
     return mindist;
   } else {
@@ -306,11 +310,10 @@ ia_eval_dir_lemming (const a_level_state *state, const a_level *lvl,
 
   ia_cur_depth--;
   if (ia_cur_depth != 0) {
-    ((signed char*)state->square_occupied)[pos] = 128;
+    square_marks[pos] = true;
     mindist = 0;
     tmppti = state->square_lemmings_list[pos];
-    if (tmppti >= state->private->lemmings_support
-	&& tmppti < (state->private->lemmings_support + LEMMINGS_TOTAL)) {
+    if (tmppti) {
       if (tmppti->color == ia_player)
 	tmp2 = -100;
       else
@@ -325,7 +328,7 @@ ia_eval_dir_lemming (const a_level_state *state, const a_level *lvl,
 
     mindist += tmp2;		/* *(5+ia_cur_depth); */
 
-    ((signed char*)state->square_occupied)[pos] = SQOC_VACANT;
+    square_marks[pos] = false;
     ia_cur_depth++;
     return mindist;
   } else {
@@ -349,7 +352,7 @@ ia_eval_dir_color (const a_level_state *state, const a_level *lvl,
 
   ia_cur_depth--;
   if (ia_cur_depth != 0) {
-    ((signed char*)state->square_occupied)[pos] = 128;
+    square_marks[pos] = true;
     mindist = 0;
     d = state->square_object[pos];
     tmp2 = 0;
@@ -377,7 +380,7 @@ ia_eval_dir_color (const a_level_state *state, const a_level *lvl,
 
     mindist += tmp2;		/* *(5+ia_cur_depth); */
 
-    ((signed char*)state->square_occupied)[pos] = SQOC_VACANT;
+    square_marks[pos] = false;
     ia_cur_depth++;
     return mindist;
   } else {
@@ -400,7 +403,7 @@ ia_eval_dir_cash (const a_level_state *state, const a_level *lvl,
 
   ia_cur_depth--;
   if (ia_cur_depth != 0) {
-    ((signed char*)state->square_occupied)[pos] = 128;
+    square_marks[pos] = true;
     mindist = 0;
     d = state->square_object[pos];
 
@@ -416,7 +419,7 @@ ia_eval_dir_cash (const a_level_state *state, const a_level *lvl,
 
     mindist += tmp2;		/* *(5+ia_cur_depth); */
 
-    ((signed char*)state->square_occupied)[pos] = SQOC_VACANT;
+    square_marks[pos] = true;
     ia_cur_depth++;
     return mindist;
   } else {
@@ -441,7 +444,7 @@ ia_eval_dir_bonus (const a_level_state *state, const a_level *lvl,
     a_tile_index d = state->square_tile[pos];
     a_square_index idx;
     int tmp;
-    state->square_occupied[pos] = 128;
+    square_marks[pos] = true;
     if (tile_bonus_cpu[d] == 0) {
       tmp = state->tile_bonus[d];
       if ((tmp != 0) && (tmp != 0xff)) {
@@ -461,7 +464,7 @@ ia_eval_dir_bonus (const a_level_state *state, const a_level *lvl,
 
     if (tmp2)
       tile_bonus_cpu[state->square_tile[pos]] = 0;
-    state->square_occupied[pos] = SQOC_VACANT;
+    square_marks[pos] = false;
     ia_cur_depth++;
     return mindist;
   } else {
