@@ -82,9 +82,6 @@ lemming_t **square_dead_lemmings_list;
 lemming_t lemmings_support[lemmings_total];
 int objects_nbr;
 
-int radar_target_pos;
-int radar_current_pos;
-
 int game_mode = 0;
 gameid_t game_id;
 int lemmings_anim_offset;

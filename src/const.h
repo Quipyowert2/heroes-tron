@@ -80,9 +80,6 @@ extern lemming_t **square_dead_lemmings_list;
 extern lemming_t lemmings_support[lemmings_total];
 extern int objects_nbr;
 
-extern int radar_target_pos;
-extern int radar_current_pos;
-
 extern int game_mode;
 extern gameid_t game_id;
 

@@ -897,6 +897,11 @@ play_menu (void)
     }
 }
 
+/* These variables are used to handle the moving radar and score at
+   the begging of a level.  */
+int radar_target_pos;
+int radar_current_pos;
+
 static void
 output_screen (char n)
 {
