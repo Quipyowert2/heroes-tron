@@ -226,7 +226,7 @@ print_drivers_list (void)
 
 /* This function is adapted from from Mikmod 3.1.6 */
 static void
-get_int (char *arg, int *value, int min, int max, char* argv0)
+get_int (char *arg, int *value, int min, int max, const char* argv0)
 {
   char *end = NULL;
   int t = min - 1;
@@ -242,7 +242,7 @@ get_int (char *arg, int *value, int min, int max, char* argv0)
 }
 
 void
-decode_sound_options (char* option_string, char* argv0)
+decode_sound_options (char* option_string, const char* argv0)
 {
   /* This is adapted from Mikmod 3.1.6 */
   if (strlen (option_string) > 2) {
@@ -411,7 +411,7 @@ print_drivers_list (void)
 }
 
 void
-decode_sound_options (char* optarg, char* argv0)
+decode_sound_options (char* optarg, const char* argv0)
 {
   if (optarg) {
     char* buf = xstrdup (optarg);

@@ -37,7 +37,7 @@ void uninit_sound_engine (void);
 void unload_soundtrack (void);
 void play_soundtrack (void);
 void print_drivers_list (void);
-void decode_sound_options (char* option_string, char* argv0);
+void decode_sound_options (char* option_string, const char* argv0);
 
 void load_soundtrack_from_alias (const char* alias);
 void load_next_soundtrack (void);

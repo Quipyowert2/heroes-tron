@@ -1,5 +1,16 @@
 2000-11-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.in: Bump to version 0.7.
+	* NEWS: Update for 0.7.
+
+	* man/Makefile.am (heroes.6): Depends upon configure.in to force
+	a rebuild when VERSION change.
+
+	* src/sound.h (get_decode_sound_options): Fix constness of argv0.
+	* src/sound.c (get_int, decode_sound_options): Likewise.
+
+2000-11-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/heroes.c (update_player): When going out frmo a tunnel,
 	set old_way to the way of the tunnel (as way is also set to).
 	This avoid in try to draw oddities such as {old_way=up, way=down},

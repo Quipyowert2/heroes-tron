@@ -19,10 +19,10 @@ dnl
 
 AC_PREREQ(2.49a)
 
-AC_INIT([Heroes], [0.6f], [heroes-bugs@lists.sourceforge.net])
+AC_INIT([Heroes], [0.7], [heroes-bugs@lists.sourceforge.net])
 AC_CONFIG_AUX_DIR(tools)
 AC_CONFIG_SRCDIR([src/heroes.c])
-AM_INIT_AUTOMAKE([heroes], [0.6f])
+AM_INIT_AUTOMAKE([heroes], [0.7])
 
 AC_COPYRIGHT([Copyright 2000  Alexandre Duret-Lutz])
 

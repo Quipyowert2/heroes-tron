@@ -1,5 +1,12 @@
 		      User visible changes in Heroes.
 
+Heroes 0.7	November 29, 2000
+
+	* Bug fixes:
+	  - failed assertion in sfx.c (since 0.6d)
+	  - vehicle drawing at tunnel output (caused segfaults since 0.6e)
+	  - TIME CASH and COLOR modes endings (pre 0.1 bug)
+
 Heroes 0.6f	November 25, 2000
 
 	* Fixes for recent (0.6d) bugs:
