@@ -24,7 +24,6 @@
 #include "const.h"
 #include "heroes.h"
 #include "sfx.h"
-#include "txts.h"
 #include "argv.h"
 #include "debugmsg.h"
 #include "sprrle.h"
@@ -321,28 +320,28 @@ apply_bonus (int pl, char bonus)
   switch (bonus) {
   case 1:
     grow_trail (pl, 5);
-    sprintf (txt_tmp, txti[15], (trail_size[pl] + 1) / 5 - 1);
+    sprintf (txt_tmp, _("SIZE IS %d"), (trail_size[pl] + 1) / 5 - 1);
     set_txt_bonus (pl, txt_tmp, 150);
     break;
   case 2:
     shrink_trail (pl, 5);
-    sprintf (txt_tmp, txti[16], (trail_size[pl] + 1) / 5 - 1);
+    sprintf (txt_tmp, _("SIZE IS %d"), (trail_size[pl] + 1) / 5 - 1);
     set_txt_bonus (pl, txt_tmp, 150);
     break;
   case 3:
     player[pl].speedup = 500;
-    set_txt_bonus (pl, txti[17], 150);
+    set_txt_bonus (pl, _("SPEEDED UP"), 150);
     break;
   case 4:
     player[pl].speedup = -500;
-    set_txt_bonus (pl, txti[18], 150);
+    set_txt_bonus (pl, _("SPEEDED DOWN"), 150);
     break;
   case 6:
     {
       int i;
       i = rand () & 255;
       player[pl].score += i;
-      sprintf (txt_tmp, txti[19], i);
+      sprintf (txt_tmp, _("GET %dPTS"), i);
       set_txt_bonus (pl, txt_tmp, 150);
     }
     break;
@@ -358,14 +357,14 @@ apply_bonus (int pl, char bonus)
       player[pl].turbo_level = 1024;
     else
       player[pl].turbo_level += 512;
-    set_txt_bonus (pl, txti[21], 150);
+    set_txt_bonus (pl, _("GET TURBO+"), 150);
     break;
   case 11:
     if (player[pl].turbo_level > 256)
       player[pl].turbo_level -= 256;
     else
       player[pl].turbo_level = 0;
-    set_txt_bonus (pl, txti[22], 150);
+    set_txt_bonus (pl, _("GET TURBO-"), 150);
     break;
   case 12:
     if (trail_size[pl] >= 55)
@@ -373,7 +372,7 @@ apply_bonus (int pl, char bonus)
     break;
   case 13:
     player[pl].invincible = 350;
-    set_txt_bonus (pl, txti[20], 150);
+    set_txt_bonus (pl, _("INVINCIBLE!"), 150);
     break;
   case 14:
     if (player[pl].waves == 0 || doublefx != 0) {
@@ -385,7 +384,7 @@ apply_bonus (int pl, char bonus)
   case 15:
     if (player[pl].lifes < 100) {
       player[pl].lifes++;
-      set_txt_bonus (pl, txti[23], 150);
+      set_txt_bonus (pl, _("EXTRA-LIFE!"), 150);
     }
     break;
   case 16:

@@ -128,8 +128,6 @@ structs.h \
 system.h \
 timer.c \
 timer.h \
-txts.c \
-txts.h \
 userconf.c \
 userconf.h \
 userdir.c \

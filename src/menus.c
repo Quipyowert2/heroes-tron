@@ -33,7 +33,6 @@
 #include "hedlite.h"
 #include "render.h"
 #include "sound.h"
-#include "txts.h"
 #include "menus.h"
 #include "keyb.h"
 #include "misc.h"
@@ -162,27 +161,27 @@ static void keyboard_menu (void);
 static void extra_menu (void);
 
 menu_entry_t options_entries[] = {
-  { "GAME", game_menu },
-  { "SCREEN", screen_menu },
-  { "SOUND", sound_menu },
-  { "CONTROL", control_menu },
-  { "KEYS", keyboard_menu },
-  { "EXTRAS", extra_menu },
-  { "GO BACK", 0 },
-  { 0, 0 }
+  { N_("GAME"),		game_menu },
+  { N_("SCREEN"),	screen_menu },
+  { N_("SOUND"),	sound_menu },
+  { N_("CONTROL"),	control_menu },
+  { N_("KEYS"),		keyboard_menu },
+  { N_("EXTRAS"),	extra_menu },
+  { N_("GO BACK"),	0 },
+  { 0,			0 }
 };
 
 menu_t *option_menu_data;
 
 menu_entry_t main_entries[] = {
-  { "PLAY", 0 },
-  { "OPTIONS", 0},
-  { "INFOS", 0 },
-  { "CREDITS", 0 },
-  { "SCORES", 0 },
-  { "EDITOR", 0 },
-  { "QUIT", 0 },
-  { 0, 0 }
+  { N_("PLAY"),		0 },
+  { N_("OPTIONS"),	0 },
+  { N_("INFOS"),	0 },
+  { N_("CREDITS"),	0 },
+  { N_("SCORES"),	0 },
+  { N_("EDITOR"),	0 },
+  { N_("QUIT"),		0 },
+  { 0,			0 }
 };
 
 menu_t *main_menu_data ;
@@ -218,9 +217,9 @@ compile_menu (const char *name, const menu_entry_t* entries)
 
   /* compile the entry texts */
   for (i = 0; i < tlines; ++i) {
-    unsigned width = compute_text_width (menu_font, entries[i].name, 0);
-    menu->entries[i] = compile_menu_text (entries[i].name,
-					  T_CENTERED, row, 159);
+    const char *ename = _(entries[i].name);
+    unsigned width = compute_text_width (menu_font, ename, 0);
+    menu->entries[i] = compile_menu_text (ename, T_CENTERED, row, 159);
     menu->funcs[i] = entries[i].func;
     if (width > max_width)
       max_width = width;
@@ -335,44 +334,53 @@ init_menus_sprites (void)
 
   /* control menu */
   new_sprprog ();
-  add_sprprog0 (compile_menu_text (txti[90], T_CENTERED|T_WAVING, 5, 159));
-  add_sprprog0 (compile_menu_text (txti[91], T_FLUSHED_LEFT, 39, 56));
-  add_sprprog0 (compile_menu_text (txti[92], T_FLUSHED_LEFT, 72, 56));
-  add_sprprog0 (compile_menu_text (txti[93], T_FLUSHED_LEFT, 111, 56));
-  add_sprprog0 (compile_menu_text (txti[92], T_FLUSHED_LEFT, 144, 56));
-  add_sprprog0 (compile_menu_text (txti[94], T_FLUSHED_LEFT, 182, 56));
+  add_sprprog0 (compile_menu_text (_("CONTROL OPTIONS"),
+				   T_CENTERED|T_WAVING, 5, 159));
+  add_sprprog0 (compile_menu_text (_("PLAYER 1"),
+				   T_FLUSHED_LEFT, 39, 56));
+  add_sprprog0 (compile_menu_text (_("AUTO PILOT"),
+				   T_FLUSHED_LEFT, 72, 56));
+  add_sprprog0 (compile_menu_text (_("PLAYER 2"),
+				   T_FLUSHED_LEFT, 111, 56));
+  add_sprprog0 (compile_menu_text (_("AUTO PILOT"),
+				   T_FLUSHED_LEFT, 144, 56));
+  add_sprprog0 (compile_menu_text (_("GO BACK"),
+				   T_FLUSHED_LEFT, 182, 56));
   control_menu_txt = end_sprprog ();
 
   /* sound menu */
   new_sprprog ();
-  add_sprprog0 (compile_menu_text (txti[104], T_CENTERED|T_WAVING, 5, 159));
-  add_sprprog0 (compile_menu_text (txti[107], T_FLUSHED_LEFT, 39, 56));
-  add_sprprog0 (compile_menu_text (txti[108], T_FLUSHED_LEFT, 109, 56));
-  add_sprprog0 (compile_menu_text (txti[94], T_FLUSHED_LEFT, 179, 56));
+  add_sprprog0 (compile_menu_text (_("SOUND OPTIONS"),
+				   T_CENTERED|T_WAVING, 5, 159));
+  add_sprprog0 (compile_menu_text (_("MUSIC"), T_FLUSHED_LEFT, 39, 56));
+  add_sprprog0 (compile_menu_text (_("SFX"), T_FLUSHED_LEFT, 109, 56));
+  add_sprprog0 (compile_menu_text (_("GO BACK"), T_FLUSHED_LEFT, 179, 56));
   sound_menu_txt = end_sprprog ();
 
-  music_vol_txt = compile_menu_text (txti[105], T_FLUSHED_LEFT, 74, 56);
-  sfx_vol_txt = compile_menu_text (txti[106], T_FLUSHED_LEFT, 144, 56);
+  music_vol_txt = compile_menu_text (_("MUSIC VOL"), T_FLUSHED_LEFT, 74, 56);
+  sfx_vol_txt = compile_menu_text (_("SFX VOL"), T_FLUSHED_LEFT, 144, 56);
 
   /* screen menu */
   new_sprprog ();
-  add_sprprog0 (compile_menu_text (txti[109], T_CENTERED|T_WAVING, 5, 159));
-  add_sprprog0 (compile_menu_text (txti[110], T_FLUSHED_LEFT, 41, 56));
-  add_sprprog0 (compile_menu_text (txti[112], T_FLUSHED_LEFT, 75, 56));
-  add_sprprog0 (compile_menu_text (txti[113], T_FLUSHED_LEFT, 109, 56));
-  add_sprprog0 (compile_menu_text (txti[114], T_FLUSHED_LEFT, 143, 56));
-  add_sprprog0 (compile_menu_text (txti[94], T_FLUSHED_LEFT, 179, 56));
+  add_sprprog0 (compile_menu_text (_("SCREEN OPTIONS"),
+				   T_CENTERED|T_WAVING, 5, 159));
+  add_sprprog0 (compile_menu_text (_("GLENZ TRAIL"), T_FLUSHED_LEFT, 41, 56));
+  add_sprprog0 (compile_menu_text (_("INFOS"), T_FLUSHED_LEFT, 75, 56));
+  add_sprprog0 (compile_menu_text (_("LIGHTING"), T_FLUSHED_LEFT, 109, 56));
+  add_sprprog0 (compile_menu_text (_("INERTIA"), T_FLUSHED_LEFT, 143, 56));
+  add_sprprog0 (compile_menu_text (_("GO BACK"), T_FLUSHED_LEFT, 179, 56));
   screen_menu_txt = end_sprprog ();
 
   /* game menu */
   new_sprprog ();
-  add_sprprog0 (compile_menu_text (txti[115], T_CENTERED|T_WAVING, 5, 159));
-  add_sprprog0 (compile_menu_text (txti[116], T_FLUSHED_LEFT, 33, 56));
-  add_sprprog0 (compile_menu_text (txti[117], T_FLUSHED_LEFT, 57, 56));
-  add_sprprog0 (compile_menu_text (txti[118], T_FLUSHED_LEFT, 81, 56));
-  add_sprprog0 (compile_menu_text (txti[119], T_FLUSHED_LEFT, 105, 56));
-  add_sprprog0 (compile_menu_text (txti[120], T_FLUSHED_LEFT, 129, 56));
-  add_sprprog0 (compile_menu_text (txti[94], T_FLUSHED_LEFT, 177, 56));
+  add_sprprog0 (compile_menu_text (_("GAME OPTIONS"),
+				   T_CENTERED|T_WAVING, 5, 159));
+  add_sprprog0 (compile_menu_text (_("PLAYER 1"), T_FLUSHED_LEFT, 33, 56));
+  add_sprprog0 (compile_menu_text (_("PLAYER 2"), T_FLUSHED_LEFT, 57, 56));
+  add_sprprog0 (compile_menu_text (_("PLAYER 3"), T_FLUSHED_LEFT, 81, 56));
+  add_sprprog0 (compile_menu_text (_("PLAYER 4"), T_FLUSHED_LEFT, 105, 56));
+  add_sprprog0 (compile_menu_text (_("SPEED"), T_FLUSHED_LEFT, 129, 56));
+  add_sprprog0 (compile_menu_text (_("GO BACK"), T_FLUSHED_LEFT, 177, 56));
   add_sprprog (compile_spropaque (IMGPOS (icons_img, 68 + 19 * 4, 144),
 				  18, 32, icons_img.width, xbuf),
 	       149 * xbuf + 20);
@@ -380,57 +388,66 @@ init_menus_sprites (void)
 
   /* keyboard menu */
   new_sprprog ();
-  add_sprprog0 (compile_menu_text (txti[95], T_CENTERED|T_WAVING, 5, 159));
-  add_sprprog0 (compile_menu_text (txti[94], T_CENTERED, 188, 159));
+  add_sprprog0 (compile_menu_text (_("KEYBOARD DEFS"),
+				   T_CENTERED|T_WAVING, 5, 159));
+  add_sprprog0 (compile_menu_text (_("GO BACK"), T_CENTERED, 188, 159));
   /* 1st player */
-  add_sprprog0 (compile_menu_text (txti[96], T_CENTERED, 25, 159));
-  add_sprprog0 (compile_menu_text (txti[97], T_FLUSHED_LEFT, 38, 25));
-  add_sprprog0 (compile_menu_text (txti[98], T_FLUSHED_LEFT, 60, 25));
-  add_sprprog0 (compile_menu_text (txti[99], T_FLUSHED_LEFT, 49, 25));
-  add_sprprog0 (compile_menu_text (txti[100], T_FLUSHED_LEFT, 71, 25));
-  add_sprprog0 (compile_menu_text (txti[101], T_FLUSHED_LEFT, 82, 25));
-  add_sprprog0 (compile_menu_text (txti[102], T_FLUSHED_LEFT, 93, 25));
+  add_sprprog0 (compile_menu_text (_("PLAYER 1"), T_CENTERED, 25, 159));
+  add_sprprog0 (compile_menu_text (_("UP"), T_FLUSHED_LEFT, 38, 25));
+  add_sprprog0 (compile_menu_text (_("LEFT"), T_FLUSHED_LEFT, 60, 25));
+  add_sprprog0 (compile_menu_text (_("DOWN"), T_FLUSHED_LEFT, 49, 25));
+  add_sprprog0 (compile_menu_text (_("RIGHT"), T_FLUSHED_LEFT, 71, 25));
+  add_sprprog0 (compile_menu_text (_("TURBO"), T_FLUSHED_LEFT, 82, 25));
+  add_sprprog0 (compile_menu_text (_("STOP"), T_FLUSHED_LEFT, 93, 25));
   /* 2nd player */
-  add_sprprog0 (compile_menu_text (txti[103], T_CENTERED, 108, 159));
-  add_sprprog0 (compile_menu_text (txti[97], T_FLUSHED_LEFT, 121, 25));
-  add_sprprog0 (compile_menu_text (txti[98], T_FLUSHED_LEFT, 143, 25));
-  add_sprprog0 (compile_menu_text (txti[99], T_FLUSHED_LEFT, 132, 25));
-  add_sprprog0 (compile_menu_text (txti[100], T_FLUSHED_LEFT, 154, 25));
-  add_sprprog0 (compile_menu_text (txti[101], T_FLUSHED_LEFT, 165, 25));
-  add_sprprog0 (compile_menu_text (txti[102], T_FLUSHED_LEFT, 176, 25));
+  add_sprprog0 (compile_menu_text (_("PLAYER 2"), T_CENTERED, 108, 159));
+  add_sprprog0 (compile_menu_text (_("UP"), T_FLUSHED_LEFT, 121, 25));
+  add_sprprog0 (compile_menu_text (_("LEFT"), T_FLUSHED_LEFT, 143, 25));
+  add_sprprog0 (compile_menu_text (_("DOWN"), T_FLUSHED_LEFT, 132, 25));
+  add_sprprog0 (compile_menu_text (_("RIGHT"), T_FLUSHED_LEFT, 154, 25));
+  add_sprprog0 (compile_menu_text (_("TURBO"), T_FLUSHED_LEFT, 165, 25));
+  add_sprprog0 (compile_menu_text (_("STOP"), T_FLUSHED_LEFT, 176, 25));
   keyboard_menu_txt = end_sprprog ();
 
   /* extra menu */
   new_sprprog ();
-  add_sprprog0 (compile_menu_text (txti[125], T_CENTERED|T_WAVING, 5, 169));
-  add_sprprog0 (compile_menu_text (txti[94], T_FLUSHED_LEFT, 180, 20));
+  add_sprprog0 (compile_menu_text (_("EXTRAS LEVELS"),
+				   T_CENTERED|T_WAVING, 5, 169));
+  add_sprprog0 (compile_menu_text (_("GO BACK"), T_FLUSHED_LEFT, 180, 20));
   extra_menu_txt = end_sprprog ();
-  extra_modes_txt[0] = compile_menu_text (txti[122], T_FLUSHED_LEFT, 35, 20);
-  extra_modes_txt[1] = compile_menu_text (txti[123], T_FLUSHED_LEFT, 35, 20);
-  extra_modes_txt[2] = compile_menu_text (txti[124], T_FLUSHED_LEFT, 35, 20);
-  extra_combine_txt[0] = compile_menu_text (txti[126], T_FLUSHED_LEFT, 57, 20);
-  extra_combine_txt[1] = compile_menu_text (txti[127], T_FLUSHED_LEFT, 57, 20);
-  extra_combine_txt[2] = compile_menu_text (txti[128], T_FLUSHED_LEFT, 57, 20);
+  extra_modes_txt[0] = compile_menu_text (_("ORIGINAL LEVELS"),
+					  T_FLUSHED_LEFT, 35, 20);
+  extra_modes_txt[1] = compile_menu_text (_("ORIGINAL+EXTRAS"),
+					  T_FLUSHED_LEFT, 35, 20);
+  extra_modes_txt[2] = compile_menu_text (_("EXTRAS ONLY"),
+					  T_FLUSHED_LEFT, 35, 20);
+  extra_combine_txt[0] = compile_menu_text (_("EXTRAS: NONE"),
+					    T_FLUSHED_LEFT, 57, 20);
+  extra_combine_txt[1] = compile_menu_text (_("EXTRAS: ALL"),
+					    T_FLUSHED_LEFT, 57, 20);
+  extra_combine_txt[2] = compile_menu_text (_("EXTRAS: SELECT"),
+					    T_FLUSHED_LEFT, 57, 20);
 
   /* credit menu */
   new_sprprog ();
-  add_sprprog0 (compile_menu_text ("CREDITS", T_CENTERED|T_WAVING, 10, 159));
-  add_sprprog0 (compile_menu_text ("GFX AND IDEA:", T_FLUSHED_LEFT, 40, 1));
+  add_sprprog0 (compile_menu_text (_("CREDITS"),
+				   T_CENTERED|T_WAVING, 10, 159));
+  add_sprprog0 (compile_menu_text (_("GFX AND IDEA:"), T_FLUSHED_LEFT, 40, 1));
   add_sprprog0 (compile_menu_text ("a GUEN",
 				   T_FLUSHED_RIGHT|T_WAVING, 40, 318));
-  add_sprprog0 (compile_menu_text ("MUSIC:", T_FLUSHED_LEFT, 60, 1));
+  add_sprprog0 (compile_menu_text (_("MUSIC:"), T_FLUSHED_LEFT, 60, 1));
   add_sprprog0 (compile_menu_text ("b TNK",
 				   T_FLUSHED_RIGHT|T_WAVING, 60, 318));
   add_sprprog0 (compile_menu_text ("c ALEXEL",
 				   T_FLUSHED_RIGHT|T_WAVING, 72, 318));
-  add_sprprog0 (compile_menu_text ("CODE:", T_FLUSHED_LEFT, 93, 1));
+  add_sprprog0 (compile_menu_text (_("CODE:"), T_FLUSHED_LEFT, 93, 1));
   add_sprprog0 (compile_menu_text ("b POLLUX",
 				   T_FLUSHED_RIGHT|T_WAVING, 93, 318));
   /* FIXME: rewrite when a paragraph formating function exists */
-  add_sprprog0 (compile_menu_text ("SEE THE FILE", T_CENTERED, 118, 159));
-  add_sprprog0 (compile_menu_text ("THANKS", T_CENTERED, 130, 159));
-  add_sprprog0 (compile_menu_text ("FOR OTHER", T_CENTERED, 142, 159));
-  add_sprprog0 (compile_menu_text ("CONTRIBUTORS", T_CENTERED, 154, 159));
+  add_sprprog0 (compile_menu_text (_("SEE THE FILE"), T_CENTERED, 118, 159));
+  add_sprprog0 (compile_menu_text (_("THANKS"), T_CENTERED, 130, 159));
+  add_sprprog0 (compile_menu_text (_("FOR OTHER"), T_CENTERED, 142, 159));
+  add_sprprog0 (compile_menu_text (_("CONTRIBUTORS"), T_CENTERED, 154, 159));
   credit_menu_txt = end_sprprog ();
 
   jukebox_frame = compile_sprrle (IMGPOS (jukebox_img, 0, 0), 0,
@@ -455,91 +472,95 @@ init_menus_sprites (void)
   }
 
   /* pause menu */
-  pause_menu_txt = compile_menu_text ("PAUSE", T_CENTERED|T_WAVING, 5, 159);
+  pause_menu_txt = compile_menu_text (_("PAUSE"), T_CENTERED|T_WAVING, 5, 159);
 
   /* quit y/n menus */
 
-  quitgame_menu_txt = compile_menu_text (txti[40],
+  quitgame_menu_txt = compile_menu_text (_("QUIT THIS GAME?"),
 					 T_CENTERED|T_WAVING, 75, 159);
-  quitheroes_menu_txt = compile_menu_text (txti[140],
+  quitheroes_menu_txt = compile_menu_text (_("REALLY QUIT?"),
 					 T_CENTERED|T_WAVING, 75, 159);
-  quit_no_txt = compile_menu_text (txti[41], T_CENTERED, 110, 159);
-  quit_yes_txt = compile_menu_text (txti[42], T_CENTERED, 95, 159);
+  quit_no_txt = compile_menu_text (_("NO"), T_CENTERED, 110, 159);
+  quit_yes_txt = compile_menu_text (_("YES"), T_CENTERED, 95, 159);
 
   /* editor menu */
-  ed_new_level_txt = compile_menu_text (txti[174],
+  ed_new_level_txt = compile_menu_text (_("EXISTING LEVEL"),
 					T_CENTERED|T_WAVING, 7, 159);
-  ed_existing_level_txt = compile_menu_text (txti[175],
+  ed_existing_level_txt = compile_menu_text (_("NEW LEVEL"),
 					     T_CENTERED|T_WAVING, 7, 159);
-  ed_name_txt = compile_menu_text (txti[177], T_FLUSHED_LEFT, 54, 8);
-  ed_x_wrap_txt = compile_menu_text (txti[178], T_FLUSHED_LEFT, 85, 8);
-  ed_y_wrap_txt = compile_menu_text (txti[179], T_FLUSHED_LEFT, 106, 8);
-  ed_x_size_txt = compile_menu_text (txti[180], T_FLUSHED_LEFT, 137, 8);
-  ed_y_size_txt = compile_menu_text (txti[181], T_FLUSHED_LEFT, 158, 8);
-  ed_edit_txt = compile_menu_text (txti[182], T_FLUSHED_LEFT, 186, 227);
+  ed_name_txt = compile_menu_text (_("NAME"), T_FLUSHED_LEFT, 54, 8);
+  ed_x_wrap_txt = compile_menu_text (_("X-WRAP"), T_FLUSHED_LEFT, 85, 8);
+  ed_y_wrap_txt = compile_menu_text (_("Y-WRAP"), T_FLUSHED_LEFT, 106, 8);
+  ed_x_size_txt = compile_menu_text (_("X-SIZE"), T_FLUSHED_LEFT, 137, 8);
+  ed_y_size_txt = compile_menu_text (_("Y-SIZE"), T_FLUSHED_LEFT, 158, 8);
+  ed_edit_txt = compile_menu_text (_("EDIT"), T_FLUSHED_LEFT, 186, 227);
 
   /* options menu */
-  option_menu_data = compile_menu ("OPTIONS", options_entries);
+  option_menu_data = compile_menu (_("OPTIONS"), options_entries);
 
   /* main menu */
-  main_menu_data = compile_menu ("HEROES", main_entries);
+  main_menu_data = compile_menu (_("HEROES"), main_entries);
 
   /* editor selector */
-  edit_sel_txt = compile_menu_text (txti[170], T_CENTERED|T_WAVING, 10, 159);
+  edit_sel_txt = compile_menu_text (_("SELECT A LEVEL"),
+				    T_CENTERED|T_WAVING, 10, 159);
 
   /* editor first menu */
-  edit_first_menu_txt = compile_menu_text (txti[171], T_CENTERED|T_WAVING,
+  edit_first_menu_txt = compile_menu_text (_("EDITOR"), T_CENTERED|T_WAVING,
 					   10, 159);
-  edit_first_new_txt = compile_menu_text (txti[173], T_CENTERED, 105, 159);
-  edit_first_load_txt = compile_menu_text (txti[172], T_CENTERED, 85, 159);
+  edit_first_new_txt = compile_menu_text (_("NEW LEVEL"),
+					  T_CENTERED, 105, 159);
+  edit_first_load_txt = compile_menu_text (_("LOAD LEVEL"),
+					   T_CENTERED, 85, 159);
 
   /* play menu */
-  playmenu_title_txt = compile_menu_text (txti[145], T_CENTERED|T_WAVING,
+  playmenu_title_txt = compile_menu_text (_("PLAY"), T_CENTERED|T_WAVING,
 					  4, 159);
-  playmenu_players_txt[0] = compile_menu_text (txti[147],
+  playmenu_players_txt[0] = compile_menu_text (_("ONE PLAYER"),
 					       T_CENTERED, 31, 159);
-  playmenu_players_txt[1] = compile_menu_text (txti[146],
+  playmenu_players_txt[1] = compile_menu_text (_("TWO PLAYER"),
 					       T_CENTERED, 31, 159);
-  playmenu_goback_txt = compile_menu_text (txti[94],
+  playmenu_goback_txt = compile_menu_text (_("GO BACK"),
 					   T_CENTERED, 187, 159);
-  playmenu_load_txt = compile_menu_text (txti[148],
+  playmenu_load_txt = compile_menu_text (_("LOAD..."),
 					 T_CENTERED, 160, 159);
   {
     int i;
     for (i = 0; i < 5; ++i)
-      gamemode_txt[i] = compile_menu_text (mode_name[i], T_CENTERED, 0, 159);
+      gamemode_txt[i] = compile_menu_text (_(mode_name[i]),
+					   T_CENTERED, 0, 159);
   }
   /* saved game selection */
-  save_select_txt = compile_menu_text (txti[185],
+  save_select_txt = compile_menu_text (_("CHOSE A SAVE SLOT"),
 				       T_CENTERED|T_WAVING, 10, 159);
-  load_select_txt = compile_menu_text (txti[186],
+  load_select_txt = compile_menu_text (_("CHOSE A LOAD SLOT"),
 				       T_CENTERED|T_WAVING, 10, 159);
 
   /* enter your name */
   /* FIXME: rewrite when a paragraph formating function exists */
   new_sprprog ();
-  add_sprprog0 (compile_menu_text (txti[36],
+  add_sprprog0 (compile_menu_text (_("CAME INT THE TOP 10"),
 				   T_CENTERED, 40, 159));
-  add_sprprog0 (compile_menu_text (txti[37],
+  add_sprprog0 (compile_menu_text (_("ENTER YOUR NAME:"),
 				   T_CENTERED, 70, 159));
   enter_your_name_txt = end_sprprog ();
 
   /* end level info */
-  info_mode_quest_txt = compile_menu_text (txti[53],
+  info_mode_quest_txt = compile_menu_text (_("SIZE  PTS  LIVES"),
 					   T_CENTERED, 50, 180);
-  info_mode_deathm_txt = compile_menu_text (txti[54],
+  info_mode_deathm_txt = compile_menu_text (_("PTS  LIVES"),
 					    T_CENTERED, 50, 221);
-  info_mode_killem_txt = compile_menu_text (txti[55],
+  info_mode_killem_txt = compile_menu_text (_(" MEN  PTS  LIVES"),
 					    T_CENTERED, 50, 180);
-  info_mode_tcash_txt = compile_menu_text (txti[56],
+  info_mode_tcash_txt = compile_menu_text (_("CA$H  PTS  LIVES"),
 					   T_CENTERED, 50, 180);
-  info_mode_color_txt = compile_menu_text (txti[57],
+  info_mode_color_txt = compile_menu_text (_("COLORS  PTS  LIVES"),
 					   T_CENTERED, 50, 170);
-  info_mode_next_txt = compile_menu_text (txti[58],
+  info_mode_next_txt = compile_menu_text (_("NEXT LEVEL"),
 					  T_CENTERED, 150, 159);
-  info_mode_save_txt = compile_menu_text (txti[59],
+  info_mode_save_txt = compile_menu_text (_("SAVE..."),
 					  T_CENTERED, 170, 159);
-  info_mode_return_txt = compile_menu_text (txti[60],
+  info_mode_return_txt = compile_menu_text (_("PRESS RETURN"),
 					    T_CENTERED, 160, 159);
   {
     int i;
@@ -548,7 +569,7 @@ init_menus_sprites (void)
 	compile_sprshade (IMGPOS (main_font_img, 120, 40 + i * 64),
 			  0, 1, glenz[0], 19, 24, main_font_img.width, xbuf);
   }
-  info_round_txt = compile_menu_text (txti[62],
+  info_round_txt = compile_menu_text (_("WINS  PTS  LIVES"),
 				      T_CENTERED, 50, 180);
   {
     int i;
@@ -559,7 +580,7 @@ init_menus_sprites (void)
   }
 
   /* higher scores */
-  higher_scores_txt = compile_menu_text (txti[10],
+  higher_scores_txt = compile_menu_text (_("HIGHER SCORES"),
 					 T_CENTERED|T_WAVING, 10, 159);
   img_free (&icons_img);
   img_free (&jukebox_img);
@@ -1169,8 +1190,8 @@ game_menu (void)
 
     if (!game_rounds_txt) {
       char rounds_txt[32];
-      sprintf (rounds_txt, txti[121], rounds_nbr_values[opt.gamerounds],
-	       (opt.gamerounds == 0) ? '\0' : 'S');
+      /* FIXME: handle plural */
+      sprintf (rounds_txt, _("%d ROUNDS"), rounds_nbr_values[opt.gamerounds]);
       game_rounds_txt = compile_menu_text (rounds_txt,
 					   T_FLUSHED_LEFT, 153, 56);
     }
@@ -2153,7 +2174,7 @@ enter_your_name (char c, char* name)
   sprite_t *player_number;
   sprite_t *player_name = 0;
 
-  sprintf (head, txti[35], c);
+  sprintf (head, _("PLAYER %d"), c);
   player_number = compile_menu_text (head, T_CENTERED, 20, 159);
 
   memset (name, 0, PLAYER_NAME_SIZE + 1);
@@ -2220,14 +2241,15 @@ draw_end_level_info (int decal, char l)
 
   if (!winner_txt) {
     if (level_is_finished != 15) {
-      sprintf (winner, txti[50], plr2col[level_is_finished - 1] + 1);
+      sprintf (winner, _("PLAYER %d WON!"),
+	       plr2col[level_is_finished - 1] + 1);
       draw_glenz_box (corner[0] + decal + 22 * xbuf,
 		      level_is_finished + 1, 320, 6);
     } else {
       if (two_players)
-	sprintf (winner, txti[51]);
+	sprintf (winner, _("EVERYONE LOST!"));
       else
-	sprintf (winner, txti[52]);
+	sprintf (winner, _("YOU LOST!"));
       draw_glenz_box (corner[0] + decal + 22 * xbuf, 7, 320, 6);
     }
     winner_txt = compile_menu_text (winner, T_CENTERED|T_WAVING, 20, 159 + 20);
@@ -2306,7 +2328,8 @@ draw_round_info (int decal)
 
   draw_glenz_box (corner[0] + decal + 22 * xbuf, 1, 320, 6);
   if (!winner_txt) {
-    sprintf (info, txti[61], rounds_nbr_values[opt.gamerounds] - rounds + 1,
+    sprintf (info, _("ROUND %d/%d"),
+	     rounds_nbr_values[opt.gamerounds] - rounds + 1,
 	     rounds_nbr_values[opt.gamerounds]);
     winner_txt = compile_menu_text (info, T_CENTERED, 20, 159);
   }

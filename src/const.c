@@ -52,9 +52,8 @@ int rounds_nbr_values[16] =
 int square_offset_320[4] = { 0, 12, 320 * 10, 320 * 10 + 12 };
 int square_offset[4] = { 0, 12, xbuf * 10, xbuf * 10 + 12 };
 
-char mode_name[5][12] = { "QUEST", "DEATH MATCH", "KILL'EM ALL",
-  "TIME CA$H", "COLORS"
-};
+char mode_name[5][12] = { N_("QUEST"), N_("DEATH MATCH"), N_("KILL'EM ALL"),
+			  N_("TIME CA$H"), N_("COLORS") };
 
 /* traductions way<->directions */
 int d2w[9] = { 0, 0, 1, 1, 2, 2, 2, 2, 3 };

@@ -37,7 +37,6 @@
 #include "render.h"
 #include "renderdata.h"
 #include "pixelize.h"
-#include "txts.h"
 #include "misc.h"
 #include "argv.h"
 #include "debugmsg.h"
@@ -2198,7 +2197,7 @@ update_player (int c)
 
   if (player[c].inversed_controls > 0) {
     player[c].inversed_controls--;
-    sprintf (txt_tmp, txti[24], player[c].inversed_controls / 20 + 1);
+    sprintf (txt_tmp, _("INVERTED %d"), player[c].inversed_controls / 20 + 1);
     set_txt_bonus (c, txt_tmp, 2);
   }
 
@@ -2229,7 +2228,7 @@ update_player (int c)
     player[c].d.e += player[c].vitp;
   } else {
     player[c].delay--;
-    sprintf (txt_tmp, txti[25], player[c].delay / 20 + 1);
+    sprintf (txt_tmp, _("STOPPED %d"), player[c].delay / 20 + 1);
     set_txt_bonus (c, txt_tmp, 2);
   }
 
@@ -2510,13 +2509,10 @@ update_player (int c)
 	if (player[c].lifes > 1) {
 	  if (player[c].cpu == 2)
 	    event_sfx (60);
-/*            if (player[c].lifes!=1) */
-	  sprintf (txt_tmp, txti[30], player[c].lifes);
-/*            else */
-/*              sprintf(txt_tmp,"1 LIFE LEFT"); */
-
+	  /* FIXME: handle plural */
+	  sprintf (txt_tmp, _("%d LIVES LEFT"), player[c].lifes);
 	} else {
-	  sprintf (txt_tmp, txti[31]);
+	  strcpy (txt_tmp, _("LAST LIFE"));
 	  if (player[c].cpu == 2)
 	    event_sfx (61);
 	}
@@ -3270,9 +3266,10 @@ play_game (char cont)
   process_input_events ();
 
   if (game_mode == M_QUEST)
-    sprintf (bufstr, txti[65], current_quest_level);
+    sprintf (bufstr, _("-LEVEL %d-"), current_quest_level);
   else
-    sprintf (bufstr, txti[66], rounds_nbr_values[opt.gamerounds] - rounds + 1,
+    sprintf (bufstr, _("-ROUND %d/%d-"),
+	     rounds_nbr_values[opt.gamerounds] - rounds + 1,
 	     rounds_nbr_values[opt.gamerounds]);
 
   levelname = compile_menu_text (bufstr, T_CENTERED, 99, 159);
@@ -3786,8 +3783,6 @@ main (int argc, char *argv[])
   if (parse_argv (argc, argv, 0, 0))
     exit (1);
 
-  read_txti_cfg ();
-
   dmsg (D_SYSTEM, "randomize");
   srand (time (0));
 
@@ -3915,6 +3910,5 @@ main (int argc, char *argv[])
   free_options ();
   free_userdir ();
   free_modified_rsc ();
-  close_txti ();
   return 0;
 }

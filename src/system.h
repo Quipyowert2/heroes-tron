@@ -122,6 +122,18 @@
 # include "gnugetopt.h"
 #endif
 
+#if ENABLE_NLS
+# include <libintl.h>
+# define _(Text) gettext (Text)
+#else
+# undef bindtextdomain
+# define bindtextdomain(Domain, Directory) /* empty */
+# undef textdomain
+# define textdomain(Domain) /* empty */
+# define _(Text) Text
+#endif
+#define N_(Text) Text
+
 #if HAVE_WINDOWS_H
 # include <windows.h>
 # ifndef HAVE_READDIR

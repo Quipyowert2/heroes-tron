@@ -1,5 +1,27 @@
 2000-12-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Get rid of txti.cfg.  Inline in the sources all the strings
+	that was defined here.  While doing this, enclose them all
+	in a call to _() to prepare of i18n.
+
+	* src/txts.c: Delete.
+	* src/txts.h: Delete.
+	* src/Makefile.am (heroes_SOURCES): Remove txts.c and txts.h.
+	* src/txt_cfg/txti.cfg: Delete.
+	* src/txt_cfg/Makefile (z_DATA): Remove txti.cfg.
+
+	* src/bonus.c (apply_bonus): Inline txti strings.
+	* src/const.c (mode_name): Prefix strings with N_.
+	* src/heroes.c (update_player, play_game): Inline txti strings.
+	(main): Don't call read_txti_cfg and close_txti.
+	* src/menus.c (options_entries, main_entries): Prefix strings with N_.
+	(compile_menu): Translate them here.
+	(init_menus_sprites, game_menu, enter_your_name,
+	draw_end_level_info, draw_round_info): Inline txti strings.
+	* src/system.h: Add standard gettext definitions.
+
+2000-12-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Allow to strech the screen fourfold.
 	Suggested by Gregory Giannoni <gianno_g@epita.fr> who can
 	run heroes -3 smooth on his UltraSparc.
