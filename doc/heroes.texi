@@ -738,6 +738,10 @@ I had to tweak SDL 1.1.6 to get it working, and also force Heroes' configure
 to use the result of @samp{sdl-config --static-libs} instead of
 @samp{sdl-config --libs}.
 
+@item IRIX 6.5 (SDL)
+Heroes 0.7 has been reported to compile and runs with SDL 1.1.3 and
+@samp{gcc} + libraries from @samp{freeware.sgi.com} on IRIX 6.5.
+
 @end table
 
 If you got Heroes working on a platform which is not listed here, please
