@@ -20,7 +20,6 @@ hedlite-output-dir,	"$(user-dir)/levels/",			0,0
 help-font,		"$(data-dir)/pics/fontread.pcx",	0,0
 help-pictures-img,	"$(data-dir)/pics/helpics.pcx",		0,0
 help-txt,		"$(data-dir)/txt_cfg/heroes.hlp",	0,0
-heroesrc-txt,		"$(data-dir)/etc/heroesrc",		0,0
 home-dir,		"",					0,0
 intro-erase-img,	"$(data-dir)/pics/erase.pcx",		0,0
 intro-logos-img,	"$(data-dir)/pics/olympus.pcx",		0,0
@@ -38,8 +37,10 @@ purple-bonus-img,	"$(data-dir)/pics/bonusa.pcx",		0,0
 scores-file,		"$(user-dir)/scores.dat",		0,0
 sfx-conf-txt,		"$(data-dir)/sfx/sfx.conf",		0,0
 sfx-dir,		"$(data-dir)/sfx/",			0,0
+system-conf,		"$(data-dir)/etc/heroesrc",		0,0
 text-conf-txt,		"$(data-dir)/txt_cfg/txti.cfg",		0,0
 tiles-sets-dir,		"$(data-dir)/tilesets/",		0,0
 trails-img,		"$(data-dir)/pics/trail.pcx",		0,0
+user-conf,		"$(user-dir)/heroesrc",			0,0
 user-dir,		"$(home-dir)/.heroes",			0,0
 vehicles-img,		"$(data-dir)/pics/vehic.pcx",		0,0

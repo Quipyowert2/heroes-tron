@@ -4698,8 +4698,7 @@ main (int argc, char *argv[])
   /* Read the system-wide configuration file. */
   { 
     char* tmp;
-    
-    tmp = get_rsc_file ("heroesrc-txt");
+    tmp = get_rsc_file ("system-conf");
     if (tmp) {
       read_userconf (tmp, argv[0]);
       free (tmp);
@@ -4711,8 +4710,15 @@ main (int argc, char *argv[])
 
   add_default_extra_directories ();
 
-  if (read_userconf (0, argv[0]))
-    exit (1);
+  /* Read the user configuration file. */
+  { 
+    char* tmp;
+    tmp = get_rsc_file ("user-conf");
+    if (tmp) {
+      read_userconf (tmp, argv[0]);
+      free (tmp);
+    }
+  }
 
   dmsg (D_SYSTEM, "parsing command line");
   if (parse_argv (argc, argv))

@@ -19,7 +19,6 @@
 `------------------------------------------------------------------------*/
 
 #include "common.h"
-#define USERCONFIG_FILE "heroesrc"
 #include "userdir.h"
 #include "misc.h"
 #include "getshline.h"
@@ -34,27 +33,19 @@
 int 
 read_userconf (const char* file, const char* argv0)
 {
-  char* filename;
   FILE* fs;
   int firstline = 0, endline = 0;
   char* buf = 0;
   size_t bufsize = 0;
 #define MAX_ARGC 10
   
-  if (!file)
-    filename = strcat_alloc (userdir,"/" USERCONFIG_FILE);
-  else
-    filename = (char *) file; /* const_cast */
+  dmsg (D_SECTION|D_FILE, "reading configuration file: %s ...", file);
 
-  dmsg (D_SECTION|D_FILE, "reading configuration file: %s ...", filename);
-
-  fs = fopen (filename, "r");
+  fs = fopen (file, "r");
 
   if (!fs) {
     dmsg (D_SECTION|D_FILE, "... could not open.");
     dperror ("fopen");
-    if (!file)
-      free (filename);
     return 0;
   }
 
@@ -78,9 +69,9 @@ read_userconf (const char* file, const char* argv0)
       {
 	char* pname;
 	int err;
-	pname = malloc (sizeof(char) * (strlen (filename) + strlen (argv0) 
+	pname = malloc (sizeof(char) * (strlen (file) + strlen (argv0) 
 					+ strlen ("::999999") + 1));
-	sprintf (pname, "%s:%s:%d", argv0, filename, firstline);
+	sprintf (pname, "%s:%s:%d", argv0, file, firstline);
 	argv[0] = pname;
 	err = parse_argv (argc, argv);
 	free (pname);
@@ -92,7 +83,7 @@ read_userconf (const char* file, const char* argv0)
       /* get the variable name */
       argv [1] = strtok (0, " \t\n");
       if (argv[1] == 0) {
-	wmsg ("%s:%d: missing variable name\n", filename, firstline);	
+	wmsg ("%s:%d: missing variable name\n", file, firstline);	
 	goto non_fatal_error;
       }
       argv[2] = strtok (0, "\n");
@@ -111,15 +102,13 @@ read_userconf (const char* file, const char* argv0)
       /* get the resource name */
       argv [1] = strtok (0, " \t\n");
       if (argv[1] == 0) {
-	wmsg ("%s:%d: missing resource name\n", filename, firstline);
+	wmsg ("%s:%d: missing resource name\n", file, firstline);
 	goto non_fatal_error;
       }
       argv[2] = strtok (0, "\n");
       set_rsc_file (argv[1], argv[2]);
     } else {
-      wmsg ("%s:%d: unknown keyword `%s'\n", filename, firstline, argv[0]);
-      if (!file)
-	free (filename);
+      wmsg ("%s:%d: unknown keyword `%s'\n", file, firstline, argv[0]);
       return 1;
     }
   non_fatal_error:
@@ -127,8 +116,6 @@ read_userconf (const char* file, const char* argv0)
   } 
   free (buf);
   fclose (fs);
-  dmsg (D_SECTION|D_FILE, "... finished reading %s.", filename);
-  if (!file)
-    free (filename);
+  dmsg (D_SECTION|D_FILE, "... finished reading %s.", file);
   return 0;
 }
