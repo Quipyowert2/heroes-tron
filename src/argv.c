@@ -47,6 +47,8 @@ int doublefx = 1;
 int swapside = 1;
 char level_name[256];
 int mono = 0;
+int bits8 = 0;
+int hqmix = 0;
 
 static void
 version ()
@@ -72,6 +74,8 @@ print_help (char* argv0)
 	"      --default-options\t" "    restore default options file\n"
 	"      --default-saves\t"   "    restore default saves file\n"
 	"  -m, --mono\t\t"          "    non-stereo output\n"
+	"  -8, --8bits\t\t"	    "    8bits sound output\n"
+	"  -q, --high-quality\t"    "    high quality mixer\n"
 	"  -s, --swap-sides\t"      "    swap sides in two player mode\n"
 	"      --no-double-fx\t"    
                            "    disable superposition of rotozoom and waves\n"
@@ -104,6 +108,8 @@ const struct option long_options[] = {
   {"snap",		0, &snap,	0},
   {"no-joystick",	0, &joyoff,	'J'},
   {"mono",		0, 0,		'm'},
+  {"8bits",		0, 0,		'8'},
+  {"high-quality",	0, 0,		'q'},
   {"swap-sides",	0, 0,		's'},
   {"no-sfx",		0, 0,		'X'},
   {"no-double-fx",	0, &doublefx,	0},
@@ -127,7 +133,7 @@ parse_argv (int argc, char **argv)
   for (;;) {
     int option_index = 0;
 
-    c = getopt_long (argc, argv, "vhmsXl:gnd:G:JF", 
+    c = getopt_long (argc, argv, "vhm8qsXl:gnd:G:JF", 
 		     long_options, &option_index);
 
     /* Detect the end of the options. */
@@ -146,6 +152,12 @@ parse_argv (int argc, char **argv)
       break;
     case 'm':
       mono = 1;
+      break;
+    case '8':
+      bits8 = 1;
+      break;
+    case 'a':
+      hqmix = 1;
       break;
     case 'X':
       nosfx = 1;

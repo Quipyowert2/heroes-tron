@@ -565,6 +565,20 @@ created the next time Heroes run.
 Output sound in mono.  This has no effect if the game is compiled
 without sound support.
 
+@item -8
+@itemx --8bits
+@cindex -8
+@cindex --8bits
+Output sound in 8bits, rather than 16.  You will need this option if you
+have an old sound card that can't play 16bits samples.
+
+@item -q
+@itemx --high-quality
+@cindex -a
+@cindex --high-quality
+Use the high quality software mixer.  This mixer is somewhat more
+expensive, but you can expect a better sound quality.
+
 @item -s
 @itemx --swap-sides
 @cindex -s
@@ -745,7 +759,7 @@ key bindings used during the game.  Please set the keys here before
 playing since keycodes can vary from place to place (hmm...  is that
 right?).
 
-@subsection Sound
+@subsection Sound effects
 @cindex sound effects
 @cindex sfx
 @cindex delay
@@ -761,6 +775,29 @@ Options: -d3,buffer=11,count=4
 @end example
 in my @file{~/.heroes/heroesrc} file.  If you can find correct values for 
 other drivers, please send them to @email{duret_g@@epita.fr,me}!
+
+@subsection Sound errors
+@cindex sound errors
+@cindex errors
+If Heroes try to tell you that:
+@example
+Could not initialize sound, reason: Could not set sample size
+@end example
+That means that MikMod couln't setup the 16bits output, may be because
+your sound card doesn't support that.  Use the @samp{-8} option to
+have the game running with 8bits sound output.
+
+
+If you get:
+@example
+Could not initialize sound, reason: Could not set mono/stereo setting
+@end example
+You will have to run the game with @samp{-m}, because stereo is not
+available.
+
+Remember that you can always put these options in your
+@samp{~/.heroes/heroes} file (@pxref{heroesrc}) so that you don't need
+to type them every time you run the game.
 
 @node    Index,  , Running, Top
 @comment node-name,     next,           previous, up

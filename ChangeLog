@@ -1,5 +1,19 @@
 2000-07-09  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Sound configuration via -8 and -q options.
+	
+	* src/argv.c (hqmix,bits8): New variables.
+	(print_help): Display -8 and -q options.
+	(long_options): Add --8bits and --high-quality options.
+	(parse_argv): Handle these options.
+	* src/argv.h (hqmix,bits8): New variables.
+	* src/sound.c (init_sound_engine): Set md_mode with respect to
+	hqmix and bits8.
+	* doc/heroes.texi (Options): Document these new options.
+	(Troubleshooting): Add a `Sound errors' subsection.	
+
+2000-07-09  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/pcx.h (entete_): Rename to...
 	(header_): ... this.  Rename attributes as follow:
 	bits_par_pixels -> bits_per_pixels

@@ -83,6 +83,10 @@ init_sound_engine (void)
   md_mode |= DMODE_SOFT_MUSIC | DMODE_SOFT_SNDFX;
   if (mono)
     md_mode &= ~DMODE_STEREO;
+  if (bits8)
+    md_mode &= ~DMODE_16BITS;
+  if (hqmix)
+    md_mode |= DMODE_HQMIXER;
   if (MikMod_Init (driver_options?driver_options:"")) {
     fprintf (stderr, "Could not initialize sound, reason: %s\n",
 	     MikMod_strerror (MikMod_errno));

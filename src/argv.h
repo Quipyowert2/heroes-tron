@@ -36,3 +36,5 @@ extern int doublefx;
 extern int swapside;
 extern char level_name[256];
 extern int mono;
+extern int bits8;
+extern int hqmix;
