@@ -2207,10 +2207,10 @@ update_player (int c)
       player[c].spec = 0xff;
 
     if (player[c].spec == 0xff) {
-      if ((!level_is_finished) && player[c].invincible == 0
-	  && game_mode != M_DEATHM) shrink_trail (c, 5);
       erase_trail (c);
-      if (!level_is_finished)
+      if (! level_is_finished) {
+	if (! player[c].invincible && game_mode != M_DEATHM)
+	  shrink_trail (c, 5);
 	if (player[c].lifes == 1) {
 	  player[c].lifes = 0;
 	  player[c].spec = 0xde;
@@ -2224,6 +2224,7 @@ update_player (int c)
 	    event_sfx (62);
 	  return;
 	}
+      }
       reinit_player (c);
       if (player[c].lifes != 0 && player[c].invincible == 0
 	  && (!level_is_finished)) player[c].lifes--;
