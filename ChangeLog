@@ -1,5 +1,10 @@
 2002-03-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/rules/state.c (state_init): Clear state->square_lemmings_list,
+	and state->square_dead_lemmings_list.
+
+2002-03-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/lvl/de_body.c (decode_level_body): Initialize
 	lvl->square_direction for all square, even when it doesn't matter.
 	Otherwise `heroeslvl' will display some uninitialized directions.

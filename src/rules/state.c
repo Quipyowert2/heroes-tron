@@ -67,7 +67,10 @@ state_init (a_level_state *state, const a_level *lvl, char cont,
   XCALLOC_VAR (state->private);
   bits = state->private;
 
+  /* Clear these, so state_free knows if they need to be freed.  */
   state->square_object = 0;
+  state->square_lemmings_list = 0;
+  state->square_dead_lemmings_list = 0;
 
   if (state->game_mode == M_KILLEM) {
     XCALLOC_ARRAY (state->square_lemmings_list, lvl->square_count);
@@ -75,6 +78,7 @@ state_init (a_level_state *state, const a_level *lvl, char cont,
     memset (bits->lemmings_support, 0,
 	    LEMMINGS_TOTAL * sizeof (*state->private->lemmings_support));
   } else if (state->game_mode >= M_TCASH) {
+
     XMALLOC_ARRAY (state->square_object, lvl->square_count);
   }
 
