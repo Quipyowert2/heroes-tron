@@ -12,17 +12,19 @@ AC_DEFUN([heroes_MEDIALIB_SELECTION], [
   adl_LIBALT_OK([dums], [none], [], [])
   adl_LIBALT_OK([dumj], [none], [], [])
   adl_LIBALT_OK([stdm], [standard main], [], [])
-  adl_LIBALT_OK([sdlm], [SDL_main], [], [], [sdlvkm])
   # There is a trick here.  Usually our static library are added
   # to LIBALT_LOCAL_LDADD which is listed before LIBALT_LDADD (the system
-  # libraries) on the link line.  However, Allegro is special: it's library
-  # refer to OUR code.  Practically liballegro-whatever.so refers to
-  # _mangled_main in sys/libhallm.a.  So in addition to adding sys/libhallm.a
-  # to LIBALT_LOCAL_LDADD (done automatically), we will also list it
-  # in LIBALT_LDADD (requested below).  It will be added after
-  # -lallegro-complicatedname because `vkm' libraries are selected before `m'
-  # libraries; that's exactly what we want.
-  adl_LIBALT_OK([allm], [Allegro mangled main], [], [sys/libhallm.a], [allvkm])
+  # libraries) on the link line.  However, SDL_main and Allegro are special:
+  # they refer to OUR code (practically they call our main, which has been
+  # renamed to SDL_main() or _mangled_main()). So in addition to adding
+  # sys/libhallm.a to LIBALT_LOCAL_LDADD (done automatically by adl_LIBALT_OK),
+  # we will also list it in LIBALT_LDADD (requested below).  The 'APPEND' means
+  # the libraries should be appended instead of being prepended, since we
+  # want them to be listed after -lSDL_main or -lallegro.
+  adl_LIBALT_OK([sdlm], [SDL_main], [],
+		[sys/libhsdlm.a], [sdlvkm], [APPEND])
+  adl_LIBALT_OK([allm], [Allegro mangled main], [],
+		[sys/libhallm.a], [allvkm], [APPEND])
 
   # Heroes can run without display, but usually this is not what
   # the user wants :), so this "feature" is enabled only if

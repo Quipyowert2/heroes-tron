@@ -1,12 +1,13 @@
-# adl_LIBALT_OK (HANDLE, NAME, LDFLAGS, LDADD, DEPENDANT-ON-HANDLE)
-# -----------------------------------------------------------------
+# adl_LIBALT_OK (HANDLE, NAME, LDFLAGS, LDADD, [DEPENDENCIES], [OPTION])
+# ----------------------------------------------------------------------
 AC_DEFUN([adl_LIBALT_OK], [
   adl_libalt_$1_ok=yes
   adl_libalt_$1_name="$2"
-  adl_libalt_$1_LDFLAGS="$LIBALT_LDFLAGS $3"
-  adl_libalt_$1_LDADD="$LIBALT_LDADD $4"
+  adl_libalt_$1_LDFLAGS="$3"
+  adl_libalt_$1_LDADD="$4"
   adl_libalt_$1_selected=no
   adl_libalt_$1_depend_on="$5"
+  adl_libalt_$1_opt="$6"
 ])
 
 # adl_LIBALT_EITHER (HANDLES, DOC, VAR, LDADD_PREFIX)
@@ -28,9 +29,17 @@ AC_DEFUN([adl_LIBALT_EITHER], [
         fi
       done
       if test "$adl_libalt_tmp_ok" = yes ; then
-        eval LIBALT_LDFLAGS=\"\$LIBALT_LDFLAGS \$adl_libalt_${i}_LDFLAGS\"
-        eval LIBALT_LDADD=\"\$LIBALT_LDADD \$adl_libalt_${i}_LDADD\"
-        ifelse([$4],,, [LIBALT_LOCAL_LDADD="$LIBALT_LOCAL_LDADD $4$i.a"])
+        eval adl_libalt_tmp_opt=\"\$adl_libalt_${i}_opt\"
+	# The default is to prepend.
+	if test x"$adl_libalt_tmp_opt" = xAPPEND; then
+          eval LIBALT_LDFLAGS=\"\$LIBALT_LDFLAGS \$adl_libalt_${i}_LDFLAGS\"
+          eval LIBALT_LDADD=\"\$LIBALT_LDADD \$adl_libalt_${i}_LDADD\"
+          ifelse([$4],,, [LIBALT_LOCAL_LDADD="$LIBALT_LOCAL_LDADD $4$i.a"])
+	else
+          eval LIBALT_LDFLAGS=\"\$adl_libalt_${i}_LDFLAGS \$LIBALT_LDFLAGS\"
+          eval LIBALT_LDADD=\"\$adl_libalt_${i}_LDADD \$LIBALT_LDADD\"
+          ifelse([$4],,, [LIBALT_LOCAL_LDADD="$4$i.a $LIBALT_LOCAL_LDADD"])
+	fi
         eval "adl_libalt_${i}_selected=yes"
         $3=$i
         break

@@ -1,5 +1,13 @@
 2001-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* m4/libalt.m4 (adl_LIBALT_OK): Support options in the 6th argument.
+	(adl_LIBALT_EITHER): Defaut to prepend the library flags, handle
+	the APPEND option.
+	* m4/h-media.m4 (heroes_MEDIALIB_SELECTION): Use the APPEND option
+	for allm and sdlm.
+
+2001-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* m4/generic.m4 (AC_PATH_GENERIC): Don't complain about a missing
 	mumble-config if the installer has not used --with-mumble.
 
