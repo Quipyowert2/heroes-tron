@@ -18,29 +18,17 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-#include "system.h"
+#ifndef HEROES__EXPLOSIONS__H
+#define HEROES__EXPLOSIONS__H
+
 #include "sprite.h"
-#include "sprrle.h"
-#include "sprprog.h"
-#include "sprzcol.h"
 
-void
-free_sprite (sprite_t* sprite)
-{
-  if (!sprite)
-    return;
+#define NBR_EXPLOSION_FRAMES 15
+#define NBR_EXPLOSION_KINDS   2
 
-  /* dispatch */
-  switch (sprite->all.kind) {
-  case S_RLE:
-    free_sprrle (sprite);
-    break;
-  case S_RLE_ZCOL:
-    free_sprzcol (sprite);
-    break;
-  case S_PROG:
-  case S_PROG_WAV:
-    free_sprprog (sprite);
-    break;
-  }
-}
+extern sprite_t *explosions[NBR_EXPLOSION_KINDS][NBR_EXPLOSION_FRAMES];
+
+void init_explosions (void);
+void uninit_explosions (void);
+
+#endif /* HEROES__EXPLOSIONS__H */

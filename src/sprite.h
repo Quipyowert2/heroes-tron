@@ -34,8 +34,8 @@ enum sprite_kind {
   //  S_OPAQUE,			/* opaque (yes!) */
   S_RLE,			/* transparant */
   //  S_RLE_GL,			/* transparant, using a line of glenz */
-  //  S_RLE_ZCOL, 		/* transparant, using a kind of
-  //				   color-based z-buffer */
+  S_RLE_ZCOL,			/* transparant, using a kind of
+  				   color-based z-buffer, for explosions */
   S_PROG,			/* a list of sprites, to draw all at once */
   S_PROG_WAV			/* like S_PROG but also wave */
 };

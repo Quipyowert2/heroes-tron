@@ -19,28 +19,37 @@
 `------------------------------------------------------------------------*/
 
 #include "system.h"
-#include "sprite.h"
-#include "sprrle.h"
-#include "sprprog.h"
+#include "explosions.h"
 #include "sprzcol.h"
+#include "const.h"
 
-void
-free_sprite (sprite_t* sprite)
+sprite_t *explosions[NBR_EXPLOSION_KINDS][NBR_EXPLOSION_FRAMES];
+
+void init_explosions (void)
 {
-  if (!sprite)
-    return;
+  int i;
+  for (i = 0; i < 6; ++i)
+    explosions[0][i] = compile_sprzcol (IMGPOS (vehicles_img, 65, (5 - i)*33),
+					0, 32, 32, vehicles_img.width, xbuf);
+  for (; i < NBR_EXPLOSION_FRAMES; ++i)
+    explosions[0][i] = compile_sprzcol (IMGPOS (vehicles_img, 32,
+						(NBR_EXPLOSION_FRAMES - i - 1)
+						* 33),
+					0, 32, 32, vehicles_img.width, xbuf);
+  for (i = 0; i < 6; ++i)
+    explosions[1][i] = compile_sprzcol (IMGPOS (vehicles_img, 131, (5 - i)*33),
+					0, 32, 32, vehicles_img.width, xbuf);
+  for (; i < NBR_EXPLOSION_FRAMES; ++i)
+    explosions[1][i] = compile_sprzcol (IMGPOS (vehicles_img, 98,
+						(NBR_EXPLOSION_FRAMES - i - 1)
+						* 33),
+					0, 32, 32, vehicles_img.width, xbuf);
+}
 
-  /* dispatch */
-  switch (sprite->all.kind) {
-  case S_RLE:
-    free_sprrle (sprite);
-    break;
-  case S_RLE_ZCOL:
-    free_sprzcol (sprite);
-    break;
-  case S_PROG:
-  case S_PROG_WAV:
-    free_sprprog (sprite);
-    break;
-  }
+void uninit_explosions (void)
+{
+  int i, j;
+  for (i = 0; i < NBR_EXPLOSION_KINDS; ++i)
+    for (j = 0; j < NBR_EXPLOSION_FRAMES; ++j)
+      FREE_SPRITE0 (explosions[i][j]);
 }

@@ -24,9 +24,6 @@
 #include "pcx.h"
 #include "structs.h"
 
-#define nfrexplo1 15
-extern int fst_explo_list[nfrexplo1];
-extern int snd_explo_list[nfrexplo1];
 extern int trail[16];
 
 extern int tunnel_square_io[4][2];

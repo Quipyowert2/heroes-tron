@@ -18,29 +18,22 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-#include "system.h"
-#include "sprite.h"
+#ifndef HEROES__SPRZCOL__H
+#define HEROES__SPRZCOL__H
+
+/*---------------------------------------------------.
+| standard `z-colored' sprites (used for explosions) |
+`---------------------------------------------------*/
+
 #include "sprrle.h"
-#include "sprprog.h"
-#include "sprzcol.h"
 
-void
-free_sprite (sprite_t* sprite)
-{
-  if (!sprite)
-    return;
+void draw_sprzcol (const sprite_t *sprite, pixel_t *dest);
 
-  /* dispatch */
-  switch (sprite->all.kind) {
-  case S_RLE:
-    free_sprrle (sprite);
-    break;
-  case S_RLE_ZCOL:
-    free_sprzcol (sprite);
-    break;
-  case S_PROG:
-  case S_PROG_WAV:
-    free_sprprog (sprite);
-    break;
-  }
-}
+sprite_t *compile_sprzcol (const pixel_t *src, pixel_t transp_color,
+			   unsigned int block_height,
+			   unsigned int block_width,
+			   unsigned int src_width, unsigned int dest_width);
+
+void free_sprzcol (sprite_t *prog);
+
+#endif /* HEROES__SPRZCOL__H */

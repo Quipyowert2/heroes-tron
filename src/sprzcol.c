@@ -19,28 +19,55 @@
 `------------------------------------------------------------------------*/
 
 #include "system.h"
-#include "sprite.h"
-#include "sprrle.h"
-#include "sprprog.h"
 #include "sprzcol.h"
 
 void
-free_sprite (sprite_t* sprite)
+draw_sprzcol (const sprite_t *sprite, pixel_t *dest)
 {
-  if (!sprite)
-    return;
+  pixel_t	*cur = dest;	/* current writting possition */
+  u8_t		*pc;		/* program counter */
+  u8_t		*epc;		/* end of program code */
 
-  /* dispatch */
-  switch (sprite->all.kind) {
-  case S_RLE:
-    free_sprrle (sprite);
-    break;
-  case S_RLE_ZCOL:
-    free_sprzcol (sprite);
-    break;
-  case S_PROG:
-  case S_PROG_WAV:
-    free_sprprog (sprite);
-    break;
+  assert (sprite->all.kind == S_RLE_ZCOL);
+
+  pc = sprite->rle.code;
+  epc = sprite->rle.end_code;
+
+  while (pc < epc) {
+    unsigned m, n;
+    m = *pc++;
+    n = *pc++;
+    if (n == 0 && m == 0) {	/* end of line */
+      cur += sprite->rle.line_skip;
+    } else {
+      cur += m;
+      for (; n; --n) {
+	pixel_t curcol;
+	curcol = *cur;
+	if (curcol > 15 || curcol < *pc)
+	  *cur = *pc;
+	++pc;
+	++cur;
+      }
+    }
   }
+}
+
+sprite_t *
+compile_sprzcol (const pixel_t *src, pixel_t transp_color,
+		 unsigned int block_height, unsigned int block_width,
+		 unsigned int src_width, unsigned int dest_width)
+{
+  sprite_t *tmp = compile_sprrle (src, transp_color, block_height, block_width,
+				  src_width, dest_width);
+  tmp->all.kind = S_RLE_ZCOL;
+  tmp->all.draw = draw_sprzcol;
+  return tmp;
+}
+
+void
+free_sprzcol (sprite_t *prog)
+{
+  prog->all.kind = S_RLE;
+  free_sprrle (prog);
 }

@@ -63,6 +63,7 @@
 #include "fontdata.h"
 #include "bonus.h"
 #include "sprtext.h"
+#include "explosions.h"
 
 char tile_set_name[128];
 char glenz_name[128];
@@ -442,7 +443,7 @@ load_level (char *nomlvl, char cont)
 
   XMALLOC_ARRAY (square_explosion_type, map_info_2xt * map_info_2yt + 1);
   for (i = map_info_2xt * map_info_2yt - 1; i >= 0; i--)
-    square_explosion_type[i] = rand () & 1;
+    square_explosion_type[i] = rand () % NBR_EXPLOSION_KINDS;
 
   XMALLOC_ARRAY (square_way, map_info_2xt * map_info_2yt);
 
@@ -1563,49 +1564,53 @@ ia_eval_dist (int pos)
 /* used by ia_goto_target
  */
 
-#define ia_eval_dir_target_inline(s_sens)				  \
-    d=square_wrap[(pos<<2)+s_sens];					  \
-    if (d!=-1)								  \
-    if ((square_occupied[d]==0xff) &&					  \
-       ((square_explosion[d]>=(nfrexplo1-1)*8+12) || ia_is_invincible)) { \
-	    tmp=ia_eval_dir_target(d);					  \
-	    if (tmp<mindist) mindist=tmp;				  \
+#define ia_eval_dir_target_inline(s_sens)			\
+    d=square_wrap[(pos<<2)+s_sens];				\
+    if (d!=-1)							\
+    if ((square_occupied[d]==0xff) &&				\
+       ((square_explosion[d]>=(NBR_EXPLOSION_FRAMES-1)*8+12) 	\
+        || ia_is_invincible)) {					\
+	    tmp=ia_eval_dir_target(d);				\
+	    if (tmp<mindist) mindist=tmp;			\
     }
 
-#define ia_eval_dir_bonus_inline(s_sens)				  \
-    d=square_wrap[(pos<<2)+s_sens];					  \
-    if (d!=-1)								  \
-    if ((square_occupied[d]==0xff) &&					  \
-       ((square_explosion[d]>=(nfrexplo1-1)*8+12) || ia_is_invincible)) { \
-	    tmp=ia_eval_dir_bonus(d);					  \
-	    if (tmp>mindist) mindist=tmp;				  \
+#define ia_eval_dir_bonus_inline(s_sens)			\
+    d=square_wrap[(pos<<2)+s_sens];				\
+    if (d!=-1)							\
+    if ((square_occupied[d]==0xff) &&				\
+       ((square_explosion[d]>=(NBR_EXPLOSION_FRAMES-1)*8+12) 	\
+        || ia_is_invincible)) {					\
+	    if (tmp>mindist) mindist=tmp;			\
     }
 
-#define ia_eval_dir_lemming_inline(s_sens)				  \
-    d=square_wrap[(pos<<2)+s_sens];					  \
-    if (d!=-1)								  \
-    if ((square_occupied[d]==0xff) &&					  \
-       ((square_explosion[d]>=(nfrexplo1-1)*8+12) || ia_is_invincible)) { \
-	    tmp=ia_eval_dir_lemming(d);					  \
-	    if (tmp>mindist) mindist=tmp;				  \
+#define ia_eval_dir_lemming_inline(s_sens)			\
+    d=square_wrap[(pos<<2)+s_sens];				\
+    if (d!=-1)							\
+    if ((square_occupied[d]==0xff) &&				\
+       ((square_explosion[d]>=(NBR_EXPLOSION_FRAMES-1)*8+12) 	\
+        || ia_is_invincible)) {					\
+	    tmp=ia_eval_dir_lemming(d);				\
+	    if (tmp>mindist) mindist=tmp;			\
     }
 
-#define ia_eval_dir_cash_inline(s_sens)					  \
-    d=square_wrap[(pos<<2)+s_sens];					  \
-    if (d!=-1)								  \
-    if ((square_occupied[d]==0xff) &&					  \
-       ((square_explosion[d]>=(nfrexplo1-1)*8+12) || ia_is_invincible)) { \
-	    tmp=ia_eval_dir_cash(d);					  \
-	    if (tmp>mindist) mindist=tmp;				  \
+#define ia_eval_dir_cash_inline(s_sens)				\
+    d=square_wrap[(pos<<2)+s_sens];				\
+    if (d!=-1)							\
+    if ((square_occupied[d]==0xff) &&				\
+       ((square_explosion[d]>=(NBR_EXPLOSION_FRAMES-1)*8+12) 	\
+        || ia_is_invincible)) {					\
+	    tmp=ia_eval_dir_cash(d);				\
+	    if (tmp>mindist) mindist=tmp;			\
     }
 
-#define ia_eval_dir_color_inline(s_sens)				  \
-    d=square_wrap[(pos<<2)+s_sens];					  \
-    if (d!=-1)								  \
-    if ((square_occupied[d]==0xff) &&					  \
-       ((square_explosion[d]>=(nfrexplo1-1)*8+12) || ia_is_invincible)) { \
-	    tmp=ia_eval_dir_color(d);					  \
-	    if (tmp>mindist) mindist=tmp;				  \
+#define ia_eval_dir_color_inline(s_sens)			\
+    d=square_wrap[(pos<<2)+s_sens];				\
+    if (d!=-1)							\
+    if ((square_occupied[d]==0xff) &&				\
+       ((square_explosion[d]>=(NBR_EXPLOSION_FRAMES-1)*8+12) 	\
+        || ia_is_invincible)) {					\
+	    tmp=ia_eval_dir_color(d);				\
+	    if (tmp>mindist) mindist=tmp;			\
     }
 
 /*
@@ -1837,69 +1842,74 @@ ia_eval_dir_bonus (int pos)
 
 /* give the *way* to follow to get a given position */
 
-#define ia_goto_target_inline(s_sens)                              \
-    d=square_wrap[(pos<<2)+s_sens];                              \
-    if (d!=-1)                                                \
-    if ((square_occupied[d]==0xff) &&                               \
-       ((square_explosion[d]>=(nfrexplo1-1)*8+12) || ia_is_invincible)) {  \
-	  ia_cur_depth=ia_max_depth;                              \
-	  tmp[s_sens]=ia_eval_dir_target(d);                             \
-	  if (tmp[s_sens]<mindist) {                          \
-		mindist=tmp[s_sens];                          \
-		mindir=s_sens;                                \
-	  }                                                   \
+#define ia_goto_target_inline(s_sens)				\
+    d=square_wrap[(pos<<2)+s_sens];				\
+    if (d!=-1)							\
+    if ((square_occupied[d]==0xff) &&				\
+       ((square_explosion[d]>=(NBR_EXPLOSION_FRAMES-1)*8+12) 	\
+        || ia_is_invincible)) {					\
+	  ia_cur_depth=ia_max_depth;				\
+	  tmp[s_sens]=ia_eval_dir_target(d);			\
+	  if (tmp[s_sens]<mindist) {				\
+		mindist=tmp[s_sens];				\
+		mindir=s_sens;					\
+	  }							\
     }
 
-#define ia_goto_bonus_inline(s_sens)                               \
-    d=square_wrap[(pos<<2)+s_sens];                              \
-    if (d!=-1)                                                \
-    if ((square_occupied[d]==0xff) &&                               \
-       ((square_explosion[d]>=(nfrexplo1-1)*8+12) || ia_is_invincible)) {  \
-	  ia_cur_depth=ia_max_depth;                              \
-	  tmp[s_sens]=ia_eval_dir_bonus(d);                        \
-	  if (tmp[s_sens]>mindist) {                          \
-		mindist=tmp[s_sens];                          \
-		mindir=s_sens;                                \
-	  }                                                   \
+#define ia_goto_bonus_inline(s_sens)				\
+    d=square_wrap[(pos<<2)+s_sens];				\
+    if (d!=-1)							\
+    if ((square_occupied[d]==0xff) &&				\
+       ((square_explosion[d]>=(NBR_EXPLOSION_FRAMES-1)*8+12) 	\
+        || ia_is_invincible)) {					\
+	  ia_cur_depth=ia_max_depth;				\
+	  tmp[s_sens]=ia_eval_dir_bonus(d);			\
+	  if (tmp[s_sens]>mindist) {				\
+		mindist=tmp[s_sens];				\
+		mindir=s_sens;					\
+	  }							\
     }
 
-#define ia_goto_lemming_inline(s_sens)                              \
-    d=square_wrap[(pos<<2)+s_sens];                              \
-    if (d!=-1)                                                \
-    if ((square_occupied[d]==0xff) &&                               \
-       ((square_explosion[d]>=(nfrexplo1-1)*8+12) || ia_is_invincible)) {  \
-	  ia_cur_depth=ia_max_depth;                              \
-	  tmp[s_sens]=ia_eval_dir_lemming(d);                       \
-	  if (tmp[s_sens]>mindist) {                          \
-		mindist=tmp[s_sens];                          \
-		mindir=s_sens;                                \
-	  }                                                   \
+#define ia_goto_lemming_inline(s_sens)				\
+    d=square_wrap[(pos<<2)+s_sens];				\
+    if (d!=-1)							\
+    if ((square_occupied[d]==0xff) &&				\
+       ((square_explosion[d]>=(NBR_EXPLOSION_FRAMES-1)*8+12) 	\
+        || ia_is_invincible)) {					\
+	  ia_cur_depth=ia_max_depth;				\
+	  tmp[s_sens]=ia_eval_dir_lemming(d);			\
+	  if (tmp[s_sens]>mindist) {				\
+		mindist=tmp[s_sens];				\
+		mindir=s_sens;					\
+	  }							\
     }
 
-#define ia_goto_color_inline(s_sens)                               \
-    d=square_wrap[(pos<<2)+s_sens];                              \
-    if (d!=-1)                                                \
-    if ((square_occupied[d]==0xff) &&                               \
-       ((square_explosion[d]>=(nfrexplo1-1)*8+12) || ia_is_invincible)) {  \
-	  ia_cur_depth=ia_max_depth;                              \
-	  tmp[s_sens]=ia_eval_dir_color(d);                        \
-	  if (tmp[s_sens]>mindist) {                          \
-		mindist=tmp[s_sens];                          \
-		mindir=s_sens;                                \
-	  }                                                   \
+#define ia_goto_color_inline(s_sens)				\
+    d=square_wrap[(pos<<2)+s_sens];				\
+    if (d!=-1)							\
+    if ((square_occupied[d]==0xff) &&				\
+       ((square_explosion[d]>=(NBR_EXPLOSION_FRAMES-1)*8+12) 	\
+        || ia_is_invincible)) {					\
+	  ia_cur_depth=ia_max_depth;				\
+	  tmp[s_sens]=ia_eval_dir_color(d);			\
+	  if (tmp[s_sens]>mindist) {				\
+		mindist=tmp[s_sens];				\
+		mindir=s_sens;					\
+	  }							\
     }
 
-#define ia_goto_cash_inline(s_sens)                              \
-    d=square_wrap[(pos<<2)+s_sens];                              \
-    if (d!=-1)                                                \
-    if ((square_occupied[d]==0xff) &&                               \
-       ((square_explosion[d]>=(nfrexplo1-1)*8+12) || ia_is_invincible)) {  \
-	  ia_cur_depth=ia_max_depth;                              \
-	  tmp[s_sens]=ia_eval_dir_cash(d);                       \
-	  if (tmp[s_sens]>mindist) {                          \
-		mindist=tmp[s_sens];                          \
-		mindir=s_sens;                                \
-	  }                                                   \
+#define ia_goto_cash_inline(s_sens)				\
+    d=square_wrap[(pos<<2)+s_sens];				\
+    if (d!=-1)							\
+    if ((square_occupied[d]==0xff) &&				\
+       ((square_explosion[d]>=(NBR_EXPLOSION_FRAMES-1)*8+12) 	\
+        || ia_is_invincible)) {					\
+	  ia_cur_depth=ia_max_depth;				\
+	  tmp[s_sens]=ia_eval_dir_cash(d);			\
+	  if (tmp[s_sens]>mindist) {				\
+		mindist=tmp[s_sens];				\
+		mindir=s_sens;					\
+	  }							\
     }
 
 static char
@@ -2199,13 +2209,12 @@ update_player (int c)
   }
 
 
-/* if (explofr[c]!=0) explofr[c]--; */
   if (player[c].d.h.h != 0 || player[c].delay == 1) {
 
 /**** handling of trails ****/
-    if ( /*player[c].spec!=t_tunnel*8 && */ player[c].delay == 0) {
+    if (player[c].delay == 0) {
       l = player[c].x2 + player[c].y2 * map_info_2xt;
-      square_occupied[l] = (char) (c + 8);	/* 0xff; */
+      square_occupied[l] = (char) (c + 8);
       trail_offset[c] = (char) ((trail_offset[c] - 1) & (maxq - 1));
       trail_pos[c][trail_offset[c]] = l;
       trail_way[c][trail_offset[c]] = square_way[l] =
@@ -2222,28 +2231,6 @@ update_player (int c)
 	square_occupied[trail_pos[c][a]] = (char) (c + 12);
 
     }
-/*************************/
-/*     if (player[c].spec==t_tunnel) {player[c].spec=t_tunnel*4;
-				    player[c].x2=(level_map[d].info.tunnel.output%map_info.xt)<<1;
-				    player[c].y2=(level_map[d].info.tunnel.output/map_info.xt)<<1;
-				    player[c].d.e=0;
-				    if (level_map[(player[c].x2>>1)+(player[c].y2>>1)*map_info.xt].type==t_tunnel) {
-					 b=level_map[(player[c].x2>>1)+(player[c].y2>>1)*map_info.xt].info.tunnel.direction;
-				    } else {
-					 b=w2d[d2w[level_map[d].info.tunnel.direction]^2];
-				    }
-				    player[c].way=d2w[b]^2;
-				    player[c].next_way=d2w[b]^2;
-				    if (player[i].tunnel_inverse) player[c].next_way^=2;
-				    a=tunnel_square_io[d2w[b]][player[c].div];
-				    if (b==d_left) player[c].x2--;
-				    if (b==d_right) player[c].x2++;
-				    if (b==d_up)   player[c].y2--;
-				    if (b==d_down)    player[c].y2++;
-				    if (a&1) player[c].x2++;
-				    if (a&2) player[c].y2++;
-				    }
-*/
 
     d2 = player[c].y2 * map_info_2xt + player[c].x2;
     if (player[c].delay == 0)
@@ -2254,18 +2241,13 @@ update_player (int c)
     player[c].d.h.h = 0;
 
     if (player[c].spec == t_tunnel) {
-      /*  player[c].old_way= */ player[c].way = player[c].tunnel_way;
-      /* d2w[b]^2; */
-/*             player[c].next_way=player[c].tunnel_way; d2w[b]^2;
-	     if (player[i].tunnel_inverse) player[c].next_way^=2;*/
+      player[c].way = player[c].tunnel_way;
       player[c].spec = 0;
     }
 
 
     if (cpuon) {
-      if (player[c].target < 16)
-/*  for (i=0;i<4;i++) */
-      {
+      if (player[c].target < 16) {
 	if ((player[c].cpu & 2) == 0) {
 	  if (player[c].behaviour == 1)
 	    player[c].next_way = ia_goto_nearest_bonus (c);
@@ -2284,194 +2266,182 @@ update_player (int c)
       } else
 	player[c].target -= 16;
     }
-/*       if (player[c].spec!=t_tunnel*4) */
-    {
-      square_occupied[d2 /*player[c].x2+player[c].y2*map_info_2xt */ ] = c;
-      if (
-	  (square_explosion[d2 /*player[c].x2+player[c].y2*map_info_2xt */ ]
-	   <=
-	   (nfrexplo1 - 1) * 8 - 1) && player[c].invincible == 0)
-	player[c].spec = 0xff;
-    }
+    square_occupied[d2] = c;
+    if ((square_explosion[d2] <= (NBR_EXPLOSION_FRAMES - 1) * 8 - 1) &&
+	player[c].invincible == 0)
+      player[c].spec = 0xff;
+
     player[c].square = (char) ((player[c].x2 & 1) + (player[c].y2 & 1) * 2);
     d = (player[c].x2 >> 1) + (player[c].y2 >> 1) * map_info.xt;
 
-/*    if (player[c].spec!=t_tunnel*4) */
-    {
-      if (level_map[d].type == t_ice
-	  && level_map[d].info.param[player[c].square] != 0)
-	player[c].spec = t_ice;
-      if (
-	  (level_map[d].type == t_stop
-	   && level_map[d].info.param[player[c].square] != 0
-	   && player[c].delay == 0) || player[c].notify_delay) {
-	player[c].notify_delay = 0;
-	player[c].delay = 100;
-	player[c].d.e = 0;
-	return;
-      }
+    if (level_map[d].type == t_ice
+	&& level_map[d].info.param[player[c].square] != 0)
+      player[c].spec = t_ice;
+    if ((level_map[d].type == t_stop
+	 && level_map[d].info.param[player[c].square] != 0
+	 && player[c].delay == 0) || player[c].notify_delay) {
+      player[c].notify_delay = 0;
+      player[c].delay = 100;
+      player[c].d.e = 0;
+      return;
+    }
 
-      if (game_mode == M_KILLEM) {
-	tmppti = square_lemmings_list[d2];
-	if (tmppti >= lemmings_support
-	    && tmppti < lemmings_support + lemmings_total) {
-	  if ((tmppti->pos1 == d2 && lemmings_move_offset < 38000)
-	      || (tmppti->pos2 == d2 && lemmings_move_offset > 28000)) {
-	    if (!level_is_finished) {
-	      player[c].score += 10;
-	      player[tmppti->couleur].lemmings_nbr--;
-	    }
-	    tmppti->dead = (rand () & 15) + 1;
-	    if (rand () & 63) {
-	      tmppti->couleur = 0;
-	      if (player[c].cpu == 2)
-		event_sfx (90 + ((tmppti->dead - 1) >> 1));
-	    } else {
-	      tmppti->couleur = 1;
-	      if (!level_is_finished)
-		player[c].score += 140;
-	      player[c].martians_nbr++;
-	      if (player[c].cpu == 2)
-		event_sfx (98);
-	    }
-	    if (lemmings_move_offset < 32536) {
-	      tmppti->min = lemmings_move_offset;
-	      i = tmppti->pos1;
-	    } else {
-	      tmppti->min = 65536 - lemmings_move_offset;
-	      assert (tmppti->min < 65536);
-	      i = tmppti->pos2;
-	      tmppti->way ^= 2;
-	    }
-	    square_lemmings_list[tmppti->pos1] = NULL;
-	    square_lemmings_list[tmppti->pos2] = NULL;
-	    tmppti->nexttache =
-	      (char *) square_dead_lemmings_list[i /*tmppti->pos1 */ ];
-	    square_dead_lemmings_list[i /*tmppti->pos1 */ ] = tmppti;
-	  }
-	}
-	for (i = 0; i < 4; i++)
-	  if (player[(i + 1) & 3].lemmings_nbr == 0 &&
-	      player[(i + 2) & 3].lemmings_nbr == 0 &&
-	      player[(i + 3) & 3].lemmings_nbr == 0)
-	    level_is_finished = i + 1;
-      }
-
-      if (game_mode == M_COLOR) {
-	t = square_object[d2];
-	if ((signed char) t >= 0) {
-	  if ((!level_is_finished)) {
-	    player[c].score += 2;
-	    if (player[c].cpu == 2) {
-	      if (t == c)
-		event_sfx (100);
-	      else if (t <= 4)
-		event_sfx (101);
-	      if (t == 8 + c)
-		event_sfx (102);
-	      else if (t <= 12)
-		event_sfx (103);
-	      else if (t == 16)
-		event_sfx (104);
-	      else if (t == 24)
-		event_sfx (105);
-	    }
-	    if ((t < 4) && (player[t].spec != 0xde))
-	      player[t].cash++;
-	    else if (t == 4) {
-	      if (player[(c + 1) & 3].spec != 0xde)
-		player[(c + 1) & 3].cash++;
-	      if (player[(c + 2) & 3].spec != 0xde)
-		player[(c + 2) & 3].cash++;
-	      if (player[(c + 3) & 3].spec != 0xde)
-		player[(c + 3) & 3].cash++;
-	    } else if (t < 12) {
-	      if (player[t & 3].cash > 0)
-		player[t & 3].cash--;
-	    } else if (t == 12) {
-	      if ((player[(c + 1) & 3].cash > 0)
-		  && (player[(c + 1) & 3].spec != 0xde))
-		player[(c + 1) & 3].cash--;
-	      if ((player[(c + 2) & 3].cash > 0)
-		  && (player[(c + 2) & 3].spec != 0xde))
-		player[(c + 2) & 3].cash--;
-	      if ((player[(c + 3) & 3].cash > 0)
-		  && (player[(c + 3) & 3].spec != 0xde))
-		player[(c + 3) & 3].cash--;
-	    } else if (t == 16)
-	      player[c].time += 1000;
-	    else if (t == 24) {
-	      if (player[c].time > 333)
-		player[c].time -= 333;
-	      else
-		player[c].time = 1;
-	    }
-	  }
-	  square_object[d2] = -1;
-	  /* add_color(0); */
-	  objects_nbr--;
-	}
-      }
-
-      if (game_mode == M_TCASH) {
-	t = square_object[d2];
-	if ((signed char) t >= 0) {
-	  if (!level_is_finished) {
-	    player[c].score += 2;
-	    if (t == 0) {
-	      player[c].cash++;
-	      if (player[c].cpu == 2)
-		event_sfx (80);
-	    }
-	    if (t == 15) {
-	      player[c].time += 1000;
-	      if (player[c].cpu == 2)
-		event_sfx (81);
-	    }
-	  }
-	  square_object[d2] = -1;
-	  /* add_cash(0); */
-	  objects_nbr--;
-	}
-      }
-
-      if (game_mode == M_DEATHM) {
-	for (i = 0; i < 4; i++)
-	  if (player[(i + 1) & 3].lifes == 0 &&
-	      player[(i + 2) & 3].lifes == 0
-	      && player[(i + 3) & 3].lifes == 0) level_is_finished = i + 1;
-      }
-      {
-	int bonus = tile_bonus[d];
-	if (bonus && bonus != 0xff) {
-	  rem_bonus (d);
+    if (game_mode == M_KILLEM) {
+      tmppti = square_lemmings_list[d2];
+      if (tmppti >= lemmings_support
+	  && tmppti < lemmings_support + lemmings_total) {
+	if ((tmppti->pos1 == d2 && lemmings_move_offset < 38000)
+	    || (tmppti->pos2 == d2 && lemmings_move_offset > 28000)) {
 	  if (!level_is_finished) {
 	    player[c].score += 10;
-	    if (bonus & 128) {
-	      if (player[c].cpu == 2)
-		event_sfx (39 + (bonus & 127));
-	      for (i = 0; i < 4; i++)
-		if ((c != i) && (player[i].spec != 0xde))
-		  apply_bonus (i, (bonus & 127));
-	    } else
-	      apply_bonus (c, bonus);
+	    player[tmppti->couleur].lemmings_nbr--;
 	  }
-	  if (player[c].notify_delay) {
-	    player[c].notify_delay = 0;
-	    player[c].delay = 100;
-	    player[c].d.e = 0;
-	    return;
+	  tmppti->dead = (rand () & 15) + 1;
+	  if (rand () & 63) {
+	    tmppti->couleur = 0;
+	    if (player[c].cpu == 2)
+	      event_sfx (90 + ((tmppti->dead - 1) >> 1));
+	  } else {
+	    tmppti->couleur = 1;
+	    if (!level_is_finished)
+	      player[c].score += 140;
+	    player[c].martians_nbr++;
+	    if (player[c].cpu == 2)
+	      event_sfx (98);
 	  }
+	  if (lemmings_move_offset < 32536) {
+	    tmppti->min = lemmings_move_offset;
+	    i = tmppti->pos1;
+	  } else {
+	    tmppti->min = 65536 - lemmings_move_offset;
+	    assert (tmppti->min < 65536);
+	    i = tmppti->pos2;
+	    tmppti->way ^= 2;
+	  }
+	  square_lemmings_list[tmppti->pos1] = NULL;
+	  square_lemmings_list[tmppti->pos2] = NULL;
+	  tmppti->nexttache =
+	    (char *) square_dead_lemmings_list[i];
+	  square_dead_lemmings_list[i] = tmppti;
+	}
+      }
+      for (i = 0; i < 4; i++)
+	if (player[(i + 1) & 3].lemmings_nbr == 0 &&
+	    player[(i + 2) & 3].lemmings_nbr == 0 &&
+	    player[(i + 3) & 3].lemmings_nbr == 0)
+	  level_is_finished = i + 1;
+    }
+    if (game_mode == M_COLOR) {
+      t = square_object[d2];
+      if ((signed char) t >= 0) {
+	if ((!level_is_finished)) {
+	  player[c].score += 2;
+	  if (player[c].cpu == 2) {
+	    if (t == c)
+	      event_sfx (100);
+	    else if (t <= 4)
+	      event_sfx (101);
+	    else if (t == 8 + c)
+	      event_sfx (102);
+	    else if (t <= 12)
+	      event_sfx (103);
+	    else if (t == 16)
+	      event_sfx (104);
+	    else if (t == 24)
+	      event_sfx (105);
+	  }
+	  if ((t < 4) && (player[t].spec != 0xde))
+	    player[t].cash++;
+	  else if (t == 4) {
+	    if (player[(c + 1) & 3].spec != 0xde)
+	      player[(c + 1) & 3].cash++;
+	    if (player[(c + 2) & 3].spec != 0xde)
+	      player[(c + 2) & 3].cash++;
+	    if (player[(c + 3) & 3].spec != 0xde)
+	      player[(c + 3) & 3].cash++;
+	  } else if (t < 12) {
+	    if (player[t & 3].cash > 0)
+	      player[t & 3].cash--;
+	  } else if (t == 12) {
+	    if ((player[(c + 1) & 3].cash > 0)
+		&& (player[(c + 1) & 3].spec != 0xde))
+	      player[(c + 1) & 3].cash--;
+	    if ((player[(c + 2) & 3].cash > 0)
+		&& (player[(c + 2) & 3].spec != 0xde))
+	      player[(c + 2) & 3].cash--;
+	    if ((player[(c + 3) & 3].cash > 0)
+		&& (player[(c + 3) & 3].spec != 0xde))
+	      player[(c + 3) & 3].cash--;
+	  } else if (t == 16)
+	    player[c].time += 1000;
+	  else if (t == 24) {
+	    if (player[c].time > 333)
+	      player[c].time -= 333;
+	    else
+	      player[c].time = 1;
+	  }
+	}
+	square_object[d2] = -1;
+	/* add_color(0); */
+	objects_nbr--;
+      }
+    }
+
+    if (game_mode == M_TCASH) {
+      t = square_object[d2];
+      if ((signed char) t >= 0) {
+	if (!level_is_finished) {
+	  player[c].score += 2;
+	  if (t == 0) {
+	    player[c].cash++;
+	    if (player[c].cpu == 2)
+	      event_sfx (80);
+	  }
+	  if (t == 15) {
+	    player[c].time += 1000;
+	    if (player[c].cpu == 2)
+	      event_sfx (81);
+	  }
+	}
+	square_object[d2] = -1;
+	/* add_cash(0); */
+	objects_nbr--;
+      }
+    }
+
+    if (game_mode == M_DEATHM) {
+      for (i = 0; i < 4; i++)
+	if (player[(i + 1) & 3].lifes == 0
+	    && player[(i + 2) & 3].lifes == 0
+	    && player[(i + 3) & 3].lifes == 0)
+	  level_is_finished = i + 1;
+    }
+    {
+      int bonus = tile_bonus[d];
+      if (bonus && bonus != 0xff) {
+	rem_bonus (d);
+	if (!level_is_finished) {
+	  player[c].score += 10;
+	  if (bonus & 128) {
+	    if (player[c].cpu == 2)
+	      event_sfx (39 + (bonus & 127));
+	    for (i = 0; i < 4; i++)
+	      if ((c != i) && (player[i].spec != 0xde))
+		apply_bonus (i, (bonus & 127));
+	  } else
+	    apply_bonus (c, bonus);
+	}
+	if (player[c].notify_delay) {
+	  player[c].notify_delay = 0;
+	  player[c].delay = 100;
+	  player[c].d.e = 0;
+	  return;
 	}
       }
     }
     player[c].old_old_way = player[c].old_way;
     player[c].old_way = player[c].way;
-/*       if (player[c].spec==t_tunnel)
-       { player[c].way=player[c].next_way;
-	 return;
-       }
-*/
+
     if (player[c].autopilot)
       find_free_way (c);	/* here t_tunnel*4 become t_tunnel*8 !!! */
     if ((!player[c].autopilot)
@@ -2575,19 +2545,15 @@ update_player (int c)
       if (level_map[d].type == t_dust
 	  && level_map[d].info.param[player[c].square] != 0)
 	player[c].vi = -(player[c].v >> 1);
-      if (square_explosion[d2 /*player[c].x2+player[c].y2*map_info_2xt */ ] ==
+      if (square_explosion[d2] ==
 	  255) {
-	square_explosion[d2 /*player[c].x2+player[c].y2*map_info_2xt */ ] =
+	square_explosion[d2] =
 	  200;
-	square_explosion_type[d2 /*player[c].x2+player[c].y2*map_info_2xt */ ]
-	  =
-	  (char) (1 + (rand () & 1));
-/*            return; */
+	square_explosion_type[d2] = rand () % NBR_EXPLOSION_KINDS;
       }
     }
     player[c].delay = 0;
 
-/*      if (square_wrap[(d2<<2)+player[c].way]==-1) {printf("Le player_t %d (0-3) pénètre une dalle \"-1\" !",c); fatal_error(""); } */
     assert (square_wrap[(d2 << 2) + player[c].way] != -1);
     square_occupied[square_wrap[(d2 << 2) + player[c].way]] = (char) (c + 4);
   }
@@ -2614,22 +2580,22 @@ update_explo (void)
       x2 = *m++;
       if (x2 >= 0 && (square_explosion[x2] == 255)) {
 	square_explosion[x2] = 200;
-	square_explosion_type[x2] = (char) (1 + (rand () & 1));
+	square_explosion_type[x2] = rand () % NBR_EXPLOSION_KINDS;
       }
       x2 = *m++;
       if (x2 >= 0 && (square_explosion[x2] == 255)) {
 	square_explosion[x2] = 200;
-	square_explosion_type[x2] = (char) (1 + (rand () & 1));
+	square_explosion_type[x2] = rand () % NBR_EXPLOSION_KINDS;
       }
       x2 = *m++;
       if (x2 >= 0 && (square_explosion[x2] == 255)) {
 	square_explosion[x2] = 200;
-	square_explosion_type[x2] = (char) (1 + (rand () & 1));
+	square_explosion_type[x2] = rand () % NBR_EXPLOSION_KINDS;
       }
       x2 = *m++;
       if (x2 >= 0 && (square_explosion[x2] == 255)) {
 	square_explosion[x2] = 200;
-	square_explosion_type[x2] = (char) (1 + (rand () & 1));
+	square_explosion_type[x2] = rand () % NBR_EXPLOSION_KINDS;
       }
     }
   }
@@ -3872,11 +3838,8 @@ main (int argc, char *argv[])
   pcx_load_from_rsc ("jukebox-font", &font_deck_img);
 
   init_fonts ();
+  init_explosions ();
 
-  for (i = nfrexplo1 - 1; i >= 0; i--) {
-    fst_explo_list[i] += (int) vehicles_img.buffer;
-    snd_explo_list[i] += (int) vehicles_img.buffer;
-  }
   for (i = 15; i >= 0; i--) {
     trail[i] += (int) trailimg.buffer;
   }
@@ -3892,6 +3855,7 @@ main (int argc, char *argv[])
   uninit_fader ();
   uninit_text_waving_step ();
 
+  uninit_explosions ();
   uninit_fonts ();
 
   free_htimer (demo_trigger_htimer);

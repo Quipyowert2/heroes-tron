@@ -30,6 +30,7 @@
 #include "heroes.h"
 #include "renderdata.h"
 #include "bonus.h"
+#include "explosions.h"
 
 char tutor = 0;
 
@@ -718,12 +719,10 @@ draw_level (int p)
 	i &= map_info_2xwrap;
 	if (((unsigned) i) < map_info_2xt) {
 	  b = square_explosion[m + i];
-	  if (b < (nfrexplo1 - 1) * 8 - 1) {
+	  if (b < (NBR_EXPLOSION_FRAMES - 1) * 8 - 1) {
 	    b++;
-	    if (square_explosion_type[m + i] == 1)
-	      copy_32x32_transp_z ((pixel_t *) fst_explo_list[b >> 3], dest);
-	    else
-	      copy_32x32_transp_z ((pixel_t *) snd_explo_list[b >> 3], dest);
+	    DRAW_SPRITE (explosions[square_explosion_type[m + i]][b >> 3],
+			 dest);
 	  }
 	}
 	dest += 12;
@@ -735,7 +734,8 @@ draw_level (int p)
 
   /* Draw explosions from dead players */
 
-  if ((unsigned) (event_time - last_explo) < (nfrexplo1 - 1) * 8 - 1) {
+  if ((unsigned) (event_time - last_explo) <
+      (NBR_EXPLOSION_FRAMES - 1) * 8 - 1) {
     dest = render_buffer[p] + sbuf - 12 - 11 * xbuf - 20 * xbuf - 12;
     for (k = corner_dy[p] * 2 - 2, l = 0;
 	 l != 4 + (11 - camera_stop_y[p]) * 2; l++, k++) {
@@ -748,16 +748,10 @@ draw_level (int p)
 	  i &= map_info_2xwrap;
 	  if (((unsigned) i) < map_info_2xt) {
 	    ib = event_time - square_dead_explosion[m + i];
-	    if (ib < (nfrexplo1 - 1) * 8 - 1) {
+	    if (ib < (NBR_EXPLOSION_FRAMES - 1) * 8 - 1) {
 	      ib++;
-	      if (square_explosion_type[m + i] == 1)
-		copy_32x32_transp_z ((pixel_t *)
-				     fst_explo_list[nfrexplo1 - 2 -
-						    (ib >> 3)], dest);
-	      else
-		copy_32x32_transp_z ((pixel_t *)
-				     snd_explo_list[nfrexplo1 - 2 -
-						    (ib >> 3)], dest);
+	      DRAW_SPRITE (explosions[square_explosion_type[m + i]]
+			   [NBR_EXPLOSION_FRAMES - 2 - (ib >> 3)], dest);
 	    }
 	  }
 	  dest += 12;

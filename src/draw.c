@@ -205,26 +205,6 @@ copy_rect_transp_red (const unsigned char *src, unsigned char *dest, int xt,
 }
 
 void
-copy_32x32_transp_z (const unsigned char *src, unsigned char *dest)
-{
-  int j, k;
-  char c, d;
-  for (j = 32; j != 0; j--) {
-    for (k = 32; k != 0; k--) {
-      c = *src++;
-      if (c != 0) {
-	d = *dest;
-	if (d > 15 || d < c)
-	  *dest = c;
-      }
-      dest++;
-    }
-    src += 320 - 32;
-    dest += xbuf - 32;
-  }
-}
-
-void
 copy_rect_4 (const unsigned char *src, unsigned char *dest, int xt, int yt)
 {
   int j;

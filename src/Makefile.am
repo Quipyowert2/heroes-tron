@@ -46,6 +46,8 @@ endscroll.c \
 endscroll.h \
 errors.c \
 errors.h \
+explosions.c \
+explosions.h \
 extras.c \
 extras.h \
 fader.c \
@@ -114,6 +116,8 @@ sprprogwav.c \
 sprprogwav.h \
 sprtext.c \
 sprtext.h \
+sprzcol.c \
+sprzcol.h \
 structs.h \
 system.h \
 timer.c \

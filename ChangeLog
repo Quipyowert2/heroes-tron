@@ -1,3 +1,30 @@
+2000-11-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Declare explosion sprites to explosion.{c,h} using new sprite
+	functions.  Rename nbrexplo1 as NBR_EXPLOSION_FRAMES, and
+	fst_explo_list and snd_explo_list are now compiled as sprite_t*
+	into explosions[0] and explosions[1].
+
+	* src/explosions.c: New file.
+	* src/explosions.h: New file.
+	* src/sprzcol.c: New file.
+	* src/sprzcol.h: New file.
+	* src/Makefile.am (heroes_SOURCES): Add these four files.
+	* src/sprite.h (sprite_kind): Add S_RLE_ZCOL.
+	* src/sprite.c (free_sprite): Handle S_RLE_ZCOL.
+	* src/draw.c (copy_32x32_transp_z): Remove (now obsoleted by sprzcol).
+
+	* src/const.c (nfrexplo1,fst_explo_list,snd_explo_list): Remove.
+	* src/const.h (nfrexplo1,fst_explo_list,snd_explo_list): Remove.
+	* src/heroes.c (load_level, ia_eval_dir_target_inline,
+	ia_eval_dir_bonus_inline, ia_eval_dir_lemming_inline,
+	ia_eval_dir_cash_inline, ia_eval_dir_color_inline,
+	ia_goto_target_inline, ia_goto_bonus_inline, ia_goto_lemming_inline,
+	ia_goto_color_inline, ia_goto_cash_inline, update_player): Adapt
+	to new explosion definitions.
+	(main): Call init_explosions and uninit_explosions.
+	* src/render.c (draw_level): Adapt to new explosions.
+
 2000-11-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/draw.c (JUSTIF_CALC, Id, draw_text, draw_text_clipped_left,
