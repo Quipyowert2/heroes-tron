@@ -26,12 +26,16 @@ typedef struct sound_track_s {
   char* filename;
   char* title;
   char* author;
+  unsigned rank;
 } sound_track_t;
 
 sound_track_t* get_sound_track_from_alias (const char* alias);
+sound_track_t* get_sound_track_from_rank (unsigned rank);
+
 void add_sound_track_cons (char* alias, char* filename,
 			   char* title, char* author);
 int read_sound_config_file (char* filename);
+void freeze_sound_track_list (void);
 void init_sound_track_list (void);
 void uninit_sound_track_list (void);
 void print_sound_track_list (void);

@@ -27,14 +27,34 @@
 #include "errors.h"
 #include "hash.h"
 
-Hash_table *st_hash;
 
+/* we maintain the sound tracks in two structures: a hash and
+   an array.  The hash is used for most lookups, and when building
+   the sound tracks database.  The array is initialized once
+   the hash has been finished, it is sorted (w.r.t. the alias name)
+   and is used by the sound tracks selector in the game (which
+   need to be able to load the `next' or `previous' sound track). */
+
+static Hash_table *st_hash;
+static sound_track_t **st_array = 0;
+static unsigned n_st = 0;	/* number of sound tracks */
+
+/* comparison function for the hash */
 static bool
-st_cmp (const void *left, const void *right)
+st_equ (const void *left, const void *right)
 {
   const sound_track_t *l = left;
   const sound_track_t *r = right;
   return !strcasecmp (l->alias, r->alias);
+}
+
+/* comparison function for qsort */
+static int
+st_cmp (const void *left, const void *right)
+{
+  const sound_track_t *const *l = left;
+  const sound_track_t *const *r = right;
+  return strcasecmp ((*l)->alias, (*r)->alias);
 }
 
 static unsigned
@@ -63,6 +83,7 @@ st_cons (char* alias, char* filename, char* title, char* author)
   st->filename = xstrdup (filename);
   st->title = xstrdup (title);
   st->author = xstrdup (author);
+  st->rank = 0;
   return st;
 }
 
@@ -91,6 +112,13 @@ get_sound_track_from_alias (const char* alias)
 
   return 0;
 }
+
+sound_track_t*
+get_sound_track_from_rank (unsigned rank)
+{
+  return st_array[rank];
+}
+
 
 static char*
 dir_name (const char* filename)
@@ -164,7 +192,7 @@ init_sound_track_list (void)
 {
   dmsg (D_MISC, "initialize sound track hash");
 
-  st_hash = hash_initialize (17, NULL, st_hasher, st_cmp, st_free);
+  st_hash = hash_initialize (17, NULL, st_hasher, st_equ, st_free);
   if (!st_hash)
     xalloc_die ();
 }
@@ -174,20 +202,51 @@ uninit_sound_track_list (void)
 {
   dmsg (D_MISC, "free sound track hash");
   hash_free (st_hash);
+  XFREE0 (st_array);
+  n_st = 0;
 }
 
 void
 print_sound_track_list (void)
 {
-  sound_track_t *s = hash_get_first (st_hash);
-  while (s) {
-    printf ("%s:%s:%s:%s\n", s->alias, s->filename, s->title, s->author);
-    s = hash_get_next (st_hash, s);
-  }
+  unsigned pos;
+  for (pos = 0; pos < n_st; ++pos)
+    printf ("%s:%s:%s:%s\n",
+	    st_array[pos]->alias, st_array[pos]->filename,
+	    st_array[pos]->title, st_array[pos]->author);
 }
 
 void
 print_sound_track_list_stat (void)
 {
   hash_print_statistics (st_hash, stdout);
+}
+
+void
+freeze_sound_track_list (void)
+{
+  sound_track_t *s;
+  sound_track_t **p;
+  unsigned pos;
+
+  n_st = hash_get_n_entries (st_hash);
+  if (!n_st)
+    return;
+
+  /* create an array of all existing aliases */
+
+  XMALLOC_ARRAY (st_array, n_st);
+  pos = 0;
+  for (s = hash_get_first (st_hash); s; s = hash_get_next (st_hash, s))
+    st_array[pos++] = s;
+
+  assert (pos == n_st);
+
+  /* sort it */
+  qsort (st_array, n_st, sizeof (*st_array), st_cmp);
+
+  /* number each sound track */
+  p = st_array;
+  for (pos = 0; pos < n_st; ++pos)
+    (*p++)->rank = pos;
 }

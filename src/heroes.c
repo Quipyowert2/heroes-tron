@@ -4376,6 +4376,8 @@ main (int argc, char *argv[])
     }
   }
 
+  freeze_sound_track_list ();
+
   dmsg (D_SYSTEM, "parsing command line");
   if (parse_argv (argc, argv))
     exit (1);

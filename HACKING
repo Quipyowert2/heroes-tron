@@ -270,9 +270,6 @@ that branch should be merged in the main trunk.
 
  - Update externally-maintained files
  - Update administrative files:
-   + README must be updated from heroes.texi
-      (run `makeinfo --no-headers -o - heroes.texi', cut and paste the
-       relevant sections)
    + THANKS (all the emails from the ChangeLog should
              figure in THANKS or AUTHORS)
    + NEWS,TODO,BUGS must be up to date

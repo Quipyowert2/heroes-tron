@@ -1,5 +1,26 @@
 2000-11-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Keep the sound tracks in a sorted array, in addition
+	to the hash (needed for the jukebox menu, see next patch).
+
+	* src/musicfiles.h (sound_track_t): Add the rank member.
+	(get_sound_track_from_rank): New.
+	(freeze_sound_track_list): New.
+	* src/musicfiles.c (st_array, n_st): New.
+	(st_cmp): Rename as ...
+	(st_equ): ... this.
+	(st_cmp): New.
+	(st_cons): Initialize rank.
+	(init_sound_track_list): Adapt to use st_equ.
+	(print_sound_track_list): Adapt to use st_array.
+	(freeze_sound_track_list): New.
+	(get_sound_track_from_rank): New.
+	* src/heroes.c (main): Call freeze_sound_track_list.
+
+	* HASKING: README is no longer updated manually.
+
+2000-11-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* tools/Makefile.am (EXTRA_DIST): Add readme.sh.
 
 2000-11-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
