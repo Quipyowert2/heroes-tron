@@ -496,7 +496,7 @@ init_menus_sprites (void)
 					  4, 159);
   playmenu_players_txt[0] = compile_menu_text (txti[147],
 					       T_CENTERED, 31, 159);
-  playmenu_players_txt[0] = compile_menu_text (txti[146],
+  playmenu_players_txt[1] = compile_menu_text (txti[146],
 					       T_CENTERED, 31, 159);
   playmenu_goback_txt = compile_menu_text (txti[94],
 					   T_CENTERED, 187, 159);
