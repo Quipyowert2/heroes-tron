@@ -26,5 +26,6 @@ char* strlwr (char *in);
 char* strupr (char *in);
 
 char* strcat_alloc (const char *fst, const char* snd);
+char* strappend (char *fst, const char* snd);
 
 #endif // __MISC_H__

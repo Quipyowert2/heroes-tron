@@ -161,7 +161,7 @@ show_intro (void)
 
   load_soundtrack_from_alias ("INTRO");
   erase_data_cur = erase_data = malloc (64000 * sizeof (char *));
-  pcx_load (introdir "olympus.pcx", &intro_img);
+  pcx_load_from_rsc ("intro-logos-img", &intro_img);
 
   play_soundtrack ();
   frame_old = frame_cur;
@@ -205,7 +205,7 @@ show_intro (void)
   }
 // set_pal((char*)&intro_img.palette.global,0,768);
   img_free (&intro_img);
-  pcx_load (introdir "intro.pcx", &intro_img);
+  pcx_load_from_rsc ("intro-vehicles-img", &intro_img);
   frame_old = frame_cur = 0;
   while (frame_cur < 70) {
     vsynch ();
@@ -252,7 +252,7 @@ show_intro (void)
     }
   }
   img_free (&intro_img);
-  pcx_load (introdir "heroes.pcx", &intro_img);
+  pcx_load_from_rsc ("intro-splash-img", &intro_img);
   memset (&pal.global, 63, 768);
   vsynch ();
   set_pal ((char *) &pal, 0, 768);
@@ -270,7 +270,7 @@ show_intro (void)
     if (key_or_joy_ready ())
       return (1);
   }
-  pcx_load (introdir "erase.pcx", &intro_img);
+  pcx_load_from_rsc ("intro-erase-img", &intro_img);
   compute_erase_data ();
   img_free (&intro_img);
   frame_old = frame_cur = 0;

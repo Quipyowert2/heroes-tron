@@ -18,43 +18,11 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
+#ifndef __RSC_FILES_H__
+#define __RSC_FILES_H__
 
-#include <ctype.h>
-#include <string.h>
-#include <stdlib.h>
-#include "misc.h"
-#ifdef HAVE_DMALLOC
-#include <dmalloc.h>
+int set_rsc_file (const char* rsc_name, const char* file_name);
+char* get_rsc_file (const char* rsc_name);
+char* get_non_null_rsc_file (const char* rsc_name);
+
 #endif
-
-char *
-strlwr (char *in)
-{
-  char *tmp = in;
-  for (; *in != 0; ++in)
-    *in = tolower (*in);
-  return tmp;
-}
-
-char *
-strupr (char *in)
-{
-  char *tmp = in;
-  for (; *in != 0; ++in)
-    *in = toupper (*in);
-  return tmp;
-}
-
-char *
-strcat_alloc (const char *fst, const char* snd)
-{
-  char *res = (char *)malloc (strlen (fst) + strlen (snd) + 1);
-  return res ? strcat (strcpy (res,fst), snd) : NULL;
-}
-
-char *
-strappend (char *fst, const char* snd)
-{
-  char *res = realloc (fst, strlen (fst) + strlen (snd) + 1);
-  return res ? strcat (res, snd) : NULL;
-}

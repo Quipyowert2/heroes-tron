@@ -49,6 +49,7 @@
 #include "config.h"
 #include "hendian.h"
 #include "userdir.h"
+#include "rsc_files.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
@@ -67,8 +68,8 @@ static unsigned char notestmouse = 0;
 static level_header_t hplaninfo = { 0, 0, -1, -1,
   {0, 0, 0, 0}, {0, 0, 0, 0}, "", "", ""
 };
-static char tile_set_name[128] = rscdir;
-static char dallepie[128] = rscdir;
+static char* tile_set_name;
+static char* dallepie;
 static char levelnomshort[13];
 static char pcxnom[13];
 static char nombre[5];
@@ -1962,8 +1963,9 @@ hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2,
   if (create_levels_output_dir ())
     return 1;
 
-  strcpy (tile_set_name, rscdir);
-  strcpy (dallepie, rscdir);
+  tile_set_name = get_non_null_rsc_file ("tiles-sets-dir");
+  dallepie = get_non_null_rsc_file ("tiles-sets-dir");
+
   xdalles = 0;
   ydalles = 0;
   xdallesdec = 0;
@@ -2030,10 +2032,12 @@ hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2,
 
   //fprintf(hlog,"\tUsing %s (PCX,PIE) and %s (XM)\n",hplaninfo.tile_set_name,hplaninfo.soundtrack_name);
 
-  strcat (strcat (tile_set_name, hplaninfo.tile_set_name), ".pcx");
-  strcat (strcat (dallepie, hplaninfo.tile_set_name), ".pie");
+  tile_set_name = strappend (strappend (tile_set_name, 
+					hplaninfo.tile_set_name), ".pcx");
+  dallepie = strappend (strappend (dallepie, 
+				   hplaninfo.tile_set_name), ".pie");
 
-  pcx_load (heddir "edit.pcx", &heditrsc);
+  pcx_load_from_rsc ("editor-img", &heditrsc);
   pcx_load (tile_set_name, &tile_set_img);
 
   /*********** tiles info init  ***********/
@@ -2046,8 +2050,11 @@ hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2,
     fread (ddef, sizeof (tile_info_t), (tile_set_img.width / 24) * 10, ftmp);
   fclose (ftmp);
   /*************************************/
-  if (outwayinit ())
+  if (outwayinit ()) {
+    free (dallepie);
+    free (tile_set_name);
     return 1;
+  }
   memset (screen, 0, 64000);
   set_pal ((char *) &tile_set_img.palette, 0, 256 * 3);
   partiel2 (0, 0, 30, 200, 290, 0, &heditrsc);
@@ -2102,6 +2109,8 @@ hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2,
     img_free (&tile_set_img);
   }
 
+  free (dallepie);
+  free (tile_set_name);
   free (lvl_name);
   return 0;
 }

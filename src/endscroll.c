@@ -131,7 +131,7 @@ end_scroll (void)
   if (scroll_buffer == NULL || page == NULL)
     return;
 
-  pcx_load (introdir "start.pcx", &background_img);
+  pcx_load_from_rsc ("end-scroller-bg-img", &background_img);
   copy_background ();
   img_free (&background_img);	/* libere seulement le buffer, pas la palette... */
 

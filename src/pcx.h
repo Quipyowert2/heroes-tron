@@ -70,6 +70,7 @@ typedef struct img_type
 image_;
 
 void img_free (image_ * image);
-char pcx_load (const char *fichier, image_ * image);
+char pcx_load (const char *file, image_ * image);
+char pcx_load_from_rsc (const char *rsc, image_ * image);
 
 #endif

@@ -1,3 +1,47 @@
+2000-07-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Setup the base structure for structure handling.  rsc_files*
+	are used to map a symbolic name to a true filename, handling 
+	variable substitutions (e.g. $(data-dir)).
+
+	* rsc_files.c: New file.
+	* rsc_files.h: New file.
+	* rsc_files.gperf: New file.
+	* rsc_files_hash.h: New file.
+	* src/pcx.c (pcx_load_from_rsc): New.
+	* src/pcx.h (pcx_load_from_rsc): New.
+	* configure.in: Remove all directory #definitions and define
+	only datadir.
+	* src/Makefile.am (heroes_SOURCES): Add rsc_files.c, rsc_files.h 
+	and rsc_files_hash.c.
+	(BUILT_SOURCES): Add rsc_files_hash.c.
+	(rsc_files_hash.c): New.
+	* src/argv.h (level_name): Rewrite as a dynamic array.
+	* argv.c (level_name): Likewise.
+	(parse_argv): Adapt to fill level_name, with the basename only.
+	* src/endscroll.c (end_scroll): Adapt to call pcx_load_from_rsc.
+	* src/extras.c (add_extra_in_user_directory): Adapt to get the
+	extra directory from resource.
+	* src/gfx_reader.h (graphic_reader): Adapt to get filenames from
+	resources.
+	* src/hedlite.c (tile_set_name,dallepie): Rewrite as dynamic arrays.
+	(hmain): Adapt to fill those arrays, and read images from resources.
+	* src/heroes.c (load_level,load_level_from_number,
+	load_random_level,load_random_wrapped_level,
+	play_menu,read_level_list): Adapt to read filenames and 
+	dirnames from resources.
+	(play_game): Append the directory name to level_name, taken from 
+	resources.
+	(main): Setup the data-dir resource. Adapt to read filenames for
+	heroesrc and pictures from resources.
+	* src/intro.c (show_intro): Read all pictures using resources. 
+	* src/menus.c (load_tile_set_preview,editor_menu): Adapt to read
+	files from resources.
+	* src/txts.c (read_txti_cfg): Likewise.
+
+	* src/misc.c (strappend): New.
+	* src/misc.h (strappend): New.
+	
 2000-07-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/intro.c (show_intro): At stratup, fill the black side of the

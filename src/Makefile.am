@@ -80,6 +80,9 @@ pixelize.c \
 pixelize.h \
 render.c \
 render.h \
+rsc_files.c \
+rsc_files.h \
+rsc_files_hash.c \
 savegame.c \
 savegame.h \
 scores.c \
@@ -111,7 +114,7 @@ if NOSOUND
 DISTCLEANFILES = mod/Makefile sfx/Makefile sfx/sound.conf
 endif
 
-BUILT_SOURCES = keysdef-inc.h
+BUILT_SOURCES = keysdef-inc.h rsc_files_hash.c
 CLEANFILES = keysdef-inc.h
 
 # keysdef-inc depends on config.h in order to be regenerated each time
@@ -142,3 +145,7 @@ $$1 ~ /SDLK_/ {								     \
 	print "\t{ \""toupper(substr($$1,index($$1,"_")+1))"\",", $$1,"}," } \
 END { print "\t{ 0, 0 }};\n#endif\n" }' < @SDL_KEYSYM_H@ > $@
 endif
+
+rsc_files_hash.c: rsc_files.gperf
+	gperf -t -N in_rsc_set -k 1,7,$$ $(srcdir)/rsc_files.gperf | \
+	sed -e 's/{""}/{"",0,0,0}/g' > $@

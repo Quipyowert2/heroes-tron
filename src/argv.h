@@ -34,7 +34,7 @@ extern int reinitsav;
 extern int x10sav;
 extern int doublefx;
 extern int swapside;
-extern char level_name[256];
+extern char* level_name;
 extern int mono;
 extern int bits8;
 extern int hqmix;

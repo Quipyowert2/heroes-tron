@@ -23,6 +23,7 @@
 #include <stdlib.h>
 #include "errors.h"
 #include "pcx.h"
+#include "rsc_files.h"
 #include "config.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
@@ -52,7 +53,7 @@ delta (image_ * image)
 }
 
 char
-pcx_load (const char *fichier, image_ * image)
+pcx_load (const char *file, image_ * image)
 {
   unsigned long compteur;
   FILE *fptr;
@@ -60,8 +61,8 @@ pcx_load (const char *fichier, image_ * image)
   int nbrbytes, i;
   unsigned char data;
 
-  if ((fptr = fopen (fichier, "rb")) == NULL) {
-    puts (fichier);
+  if ((fptr = fopen (file, "rb")) == NULL) {
+    puts (file);
 #ifndef __HEDIT__
     fatal_error ("Unable to open this PCX\n");
 #else
@@ -112,4 +113,16 @@ pcx_load (const char *fichier, image_ * image)
 
   fclose (fptr);
   return (0);
+}
+
+char 
+pcx_load_from_rsc (const char *rsc, image_ * image)
+{
+  char* res = get_rsc_file (rsc);
+  char error;
+  if (res == 0) 
+    fatal_error ("Empty resource.\n");
+  error = pcx_load (res, image);
+  free (res);
+  return error;
 }

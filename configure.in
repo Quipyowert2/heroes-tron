@@ -408,6 +408,7 @@ sfxdir=${datadir}/heroes/sfx/
 spritedir=${datadir}/heroes/sprites/
 textdir=${datadir}/heroes/txt_cfg/
 etcdir=${datadir}/heroes/etc/
+data_dir=${datadir}/heroes
 
 AC_SUBST(confdir)
 AC_SUBST(extradir)
@@ -422,18 +423,7 @@ AC_SUBST(spritedir)
 AC_SUBST(textdir)
 AC_SUBST(etcdir)
 
-AC_DEFINE_DIR(confdir  ,confdir,  config directory)
-AC_DEFINE_DIR(extradir ,extradir, extra levels directory)
-AC_DEFINE_DIR(heddir   ,heddir,   editor data directory)
-AC_DEFINE_DIR(introdir ,introdir, intro data directory)
-AC_DEFINE_DIR(moddir   ,moddir,   soundtrack directory)
-AC_DEFINE_DIR(nivdir   ,nivdir,   levels directory)
-AC_DEFINE_DIR(rscdir   ,rscdir,   resources directory)
-AC_DEFINE_DIR(scoresdir,scoresdir,scores directory)
-AC_DEFINE_DIR(sfxdir   ,sfxdir,   sound effects directory)
-AC_DEFINE_DIR(spritedir,spritedir,sprites directory)
-AC_DEFINE_DIR(textdir  ,textdir,  texts directory)
-AC_DEFINE_DIR(etcdir   ,etcdir,   config directory)
+AC_DEFINE_DIR(datadir  ,data_dir,  data directory)
 
 # ============
 # Output files

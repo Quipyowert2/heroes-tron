@@ -27,6 +27,7 @@
 #include "errors.h"
 #include "display.h"
 #include "config.h"
+#include "rsc_files.h"
 
 static int nbr_lines;
 static unsigned char *txtptr;
@@ -450,16 +451,20 @@ graphic_reader ()
 
   nbr_lines = 0;
 
-  pcx_load (spritedir "fontread.pcx", &font_help_img);
-  pcx_load (spritedir "helpics.pcx", &help_pics_img);
+  pcx_load_from_rsc ("help-font", &font_help_img);
+  pcx_load_from_rsc ("help-pictures-img", &help_pics_img);
 #ifndef __HEROES__
   bufhelp2 = malloc (320 * 220);
 #endif
+  {
 #ifndef SDF
-  f = fopen (textdir "heroes.hlp", "rb");
+    char *t = get_non_null_rsc_file ("help-txt");
 #else
-  f = fopen (textdir "heroes.sdl", "rb");
+    char *t = get_non_null_rsc_file ("end-scroller-txt");
 #endif
+    f = fopen (t, "rb");
+    free (t);
+  }
   fseek (f, 0, SEEK_END);
   ftaille = ftell (f);
   fseek (f, 0, SEEK_SET);

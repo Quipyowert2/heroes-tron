@@ -1,0 +1,34 @@
+%{
+#include "rsc_files_hash.h"
+%}
+struct rsc_file;
+%%
+bonus-font,		"$(data-dir)/sprites/typonus.pcx",	0,0
+brown-bonus-img,	"$(data-dir)/sprites/bonusb.pcx",	0,0
+data-dir,		"",					0,0
+editor-img,		"$(data-dir)/hedit/edit.pcx",		0,0
+editor-preview-prefix,  "$(data-dir)/hedit/editp",		0,0
+end-scroller-bg-img,	"$(data-dir)/intro/start.pcx",		0,0
+end-scroller-txt,	"$(data-dir)/txt_cfg/heroes.sdl",	0,0
+extra-levels-dir,	"$(data-dir)/extralvl/",		0,0
+help-font,		"$(data-dir)/sprites/fontread.pcx",	0,0
+help-pictures-img,	"$(data-dir)/sprites/helpics.pcx",	0,0
+help-txt,		"$(data-dir)/txt_cfg/heroes.hlp",	0,0
+heroesrc-txt,		"$(data-dir)/etc/heroesrc",		0,0
+intro-erase-img,	"$(data-dir)/intro/erase.pcx",		0,0
+intro-logos-img,	"$(data-dir)/intro/olympus.pcx",	0,0
+intro-splash-img,	"$(data-dir)/intro/heroes.pcx",		0,0
+intro-vehicles-img,	"$(data-dir)/intro/intro.pcx",		0,0
+jukebox-font,		"$(data-dir)/sprites/fontdeck.pcx",	0,0
+jukebox-img,		"$(data-dir)/sprites/jukebox.pcx",	0,0
+levels-list-txt,	"$(data-dir)/level/level.lst",		0,0
+levels-dir,		"$(data-dir)/level/",			0,0
+main-font,		"$(data-dir)/sprites/fontem.pcx",	0,0
+menu-pictures-img,	"$(data-dir)/sprites/fontem2.pcx",	0,0
+new-level-menu-img,	"$(data-dir)/hedit/newlevel.pcx",	0,0
+purple-bonus-img,	"$(data-dir)/sprites/bonusa.pcx",	0,0
+sfx-conf-txt,		"$(data-dir)/sfx/sfx.cfg",		0,0
+text-conf-txt,		"$(data-dir)/txt_cfg/txti.cfg",		0,0
+tiles-sets-dir,		"$(data-dir)/rsc/",			0,0
+trails-img,		"$(data-dir)/sprites/trail.pcx",	0,0
+vehicles-img,		"$(data-dir)/sprites/vehic.pcx",	0,0

@@ -28,6 +28,7 @@
 #include "argv.h"
 #include "sound.h"
 #include "display.h"
+#include "misc.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
@@ -45,7 +46,7 @@ int reinitsav = 0;
 int x10sav = 0;
 int doublefx = 1;
 int swapside = 1;
-char level_name[256];
+char* level_name;
 int mono = 0;
 int bits8 = 0;
 int hqmix = 0;
@@ -163,9 +164,8 @@ parse_argv (int argc, char **argv)
       nosfx = 1;
       break;
     case 'l':
-      strcpy (level_name, nivdir);
-      strcat (level_name, optarg);
-      strcat (level_name, ".lvl");
+      level_name = strdup (optarg);
+      level_name = strappend (level_name, ".lvl");
       loadulevel = 1;
       break;
     case 'g':

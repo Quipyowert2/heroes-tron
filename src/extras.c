@@ -32,6 +32,7 @@
 #include "generic_list.h"
 #include "hedlite.h"
 #include "misc.h"
+#include "rsc_files.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
@@ -152,7 +153,11 @@ add_extra_in_user_directory (filename_t fn)
 void
 add_default_extra_directories (void)
 {
-  add_extra_directory (extradir);
+  char* t = get_rsc_file ("extra-levels-dir");
+  if (t) {
+    add_extra_directory (t);
+    free (t);
+  }
   if (!create_levels_output_dir ())
     add_extra_in_user_directory (levels_output_dir);
 }

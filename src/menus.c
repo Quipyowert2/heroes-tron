@@ -45,6 +45,7 @@
 #include "config.h"
 #include "keyb.h"
 #include "misc.h"
+#include "rsc_files.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
@@ -1200,10 +1201,11 @@ char tile_sets_names[10][3] =
 static void
 load_tile_set_preview (int num, image_ * ici)
 {
-  strcat (strcat
-	  (strcpy (tmp2, heddir "editp"), (char *) tile_sets_names[num]),
-	  ".pcx");
-  pcx_load (tmp2, ici);
+  char *t = get_non_null_rsc_file ("editor-preview-prefix");
+  strappend (t, tile_sets_names[num]);
+  strappend (t, ".pcx");
+  pcx_load (t, ici);
+  free (t);
 }
 
 static void
@@ -1316,7 +1318,7 @@ editor_menu (void)
   tmp1[6] = 0;
   tmp1[7] = 0;
   tmp1[8] = 0;
-  pcx_load (heddir "newlevel.pcx", (image_ *) & frmenu);
+  pcx_load_from_rsc ("new-level-menu-img", (image_ *) & frmenu);
   load_tile_set_preview (0, (image_ *) & tilesprev);
   for (i = 0; i < 52; i++)
     memcpy (frmenu.buffer + 217 + 74 * 320 + i * 320,

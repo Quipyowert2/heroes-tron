@@ -65,6 +65,7 @@
 #include "musicfiles.h"
 #include "endian.h"
 #include "hendian.h"
+#include "rsc_files.h"
 
 #define __HEROES__
 
@@ -446,8 +447,13 @@ load_level (char *nomlvl, char cont)
 
   if ((ftmp = fopen (nomlvl, "rb")) == NULL)
     return (1);
-  strcpy (tile_set_name, rscdir);
-  strcpy (glenz_name, rscdir);
+
+  { 
+    char* tmp = get_non_null_rsc_file ("tiles-sets-dir");
+    strcpy (tile_set_name, tmp);
+    strcpy (glenz_name, tmp);
+    free (tmp);
+  }
   if (fread (&map_info, sizeof (level_header_t), 1, ftmp) != 1)
     return (2);
 
@@ -1274,7 +1280,11 @@ load_level_from_number (int nbr, char cont)
 {
   char tmp[64];
   char e;
-  strcat (strcpy ((char *) tmp, nivdir), level_list + nbr * levellstchunk);
+  { 
+    char* t = get_non_null_rsc_file ("levels-dir");
+    strcat (strcpy ((char *) tmp, t), level_list + nbr * levellstchunk);
+    free (t);
+  }
   e = load_level ((char *) tmp, cont);
   if (e != 0) {
     sprintf (tmp, "Error %d during loading level\n", e);
@@ -1352,7 +1362,11 @@ load_random_wrapped_level (char c, char cont)
   do {
     t = rand () % level_list_nbr;
   } while (c == 1 && levelinf[t] != 1);
-  strcat (strcpy ((char *) tmp, nivdir), level_list + t * levellstchunk);
+  {
+    char* tt = get_non_null_rsc_file ("levels-dir");
+    strcat (strcpy ((char *) tmp, tt), level_list + t * levellstchunk);
+    free (tt);
+  }
   e = load_level ((char *) tmp, cont);
   if (e != 0) {
     sprintf (tmp, "Error %d during loading level\n", e);
@@ -1372,7 +1386,9 @@ load_random_level (char cont)
   if (t & 0x10000) {
     strcpy (tmp, extra_list[t & 0xffff].full_name);
   } else {
-    strcat (strcpy ((char *) tmp, nivdir), level_list + t * levellstchunk);
+    char* tt = get_non_null_rsc_file ("levels-dir");
+    strcat (strcpy ((char *) tmp, tt), level_list + t * levellstchunk);
+    free (tt);
   }
   e = load_level ((char *) tmp, cont);
   if (e != 0) {
@@ -1631,7 +1647,11 @@ play_menu (void)
   if ((game_mode == M_QUEST) && (current_quest_level >= level_list_nbr)) {
     if (level_is_finished != 15) {	
       /* End scroller */
-      ftmp = fopen (rscdir "level02.glz", "rb");
+      char* tmp = get_non_null_rsc_file ("tiles-sets-dir");
+      char* tmp2 = strcat_alloc (tmp, "level02.glz");
+      free (tmp);
+      ftmp = fopen (tmp2, "rb");
+      free (tmp2);
       fread (glenz, 256, 8, ftmp);
       fclose (ftmp);
 
@@ -4096,8 +4116,11 @@ play_game (char cont)
   in_menu = 0;
   tutor = (char) (game_mode == M_QUEST && current_quest_level == 0);
   if (loadulevel == 1) {
+    char* t = get_non_null_rsc_file ("levels-dir");
+    strappend (t, level_name);
     if (load_level (level_name, cont))
       fatal_error ("Error during loading level");
+    free (t);
   } else if (game_mode == M_QUEST /*&& questmode==0 */ )
     load_level_from_number (current_quest_level++, cont);
 // else if (game_mode==M_QUEST /*&& questmode==1*/) loadlvlpasrandq2(current_quest_level++,cont);
@@ -4520,9 +4543,11 @@ read_level_list (void)
   FILE *f;
   int i = 0;
   char string[32];
-  if ((f = fopen (nivdir "level.lst", "rt")) == NULL) {
+  char* t = get_non_null_rsc_file ("levels-list-txt");
+  if ((f = fopen (t, "rt")) == NULL) {
     fatal_error ("level.lst not found");
   }
+  free (t);
   while (!feof (f)) {
     fgets ((char *) string, 32, f);
     if (string[0] == '>' || string[0] == ' ')
@@ -4584,10 +4609,19 @@ main (int argc, char *argv[])
 {
   int i;
 
+  set_rsc_file ("data-dir", datadir);
+
   init_sound_track_list ();
 
   /* Read the system-wide configuration file. */
-  read_userconf (etcdir "/heroesrc", argv[0]);
+  { 
+    char* tmp;
+    tmp = get_rsc_file ("heroesrc-txt");
+    if (tmp) {
+      read_userconf (tmp, argv[0]);
+      free (tmp);
+    }
+  }
 
   if (setup_userdir ())
     exit (1);
@@ -4657,16 +4691,16 @@ main (int argc, char *argv[])
 
   init_buffers ();
 
-  pcx_load (spritedir "fontem.pcx", &main_font_img);
-  pcx_load (spritedir "fontem2.pcx", &icons_img);
-  pcx_load (spritedir "vehic.pcx", &vehicles_img);
-  pcx_load (spritedir "trail.pcx", &trailimg);
+  pcx_load_from_rsc ("main-font", &main_font_img);
+  pcx_load_from_rsc ("menu-pictures-img", &icons_img);
+  pcx_load_from_rsc ("vehicles-img", &vehicles_img);
+  pcx_load_from_rsc ("trails-img", &trailimg);
 // if (odbg) debugsavepcx(&trailimg);
-  pcx_load (spritedir "bonusa.pcx", &bonus_a_img);
-  pcx_load (spritedir "bonusb.pcx", &bonus_b_img);
-  pcx_load (spritedir "typonus.pcx", &bonus_font_img);
-  pcx_load (spritedir "jukebox.pcx", &jukebox_img);
-  pcx_load (spritedir "fontdeck.pcx", &font_deck_img);
+  pcx_load_from_rsc ("purple-bonus-img", &bonus_a_img);
+  pcx_load_from_rsc ("brown-bonus-img", &bonus_b_img);
+  pcx_load_from_rsc ("bonus-font", &bonus_font_img);
+  pcx_load_from_rsc ("jukebox-img", &jukebox_img);
+  pcx_load_from_rsc ("jukebox-font", &font_deck_img);
   for (i = nfrexplo1 - 1; i >= 0; i--) {
     fst_explo_list[i] += (int) vehicles_img.buffer;
     snd_explo_list[i] += (int) vehicles_img.buffer;

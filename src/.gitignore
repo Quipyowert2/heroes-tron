@@ -9,3 +9,4 @@ keysdef-inc.h
 heroes
 music.raw
 music.wav
+rsc_files_hash.c

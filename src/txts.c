@@ -26,6 +26,7 @@
 #include "errors.h"
 #include "txts.h"
 #include "config.h"
+#include "rsc_files.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
@@ -59,9 +60,11 @@ read_txti_cfg (void)
   char *tmpptr2;
   char c;
   unsigned int nbr;
+  char *t = get_non_null_rsc_file ("text-conf-txt");
 
-  if ((fconf = fopen (textdir "txti.cfg", "rt")) == NULL)
+  if ((fconf = fopen (t, "rt")) == NULL)
     fatal_error ("Can't read txti");
+  free (t);
   while (fgets (tmpptr, 256, fconf) != NULL) {
     c = toupper (tmp[0]);
     remove_comments (tmpptr);
