@@ -155,6 +155,12 @@ AC_SUBST([LIBOBJS])
 
 AC_C_BIGENDIAN_CROSS
 
+# ===============
+# Filename style.
+# ===============
+
+jm_AC_DOS
+
 # =====================
 # Internationalization.
 # =====================

@@ -1,5 +1,12 @@
 2001-05-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* m4/dos.m4: New file, from fileutils-4.1, patched to check for
+	__WIN32__, _WIN32, and __MSDOS__.
+	* tools/fetish-sync.sh (files): Add dos.m4.
+	* configure.in: Call jm_AC_DOS.
+
+2001-05-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* po/it.po: New revision from Alessandro.
 
 2001-05-19  Alexandre Duret-Lutz  <duret_g@epita.fr>

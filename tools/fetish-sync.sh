@@ -43,6 +43,7 @@ lib/strndup.c
 lib/xalloc.h
 lib/xmalloc.c
 lib/xstrdup.c
+m4/dos.m4
 m4/ftruncate.m4
 m4/gnu-source.m4
 m4/lcmessage.m4
