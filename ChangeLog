@@ -1,3 +1,9 @@
+2002-02-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/hedlite.c (gestclav) <HK_i>: Don't ignore tile #0 when
+	propagating walls to neighbors.
+	Reported by Ingo.
+
 2002-02-02  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/rules/update.c (update_player): s/t_ice/T_ICE/,

@@ -1374,25 +1374,25 @@ gestclav (a_keycode i, a_keycode mod)
       level_map[j].collision[1] |= ddef[k].collision[1];
       level_map[j].collision[2] |= ddef[k].collision[2];
       level_map[j].collision[3] |= ddef[k].collision[3];
-      if (curdallepg (j) > 0) {
+      if (curdallepg (j) >= 0) {
 	if (ddef[k].collision[0] & c_left)
 	  level_map[curdallepg (j)].collision[1] |= c_right;
 	if (ddef[k].collision[2] & c_left)
 	  level_map[curdallepg (j)].collision[3] |= c_right;
       }
-      if (curdalleph (j) > 0) {
+      if (curdalleph (j) >= 0) {
 	if (ddef[k].collision[0] & c_up)
 	  level_map[curdalleph (j)].collision[2] |= c_down;
 	if (ddef[k].collision[1] & c_up)
 	  level_map[curdalleph (j)].collision[3] |= c_down;
       }
-      if (curdallepd (j) > 0) {
+      if (curdallepd (j) >= 0) {
 	if (ddef[k].collision[1] & c_right)
 	  level_map[curdallepd (j)].collision[0] |= c_left;
 	if (ddef[k].collision[3] & c_right)
 	  level_map[curdallepd (j)].collision[2] |= c_left;
       }
-      if (curdallepb (j) > 0) {
+      if (curdallepb (j) >= 0) {
 	if (ddef[k].collision[2] & c_down)
 	  level_map[curdallepb (j)].collision[0] |= c_up;
 	if (ddef[k].collision[3] & c_down)
