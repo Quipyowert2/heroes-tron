@@ -1,5 +1,12 @@
 2000-07-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Document the level editor.
+
+	* doc/heroes.texi (Top): Add a detailed node listing.
+	(Level editor): New section.
+	
+2000-07-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Allow modification of `speed' and `stop' tile parameters in
 	level editor.
 
