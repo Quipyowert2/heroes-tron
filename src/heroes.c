@@ -3783,7 +3783,6 @@ quit_yes_no (void)
 {
   int i, j;
   char l = 0;
-  char flag = 1;
   unsigned char *src = render_buffer[1];
   int t;
 
@@ -3827,34 +3826,7 @@ quit_yes_no (void)
 	l = 0;
       }
     }
-#ifdef PORT
-    if (opt.ctrl_one || opt.ctrl_two) {
-      get_joystick_state ();
-      if (is_joystick_down (0)) {
-	l = 1;
-	event_sfx (86);
-      }
-      if (is_joystick_up (0)) {
-	l = 0;
-	event_sfx (86);
-      }
-      if (joystick_b[0])
-	flag = 0;
-      if (opt.ctrl_one && opt.ctrl_two) {
-	if (is_joystick_down (1)) {
-	  l = 1;
-	  event_sfx (86);
-	}
-	if (is_joystick_up (1)) {
-	  l = 0;
-	  event_sfx (86);
-	}
-	if (joystick_b[1])
-	  flag = 0;
-      }
-    }
-#endif
-  } while (t != HK_Enter && flag);
+  } while (t != HK_Enter);
   frame_old = frame_cur;
   set_volume ();
   enable_blit = 0;
