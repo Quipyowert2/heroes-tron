@@ -387,22 +387,8 @@ AC_C_CONST
 AC_CHECK_DECLS([malloc, realloc, calloc, free])
 AC_CHECK_FUNCS([gettimeofday memcpy sleep])
 
-# Heroes needs opendir, readdir and closedir.  We check only for
-# readdir and assume that opendir and closedir are present if readdir is.
-# Under plain Win32 (i.e. not Mingw or Cygwin) these functions are not
-# available, but can be faked with lib/w_dirent.c.  It's a bit odd to
-# perform that test here, since "plain Win32" users will never run
-# configure... Hence this code only documents when w_dirent.c should
-# be built.
-AC_CHECK_FUNC([readdir],
-              [AC_DEFINE([HAVE_READDIR],1,
-                         [Define if you have readdir and friends.]
-                        )],
-              [if test "x$ac_cv_header_windows_h" = xyes; then
-                 AC_LIBOBJ(w_dirent)
-	       else
-                 AC_MSG_ERROR([Could not find `readdir'.])
-	       fi;])
+adl_FUNC_READDIR
+
 AC_FUNC_VPRINTF
 AC_FUNC_MKDIR
 

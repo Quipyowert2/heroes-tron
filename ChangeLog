@@ -1,5 +1,12 @@
 2000-12-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Move the readdir test in its own file.
+
+	* m4/w_dirent.m4: New file.
+	* configure.in: Use adl_FUNC_READDIR.
+
+2000-12-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Move the getopt_long test in its own file.
 
 	* m4/getoptlong.m4: New file.
