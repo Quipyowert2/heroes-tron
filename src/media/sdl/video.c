@@ -1,6 +1,6 @@
 /*------------------------------------------------------------------.
-| Copyright 1997, 1998, 2000, 2001  Alexandre Duret-Lutz            |
-|                                    <duret_g@epita.fr>             |
+| Copyright 1997, 1998, 2000, 2001, 2002  Alexandre Duret-Lutz      |
+|                                          <duret_g@epita.fr>       |
 |                                                                   |
 | This file is part of Heroes.                                      |
 |                                                                   |
@@ -59,6 +59,20 @@ set_full_screen_mode (void)
   visu_options |= SDL_FULLSCREEN;
 }
 
+/* Fullscreen mode is toggeled by pressing Alt+Enter.
+   Thanks to Sam Lantinga */
+static int
+Handle_AltEnter (const SDL_Event *event)
+{
+  if (event->type == SDL_KEYDOWN
+      && event->key.keysym.sym == SDLK_RETURN
+      && event->key.keysym.mod & KMOD_ALT) {
+    SDL_WM_ToggleFullScreen (SDL_GetVideoSurface ());
+    return 0;
+  }
+  return 1;
+}
+
 /* init the SDL library, this can be called from joystick.c
    or from init_video() */
 void init_SDL (void);
@@ -80,6 +94,8 @@ init_SDL (void)
 	    | SDL_INIT_NOPARACHUTE
 #endif
 	    );
+
+  SDL_SetEventFilter(Handle_AltEnter);
   SDL_initialized = true;
 }
 
