@@ -34,7 +34,7 @@
 
 #define DIR_NAME ".heroes"
 
-char* userdir;
+char* userdir = 0;
 
 /* Test if a file exists and is a directory */
 int 
@@ -69,7 +69,9 @@ setup_userdir (void)
     fprintf (stderr, "No $HOME found in environment, using `.'\n");
     home = ".";
   }
-  userdir = malloc (strlen (home) + 1 + sizeof (DIR_NAME));
+  if (userdir)
+    free (userdir);
+  userdir = malloc (strlen (home) + 1 + sizeof (DIR_NAME) + 1);
   if (!userdir) {
     fprintf (stderr, "Not enough memory.\n");
     return 1;
@@ -97,4 +99,11 @@ setup_userdir (void)
     }
   }
   return 0;
+}
+
+void
+free_userdir (void)
+{
+  dmsg (D_SYSTEM, "free userdir");
+  free (userdir);
 }

@@ -39,5 +39,6 @@ void browse_extra_directories (void);
 void add_extra_directory (filename_t fn);
 void add_default_extra_directories (void);
 void free_extra_list (void);
+void free_extra_directories (void);
 
 #endif

@@ -18,8 +18,6 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-/* Id: */
-
 #ifndef __MUSICFILES_H__
 #define __MUSICFILES_H__
 
@@ -40,5 +38,6 @@ void add_sound_track_cons (char* alias, char* filename,
 			   char* title, char* author);
 int read_sound_config_file (char* filename);
 int init_sound_track_list (void);
+void uninit_sound_track_list (void);
 
 #endif

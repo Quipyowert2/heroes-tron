@@ -94,6 +94,7 @@ read_userconf (const char* file, const char* argv0)
 	sprintf (pname, "%s:%s:%d", argv0, filename, firstline);
 	argv[0] = pname;
 	err = parse_argv (argc, argv);
+	free (pname);
 	if (err)
 	  return err;
       }

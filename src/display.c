@@ -215,7 +215,8 @@ init_video (void)
 
   dmsg (D_VIDEO, "set display flags");
   ggiAddFlags (visu, GGIFLAG_ASYNC);
-  ggiSetColorfulPalette (visu);
+  if (GT_SCHEME (vid_mode.graphtype) == GT_PALETTE)
+    ggiSetColorfulPalette (visu);
   ggiSetColorfulPalette (render_visu);
 }
 

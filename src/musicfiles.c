@@ -168,3 +168,18 @@ init_sound_track_list (void)
   */
   return 0;
 }
+
+void 
+uninit_sound_track_list (void)
+{
+  st_list_t list = sound_track_list, next;
+
+  dmsg (D_MISC, "free sound track list");
+
+  while (list) {
+    next = list->cdr;
+    sound_track_delete (list->car);
+    free (list);
+    list = next;
+  }
+}

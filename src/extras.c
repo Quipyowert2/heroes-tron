@@ -111,6 +111,9 @@ browse_extra_directory (const char* directory, char is_in_user_dir)
 
   dmsg (D_FILE, "... %d files", extra_nbr_here);
 
+  if (extra_nbr_here == 0)
+    return;
+
   old_nbr = extra_nbr;
   extra_nbr += extra_nbr_here;
   if (is_in_user_dir)
@@ -193,6 +196,11 @@ free_extra_list (void)
 {
   int i;
 
+  if (extra_nbr == 0)
+    return;
+
+  dmsg (D_MISC, "freeing extra list");
+
   for (i = 0; i < extra_nbr; ++i) {
     free (extra_list[i].full_name);
     free (extra_list[i].level_name);
@@ -203,4 +211,11 @@ free_extra_list (void)
   extra_list = 0;
   free (extra_selected_list);
   extra_selected_list = 0;
+}
+
+void
+free_extra_directories (void)
+{
+  dmsg (D_MISC, "free extra directories");
+  extradir_clear (&edir);
 }

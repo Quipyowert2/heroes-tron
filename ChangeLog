@@ -1,3 +1,25 @@
+2000-09-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Free some more memory.
+
+	* src/extras.h (free_extra_directories): New.
+	* src/extras.c (free_extra_directories): New.
+	(free_extra_list): Do not free anything if extra_nbr == 0.
+	(browse_extra_directory): Exit early when no file are found.
+	* src/userdir.h (free_userdir): New.
+	* src/userdir.c (free_userdir): New.
+	(setup_userdir): Allocate one byte more for userdir, and free
+	userdir if already allocated.
+	* src/musicfiles.h (uninit_sound_track_list): New.
+	* src/musicfiles.c (uninit_sound_track_list): New.
+	* src/heroes.c (main): Call uninit_sound_track_list,
+	free_extras_directories, and free_userdir.  Do not free extra_list
+	and extra_selected_list directly, call free_extras_list instead.
+	* src/userconf.c (read_userconf): Free pname.
+	* src/display.c (init_video): Do not ask for a ColorfulPalette
+	when the display don't use a palette, because GGI would be
+	mallocing a big palette in such case.
+
 2000-09-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	AC_PATH_GENERIC is not enough to test for a library, we 

@@ -4917,15 +4917,16 @@ main (int argc, char *argv[])
   unload_level ();
   free (levelinf);
   free (level_list);
-// free(levellstq2);
-  free (extra_list);
-  free (extra_selected_list);
   close_buffers ();
   uninit_sound_engine ();
   uninit_video ();
+  uninit_sound_track_list ();
+  free_extra_list ();
+  free_extra_directories ();
   write_save_records ();
   write_scores ();
   write_options ();
+  free_userdir ();
 
   return 0;
 }
