@@ -1,15 +1,12 @@
 %{
 #include "common.h"
 #include "rsc_files_hash.h"
-
-/* prototype the hash function, to cope with a gcc warning */
-static unsigned int hash (const char *str, unsigned int len);
 %}
 struct rsc_file;
 %%
 bonus-font,		"$(data-dir)/pics/typonus.pcx",		0,0
 brown-bonus-img,	"$(data-dir)/pics/bonusb.pcx",		0,0
-data-dir,		"",					0,0
+data-dir,		"is hardcoded or initialized from $HEROES_DATA_DIR",0,0
 editor-img,		"$(data-dir)/pics/edit.pcx",		0,0
 editor-preview-prefix,  "$(data-dir)/pics/editp",		0,0
 end-scroller-bg-img,	"$(data-dir)/pics/start.pcx",		0,0
@@ -20,7 +17,7 @@ hedlite-output-dir,	"$(user-dir)/levels/",			0,0
 help-font,		"$(data-dir)/pics/fontread.pcx",	0,0
 help-pictures-img,	"$(data-dir)/pics/helpics.pcx",		0,0
 help-txt,		"$(data-dir)/txt_cfg/heroes.hlp",	0,0
-home-dir,		"",					0,0
+home-dir,		"is initialized from $HOME",		0,0
 intro-erase-img,	"$(data-dir)/pics/erase.pcx",		0,0
 intro-logos-img,	"$(data-dir)/pics/olympus.pcx",		0,0
 intro-splash-img,	"$(data-dir)/pics/heroes.pcx",		0,0
@@ -44,3 +41,18 @@ trails-img,		"$(data-dir)/pics/trail.pcx",		0,0
 user-conf,		"$(user-dir)/heroesrc",			0,0
 user-dir,		"$(home-dir)/.heroes",			0,0
 vehicles-img,		"$(data-dir)/pics/vehic.pcx",		0,0
+%%
+void
+print_rsc_files (void)
+{
+  int i;
+  for (i = MIN_HASH_VALUE; i <= MAX_HASH_VALUE; ++i) {
+    if (rsc_set[i].name[0]) {
+      if (rsc_set[i].modified_value) {
+	printf ("%24s = %s\n", rsc_set[i].name, rsc_set[i].modified_value);
+	printf ("%16s (default: %s)\n", "", rsc_set[i].value);
+      } else
+	printf ("%24s = %s\n", rsc_set[i].name, rsc_set[i].value);
+    }
+  }
+}

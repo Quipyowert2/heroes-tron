@@ -155,6 +155,7 @@ endif
 
 if HAVE_GPERF
 rsc_files_hash.c: rsc_files.gperf
-	gperf -t -N in_rsc_set -k 1,7,$$ $(srcdir)/rsc_files.gperf | \
+	gperf -t -L ANSI-C -G -N in_rsc_set -W rsc_set \
+	      -k 1,7,$$ $(srcdir)/rsc_files.gperf | \
 	sed -e 's/{""}/{"",0,0,0}/g' > $@
 endif

@@ -26,6 +26,7 @@
 #include "misc.h"
 #include "debugmsg.h"
 #include "errors.h"
+#include "rsc_files_hash.h"
 
 int snap = 0;
 int cpuon = 1;
@@ -61,6 +62,27 @@ version (void)
 }
 
 static void
+list (char *word)
+{
+  if (!word) {
+    puts ("Use `-lWORD' or `--list=WORD' where WORD can be:\n"
+	  "  resources\t\tprint the resources list\n"
+	  "  sound-drivers\t\tprint the sound driver lists");
+    return;
+  }
+  if (!strcasecmp (word,"resources") ||
+      !strcasecmp (word,"rsc")) {
+    print_rsc_files ();
+  } else if (!strcasecmp (word,"sound-drivers") ||
+	     !strcasecmp (word,"sd")) {
+    print_drivers_list ();
+  } else {
+    /* Unknown WORD, print usage. */
+    list (0);
+  }
+}
+
+static void
 print_help (char* argv0)
 {
   printf ("Usage: %s [OPTIONS]...\n\n",argv0);
@@ -71,10 +93,12 @@ print_help (char* argv0)
 	"  -q, --quiet\t\t"	    "    don't print warning messages\n"
 	"  -Q, --really-quiet\t"    "    don't even print error messages\n"
 	"  -v, --verbose=OPTIONS\t" "    enable debugging messages\n"
+	"  -l, --list=WORD\t"	    
+                           "    show some internal information; WORD can be\n"
+	"\t\t\t"		    "      `resources' or `sound-drivers'.\n"
 	"\nSound options:\n"
-	"  -n, --drivers-info\t"    "    print the sound drivers list\n"
 	"  -d, --driver=N[,OPTIONS]" 
-	                       "  use Nth driver for output (0: autodetect)\n"
+	                  "  use Nth driver for sound output (0: autodetect)\n"
 	"  -S, --no-sound\t"        "    disable sound\n"
 	"  -X, --no-sfx\t\t"        "    disable sound-effects\n"
 	"  -m, --mono\t\t"          "    non-stereo output\n"
@@ -107,35 +131,36 @@ print_help (char* argv0)
 }
 
 const struct option long_options[] = {
-  {"version",		no_argument,       NULL,	'v'},
-  {"verbose",		required_argument, NULL,	'v'},
-  {"help",		no_argument,       NULL,	'h'},
+  {"8bits",		no_argument,       NULL,	'8'},
   {"cpu-off",		no_argument,       &cpuon,	0},
-  {"default-scores",	no_argument,       &reinitsco,	1},
   {"default-options",	no_argument,       &reinitopt,	1},
   {"default-saves",	no_argument,       &reinitsav,	1},
-  {"x10-saves",		no_argument,       &x10sav,	1},
+  {"default-scores",	no_argument,       &reinitsco,	1},
   {"devparm",		no_argument,       &devparm,	1},
-  {"snap",		no_argument,       &snap,	0},
-  {"no-joystick",	no_argument,       &joyoff,	'J'},
-  {"mono",		no_argument,       NULL,	'm'},
-  {"8bits",		no_argument,       NULL,	'8'},
-  {"high-quality",	no_argument,       NULL,	'i'},
-  {"swap-sides",	no_argument,       NULL,	's'},
-  {"no-sfx",		no_argument,       NULL,	'X'},
-  {"no-double-fx",	no_argument,       &doublefx,	0},
-  {"load",		required_argument, NULL,	'l'},
-  {"go",		no_argument,       NULL,	'g'},
-  {"drivers-info",	no_argument,       NULL,	'n'},
-  {"driver",		required_argument, NULL,	'd'},
-  {"no-sound",		no_argument,       NULL,	'S'},
-  {"gfx-options",	required_argument, NULL,	'G'},
-  {"full-screen",	no_argument,	   NULL,	'F'},
   {"double",		no_argument,       NULL,	'2'},
-  {"triple",		no_argument,       NULL,	'3'},
+  {"driver",		required_argument, NULL,	'd'},
+  {"drivers-info",	no_argument,       NULL,	'n'},
   {"even-lines",	no_argument,       NULL,	'e'},
+  {"full-screen",	no_argument,	   NULL,	'F'},
+  {"gfx-options",	required_argument, NULL,	'G'},
+  {"go",		no_argument,       NULL,	'g'},
+  {"help",		no_argument,       NULL,	'h'},
+  {"high-quality",	no_argument,       NULL,	'i'},
+  {"list",		optional_argument, NULL,	'l'},
+  {"load",		required_argument, NULL,	'L'},
+  {"mono",		no_argument,       NULL,	'm'},
+  {"no-double-fx",	no_argument,       &doublefx,	0},
+  {"no-joystick",	no_argument,       &joyoff,	'J'},
+  {"no-sfx",		no_argument,       NULL,	'X'},
+  {"no-sound",		no_argument,       NULL,	'S'},
   {"quiet",		no_argument,	   NULL,	'q'},
   {"really-quiet",	no_argument,	   NULL,	'Q'},
+  {"snap",		no_argument,       &snap,	0},
+  {"swap-sides",	no_argument,       NULL,	's'},
+  {"triple",		no_argument,       NULL,	'3'},
+  {"verbose",		required_argument, NULL,	'v'},
+  {"version",		no_argument,       NULL,	'v'},
+  {"x10-saves",		no_argument,       &x10sav,	1},
   {NULL,		0,		   NULL,	0}
 };
 
@@ -150,7 +175,7 @@ parse_argv (int argc, char **argv)
   for (;;) {
     int option_index = 0;
 
-    c = getopt_long (argc, argv, "238d:eFgG:hiJl:mnqQsSv::X", 
+    c = getopt_long (argc, argv, "238d:eFgG:hiJl::L:mnqQsSv::X", 
 		     long_options, &option_index);
 
     /* Detect the end of the options. */
@@ -185,6 +210,9 @@ parse_argv (int argc, char **argv)
       nosfx = 1;
       break;
     case 'l':
+      list (optarg);
+      return 1;
+    case 'L':
       level_name = strdup (optarg);
       level_name = strappend (level_name, ".lvl");
       loadulevel = 1;
@@ -193,6 +221,7 @@ parse_argv (int argc, char **argv)
       directmenu = 1;
       break;
     case 'n':
+      wmsg ("-n is an obsolete option, you should use --list=sound-drivers");
       print_drivers_list ();
       return 1;
     case 'd': 

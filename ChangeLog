@@ -1,5 +1,24 @@
 2000-10-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Handle --list to list various internal information such
+	as resources or sound drivers (this supercede --drivers-info).
+
+	* doc/heroes.texi: Document -l.  Remove -n.  Say the $HOME is used.
+	Adapt the description of `setrsc' to point the user to
+	`--list=resources'.
+	* src/Makefile.am (rsc_files_hash.c): Generate ANSI-C, and a
+	global hash table.
+	* src/argv.c (list): New.
+	(print_help): Add -l, remove -n.
+	(long_options): Add --list.  Sort all entries.  --load is now -L.
+	(parse_argv): Rename -l as -L, add -l.
+	* src/rsc_files.gperf (data-dir, home-dir): Provide default nice
+	to print with --list=resources.
+	(print_rsc_files): New.
+	* src/rsc_files_hash.h (print_rsc_files): New.
+
+2000-10-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Store the user config filename in a resource.
 
 	* src/rsc_files.gperf (heroesrc-txt): Rename to ...

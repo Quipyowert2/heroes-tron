@@ -735,23 +735,25 @@ such as Windows were such messages will popup a text window.
 @cindex --really-quiet
 Same as @samp{-q}, but disable error messages too.
 
-@item -v OPTIONS
+@item -vOPTIONS
 @itemx --verbose=OPTIONS
-@cindex -v OPTIONS
+@cindex -vOPTIONS
 @cindex --verbose=OPTIONS
 Enable debugging output.  @samp{OPTIONS} can take the same
 values as @samp{HEROES_DEBUG} (@pxref{Environment}).
 
-@comment sound options:
+@item -lWORD
+@itemx --list=WORD
+@cindex -lWORD
+@cindex --list=WORD
 
-@item -n
-@itemx --drivers-info
-@cindex -n
-@cindex --drivers-info
-Print libmikmod's sound drivers list.  The expected output is something
-like this:
+Show various internal information.  @samp{WORD} can be @samp{sound-drivers}
+or @samp{resources}.
+
+@samp{--list=sound-drivers} is used to print LibMikMod's drivers list.
+The expected output is something like this:
 @example
-% heroes -n
+% heroes --list=sound-drivers
 LibMikMod version 3.1.7
 
 Available drivers:
@@ -765,15 +767,23 @@ Available drivers:
  8 Nosound Driver v3.0
 @end example
 
+@samp{--list=resources} will dump the list of file resources.  File
+resources are kinds of aliases used internaly to name files and
+directories.  They can be overwritten in you configuration file using
+the @samp{setrsc:} command.  This command will also list the original
+(default) value of the resource if it has been overwritten.
+
+@comment sound options:
+
 @item -d N[,OPTIONS]
 @itemx --driver=N[,OPTIONS]
 @cindex -d N[,OPTIONS]
 @cindex --driver=N[,OPTIONS]
 @cindex sound driver
 With LibMikMod, specify the driver to use. @samp{N} is the number of the
-driver taken from the output of @samp{heroes -n}. Use @samp{0} for
-auto-detection.  Additional options can be given to the driver, see
-LibMikMod's @file{README} file.
+driver taken from the output of @samp{heroes --list=sound-drivers}. Use
+@samp{0} for auto-detection.  Additional options can be given to the
+driver, see LibMikMod's @file{README} file.
 
 With SDL_mixer, override some audio parameters.  @samp{freq} and
 @samp{buffers} are the two recognized parameters.  Example
@@ -996,6 +1006,11 @@ will be used.
 Common people don't need to set this variable.  This is only useful if
 you got Heroes as a binary distribution and want to move files around.
 
+@subsection @samp{HOME}
+@cindex @samp{HOME}
+
+The @samp{HOME} variable is used to locate your home directory.
+
 @c ======================================================================
 @node    heroesrc, Global score file, Environment, Running
 @comment node-name,  next,  previous,  up
@@ -1097,17 +1112,19 @@ available whith a config file that any user can get read from its
 This follow the same format as @samp{setenv} but is used to overwrite
 some filenames used by the game.  Heroes internally handles file or
 directory names using name aliases called file resources whose values (actual
-filenames) can be overridden by @samp{setrsc} and are subject to variable
+filenames) can be overwritten by @samp{setrsc} and are subject to variable
 expansion.
 
-See the file @file{src/rsc_files.gperf} for a list of available file
-resources.  @samp{data-dir} is a special resource which content is setup
-from the @samp{HEROES_DATA_DIR} environment variable, or from the path
-used to install the files when the game was built.
+The command @samp{heroes --list=resources} will list all the resources
+used by the game.  @samp{data-dir} is a special resource which content
+is setup from the @samp{HEROES_DATA_DIR} environment variable, or from
+the path used to install the files when the game was
+built. @samp{home-dir} is initialized from the @samp{HOME} environment
+variable.
 
 An example of @samp{setrsc:} usage is to run the game with an alternate
 picture file.  Say you are working on a modified version of the main font
-used in the game, you can override the installed pictures by yours with
+used in the game, you can override the installed picture by yours with
 the following line.
 
 @example
