@@ -1,5 +1,9 @@
 2000-11-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* NEWS: Update for version 0.6f.
+
+2000-11-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/menus.c (free_menu): Free title and funcs.
 	(uninit_menus_sprites): Typo (resulting in unfree memory).
 

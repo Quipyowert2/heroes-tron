@@ -1,5 +1,17 @@
 		      User visible changes in Heroes.
 
+Heroes 0.6f	November 25, 2000
+
+	* Fixes for recent (0.6d) bugs:
+	  - unfreed memory blocks
+	  - various typos
+	  - inaccurate waving effect (uncleared pixels on the right side)
+	  - redundant error messages when decoding sound options (SDL_mixer)
+	* Fixes for older (pre 0.1) bugs:
+	  - thinko in vehicle drawing functions
+	  - fence-post read in the help reader
+	* Updated VisualC files.
+
 Heroes 0.6e	November 20, 2000
 
 	* New section `Machines' in Texinfo manual (and README)
