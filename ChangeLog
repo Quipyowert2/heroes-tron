@@ -1,5 +1,10 @@
 2001-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.ac: Bump version to 0.17.
+	* tests/Makefile.am (EXTRA_DIST): Add $(TESTS).
+
+2001-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/heroes.c (heroes_main): Set system-conf from the
 	HEROES_SYSTEM_CONF envvar.
 	* tests/Makefile.am (EXTRA_DIST): Add defs.

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.14\n"
-"POT-Creation-Date: 2001-11-18 16:42+0100\n"
+"POT-Creation-Date: 2001-11-19 08:52+0100\n"
 "PO-Revision-Date: 2001-08-25 14:45+0200\n"
 "Last-Translator: Alexandre Duret-Lutz <duret_g@epita.fr>\n"
 "Language-Team: none <LL@li.org>\n"
@@ -83,7 +83,7 @@ msgstr "%s: l'option `-W %s' ne requiert pas de paramètre.\n"
 msgid "memory exhausted"
 msgstr "mémoire épuisée"
 
-#: src/argv.c:59
+#: src/argv.c:60
 #, c-format
 msgid ""
 "Copyright (C) %d  Alexandre Duret-Lutz, Romuald Genevois,\n"
@@ -92,7 +92,7 @@ msgstr ""
 "Copyright (C) %d  Alexandre Duret-Lutz, Romuald Genevois,\n"
 "Alexandre Liverneaux et Philippe Meisburger.\n"
 
-#: src/argv.c:62 src/heroeslvl.c:64
+#: src/argv.c:63 src/heroeslvl.c:64
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
@@ -101,40 +101,40 @@ msgstr ""
 "AUCUNE garantie n'est donnée, pas même sa concernant sa COMMERCIABILITÉ\n"
 "ou son APTITUDE À RÉPONDRE À UN BESOIN PARTICULIER."
 
-#: src/argv.c:73
+#: src/argv.c:74
 msgid "Use `-lWORD' or `--list=WORD' where WORD can be:"
 msgstr "Utilisez `-lMOT' ou `--list=MOT' où MOT peut être :"
 
-#: src/argv.c:75
+#: src/argv.c:76
 msgid "display all debugging channels"
 msgstr "liste les cannaux de deboggage"
 
-#: src/argv.c:77
+#: src/argv.c:78
 msgid "list all level files"
 msgstr "liste tous les niveaux"
 
-#: src/argv.c:79
+#: src/argv.c:80
 msgid "print the preferences settings"
 msgstr "liste l'état des préférences"
 
-#: src/argv.c:81
+#: src/argv.c:82
 msgid "print the resources list"
 msgstr "liste toutes les resources"
 
-#: src/argv.c:83
+#: src/argv.c:84
 msgid "print the sound driver list"
 msgstr "liste les pilotes sonores"
 
-#: src/argv.c:85
+#: src/argv.c:86
 msgid "print the sound track list"
 msgstr "liste les musiques"
 
-#: src/argv.c:125 src/heroeslvl.c:74
+#: src/argv.c:145 src/heroeslvl.c:74
 #, c-format
 msgid "Try '%s --help' for more information.\n"
 msgstr "Essayez '%s --help' pour plus d'informations.\n"
 
-#: src/argv.c:130
+#: src/argv.c:150
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]...\n"
@@ -143,7 +143,7 @@ msgstr ""
 "Utilisation : %s [OPTIONS]...\n"
 "\n"
 
-#: src/argv.c:131
+#: src/argv.c:151
 msgid ""
 "Heroes is a game similar to the \"Tron\" and \"Nibbles\" games of yore\n"
 "but includes many graphical improvements and new game features.\n"
@@ -151,14 +151,14 @@ msgstr ""
 "Heroes est un jeu similaire aux jeux \"Tron\" and \"Nibbles\" d'antan mais\n"
 "plus est plus élaboré et ajoute plusieurs effets graphiques.\n"
 
-#: src/argv.c:134 src/heroeslvl.c:81
+#: src/argv.c:154 src/heroeslvl.c:81
 msgid ""
 "Mandatory arguments to long options are mandatory for short options too.\n"
 msgstr ""
 "Les argument obligatoires pour les options longues le sont aussi pour les\n"
 "courtes.\n"
 
-#: src/argv.c:136
+#: src/argv.c:156
 msgid ""
 "General options:\n"
 "  -v, --version               display version number\n"
@@ -184,7 +184,7 @@ msgstr ""
 "                                peut être : 'debug', 'resources', \n"
 "                                'sound-drivers' ou 'sound-tracks'\n"
 
-#: src/argv.c:147
+#: src/argv.c:167
 msgid ""
 "Sound options:\n"
 "  -d, --driver=N[,OPTIONS]    use Nth driver for sound output (0:"
@@ -207,7 +207,7 @@ msgstr ""
 "  -8, --8bits                 sortie sonore sur 8 bits\n"
 "  -i, --high-quality          mixeur de bonne qualité\n"
 
-#: src/argv.c:156
+#: src/argv.c:176
 msgid ""
 "Display options:\n"
 "  -G, --gfx-options=OPTIONS   pass OPTIONS to the display driver\n"
@@ -230,7 +230,7 @@ msgstr ""
 #. waves is another effect where the screen is agitated like some
 #. jelly (this was also called the `mushroom effect' in game like
 #. Death Rally).
-#: src/argv.c:169
+#: src/argv.c:189
 msgid ""
 "Miscellaneous options:\n"
 "      --cpu-off               disable computer opponents\n"
@@ -254,7 +254,7 @@ msgstr ""
 "  -g, --go                    saute l'introduction\n"
 "  -J, --no-joystick           désactive la gestion des manettes de jeu\n"
 
-#: src/argv.c:179
+#: src/argv.c:199
 msgid ""
 "These options can be set in your file ~/.heroes/heroesrc (which is read\n"
 "before parsing other command line options) using a line like the following:\n"
@@ -267,18 +267,18 @@ msgstr ""
 "\n"
 "  Options: -gs -d3,buffer=11,count=4\n"
 
-#: src/argv.c:184
+#: src/argv.c:204
 msgid ""
 "Visit http://heroes.sourceforge.net/ for news, documentation, and updates."
 msgstr ""
 "Visitez http://heroes.sourceforge.net/ pour information, documentation, et\n"
 "mises à jour."
 
-#: src/argv.c:186 src/heroeslvl.c:102
+#: src/argv.c:206 src/heroeslvl.c:102
 msgid "Report bugs to <heroes-bugs@lists.sourceforge.net>."
 msgstr "Rapporter toutes anomalies à <heroes-bugs@lists.sourceforge.net>."
 
-#: src/argv.c:291
+#: src/argv.c:312
 msgid "-n is an obsolete option, you should use --list=sound-drivers"
 msgstr "-n est une option obsolète, vous devriez utiliser --list=sound-drivers"
 
@@ -319,6 +319,74 @@ msgstr "INVINCIBLE !"
 #: src/bonus.c:391
 msgid "EXTRA-LIFE!"
 msgstr "NOUVELLE VIE"
+
+#: src/debughash.c:97 src/debughash.gperf:45
+msgid "all messages"
+msgstr "tous les messages"
+
+#: src/debughash.c:98 src/debughash.gperf:49
+msgid "files and directories handling"
+msgstr "gestion des fichiers et répertoires"
+
+#: src/debughash.c:99 src/debughash.gperf:50
+msgid "levels handling"
+msgstr "gestion des niveaux"
+
+#: src/debughash.c:100 src/debughash.gperf:47
+msgid "system related messages"
+msgstr "messages relatifs au système"
+
+#: src/debughash.c:102 src/debughash.gperf:48
+msgid "filename resources handling"
+msgstr "gestion des resources de noms de fichiers"
+
+#: src/debughash.c:103 src/debughash.gperf:56
+msgid "miscellaneous events"
+msgstr "évènements divers"
+
+#: src/debughash.c:104 src/debughash.gperf:58
+msgid "bonus"
+msgstr "bonus"
+
+#: src/debughash.c:105 src/debughash.gperf:51
+msgid "sound track events"
+msgstr "évènements musicaux"
+
+#: src/debughash.c:106 src/debughash.gperf:46
+msgid "different parts of the game"
+msgstr "différentes parties du jeu"
+
+#: src/debughash.c:107 src/debughash.gperf:54
+msgid "joystick initialization and events"
+msgstr "initialization et évènements du joystick"
+
+#: src/debughash.c:109 src/debughash.gperf:55
+msgid "timer handling"
+msgstr "gestion des temporisateurs"
+
+#: src/debughash.c:111 src/debughash.gperf:57
+msgid "palette fade events"
+msgstr "dégradés de palettes"
+
+#: src/debughash.c:113 src/debughash.gperf:52
+msgid "sound effects events"
+msgstr "évènements liés aux bruitages"
+
+#: src/debughash.c:115 src/debughash.gperf:53
+msgid "communication with the display driver"
+msgstr "communication avec le pilote d'affichage"
+
+#: src/debughash.c:165 src/debughash.gperf:87
+#, c-format
+msgid "%s: no such channel, assuming you meant '%s'."
+msgstr "%s : pas de tel cannal, je considère que vous vouliez '%s'."
+
+#: src/debughash.c:168 src/debughash.gperf:90
+#, c-format
+msgid "%s: no such channel (--list=debug will list all known channels)"
+msgstr ""
+"%s : pas de tel cannal (--list=debug affichera la liste les cannaux "
+"existants)"
 
 #: src/endscroll.c:113
 msgid "THE END"
@@ -774,21 +842,21 @@ msgid_plural "%d LIVES LEFT"
 msgstr[0] "DERNIERE VIE"
 msgstr[1] "RESTE %d VIES"
 
-#: src/heroes.c:2814
+#: src/heroes.c:2819
 msgid "Error during level loading"
 msgstr "Erreur pendant le chargement du niveau"
 
-#: src/heroes.c:2850
+#: src/heroes.c:2855
 #, c-format
 msgid "-LEVEL %d-"
 msgstr "-NIVEAU %d-"
 
-#: src/heroes.c:2852
+#: src/heroes.c:2857
 #, c-format
 msgid "-ROUND %d/%d-"
 msgstr "-MANCHE %d/%d-"
 
-#: src/heroes.c:3347
+#: src/heroes.c:3362
 msgid "error in sfx.cfg"
 msgstr "erreur dans sfx.cfg"
 
@@ -1585,74 +1653,6 @@ msgstr "%s:%d: %s: valeur inconnue: %s"
 #, c-format
 msgid "%s:%d: unknown keyword `%s'"
 msgstr "%s:%d: mot clef inconnu `%s'"
-
-#: src/debughash.gperf:45
-msgid "all messages"
-msgstr "tous les messages"
-
-#: src/debughash.gperf:46
-msgid "different parts of the game"
-msgstr "différentes parties du jeu"
-
-#: src/debughash.gperf:47
-msgid "system related messages"
-msgstr "messages relatifs au système"
-
-#: src/debughash.gperf:48
-msgid "filename resources handling"
-msgstr "gestion des resources de noms de fichiers"
-
-#: src/debughash.gperf:49
-msgid "files and directories handling"
-msgstr "gestion des fichiers et répertoires"
-
-#: src/debughash.gperf:50
-msgid "levels handling"
-msgstr "gestion des niveaux"
-
-#: src/debughash.gperf:51
-msgid "sound track events"
-msgstr "évènements musicaux"
-
-#: src/debughash.gperf:52
-msgid "sound effects events"
-msgstr "évènements liés aux bruitages"
-
-#: src/debughash.gperf:53
-msgid "communication with the display driver"
-msgstr "communication avec le pilote d'affichage"
-
-#: src/debughash.gperf:54
-msgid "joystick initialization and events"
-msgstr "initialization et évènements du joystick"
-
-#: src/debughash.gperf:55
-msgid "timer handling"
-msgstr "gestion des temporisateurs"
-
-#: src/debughash.gperf:56
-msgid "miscellaneous events"
-msgstr "évènements divers"
-
-#: src/debughash.gperf:57
-msgid "palette fade events"
-msgstr "dégradés de palettes"
-
-#: src/debughash.gperf:58
-msgid "bonus"
-msgstr "bonus"
-
-#: src/debughash.gperf:87
-#, c-format
-msgid "%s: no such channel, assuming you meant '%s'."
-msgstr "%s : pas de tel cannal, je considère que vous vouliez '%s'."
-
-#: src/debughash.gperf:90
-#, c-format
-msgid "%s: no such channel (--list=debug will list all known channels)"
-msgstr ""
-"%s : pas de tel cannal (--list=debug affichera la liste les cannaux "
-"existants)"
 
 #: src/media/sfx.c:94
 #, c-format
