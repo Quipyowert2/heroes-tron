@@ -232,6 +232,7 @@ Avoid any change to these files, if possible.
  lib/xstrdup.c     (from fetish)
  m4/dos.m4         (from fetish)
  m4/ftruncate.m4   (from fetish)
+ m4/glibc21.m4	   (from fetish)
  m4/gnu-source.m4  (from fetish)
  m4/malloc.m4      (from fetish)
  m4/realloc.m4     (from fetish)

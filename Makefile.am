@@ -36,7 +36,8 @@ misc/heroes-8.xpm \
 misc/01-intl.patch \
 misc/04-intl.patch \
 misc/04-m4.patch \
-misc/05-po.patch
+misc/05-po.patch \
+misc/06-intl.patch
 
 # lib must be built after intl
 # man must be built after src

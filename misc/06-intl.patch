@@ -1,0 +1,52 @@
+Index: intl/ChangeLog
+--- intl/ChangeLog
++++ intl/ChangeLog
+@@ -1,1 +1,6 @@
++2001-05-11  Bruno Haible  <haible@clisp.cons.org>
++
++	* Makefile.in (install-exec): Don't install charset.alias on glibc 2.1
++	systems.
++
+
+*** /home/haible/gettext-cvs/gettext-0.10.37/intl/Makefile.in	Thu Apr 19 20:41:16 2001
+--- ./intl/Makefile.in	Fri May 11 15:09:20 2001
+***************
+*** 152,165 ****
+  	fi
+  	if test '@USE_INCLUDED_LIBINTL@' = yes; then \
+  	  $(mkinstalldirs) $(DESTDIR)$(libdir); \
+- 	  test -f $(DESTDIR)$(libdir)/charset.alias \
+- 	    && orig=$(DESTDIR)$(libdir)/charset.alias \
+- 	    || orig=charset.alias; \
+  	  temp=$(DESTDIR)$(libdir)/t-charset.alias; \
+  	  dest=$(DESTDIR)$(libdir)/charset.alias; \
+! 	  sed -f ref-add.sed $$orig > $$temp; \
+! 	  $(INSTALL_DATA) $$temp $$dest; \
+! 	  rm -f $$temp; \
+  	  $(mkinstalldirs) $(DESTDIR)$(localedir); \
+  	  test -f $(DESTDIR)$(localedir)/locale.alias \
+  	    && orig=$(DESTDIR)$(localedir)/locale.alias \
+--- 152,172 ----
+  	fi
+  	if test '@USE_INCLUDED_LIBINTL@' = yes; then \
+  	  $(mkinstalldirs) $(DESTDIR)$(libdir); \
+  	  temp=$(DESTDIR)$(libdir)/t-charset.alias; \
+  	  dest=$(DESTDIR)$(libdir)/charset.alias; \
+! 	  if test -f $(DESTDIR)$(libdir)/charset.alias; then \
+! 	    orig=$(DESTDIR)$(libdir)/charset.alias; \
+! 	    sed -f ref-add.sed $$orig > $$temp; \
+! 	    $(INSTALL_DATA) $$temp $$dest; \
+! 	    rm -f $$temp; \
+! 	  else \
+! 	    if test @GLIBC21@ = no; then \
+! 	      orig=charset.alias; \
+! 	      sed -f ref-add.sed $$orig > $$temp; \
+! 	      $(INSTALL_DATA) $$temp $$dest; \
+! 	      rm -f $$temp; \
+! 	    fi; \
+! 	  fi; \
+  	  $(mkinstalldirs) $(DESTDIR)$(localedir); \
+  	  test -f $(DESTDIR)$(localedir)/locale.alias \
+  	    && orig=$(DESTDIR)$(localedir)/locale.alias \
+
+

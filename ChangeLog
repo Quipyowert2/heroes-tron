@@ -1,5 +1,16 @@
 2001-05-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Don't install charset.alias on glibc 2.1 systems.  This is base on
+	the patch that Bruno Haible <haible@clisp.cons.org> applied on the
+	Gettext CVS version to address the issue.
+
+	* m4/glibc21.m4: New file.
+	* m4/gettext.m4 (AM_GNU_GETTEXT): Require jm_GLIBC21.
+	* misc/06-intl.patch: New file.
+	* Makefile.am (EXTRA_DIST): Add misc/06-intl.patch.
+
+2001-05-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Bump version number to 0.10b.
 	* NEWS: Update for 0.10b.
 	* HACKING: Update fetish files.
