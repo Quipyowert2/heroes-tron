@@ -19,7 +19,7 @@
 
 #EXTRA_DIST = extralvl level rsc sprites txt_cfg
 
-SUBDIRS = extralvl intro sprites rsc level txt_cfg hedit @musicdir@
+SUBDIRS = etc extralvl intro sprites rsc level txt_cfg hedit @musicdir@
 
 bin_PROGRAMS = heroes
 

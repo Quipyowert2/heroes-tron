@@ -1,5 +1,27 @@
 2000-07-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Install a system-wide configuration file, and use it to define
+	soundtrack filenames.
+
+	* configure.in: Define $etcdir as ${datadir}/heroes/etc/ and
+	enable substitution in *.in files.  Generate src/etc/Makefile
+	* src/Makefile.am (SUBDIRS): Add etc.
+	* src/heroes.c (main): Read the system-wide config file.
+	* src/musicfiles.c (get_sound_track_from_alias): Test the end
+	of the right list when looking for the alias.
+	(init_sound_track_list): Make the function empty (all the work
+	is done from the config file).
+	* src/userconf.c (read_userconf): Use the file argument, when 
+	not 0.
+	* src/etc/Makefile.am: New file.
+	* src/etc/heroesrc.in: New file.
+	* src/mod/Makefile.am (x_DATA): Install sound.conf.
+	(CLEANFILES): Delete sound.conf.
+	(sound.conf): New.
+	* src/mod/sound.conf.in: New file.
+	
+2000-07-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Display only user's levels in editor menus.
 
 	* src/extras.c (extra_user_nbr): New.

@@ -1,0 +1,13 @@
+HEROES01:%%moddir%%/heroes01.xm:Corridor 1:Alexel
+HEROES02:%%moddir%%/heroes02.xm:Caero:Tnk
+HEROES03:%%moddir%%/heroes03.xm:Dark Ages:Alexel
+HEROES04:%%moddir%%/heroes04.xm:Corridor 2:Alexel
+HEROES05:%%moddir%%/heroes05.xm:Vulcano:Tnk
+HEROES06:%%moddir%%/heroes06.xm:Electric Dream:Tnk
+HEROES07:%%moddir%%/heroes07.xm:Metal Master:Tnk
+HEROES08:%%moddir%%/heroes08.xm:Moon 51:Tnk
+HEROES09:%%moddir%%/heroes09.xm:Corridor 3:Alexel
+HEROES10:%%moddir%%/heroes10.xm:Sweet Dream:Alexel
+INTRO:%%moddir%%/intro.xm:Heroes Intro:Alexel
+ENDSCROLL:%%moddir%%/sdf.xm:Heroes End Scroll:Alexel
+MENU:%%moddir%%/menu.xm:Heroes Menu:Alexel

@@ -73,7 +73,7 @@ get_sound_track_from_alias (const char* alias)
 {
   st_list_t list = sound_track_list;
 
-  while (sound_track_list) {
+  while (list) {
     if (!strcasecmp (list->car->alias, alias))
       return list->car;
     list = list->cdr;
@@ -125,31 +125,11 @@ read_sound_config_file (const char* filename)
 int 
 init_sound_track_list (void)
 {
-  add_sound_track_cons ("HEROES01", moddir "heroes01.xm", 
-			"Corridor 1", "Alexel");
-  add_sound_track_cons ("HEROES02", moddir "heroes02.xm", 
-			"Caero", "Tnk");
-  add_sound_track_cons ("HEROES03", moddir "heroes03.xm", 
-			"Dark Ages", "Alexel");
-  add_sound_track_cons ("HEROES04", moddir "heroes04.xm", 
-			"Corridor 2", "Alexel");
-  add_sound_track_cons ("HEROES05", moddir "heroes05.xm", 
-			"Vulcano", "Tnk");
-  add_sound_track_cons ("HEROES06", moddir "heroes06.xm", 
-			"Electric Dream", "Tnk");
-  add_sound_track_cons ("HEROES07", moddir "heroes07.xm", 
-			"Metal Master", "Tnk");
-  add_sound_track_cons ("HEROES08", moddir "heroes08.xm", 
-			"Moon 51", "Tnk");
-  add_sound_track_cons ("HEROES09", moddir "heroes09.xm", 
-			"Corridor 3", "Alexel");
-  add_sound_track_cons ("HEROES10", moddir "heroes10.xm", 
-			"Sweet Dream", "Alexel");
-  add_sound_track_cons ("INTRO", moddir "intro.xm", 
-			"Heroes Intro", "Alexel");
-  add_sound_track_cons ("ENDSCROLL", moddir "sdf.xm", 
-			"Heroes End Scroll", "Alexel");
+  /* No soundtrack by default */
+  /*
   add_sound_track_cons ("MENU", moddir "menu.xm", 
 			"Heroes Menu", "Alexel");
+	...
+  */
   return 0;
 }

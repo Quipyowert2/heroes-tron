@@ -48,6 +48,8 @@ read_userconf (const char* file, const char* argv0)
   
   if (!file)
     filename = strcat_alloc (userdir,"/" USERCONFIG_FILE);
+  else
+    filename = (char *) file; /* const_cast */
 
   fs = fopen (filename, "r");
 

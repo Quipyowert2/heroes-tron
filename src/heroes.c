@@ -4588,6 +4588,9 @@ main (int argc, char *argv[])
 
   init_sound_track_list ();
 
+  /* Read the system-wide configuration file. */
+  read_userconf (etcdir "/heroesrc", argv[0]);
+
   if (setup_userdir ())
     exit (1);
 

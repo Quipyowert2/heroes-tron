@@ -402,6 +402,7 @@ scoresdir=${datadir}/heroes/txt_cfg/
 sfxdir=${datadir}/heroes/sfx/
 spritedir=${datadir}/heroes/sprites/
 textdir=${datadir}/heroes/txt_cfg/
+etcdir=${datadir}/heroes/etc/
 
 AC_SUBST(confdir)
 AC_SUBST(extradir)
@@ -414,6 +415,7 @@ AC_SUBST(scoresdir)
 AC_SUBST(sfxdir)
 AC_SUBST(spritedir)
 AC_SUBST(textdir)
+AC_SUBST(etcdir)
 
 AC_DEFINE_DIR(confdir  ,confdir,  config directory)
 AC_DEFINE_DIR(extradir ,extradir, extra levels directory)
@@ -426,13 +428,14 @@ AC_DEFINE_DIR(scoresdir,scoresdir,scores directory)
 AC_DEFINE_DIR(sfxdir   ,sfxdir,   sound effects directory)
 AC_DEFINE_DIR(spritedir,spritedir,sprites directory)
 AC_DEFINE_DIR(textdir  ,textdir,  texts directory)
+AC_DEFINE_DIR(etcdir   ,etcdir,   config directory)
 
 dnl ============
 dnl Output files
 dnl ============
 
 AM_CONFIG_HEADER(src/config.h)
-AC_OUTPUT(Makefile src/Makefile src/extralvl/Makefile
+AC_OUTPUT(Makefile src/Makefile src/etc/Makefile src/extralvl/Makefile
 	src/hedit/Makefile src/intro/Makefile
 	src/level/Makefile src/rsc/Makefile src/sprites/Makefile
 	src/txt_cfg/Makefile src/mod/Makefile src/sfx/Makefile

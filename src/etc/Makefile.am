@@ -18,11 +18,11 @@
 # 
 # $Id: Makefile.am 1.1 Sat, 13 May 2000 10:51:14 +0200 pollux $
 
-xdir = @moddir@
-x_DATA = $(wildcard *.xm) sound.conf
+xdir = @etcdir@
+x_DATA = heroesrc
 
 EXTRA_DIST = $(x_DATA)
-CLEANFILES = sound.conf
+CLEANFILES = heroesrc
 
-sound.conf: sound.conf.in ../config.h
+heroesrc: heroesrc.in ../config.h
 	sed -e "s:%%moddir%%:$(moddir):" < $< > $@
