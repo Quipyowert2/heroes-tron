@@ -1,5 +1,10 @@
 2001-08-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/heroes.c (find_lemming_direction): Allow lemmings to be
+	blocked under a trail (i.e. don't assert against that).
+
+2001-08-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	configure was still defining many HAVE_LIB* macro that are no
 	longer needed since the move to src/media/.  Only
 	HAVE_LIBSDL_MIXER is used.  This remove all the other, to cleanup

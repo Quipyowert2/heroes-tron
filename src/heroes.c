@@ -411,14 +411,17 @@ find_lemming_direction (lemming_t *lem)
 	 lemming to use.  We used to set lem->dir = 5; to indicate
 	 this condition to the renderer (when then the lemmings cannot
 	 move it should be not be rendered as `walking').  But it
-	 turns out checking whether ptr->_tail == lem->pos_head is
-	 sufficient to detect this condition.  */
+	 turns out that checking whether ptr->pos_tail ==
+	 lem->pos_head is sufficient to detect this condition.  */
     }
   }
 
   assert (lem->pos_head != INVALID_INDEX);
-  assert (square_occupied[lem->pos_head] == 0xff);
   if (lem->pos_head != lem->pos_tail) {
+    /* We assert this only here, because it may happens that a
+       lemmings is blocked under a player trail.  */
+    assert (square_occupied[lem->pos_head] == 0xff);
+
     /* If the lemming is moving, mark the destination square as
        occupied so that no other lemming dares to move there too. */
     assert (square_lemmings_list[lem->pos_head] == 0);
