@@ -1,5 +1,9 @@
 2001-10-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.ac: AC_CHECK_DECLS for strnlen.
+
+2001-10-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.ac: Bump version to 0.15.
 	* NEWS, ANNOUNCE: Update for 0.15.
 
