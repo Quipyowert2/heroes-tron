@@ -214,12 +214,15 @@ to help it, or to fine tune special features of Heroes.
    The following options are for developing purpose.  The default
 configuration should be suitable for end users (i.e. players) but people
 attempting to hack the code may want debugging symbols or compiler
-warning.
+warnings.
 
 `--enable-debug'
-     Turn on debugging options: compile with debugging symbols and
-     debugging code.  This is disabled by default because it produce
-     bigger binaries.
+`--disable-debug'
+     This is a three state option.  The default is to compile with
+     debugging symbols: this produce bigger binaries but allow to get
+     helpfull coredumps, without slowing down the game.  You may want to
+     use `--enable-debug' to include more debugging data and turn on
+     some debugging code.  Use `--disable-debug' to turn this off.
 
 `--disable-optimizations'
      Turn off compiler optimizations options.  This can ease debugging.
@@ -235,6 +238,12 @@ warning.
      Is a shorthand for `--enable-debug --disable-optimizations
      --enable-warnings --enable-assert'.
 
+`--with-mpatrol'
+     Link with MPatrol, a `malloc()' debugger.
+
+`--with-mtrace'
+     Use GNU libc's `mtrace()' facility to check `malloc()' usage.
+
 `--with-dmalloc'
      Link with Dmalloc, a `malloc()' debugger.
 
@@ -242,7 +251,8 @@ warning.
      Link with Electric Fence, a `malloc()' debugger.
 
 `--enable-mem-debug'
-     Check for Dmalloc, or Electric Fence.  Use the first library found.
+     Check for `mtrace()', Dmalloc, or Electric Fence.  Use the first
+     found.
 
 `--enable-gprof'
      Enable profiling support with `gcc', you need `gprof' to inspect
@@ -280,8 +290,9 @@ Solaris (SDL)
      Should build out of the box.
 
 Win32/MinGW32 (SDL)
-     Can be cross-compiled from Linux (native compilation untested).
-     Packages are available from the web pages.
+     Can be cross-compiled (native compilation untested).  The script
+     used to cross build the Heroes package available on the web page
+     is in the subdirectory `arch/mingw32'.
 
 Win32/VisualC (SDL)
      See the files in the `arch/VisualC' subdirectory.

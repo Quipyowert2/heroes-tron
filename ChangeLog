@@ -1,5 +1,11 @@
 2001-02-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.in: Bump to 0.8c.
+	* NEWS: Update for 0.8c, plus a missing entry in 0.8a.
+	* po/fr.po: Update.
+
+2001-02-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/fader.c (cancel_fader): New function pulled out from
 	run_fader.
 	(run_fader): Use it.

@@ -1,3 +1,22 @@
+Heroes 0.8c	February 2, 2001
+
+	* One intermediate screen buffer has been removed from the
+	  rendering pipe.  The good news is that this should lead
+	  to a slight speed-up in some configuration (when stretching
+	  is used or when display require locking).  The bad news is
+	  that shading the screen in the PAUSE and QUIT menus
+	  is no longer possible, therefore this has been changed.
+	* The middle mouse button can be used to select a temporary
+	  tile in the level editor (for tunnel setup).
+	* configure changes:
+	  - CFLAGS now defaults to `-g'
+	  - New options: --with-mpatrol, --with-mtrace.
+	* Bug fixes:
+	  - compilation for targets not using gettimeofday (e.g. mingw32)
+	    was not fixed correctly in 0.8a...
+	  - the `catch bonuses' behavior (used by computer opponents) was
+	    lacking the call to the valuation function since 0.6d!
+
 Heroes 0.8b	Juanary 11, 2001
 
 	* Cleanup of config.h's #define macros.
@@ -28,6 +47,8 @@ Heroes 0.8a	Juanary 1, 2001
 	     --with*-GGI* => --with*-ggi*
 	     --with*-GII* => --with*-gii*
 	     --with*-sdl_mixer* => --with*-sdl-mixer*
+	* previous releases used to strip binaries by default,
+	  this is no longer the case: use `make install-strip' instead.
 
 Heroes 0.8	December 20, 2000
 
