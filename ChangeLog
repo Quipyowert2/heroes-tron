@@ -1,3 +1,8 @@
+2001-11-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* lib/error.c, lib/getopt.c, lib/hash.c, m4/strerror_r.m4: Update
+	from fileutils-4.1.1.
+
 2001-11-11  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* BUGS: Suppress Benjamin Preidecker's report about Heroes 0.5

@@ -1,5 +1,5 @@
 /* hash - hashing table processing.
-   Copyright (C) 1998, 1999, 2000 Free Software Foundation, Inc.
+   Copyright (C) 1998, 1999, 2000, 2001 Free Software Foundation, Inc.
    Written by Jim Meyering, 1992.
 
    This program is free software; you can redistribute it and/or modify
@@ -576,19 +576,22 @@ void
 hash_clear (Hash_table *table)
 {
   struct hash_entry *bucket;
-  struct hash_entry *cursor;
 
   for (bucket = table->bucket; bucket < table->bucket_limit; bucket++)
     {
       if (bucket->data)
 	{
+	  struct hash_entry *cursor;
+	  struct hash_entry *next;
+
 	  /* Free the bucket overflow.  */
-	  for (cursor = bucket->next; cursor; cursor = cursor->next)
+	  for (cursor = bucket->next; cursor; cursor = next)
 	    {
 	      if (table->data_freer)
 		(*table->data_freer) (cursor->data);
 	      cursor->data = NULL;
 
+	      next = cursor->next;
 	      /* Relinking is done one entry at a time, as it is to be expected
 		 that overflows are either rare or short.  */
 	      cursor->next = table->free_entry_list;
@@ -995,13 +998,14 @@ hash_print (const Hash_table *table)
       struct hash_entry *cursor;
 
       if (bucket)
-	printf ("%d:\n", slot);
+	printf ("%d:\n", bucket - table->bucket);
 
       for (cursor = bucket; cursor; cursor = cursor->next)
 	{
 	  char *s = (char *) cursor->data;
 	  /* FIXME */
-	  printf ("  %s\n", s);
+	  if (s)
+	    printf ("  %s\n", s);
 	}
     }
 }
