@@ -31,6 +31,7 @@
 #include "argv.h"
 #include "config.h"
 #include "extras.h"
+#include "musicfiles.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
@@ -100,6 +101,9 @@ read_userconf (const char* file, const char* argv0)
     } else if (!strcasecmp (argv[0], "extradir:")) {
       argv[1] = strtok (0, "\n");
       browse_extra_directory (argv[1]);
+    } else if (!strcasecmp (argv[0], "soundconf:")) {
+      argv[1] = strtok (0, "\n");
+      read_sound_config_file (argv[1]);      
     } else {
       fprintf (stderr, "%s:%d: unknown keyword `%s'\n", 
 	       filename, firstline, argv[0]);
@@ -107,9 +111,11 @@ read_userconf (const char* file, const char* argv0)
 	free (filename);
       return 1;
     }
-  non_fatal_error:;
+  non_fatal_error:
+    ;
   } 
   free (buf);
+  fclose (fs);
   if (!file)
     free (filename);
   return 0;

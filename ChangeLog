@@ -1,5 +1,22 @@
 2000-07-09  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Reading of sound config files.
+
+	* src/heroes.c (main): Call init_sound_track_list before calling
+	read_userconf.
+	* src/musicfiles.c (read_config_file): Rename to ...
+	(read_sound_config_file): ... this.  Implement it (was empty).
+	* src/musicfiles.h (read_config_file): Rename to ...
+	(read_sound_config_file): ... this.
+	* src/sound.c (init_sound_engine): Register all loaders so that
+	the user is not limited to XMs.
+	(load_soundtrack): Output a warning if the module couldn't be loaded.
+	* src/userconf.c (read_userconf): Handle `soundconf:'.  Close the
+	input file.
+	* doc/heroes.texi (heroesrc): Document it.
+	
+2000-07-09  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Sound configuration via -8 and -q options.
 	
 	* src/argv.c (hqmix,bits8): New variables.

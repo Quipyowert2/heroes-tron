@@ -669,19 +669,23 @@ constrained to 320x200).
 
 @node    heroesrc, Game, Options, Running
 @comment node-name,  next,  previous,  up
+
 @section @file{~/.heroes/heroesrc}
-@subsection @samp{option:}
 @cindex  heroesrc
-@cindex  options
 
 Each time you start heroes, it tries to read the file
-@file{~/.heroes/heroesrc} in your home directory.  You can specify
-options in that files, they will be processed before options given on
-the command line.  Put the word @samp{Options:} in front of a line, and
-write the options after (separated by spaces, as on the command line,
-except that there is no quoting or variable substitution).  For example, 
-if you want that Heroes always skip the introduction, and swap the player
-sides, add the following line to your @file{~/.heroes/heroesrc}:
+@file{~/.heroes/heroesrc} in your home directory.
+
+@subsection @samp{option:}
+@cindex options:
+
+You can specify options in that file, they will be processed before
+options given on the command line.  Put the word @samp{Options:} in
+front of a line, and write the options after (separated by spaces, as on
+the command line, except that there is no quoting or variable
+substitution).  For example, if you want that Heroes always skip the
+introduction, and swap the player sides, add the following line to your
+@file{~/.heroes/heroesrc}:
 
 @example
 Options: -g -s
@@ -690,7 +694,7 @@ Options: -g -s
 Multiple @samp{Options:} lines can be given, they are processed in order.
 
 @subsection @samp{setenv:}
-@cindex setenv
+@cindex setenv:
 @vindex SDL_VIDEODRIVER
 @cindex environment variable
 @cindex variable
@@ -709,11 +713,50 @@ use AAlib (the ASCII art rendering library) and configure AAlib via its
 @samp{AAOPTS} variable.
 
 @subsection @samp{extradir:}
-@cindex extradir
+@cindex extradir:
 @cindex extra levels directory
 
 Lines starting with @samp{extradir:} are used to specify 
 additional extra levels directories.
+
+@subsection @samp{soundconf:}
+@cindex soundconf:
+
+The @samp{soundconf:} lines are used to introduce configuration files
+defining the soundtracks played by the game.  The format of such a file
+is as follow:
+@example
+ALIAS:FILENAME:TITLE:AUTHOR
+...
+@end example
+Where @samp{ALIAS} is the name of the soundtrack used internaly by
+Heroes (presently the set of used aliases include
+@samp{INTRO},@samp{MENU},@samp{HEROES01},@samp{HEROES02},...,@samp{HEROES10},
+and @samp{ENDSCROLL}), @samp{FILENAME} is the filename of the soundtrack
+you want to be loaded, @samp{TITLE} is the title of the soundtrack, and
+@samp{AUTHOR} is the person who tracked that music.
+
+You may give several definitions for the same alias, in which case only
+the latest will be used (and of course your configuration file is read
+after heroes has setup its default aliases so you can overwrite them).
+
+To give one full example, imagine you want to hear
+@samp{/music/2nd-reality.s3m} when you are playing Heroes in
+the second world (desert and pyramids).  What you do is this
+@example
+% cd ~/.heroes
+% echo "HEROES02:/music/2nd-reality.s3m:Second Reality:Purple Motion" > mymod
+% echo "soundconf: /home/adl/.heroes/mymod" >> heroesrc
+@end example
+
+In this example, the config file has been put in the @samp{~/.heroes}
+directory but you can put it anywhere provided the filename given after
+@samp{soundconf:} points to it.
+
+All that sound configuration stuff should allow you to make drop-in
+remplacement for heroes modules.  You just make a set of modules
+available whith a config file that any user can get read from its
+@samp{~/.heroes/heroesrc}.
 
 @node    Game, Troubleshooting, heroesrc, Running
 @comment node-name,  next,  previous,  up

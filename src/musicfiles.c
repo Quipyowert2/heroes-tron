@@ -22,6 +22,8 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include "getshline.h"
 #include "musicfiles.h"
 #include "generic_list.h"
 #include "config.h"
@@ -80,8 +82,43 @@ get_sound_track_from_alias (const char* alias)
 }
 
 int 
-read_config_file (const char* filename __attribute__ ((unused)))
+read_sound_config_file (const char* filename)
 {
+  FILE* fs;
+  char* buf = 0;
+  size_t bufsize = 0;
+  int firstline = 0, endline = 0;
+
+  fs = fopen (filename, "r");
+
+  if (!fs)
+    return 0;
+
+  while (getshline_numbered 
+	 (&firstline, &endline, &buf, &bufsize, fs) != -1) {
+    char* alias = strtok (buf, ":\n");
+    char* file  = strtok (0, ":\n");
+    char* title  = strtok (0, ":\n");
+    char* author  = strtok (0, "\n");    
+    if (!alias || !alias[0])
+      fprintf (stderr, "%s:%d: missing alias name\n", 
+	       filename, firstline);	
+    else if (!file || !file[0])
+      fprintf (stderr, "%s:%d: missing file name\n", 
+	       filename, firstline);	
+    else if (!title || !title[0])
+      fprintf (stderr, "%s:%d: missing title\n", 
+	       filename, firstline);	
+    else if (!author || !author[0])
+      fprintf (stderr, "%s:%d: missing author\n", 
+	       filename, firstline);	
+    else
+      add_sound_track_cons (alias, file, title, author);
+  }
+
+  fclose (fs);
+  free (buf);
+
   return 0;
 }
 

@@ -4630,6 +4630,8 @@ main (int argc, char *argv[])
 {
   int i;
 
+  init_sound_track_list ();
+
   if (setup_userdir ())
     exit (1);
 
@@ -4639,7 +4641,6 @@ main (int argc, char *argv[])
   if (parse_argv (argc, argv))
     exit (1);
 
-  init_sound_track_list ();
   read_txti_cfg ();
 
   srand (time (0));

@@ -75,8 +75,9 @@ init_sound_engine (void)
   /* register all the drivers */
   MikMod_RegisterAllDrivers ();
 
-  /* register the xm module loader */
-  MikMod_RegisterLoader (&load_xm);
+  /* register the all module loader 
+     (the user can use something else than .xm) */
+  MikMod_RegisterAllLoaders ();
 
   /* initialize the library */
   md_device = nth_driver;
@@ -114,6 +115,10 @@ void
 load_soundtrack (char *ptr)
 {  
   module = Player_Load (ptr, 16, 0);
+  if (!module) {
+    fprintf (stderr, "Could not load %s, reason: %s\n", ptr,
+	     MikMod_strerror (MikMod_errno));
+  }
 }
 
 void
