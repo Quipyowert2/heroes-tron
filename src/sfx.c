@@ -143,8 +143,8 @@ read_sfx_conf (void)
     if ((*conf == 0) || (fconf = fopen (conf, "rt")) == NULL) {
       if (fconf == NULL)
 	dperror ("fopen");
-      wmsg ("Cannot open %s, disabling sound-effects\n"
-	    "(run with -X to supress this message).", conf);
+      wmsg (_("Cannot open %s, disabling sound-effects\n"
+	      "(run with -X to supress this message)."), conf);
       nosfx = 1;
       free (conf);
       return 0;
@@ -309,7 +309,7 @@ load_sfx_mode (signed char mode)
     if (sfx_loaded[i]) {
       dmsg (D_FILE|D_SOUND_EFFECT,"loading sound effect: %s", sfx_names[i]);
       if (!(sfx_handles[i] = _load_sfx (sfx_names[i]))) {
-	emsg ("Unable to load sample %s", sfx_names[i]);
+	emsg (_("Unable to load sample %s"), sfx_names[i]);
       }
     }
 }

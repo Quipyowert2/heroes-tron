@@ -162,13 +162,13 @@ read_sound_config_file (char* filename)
     char* title  = strtok (0, ":\n");
     char* author  = strtok (0, "\n");
     if (!alias || !alias[0])
-      wmsg ("%s:%d: missing alias name\n", filename, firstline);
+      wmsg (_("%s:%d: missing alias name"), filename, firstline);
     else if (!file || !file[0])
-      wmsg ("%s:%d: missing file name\n", filename, firstline);
+      wmsg (_("%s:%d: missing file name"), filename, firstline);
     else if (!title || !title[0])
-      wmsg ("%s:%d: missing title\n", filename, firstline);
+      wmsg (_("%s:%d: missing title"), filename, firstline);
     else if (!author || !author[0])
-      wmsg ("%s:%d: missing author\n", filename, firstline);
+      wmsg (_("%s:%d: missing author"), filename, firstline);
     else {
       if (dir && file[0] != '/') {
 	char* tmp = strcat_alloc (dir, file);

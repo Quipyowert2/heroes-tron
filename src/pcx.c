@@ -58,7 +58,7 @@ pcx_load (const char *file, pcx_image_t *image)
   dmsg (D_FILE, "opening image file: %s", file);
 
   if ((fptr = fopen (file, "rb")) == NULL) {
-    emsg ("Cannot open %s\n", file);
+    emsg (_("Cannot open %s"), file);
   }
   fread (&(image->header), sizeof (pcx_header_t), 1, fptr);
 

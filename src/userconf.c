@@ -78,7 +78,7 @@ read_userconf (const char* file)
       /* get the variable name */
       argv [1] = strtok (0, " \t\n");
       if (argv[1] == 0) {
-	wmsg ("%s:%d: missing variable name\n", file, firstline);
+	wmsg (_("%s:%d: missing variable name"), file, firstline);
 	goto non_fatal_error;
       }
       argv[2] = strtok (0, "\n");
@@ -97,13 +97,13 @@ read_userconf (const char* file)
       /* get the resource name */
       argv [1] = strtok (0, " \t\n");
       if (argv[1] == 0) {
-	wmsg ("%s:%d: missing resource name\n", file, firstline);
+	wmsg (_("%s:%d: missing resource name"), file, firstline);
 	goto non_fatal_error;
       }
       argv[2] = strtok (0, "\n");
       set_rsc_file (argv[1], argv[2]);
     } else {
-      wmsg ("%s:%d: unknown keyword `%s'\n", file, firstline, argv[0]);
+      wmsg (_("%s:%d: unknown keyword `%s'"), file, firstline, argv[0]);
       return 1;
     }
   non_fatal_error:

@@ -300,12 +300,12 @@ init_video (void)
 	display_params ? display_params : "null");
   visu = ggiOpen (display_params);
   if (!visu)
-    emsg ("Failed to open visual.");
+    emsg (_("Failed to open visual."));
 
   dmsg (D_VIDEO, "open display-memory visual");
   render_visu = ggiOpen ("display-memory", NULL);
   if (!render_visu)
-    emsg ("Failed to open an internal `display-memory' visual.");
+    emsg (_("Failed to open an internal `display-memory' visual."));
 
   scr_w = 320 * stretch;
   scr_h = 200 * stretch;
@@ -333,7 +333,7 @@ init_video (void)
 	(ggiCheckGraphMode (visu, GGI_AUTO, GGI_AUTO, scr_w, scr_h, GT_8BIT,
 			    &vid_mode) &&
 	 ggiSetMode (visu, &vid_mode))) {
-      emsg ("Couldn't setup a correct display.");
+      emsg (_("Couldn't setup a correct display."));
     }
   }
   dmsg (D_VIDEO, "video mode is %dx%dx%d",
@@ -342,7 +342,7 @@ init_video (void)
   dmsg (D_VIDEO, "ask for a direct-buffer");
   db = ggiDBGetBuffer (render_visu, 0);
   if (!db || !(db->type & GGI_DB_SIMPLE_PLB))
-    emsg ("Can't get correct direct-buffer.\n");
+    emsg (_("Can't get correct direct-buffer."));
 
   screen_rv = db->write;
 
@@ -476,7 +476,7 @@ init_video (void)
   visu = SDL_SetVideoMode (scr_w, scr_h, 8, visu_options);
   /* FIXME: the Linux/m68k binary is crashing in the vicinity */
   if (!visu)
-    emsg ("Failed to open visual: %s\n", SDL_GetError());
+    emsg (_("Failed to open visual: %s"), SDL_GetError());
 
   video_initialized = 1;
 

@@ -970,7 +970,7 @@ load_level_from_number (int nbr, char cont)
   }
   e = load_level ((char *) tmp, cont);
   if (e != 0) {
-    emsg ("Error %d during loading level", e);
+    emsg (_("Error %d during loading level"), e);
   }
 }
 
@@ -1058,7 +1058,7 @@ load_random_wrapped_level (char c, char cont)
   }
   e = load_level ((char *) tmp, cont);
   if (e != 0) {
-    emsg ("Error %d occured while loading level %s", e, tmp);
+    emsg (_("Error %d occured while loading level %s"), e, tmp);
   }
 }
 
@@ -1082,7 +1082,7 @@ load_random_level (char cont)
   }
   e = load_level ((char *) tmp, cont);
   if (e != 0) {
-    emsg ("Error %d occured while loading level %s", e, tmp);
+    emsg (_("Error %d occured while loading level %s"), e, tmp);
   }
 
 }
@@ -3222,7 +3222,7 @@ play_game (char cont)
     char* tmp = get_non_null_rsc_file ("levels-dir");
     strappend (tmp, level_name);
     if (load_level (level_name, cont))
-      emsg ("Error during level loading");
+      emsg (_("Error during level loading"));
     free (tmp);
   } else if (game_mode == M_QUEST /*&& questmode==0 */ )
     load_level_from_number (current_quest_level++, cont);
@@ -3677,7 +3677,7 @@ read_level_list (void)
   dmsg (D_FILE|D_SECTION, "read level list: %s ...", t);
   if ((f = fopen (t, "rt")) == NULL) {
     dperror ("fopen");
-    emsg ("Could not open %s.", t);
+    emsg (_("Cannot open %s."), t);
   }
   free (t);
   while (!feof (f)) {
@@ -3745,7 +3745,7 @@ main (int argc, char *argv[])
       set_rsc_file ("home-dir", home_dir);
     } else {
       dmsg (D_SYSTEM, "... not found.");
-      wmsg ("HOME variable not found in environment, defaulting to `.'");
+      wmsg (_("HOME variable not found in environment, defaulting to `.'"));
       set_rsc_file ("home-dir", ".");
     }
   }
@@ -3810,7 +3810,7 @@ main (int argc, char *argv[])
     load_save_records ();
 
   if (read_sfx_conf ())
-    emsg ("error in sfx.cfg");
+    emsg (_("error in sfx.cfg"));
 
   if (joyoff) {
     joystick_detected = 0;

@@ -38,15 +38,15 @@ _get_joystick_state (void)
 {
   struct timeval t = { 0, 0 };
 
-  if (giiEventPoll (joystick, 
+  if (giiEventPoll (joystick,
 		    emValAbsolute | emKeyPress | emKeyRelease, &t) != emZero) {
     int nbr;
     gii_event ev;
-    
-    nbr = giiEventsQueued (joystick, 
+
+    nbr = giiEventsQueued (joystick,
 			   emValAbsolute | emKeyPress | emKeyRelease);
     for (; nbr; --nbr) {
-      giiEventRead (joystick, &ev, 
+      giiEventRead (joystick, &ev,
 		    emValAbsolute | emKeyPress | emKeyRelease);
       if (ev.any.type == evKeyPress) {
 /*  	printf("evKeyPress %d\n",ev.key.button); */
@@ -62,7 +62,7 @@ _get_joystick_state (void)
 	  break;
 	case 4:
 	  joystick_b[1] |= 2;
-	  break;	  
+	  break;
 	}
       } else if (ev.any.type == evKeyRelease) {
 /*  	printf("evKeyRelease %d\n",ev.key.button); */
@@ -78,7 +78,7 @@ _get_joystick_state (void)
 	  break;
 	case 4:
 	  joystick_b[1] &= ~2;
-	  break;	  
+	  break;
 	}
       } else if (ev.any.type == evValAbsolute) {
 	/*
@@ -97,9 +97,9 @@ _get_joystick_state (void)
 	if (3 >= ev.val.first && 3 <= ev.val.first + ev.val.count)
 	  joystick_y[0] = ev.val.value[0];
       } else {
-	wmsg ("unexpected event %d\n", ev.any.type);
+	wmsg (_("unexpected event %d\n"), ev.any.type);
       }
-    }    
+    }
   }
 }
 
@@ -110,11 +110,11 @@ joyinit (void)
   giiInit ();
   joystick = giiOpen ("linux-joy",NULL);
   if (!joystick) {
-    wmsg ("No joystick found (run with `-J' to suppress this message).");
+    wmsg (_("No joystick found (run with `-J' to suppress this message)."));
     joystick_detected = 0;
   } else
     joystick_detected = 1;
-  
+
   return (joystick_detected);
 }
 
@@ -129,8 +129,8 @@ get_joystick_state (void)
 #endif /* HAVE_PKG_GII */
 #ifdef HAVE_SDL_JOYSTICKOPEN
 
-SDL_Joystick* joystick[2] = { 0, 0 }; 
-int joystick0_butnbr = 0;	/* The number of button of 
+SDL_Joystick* joystick[2] = { 0, 0 };
+int joystick0_butnbr = 0;	/* The number of button of
 				   the FIRST joystick */
 
 extern void init_SDL (void);
@@ -146,7 +146,7 @@ char joyinit (void)
   nbr = SDL_NumJoysticks ();
 
   if (nbr <= 0) {
-    puts ("No joystick found (run with `-J' to suppress this message).");
+    wmsg (_("No joystick found (run with `-J' to suppress this message)."));
     return joystick_detected = 0;
   }
 
@@ -164,23 +164,23 @@ void get_joystick_state (void)
 {
   SDL_JoystickUpdate();
   if (joystick[0]) {
-    joystick_b[0] = (joystick_b[0] & ~1) | 
+    joystick_b[0] = (joystick_b[0] & ~1) |
       (SDL_JoystickGetButton (joystick[0], 0) & 1);
-    joystick_b[0] = (joystick_b[0] & ~2) | 
+    joystick_b[0] = (joystick_b[0] & ~2) |
       ((SDL_JoystickGetButton (joystick[0], 1) & 1) << 1);
     joystick_x[0] = SDL_JoystickGetAxis(joystick[0], 0);
     joystick_y[0] = SDL_JoystickGetAxis(joystick[0], 1);
     if (!joystick[1] && joystick0_butnbr >= 4) {
-      joystick_b[1] = (joystick_b[1] & ~1) | 
+      joystick_b[1] = (joystick_b[1] & ~1) |
 	(SDL_JoystickGetButton (joystick[0], 2) & 1);
-      joystick_b[1] = (joystick_b[1] & ~2) | 
+      joystick_b[1] = (joystick_b[1] & ~2) |
 	((SDL_JoystickGetButton (joystick[0], 3) & 1) << 1);
     }
   }
   if (joystick[1]) {
-    joystick_b[1] = (joystick_b[1] & ~1) | 
+    joystick_b[1] = (joystick_b[1] & ~1) |
       (SDL_JoystickGetButton (joystick[1], 0) & 1);
-    joystick_b[1] = (joystick_b[1] & ~2) | 
+    joystick_b[1] = (joystick_b[1] & ~2) |
       ((SDL_JoystickGetButton (joystick[1], 1) & 1) << 1);
     joystick_x[1] = SDL_JoystickGetAxis(joystick[1], 0);
     joystick_y[1] = SDL_JoystickGetAxis(joystick[1], 1);

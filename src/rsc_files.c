@@ -29,10 +29,10 @@ check_rsc_spelling_error (const char *rsc_name)
 {
   const char *approx = get_rsc_approx (rsc_name);
   if (approx)
-    wmsg ("%s: no such resource, possible misspelling of '%s'.",
+    wmsg (_("%s: no such resource, possible misspelling of '%s'."),
 	  rsc_name, approx);
   else
-    wmsg ("%s: no such resource.", rsc_name);
+    wmsg (_("%s: no such resource."), rsc_name);
 }
 
 int
@@ -128,8 +128,8 @@ get_non_null_rsc_file (const char* rsc_name)
 {
   char* tmp = get_rsc_file (rsc_name);
   if (tmp == 0)
-    emsg ("%s: null resource", rsc_name);
+    emsg (_("%s: null resource"), rsc_name);
   if (!strcmp(tmp, ""))
-    emsg ("%s: empty resource", rsc_name);
+    emsg (_("%s: empty resource"), rsc_name);
   return tmp;
 }

@@ -218,7 +218,7 @@ compile_reader_data (read_data_t *head, const char *str)
 	    offset -= (h - 10) / 2 * xbuf;
 	    break;
 	  default:
-	    emsg ("Unknown image flag '%c'.", *flags);
+	    emsg (_("Unknown image flag '%c'."), *flags);
 	  }
 	}
 

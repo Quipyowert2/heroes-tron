@@ -1,5 +1,25 @@
 2000-12-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	More internationalizable strings.
+
+	* po/POFILES.in: Regenerate.
+	* po/fr.po: Update.
+	* tools/genpotfiles.sh: Typo.
+	* src/argv.c: Markup messages for translations.
+	* src/debuhash.gperf: Likewise
+	* src/display.c: Likewise.
+	* src/hedlite.c: Likewise.
+	* src/heroes.c: Likewise.
+	* src/joystick.c: Likewise.
+	* src/pcx.c: Likewise.
+	* src/readmake.c: Likewise.
+	* src/rsc_files.c: Likewise.
+	* src/sfx.c: Likewise.
+	* src/sound.c: Likewise.
+	* src/userconf.c: Likewise.
+
+2000-12-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/helptext.c (help_text4): Fix TIME CA$H description.
 	(hepl_text5): Correct homepage URL.
 	* src/menus.c (init_menus_sprites): Fix radar text in screen menu.

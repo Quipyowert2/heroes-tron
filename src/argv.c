@@ -55,24 +55,24 @@ static void
 version (void)
 {
   puts ("Heroes " VERSION "\n");
-  puts ("Copyright 1997, 1998, 2000  "
-	"Alexandre Duret-Lutz, Romuald Genevois,\n"
-	"Alexandre Liverneaux and Philippe Meisburger.\n");
-  puts ("This is free software; see the source for copying conditions.  "
-	"There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS"
-	" FOR A PARTICULAR PURPOSE.");
+  puts (_("Copyright 1997, 1998, 2000  "
+	  "Alexandre Duret-Lutz, Romuald Genevois,\n"
+	  "Alexandre Liverneaux and Philippe Meisburger.\n"));
+  puts (_("This is free software; see the source for copying conditions.  "
+	  "There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS"
+	  " FOR A PARTICULAR PURPOSE."));
 }
 
 static void
 list (char *word)
 {
   if (!word) {
-    puts ("\
+    puts (_("\
 Use `-lWORD' or `--list=WORD' where WORD can be:\n\
   debug                 display all debugging channels\n\
   resources             print the resources list\n\
   sound-drivers         print the sound driver list\n\
-  sound-tracks		print the sound track list");
+  sound-tracks		print the sound track list"));
     return;
   }
   if (!strcasecmp (word,"resources") ||
@@ -99,14 +99,14 @@ Use `-lWORD' or `--list=WORD' where WORD can be:\n\
 static void
 print_help (void)
 {
-  printf ("Usage: %s [OPTIONS]...\n\n", program_name);
+  printf (_("Usage: %s [OPTIONS]...\n\n"), program_name);
   /* append '\n' to all lines, even the last in a puts (we
      want an empty line between paragraphs) */
-  puts ("\
-Heroes is a game like nibbles but different.\n");
-  puts ("\
-Mandatory arguments to long options are mandatory for short options too.\n");
-  puts ("\
+  puts (_("\
+Heroes is a game like nibbles but different.\n"));
+  puts (_("\
+Mandatory arguments to long options are mandatory for short options too.\n"));
+  puts (_("\
 General options:\n\
   -v, --version               display version number\n\
   -h, --help                  display this help\n\
@@ -116,8 +116,8 @@ General options:\n\
                                 (see --list=debug for available channels)\n\
   -l, --list=WORD             show some internal information; WORD can be\n\
                                 'debug', 'resources', 'sound-drivers' or\n\
-                                'sound-tracks'\n");
-  puts ("\
+                                'sound-tracks'\n"));
+  puts (_("\
 Sound options:\n\
   -d, --driver=N[,OPTIONS]    use Nth driver for sound output (0:autodetect)\n\
                                 (see --list=sound-drivers for available Ns)\n\
@@ -125,16 +125,16 @@ Sound options:\n\
   -X, --no-sfx                disable sound-effects\n\
   -m, --mono                  non-stereo output\n\
   -8, --8bits                 8bits sound output\n\
-  -i, --high-quality          high quality mixer\n");
-  puts ("\
+  -i, --high-quality          high quality mixer\n"));
+  puts (_("\
 Display options:\n\
   -G, --gfx-options=OPTIONS   pass OPTIONS to the display driver\n\
   -F, --full-screen           full screen mode\n\
   -2, --double                stretch the display twofold\n\
   -3, --triple                stretch the display threefold\n\
   -4, --quadruple             stretch the display fourfold\n\
-  -e, --even-lines            display only even-lines\n");
-  puts ("\
+  -e, --even-lines            display only even-lines\n"));
+  puts (_("\
 Miscellaneous options:\n\
       --cpu-off               disable computer opponents\n\
       --default-scores        restore default scores file\n\
@@ -143,15 +143,15 @@ Miscellaneous options:\n\
   -s, --swap-sides            swap sides in two player mode\n\
       --no-double-fx          disable superposition of rotozoom and waves\n\
   -g, --go                    skip the introduction\n\
-  -J, --no-joystick           disable joystick handling\n");
-  puts ("\
+  -J, --no-joystick           disable joystick handling\n"));
+  puts (_("\
 These options can be set in your file ~/.heroes/heroesrc (which is read\n\
 before parsing other command line options) using a line like the following:\n\
 \n\
-  Options: -gs -d3,buffer=11,count=4\n");
-  puts ("\
-Visit http://heroes.sourceforge.net/ for news, documentation, and updates.");
-  puts ("Report bugs to <heroes-bugs@lists.sourceforge.net>.");
+  Options: -gs -d3,buffer=11,count=4\n"));
+  puts (_("\
+Visit http://heroes.sourceforge.net/ for news, documentation, and updates."));
+  puts (_("Report bugs to <heroes-bugs@lists.sourceforge.net>."));
 }
 
 const struct option long_options[] = {
@@ -256,7 +256,8 @@ parse_argv (int argc, char **argv, const char *from_file, int from_line)
       directmenu = true;
       break;
     case 'n':
-      wmsg ("-n is an obsolete option, you should use --list=sound-drivers");
+      wmsg (_("-n is an obsolete option, "
+	      "you should use --list=sound-drivers"));
       print_drivers_list ();
       return 1;
     case 'd':

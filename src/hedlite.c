@@ -1716,7 +1716,7 @@ create_levels_output_dir (void)
   if (error == 0)
     if (mkdir (levels_output_dir, 0755)) {
       dperror (levels_output_dir);
-      wmsg ("Cannot create directory `%s'.", levels_output_dir);
+      wmsg (_("Cannot create directory `%s'."), levels_output_dir);
       return 1;
     }
   return 0;

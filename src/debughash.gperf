@@ -34,20 +34,20 @@ struct debug_channel_s {
   enum debug_lvl number;
 };
 %%
-all,		"all messages",					-1
-section,	"different parts of the game",			D_SECTION
-system,		"system related messages",			D_SYSTEM
-resource,	"filename resources handling",			D_RESOURCE
-file,		"files and directories handling",		D_FILE
-level,		"levels handling",				D_LEVEL
-sound_track,	"sound track events",				D_SOUND_TRACK
-sound_effect,	"sound effects events",				D_SOUND_EFFECT
-video,		"communication with the display driver",	D_VIDEO
-joystick,	"joystick initialization",			D_JOYSTICK
-timer,		"timer handling",				D_TIMER
-misc,		"miscellaneous events",				D_MISC
-fader,		"palette fade events",				D_FADER
-bonus,		"bonus",					D_BONUS
+all,		N_("all messages"),				-1
+section,	N_("different parts of the game"),		D_SECTION
+system,		N_("system related messages"),			D_SYSTEM
+resource,	N_("filename resources handling"),		D_RESOURCE
+file,		N_("files and directories handling"),		D_FILE
+level,		N_("levels handling"),				D_LEVEL
+sound_track,	N_("sound track events"),			D_SOUND_TRACK
+sound_effect,	N_("sound effects events"),			D_SOUND_EFFECT
+video,		N_("communication with the display driver"),	D_VIDEO
+joystick,	N_("joystick initialization"),			D_JOYSTICK
+timer,		N_("timer handling"),				D_TIMER
+misc,		N_("miscellaneous events"),			D_MISC
+fader,		N_("palette fade events"),			D_FADER
+bonus,		N_("bonus"),					D_BONUS
 %%
 static const struct debug_channel_s *
 get_channel_approx (const char *name)
@@ -76,10 +76,11 @@ get_channel_number (const char *name)
     /* try to find a channel which name is close to the given name */
     res = get_channel_approx (name);
     if (res)
-      wmsg ("%s: no such channel, assuming you meant '%s'.", name, res->name);
+      wmsg (_("%s: no such channel, assuming you meant '%s'."),
+	    name, res->name);
     else
-      emsg ("%s: no such channel (--list=debug will list all known channels)",
-	    name);
+      emsg (_("%s: no such channel (--list=debug will list "
+	    "all known channels)"), name);
   }
   return res->number;
 }
@@ -90,7 +91,7 @@ print_debug_channels (void)
   int i;
   for (i = MIN_HASH_VALUE; i <= MAX_HASH_VALUE; ++i) {
     if (channel_set[i].name[0]) {
-      printf ("%-16s %s\n", channel_set[i].name, channel_set[i].doc);
+      printf ("%-16s %s\n", channel_set[i].name, _(channel_set[i].doc));
     }
   }
 }
