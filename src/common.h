@@ -205,7 +205,7 @@ int strcasecmp (const char *s1, const char *s2);
 #  define mkdir(a,b) mkdir(a)
 # endif
 #else
-# ifdef HAVE_WINDOWS_H
+# ifdef HAVE__MKDIR
 #  define mkdir(a,b) _mkdir(a)
 # else
 #  error "Don't know how to create a directory on this system."

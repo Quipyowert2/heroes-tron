@@ -1,29 +1,3 @@
-dnl @synopsis AC_DEFINE_DIR(VARNAME, DIR [, DESCRIPTION])
-dnl
-dnl This macro defines (with AC_DEFINE) VARNAME to the expansion of the DIR
-dnl variable, taking care of fixing up ${prefix} and such.
-dnl
-dnl Note that the 3 argument form is only supported with autoconf 2.13 and
-dnl later (i.e. only where AC_DEFINE supports 3 arguments).
-dnl
-dnl Examples:
-dnl
-dnl    AC_DEFINE_DIR(DATADIR, datadir)
-dnl    AC_DEFINE_DIR(PROG_PATH, bindir, [Location of installed binaries])
-dnl
-dnl @author Alexandre Oliva <oliva@lsd.ic.unicamp.br>
-
-AC_DEFUN([AC_DEFINE_DIR], [
-        ac_expanded=`(
-            test "x$prefix" = xNONE && prefix="$ac_default_prefix"
-            test "x$exec_prefix" = xNONE && exec_prefix="${prefix}"
-            eval echo \""[$]$2"\"
-        )`
-        ifelse($3, ,
-          AC_DEFINE_UNQUOTED($1, "$ac_expanded"),
-          AC_DEFINE_UNQUOTED($1, "$ac_expanded", $3))
-])
-
 dnl @synopsis AC_PATH_GENERIC(LIBRARY [, MINIMUM-VERSION [, ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
 dnl
 dnl Runs a LIBRARY-config script and defines LIBRARY_CFLAGS and LIBRARY_LIBS
@@ -46,10 +20,11 @@ dnl
 dnl    FOO_CFLAGS to `foo-config --cflags`
 dnl    FOO_LIBS   to `foo-config --libs`
 dnl
-dnl At present there is no support for additional "MODULES" 
+dnl At present there is no support for additional "MODULES" (see AM_PATH_GTK)
 dnl (shamelessly stolen from gtk.m4 and then hacked around a fair amount)
 dnl
 dnl @author Angus Lees <gusl@cse.unsw.edu.au>
+dnl @version $Id: generic-config.m4,v 1.2 2000/07/19 13:03:32 simons Exp $
 
 AC_DEFUN([AC_PATH_GENERIC],
 [dnl
@@ -61,14 +36,15 @@ pushdef([DOWN], translit([$1], [A-Z], [a-z]))dnl
 dnl
 dnl Get the cflags and libraries from the LIBRARY-config script
 dnl
-AC_ARG_WITH(DOWN-prefix,
-AC_HELP_STRING([--with-]DOWN[-prefix=PFX],
-               [prefix where $1 is installed (optional)]),
-        DOWN[]_config_prefix="$withval", DOWN[]_config_prefix="")
-AC_ARG_WITH(DOWN-exec-prefix,
-AC_HELP_STRING([--with-]DOWN[-exec-prefix=PFX],
-               [exec prefix where $1 is installed (optional)]),
-        DOWN[]_config_exec_prefix="$withval", DOWN[]_config_exec_prefix="")
+AC_ARG_WITH(DOWN[-prefix],
+[AC_HELP_STRING([--with-]DOWN[-prefix=PFX],
+                [Prefix where $1 is installed (optional)])],
+DOWN[]_config_prefix="$withval", DOWN[]_config_prefix="")
+
+AC_ARG_WITH(DOWN[-exec-prefix],
+[AC_HELP_STRING([--with-]DOWN[-exec-prefix=PFX],
+                [Exec prefix where $1 is installed (optional)])],
+DOWN[]_config_exec_prefix="$withval", DOWN[]_config_exec_prefix="")
 
   if test x$DOWN[]_config_exec_prefix != x ; then
      DOWN[]_config_args="$DOWN[]_config_args --exec-prefix=$DOWN[]_config_exec_prefix"
@@ -162,108 +138,4 @@ AC_HELP_STRING([--with-]DOWN[-exec-prefix=PFX],
 
   popdef([UP])
   popdef([DOWN])
-])
-
-dnl @synopsis AC_caolan_CHECK_PACKAGE(PACKAGE, FUNCTION, LIBRARY , HEADERFILE [, ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
-dnl
-dnl Provides --with-PACKAGE, --with-PACKAGE-include and --with-PACKAGE-libdir
-dnl options to configure. Supports the now standard --with-PACKAGE=DIR
-dnl approach where the package's include dir and lib dir are underneath DIR,
-dnl but also allows the include and lib directories to be specified seperately
-dnl
-dnl adds the extra -Ipath to CFLAGS if needed
-dnl adds extra -Lpath to LD_FLAGS if needed
-dnl searches for the FUNCTION in the LIBRARY with
-dnl AC_CHECK_LIBRARY and thus adds the lib to LIBS
-dnl
-dnl defines HAVE_PKG_PACKAGE if it is found, (where PACKAGE in the
-dnl HAVE_PKG_PACKAGE is replaced with the actual first parameter passed)
-dnl note that autoheader will complain of not having the HAVE_PKG_PACKAGE and you
-dnl will have to add it to acconfig.h manually
-dnl
-dnl @author Caolan McNamara <caolan@skynet.ie>
-dnl
-
-AC_DEFUN([AC_caolan_CHECK_PACKAGE],
-[
-
-AC_ARG_WITH($1,
-AC_HELP_STRING([--with-$1=DIR],[root directory of $1 installation]),
-with_$1=$withval
-if test "${with_$1}" != yes; then
-        $1_include="$withval/include"
-        $1_libdir="$withval/lib"
-
-fi
-)
-
-AC_ARG_WITH($1-include,
-AC_HELP_STRING([--with-$1-include=DIR],
-               [specify exact include dir for $1 headers]),
-$1_include="$withval")
-
-AC_ARG_WITH($1-libdir,
-AC_HELP_STRING([--with-$1-libdir=DIR],
-               [specify exact library dir for $1 library])
-AC_HELP_STRING([--without-$1],[disables $1 usage completely]),
-$1_libdir="$withval")
-
-if test "${with_$1}" != no ; then
-	OLD_LIBS=$LIBS
-        OLD_LDFLAGS=$LDFLAGS
-        OLD_CFLAGS=$CFLAGS
-        OLD_CPPFLAGS=$CPPFLAGS
-
-        if test "${$1_libdir}" ; then
-                LDFLAGS="$LDFLAGS -L${$1_libdir}"
-        fi
-        if test "${$1_include}" ; then
-                CPPFLAGS="$CPPFLAGS -I${$1_include}"
-                CFLAGS="$CFLAGS -I${$1_include}"
-        fi
-
-        AC_CHECK_LIB($3,$2,,no_good=yes)
-        AC_CHECK_HEADER($4,,no_good=yes)
-        if test "$no_good" = yes; then
-dnl     broken
-                ifelse([$6], , , [$6])
-		LIBS=$OLD_LIBS
-                LDFLAGS=$OLD_LDFLAGS
-                CPPFLAGS=$OLD_CPPFLAGS
-                CFLAGS=$OLD_CFLAGS
-        else
-dnl     fixed
-                ifelse([$5], , , [$5])
-
-                AC_DEFINE(HAVE_PKG_$1)
-        fi
-
-fi
-
-])
-
-
-dnl This will call AC_PATH_GENERIC but check that the library actually link.
-dnl
-dnl  AC_adl_PKG_GENERIC(library,version,function,action-if-ok,action-if-not)
-dnl
-AC_DEFUN([AC_adl_PKG_GENERIC],[
-  pushdef([UP], translit([$1], [a-z], [A-Z]))dnl
-
-  OLD_LIBS=$LIBS
-  OLD_CFLAGS=$CFLAGS
-  jolly_good=true
-  AC_PATH_GENERIC([$1],[$2],,[jolly_good=false])
-  if $jolly_good; then
-    CFLAGS="$UP[]_CFLAGS $CFLAGS"
-    LIBS="$UP[]_LIBS $LIBS"
-    AC_CHECK_FUNC([$3],,[jolly_good=false])
-  fi
-  if $jolly_good; then
-    ifelse([$4],,,[$4])    
-  else
-    LIBS=$OLD_LIBS
-    CFLAGS=$OLD_CFLAGS
-    ifelse([$5],,,[$5])    
-  fi
 ])

@@ -141,18 +141,6 @@ AC_PROG_CPP
 AC_PROG_AWK
 AC_PROG_RANLIB
 
-usable_perl=false
-AC_PATH_PROG([PERL], [perl])
-if test \! -z "$PERL"; then
-  AC_MSG_CHECKING([perl version])
-  if $PERL -e 'printf "%g\n", $]; exit($] >= 5.004);'; then
-    AC_MSG_WARN([perl 5.004 needed])
-  else
-    usable_perl=true 
-  fi
-fi
-AM_CONDITIONAL(USABLE_PERL, [test "x$usable_perl" = xtrue])
-
 AM_MISSING_PROG([HELP2MAN], [help2man], [\${SHELL} \${top_srcdir}])
 
 AC_PATH_PROG([GPERF], [gperf])
@@ -175,42 +163,13 @@ AC_caolan_CHECK_PACKAGE(GGI,[ggiOpen],[ggi],[ggi/ggi.h],,[with_GGI=no])
 fi
 if test "${with_GGI-yes}" != no; then
 
-# Where is <ggi/keyboard.h> located?
-# (Adapted from Zsh's configure.in)
-AC_CACHE_CHECK([where ggi/keyboard.h is located], [path_ggi_keyboard_h],
-[# Look at the output from the preprocessor.
-# We should get lines of the form `# 1 "/usr/include/ggi/keyboard.h"'
-# The backslash substitution is to persuade cygwin to cough up
-# slashes rather than doubled backslashes in the path.
-echo "#include <ggi/keyboard.h>" > nametmp.c
-keyfile_list="`$CPP nametmp.c |
-sed -n 's/^#[ 	].*\"\(.*\)\"/\1/p' |
-sed 's/\\\\\\\\/\//g' |
-$AWK '{ if (\$1 ~ \"ggi/keyboard.h\") files[[\$1]] = \$1 }
-  END { for (var in files) print var }'`"
-rm -f nametmp.c
-if test -z "$keyfile_list"; then
-  # In case we don't get the stuff from the preprocesor, use the old
-  # list of standard places.
-  keyfile_list="/usr/include/ggi/keyboard.h
-${GGI_include-/usr/local/include}/ggi/keyboard.h
-/dev/null"
-fi
-for KEY_H in $keyfile_list
-do
-  # Try to make sure it doesn't get confused by files that don't
-  # have real keysyms definitions in
-  nkeys=`test -f $KEY_H && \
-  grep '#[ 	]*define[ 	][ 	]*GIIUC*' $KEY_H | \
-  wc -l | sed 's/[ 	]//g'`
-  test "x$nkeys" != x && test "$nkeys" -ge 7 && break
-done
-if test $KEY_H = "/dev/null"; then
-  AC_MSG_ERROR([Keysyms macros not found: where is GGI installed?])
-fi
-path_ggi_keyboard_h="$KEY_H"
-])
-GGI_KEYBOARD_H="$path_ggi_keyboard_h"
+AC_adl_FIND_HEADER([ggi/keyboard.h],,
+ [/usr/include/ggi/keyboard.h] dnl
+ [${GGI_include-/usr/local/include}/ggi/keyboard.h],
+ [#[ 	]*define[ 	][ 	]*GIIUC*],7,,
+ [AC_MSG_ERROR([Keysyms macros not found: where is GGI installed?])])
+
+GGI_KEYBOARD_H="$ac_header_path_ggi_keyboard_h"
 AC_SUBST([GGI_KEYBOARD_H])
 
 with_sdl=no
@@ -230,43 +189,15 @@ AC_adl_PKG_GENERIC(sdl,[1.0.1],[SDL_Init],
 fi
 if test "${with_sdl-yes}" != no; then
 
-# Where is <SDL_keysym.h> located?
-# (Adapted from Zsh's configure.in)
-AC_CACHE_CHECK([where SDL_keysym.h is located], [path_sdl_keysym_h],
-[# Look at the output from the preprocessor.
-# We should get lines of the form `# 1 "/usr/include/SDL/SDL_keysym.h"'
-# The backslash substitution is to persuade cygwin to cough up
-# slashes rather than doubled backslashes in the path.
-echo "#include <SDL_keysym.h>" > nametmp.c
-keyfile_list="`$CPP $SDL_CFLAGS nametmp.c |
-sed -n 's/^#[ 	].*\"\(.*\)\"/\1/p' |
-sed 's/\\\\\\\\/\//g' |
-$AWK '{ if (\$1 ~ \"SDL_keysym.h\") files[[\$1]] = \$1 }
-  END { for (var in files) print var }'`"
-rm -f nametmp.c
-if test -z "$keyfile_list"; then
-  # In case we don't get the stuff from the preprocesor, use the old
-  # list of standard places.
-  keyfile_list="/usr/include/SDL/SDL_keysym.h
-/usr/local/include/SDL/SDL_keysym.h
-/dev/null"
-fi
-for KEY_H in $keyfile_list
-do
-  # Try to make sure it doesn't get confused by files that don't
-  # have real keysyms definitions in
-  nkeys=`test -f $KEY_H && \
-  grep '#[ 	]*define[ 	][ 	]*SDLK_*' $KEY_H | \
-  wc -l | sed 's/[ 	]//g'`
-  test "x$nkeys" != x && test "$nkeys" -ge 7 && break
-done
-if test $KEY_H = "/dev/null"; then
-  AC_MSG_ERROR([Keysyms definitions not found: where is SDL installed?])
-fi
-path_sdl_keysym_h="$KEY_H"
-])
-SDL_KEYSYM_H="$path_sdl_keysym_h"
+AC_adl_FIND_HEADER([SDL_keysym.h],[$SDL_CFLAGS],
+ [/usr/include/SDL/SDL_keysym.h] dnl
+ [/usr/local/include/SDL/SDL_keysym.h],
+ [#[ 	]*define[ 	][ 	]*SDLK_*],7,,
+ [AC_MSG_ERROR([Keysyms definitions not found: where is SDL installed?])])
+
+SDL_KEYSYM_H="$ac_cv_header_path_SDL_keysym_h"
 AC_SUBST([SDL_KEYSYM_H])
+
 display_lib="SDL dnl
 $sdl_config_major_version.$sdl_config_minor_version.$sdl_config_micro_version"
 AC_CHECK_FUNCS([SDL_EnableKeyRepeat])
@@ -427,7 +358,7 @@ AC_C_CONST
 # Checks for library functions.
 # =============================
 
-AC_CHECK_FUNCS([gettimeofday memcpy sleep mkdir])
+AC_CHECK_FUNCS([gettimeofday memcpy sleep])
 
 # Heroes needs opendir, readdir and closedir.  We check only for
 # readdir and assume that opendir and closedir are present if readdir is.
@@ -447,18 +378,7 @@ AC_CHECK_FUNC([readdir],
                  AC_MSG_ERROR([Could not find `readdir'.])
 	       fi;])
 AC_FUNC_VPRINTF
-
-AC_CACHE_CHECK([whether mkdir takes one argument],[ac_cv_mkdir_takes_one_arg],
-[AC_TRY_COMPILE([
-#include <sys/stat.h>
-#ifdef HAVE_UNISTD_H
-# include <unistd.h>
-#endif
-],[mkdir (".");],
-[ac_cv_mkdir_takes_one_arg=yes],[ac_cv_mkdir_takes_one_arg=no])])
-if test x"$ac_cv_mkdir_takes_one_arg" = xyes; then
-  AC_DEFINE([MKDIR_TAKES_ONE_ARG],1,[Define if mkdir takes only one argument.])
-fi
+AC_FUNC_MKDIR
 
 AC_REPLACE_FUNCS([strcasecmp])
 
@@ -468,33 +388,7 @@ AC_SUBST([LIBOBJS])
 # Check for endianess.
 # ====================
 
-case "$build" in
-  $host)
-    # if the build host is the host, we can test endianess 
-    # by running a small test program
-    AC_C_BIGENDIAN
-    ;;
-  *)
-    # otherwise (if a cross build is being done) we rely on an explicit
-    # table of known hosts.
-    AC_MSG_CHECKING([for byte ordering])
-    case "$host" in
-      i?86-*|alpha-*|arm-*)
-	AC_MSG_RESULT([assuming little endian])
-        ;;
-      sparc-*|m68k-*)
-	AC_MSG_RESULT([assuming big endian])
-	AC_DEFINE([WORDS_BIGENDIAN])
-        ;;
-      *)
-        AC_MSG_ERROR([
-Cross-compiling requires knowing the byte ordering of $host.
-Please report this information to <heroes-bugs@lists.sourceforge.net>
-so that this knowledge can be added to ./configure in next release.])
-        ;;
-    esac
-  ;;
-esac
+AC_C_BIGENDIAN_CROSS
 
 # =============================================================
 # Setup the correct compiler options whether the
@@ -569,6 +463,7 @@ AC_OUTPUT([
  src/Makefile
  src/etc/Makefile
  src/txt_cfg/Makefile
+ m4/Makefile
  man/Makefile
  doc/Makefile
 ])

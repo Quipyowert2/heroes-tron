@@ -1,3 +1,29 @@
+2000-10-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Extract autoconf macro definitions from acinclude.m4
+	and configure.in and move them to the new m4/ directory.
+	Some macro coming from the autoconf archive have
+	been patched to use AC_STRING_HELP, the macro marked
+	"bug fix" were bugged in their original version (patches
+	sent to authors).
+
+	* acinclude.m4: Delete (contents moved to m4/).
+	* m4/ac_adl_find_header.m4: New file.
+	* m4/ac_adl_pkg_generic.m4: New file.
+	* m4/ac_c_bigendian_cross.m4: New file (bug fix).
+	* m4/ac_caolan_check_package.m4: New file (bug fix).
+	* m4/ac_define_dir.m4: New file.
+	* m4/ac_func_mkdir.m4: New file.
+	* m4/generic-config.m4: New file.
+	* m4/Makefile.am: New file.
+	* configure.in: Don't test for perl (unused).  Adapt to use
+	AC_adl_FIND_HEADER to check for ggi/keyboard.h and SDL_keysyms.h.
+	Check endianess using AC_C_BIGENDIAN_CROSS.  Check for mkdir using
+	AC_FUNC_MKDIR.  Generate m4/Makefile.
+	* src/common.h: Use HAVE__MKDIR.
+	* Makefile.am (ACLOCAL_AMFLAGS): New.
+	(SUBDIRS): Add m4.
+
 2000-09-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Revise handling of file saved by the game (options, games,
