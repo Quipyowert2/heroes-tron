@@ -1,5 +1,13 @@
 2000-09-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Synchronize with my own CVS repository.
+
+	* ChangeLog: Add one missing entry.
+	* src/etc/heroesrc: The file was doubled, remove the
+	bottom half.
+
+2000-09-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Add copyright line.
 
 2000-09-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
@@ -150,8 +158,12 @@
 2000-08-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/intro.c (play_intro): Set a black palette in ONE call,
-	not 768!
- 
+	not 768! 
+
+2000-08-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/heroes.c (load_level): Add missing parameter to dmsg call.
+
 2000-08-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
  
 	Add a dperror, a wrapper to perror.

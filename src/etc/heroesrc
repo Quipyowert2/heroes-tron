@@ -5,10 +5,3 @@
 
 # Try to get the sound-tracks filename from here:
 soundconf: $(data-dir)/mod/sound.conf
-#
-# This is a system-wide heroes configuration file
-# (read before user's configuration)
-#
-
-# Try to get the sound-tracks filename from here:
-soundconf: /sound.conf
