@@ -25,6 +25,8 @@
 
 extern const char* progname;	/* defined in debugmsg.c */
 
+int disable_wmsg = 0;
+
 #if defined VA_START
 void 
 wmsg (const char* msg, ...)
@@ -38,6 +40,9 @@ wmsg (msg, va_alist)
 #ifdef VA_START
   va_list args;
 #endif
+
+  if (disable_wmsg)
+    return;
   fprintf (stderr, "%s: ", progname);
 #ifdef VA_START
   VA_START (args, msg);
@@ -54,6 +59,9 @@ wmsg (msg, va_alist)
   fflush (stderr);
 }
 
+
+int disable_emsg = 0;
+
 #if defined VA_START
 void 
 emsg (const char* msg, ...)
@@ -67,6 +75,9 @@ emsg (msg, va_alist)
 #ifdef VA_START
   va_list args;
 #endif
+
+  if (disable_emsg)
+    return;
   fprintf (stderr, "%s: ", progname);
 #ifdef VA_START
   VA_START (args, msg);

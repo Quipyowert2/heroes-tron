@@ -757,6 +757,19 @@ Display Heroes version number and copyright informations.
 @cindex --help
 Print a help message about these run-time options.
 
+@item -q
+@itemx --quiet
+@cindex -q
+@cindex --quiet
+Disable warning messages.  This can be useful on platform
+such as Windows were such messages will popup a text window.
+
+@item -Q
+@itemx --really-quiet
+@cindex -Q
+@cindex --really-quiet
+Same as @samp{-q}, but disable error messages too.
+
 @comment sound options:
 
 @item -n
@@ -818,9 +831,9 @@ compiled without sound support, of course.
 Output sound in 8bits, rather than 16.  You will need this option if you
 have an old sound card that can't play 16bits samples.
 
-@item -q
+@item -i
 @itemx --high-quality
-@cindex -a
+@cindex -i
 @cindex --high-quality
 When compiled with MikMod, use the high quality software mixer.  This
 mixer is somewhat more expensive, but you can expect a better sound

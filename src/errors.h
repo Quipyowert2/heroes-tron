@@ -24,6 +24,8 @@
 
 /* warning messages */
 
+extern int disable_wmsg;
+
 #ifdef VA_START
 void wmsg (const char* msg, ...);
 #else
@@ -31,6 +33,8 @@ void wmsg (void);
 #endif
 
 /* error messages */
+
+extern int disable_emsg;
 
 #ifdef VA_START
 void emsg (const char* msg, ...);

@@ -1,3 +1,17 @@
+2000-09-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Rename -q into -i, and add -q and -Q to disable warning
+	and error messages.
+	
+	* doc/heroes.texi (Options): Document new options.
+	* src/errors.h (disable_emsg,disable_wmsg): New.
+	* src/errors.h (disable_emsg,disable_wmsg): New.
+	(emsg,wmsg): Use disable_emsg and disable_wmsg.
+	* src/argv.c (print_help): Rename -i into -q, add -q and -Q.
+	(long_options): Add quiet and really-quiet.  Fix some buggy
+	options (driver, full-screen).
+	(parse_argv): Handle new options.
+
 2000-09-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Add wmsg and emsg, for warning and error messages.  Use them.

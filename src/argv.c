@@ -26,6 +26,7 @@
 #include "display.h"
 #include "misc.h"
 #include "debugmsg.h"
+#include "errors.h"
 
 int snap = 0;
 int cpuon = 1;
@@ -64,25 +65,28 @@ static void
 print_help (char* argv0)
 {
   printf ("Usage: %s [OPTIONS]...\n\n",argv0);
-  puts ("Heroes is a game like nibbles but different.\n\n"
+  puts ("Heroes is a game like nibbles but different.\n"
+	"\nGeneral options:\n"
 	"  -v, --version\t\t"	    "    display version number\n"
 	"  -h, --help\t\t"	    "    display this help\n"
+	"  -q, --quiet\t\t"	    "    don't print warning messages\n"
+	"  -Q, --really-quiet\t"    "    don't even print error messages\n"
 	"\nSound options:\n"
 	"  -n, --drivers-info\t"    "    print the sound drivers list\n"
 	"  -d, --driver=N[,OPTIONS]" 
 	                       "  use Nth driver for output (0: autodetect)\n"
-	"  -S, --no-sound\t\t"      "    disable sound\n"
+	"  -S, --no-sound\t"        "    disable sound\n"
 	"  -X, --no-sfx\t\t"        "    disable sound-effects\n"
 	"  -m, --mono\t\t"          "    non-stereo output\n"
 	"  -8, --8bits\t\t"	    "    8bits sound output\n"
-	"  -q, --high-quality\t"    "    high quality mixer\n"
+	"  -i, --high-quality\t"    "    high quality mixer\n"
 	"\nDisplay options:\n"	
 	"  -G, --gfx-options=OPTIONS" 
                                     " options to give to the display driver\n"
 	"  -F, --full-screen\t"     "    full screen mode\n"
 	"  -2, --double\t\t"        "    stretch the display twofold\n"
 	"  -3, --triple\t\t"        "    stretch the display threefold\n"
-	"  -e, --even-lines\t\t"    "    display only even-lines\n"
+	"  -e, --even-lines\t"      "    display only even-lines\n"
 	"\nMiscellaneous options:\n"
 	"      --cpu-off\t\t"	    "    disable computer opponents\n"
 	"      --default-scores\t"  "    restore default scores file\n"
@@ -115,20 +119,22 @@ const struct option long_options[] = {
   {"no-joystick",	no_argument,       &joyoff,	'J'},
   {"mono",		no_argument,       NULL,	'm'},
   {"8bits",		no_argument,       NULL,	'8'},
-  {"high-quality",	no_argument,       NULL,	'q'},
+  {"high-quality",	no_argument,       NULL,	'i'},
   {"swap-sides",	no_argument,       NULL,	's'},
   {"no-sfx",		no_argument,       NULL,	'X'},
   {"no-double-fx",	no_argument,       &doublefx,	0},
   {"load",		required_argument, NULL,	'l'},
   {"go",		no_argument,       NULL,	'g'},
   {"drivers-info",	no_argument,       NULL,	'n'},
-  {"driver",		no_argument,       NULL,	'd'},
+  {"driver",		required_argument, NULL,	'd'},
   {"no-sound",		no_argument,       NULL,	'S'},
   {"gfx-options",	required_argument, NULL,	'G'},
-  {"full-screen",	required_argument, NULL,	'F'},
+  {"full-screen",	no_argument,	   NULL,	'F'},
   {"double",		no_argument,       NULL,	'2'},
   {"triple",		no_argument,       NULL,	'3'},
   {"even-lines",	no_argument,       NULL,	'e'},
+  {"quiet",		no_argument,	   NULL,	'q'},
+  {"really-quiet",	no_argument,	   NULL,	'Q'},
   {NULL,		0,		   NULL,	0}
 };
 
@@ -143,7 +149,7 @@ parse_argv (int argc, char **argv)
   for (;;) {
     int option_index = 0;
 
-    c = getopt_long (argc, argv, "vhm8qsXl:gnd:G:JF23Se", 
+    c = getopt_long (argc, argv, "238d:eFgG:hiJl:mnqQsSvX", 
 		     long_options, &option_index);
 
     /* Detect the end of the options. */
@@ -204,7 +210,7 @@ parse_argv (int argc, char **argv)
     case 'e':
       even_lines = 1;
       break;
-    case 'q':
+    case 'i':
       hqmix = 1;
       break;
     case 'S':
@@ -214,7 +220,13 @@ parse_argv (int argc, char **argv)
       /* getopt_long already printed an error message. */
     case 0:
       break;
-      
+    case 'Q':
+      disable_emsg = 1;
+      /* no break: 'Q' imply 'q' */
+    case 'q':
+      disable_wmsg = 1;
+      break;
+
     default:
       abort ();
     }
