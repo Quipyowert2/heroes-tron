@@ -1,5 +1,9 @@
 2001-04-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* po/fr.po: Update.
+
+2001-04-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/relocate.c (relocate_data): Typo.
 
 2001-04-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
