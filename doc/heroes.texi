@@ -741,10 +741,10 @@ such as Windows were such messages will popup a text window.
 Same as @samp{-q}, but disable error messages too.
 
 @item -vOPTIONS
-@itemx --verbose=OPTIONS
+@itemx --verbose=CHANNELS
 @cindex -vOPTIONS
-@cindex --verbose=OPTIONS
-Enable debugging output.  @samp{OPTIONS} can take the same
+@cindex --verbose=CHANNELS
+Enable debugging output.  @samp{CHANNELS} can take the same
 values as @samp{HEROES_DEBUG} (@pxref{Environment}).
 
 @item -lWORD
@@ -752,8 +752,10 @@ values as @samp{HEROES_DEBUG} (@pxref{Environment}).
 @cindex -lWORD
 @cindex --list=WORD
 
-Show various internal information.  @samp{WORD} can be @samp{sound-drivers}
-or @samp{resources}.
+Show various internal information.  @samp{WORD} can be @samp{debug} or @samp{sound-drivers} or @samp{resources}.
+
+@samp{--list=debug} will list the available debugging channel, to be used
+with @samp{--verbose} or @samp{HEROES_DEBUG} (@pxref{Environment}).
 
 @samp{--list=sound-drivers} is used to print LibMikMod's drivers list.
 The expected output is something like this:
@@ -946,7 +948,8 @@ The very first action of Heroes when it starts is to look the
 environment for a @samp{HEROES_DATA_DIR} variable.  If Heroes has been
 compiled with the @samp{--enable-heroes-debug} configure option (which
 is the default), this variable specify the kind of debug messages that
-should be printed out.  Possible values are the following.
+should be printed out.  Possible values are the following (they can
+be printed using the @samp{--list=debug} option).
 
 @table @samp
 @item SECTION

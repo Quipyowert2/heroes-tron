@@ -1,0 +1,96 @@
+%{
+/*------------------------------------------------------------------------.
+| Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>                 |
+|                                                                         |
+| This file is part of Heroes.                                            |
+|                                                                         |
+| Heroes is free software; you can redistribute it and/or modify it under |
+| the terms of the GNU General Public License as published by the Free    |
+| Software Foundation; either version 2 of the License, or (at your       |
+| option) any later version.                                              |
+|                                                                         |
+| Heroes is distributed in the hope that it will be useful, but WITHOUT   |
+| ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or   |
+| FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   |
+| for more details.                                                       |
+|                                                                         |
+| You should have received a copy of the GNU General Public License along |
+| with this program; if not, write to the Free Software Foundation, Inc., |
+| 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
+`------------------------------------------------------------------------*/
+
+#include "system.h"
+#include "debughash.h"
+#include "errors.h"
+#include "fstrcmp.h"
+
+/* prototype in_channel_set as static */
+static struct debug_channel_s *
+in_channel_set (register const char *str, register unsigned int len);
+%}
+struct debug_channel_s {
+  const char *name;
+  const char *doc;
+  enum debug_lvl number;
+};
+%%
+all,		"all messages",					-1
+section,	"different parts of the game",			D_SECTION
+system,		"system related messages",			D_SYSTEM
+resource,	"filename resources handling",			D_RESOURCE
+file,		"files and directories handling",		D_FILE
+level,		"levels handling",				D_LEVEL
+sound_track,	"sound track events",				D_SOUND_TRACK
+sound_effect,	"sound effects events",				D_SOUND_EFFECT
+video,		"communication with the display driver",	D_VIDEO
+joystick,	"joystick initialization",			D_JOYSTICK
+timer,		"timer handling",				D_TIMER
+misc,		"miscellaneous events",				D_MISC
+fader,		"palette fade events",				D_FADER
+bonus,		"bonus",					D_BONUS
+%%
+static const struct debug_channel_s *
+get_channel_approx (const char *name)
+{
+  int i;
+  const struct debug_channel_s *res = 0;
+  double best_weight = 0.7;
+
+  for (i = MIN_HASH_VALUE; i <= MAX_HASH_VALUE; ++i) {
+    if (channel_set[i].name[0]) {
+      double weight = fstrcmp (name, channel_set[i].name);
+      if (weight > best_weight) {
+        best_weight = weight;
+	res = &(channel_set[i]);
+      }
+    }
+  }
+  return res;
+}
+
+enum debug_lvl
+get_channel_number (const char *name)
+{
+  const struct debug_channel_s *res = in_channel_set (name, strlen (name));
+  if (!res) {
+    /* try to find a channel which name is close to the given name */
+    res = get_channel_approx (name);
+    if (res)
+      wmsg ("%s: no such channel, assuming you meant '%s'.", name, res->name);
+    else
+      emsg ("%s: no such channel (--list=debug will list all known channels)",
+	    name);
+  }
+  return res->number;
+}
+
+void
+print_debug_channels (void)
+{
+  int i;
+  for (i = MIN_HASH_VALUE; i <= MAX_HASH_VALUE; ++i) {
+    if (channel_set[i].name[0]) {
+      printf ("%-16s %s\n", channel_set[i].name, channel_set[i].doc);
+    }
+  }
+}

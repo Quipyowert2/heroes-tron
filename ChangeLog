@@ -1,5 +1,22 @@
 2000-11-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* doc/heroes.texi (Options): Describe --list=debug.
+	(Environment): Mention --list=debug.
+	* src/Makefile.am (heroes_SOURCES): Add debughash.c and debughash.h.
+	(debughash.c): New.
+	* src/argv.c (list): Recognize debug.
+	(print_help): Update --list description.  Mention --list in
+	--verbose and --driver description.
+	* src/debughash.gperf: New file.
+	* src/debughash.h: New file.
+	* src/debugmsg.c (dmsg_parse_string): Adapt to use
+	get_channel_number.  Rename opt to option to avoid a warning.
+	* src/debugmsg.h (dmsg_parse_string): Rename opt to option.
+	(debug_level): Revamp.
+	* src/rsc_files.gperf: Add missing license header.
+
+2000-11-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/argv.c (print_help): Rewrite more cleanly.
 
 2000-11-01  Alexandre Duret-Lutz  <duret_g@epita.fr>

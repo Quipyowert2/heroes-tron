@@ -20,7 +20,9 @@
 
 #include "system.h"
 #include "debugmsg.h"
+#include "debughash.h"
 #include "errors.h"
+#include "misc.h"
 
 enum debug_lvl debug_level = 0;
 const char* program_name = 0;
@@ -72,70 +74,43 @@ dperror (const char* s)
 #endif /* !dmsg */
 
 void
-dmsg_parse_string (const char* opt)
+dmsg_parse_string (const char* option)
 {
   char* buf;
 
-  if (opt) {
+  if (option) {
 #ifndef USE_HEROES_DEBUG
-    wmsg ("Ignoring value of HEROES_DEBUG: recompile Heroes with\n"
-	  "the --enable-debug configure option if you want that feature.");
+    wmsg ("\
+Ignoring debug channel specifications: debug messages are not\n\
+compiled in.  Install Heroes with 'configure --enable-heroes-debug' if\n\
+you want that feature.");
 #else
-    if (opt[0] == '-' || (opt[0] >= '0' && opt[0] <= '9')) {
+    if (option[0] == '-' || (option[0] >= '0' && option[0] <= '9')) {
       /* the option is a number */
-      debug_level = atol (opt);
+      debug_level = atol (option);
     } else {
       /* the option is a string */
-      buf = xstrdup (opt);
-      opt = strtok (buf, " \t:,|&");
-      while (opt) {
+      buf = xstrdup (option);
+      strlwr (buf);
+      option = strtok (buf, " \t:,|&");
+      while (option) {
 	int neg = 0;
 	int val;
 
-	if (opt[0] == '-' || opt[0] == '!') {
+	if (option[0] == '-' || option[0] == '!') {
 	  neg = 1;
-	  ++opt;
+	  ++option;
 	}
 
-	if (!strcasecmp (opt, "all"))
-	  val = -1;
-	else if (!strcasecmp (opt, "section"))
-	  val = D_SECTION;
-	else if (!strcasecmp (opt, "system"))
-	  val = D_SYSTEM;
-	else if (!strcasecmp (opt, "resource"))
-	  val = D_RESOURCE;
-	else if (!strcasecmp (opt, "file"))
-	  val = D_FILE;
-	else if (!strcasecmp (opt, "level"))
-	  val = D_LEVEL;
-	else if (!strcasecmp (opt, "sound_track"))
-	  val = D_SOUND_TRACK;
-	else if (!strcasecmp (opt, "sound_effect"))
-	  val = D_SOUND_EFFECT;
-	else if (!strcasecmp (opt, "video"))
-	  val = D_VIDEO;
-	else if (!strcasecmp (opt, "joystick"))
-	  val = D_JOYSTICK;
-	else if (!strcasecmp (opt, "timer"))
-	  val = D_TIMER;
-	else if (!strcasecmp (opt, "misc"))
-	  val = D_MISC;
-	else if (!strcasecmp (opt, "fader"))
-	  val = D_FADER;
-	else if (!strcasecmp (opt, "bonus"))
-	  val = D_BONUS;
-	else {
-	  wmsg ("Ignoring unknown debugging option `%s'", opt);
-	  goto next_opt;
-	}
+	/* lookup the channel number associated to the given name */
+	val = get_channel_number (option);
 
 	if (neg)
 	  debug_level &= ~val;
 	else
 	  debug_level |= val;
-      next_opt:
-	opt = strtok (0, " \t:,|&");
+
+	option = strtok (0, " \t:,|&");
       }
       free (buf);
     }

@@ -27,6 +27,7 @@
 #include "debugmsg.h"
 #include "errors.h"
 #include "rsc_files_hash.h"
+#include "debughash.h"
 
 int snap = 0;
 int cpuon = 1;
@@ -65,9 +66,11 @@ static void
 list (char *word)
 {
   if (!word) {
-    puts ("Use `-lWORD' or `--list=WORD' where WORD can be:\n"
-	  "  resources\t\tprint the resources list\n"
-	  "  sound-drivers\t\tprint the sound driver lists");
+    puts ("\
+Use `-lWORD' or `--list=WORD' where WORD can be:\n\
+  debug                 display all debugging channels\n\
+  resources             print the resources list\n\
+  sound-drivers         print the sound driver lists");
     return;
   }
   if (!strcasecmp (word,"resources") ||
@@ -76,6 +79,9 @@ list (char *word)
   } else if (!strcasecmp (word,"sound-drivers") ||
 	     !strcasecmp (word,"sd")) {
     print_drivers_list ();
+  } else if (!strcasecmp (word,"debug") ||
+	     !strcasecmp (word,"channels")) {
+    print_debug_channels ();
   } else {
     /* Unknown WORD, print usage. */
     list (0);
@@ -98,12 +104,14 @@ General options:\n\
   -h, --help                  display this help\n\
   -q, --quiet                 don't print warning messages\n\
   -Q, --really-quiet          don't even print error messages\n\
-  -v, --verbose=OPTIONS       enable debugging messages\n\
+  -v, --verbose=CHANNELS      enable or disable debugging channels\n\
+                                (see --list=debug for available channels)\n\
   -l, --list=WORD             show some internal information; WORD can be\n\
-                                `resources' or `sound-drivers' \n");
+                                'debug', 'resources', or 'sound-drivers' \n");
   puts ("\
 Sound options:\n\
   -d, --driver=N[,OPTIONS]    use Nth driver for sound output (0:autodetect)\n\
+                                (see --list=sound-drivers for available Ns)\n\
   -S, --no-sound              disable sound\n\
   -X, --no-sfx                disable sound-effects\n\
   -m, --mono                  non-stereo output\n\
