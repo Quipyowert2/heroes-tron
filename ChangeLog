@@ -1,5 +1,63 @@
 2001-09-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Change the license from 'GPL version 2 or any later version'
+	to 'GPL version 2'.
+
+	* Makefile.am, configure.ac, arch/Makefile.inc, doc/Makefile.am,
+	lib/Makefile.am, man/Makefile.am, src/Makefile.am, src/argv.c,
+	src/argv.h, src/bonus.c, src/bonus.h, src/bytesex.h, src/camera.c,
+	src/camera.h, src/const.c, src/const.h, src/debughash.h,
+	src/debugmsg.c, src/debugmsg.h, src/endscroll.c, src/endscroll.h,
+	src/errors.c, src/errors.h, src/explosions.c, src/explosions.h,
+	src/extras.c, src/extras.h, src/fader.c, src/fader.h,
+	src/fastmem.h, src/font.h, src/font_help.h, src/fontdata.c,
+	src/fontdata.h, src/gameid.c, src/gameid.h, src/generic_list.h,
+	src/hedlite.c, src/hedlite.h, src/helptext.c, src/helptext.h,
+	src/hendian.c, src/hendian.h, src/heroes.c, src/heroes.h,
+	src/heroeslvl.c, src/intro.c, src/intro.h, src/items.c,
+	src/items.h, src/levellst.c, src/levellst.h, src/locales.c,
+	src/locales.h, src/menus.c, src/menus.h, src/misc.c, src/misc.h,
+	src/musicfiles.c, src/musicfiles.h, src/parafmt.c, src/parafmt.h,
+	src/pcx.c, src/pcx.h, src/people.h, src/persona.c, src/persona.h,
+	src/pixelize.c, src/pixelize.h, src/readmake.c, src/readmake.h,
+	src/relocate.c, src/relocate.h, src/render.c, src/render.h,
+	src/renderdata.c, src/renderdata.h, src/rsc_files.c,
+	src/rsc_files.h, src/rsc_files_hash.h, src/savegame.c,
+	src/savegame.h, src/scores.c, src/scores.h, src/scrtools.c,
+	src/scrtools.h, src/sprglauto.c, src/sprglauto.h, src/sprglenz.c,
+	src/sprglenz.h, src/sprite.c, src/sprite.h, src/spropaque.c,
+	src/spropaque.h, src/sprprog.c, src/sprprog.h, src/sprprogwav.c,
+	src/sprprogwav.h, src/sprrle.c, src/sprrle.h, src/sprshade.c,
+	src/sprshade.h, src/sprtext.c, src/sprtext.h, src/sprunish.c,
+	src/sprunish.h, src/sprzcol.c, src/sprzcol.h, src/structs.h,
+	src/system.h, src/timer.c, src/timer.h, src/userconf.c,
+	src/userconf.h, src/userdir.c, src/userdir.h, src/vars.c,
+	src/vars.h, src/visuals.c, src/visuals.h, src/etc/Makefile.inc,
+	src/lvl/Makefile.inc, src/lvl/de_body.c, src/lvl/de_head.c,
+	src/lvl/free.c, src/lvl/in_body.c, src/lvl/load.c,
+	src/lvl/loadmac.h, src/lvl/lvl.h, src/lvl/lvl_priv.h,
+	src/lvl/privacc.c, src/media/Makefile.inc, src/media/joystick.h,
+	src/media/keyb.c, src/media/keyb.h, src/media/keyb_low.h,
+	src/media/keysdef.h, src/media/keyvalues.h, src/media/sfx.c,
+	src/media/sfx.h, src/media/strack.c, src/media/strack.h,
+	src/media/video.c, src/media/video.h, src/media/video_low.h,
+	src/media/allegro/keyb.c, src/media/allegro/keyvalues.c
+	src/media/allegro/video.c, src/media/dummy/joystick.c,
+	src/media/dummy/keyb.c, src/media/dummy/keysdef.c,
+	src/media/dummy/keyvalues.c, src/media/dummy/sfx.c,
+	src/media/dummy/strack.c, src/media/dummy/video.c,
+	src/media/ggi/keyvalues.c, src/media/ggi/video.c,
+	src/media/gii/joystick.c, src/media/mikmod/sfx.c,
+	src/media/mikmod/strack.c, src/media/sdl/joystick.c,
+	src/media/sdl/keyb.c, src/media/sdl/keyvalues.c,
+	src/media/sdl/video.c, src/media/sdl_mixer/sfx.c,
+	src/media/sdl_mixer/strack.c, src/sys/Makefile.inc,
+	src/sys/main.h, src/sys/allegro/main.c, src/sys/std/main.c,
+	tools/Makefile.inc: Change license.
+	* README: Update the license section.
+
+2001-09-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/levellst.c (print_level_list): New function.
 	* src/levellst.h (print_level_list): New function.
 	* src/heroes.c (heroes_main): Call print_level_list().

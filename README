@@ -50,9 +50,9 @@ works such as network support or programmable vehicles.
 License
 =======
 
-   The full game (that is: source code, pictures, sound-tracks, and levels)
-is distributed under the terms of the GNU General Public License.  See the
-file COPYING for details.
+   The full game (that is: source code, pictures, sound-tracks, and
+levels) is distributed under the terms of the GNU General Public
+License version 2.  See the file COPYING for details.
 
 Getting Heroes
 ==============
@@ -373,4 +373,3 @@ BeOS (SDL)
 
    If you got Heroes working on a platform which is not listed here,
 please send a notice to <heroes-discuss@lists.sourceforge.net>.
-

@@ -3,9 +3,8 @@ dnl
 dnl This file is part of Heroes.
 dnl
 dnl Heroes is free software; you can redistribute it and/or modify it under
-dnl the terms of the GNU General Public License as published by the Free
-dnl Software Foundation; either version 2 of the License, or (at your
-dnl option) any later version.
+dnl the terms of the GNU General Public License version 2 as published by
+dnl the Free Software Foundation.
 dnl
 dnl Heroes is distributed in the hope that it will be useful, but WITHOUT
 dnl ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
