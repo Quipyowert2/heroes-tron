@@ -26,9 +26,14 @@
 #include "debugmsg.h"
 #include "errors.h"
 
-char sound_initialized = 0;
-char sound_track_loaded = 0;
-char sound_track_playing = 0;
+char* soundtrack_author = 0;
+char* soundtrack_title = 0;
+sprite_t* soundtrack_author_sprite = 0;
+sprite_t* soundtrack_title_sprite = 0;
+
+static char sound_initialized = 0;
+static char sound_track_loaded = 0;
+static char sound_track_playing = 0;
 
 #ifdef HAVE_LIBMIKMOD
 
@@ -170,6 +175,8 @@ unload_soundtrack (void)
     module = 0;
     soundtrack_title = 0;
     soundtrack_author = 0;
+    FREE_SPRITE0 (soundtrack_title_sprite);
+    FREE_SPRITE0 (soundtrack_author_sprite);
     sound_track_loaded = 0;
   }
 }
@@ -504,6 +511,8 @@ load_and_setup_sound_track (sound_track_t* st)
     soundtrack_title = 0;
     soundtrack_author = 0;
   }
+  FREE_SPRITE0 (soundtrack_title_sprite);
+  FREE_SPRITE0 (soundtrack_author_sprite);
 }
 
 void

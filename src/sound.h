@@ -21,8 +21,12 @@
 #ifndef HEROES__SOUND__H
 #define HEROES__SOUND__H
 
-char* soundtrack_author;
-char* soundtrack_title;
+#include "sprite.h"
+
+extern char* soundtrack_author;
+extern char* soundtrack_title;
+extern sprite_t* soundtrack_author_sprite;
+extern sprite_t* soundtrack_title_sprite;
 
 void set_volume (void);
 void halve_volume (void);

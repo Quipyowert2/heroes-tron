@@ -43,4 +43,7 @@ sprite_t *compile_sprtext (const fontdata_t *font, const char *text,
 sprite_t *compile_menu_text (const char *text, enum text_option topt,
 			     int row, int col);
 
+sprite_t *compile_deck_text (const char *text, enum text_option topt,
+			     int row, int col);
+
 #endif /* HEROES__SPRTEXT__H */

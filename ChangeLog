@@ -1,5 +1,26 @@
 2000-11-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Adapt the deck_text font to the new sprtext functions.
+
+	* src/draw.c (deck_text_conv, draw_deck_text): Remove.
+	* src/draw.h (draw_deck_text): Remove.
+	* src/fontdata.c (initialize_deck_font): New.
+	(init_font): Call initialize_deck_font.
+	* src/menus.c (jukebox_draw): Adapt to use the new sprite drawing
+	functions instead of draw_deck_text.
+	* src/sound.c (soundtrack_author, soundtrack_title,
+	soundtrack_author_sprite, soundtrack_title_sprite): New.
+	(sound_initialized, sound_track_loaded, sound_track_playing): Qualify
+	as static.
+	(unload_soundtrack, load-and_setup_sound_track): Free
+	soundtrack_title_sprite and soundtrack_author_sprite.
+	* src/sound.h (soundtrack_author, soundtrack_title): Qualify as extern.
+	(soundtrack_title_sprite, soundtrack_author_sprite): New.
+	* src/sprtext.c (compile_deck_text): New.
+	* src/sprtext.h (compile_deck_text): New.
+
+2000-11-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Set version to 0.6e.
 
 2000-11-15  Alexandre Duret-Lutz  <duret_g@epita.fr>

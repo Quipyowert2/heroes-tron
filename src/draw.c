@@ -83,58 +83,6 @@ draw_text_bonus (const char* text, int posx, int posy, int p)
   }
 }
 
-static int
-deck_text_conv (char i)
-{
-  if (i >= 'a' && i <= 'z')
-    i -= 'a' - 'A' + ' ';
-  else if (i < ' ' || i > 'Z')
-    i = '*' - ' ';
-  else
-    i -= ' ';
-  return i;
-}
-
-void
-draw_deck_text (const char *text, int posx, int posy, char cent)
-{
-  char c;
-  int i, j, k, l, d = -1;
-  unsigned char *dest = corner[0] + posx + posy * xbuf;
-  const unsigned char *src = text;
-
-  if (cent == 0)		/* flushed left  */
-    d = 0;
-  else {
-    for(; *src != 0; src++)
-      d += font_deck_width[deck_text_conv (*src)] + 1;
-    if (cent == 1)		/* centered      */
-      d = -(d>>1);
-    else			/* flushed right */
-      d = -d;
-  }
-  dest += d;
-
-  for (; *text != 0; text++) {
-    i = deck_text_conv (*text);
-
-    src =  font_deck_img.buffer + ((int) (i) % 32 * 8) +
-      ((int) (i) / 32) * 8 * 320 + 2 * 320;
-    for (j = font_deck_width[i]; j != 0; --j) {
-      for (k = 320 * (5 - 1), l = xbuf * (5 - 1); k >= 0;) {
-	c = *(src + k);
-	k -= 320;
-	if (c)
-	  *(dest + l) = c;
-	l -= xbuf;
-      }
-      dest++;
-      src++;
-    }
-    dest++;			/* Move one row (spacing between chars) */
-  }
-}
-
 void
 copy_rect_transp (const unsigned char *src, unsigned char *dest, int xt,
 		  int yt)

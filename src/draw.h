@@ -23,9 +23,6 @@
 
 void draw_text_bonus (const char *text, int posx, int posy, int p);
 
-void draw_deck_text (const char *text, int posx, int posy,
-		     char cent);
-
 void copy_rect_transp (const unsigned char *src, unsigned char *dest, int xt,
 		       int yt);
 void copy_rect_transp_red (const unsigned char *src, unsigned char *dest,

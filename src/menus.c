@@ -1833,10 +1833,18 @@ jukebox_draw (int pos)
   else if (pos == 2)
     DRAW_SPRITE (jukebox_quit, corner[0] + 184 * xbuf + 8 + 274);
 
-  if (soundtrack_title)
-    draw_deck_text (soundtrack_title, 110, 186, 1);
-  if (soundtrack_author)
-    draw_deck_text (soundtrack_author, 197, 186, 1);
+  if (soundtrack_title) {
+    if (!soundtrack_title_sprite)
+      soundtrack_title_sprite = compile_deck_text (soundtrack_title,
+						   T_CENTERED, 186, 110);
+    DRAW_SPRITE (soundtrack_title_sprite, corner[0]);
+  }
+  if (soundtrack_author) {
+    if (!soundtrack_author_sprite)
+      soundtrack_author_sprite = compile_deck_text (soundtrack_author,
+						    T_CENTERED, 186, 197);
+    DRAW_SPRITE (soundtrack_author_sprite, corner[0]);
+  }
 
   t2 = t % 60;
   t /= 60;

@@ -61,6 +61,46 @@ initialize_menu_font (void)
   menu_font->width[' '] = 5;
 }
 
+static void
+initialize_deck_font (void)
+{
+  pixel_t *upl;			/* upper left pixel of the character */
+  int ch;			/* current character */
+
+  XMALLOC_VAR (deck_font);
+  deck_font->height = 5;
+  deck_font->line_size = font_deck_img.width;
+  memset (deck_font->width, 0, 256);
+
+  for (ch = ' '; ch <= '^'; ++ch) {
+    unsigned int width, act_width;
+    unsigned int height;
+
+    upl = font_deck_img.buffer + 2 * font_deck_img.width +
+      ((int) (ch - ' ') % 32) * 8 +
+      ((int) (ch - ' ') / 32) * font_deck_img.width * 8;
+
+    /* detect the width of a character */
+    for (act_width = width = 0; width < 8; ++width)
+      for (height = 0; height < deck_font->height; ++height) {
+	if (upl[width + height * font_deck_img.width] != 0) {
+	  act_width = width + 2;
+	  break;
+	}
+      }
+    deck_font->upper_left[ch] = upl;
+    deck_font->width[ch] = act_width;
+  }
+
+  deck_font->width[' '] = 4;
+
+  /* link the lower case characters to the upper */
+  for (ch = 'a'; ch <= 'z'; ++ch) {
+    deck_font->upper_left[ch] = deck_font->upper_left[ch - ('a' - 'A')];
+    deck_font->width[ch] = deck_font->width[ch - ('a' - 'A')];
+  }
+}
+
 void
 init_fonts (void)
 {
@@ -69,7 +109,7 @@ init_fonts (void)
   initialize_menu_font ();
   edit_font = 0;
   help_font = 0;
-  deck_font = 0;
+  initialize_deck_font ();
 }
 
 void
