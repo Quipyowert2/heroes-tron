@@ -70,7 +70,7 @@ extern a_level lvl;
 extern unsigned char *square_occupied;
 extern a_dir8_pair *square_way;
 extern a_tile_index *square_tile;
-extern a_square_corrd_pair *square_coord;
+extern a_square_coord_pair *square_coord;
 extern signed char *square_object;
 #define lemmings_per_players 50
 #define lemmings_total (lemmings_per_players*4)

@@ -203,7 +203,7 @@ reinit_player (unsigned p)
   int tries, m;
 
   unsigned start_pos;		/* 0..3: one of the 4 starting positions.  */
-  a_square_corrd_pair start_coord;
+  a_square_coord_pair start_coord;
   a_dir start_dir;
   a_square_index start_idx, next_idx;
 

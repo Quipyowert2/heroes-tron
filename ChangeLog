@@ -1,3 +1,9 @@
+2002-01-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/const.c, src/heroes.c, src/heroeslvl.c, src/lvl/privacc.c,
+	src/const.h, src/lvl/lvl.h, src/lvl/lvl_priv.h: Typo
+	s/a_square_corrd_paur/a_square_coord_pair/.
+
 2002-01-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* arch/mingw32/cross.sh (cross_install): Add ChangeLog.01.

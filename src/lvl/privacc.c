@@ -35,7 +35,7 @@ lvl_tile_sprite_map_basename (const a_level *lvl)
 
 void
 lvl_start_position (const a_level *lvl, unsigned int player,
-		    a_square_corrd_pair *coord, a_dir *dir)
+		    a_square_coord_pair *coord, a_dir *dir)
 {
   if (coord)
     *coord = lvl->private->start_pos[player];

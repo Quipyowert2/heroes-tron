@@ -220,7 +220,7 @@ print_header (const a_level *lvl)
   {
     int i;
     for (i = 0; i < 4; ++i) {
-      a_square_corrd_pair co;
+      a_square_coord_pair co;
       a_dir di;
       lvl_start_position (lvl, i, &co, &di);
       printf ("%s  #%d: %2d %2d %s\n", options.indent, i + 1,

@@ -74,7 +74,7 @@ a_level lvl;
 unsigned char *square_occupied;
 a_dir8_pair *square_way;
 a_tile_index *square_tile;
-a_square_corrd_pair *square_coord;
+a_square_coord_pair *square_coord;
 signed char *square_object;
 a_lemming **square_lemmings_list;
 a_lemming **square_dead_lemmings_list;

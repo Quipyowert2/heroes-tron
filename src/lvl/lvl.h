@@ -39,8 +39,8 @@ typedef unsigned int a_tile_coord;
 typedef unsigned int a_tile_index;
 #define INVALID_INDEX (~0u)
 
-typedef struct a_square_corrd_pair a_square_corrd_pair;
-struct a_square_corrd_pair {
+typedef struct a_square_coord_pair a_square_coord_pair;
+struct a_square_coord_pair {
   a_square_coord y, x;
 };
 
@@ -187,7 +187,7 @@ const char *lvl_tile_sprite_map_basename (const a_level *lvl);
 
 /* Initialize COORD, and DIR, with the starting position for PLAYER.  */
 void lvl_start_position (const a_level *lvl, unsigned int player,
-			 a_square_corrd_pair *coord, a_dir *dir);
+			 a_square_coord_pair *coord, a_dir *dir);
 
 /*--------------------------------------------------------------------.
 | NOTE: The following function will fail if the body of the level     |

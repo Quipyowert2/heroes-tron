@@ -57,7 +57,7 @@ struct a_tile_data {
 /* The following is declared, but not defined in lvl.h.  */
 struct a_level_bits {
   /* Starting position for each player.  */
-  a_square_corrd_pair start_pos[LVL_PLAYER_COUNT];
+  a_square_coord_pair start_pos[LVL_PLAYER_COUNT];
   /* Starting direction for each player.  */
   a_dir start_dir[LVL_PLAYER_COUNT];
   /* Alias for the soundtrack, to be resolved to a true filename by
