@@ -23,6 +23,7 @@
 #include "const.h"
 #include "sprshade.h"
 #include "sprglenz.h"
+#include "sprunish.h"
 
 sprite_t *big_dollar = 0;
 sprite_t *small_dollar = 0;
@@ -56,8 +57,8 @@ init_items (void)
     pyramids[i] = compile_sprshade (IMGPOS (main_font_img, 64, i * 16),
 				    0, 1, glenz[0],
 				    7, 9, main_font_img.width, xbuf);
-  catch_this = compile_sprshade (IMGPOS (main_font_img, 91, 17),
-				 0, 82 , glenz[0],
+  catch_this = compile_sprunish (IMGPOS (main_font_img, 91, 17),
+				 0, 82 , glenz[0], 10,
 				 13, 49, main_font_img.width, xbuf);
 
   pcx_load_from_rsc ("trails-img", &trailimg);

@@ -32,6 +32,7 @@
 #include "explosions.h"
 #include "items.h"
 #include "sprglenz.h"
+#include "sprunish.h"
 #include "menus.h"
 
 char tutor = 0;
@@ -582,9 +583,8 @@ draw_level (int p)
 
   if (tutor) {
     int bonus_to_show = trail_size[col2plr[p]] < 55 ? 1 : 12;
-
-    dest = render_buffer[p] + sbuf -
-      (7 + minisinus[read_htimer (waving_htimer) & 31]) * (xbuf - 1) - 40;
+    int sh = minisinus[read_htimer (waving_htimer) & 31];
+    dest = render_buffer[p] + sbuf - (7 + sh) * (xbuf - 1) - 40;
 
     for (k = corner_dy[p] - 0, l = 1 + 11 - camera_stop_y[p]; l > 0;
 	 l--, k++) {
@@ -594,7 +594,7 @@ draw_level (int p)
 	   j > 0; j--, i++) {
 	i &= map_info.xwrap;
 	if (tile_bonus[i + m] == bonus_to_show)
-	  DRAW_SPRITE (catch_this, dest);
+	  draw_sprunish_custom (catch_this, dest, 10 + sh);
 	dest += 24;
       }
       dest += xbuf * 20 - 24 * (2 + nbr_tiles_cols - camera_stop_x[p]);

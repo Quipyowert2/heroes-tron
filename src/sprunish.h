@@ -18,45 +18,28 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-#include "system.h"
+#ifndef HEROES__SPRUNISH__H
+#define HEROES__SPRUNISH__H
+
+/*---------------------------------------------------------------.
+| transparent sprites that use one color key for glenz and one   |
+| unique colore for opaque pixel.  This is used to draw the "Get |
+| this bonus" arrow.                                             |
+`---------------------------------------------------------------*/
+
 #include "sprite.h"
-#include "sprrle.h"
-#include "sprprog.h"
-#include "sprzcol.h"
-#include "sprshade.h"
-#include "sprglenz.h"
-#include "spropaque.h"
-#include "sprunish.h"
 
-void
-free_sprite (sprite_t* sprite)
-{
-  if (!sprite)
-    return;
+void draw_sprunish (const sprite_t *sprite, pixel_t *dest);
+void draw_sprunish_custom (const sprite_t *sprite, pixel_t *dest,
+			   pixel_t color);
 
-  /* dispatch */
-  switch (sprite->all.kind) {
-  case S_OPAQUE:
-    free_spropaque (sprite);
-    break;
-  case S_RLE:
-    free_sprrle (sprite);
-    break;
-  case S_RLE_ZCOL:
-    free_sprzcol (sprite);
-    break;
-  case S_RLE_SHADE:
-    free_sprshade (sprite);
-    break;
-  case S_RLE_GLENZ:
-    free_sprglenz (sprite);
-    break;
-  case S_RLE_UNIC_SHADE:
-    free_sprunish (sprite);
-    break;
-  case S_PROG:
-  case S_PROG_WAV:
-    free_sprprog (sprite);
-    break;
-  }
-}
+sprite_t *compile_sprunish (const pixel_t *src, pixel_t transp_color,
+			    pixel_t glenz_color, pixel_t *glenz_line,
+			    pixel_t opaque_color,
+			    unsigned int block_height,
+			    unsigned int block_width,
+			    unsigned int src_width, unsigned int dest_width);
+
+void free_sprunish (sprite_t *prog);
+
+#endif /* HEROES__SPRSHADE__H */

@@ -1,5 +1,19 @@
 2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	New sprite kind, used to draw the "Get this bonus" arrows.
+
+	* src/sprunish.c: New.
+	* src/sprunish.h: New.
+	* src/sprite.h (sprite_kind): Add S_RLE_UNIC_SHARE.
+	(sprite_rle_unic_shade): New.
+	(sprite_s): Add the unish member.
+	* src/sprite.c (free_sprite): Handle the S_RLE_UNIC_SHARE case.
+	* src/Makefile.am (heroes_SOURCES): Add sprunish.c, and sprunish.h.
+	* src/render.c (draw_level): Call draw_sprunish_custom.
+	* src/items (init_items): Build catch_this using compile_sprunish.
+
+2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/sprprog.c (draw_sprprog_clipped_left,
 	draw_sprprog_clipped_right): New.
 	* src/sprprog.h (draw_sprprog_clipped_left,

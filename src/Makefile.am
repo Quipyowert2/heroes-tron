@@ -120,6 +120,8 @@ sprshade.c \
 sprshade.h \
 sprtext.c \
 sprtext.h \
+sprunish.c \
+sprunish.h \
 sprzcol.c \
 sprzcol.h \
 structs.h \
