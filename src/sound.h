@@ -34,6 +34,6 @@ void play_soundtrack (void);
 void print_drivers_list (void);
 void decode_sound_options (char* option_string, char* argv0);
 
-void load_soundtrack_from_alias (char* alias);
+void load_soundtrack_from_alias (const char* alias);
 
 #endif /* HEROES__SOUND__H */

@@ -256,7 +256,7 @@ decode_sound_options (char* option_string, char* argv0)
 }
 
 void 
-load_soundtrack_from_alias (char* alias)
+load_soundtrack_from_alias (const char* alias)
 {
   if (!nosound) {
     sound_track_t* st = get_sound_track_from_alias (alias);
@@ -451,7 +451,7 @@ decode_sound_options (char* optarg, char* argv0)
 }
 
 void 
-load_soundtrack_from_alias (char* alias)
+load_soundtrack_from_alias (const char* alias)
 {
   if (!nosound) {
     sound_track_t* st = get_sound_track_from_alias (alias);
@@ -526,7 +526,7 @@ decode_sound_options (char* optarg ATTRIBUTE_UNUSED,
 
 
 void 
-load_soundtrack_from_alias (char* alias ATTRIBUTE_UNUSED)
+load_soundtrack_from_alias (const char* alias ATTRIBUTE_UNUSED)
 {
 }
 

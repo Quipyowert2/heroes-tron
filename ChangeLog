@@ -1,5 +1,17 @@
 2000-10-08  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/keysdef.h (keyname_s): Fix constness. 
+	* src/structs.h (type_name): Likewise.
+	* src/hedlite.c (draw_text,fatalog): Likewise.
+	* src/sound.h (load_soundtrack_from_alias): Likewise.
+	* src/sound.c [*] (load_soundtrack_from_alias): Likewise.
+	* src/hedlite.h (free_levels_output_dir): Likewise.
+	* src/hedlite.c (free_levels_output_dir): Likewise.
+	* src/rsc_files_hash.h (rsc_file): Likewise.
+	* src/scores.c (cmp_scores): Likewise.
+
+2000-10-08  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Add support for RLEncoded sprites.
 
 	* src/rleprog.h: New file.

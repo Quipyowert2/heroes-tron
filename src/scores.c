@@ -42,7 +42,7 @@ scores_file (void)
 static int
 cmp_scores (const void *r1, const void *r2)
 {
-  return (((top_score *) r2)->points - ((top_score *) r1)->points);
+  return (((const top_score *) r2)->points - ((const top_score *) r1)->points);
 }
 
 void

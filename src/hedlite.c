@@ -91,7 +91,7 @@ void (*fnptr[type_nbr]) (int, int, int) = {
   &anim_mod, &stop_mod, &stop_mod, &fn0};
 
 static void
-fatalog (char *ptr)
+fatalog (const char *ptr)
 {
   emsg (ptr);
 }
@@ -266,7 +266,7 @@ cadrept (x0, y0, xd, yd, col1, col2)
 }
 
 static void
-draw_text (char *texte, int posx, int posy, char coul, char cent)
+draw_text (const char *texte, int posx, int posy, char coul, char cent)
 {
   int i, j;
   int k, d = -1;
@@ -1957,8 +1957,9 @@ free_levels_output_dir (void)
 /****************************************************************************/
 /****************************************************************************/
 int
-hmain (int argc ATTRIBUTE_UNUSED, char *argv1, char *argv2,
-       char *argv3, char *argv4, char *argv5, char *argv6)
+hmain (int argc ATTRIBUTE_UNUSED, const char *argv1, const char *argv2,
+       const char *argv3, const char *argv4, const char *argv5, const 
+       char *argv6)
 {
   int i;
   char* lvl_name;

@@ -22,8 +22,8 @@
 #define HEROES__KEYSDEF__H
 
 struct keynames_s { 
-  char* name; 
-  int code; 
+  const char*	name; 
+  int		code; 
 };
 
 extern const struct keynames_s keynames[];

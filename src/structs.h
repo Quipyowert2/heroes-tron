@@ -61,7 +61,7 @@ static char d2w[9] = { 0, 0, 1, 1, 2, 2, 2, 2, 3 };
 static char w2d[4] = { d_up, d_right, d_down, d_left };
 #endif
 
-static char *type_name[] =
+static const char *type_name[] =
   { "NONE", "STOP", "SPEED", "TUNNEL", "BOOM", "ANIM", "ICE", "DUST",
   "OUTWAY"
 };
