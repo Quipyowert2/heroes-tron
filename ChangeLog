@@ -1,5 +1,12 @@
 2001-02-11  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/scrtools.c (set_pal_with_luminance): Perform gamma correction,
+	use set_pal rather than set_palette.
+	* src/options.c (reinit_options): Use 6 as default luminance value.
+	* src/menu.c (screen_menu): Use 13 steps for the luminance option.
+
+2001-02-11  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Important revamp of the LibGGI display driver to not use
 	the `render_visu' intermediate buffer when crossblitting is
 	unneeded, perform double buffering and locking.

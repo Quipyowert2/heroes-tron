@@ -33,8 +33,6 @@ Before 1.0.0
 
   Save games/options/scores files in text format.
 
-  Perform real gamma correction, not basic lightening or shading of colors.
-
   Use {u,s}{8,16,32}_t types where it's important.
 
   A separate binary (say heroeslvl) is needed to perform various task

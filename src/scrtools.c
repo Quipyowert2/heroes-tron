@@ -28,28 +28,23 @@
 #include "fastmem.h"
 #include "argv.h"
 
-/* FIXME: perform gamma correction here */
 void
 set_pal_with_luminance (const palette_t* palsrc)
 {
   palette_t paldest;
   int i;
-  int lum = (3 - opt.luminance) * 6;
+  float gamma_coef = (opt.luminance + 5) / 11.0;
 
-  if (opt.luminance == 3) {
-    set_pal (palsrc->global, 0, 768);
-    return;
+  /* preform gamma correction */
+  for (i = 767; i >= 0; i--) {
+    float color = palsrc->global[i];
+    color = pow (color / 63.0, gamma_coef) * 63.0 + 0.5;
+    if (color > 63.0)
+      color = 63.0;
+    paldest.global[i] = (u8_t) color;
   }
-  if (opt.luminance < 3) {
-    for (i = 767; i >= 0; i--)
-      paldest.global[i] =
-	(unsigned char) ((palsrc->global[i] * (64 - lum) + 63 * lum) >>6);
-  } else if (opt.luminance > 3) {
-    for (i = 767; i >= 0; i--)
-      paldest.global[i] =
-	(unsigned char) ((palsrc->global[i] * 64) / (64 - lum));
-  }
-  set_palette (paldest.global);
+
+  set_pal (paldest.global, 0, 768);
 }
 
 void

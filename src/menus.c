@@ -1147,14 +1147,14 @@ screen_menu (void)
 
     DRAW_SPRITE (radar_ico[opt.radar_map], corner[0] + 37 * xbuf + 20);
     DRAW_SPRITE (infos_ico[opt.display_infos], corner[0] + 71 * xbuf + 20);
-    DRAW_SPRITE (luminance_ico[opt.luminance], corner[0] + 105 * xbuf + 20);
+    DRAW_SPRITE (luminance_ico[opt.luminance/2], corner[0] + 105 * xbuf + 20);
     DRAW_SPRITE (inertia_ico[opt.inertia], corner[0] + 139 * xbuf + 20);
 
     arrows (37 + l * 34 + 2 * (l == 4), 1);
     chkbox (38, 260, opt.radar_map);
     chkbox (72, 260, opt.display_infos);
 
-    cursor (108, 251, 6 - opt.luminance, 6);
+    cursor (108, 251, 12 - opt.luminance, 12);
     chkbox (140, 260, opt.inertia);
     DRAW_SPRITE (screen_menu_txt, corner[0]);
 
@@ -1172,7 +1172,7 @@ screen_menu (void)
 	  else if (l == 2) {
 	    if (t == HK_Right && opt.luminance > 0)
 	      --opt.luminance;
-	    else if (t == HK_Left && opt.luminance < 6)
+	    else if (t == HK_Left && opt.luminance < 12)
 	      ++opt.luminance;
 	    set_pal_with_luminance (&tile_set_img.palette);
 	  } else if (l == 3)

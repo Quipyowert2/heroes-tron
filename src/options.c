@@ -49,7 +49,7 @@ reinit_options (void)
   opt.screen_size = 0;		/* 0=max */
   opt.radar_map = 1;
   opt.display_infos = 1;
-  opt.luminance = 3;
+  opt.luminance = 6;
   opt.inertia = 1;
   opt.music = 1;
   opt.music_volume = 6;		/* 0=max */
