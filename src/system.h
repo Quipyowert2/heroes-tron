@@ -119,7 +119,7 @@
 #if HAVE_GETOPT_H && HAVE_GETOPT_LONG
 # include <getopt.h>
 #else
-# include "gnugetopt.h"
+# include "getopt.h"
 #endif
 
 #if ENABLE_NLS

@@ -1,5 +1,32 @@
 2000-12-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.in: Check for `ln -s'.  Use it to link
+	getopt.h to gnugetopt.h if the former is not found.
+	Don't generate src/txt_cfg/Makefile.
+	* lib/gnugetopt.h: Update from latest fetish (textutils 2.0.10).
+	* lib/getopt.c: Likewise.
+	* lib/getopt1.c: Likewise.
+	* lib/error.c: Likewise.
+	* lib/error.h: Likewise.
+	* lib/hash.c: Likewise.
+	* lib/malloc.c: Likewise.
+	* lib/realloc.c: Likewise.
+	* lib/strcasecmp.c: Likewise.
+	* lib/strndup.c: Likewise.
+	* lib/xalloc.h: Likewise.
+	* lib/xmalloc.c: Likewise.
+	* lib/xstrdup.c: Likewise.
+	* m4/malloc.m4: Likewise.
+	* m4/realloc.m4: Likewise.
+	* m4/strerror_r.m4: New file, from fetish.
+	* m4/Makefile.am (EXTRA_DIST): Add strerror_r.m4.
+	* src/system.h: Don't include gnugetopt.h any longer.
+	* tools/fetish-sync.sh: New file.
+	* tools/Makefile.am (EXTRA_DIST): Add fetish-sync.sh.
+	* HACKING (Files in CVS, but maintained elsewhere): Update.
+
+2000-12-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Rewrite the endscroll to not use gfx_reader.h.  This is not
 	an end scroller any longer by the way.
 

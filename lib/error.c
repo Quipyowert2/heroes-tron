@@ -1,5 +1,5 @@
 /* Error handler for noninteractive utilities
-   Copyright (C) 1990,91,92,93,94,95,96,97,98, 99 Free Software Foundation, Inc.
+   Copyright (C) 1990-1998, 2000 Free Software Foundation, Inc.
 
    This file is part of the GNU C Library.  Its master source is NOT part of
    the C library, however.  The master source lives in /gd/gnu/lib.
@@ -26,6 +26,9 @@
 #endif
 
 #include <stdio.h>
+#if HAVE_LIBINTL_H
+# include <libintl.h>
+#endif
 
 #if HAVE_VPRINTF || HAVE_DOPRNT || _LIBC
 # if __STDC__
@@ -48,6 +51,13 @@ void exit ();
 #endif
 
 #include "error.h"
+
+#ifndef HAVE_DECL_STRERROR_R
+"this configure-time declaration test was not run"
+#endif
+#if !HAVE_DECL_STRERROR_R
+char *strerror_r ();
+#endif
 
 #ifndef _
 # define _(String) String
@@ -75,6 +85,11 @@ unsigned int error_message_count;
    Instead make it a weak alias.  */
 # define error __error
 # define error_at_line __error_at_line
+
+# ifdef USE_IN_LIBIO
+#  include <libio/iolibio.h>
+#  define fflush(s) _IO_fflush (s)
+# endif
 
 #else /* not _LIBC */
 
@@ -150,12 +165,16 @@ error (status, errnum, message, va_alist)
   ++error_message_count;
   if (errnum)
     {
-#if defined HAVE_STRERROR_R || defined _LIBC
+#if defined HAVE_STRERROR_R || _LIBC
       char errbuf[1024];
+# if HAVE_WORKING_STRERROR_R || _LIBC
+      fprintf (stderr, ": %s", __strerror_r (errnum, errbuf, sizeof errbuf));
+# else
       /* Don't use __strerror_r's return value because on some systems
 	 (at least DEC UNIX 4.0[A-D]) strerror_r returns `int'.  */
       __strerror_r (errnum, errbuf, sizeof errbuf);
       fprintf (stderr, ": %s", errbuf);
+# endif
 #else
       fprintf (stderr, ": %s", strerror (errnum));
 #endif
@@ -228,12 +247,16 @@ error_at_line (status, errnum, file_name, line_number, message, va_alist)
   ++error_message_count;
   if (errnum)
     {
-#if defined HAVE_STRERROR_R || defined _LIBC
+#if defined HAVE_STRERROR_R || _LIBC
       char errbuf[1024];
+# if HAVE_WORKING_STRERROR_R || _LIBC
+      fprintf (stderr, ": %s", __strerror_r (errnum, errbuf, sizeof errbuf));
+# else
       /* Don't use __strerror_r's return value because on some systems
 	 (at least DEC UNIX 4.0[A-D]) strerror_r returns `int'.  */
       __strerror_r (errnum, errbuf, sizeof errbuf);
       fprintf (stderr, ": %s", errbuf);
+# endif
 #else
       fprintf (stderr, ": %s", strerror (errnum));
 #endif

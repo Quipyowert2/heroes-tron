@@ -267,7 +267,7 @@ hash_get_first (const Hash_table *table)
 
 /* Return the user data for the entry following ENTRY, where ENTRY has been
    returned by a previous call to either `hash_get_first' or `hash_get_next'.
-   Return NULL if there is no more entries.  */
+   Return NULL if there are no more entries.  */
 
 void *
 hash_get_next (const Hash_table *table, const void *entry)
