@@ -1,5 +1,12 @@
 2001-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* tests/demo.test, tests/intro.test, tests/defs,
+	tests/Makefile.am: New file.
+	* Makefile.am (SUBDIRS): Add tests.
+	* configure.ac: Output tests/Makefile.
+
+2001-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/argv.h (a_check, check_what): New.
 	* src/argv.c (check): New function.
 	(long_options): Add --check.

@@ -1,0 +1,15 @@
+# -*- shell-script -*-
+# Defines for Heroes testing environment.
+
+# Ensure $srcdir set correctly.
+if test ! -f $srcdir/defs; then
+   echo "defs: installation error" 1>&2
+   exit 1
+fi
+
+# User can set VERBOSE to see all output.
+test -z "$VERBOSE" && exec > /dev/null 2>&1
+
+echo "== Running test $0"
+
+test -z "$HEROES" && HEROES="$srcdir/../src/heroes"

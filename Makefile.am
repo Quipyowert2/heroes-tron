@@ -38,7 +38,7 @@ misc/05-po.patch
 
 # lib must be built after intl
 # man must be built after src
-SUBDIRS = intl lib src man po doc
+SUBDIRS = intl lib src man po doc tests
 
 README: $(top_srcdir)/doc/heroes.texi $(top_srcdir)/tools/readme.sed
 	LC_ALL=C $(MAKEINFO) --no-header -I $(top_srcdir)/doc heroes.texi | \
