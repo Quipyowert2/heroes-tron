@@ -2,7 +2,7 @@
 
 	* doc/heroes.texi (configure options): Document
 	--enable-optimizations' argument.
-	* m4/devel.m4 (adl_ENABLE_DEVEL): enable_optimizations to -O.
+	* m4/devel.m4 (adl_ENABLE_DEVEL): Set enable_optimizations to -O.
 	* m4/gccoptim.m4 (ad_GCC_OPTIM): Handle $enable_optimizations.
 
 2002-01-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
