@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------.
-| Copyright (C) 2000 Alexandre Duret-Lutz <duret_g@epita.fr>              |
+| Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>                 |
 |                                                                         |
 | This file is part of Heroes.                                            |
 |                                                                         |
@@ -53,7 +53,7 @@ static void
 version (void)
 {
   puts ("Heroes " VERSION "\n");
-  puts ("Copyright (c) 1997,1998,2000 "
+  puts ("Copyright 1997, 1998, 2000  "
 	"Alexandre Duret-Lutz, Romuald Genevois,\n"
 	"Alexandre Liverneaux and Philippe Meisburger.\n");
   puts ("This is free software; see the source for copying conditions.  "

@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------.
-| Copyright (C) 1997,1998,2000 Alexandre Duret-Lutz <duret_g@epita.fr>    |
+| Copyright 1997, 1998, 2000  Alexandre Duret-Lutz <duret_g@epita.fr>     |
 |                                                                         |
 | This file is part of Heroes.                                            |
 |                                                                         |

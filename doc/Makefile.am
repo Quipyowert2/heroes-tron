@@ -1,4 +1,4 @@
-# Copyright (C) 2000 Alexandre Duret-Lutz <duret_g@epita.fr> 
+# Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr> 
 # 
 # This file is part of Heroes.
 # 
@@ -15,8 +15,7 @@
 # You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-# 
-# $Id: Makefile.am 1.1 Sun, 02 Jul 2000 21:05:23 +0200 adl $
+
 
 info_TEXINFOS = heroes.texi
 

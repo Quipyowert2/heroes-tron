@@ -5,7 +5,7 @@ dnl Search for the exact location of header `<HEADER-NAME>' which must
 dnl match `NMATCH' times the regex `REGEX'.  If is header is not found,
 dnl try the OTHER-NAMES list of headers.
 dnl
-dnl Generalized by Alexandre Duret-Lutz <duret_G@epita.fr>
+dnl Generalized by Alexandre Duret-Lutz <duret_g@epita.fr>
 dnl from a test in Zsh's configure.in (written by?)
 
 AC_DEFUN([AC_adl_FIND_HEADER],

@@ -1,4 +1,4 @@
-dnl Copyright (C) 2000 Alexandre Duret-Lutz <duret_g@epita.fr> 
+dnl Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr> 
 dnl 
 dnl This file is part of Heroes.
 dnl 
@@ -21,7 +21,7 @@ AC_PREREQ(2.49a)
 
 AC_INIT([src/heroes.c])
 
-AC_COPYRIGHT([Copyright (C) 2000, Alexandre Duret-Lutz])
+AC_COPYRIGHT([Copyright 2000  Alexandre Duret-Lutz])
 
 AC_CANONICAL_HOST
 
