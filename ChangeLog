@@ -1,5 +1,10 @@
 2001-05-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* GNUmakefile (src/people.c): New target.
+	(cvsboot): Require src/people.c.
+
+2001-05-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* ANNOUNCE: Update for 0.10.
 	* TODO: Likewise.
 
