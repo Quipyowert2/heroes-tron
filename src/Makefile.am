@@ -98,6 +98,15 @@ userdir.h \
 visuals.c \
 visuals.h
 
+# These files are cleaned from this directory because if you configure
+# the package without sound support these two Makefiles are generated
+# by ./configure but are not be removed on `make distclean'.  (The
+# case when src/sound.conf would not removed is harder to find: you
+# need to compile with sound support, and reconfigure without sound
+# support before doing a `make distclean'...).
+DISTCLEANFILES = mod/Makefile sfx/Makefile sfx/sound.conf
+
+
 BUILT_SOURCES = keysdef-inc.h
 CLEANFILES = keysdef-inc.h
 
