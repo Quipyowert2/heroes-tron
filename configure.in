@@ -296,6 +296,7 @@ AC_caolan_CHECK_PACKAGE([sdl_mixer],[Mix_OpenAudio],[SDL_mixer],[SDL_mixer.h],,
 if test "x${with_sdl_mixer}" != xno; then
   sound_lib="SDL_mixer"
   with_sdl_mixer=yes
+  with_mikmod=no
 fi
 
 # revert old value
@@ -307,7 +308,7 @@ fi # with_sdl_mixer
 # Check for LibMikMod.
 # ====================
 
-if test "${with_sdl_mixer-no}" = no; then
+if test "${with_mikmod-yes}" != no; then
 
 AC_adl_PKG_GENERIC([libmikmod],[3.1.7],[MikMod_Init],
 [sound_lib="libmikmod dnl
