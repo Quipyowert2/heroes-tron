@@ -1,5 +1,21 @@
 2000-12-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.in: Use heroes_CHECK_JOYSTICK_LIB.
+	* m4/h-joystick.m4: New.
+
+2000-12-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Move the SDL_mixer and Mikmod tests out of configure.in.
+
+	* configure.in: Use heroes_CHECK_SOUND_LIB and
+	heroes_CHECK_SOUND_LIB_PRELIM.
+	* m4/h-sound.m4: New file.
+	* m4/h-sdlmixer.m4: New file.
+	* m4/h-mikmod.m4: New file.
+	* m4/h-sdl.m4: Remove spaces before --without-sdl.
+
+2000-12-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Move out the SDL and GGI test from configure.in.
 
 	* configure.in: Use heroes_CHECK_DISPLAY_LIB.

@@ -33,16 +33,8 @@ AC_DEFINE_UNQUOTED([HOST],["$host"],[The canonical host])
 # Supported options.
 # ==================
 
-AC_ARG_ENABLE([sound],
-[AC_HELP_STRING([--disable-sound],[turn off sound support])])
 AC_ARG_ENABLE([heroes-debug],
 [AC_HELP_STRING([--disable-heroes-debug],[disable tracing facility])])
-AC_ARG_ENABLE([joystick],
-[AC_HELP_STRING([--disable-joystick],[turn off joystick support])])
-AC_ARG_WITH([mikmod],
-[AC_HELP_STRING([--with-mikmod=DIR],
-               [root directory of libMikMod installation])
-AC_HELP_STRING([--without-mikmod],[disables libMikMod usage completely])])
 
 # debugging options
 
@@ -51,46 +43,9 @@ if test "x$enable_heroes_debug" != xno; then
   AC_DEFINE([USE_HEROES_DEBUG],1,[Define if you want tracing code.])
 fi;
 
-# --with-mikmod-exec-prefix should imply --with-mikmod, and vice-versa
-
-test "${with_mikmod_exec_prefix-no}" != no &&
- test "${with_mikmod-yes}" = yes && with_mikmod="$with_mikmod_exec_prefix"
-
-test "${with_mikmod-yes}" != yes &&
- test "${with_mikmod_exec_prefix-yes}" = yes &&
-   with_mikmod_exec_prefix="$with_mikmod"
-
-# handle choice between SDL_mixer and libMikmod
-
-if test "${with_mikmod-no}" != no; then
-  if test "${with_sdl_mixer-no}" != no; then
-     AC_MSG_ERROR([libMikMod and SDL_mixer can't be both used.])
-  fi
-  # disable SDL_mixer if libMikMod was selected
-  with_sdl_mixer=no
-else
-  if test "${with_sdl_mixer-no}" != no; then
-    # disable libMikMod if SDL_mixer was selected
-    with_mikmod=no
-  fi
-fi
-
-# SDL_mixer imply SDL
-
-if test "${with_sdl_mixer-no}" != no; then
-  if test "${with_GGI-no}" != no; then
-    AC_MSG_ERROR([GGI and SDL_mixer can't be both used.])
-  fi
-  with_GGI=no
-fi
-
 # Detect wether CFLAGS and LDFLAGS will be setup by autoconf or not.
 test -z "${CFLAGS+set}"  && CFLAGS=  auto_cflags=1
 test -z "${LDFLAGS+set}" && LDFLAGS= auto_ldflags=1
-
-# These value will be updated according to detections.
-joystick_lib='<disabled>'
-sound_lib='<disabled>'
 
 # ===================
 # Check for programs.
@@ -117,105 +72,11 @@ AC_CACHE_SAVE
 # Checks for libraries.
 # =====================
 
-# ===================
-# Check for GGI & SDL
-# ===================
-
+heroes_CHECK_SOUND_LIB_PRELIM
 heroes_CHECK_DISPLAY_LIB
-
-# =================
-# Joystick support.
-# =================
-
-# Provide a config.h help string, as AC_caolan_CHECK_PACKAGE does not.
-AH_TEMPLATE([HAVE_PKG_GII],[Define if you have libgii.])
-
-if test "${enable_joystick-yes}" = yes; then
-
-  # -- check for Joystick support in SDL
-
-  sdl_joystick=no
-  if test "${with_sdl-yes}" != no && test "${with_GII-no}" = no;  then
-    AC_CHECK_FUNCS([SDL_JoystickOpen],[
-sdl_joystick=yes
-joystick_lib="SDL dnl
-$sdl_config_major_version.$sdl_config_minor_version.$sdl_config_micro_version"
-])
-  fi
-
-  # -- check for LibGGI (another way to get joystick support)
-
-  gii_joystick=no
-  if test $sdl_joystick = no && test "${with_GII-yes}" != no;  then
-    AC_caolan_CHECK_PACKAGE([GII],[giiOpen],[gii],[ggi/gii.h],[
-gii_joystick=yes
-joystick_lib='LibGII'
-])
-  fi
-
-  if test $sdl_joystick = no && test $gii_joystick = no; then
-    enable_joystick=no
-  fi
-fi
-
-if test "${enable_joystick-yes}" = yes; then
-  AC_DEFINE([JOYSTICK_SUPPORT],1,[Define if you want joystick support.])
-fi
-
-# ===================
-# Check for lib math.
-# ===================
-
+heroes_CHECK_JOYSTICK_LIB
+heroes_CHECK_SOUND_LIB
 AC_CHECK_LIB([m],[sin])
-
-# ==========================
-# Check for sound libraries.
-# ==========================
-
-if test "${enable_sound-yes}" != no; then
-
-# ====================
-# Check for SDL_mixer.
-# ====================
-
-# Provide a config.h help string, as AC_caolan_CHECK_PACKAGE does not.
-AH_TEMPLATE([HAVE_PKG_sdl_mixer],[Define if you have libSDL_mixer.])
-
-if test "${with_sdl-yes}" != no && test "${with_sdl_mixer-yes}" != no; then
-
-# temporaly put the CFLAGS for SDL in CPPFLAGS
-# so that AC_caolan_CHECK_PACKAGE can find SDL_mixer.h in the same directory.
-tmp_CPPFLAGS="$CPPFLAGS"
-CPPFLAGS="$SDL_CFLAGS $CPPFLAGS"
-
-AC_caolan_CHECK_PACKAGE([sdl_mixer],[Mix_OpenAudio],[SDL_mixer],[SDL_mixer.h],,
-[with_sdl_mixer=no])
-if test "x${with_sdl_mixer}" != xno; then
-  sound_lib="SDL_mixer"
-  with_sdl_mixer=yes
-  with_mikmod=no
-fi
-
-# revert old value
-CPPFLAGS="$tmp_CPPFLAGS"
-
-fi # with_sdl_mixer
-
-# ====================
-# Check for LibMikMod.
-# ====================
-
-if test "${with_mikmod-yes}" != no; then
-
-AC_adl_PKG_GENERIC([libmikmod],[3.1.7],[MikMod_Init],
-[sound_lib="libmikmod dnl
-$libmikmod_config_major_version.$libmikmod_config_minor_version.dnl
-$libmikmod_config_micro_version"
-]AC_DEFINE([HAVE_LIBMIKMOD],1,[Define if you have the LibMikMod library.]))
-
-fi
-
-fi # enable_sound
 
 # ================================
 # Check for any malloc() debugger.
