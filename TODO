@@ -10,9 +10,13 @@ Short term.
 
   Document heroeslvl.
 
-  Create level.lst using heroeslvl.
-
-  heroeslvl should not load the whole file if only the header is needed.
+  DGA and SVGAlib drivers usually need root-privileges (e.g. to map /dev/mem)
+  and it's tempting to set SGID or SUID bits on Heroes for this purpose.
+  Presently this can't work because Heroes is dropping these S-privileges
+  after the global score file is open, but before the user config is
+  read, and hence before the display is initialized.  It might be useful
+  to be able to prevent Heroes from dropping these privileges, for instance
+  using a system-wide setting.
 
 Middle term.
 ------------

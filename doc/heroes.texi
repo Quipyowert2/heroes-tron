@@ -949,25 +949,62 @@ of 22kHz.
 @vindex GGI_DISPLAY
 @vindex SDL_VIDEODRIVER
 @cindex display driver
-Give additional options to the display driver.  With GGI, this replaces
-the @samp{GGI_DISPLAY} variable (see LibGGI's @file{target.txt}).
-Example:
+Give additional options to the display driver.
+
+With GGI applications, the usual way to force the selection of a driver
+is to define the @samp{GGI_DISPLAY} environment variable.  The usage and
+possible values of this variable are documented in the file
+@file{target.txt} which comes with LibGGI.  If Heroes has been compiled
+with GGI, the option @samp{-G} will bypass the setting of
+@samp{GGI_DISPLAY}, as if the variable was overwritten.  For instance
 @example
 % heroes -G 'tile:0,0,160,200,(x):160,0,160,200,(x)'
 @end example
-With SDL this replaces the environment variable @samp{SDL_VIDEODRIVER}.
+is equivalant to
+@example
+% export GGI_DISPLAY='tile:0,0,160,200,(x):160,0,160,200,(x)'
+% heroes
+@end example
+except that the former does not modify @samp{GGI_DISPLAY}.  (BTW, the
+above setting uses GGI's tile driver to display Heroes in two
+half-windows... this maybe quite fun to try in two player mode.)
+
+As SDL applications are concerned, selection of the video driver is
+achieved through the @samp{SDL_VIDEODRIVER} environment variable.  At
+the time of writting this is not documented in SDL, so you will have to
+either RTFS or guess the possible values.  If Heroes has been compiled
+with SDL, the option @samp{-G} with override the setting of
+@samp{SDL_VIDEODRIVER}.  For instance you could force SDL to use
+the X11 driver with
+@example
+% heroes -G x11
+@end example
+or
+@example
+% export SDL_VIDEODRIVER=x11
+% heroes
+@end example
 
 @item -F
 @itemx --full-screen
 @cindex -F
 @cindex --full-screen
 @cindex full screen
-SDL needs to be given an additional parameter to do full screen output,
-this is the purpose of this command line flag.  With GGI, this has the
-effect of allowing Heroes to run on video mode of any size (i.e. not
-constrained to 320x200) so the name is quite misleading, but since GGI's
-DGA driver doesn't switch video modes you will find this options helpful
-to run DGA in non-320x200 modes.
+If Heroes is compiled with SDL, this option will turn on full screen mode.
+
+Otherwise, if Heroes is compiled with GGI, this option will allow Heroes
+to use a video mode with any size; i.e., the video surface is not
+constrained to 320x200 and Heroes will just center its 320x200 output.
+The rational is that GGI's DGA driver doesn't switch video modes.  So
+unless your X server run in 320x200 it would be hard to use the DGA
+driver otherwise.  Here is the typical settings for ``full-screen'' DGA
+output:
+@example
+% heroes -G dga -F
+@end example
+Admittedly the name of @samp{--full-screen} is quite misleading here
+since this option can provide you with a 320x200 stamp centered on your
+1600x1200 display...
 
 @item -2
 @itemx --double

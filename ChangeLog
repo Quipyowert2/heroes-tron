@@ -1,5 +1,10 @@
 2001-07-23  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* doc/heroes.texi (Invoking): More documentation for -G and -F.
+	* TODO: Update.
+
+2001-07-23  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* tools/Makefile.inc: New file.
 	* tools/Makefile.am: Delete.
 	* tools/README: New file.
