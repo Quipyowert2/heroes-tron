@@ -6,7 +6,7 @@
 
 2000-07-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
-	Setup the base structure for structure handling.  rsc_files*
+	Setup the base structure for resources handling.  rsc_files*
 	are used to map a symbolic name to a true filename, handling 
 	variable substitutions (e.g. $(data-dir)).
 
