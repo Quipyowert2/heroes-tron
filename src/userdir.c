@@ -74,11 +74,7 @@ setup_userdir (void)
     if (err < 0)
       return 1;
     if (err == 0) {
-      if (mkdir (userdir
-#if TWO_ARGS_MKDIR
-		 , 0700
-#endif
-		 )) {
+      if (mkdir (userdir, 0700)) {
 	perror ("while creating ~/" DIR_NAME);
 	return 1;
       } else {

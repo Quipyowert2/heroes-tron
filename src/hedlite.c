@@ -1935,11 +1935,7 @@ create_levels_output_dir (void)
   if (error < 0)
     return 1;
   if (error == 0)
-    if (mkdir (levels_output_dir
-#if TWO_ARGS_MKDIR
-	       , 0755
-#endif
-	       )) {
+    if (mkdir (levels_output_dir, 0755)) {
       perror (levels_output_dir);
       return 1;
     }

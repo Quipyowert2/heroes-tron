@@ -431,7 +431,7 @@ AC_C_CONST
 # Checks for library functions.
 # =============================
 
-AC_CHECK_FUNCS([gettimeofday memcpy sleep])
+AC_CHECK_FUNCS([gettimeofday memcpy sleep mkdir])
 
 # Heroes needs opendir, readdir and closedir.  We check only for
 # readdir and assume that opendir and closedir are present if readdir is.
@@ -452,11 +452,16 @@ AC_CHECK_FUNC([readdir],
 	       fi;])
 AC_FUNC_VPRINTF
 
-AC_CACHE_CHECK([whether mkdir takes two arguments],[ac_cv_two_args_mkdir],
-[AC_TRY_COMPILE([#include <unistd.h>],[mkdir (".", 0777);],
-[ac_cv_two_args_mkdir=yes],[ac_cv_two_args_mkdir=no])])
-if test $ac_cv_two_args_mkdir = yes; then
-  AC_DEFINE([TWO_ARGS_MKDIR],1,[Define if mkdir take two arguments.])
+AC_CACHE_CHECK([whether mkdir takes one argument],[ac_cv_mkdir_takes_one_arg],
+[AC_TRY_COMPILE([
+#include <sys/stat.h>
+#ifdef HAVE_UNISTD_H
+# include <unistd.h>
+#endif
+],[mkdir (".");],
+[ac_cv_mkdir_takes_one_arg=yes],[ac_cv_mkdir_takes_one_arg=no])])
+if test x"$ac_cv_mkdir_takes_one_arg" = xyes; then
+  AC_DEFINE([MKDIR_TAKES_ONE_ARG],1,[Define if mkdir takes only one argument.])
 fi
 
 AC_REPLACE_FUNCS([strcasecmp])

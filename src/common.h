@@ -191,6 +191,18 @@ typedef signed char		s8_t;
 int strcasecmp (const char *s1, const char *s2);
 #endif
 
+#ifdef HAVE_MKDIR
+# ifdef MKDIR_TAKES_ONE_ARG
+#  define mkdir(a,b) mkdir(a)
+# endif
+#else
+# ifdef HAVE_WINDOWS_H
+#  define mkdir(a,b) _mkdir(a)
+# else
+#  error "Don't know how to create a directory on this system."
+# endif
+#endif
+
 /* Define S_ISDIR if it isn't already defined in sys/stat.h */
 #if defined(S_IFDIR) && !defined(S_ISDIR)
 # define S_ISDIR(mode) (((mode) & S_IFMT) == S_IFDIR)

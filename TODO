@@ -9,10 +9,6 @@ Before 0.7
 
   Try to fix the initialization crash on Linux/m68k
 
-  mkdir needs to be defined in common.h (userdir.c and hedlit.c should
-  not use TWO_ARGS_MKDIR).  The test for mkdir must be rewritten to
-  define HAVE_MKDIR and ONE_ARG_MKDIR.  _mkdir must be used under Windows.
-
   timer.c:162 what is "clock_t c" for?
 
   strcasecmp should define tolower
