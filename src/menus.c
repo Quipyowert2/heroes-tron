@@ -133,6 +133,7 @@ static sprite_t* luminance_ico[7] = { 0, 0, 0, 0, 0, 0, 0 };
 static sprite_t* player_logo[4] = { 0, 0, 0, 0}; /* for end level info */
 static sprite_t* player_ico[4] = { 0, 0, 0, 0}; /* for menus */
 static sprite_t* speed_ico[5] = { 0, 0, 0, 0, 0};
+static sprite_t* deck_digits[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 /* the following definitions are used to compile text-centered menus,
    that is, the main and the option menus */
@@ -440,6 +441,12 @@ init_menus_sprites (void)
     for (i = 0; i < 8; ++i)
       lemming[i] = compile_sprrle (IMGPOS (main_font_img, 81, 132 + 6 * i), 0,
 				   10, 6, main_font_img.width, xbuf);
+    for (i = 0; i < 10; ++i) {
+      char text[2] = { 0, 0 };
+      text[0] = '0' + i;
+      deck_digits[i] = compile_deck_text (text, T_FLUSHED_LEFT, 186, 8 + 227);
+    }
+    deck_digits[10] = compile_deck_text (":", T_FLUSHED_LEFT, 186, 8 + 227);
   }
 
   /* pause menu */
@@ -626,6 +633,8 @@ uninit_menus_sprites (void)
     int i;
     for (i = 0; i < 8; ++i)
       FREE_SPRITE0 (lemming[i]);
+    for (i = 0; i < 11; ++i)
+      FREE_SPRITE0 (deck_digits[i]);
   }
   FREE_SPRITE0 (pause_menu_txt);
   FREE_SPRITE0 (quitgame_menu_txt);
@@ -1946,18 +1955,12 @@ jukebox_draw (int pos)
 
   t2 = t % 60;
   t /= 60;
-  copy_rect_2 (jukebox_img.buffer + 19 * 320 + 227 + (t2 % 10) * 6,
-	       corner[0] + 186 * xbuf + 8 + 228 + 19, 6, 5);
-  copy_rect_2 (jukebox_img.buffer + 19 * 320 + 227 + (t2 / 10) * 6,
-	       corner[0] + 186 * xbuf + 8 + 228 + 13, 6, 5);
+  DRAW_SPRITE (deck_digits[t2 % 10], corner[0] + 20);
+  DRAW_SPRITE (deck_digits[t2 / 10], corner[0] + 14);
   if (dp == 0)
-    copy_rect_2 (jukebox_img.buffer + 19 * 320 + 227 + 60 - 1,
-		 corner[0] + 186 * xbuf + 8 + 228 + 10, 2, 5);
-  copy_rect_2 (jukebox_img.buffer + 19 * 320 + 227 + (t % 10) * 6,
-	       corner[0] + 186 * xbuf + 8 + 227 + 6, 6, 5);
-  copy_rect_2 (jukebox_img.buffer + 19 * 320 + 227 + (t / 10) * 6,
-	       corner[0] + 186 * xbuf + 8 + 227, 6, 5);
-
+    DRAW_SPRITE (deck_digits[10], corner[0] + 12);
+  DRAW_SPRITE (deck_digits[t % 10], corner[0] + 6);
+  DRAW_SPRITE (deck_digits[t / 10], corner[0]);
   {
     int lempos = read_htimer (lemming_htimer);
     DRAW_SPRITE (lemming[lempos & 7],

@@ -1,5 +1,11 @@
 2000-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/menus.c (deck_digits): New.
+	(init_menus_sprites, uninit_menus_sprites): (Un)initialize it.
+	(jukebox_draw): Adapt to use it.
+
+2000-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Add a new sprite type: S_OPAQUE.
 
 	* src/spropaque.c: New file.
