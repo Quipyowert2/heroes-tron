@@ -4926,7 +4926,10 @@ main (int argc, char *argv[])
   write_save_records ();
   write_scores ();
   write_options ();
+  free_save_records ();
+  free_scores ();
+  free_options ();
   free_userdir ();
-
+  close_txti ();
   return 0;
 }

@@ -153,3 +153,13 @@ load_options (void)
     fclose (fs);
   }
 }
+
+void 
+free_options (void)
+{
+  dmsg (D_MISC, "free options");
+#if USER_CONFIG_FILE
+  if (name)
+    free (name);
+#endif  
+}

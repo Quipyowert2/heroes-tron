@@ -1,3 +1,26 @@
+2000-09-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Free even more memory.
+
+	* src/hedlite.h (free_levels_output_dir): New.
+	* src/hedlite.c (free_levels_output_dir): New.
+	* src/options.c (free_options): New.
+	* src/options.h (free_options): New.
+	* src/savegame.c (free_save_records): New.
+	* src/savegame.h (free_save_records): New.
+	* src/scores.c (free_scores): New.
+	* src/scores.h (free_scores): New.
+	* src/display.c [HAVE_SDL] (uninit_video): Free screen.
+	[HAVE_PKG_GGI] (uninit_video): Free screen and display_params.
+	* src/txts.c (close_txti): New.
+	* src/txts.h (close_txti): New.
+	* src/musicfiles.c (uninit_sound_track_list): Don't use the
+	list temporaly variable.
+	* src/extras.c (free_extra_directories): Also free the cells, 
+	and call free_levels_output_dir.
+	* src/heroes.c (main): Call close_txti, free_scores, 
+	free_save_records, free_options.
+
 2000-09-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Free some more memory.

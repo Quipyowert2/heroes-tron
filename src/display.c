@@ -223,6 +223,14 @@ init_video (void)
 void
 uninit_video (void)
 {
+  if (display_params) {
+    dmsg (D_MISC, "free display_params");
+    free (display_params);
+  }
+  if (stretch > 1) {
+    dmsg (D_MISC, "free screen buffer");
+    free (screen);
+  }
   dmsg (D_VIDEO, "close memory visual");
   ggiClose (render_visu);  
   dmsg (D_VIDEO, "close real visual");
@@ -363,6 +371,10 @@ init_video (void)
 void
 uninit_video (void)
 {
+  if (stretch > 1) {
+    dmsg (D_MISC, "free screen buffer");
+    free (screen);
+  }
   SDL_Quit ();  
 }
 

@@ -24,5 +24,6 @@
 
 extern char **txti;
 void read_txti_cfg (void);
+void close_txti (void);
 
 #endif

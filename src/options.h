@@ -31,5 +31,6 @@ extern char extrasel;
 void load_options (void);
 void write_options (void);
 void reinit_options (void);
+void free_options (void);
 
 #endif

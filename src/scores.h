@@ -32,5 +32,6 @@ void sort_scores (void);
 void clear_scores (void);
 void write_scores (void);
 void load_scores (void);
+void free_scores (void);
 
 #endif

@@ -216,6 +216,17 @@ free_extra_list (void)
 void
 free_extra_directories (void)
 {
+  extradir_list_t next;
+
   dmsg (D_MISC, "free extra directories");
-  extradir_clear (&edir);
+
+  while (edir) {
+    next = edir->cdr;
+    free (edir->car->filename);
+    free (edir->car);
+    free (edir);
+    edir = next;
+  }
+
+  free_levels_output_dir ();
 }

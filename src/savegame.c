@@ -194,3 +194,13 @@ load_save_records (void)
       saverec[i].used = 1;
     }
 }
+
+void 
+free_save_records (void)
+{
+  dmsg (D_MISC, "free save records");
+#if USER_CONFIG_FILE
+  if (name)
+    free (name);
+#endif  
+}

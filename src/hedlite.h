@@ -27,5 +27,6 @@
 extern char* levels_output_dir;
 int create_levels_output_dir (void);
 int hmain (int, char *, char *, char *, char *, char *, char *);
+void free_levels_output_dir (void);
 
 #endif

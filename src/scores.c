@@ -157,3 +157,13 @@ load_scores (void)
       clear_scores ();
   }
 }
+
+void 
+free_scores (void)
+{
+  dmsg (D_MISC, "free scores");
+#if USER_CONFIG_FILE
+  if (name)
+    free (name);
+#endif  
+}

@@ -33,5 +33,6 @@ void write_save_records (void);
 void load_save_records (void);
 unsigned char compute_magic (void);
 signed char find_magic (unsigned char m);
+void free_save_records (void);
 
 #endif

@@ -18,6 +18,8 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
+/* this file will be obsolete once gettext is used */
+
 #include "config.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -91,4 +93,17 @@ read_txti_cfg (void)
   }
   fclose (fconf);
   dmsg (D_SECTION|D_FILE, "... done.");
+}
+
+void
+close_txti (void)
+{
+  unsigned int i;
+
+  dmsg (D_MISC, "free txti");
+
+  for (i = 0; i < max_txti; ++i)
+    if (txti[i])
+      free (txti[i]);
+  free (txti);
 }

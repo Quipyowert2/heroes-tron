@@ -54,6 +54,7 @@
 #include "hendian.h"
 #include "userdir.h"
 #include "rsc_files.h"
+#include "debugmsg.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
@@ -1956,6 +1957,15 @@ create_levels_output_dir (void)
       return 1;
     }
   return 0;
+}
+
+void
+free_levels_output_dir (void)
+{
+  if (levels_output_dir) {
+    dmsg (D_MISC, "free levels output dir");
+    free (levels_output_dir);
+  }
 }
 
 /****************************************************************************/
