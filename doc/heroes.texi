@@ -700,7 +700,9 @@ debugging symbols: this produce bigger binaries but allow to get
 helpfull coredumps, without slowing down the game.  You may want to
 use @samp{--enable-debug} to include more debugging data and turn
 on some debugging code.  Use @samp{--disable-debug} to turn this
-off.
+off.  Translators: you @emph{want} to use this option, really!
+Because the debugging code include some check on the translated
+messages.
 
 @item --disable-optimizations
 @cindex --disable-optimizations

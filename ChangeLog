@@ -1,5 +1,11 @@
 2001-02-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* doc/heroes.texi (configure options): Say that --enable-debug
+	will check the translated message.
+	* HACKING: Add a section `Translating message catalogs'.
+
+2001-02-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/sprtext.c (compile_sprtext, compile_sprtext_color): Don't
 	compile undrawable letters.
 

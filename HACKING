@@ -1,13 +1,7 @@
 * This file
 
-This file attempts to describe the hacking guidelines followed in
-Heroes.  We try to follow the GNU standards (with some slight
-modifications as it will be noted below) and most of their guidelines
-are not repeated here.  Therefore we recommend the reading of
-standards.info, available on every good GNU system.
-
-Please keep in mind that these are GUIDELINES, not MILITARY ORDERS!
-Anything can be discussed.
+This file attempts to give some hints to people whishing to contribute
+to Heroes.
 
 Questions or suggestions about this file can be sent to
 <heroes-discuss@lists.sourceforge.net>.
@@ -36,6 +30,38 @@ Required to commit a patch if you have write access to the CVS server:
  cvs-utils	 (from subversions.gnu.org)
 
 
+* Translating message catalogs
+
+Heroes use gettext as internationalization library, and
+gettext come with a manual which is really worth reading.
+
+Translating Heroes' messages is not as straightforward as translating
+a console-based utility would be.  In short, there are two kind of
+messages: those printed on the console (--help output, error
+messages,...), and those drawn during the game (menu entries, online
+help,...).  The former cause no particular problem.  The latter use
+home-made fonts (coming with the heroes-data package) and those fonts
+lack accentuated characters (and sometimes even lowercase characters!):
+this basically means that you will have to restrict yourself to a
+specific range of charater, which can make translation difficult
+(just dropping the accents sometimes give a word which can be
+confounded with another one).
+
+You ought to configure Heroes with --enable-debug.  When configured
+like this, Heroes will check most messages at startup and report those
+who contains non-drawable characters.
+
+If you have done a new translation, want to try it, but don't want to
+install all the above tools (autoconf, automake, etc.), do the
+following: open the file `configure' in your favorite editor, locate
+the line starting with `ALL_LINGUAS=' and add your language here, then
+rerun configure and reinstall the game, your catalog should be
+installed with the others.  Note that you will still needs gettext
+installed.  (For people who have the latest autoconf and automake, the
+correct way to add a new catalog is to edit the same line in
+configure.in, of course).
+
+
 * Sending patches
 
 If you patched Heroes and want to have your patch included in a next
@@ -45,6 +71,11 @@ dedicated to patches.)
 
 
 * General coding conventions
+
+We try to follow the GNU standards (with some slight modifications as
+it will be noted below) and most of their guidelines are not repeated
+here.  standards.info (available on every good GNU system) is a
+recommended reading.
 
 ** Formatting
 
@@ -88,12 +119,12 @@ files BUGS and TODO or additions to THANKS can be implicit
 
 ** RCS keywords
 
-Do not use them; they make the mixing of files from different projects
+Do not use them; they make mixing of files from different projects
 complicated.
 
 If you stole a file from another project which has such keywords,
-don't remove them, just "cvs add -ko" the file (-ko prevent futur
-keywords substitution).
+don't remove them, just "cvs add -ko" the file (-ko prevent future
+keywords substitution).  Actually just "cvs add -ko" any file.
 
 
 * Files that should not be changed
