@@ -826,15 +826,23 @@ Should build out of the box.  Packages for some Linux distributions
 are available from the web pages.
 
 @cartouche
+Suse 7.1 users, the libc shipped with your distribution (glibc-2.2-7)
+will crash every time Heroes calls the @code{ngettext()} function.  The
+workaround is to configure Heroes with @samp{configure
+--with-included-gettext} so that it uses its own version of
+@code{ngettext()}.
+@end cartouche
+
+@cartouche
 Red Hat 7.0 users, the compiler shipped with your distribution (packaged
 as @samp{gcc-2.96-54.i386.rpm}) is an experimental version which is
 still @emph{bugged} despite the pile of fixes applied.  It actually
 produces unfaithful code for Heroes, so please use another compiler.
-Either upgrade to a new version (@samp{gcc-2.96-64.i386.rpm} is known to
-work) or use the one provided by the @samp{kgcc} package.
+Either upgrade to a newer version (@samp{gcc-2.96-64.i386.rpm} is known
+to work) or use the one provided by the @samp{kgcc} package.
 @end cartouche
 
-@item Linux/ppc (SDL)
+@item Linux/m68k (SDL)
 Is reported to work when the sound (@samp{SDL_mixer}) is disabled
 (@samp{configure --disable-sound} or @samp{heroes -S}).  Any feedback on
 this issue is welcome.  See also the @file{BUGS} file.
@@ -864,8 +872,8 @@ Should build out of the box.
 @item NetBSD (SDL)
 I had to tweak SDL 1.1.6 to get it working, and also force Heroes'
 configure to use the result of @samp{sdl-config --static-libs} instead
-of @samp{sdl-config --libs}.  Both issue should be fixed today (need to
-check).
+of @samp{sdl-config --libs}.  Both issues should be fixed today (FIXME:
+need to check).
 
 @item OpenBSD 2.9 (GGI & SDL)
 It looks like some configure hints need to be given when using either libs.
@@ -884,7 +892,7 @@ If you prefer to use SDL, things are different. I had to configure Heroes with
 ./configure --with-sdl=/usr/local LDFLAGS=-L/usr/X11R6/lib X11BASE=/usr/X11R6
 @end example
 Unfortunately, the resulting binary froze when initializing SDL (in
-@samp{SDL_init()}).  Please send us a not if you are luckier.
+@samp{SDL_init()}).  Please send us a note if you are luckier.
 FIXME: Look how other packages using SDL are built, I'm probably missing
 something.
 

@@ -1,5 +1,9 @@
 2001-11-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* doc/heroes.texi (Machines): Add a notice for Suse 7.1 users.
+
+2001-11-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* doc/doc.scm: New file (define import-head and import-tail).
 	* doc/Makefile.am (EXTRA_DIST): Add doc.scm.
 	(heroes_TEXINFOS, CLEANFILES, debugchn.texi, people.texi): Remove.

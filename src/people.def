@@ -141,6 +141,12 @@ person = {
 };
 
 person = {
+  name    = "Wolfgang Holzinger";
+  email   = wholzi@gmx.at;
+  bugs;
+};
+
+person = {
   name    = "Jesper Kjolsrud";
   email   = jeppe@dneg.com;
   thanks  = "Reported the Heroes runs on IRIX out of the box.";
@@ -197,5 +203,11 @@ person = {
 person = {
   name    = "Christian T. Steigies";
   email   = cts@debian.org;
+  bugs;
+};
+
+person = {
+  name    = "Eero Tamminen";
+  email   = oak@welho.com;
   bugs;
 };
