@@ -72,13 +72,14 @@ cross_install ()
 	   BUGS \
 	   ChangeLog \
 	   ChangeLog.00 \
+	   ChangeLog.01 \
 	   COPYING \
 	   NEWS \
 	   THANKS \
 	   TODO ; do
     test -f $TOPSRC_DIR/$f && cp -f $TOPSRC_DIR/$f $DESTDIR/$PREFIX/doc/
   done
-  (cd $DESTDIR/$PREFIX/doc && zip -9 -m ChangeLog.zip ChangeLog ChangeLog.00)
+  (cd $DESTDIR/$PREFIX/doc && zip -9 -m ChangeLog.zip ChangeLog ChangeLog.*)
   rm -rf $DESTDIR/$PREFIX/info
   rm -rf $DESTDIR/$PREFIX/man
   rm -rf $DESTDIR/$PREFIX/lib # charset.alias is hardcoded under Windows.
