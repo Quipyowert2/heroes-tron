@@ -1,3 +1,7 @@
+2000-07-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/extras.c (browse_extra_directory): Set full_name attribute.
+
 2000-07-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Write edited levels in ~/.heroes/levels/.  Rewrite the
