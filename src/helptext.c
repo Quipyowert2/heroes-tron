@@ -123,7 +123,7 @@ that goes over it.  The Clocks give you extra time.\n\
 \n\
 %{>>}%yTIME CA$H\n\
 \n\
-%{>>>}In %yTIME CA$H%w mode the winner the the player who collected \
+%{>>>}In %yTIME CA$H%w mode the winner is the player who collected \
 the largest amount of money.\n\
 \n\
 ");

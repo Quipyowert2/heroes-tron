@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Heroes 0.8e\n"
-"POT-Creation-Date: 2001-02-20 09:02+0100\n"
-"PO-Revision-Date: 2001-02-19 21:52+01:00\n"
+"Project-Id-Version: Heroes 0.9\n"
+"POT-Creation-Date: 2001-02-23 22:33+0100\n"
+"PO-Revision-Date: 2001-02-23 22:36+01:00\n"
 "Last-Translator: Alexandre Duret-Lutz <duret_g@epita.fr>\n"
 "Language-Team: none <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -585,7 +585,7 @@ msgid ""
 "\n"
 "%{>>}%yTIME CA$H\n"
 "\n"
-"%{>>>}In %yTIME CA$H%w mode the winner the the player who collected the "
+"%{>>>}In %yTIME CA$H%w mode the winner is the player who collected the "
 "largest amount of money.\n"
 "\n"
 msgstr ""
@@ -1157,7 +1157,7 @@ msgid "X-WRAP"
 msgstr "BOUCLE-X"
 
 #. TRANS: Y-WRAP is a check box used to specified whether a level
-#. must be wrapped horizontally or not.
+#. must be wrapped vertically or not.
 #: src/menus.c:528
 msgid "Y-WRAP"
 msgstr "BOUCLE-Y"

@@ -1,3 +1,10 @@
+2001-02-23  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/helptext.c (help_text3): Remove a doubled `the'.
+	Reported by Jos Boersema <joshb@sourceforge.net>.
+	* po/nl.po: Update accordingly.
+	* po/fr.po: Update accordingly, mark as `0.9 compliant'.
+
 2001-02-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* arch/mingw32/cross.sh (cross_pack): Work around a strange
