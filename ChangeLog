@@ -1,5 +1,12 @@
 2001-02-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Make sure no sticky bits go into the distribution.
+	Reported by Jean Delvare <devare@ensicaen.ismra.fr>.
+
+	* Makefile.am (dist-hook): New.
+
+2001-02-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	From Jean Delvare <devare@ensicaen.ismra.fr>.
 
 	* NEWS: s/two players game/two player game/.

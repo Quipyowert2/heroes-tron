@@ -93,3 +93,9 @@ my-distcheck-sdl:
 
 man-distcheck:
 	cd man && $(MAKE) man-distcheck
+
+# Make sure no sticky bits go into the distribution.
+# (Debian policy is to create user directories in g+s,
+# we don't want to export this :o)).
+dist-hook:
+	-chmod -R a-s $(distdir)

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.8c\n"
-"POT-Creation-Date: 2001-02-19 19:57+0100\n"
+"POT-Creation-Date: 2001-02-19 20:32+0100\n"
 "PO-Revision-Date: 2001-02-12 19:40+01:00\n"
 "Last-Translator: Jos Boersema <joshb@FIXME>\n"
 "Language-Team: none <LL@li.org>\n"
@@ -87,8 +87,9 @@ msgid "memory exhausted"
 msgstr "geheugen uitgeput"
 
 #: src/argv.c:57
+#, fuzzy, c-format
 msgid ""
-"Copyright 1997, 1998, 2000  Alexandre Duret-Lutz, Romuald Genevois,\n"
+"Copyright (C) %d  Alexandre Duret-Lutz, Romuald Genevois,\n"
 "Alexandre Liverneaux and Philippe Meisburger.\n"
 msgstr ""
 "Copyright 1997, 1998, 2000  Alexandre Duret-Lutz, Romuald Genevois,\n"
