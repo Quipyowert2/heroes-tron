@@ -23,12 +23,12 @@
 #include "statepriv.h"
 
 void
-add_color (a_level_state *state, const a_level *lvl, bool allow_clocks)
+add_color (a_level_state *state, bool allow_clocks)
 {
   a_square_index d;
   unsigned char b;
   do {
-    d = rand () % lvl->square_count;
+    d = rand () % state->level->square_count;
   }
   while (state->square_object[d] != -1);
   if (allow_clocks && (rand () % 40 == 0))
@@ -41,12 +41,12 @@ add_color (a_level_state *state, const a_level *lvl, bool allow_clocks)
 }
 
 void
-add_cash (a_level_state *state, const a_level *lvl, bool allow_clocks)
+add_cash (a_level_state *state, bool allow_clocks)
 {
   a_square_index d;
   unsigned char b = 0;
   do {
-    d = rand () % lvl->square_count;
+    d = rand () % state->level->square_count;
   }
   while (state->square_object[d] != -1);
   if (allow_clocks && (rand () % 40 == 0))

@@ -1,3 +1,15 @@
+2002-02-11  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Make lvl a field of state.  This simplify all functions.
+
+	* src/state.h (a_level_state) <level>: New attribute.
+	(state_erase_player, state_reinit_player, state_init_lemmings,
+	update_lemmings, update_player, trigger_explosion,
+	trigger_possible_explosion, update_explosions,
+	update_bonuses): Remove the lvl argument.
+	Adjust all callers.
+	* src/state.c (state_init): Setup state->level.
+
 2002-02-11  Ingo van Lil  <inguin@gmx.de>
 
 	* src/lvl/en_body.c (en_reverse_walls): Set DM_ALL on T_OUTWAY squares.

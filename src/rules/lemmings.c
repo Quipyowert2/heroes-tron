@@ -23,9 +23,9 @@
 #include "statepriv.h"
 
 static void
-find_lemming_direction (a_level_state *state, const a_level *lvl,
-			a_lemming *lem)
+find_lemming_direction (a_level_state *state, a_lemming *lem)
 {
+  const a_level *lvl = state->level;
   a_dir d;
   a_dir_mask avail_dirm;
 
@@ -125,8 +125,9 @@ find_lemming_direction (a_level_state *state, const a_level *lvl,
 }
 
 void
-state_init_lemmings (a_level_state *state, const a_level *lvl)
+state_init_lemmings (a_level_state *state)
 {
+  const a_level *lvl = state->level;
   a_lemming *ptir = state->private->lemmings_support;
   unsigned i, j;
   for (i = 0; i < 4; i++) {
@@ -143,7 +144,7 @@ state_init_lemmings (a_level_state *state, const a_level *lvl)
 	       || state->square_occupied[k] != SQOC_VACANT
 	       || state->square_lemmings_list[k] != NULL);
       ptir->pos_head = k;
-      find_lemming_direction (state, lvl, ptir);
+      find_lemming_direction (state, ptir);
       ptir->puddle_offset = 0;
       ptir->next_puddle = NULL;
       ptir->color = i;
@@ -157,7 +158,7 @@ state_init_lemmings (a_level_state *state, const a_level *lvl)
 }
 
 void
-update_lemmings (a_level_state *state, const a_level *lvl)
+update_lemmings (a_level_state *state)
 {
   a_level_state_bits *bits = state->private;
 
@@ -172,7 +173,7 @@ update_lemmings (a_level_state *state, const a_level *lvl)
     state->private->lemmings_move_offset &= 0xffff;
     for (j = LEMMINGS_TOTAL; j != 0; j--, lem++)
       if (lem->dead == 0) {
-	find_lemming_direction (state, lvl, lem);
+	find_lemming_direction (state, lem);
       }
   }
 }

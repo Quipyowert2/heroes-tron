@@ -69,9 +69,9 @@ random_bonus (void)
 }
 
 static void
-add_bonus (a_level_state *state, const a_level *lvl,
-	   int pos_in_list, unsigned char what)
+add_bonus (a_level_state *state, int pos_in_list, unsigned char what)
 {
+  const a_level *lvl = state->level;
   int pos;
 
   do
@@ -98,7 +98,7 @@ add_bonus (a_level_state *state, const a_level *lvl,
 }
 
 void
-add_random_bonus (a_level_state *state, const a_level *lvl, int pos_in_list)
+add_random_bonus (a_level_state *state, int pos_in_list)
 {
   unsigned char what;
 
@@ -107,11 +107,11 @@ add_random_bonus (a_level_state *state, const a_level *lvl, int pos_in_list)
     if (!(rand () & 3))
       what |= 128;
 
-  add_bonus (state, lvl, pos_in_list, what + 1);
+  add_bonus (state, pos_in_list, what + 1);
 }
 
 void
-rem_bonus (a_level_state *state, const a_level *lvl, int pos)
+rem_bonus (a_level_state *state, int pos)
 {
   int i = bonus_real_nbr;
 
@@ -130,7 +130,7 @@ rem_bonus (a_level_state *state, const a_level *lvl, int pos)
   fg_data[pos].big_dollar = 0;
 
   /* add a new bonus, at the same position in the list */
-  add_random_bonus (state, lvl, i);
+  add_random_bonus (state, i);
 }
 
 static void
@@ -145,8 +145,9 @@ reset_bonus_mode (int mode)
 }
 
 static void
-mark_unreachable_places (a_level_state *state, const a_level *lvl)
+mark_unreachable_places (a_level_state *state)
 {
+  const a_level *lvl = state->level;
   a_tile_index i;
 
   for (i = 0; i < lvl->tile_count; ++i) {
@@ -163,8 +164,9 @@ mark_unreachable_places (a_level_state *state, const a_level *lvl)
 }
 
 int
-init_bonuses_level (a_level_state *state, const a_level *lvl)
+init_bonuses_level (a_level_state *state)
 {
+  const a_level *lvl = state->level;
   uninit_bonuses_level (state);	/* just in case */
 
   dmsg (D_BONUS, "Initialize bonuses for level.");
@@ -184,7 +186,7 @@ init_bonuses_level (a_level_state *state, const a_level *lvl)
   XMALLOC_ARRAY (bonus_time, bonus_total_nbr);
   XMALLOC_ARRAY (bonus_list, bonus_total_nbr);
 
-  mark_unreachable_places (state, lvl);
+  mark_unreachable_places (state);
 
   render_init_bonus_level ();
   return 0;
@@ -202,26 +204,26 @@ uninit_bonuses_level (a_level_state *state)
 }
 
 void
-spread_bonuses (a_level_state *state, const a_level *lvl)
+spread_bonuses (a_level_state *state)
 {
   int i;
 
   dmsg (D_BONUS, "Spread bonuses over level.");
 
   for (i = bonus_real_nbr - 1; i >= 0; i--)
-    add_random_bonus (state, lvl, i);
+    add_random_bonus (state, i);
 }
 
 void
-add_end_level_bonuses (a_level_state *state, const a_level *lvl)
+add_end_level_bonuses (a_level_state *state)
 {
   if (bonus_real_nbr != bonus_total_nbr) {
     int i;
 
     dmsg (D_BONUS, "Add end-level bonuses.");
 
-    add_bonus (state, lvl, bonus_real_nbr++, 12);
-    add_bonus (state, lvl, bonus_real_nbr++, 12 + 128);
+    add_bonus (state, bonus_real_nbr++, 12);
+    add_bonus (state, bonus_real_nbr++, 12 + 128);
     for (i = 11; i < 17; i++)
       bonus_proba[i] += 16;
     bonus_proba_sum += 16;
@@ -230,7 +232,7 @@ add_end_level_bonuses (a_level_state *state, const a_level *lvl)
 
 
 void
-apply_bonus (a_level_state *state, const a_level *lvl, int pl, char bonus)
+apply_bonus (a_level_state *state, int pl, char bonus)
 {
   static char txt_tmp[20];
 
@@ -246,7 +248,7 @@ apply_bonus (a_level_state *state, const a_level *lvl, int pl, char bonus)
     event_sfx (19 + bonus);
   switch (bonus) {
   case 1:
-    grow_trail (state, lvl, pl, 5);
+    grow_trail (state, pl, 5);
     sprintf (txt_tmp, _("SIZE IS %d"), state_trail_size (state, pl));
     set_txt_bonus (pl, txt_tmp, 150);
     break;
@@ -333,7 +335,7 @@ apply_bonus (a_level_state *state, const a_level *lvl, int pl, char bonus)
 
 /* only one bonus is updated at each frame (there is no hurry) */
 void
-update_bonuses (a_level_state *state, const a_level *lvl)
+update_bonuses (a_level_state *state)
 {
   if (bonus_time[next_bonus_to_update] + 25 * 70 <= event_time) {
     int bonus_pos = bonus_list[next_bonus_to_update];
@@ -347,7 +349,7 @@ update_bonuses (a_level_state *state, const a_level *lvl)
     fg_data[bonus_pos].bonus = 0;
     fg_data[bonus_pos].big_dollar = 0;
     /* add a new bonus, at the same position in the list */
-    add_random_bonus (state, lvl, next_bonus_to_update);
+    add_random_bonus (state, next_bonus_to_update);
   }
   next_bonus_to_update++;
   if (next_bonus_to_update >= bonus_real_nbr)

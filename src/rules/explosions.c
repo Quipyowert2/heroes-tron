@@ -31,8 +31,9 @@ struct an_explosion_info {
 };
 
 void
-allocate_explosions (a_level_state *state, const a_level *lvl)
+allocate_explosions (a_level_state *state)
 {
+  const a_level *lvl = state->level;
   a_level_state_bits *bits = state->private;
   XSALLOC_ARRAY (state->square_explo_state, lvl->square_count,
 		 EXPLOSION_UNTRIGGERED);
@@ -55,7 +56,7 @@ release_explosions (a_level_state *state)
 }
 
 static void
-trigger_explosion_at_time (a_level_state *state, const a_level *lvl,
+trigger_explosion_at_time (a_level_state *state,
 			   a_square_index idx, long orig_time);
 
 
@@ -80,7 +81,7 @@ compute_explosion_state (a_level_state *state, long orig_time)
    elapsed.  See the call in trigger_explosion_at_time() for example.
    */
 static void
-propagate_to_neighbors_maybe (a_level_state *state, const a_level *lvl,
+propagate_to_neighbors_maybe (a_level_state *state,
 			      a_square_index idx, long orig_time)
 {
   /* Propagation to neighbors occurs EXPLOSION_DELAY 70th of seconds
@@ -123,15 +124,15 @@ propagate_to_neighbors_maybe (a_level_state *state, const a_level *lvl,
   /* Iterate on neighbor squares.  */
   a_dir d;
   for (d = 0; d < 4; ++d) {
-    a_square_index ngb = lvl->square_move[d][idx];
+    a_square_index ngb = state->level->square_move[d][idx];
     if (ngb != INVALID_INDEX
-	&& EXPLOSION_SQUARE_TRIGGERABLE_P (state, lvl, ngb))
-      trigger_explosion_at_time (state, lvl, ngb, neigh_orig_time);
+	&& EXPLOSION_SQUARE_TRIGGERABLE_P (state, ngb))
+      trigger_explosion_at_time (state, ngb, neigh_orig_time);
   }
 }
 
 static void
-trigger_explosion_at_time (a_level_state *state, const a_level *lvl,
+trigger_explosion_at_time (a_level_state *state,
 			   a_square_index idx, long orig_time)
 {
   int explo_state;
@@ -148,7 +149,7 @@ trigger_explosion_at_time (a_level_state *state, const a_level *lvl,
      happen to be negative, meaning the explosion vanished; we still
      try propagate.  */
   if (explo_state <= EXPLOSION_TRIGGER_NEIGHBORS) {
-    propagate_to_neighbors_maybe (state, lvl, idx, orig_time);
+    propagate_to_neighbors_maybe (state, idx, orig_time);
     propagated = true;
   } else {
     propagated = false;
@@ -176,27 +177,26 @@ trigger_explosion_at_time (a_level_state *state, const a_level *lvl,
 /* Trigger an explosion but set the ORIG_TIME so that the explosion
    is at frame FRAME_START now.  */
 void
-trigger_explosion (a_level_state *state, const a_level *lvl,
+trigger_explosion (a_level_state *state,
 		   a_square_index idx, an_explosion frame_start)
 {
   assert (frame_start <= EXPLOSION_TRIGGERED);
 
-  trigger_explosion_at_time (state, lvl, idx,
+  trigger_explosion_at_time (state, idx,
 			     state->private->explo_time
 			     - ((EXPLOSION_TRIGGERED - frame_start)
 				* EXPLOSION_SLICES_PER_FRAMES));
 }
 
 void
-trigger_possible_explosion (a_level_state *state, const a_level *lvl,
-			    a_square_index idx)
+trigger_possible_explosion (a_level_state *state, a_square_index idx)
 {
-  if (EXPLOSION_SQUARE_TRIGGERABLE_P (state, lvl, idx))
-    trigger_explosion (state, lvl, idx, EXPLOSION_TRIGGERED);
+  if (EXPLOSION_SQUARE_TRIGGERABLE_P (state, idx))
+    trigger_explosion (state, idx, EXPLOSION_TRIGGERED);
 }
 
 void
-update_explosions (a_level_state *state, const a_level *lvl)
+update_explosions (a_level_state *state)
 {
   unsigned int i;
   /*
@@ -259,8 +259,7 @@ update_explosions (a_level_state *state, const a_level *lvl)
     /* Propagate to neighbors.  */
     if (! bits->explo_list[i].neighb_done
 	&& explo_state <= EXPLOSION_TRIGGER_NEIGHBORS) {
-      propagate_to_neighbors_maybe (state, lvl, idx,
-				    bits->explo_list[i].orig_time);
+      propagate_to_neighbors_maybe (state, idx, bits->explo_list[i].orig_time);
       bits->explo_list[i].neighb_done = true;
     }
 

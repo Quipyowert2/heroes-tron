@@ -689,22 +689,22 @@ update_all (char plr)
   int n = 0;
   long frames = read_htimer (update_htimer);
 
-  update_explosions (&state, &lvl);
+  update_explosions (&state);
 
   for (; frames; --frames) {
     if (plr) {
-      update_player (&state, &lvl, 0);
-      update_player (&state, &lvl, 1);
-      update_player (&state, &lvl, 2);
-      update_player (&state, &lvl, 3);
-      update_bonuses (&state, &lvl);
+      update_player (&state, 0);
+      update_player (&state, 1);
+      update_player (&state, 2);
+      update_player (&state, 3);
+      update_bonuses (&state);
       if (radar_current_pos < radar_target_pos)
 	radar_current_pos++;
       else if (radar_current_pos > radar_target_pos)
 	radar_current_pos--;
     }
     if (state.game_mode == M_KILLEM)
-      update_lemmings (&state, &lvl);
+      update_lemmings (&state);
     n++;
   }
 

@@ -31,8 +31,9 @@
 
 /* search for a free direction */
 static void
-find_free_way (a_level_state *state, const a_level *lvl, int c)
+find_free_way (a_level_state *state, int c)
 {
+  const a_level *lvl = state->level;
   int d = 0, n = 0, o[4] = { 0xff, 0xff, 0xff, 0xff }, e;
   int i, m;
   a_dir f;
@@ -133,8 +134,9 @@ find_free_way (a_level_state *state, const a_level *lvl, int c)
    per update, and not four times.  FIXME: Split this in smaller
    functions.  E.g. one function per mode.  */
 void
-update_player (a_level_state *state, const a_level *lvl, unsigned c)
+update_player (a_level_state *state, unsigned c)
 {
+  const a_level *lvl = state->level;
   a_square_index idx;
   a_tile_index d;
   int l;
@@ -147,7 +149,7 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
     state->player[c].score_delta++;
     /* 1 life every 10.000 points */
     if (state->player[c].score_delta % (10000 << 2) == 0)
-      apply_bonus (state, lvl, c, 15);
+      apply_bonus (state, c, 15);
   }
 /* if ((state->player[c].score_delta>>2)>state->player[c].score) state->player[c].score_delta--; */
   if (state->player[c].turbo_level_delta < state->player[c].turbo_level) {
@@ -172,7 +174,7 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
 /*           (state->player[(c+3)&3].spec==0xde)) { level_is_finished=c+1; return; } */
     } else if (!state->private->level_is_finished) {
       state->player[c].spec = 0xde;
-      erase_trail (state, lvl, c);
+      erase_trail (state, c);
       /* stop the game if all human players are dead or
 	 if there is no more colors or dollars */
       if ((!(((state->player[0].cpu & 2) && (state->player[0].time))
@@ -187,7 +189,7 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
 	for (i = 0; i < 4; ++i)
 	  if (state->player[i].time == 0) {
 	    state->player[i].spec = 0xde;
-	    erase_trail (state, lvl, i);
+	    erase_trail (state, i);
 	  }
 	/* find out the richest player and set level_is_finished accordingly */
 	state->private->level_is_finished = 0;
@@ -291,9 +293,9 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
       /* If the player has fire_trail on, trigger explosions on
 	 the head and the tail of the trail.  */
       if (state->player[c].fire_trail) {
-	trigger_explosion (state, lvl, state->private->trail_pos[c][a],
+	trigger_explosion (state, state->private->trail_pos[c][a],
 			   EXPLOSION_IMMEDIATE);
-	trigger_explosion (state, lvl, state->private->trail_pos[c]
+	trigger_explosion (state, state->private->trail_pos[c]
 			   [state->private->trail_offset[c]],
 			   EXPLOSION_IMMEDIATE);
       }
@@ -495,7 +497,7 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
     {
       int bonus = state->tile_bonus[d];
       if (bonus && bonus != 0xff) {
-	rem_bonus (state, lvl, d);
+	rem_bonus (state, d);
 	if (!state->private->level_is_finished) {
 	  state->player[c].score += 10;
 	  if (bonus & 128) {
@@ -503,9 +505,9 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
 	      event_sfx (39 + (bonus & 127));
 	    for (i = 0; i < 4; i++)
 	      if ((c != i) && (state->player[i].spec != 0xde))
-		apply_bonus (state, lvl, i, (bonus & 127));
+		apply_bonus (state, i, (bonus & 127));
 	  } else
-	    apply_bonus (state, lvl, c, bonus);
+	    apply_bonus (state, c, bonus);
 	}
 	if (state->player[c].notify_delay) {
 	  state->player[c].notify_delay = 0;
@@ -519,7 +521,7 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
     state->player[c].old_way = state->player[c].way;
 
     if (state->player[c].autopilot)
-      find_free_way (state, lvl, c);
+      find_free_way (state, c);
     if ((!state->player[c].autopilot)
 	&& (state->player[c].next_way == (state->player[c].old_way ^ 2)))
       state->player[c].next_way = state->player[c].old_way;
@@ -537,7 +539,7 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
       state->player[c].spec = 0xff;
 
     if (state->player[c].spec == 0xff) {
-      erase_trail (state, lvl, c);
+      erase_trail (state, c);
       if (! state->private->level_is_finished) {
 	if (! state->player[c].invincible && state->game_mode != M_DEATHM)
 	  shrink_trail (state, c, 5);
@@ -555,7 +557,7 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
 	  return;
 	}
       }
-      state_reinit_player (state, lvl, c);
+      state_reinit_player (state, c);
       if (state->player[c].lifes != 0 && state->player[c].invincible == 0
 	  && (!state->private->level_is_finished)) state->player[c].lifes--;
       if (!state->private->level_is_finished) {
@@ -616,7 +618,7 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
 
       if (lvl->square_type[state->player[c].pos] == T_DUST)
 	state->player[c].vi = -(state->player[c].v >> 1);
-      trigger_possible_explosion (state, lvl, d2);
+      trigger_possible_explosion (state, d2);
     }
     state->player[c].delay = 0;
 

@@ -26,8 +26,9 @@
 #include "prefs.h"		/* FIXME: Get rid of this include. */
 
 void
-state_erase_player (a_level_state *state, const a_level *lvl, unsigned i)
+state_erase_player (a_level_state *state, unsigned i)
 {
+  const a_level *lvl = state->level;
   dmsg (D_MISC, "erase player %d", i);
 
   /* FIXME: this first line used to be guarded by
@@ -69,8 +70,9 @@ state_erase_player (a_level_state *state, const a_level *lvl, unsigned i)
 }
 
 static void
-state_position_player (a_level_state *state, const a_level *lvl, unsigned i)
+state_position_player (a_level_state *state, unsigned i)
 {
+  const a_level *lvl = state->level;
   dmsg (D_MISC, "position player %d", i);
 
   /* FIXME: this first line used to be guarded by
@@ -113,8 +115,9 @@ state_position_player (a_level_state *state, const a_level *lvl, unsigned i)
 }
 
 void
-state_reinit_player (a_level_state *state, const a_level *lvl, unsigned p)
+state_reinit_player (a_level_state *state, unsigned p)
 {
+  const a_level *lvl = state->level;
   int tries, m;
 
   unsigned start_pos;		/* 0..3: one of the 4 starting positions.  */
@@ -230,7 +233,7 @@ state_reinit_player (a_level_state *state, const a_level *lvl, unsigned p)
   state->player[p].next_way = state->player[p].old_old_way =
     state->player[p].old_way = state->player[p].way;
 
-  state_position_player (state, lvl, p);
+  state_position_player (state, p);
 
   start_dir = state->player[p].way;
 

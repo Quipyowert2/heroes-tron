@@ -30,6 +30,8 @@ state_init (a_level_state *state, const a_level *lvl, char cont,
 {
   a_level_state_bits *bits;
 
+  state->level = lvl;
+
   XSALLOC_ARRAY (state->square_occupied, lvl->square_count, SQOC_VACANT);
   XMALLOC_ARRAY (state->square_way, lvl->square_count);
 
@@ -86,7 +88,7 @@ state_init (a_level_state *state, const a_level *lvl, char cont,
 	state->player[i].lifes = 9;
       } else
 	bits->trail_size[i] = 5;
-      state_reinit_player (state, lvl, i);
+      state_reinit_player (state, i);
       if (cont == 0) {
 	state->player[i].lifes = 9;
 	state->player[i].score = 0;
@@ -117,14 +119,14 @@ state_init (a_level_state *state, const a_level *lvl, char cont,
   }
   /* reinit player once again to avoid the case where
      some vehicles could have been put in front of others */
-  state_erase_player (state, lvl, 0);
-  state_reinit_player (state, lvl, 0);
-  state_erase_player (state, lvl, 1);
-  state_reinit_player (state, lvl, 1);
-  state_erase_player (state, lvl, 2);
-  state_reinit_player (state, lvl, 2);
-  state_erase_player (state, lvl, 3);
-  state_reinit_player (state, lvl, 3);
+  state_erase_player (state, 0);
+  state_reinit_player (state, 0);
+  state_erase_player (state, 1);
+  state_reinit_player (state, 1);
+  state_erase_player (state, 2);
+  state_reinit_player (state, 2);
+  state_erase_player (state, 3);
+  state_reinit_player (state, 3);
 
   if (!opt.autopilot_one)
     state->player[state->col2plr[0]].autopilot = 0;
@@ -132,7 +134,7 @@ state_init (a_level_state *state, const a_level *lvl, char cont,
     state->player[state->col2plr[1]].autopilot = 0;
 
   if (state->game_mode == M_KILLEM)
-    state_init_lemmings (state, lvl);
+    state_init_lemmings (state);
 
   if (state->game_mode >= M_TCASH) {
     unsigned i;
@@ -144,19 +146,19 @@ state_init (a_level_state *state, const a_level *lvl, char cont,
     if (state->game_mode == M_COLOR) {
       bits->objects_nbr = lvl->square_count / 14 + 1;
       for (i = bits->objects_nbr; i != 0; i--)
-	add_color (state, lvl, 1);
+	add_color (state, 1);
     }
     if (state->game_mode == M_TCASH) {
       bits->objects_nbr = lvl->square_count / 13 + 1;
       for (i = bits->objects_nbr; i != 0; i--)
-	add_cash (state, lvl, 1);
+	add_cash (state, 1);
     }
   }
 
-  allocate_explosions (state, lvl);
-  init_bonuses_level (state, lvl);
+  allocate_explosions (state);
+  init_bonuses_level (state);
   if (!in_menu)
-    spread_bonuses (state, lvl);
+    spread_bonuses (state);
 }
 
 void

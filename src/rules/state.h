@@ -105,8 +105,8 @@ enum a_game_mode {
 typedef a_u8 an_explosion;
 #define EXPLOSION_SQUARE_TRIGGERED_P(state_ptr, idx)		\
   ((state_ptr)->square_explo_state[idx] <= EXPLOSION_TRIGGERED)
-#define EXPLOSION_SQUARE_TRIGGERABLE_P(state_ptr, lvl_ptr, idx)		\
-  ((lvl_ptr)->square_type[idx] == T_BOOM				\
+#define EXPLOSION_SQUARE_TRIGGERABLE_P(state_ptr, idx)		\
+  ((state_ptr)->level->square_type[idx] == T_BOOM		\
    && (state_ptr)->square_explo_state[idx] == EXPLOSION_UNTRIGGERED)
 
 /* Some pointers in the a_level_state structure should point to
@@ -125,6 +125,9 @@ typedef struct a_level_state a_level_state;
 typedef struct a_level_state_bits a_level_state_bits;
 
 struct a_level_state {
+  /* The level definition. (Always const.) */
+  const a_level *level;
+
   /* Informations about each player.  */
   a_player player[4];
 
@@ -210,10 +213,9 @@ int state_trail_size (const a_level_state *state, int player);
 /* Return TRUE if the trail is expending.  */
 bool state_trail_expending (const a_level_state *state, int player);
 
-void state_erase_player (a_level_state *state, const a_level *lvl, unsigned i);
-void state_reinit_player (a_level_state *state, const a_level *lvl,
-			  unsigned p);
-void state_init_lemmings (a_level_state *state, const a_level *lvl);
+void state_erase_player (a_level_state *state, unsigned i);
+void state_reinit_player (a_level_state *state, unsigned p);
+void state_init_lemmings (a_level_state *state);
 void state_init (a_level_state *state, const a_level *lvl, char cont,
 		 bool two_players, bool in_menu);
 void state_free (a_level_state *state);
@@ -221,21 +223,20 @@ void state_free (a_level_state *state);
 void state_set_player_color (a_level_state *state,
 			     unsigned player, unsigned color);
 
-void update_lemmings (a_level_state *state, const a_level *lvl);
+void update_lemmings (a_level_state *state);
 int state_lemmings_move_offset (a_level_state *state);
 
-void update_player (a_level_state *state, const a_level *lvl, unsigned c);
+void update_player (a_level_state *state, unsigned c);
 
 int state_level_exit_code (const a_level_state *state);
 void state_level_set_exit_code (a_level_state *state, int code);
 
 /* FRAME_START is expected to be EXPLOSION_IMMEDIATE or EXPLOSION_TRIGGERED. */
-void trigger_explosion (a_level_state *state, const a_level *lvl,
+void trigger_explosion (a_level_state *state,
 			a_square_index idx, an_explosion frame_start);
-void trigger_possible_explosion (a_level_state *state, const a_level *lvl,
-				 a_square_index idx);
-void update_explosions (a_level_state *state, const a_level *lvl);
+void trigger_possible_explosion (a_level_state *state, a_square_index idx);
+void update_explosions (a_level_state *state);
 
-void update_bonuses (a_level_state *state, const a_level *lvl);
+void update_bonuses (a_level_state *state);
 
 #endif /* HEROES__STATE__H */
