@@ -524,7 +524,6 @@ AC_OUTPUT(
  lib/Makefile
  src/Makefile
  src/etc/Makefile
- src/extralvl/Makefile
  src/txt_cfg/Makefile
  man/Makefile
  doc/Makefile

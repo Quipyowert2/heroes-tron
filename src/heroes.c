@@ -4599,7 +4599,8 @@ read_level_list (void)
   char string[32];
   char* t = get_non_null_rsc_file ("levels-list-txt");
   if ((f = fopen (t, "rt")) == NULL) {
-    fatal_error ("level.lst not found");
+    fprintf (stderr, "Could not open %s.\n", t);
+    fatal_error ("Giving up.\n");
   }
   free (t);
   while (!feof (f)) {
