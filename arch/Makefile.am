@@ -1,4 +1,4 @@
-# Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>
+# Copyright 2000, 2001  Alexandre Duret-Lutz <duret_g@epita.fr>
 #
 # This file is part of Heroes.
 #
@@ -22,7 +22,11 @@ Vzip = VisualC/VisualC.zip
 EXTRA_DIST = \
 VisualC/README.html \
 VisualC/README.txt \
-$(Vzip)
+$(Vzip) \
+mingw32/cross.sh \
+mingw32/dest-readme-txt \
+mingw32/dest-readme-lib \
+mingw32/dest-run-bat
 
 # The files for VisualC are distributed compressed but
 # we need to uncompress them to update VisualC/config.h

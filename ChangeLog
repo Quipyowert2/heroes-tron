@@ -1,5 +1,16 @@
 2001-01-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Add files needed to cross compile and build a package for mingw32.
+
+	* arch/mingw32/cross.sh: New file.
+	* arch/mingw32/dest-readme-lib: New file.
+	* arch/mingw32/dest-readme-txt: New file.
+	* arch/mingw32/dest-run-bat: New file.
+	* arch/Makefile.am (EXTRA_DIST): Add
+	mingw32{cross.sh,dest-readme-txt,dest-readme-lib,dest-run-bat}.
+
+2001-01-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Bump to 0.8b.  Copyright 2001.
 
 2001-01-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
