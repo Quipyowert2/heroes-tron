@@ -1,5 +1,19 @@
 2000-10-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Fix VPATH build failure (caused `make distcheck' to fail).
+	
+	* arch/Makefile.am (Vzip): New.
+	(EXTRA_DIST,distclean-local): Use $(Vzip).
+	(VisualC/VisualC.zip): Rename to ...
+	($(Vzip)): ... this. Build in $(srcdir).
+	(VisualC/config.cp): Build $(VSIP) in $(srcdir).
+	(VisualC/config.h): Depend upon configure which is distributed, 
+	not Makefile which is generated.  Ensure that configure is newer
+	than the target, because the creation of config.cp can trigger
+	the rule anyway.
+
+2000-10-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Set version to 0.6c.
 
 2000-10-04  Alexandre Duret-Lutz  <duret_g@epita.fr>

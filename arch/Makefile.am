@@ -17,10 +17,12 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 #
 
+Vzip = VisualC/VisualC.zip
+
 EXTRA_DIST = \
 VisualC/README.html \
 VisualC/README.txt \
-VisualC/VisualC.zip
+$(Vzip)
 
 # The files for VisualC are distributed compressed but
 # we need to uncompress them to update VisualC/config.h
@@ -32,22 +34,24 @@ VisualC/keysdef-inc.h \
 VisualC/heroes.dsp \
 VisualC/heroes.dsw
 
-VisualC/VisualC.zip: $(VisualC_files)
-	$(ZIP) -9 $@ $(VisualC_files)
+$(Vzip): $(VisualC_files)
+	$(ZIP) -9 $(srcdir)/$@ $(VisualC_files)
 
 VisualC/config.cp:
-	if test -f VisualC/VisualC.zip; then \
-	  $(UNZIP) -o VisualC/VisualC.zip; \
+	if test -f $(srcdir)/$(Vzip); then \
+	  $(UNZIP) -o $(srcdir)/$(Vzip); \
 	fi
 	cp VisualC/config.h VisualC/config.cp
 
-VisualC/config.h: VisualC/config.cp Makefile
-	sed -e 's/^.*#.*def.*VERSION.*$$/#define VERSION "@VERSION@"/' < \
-	  $< > $@
+VisualC/config.h: VisualC/config.cp $(top_srcdir)/configure
+	if test $(top_srcdir)/configure -nt $@; then \
+	  sed -e 's/^.*#.*def.*VERSION.*$$/#define VERSION "@VERSION@"/' < \
+	    $< > $@; \
+	fi
 
 CLEANFILES = VisualC/config.cp
 
 # Overwrite the distclean rule to ensure VisualC/VisualC.zip is built before
 # erasing the files used to build it !
-distclean-local: VisualC/VisualC.zip
+distclean-local: $(Vzip)
 	rm -f $(VisualC_files) $(CLEANFILES)
