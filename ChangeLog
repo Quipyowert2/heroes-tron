@@ -1,5 +1,14 @@
 2000-12-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Move out the SDL and GGI test from configure.in.
+
+	* configure.in: Use heroes_CHECK_DISPLAY_LIB.
+	* m4/h-display.m4: New file.
+	* m4/h-ggi.m4: New file.
+	* m4/h-sdl.m4: New file.
+
+2000-12-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Use adl_ENABLE_HTML_DOC.
 	* m4/htmldoc.m4: New file.
 
