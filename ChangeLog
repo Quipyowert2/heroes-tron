@@ -1,3 +1,9 @@
+2000-11-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Fix A_LOOP tiles (which were not animated anymore...)
+
+	* src/render.c (draw_level): Parenthesize tile source computation.
+
 2000-11-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Rewrite parts of jukebox_menu so that it use the new sprites

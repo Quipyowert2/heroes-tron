@@ -518,7 +518,7 @@ draw_level (int p)
   else
     camera_stop_x[p] = 0;
 
-  /* Draw foreground tiles */
+  /* Draw background tiles */
 
   anim_frame = read_htimer (tiles_anim_htimer);
 
@@ -536,7 +536,7 @@ draw_level (int p)
 	  break;
 	case A_LOOP:
 	  copy_tile (tile->source +
-		     24 * (anim_frame / tile->anim_speed) % tile->anim_frames,
+		     24 * ((anim_frame/tile->anim_speed) % tile->anim_frames),
 		     dest, tile_set_img.width);
 	  break;
 	case A_PINGPONG:
