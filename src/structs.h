@@ -152,6 +152,7 @@ typedef struct
 ATTRIBUTE_PACKED tile_info_t;  /* 10 bytes */
 
 #define FILENAME_SIZE 8
+#define DONT_WRAP     U32_MAX
 
 typedef struct
 {

@@ -185,6 +185,7 @@ typedef uint8_t		u8_t;
 typedef int32_t		s32_t;
 typedef int16_t		s16_t;
 typedef int8_t		s8_t;
+#define U32_MAX		UINT32_MAX
 #else
 typedef unsigned int		u32_t;
 typedef unsigned short int	u16_t;
@@ -192,6 +193,7 @@ typedef unsigned char		u8_t;
 typedef signed int		s32_t;
 typedef signed short int	s16_t;
 typedef signed char		s8_t;
+#define U32_MAX		(0xffffffffU)
 #endif
 
 /* keep this header at the end of the include list, because it may

@@ -545,11 +545,11 @@ draw_level (int p)
     bonus_anim_offset = 16 - bonus_anim_offset;
   bonus_anim_offset *= 24;
 
-  if (map_info.ywrap == 0xffffffff && (corner_dy[p] + 11U) > map_info.yt)
+  if (map_info.ywrap == DONT_WRAP && (corner_dy[p] + 11U) > map_info.yt)
     camera_stop_y[p] = 1;
   else
     camera_stop_y[p] = 0;
-  if (map_info.xwrap == 0xffffffff && 
+  if (map_info.xwrap == DONT_WRAP && 
       (corner_dx[p] + nbr_tiles_cols) > map_info.xt)
     camera_stop_x[p] = 1;
   else

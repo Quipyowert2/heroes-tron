@@ -52,7 +52,7 @@ static pcx_image_t heditrsc, tile_set_img;
 
 unsigned short int xdalles = 0, ydalles = 0, xdallesdec = 0;
 unsigned short int xplan = 0, yplan = 0;
-unsigned int tempd = 0xffffffff;
+unsigned int tempd = DONT_WRAP;
 unsigned int xplandec = 0, yplandec = 0;
 unsigned sprhide = 0, afftests = 0;
 
@@ -522,7 +522,7 @@ tunnel_mod (int i, int x ATTRIBUTE_UNUSED, int y)
   { level_map[i].info.tunnel.tempo=level_map[i].info.tunnel.tempo + ((y<119)?+1:-1);
   } else
 */
-  if (y > 126 && y < 133 && tempd != 0xffffffff)
+  if (y > 126 && y < 133 && tempd != DONT_WRAP)
     level_map[i].info.tunnel.output = tempd;
 /* } */
 }
@@ -640,7 +640,7 @@ curdallepg (int c)
   int x = c % hplaninfo.xt;
   if (x > 0)
     return (c - 1);
-  else if (hplaninfo.xwrap != 0xffffffff)
+  else if (hplaninfo.xwrap != DONT_WRAP)
     return (c + hplaninfo.xt - 1);
   return -1;
 }
@@ -651,7 +651,7 @@ curdalleph (int c)
   int y = c / hplaninfo.xt;
   if (y > 0)
     return (c - hplaninfo.xt);
-  else if (hplaninfo.ywrap != 0xffffffff)
+  else if (hplaninfo.ywrap != DONT_WRAP)
     return (c + hplaninfo.xt * (hplaninfo.yt - 1));
   return -1;
 }
@@ -662,7 +662,7 @@ curdallepd (int c)
   unsigned int x = c % hplaninfo.xt;
   if (x + 1 < hplaninfo.xt)
     return (c + 1);
-  else if (hplaninfo.xwrap != 0xffffffff)
+  else if (hplaninfo.xwrap != DONT_WRAP)
     return (c - hplaninfo.xt + 1);
   return -1;
 }
@@ -673,7 +673,7 @@ curdallepb (int c)
   unsigned int y = c / hplaninfo.xt;
   if (y + 1 < hplaninfo.yt)
     return (c + hplaninfo.xt);
-  else if (hplaninfo.ywrap != 0xffffffff)
+  else if (hplaninfo.ywrap != DONT_WRAP)
     return (c % hplaninfo.xt);
   return -1;
 }
@@ -1068,7 +1068,7 @@ planfull (void)
   int x, y, xm = 128, ym = 100;
 
   memset (screen, 0, 64000);
-  if (xplan > (hplaninfo.xt - 13) && hplaninfo.xwrap == 0xffffffff)
+  if (xplan > (hplaninfo.xt - 13) && hplaninfo.xwrap == DONT_WRAP)
     xplan = hplaninfo.xt - 13;
   affplan (xplan, yplan, 7);
   while (mouse12 () != 0);
@@ -1084,22 +1084,22 @@ planfull (void)
     x = mouse_x ();
     y = mouse_y ();
     if (t == HK_Right || (x - xm) > 1) {
-      if (xplan < (hplaninfo.xt - 13) || hplaninfo.xwrap != 0xffffffff)
+      if (xplan < (hplaninfo.xt - 13) || hplaninfo.xwrap != DONT_WRAP)
 	xplan = ((xplan + 1) & hplaninfo.xwrap);
       xm = x;
     }
     if (t == HK_Left || (xm - x) > 1) {
-      if (xplan > 0 || hplaninfo.xwrap != 0xffffffff)
+      if (xplan > 0 || hplaninfo.xwrap != DONT_WRAP)
 	xplan = ((xplan - 1) & hplaninfo.xwrap);
       xm = x;
     }
     if (t == HK_Down || (y - ym) > 1) {
-      if (yplan < (hplaninfo.yt - 10) || hplaninfo.ywrap != 0xffffffff)
+      if (yplan < (hplaninfo.yt - 10) || hplaninfo.ywrap != DONT_WRAP)
 	yplan = ((yplan + 1) & hplaninfo.ywrap);
       ym = y;
     }
     if (t == HK_Up || (ym - y) > 1) {
-      if (yplan > 0 || hplaninfo.ywrap != 0xffffffff)
+      if (yplan > 0 || hplaninfo.ywrap != DONT_WRAP)
 	yplan = ((yplan - 1) & hplaninfo.ywrap);
       ym = y;
     }
@@ -1184,7 +1184,7 @@ outwayflag (void)
     j += hplaninfo.xt * 2;
     l += hplaninfo.xt;
   }
-  if (hplaninfo.ywrap != 0xffffffff) {
+  if (hplaninfo.ywrap != DONT_WRAP) {
     for (i = 0; i < hplaninfo.xt * 2; i++) {
       if (hdradar[(hplaninfo.ywrap * 2 + 1) * hplaninfo.xt * 2 + i] & c_down)
 	hdcolli[i] |= d_up;
@@ -1196,7 +1196,7 @@ outwayflag (void)
       hdcolli[i] |= d_up;
       hdcolli[(hplaninfo.yt * 2 - 1) * hplaninfo.xt * 2 + i] |= d_down;
     };
-  if (hplaninfo.xwrap != 0xffffffff) {
+  if (hplaninfo.xwrap != DONT_WRAP) {
     for (i = 0; i < hplaninfo.yt * 2; i++) {
       if (hdradar[i * hplaninfo.xt * 2 + hplaninfo.xwrap * 2 + 1] & c_right)
 	hdcolli[i * hplaninfo.xt * 2] |= d_left;
@@ -1492,12 +1492,12 @@ gestclav (int i, int mod)
     } else if (mod & HK_MOD_Shift) {
       if (xplandec < 120)
 	xplandec += 24;
-      else if (xplan < (hplaninfo.xt - 6) || hplaninfo.xwrap != 0xffffffff) {
+      else if (xplan < (hplaninfo.xt - 6) || hplaninfo.xwrap != DONT_WRAP) {
 	xplan = ((xplan + 1) & hplaninfo.xwrap);
       }
       majg ();
     } else {
-      if (xplan < (hplaninfo.xt - 6) || hplaninfo.xwrap != 0xffffffff) {
+      if (xplan < (hplaninfo.xt - 6) || hplaninfo.xwrap != DONT_WRAP) {
 	xplan = ((xplan + 1) & hplaninfo.xwrap);
 	majg ();
       } else
@@ -1516,12 +1516,12 @@ gestclav (int i, int mod)
     } else if (mod & HK_MOD_Shift) {
       if (xplandec > 0)
 	xplandec -= 24;
-      else if (xplan > 0 || hplaninfo.xwrap != 0xffffffff) {
+      else if (xplan > 0 || hplaninfo.xwrap != DONT_WRAP) {
 	xplan = ((xplan - 1) & hplaninfo.xwrap);
       }
       majg ();
     } else {
-      if (xplan > 0 || hplaninfo.xwrap != 0xffffffff) {
+      if (xplan > 0 || hplaninfo.xwrap != DONT_WRAP) {
 	xplan = ((xplan - 1) & hplaninfo.xwrap);
 	majg ();
       } else
@@ -1534,12 +1534,12 @@ gestclav (int i, int mod)
     } else if (mod & HK_MOD_Shift) {
       if (yplandec < 180)
 	yplandec += 20;
-      else if (yplan < (hplaninfo.yt - 10) || hplaninfo.ywrap != 0xffffffff) {
+      else if (yplan < (hplaninfo.yt - 10) || hplaninfo.ywrap != DONT_WRAP) {
 	yplan = ((yplan + 1) & hplaninfo.ywrap);
       }
       majg ();
     } else {
-      if (yplan < (hplaninfo.yt - 10) || hplaninfo.ywrap != 0xffffffff) {
+      if (yplan < (hplaninfo.yt - 10) || hplaninfo.ywrap != DONT_WRAP) {
 	yplan = ((yplan + 1) & hplaninfo.ywrap);
 	majg ();
       } else
@@ -1552,12 +1552,12 @@ gestclav (int i, int mod)
     } else if (mod & HK_MOD_Shift) {
       if (yplandec > 0)
 	yplandec -= 20;
-      else if (yplan > 0 || hplaninfo.ywrap != 0xffffffff) {
+      else if (yplan > 0 || hplaninfo.ywrap != DONT_WRAP) {
 	yplan = ((yplan - 1) & hplaninfo.ywrap);
       }
       majg ();
     } else {
-      if (yplan > 0 || hplaninfo.ywrap != 0xffffffff) {
+      if (yplan > 0 || hplaninfo.ywrap != DONT_WRAP) {
 	yplan = ((yplan - 1) & hplaninfo.ywrap);
 	majg ();
       } else
@@ -1720,7 +1720,7 @@ gestclav (int i, int mod)
   case HK_t:			/* T */
   case HK_T:
     if (tempd == curdallep ())
-      tempd = 0xffffffff;
+      tempd = DONT_WRAP;
     else
       tempd = curdallep ();
     majg ();
@@ -1974,7 +1974,7 @@ hmain (const char* lname, const char* tset_name,
   xdallesdec = 0;
   xplan = 0;
   yplan = 0;
-  tempd = 0xffffffff;
+  tempd = DONT_WRAP;
   xplandec = 0;
   yplandec = 0;
   sprhide = 0;

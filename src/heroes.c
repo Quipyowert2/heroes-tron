@@ -644,7 +644,7 @@ load_level (char *nomlvl, char cont)
     j += map_info_2xt;
     l += map_info.xt;
   }
-  if (map_info.ywrap != 0xffffffff) {
+  if (map_info.ywrap != DONT_WRAP) {
     for (i = 0; i < (int)map_info_2xt; i++) {
       if (square_radar_wall[(map_info_2ywrap) * map_info_2xt + i] & c_down)
 	square_wall[i] |= d_up;
@@ -656,7 +656,7 @@ load_level (char *nomlvl, char cont)
       square_wall[i] |= d_up;
       square_wall[(map_info_2yt - 1) * map_info_2xt + i] |= d_down;
     };
-  if (map_info.xwrap != 0xffffffff) {
+  if (map_info.xwrap != DONT_WRAP) {
     for (i = 0; i < (int)map_info_2yt; i++) {
       if (square_radar_wall[i * map_info_2xt + map_info_2xwrap] & c_right)
 	square_wall[i * map_info_2xt] |= d_left;
@@ -960,7 +960,7 @@ compute_corner (int p, int n)
   int d1, d2, d3;
 
   if (opt.inertia) {
-    if (map_info.xwrap == 0xffffffff)
+    if (map_info.xwrap == DONT_WRAP)
       inert_x[p] = camera_x[p] =
 	inert_x[p] + n * ((int)camera_x[p] - (int)inert_x[p]) / 16;
     else {
@@ -976,7 +976,7 @@ compute_corner (int p, int n)
 	inert_x[p] = camera_x[p] =
 	  inert_x[p] - n * d2 / 16 + (map_info.xt << 16);
     }
-    if (map_info.ywrap == 0xffffffff)
+    if (map_info.ywrap == DONT_WRAP)
       inert_y[p] = camera_y[p] =
 	inert_y[p] + n * ((int)camera_y[p] - (int)inert_y[p]) / 16;
     else {
@@ -999,7 +999,7 @@ compute_corner (int p, int n)
   camera_stop_y[p] = camera_stop_x[p] = 0;
   x = (camera_x[p] - (nbr_tiles_cols << 15));
   y = (camera_y[p] - (nbr_tiles_rows << 15));
-  if (map_info.xwrap == 0xffffffff) {
+  if (map_info.xwrap == DONT_WRAP) {
     if (x < 0) {
       x = 0;
       camera_stop_x[p] = 1;
@@ -1008,7 +1008,7 @@ compute_corner (int p, int n)
       camera_stop_x[p] = 1;
     }
   }
-  if (map_info.ywrap == 0xffffffff) {
+  if (map_info.ywrap == DONT_WRAP) {
     if (y < 0) {
       y = 0;
       camera_stop_y[p] = 1;
@@ -2129,14 +2129,14 @@ ia_eval_neighb_pos (char s_sens, int pos)
 static unsigned int
 ia_eval_dir_target (int pos)
 {
-  unsigned int mindist;
+  u32_t mindist;
   int d;
   unsigned int tmp;
 
   ia_cur_depth--;
   if (ia_cur_depth != 0) {
     square_occupied[pos] = 128;
-    mindist = 0xffffffff;
+    mindist = U32_MAX;
 
     ia_eval_dir_target_inline (w_up);
     ia_eval_dir_target_inline (w_right);
@@ -2394,8 +2394,8 @@ static char
 ia_goto_target (int c, int targetx_, int targety_)
 {
   int d, pos;
-  unsigned int tmp[4] = { 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff };
-  unsigned int mindist = 0xffffffff;
+  u32_t tmp[4] = { U32_MAX, U32_MAX, U32_MAX, U32_MAX };
+  u32_t mindist = U32_MAX;
   int mindir = 0;
 
   ia_player = c;
@@ -3163,14 +3163,14 @@ update_lemmings (void)
 	  pti->way = i - 1;
 	  assert ((w2d[i - 1] & e) == 0);
 	  pti->pos2 = square_wrap[(pti->pos1 << 2) + pti->way];
-	  assert (pti->pos2 != 0xffffffff);
+	  assert (pti->pos2 != U32_MAX);
 	} else
 	  pti->way = 5;
       } else {
 	pti->pos2 = square_wrap[(pti->pos1 << 2) + pti->way];
-	assert (pti->pos2 != 0xffffffff);
+	assert (pti->pos2 != U32_MAX);
       }
-      assert (pti->pos2 != 0xffffffff);
+      assert (pti->pos2 != U32_MAX);
       if (pti->pos1 != pti->pos2)
 	square_lemmings_list[pti->pos2] = pti;
 

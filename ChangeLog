@@ -1,5 +1,19 @@
 2000-10-11  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Use named values instead of 0xffffffff.
+
+	* configure.in (FLAGS): Remove -Wtraditional.
+	* src/common.h (U32_MAX): New.
+	* src/structs.h (DONT_WRAP): New.
+	* src/hedlite.c (tempd, tunnel_mod, curdallepg, curdalleph,
+	curdallepd, curdallepb, planfull, outwayflag, gestclav, hmain):
+	Use DONT_WRAP.
+	* src/render.c (draw_level): Likewise.
+	* src/heroes.c (load_level, compute_corner) Likewise.
+	(ia_eval_neighb_pos, ia_goto_target, update_lemmings): Use U32_MAX.
+
+2000-10-11  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Remove more warnings.
 
 	* src/draw.h (draw_text, draw_text_clipped_left, 

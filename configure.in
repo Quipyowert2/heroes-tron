@@ -414,7 +414,7 @@ fi
 if test -n "$auto_cflags"; then
   if test "x${enable_debug}" = xyes; then
     if test -n "$GCC"; then
-      CFLAGS="$CFLAGS -Wall -pedantic -W -Wtraditional -Wshadow \
+      CFLAGS="$CFLAGS -Wall -pedantic -W -Wshadow \
 -Wpointer-arith -Wcast-qual -Wcast-align -Wwrite-strings \
 -Waggregate-return -Wstrict-prototypes -Wmissing-prototypes \
 -Wmissing-declarations -Wnested-externs -Winline -ggdb"
@@ -422,6 +422,9 @@ if test -n "$auto_cflags"; then
       #        like strdup, and because it makes warning in system headers.
       # -Wconversion is not used either because it warn call to functions
       #        that take a char (or anything not sizeof(int)) as argument.
+      # -Wtraditional causes each use of U32_MAX (== 0xfffffffU) to output
+      #        this: "warning: width of integer constant may change on other 
+      #        systems with -traditional".  This is quite boring.
     else
       CFLAGS="$CFLAGS -g"
     fi
