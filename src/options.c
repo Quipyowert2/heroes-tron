@@ -31,7 +31,6 @@
 #include "rsc_files.h"
 
 options_t opt;
-char extrasel = 0;
 
 static char* name = 0;
 

@@ -1,3 +1,10 @@
+2001-03-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/options.h (extrasel): Move ...
+	* src/menus.h (extrasel): ... here.
+	* src/options.c (extrasel): Move ...
+	* src/menus.c (extrasel): ... here.
+
 2001-03-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	From Hermann J. Beckers <beckers@st-oneline.de>.

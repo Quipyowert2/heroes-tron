@@ -54,4 +54,6 @@ void scores_menu (void);
 
 void help_menu (void);
 
+extern char extrasel;
+
 #endif /* HEROES__MENUS__H */

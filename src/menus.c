@@ -1336,6 +1336,8 @@ game_menu (void)
   event_sfx (8);
 }
 
+char extrasel = 0;
+
 static void
 extra_menu (void)
 {

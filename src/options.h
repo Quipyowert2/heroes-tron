@@ -57,7 +57,6 @@ typedef struct
 ATTRIBUTE_PACKED options_t;
 
 extern options_t opt;
-extern char extrasel;
 void load_options (void);
 void write_options (void);
 void reinit_options (void);
