@@ -22,7 +22,7 @@
 ## configure time) will be built.  Practically, the requested libraries
 ## are simply listed in heroes_DEPENDENCIES.
 
-EXTRA_LIBRARIES = \
+EXTRA_LIBRARIES += \
   media/libhmcommon.a \
   media/libhggivkm.a \
   media/libhgiij.a \
@@ -33,8 +33,6 @@ EXTRA_LIBRARIES = \
   media/libhdumvkm.a \
   media/libhdumj.a \
   media/libhdums.a
-
-CLEANFILES = $(EXTRA_LIBRARIES)
 
 media_libhmcommon_a_SOURCES = \
   media/joystick.h \

@@ -71,6 +71,7 @@
 #include "camera.h"
 #include "levellst.h"
 #include "locales.h"
+#include "main.h"
 
 char tile_set_name[128];
 char glenz_name[128];
@@ -3227,7 +3228,7 @@ play_game (char cont)
 }
 
 int
-main (int argc, char *argv[])
+heroes_main (int argc, char *argv[])
 {
   int i;
 

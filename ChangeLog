@@ -1,3 +1,24 @@
+2001-08-23  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Because some libraries need some special `main' arrangement
+	(e.g. SDL sometime want to rename main() into SDL_main()), we need
+	to turn main() into static libraries... *grin*.
+
+	* m4/h-media.m4 (heroes_MEDIALIB_SELECTION): Handle stdm/sdlm
+	selection.
+	* src/Makefile.am (INCLUDES): Add -I$(srcdir)/sys.
+	(EXTRA_LIBRARY): Define empty.
+	(CLEANFILES): New.
+	(EXTRA_DIST): Add and include sys/Makefile.inc.
+	* src/heroes.c (main): Rename as ...
+	(heroes_main): ... this.
+	* src/sys/Makefile.inc: New file.
+	* src/sys/main.h: New file.
+	* src/sys/std/main.c: New file.
+	* src/media/Makefile.inc (EXTRA_LIBRARY): Append (+=) instead of
+	assigning (=).
+	(CLEANFILES): Move to src/Makefile.am.
+
 2001-08-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* tools/alpha.sh: Typo.

@@ -8,9 +8,11 @@ AC_DEFUN([heroes_MEDIALIB_SELECTION], [
   heroes_CHECK_JOYSTICK_LIB
   heroes_CHECK_SOUND_LIB
 
-  # The three dummy libraries are always OK to build.
+  # These libraries do not need any checking.
   adl_LIBALT_OK([dums], [none], [], [])
   adl_LIBALT_OK([dumj], [none], [], [])
+  adl_LIBALT_OK([stdm], [standard main], [], [])
+  adl_LIBALT_OK([sdlm], [SDL_main], [], [], [sdlvkm])
 
   # Heroes can run without display, but usually this is not what
   # the user wants :), so this "feature" is enabled only if
@@ -53,4 +55,6 @@ AC_DEFUN([heroes_MEDIALIB_SELECTION], [
 		    [media/libh])
   adl_LIBALT_EITHER([$selection_list_j], [joystick library], [selection_j],
 	            [media/libh])
+  adl_LIBALT_EITHER([sdlm stdm], [startup library], [selection_m],
+		    [sys/libh])
 ])

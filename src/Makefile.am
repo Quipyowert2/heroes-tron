@@ -21,7 +21,7 @@ AUTOMAKE_OPTIONS = subdir-objects
 
 bin_PROGRAMS = heroes heroeslvl
 
-INCLUDES = -I$(top_srcdir)/lib -I../lib -I../intl -I$(srcdir)/lvl -I$(srcdir)/media -I.. -I.
+INCLUDES = -I$(top_srcdir)/lib -I../lib -I../intl -I$(srcdir)/lvl -I$(srcdir)/media -I$(srcdir)/sys -I.. -I.
 
 EXTRA_DIST = rsc_files.gperf debughash.gperf
 
@@ -210,11 +210,18 @@ rsc_files_hash.c
 
 DISTCLEANFILES =
 
+EXTRA_LIBRARIES =
+CLEANFILES = $(EXTRA_LIBRARIES)
+
 EXTRA_PROGRAMS = parafmt-check
 parafmt_check_SOURCES = parafmt.c
 parafmt_check_CFLAGS = @CFLAGS@ @MORE_WARNINGS_CFLAGS@ -DTEST
 
-EXTRA_DIST += etc/Makefile.inc lvl/Makefile.inc media/Makefile.inc
+EXTRA_DIST += etc/Makefile.inc
 include etc/Makefile.inc
+EXTRA_DIST += lvl/Makefile.inc
 include lvl/Makefile.inc
+EXTRA_DIST += media/Makefile.inc
 include media/Makefile.inc
+EXTRA_DIST += sys/Makefile.inc
+include sys/Makefile.inc
