@@ -1,5 +1,18 @@
 2000-11-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/const.c (clock_anim_offset): Remove.
+	* src/const.h (clock_anim_offset): Remove.
+	* src/items.c (small_dollar, clocks, pyramids): New.
+	(init_items, uninit_items): Initialize them.
+	* src/items.h (small_dollar, clocks, pyramids,
+	NBR_CLOCK_FRAMES, NBR_PYRAMIDS): New.
+	* src/render.c (draw_color): Rewrite using the above sprite,
+	but the red cross is still drawn manually.
+	(draw_cash): Remove.
+	(draw_level): Adapt to draw clocks and dollars using DRAW_SPRITE.
+
+2000-11-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/heroes.c (play_menu): Reverse M_DEATHM and M_KILLEM selection
 	since their name are swaped in draw_play_menu.
 

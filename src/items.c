@@ -24,17 +24,39 @@
 #include "sprshade.h"
 
 sprite_t *big_dollar = 0;
+sprite_t *small_dollar = 0;
+sprite_t *clocks[NBR_CLOCK_FRAMES];
+sprite_t *pyramids[NBR_PYRAMIDS];
 
 void
 init_items (void)
 {
+  int i;
+
   big_dollar = compile_sprshade (IMGPOS (main_font_img, 81, 0),
 				 0, 1, glenz[0],
 				 17, 17, main_font_img.width, xbuf);
+  small_dollar = compile_sprshade (IMGPOS (main_font_img, 81, 18),
+				   0, 1, glenz[0],
+				   10, 10, main_font_img.width, xbuf);
+  for (i = 0; i < NBR_CLOCK_FRAMES; ++i)
+    clocks[i] = compile_sprshade (IMGPOS (main_font_img, 81, 52 + i * 10),
+				  0, 1, glenz[0],
+				  10, 10, main_font_img.width, xbuf);
+  for (i = 0; i < NBR_PYRAMIDS; ++i)
+    pyramids[i] = compile_sprshade (IMGPOS (main_font_img, 64, i * 16),
+				    0, 1, glenz[0],
+				    7, 9, main_font_img.width, xbuf);
 }
 
 void
 uninit_items (void)
 {
+  int i;
   FREE_SPRITE0 (big_dollar);
+  FREE_SPRITE0 (small_dollar);
+  for (i = 0; i < NBR_CLOCK_FRAMES; ++i)
+    FREE_SPRITE0 (clocks[i]);
+  for (i = 0; i < NBR_PYRAMIDS; ++i)
+    FREE_SPRITE0 (pyramids[i]);
 }

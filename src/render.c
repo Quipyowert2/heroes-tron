@@ -34,6 +34,7 @@
 #include "items.h"
 
 char tutor = 0;
+static sprite_t *clock_anim;
 
 static void
 copy_tile (const pixel_t* src, pixel_t* dest, int tx)
@@ -263,112 +264,27 @@ copy_lemming_transp (const pixel_t* src, pixel_t *dest)
 static void
 draw_color (pixel_t* dest, int c)
 {
-  int j, k, xt = 9, yt = 7;
-  const pixel_t* src = main_font_img.buffer + 64 * 320 + 16 * (c & 7);
-  pixel_t* dest2 = dest;
+  if (c & 16)
+    DRAW_SPRITE (clock_anim, dest - 2 * xbuf);
+  else
+    DRAW_SPRITE (pyramids[c & 7], dest);
 
-  if (c & 16) {
-    xt = yt = 10;
-    dest2 = dest - xbuf * 2;
-    src = clock_anim_offset;
-  }
-
-
-  if (opt.use_glenz) {
-    for (j = yt; j != 0; j--) {
-      for (k = xt; k != 0; k--) {
-	if (*src != 0) {
-	  if (*src == 1)
-	    *dest2 = glenz[0][*dest2];
-	  else
-	    *dest2 = *src;
-	}
-	src++;
-	dest2++;
-      }
-      src += 320 - xt;
-      dest2 += xbuf - xt;
-    }
-    if (c & 8) {
-      src = main_font_img.buffer + 81 * 320 + 40;
-      dest2 = dest - 2 - xbuf;
-      for (j = 7; j != 0; j--) {
-	for (k = 12; k != 0; k--) {
-	  if (*src == 16)
-	    *dest2 = glenz[6][*dest2];
-	  src++;
-	  dest2++;
-	}
-	src += 320 - 12;
-	dest2 += xbuf - 12;
-      }
-    }
-  } else {
-    for (j = yt; j != 0; j--) {
-      for (k = xt; k != 0; k--) {
-	if (*src != 0 && *src != 1)
-	  *dest2 = *src;
-	src++;
-	dest2++;
-      }
-      src += 320 - xt;
-      dest2 += xbuf - xt;
-    }
-    if (c & 8) {
-      src = main_font_img.buffer + 81 * 320 + 40;
-      dest2 = dest - 2 - xbuf;
-      for (j = 7; j != 0; j--) {
-	for (k = 12; k != 0; k--) {
-	  if (*src == 16)
-	    *dest2 = 16;
-	  src++;
-	  dest2++;
-	}
-	src += 320 - 12;
-	dest2 += xbuf - 12;
-      }
-    }
-  }
-
-}
-
-static void
-draw_cash (pixel_t* dest, int c)
-{
-  int j, k, xt = 10, yt = 10;
-  const pixel_t* src = main_font_img.buffer + 81 * 320 + 18;
-
-  if (c == 15) {		/*xt=yt=10; */
-    src = clock_anim_offset;
-  }
-
-  if (opt.use_glenz)
-    for (j = yt; j != 0; j--) {
-      for (k = xt; k != 0; k--) {
-	if (*src != 0) {
-	  if (*src == 1)
-	    *dest = glenz[0][*dest];
-	  else
-	    *dest = *src;
-	}
+  if (c & 8) {
+    int j, k;
+    const pixel_t* src = main_font_img.buffer + 81 * 320 + 40;
+    dest -= 2 + xbuf;
+    for (j = 7; j != 0; j--) {
+      for (k = 12; k != 0; k--) {
+	if (*src == 16)
+	  *dest = glenz[6][*dest];
 	src++;
 	dest++;
       }
-      src += 320 - xt;
-      dest += xbuf - xt;
-  } else
-    for (j = yt; j != 0; j--) {
-      for (k = xt; k != 0; k--) {
-	if (*src != 0 && *src != 1)
-	  *dest = *src;
-	src++;
-	dest++;
-      }
-      src += 320 - xt;
-      dest += xbuf - xt;
+      src += 320 - 12;
+      dest += xbuf - 12;
     }
+  }
 }
-
 
 static void
 draw_lemming (pixel_t* dest, const lemming_t* ptibptr, unsigned int pos)
@@ -460,8 +376,7 @@ draw_level (int p)
   pixel_t *dest2;
   long anim_frame;
 
-  clock_anim_offset = main_font_img.buffer + 81 * 320 + 52 +
-    (read_htimer (clock_htimer) & 7) * 10;
+  clock_anim = clocks[read_htimer (clock_htimer) & 7];
   lemmings_anim_offset = (lemmings_move_offset * 64 / 65536) & 7 << 3;
   if (read_htimer (blink_htimer) & 1)
     for (bb = 3; bb >= 0; bb--)
@@ -603,11 +518,15 @@ draw_level (int p)
       for (i = corner_dx[p] * 2, j = (nbr_tiles_cols - camera_stop_x[p]);
 	   j > 0; j--, i = ((i + 2) & (map_info_2xwrap))) {
 	bb = square_object[i + m];
-	if (bb >= 0)
-	  draw_cash (dest, bb);
+	if (bb == 15)
+	  DRAW_SPRITE (clock_anim, dest);
+	else if (bb >= 0)
+	  DRAW_SPRITE (small_dollar, dest);
 	bb = square_object[i + m + 1];
-	if (bb >= 0)
-	  draw_cash (dest + 12, bb);
+	if (bb == 15)
+	  DRAW_SPRITE (clock_anim, dest + 12);
+	else if (bb >= 0)
+	  DRAW_SPRITE (small_dollar, dest + 12);
 	dest += 24;
       }
       dest += xbuf * 10 - 24 * (nbr_tiles_cols - camera_stop_x[p]);

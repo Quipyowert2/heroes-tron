@@ -29,6 +29,11 @@
 #include "sprite.h"
 
 extern sprite_t *big_dollar;
+extern sprite_t *small_dollar;
+#define NBR_CLOCK_FRAMES 8
+extern sprite_t *clocks[NBR_CLOCK_FRAMES];
+#define NBR_PYRAMIDS 5
+extern sprite_t *pyramids[NBR_PYRAMIDS];
 
 void init_items (void);
 void uninit_items (void);

@@ -163,7 +163,6 @@ int game_mode = 0;
 /* char questmode=0; */
 unsigned char game_magic;
 int camera_center_x = 873813;
-pixel_t* clock_anim_offset;
 int lemmings_anim_offset;
 int lemmings_move_offset;
 
