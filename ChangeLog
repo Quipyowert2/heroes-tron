@@ -1,3 +1,9 @@
+2002-02-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* m4/h-mikmod.m4 (heroes_CHECK_MIKMOD): Complete LIBMIKMOD_LIBS
+	with the output of libmikmod-config --ldadd, required to build
+	Heroes since libmikmod 3.1.10.
+
 2002-02-01  Ingo van Lil  <inguin@gmx.de>
 
 	* src/lvl/lvl.h (lvl_tile_type): Fix the type of the tile argument.

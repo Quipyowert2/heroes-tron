@@ -20,6 +20,12 @@ AC_HELP_STRING([--without-mikmod],
    fi
    AC_adl_PKG_GENERIC([LibMikMod], [3.1.7], [MikMod_Init], [],
 		      [with_mikmod=no])
+   # Since LibMikMod 3.1.10, libmikmod-config has moved some of
+   # the libraries listed by --libs to the output of the --ldadd
+   # option.  So we append them to LIBMIKMOD_LIBS here.
+   if test "${with_mikmod-yes}" != no; then
+     LIBMIKMOD_LIBS="$LIBMIKMOD_LIBS `$LIBMIKMOD_CONFIG $libmikmod_config_args --ldadd`"
+   fi
  fi
  if test "${with_mikmod-yes}" != no; then
    ifelse([$1],,[:],[$1])
