@@ -7,3 +7,5 @@ stamp-h
 .deps
 keysdef-inc.h
 heroes
+music.raw
+music.wav
