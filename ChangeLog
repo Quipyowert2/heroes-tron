@@ -1,5 +1,11 @@
 2000-10-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/VisualC/config.h (HAVE_READDIR): Comment out.
+	* src/VisualC/heroes.dsp: Define HAVE_CONFIG_H, and remove
+	mikmod.h.
+
+2000-10-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Fix VPATH build failure (caused `make distcheck' to fail).
 	
 	* arch/Makefile.am (Vzip): New.

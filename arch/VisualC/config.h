@@ -75,7 +75,7 @@
 /* #undef HAVE_NDIR_H */
 
 /* Define if you have readdir and friends. */
-#define HAVE_READDIR 1
+/* #undef HAVE_READDIR */
 
 /* Define if you have the SDL library. */
 #define HAVE_SDL 1

@@ -41,8 +41,8 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /c
-# ADD CPP /nologo /Zp1 /MT /W3 /GX /O2 /I "." /I "..\src" /I "..\lib" /I "\sdl\include" /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /c
+# ADD BASE CPP /nologo /W3 /GX /O2 /D "HAVE_CONFIG_H" /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /c
+# ADD CPP /nologo /Zp1 /MT /W3 /GX /O2 /I "." /I "..\src" /I "..\lib" /I "\sdl\include" /D "HAVE_CONFIG_H" /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /c
 # ADD BASE RSC /l 0x40c /d "NDEBUG"
 # ADD RSC /l 0x40c /d "NDEBUG"
 BSC32=bscmake.exe
@@ -65,8 +65,8 @@ LINK32=link.exe
 # PROP Intermediate_Dir "Debug"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c
-# ADD CPP /nologo /Zp1 /MTd /W3 /Gm /GX /ZI /Od /I "." /I "..\src" /I "..\lib" /I "\sdl\include" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c
+# ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "HAVE_CONFIG_H" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c
+# ADD CPP /nologo /Zp1 /MTd /W3 /Gm /GX /ZI /Od /I "." /I "..\src" /I "..\lib" /I "\sdl\include" /D "HAVE_CONFIG_H" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c
 # ADD BASE RSC /l 0x40c /d "_DEBUG"
 # ADD RSC /l 0x40c /d "_DEBUG"
 BSC32=bscmake.exe
@@ -156,6 +156,14 @@ SOURCE=..\src\extras.c
 # Begin Source File
 
 SOURCE=..\src\extras.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\fader.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\fader.h
 # End Source File
 # Begin Source File
 
@@ -435,27 +443,27 @@ SOURCE=.\mikmod.h
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\src\..\lib\getopt.c
+SOURCE=..\lib\getopt.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\..\lib\getopt.h
+SOURCE=..\lib\getopt.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\..\lib\getopt1.c
+SOURCE=..\lib\getopt1.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\..\lib\strcasecmp.c
+SOURCE=..\lib\strcasecmp.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\..\lib\w_dirent.c
+SOURCE=..\lib\w_dirent.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\..\lib\w_dirent.h
+SOURCE=..\lib\w_dirent.h
 # End Source File
 # Begin Source File
 
