@@ -1,5 +1,14 @@
 2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/sprprog.c (draw_sprprog_clipped_left,
+	draw_sprprog_clipped_right): New.
+	* src/sprprog.h (draw_sprprog_clipped_left,
+	draw_sprprog_clipped_right): New.
+	* src/menus.c (scores_menu): Use draw_sprprog_clipped_left and
+	draw_sprprog_clipped_right.
+
+2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/const.h (xbuf): Set to 512.
 	* src/const.c (xbuf, ybuf, sbuf, NOGLENZPLR, NOGLENZRED, maxq,
 	lemmings_per_players, lemmings_total): Remove, since they are

@@ -33,6 +33,14 @@ void draw_sprprog (const sprite_t *sprite, pixel_t *dest);
 void free_sprprog (sprite_t *sprite);
 
 
+/* secondary drawing functions, used in scores_menu:
+   draw only the sprites whose offset are greater than min, or
+   lower than max */
+void draw_sprprog_clipped_left (const sprite_t *sprite, pixel_t *dest,
+				int dest_row, int min_row);
+void draw_sprprog_clipped_right (const sprite_t *sprite, pixel_t *dest,
+				 int dest_row, int max_row);
+
 /* The following is not thread safe, because when you build a sprprog
    the state is kept in static variables.  But this make the interface
    friendlier.  But it can be called recusrively, i.e. you can

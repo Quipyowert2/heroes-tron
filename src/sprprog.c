@@ -35,6 +35,37 @@ draw_sprprog (const sprite_t *sprite, pixel_t *dest)
   }
 }
 
+void
+draw_sprprog_clipped_left (const sprite_t *sprite, pixel_t *dest,
+			   int dest_col, int min_col)
+{
+  sprite_prog_list_t *list;
+
+  assert (sprite->all.kind == S_PROG || sprite->all.kind == S_PROG_WAV);
+
+  for (list = sprite->prog.list; list; list = list->cdr) {
+    sprite_t *s = list->car;
+    if (list->offset + dest_col > min_col)
+      s->draw (s, dest + list->offset);
+  }
+}
+
+void
+draw_sprprog_clipped_right (const sprite_t *sprite, pixel_t *dest,
+			    int dest_col, int max_col)
+{
+  sprite_prog_list_t *list;
+
+  assert (sprite->all.kind == S_PROG || sprite->all.kind == S_PROG_WAV);
+
+  for (list = sprite->prog.list; list; list = list->cdr) {
+    sprite_t *s = list->car;
+    if (list->offset + dest_col < max_col)
+      s->draw (s, dest + list->offset);
+  }
+}
+
+
 /* internal state */
 static sprite_prog_list_t* prog = 0;
 static sprite_prog_list_t** last = 0;

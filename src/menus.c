@@ -2360,10 +2360,10 @@ scores_menu (void)
     for (j = 0; j < 10; ++j) {
       char points[32];
       highs_txt[i][j] = compile_menu_text (highs[i][j].name,
-					   T_FLUSHED_LEFT, 68 + 13 * j, 3);
+					   T_FLUSHED_LEFT, 0, 3);
       sprintf (points, "%u", highs[i][j].points);
       points_txt[i][j] = compile_menu_text (points, T_FLUSHED_RIGHT,
-					    68 + 13 * j, 316);
+					    0, 316);
     }
 
   i = 0;
@@ -2391,21 +2391,31 @@ scores_menu (void)
       if (!rollflag) {
 	DRAW_SPRITE (gamemode_txt[i], corner[0] + 40 * xbuf);
 	for (j = 0; j < 10; j++) {
-	  DRAW_SPRITE (highs_txt[i][j], corner[0]);
-	  DRAW_SPRITE (points_txt[i][j], corner[0]);
+	  DRAW_SPRITE (highs_txt[i][j], corner[0] + (68 + 13 * j) * xbuf);
+	  DRAW_SPRITE (points_txt[i][j], corner[0] + (68 + 13 * j) * xbuf);
 	}
       } else {
-	/* FIXME: should be clipped left, unless xbuf is enlarged */
-	DRAW_SPRITE (gamemode_txt[i - 1], corner[0] + 40 * xbuf - rolldec);
+	draw_sprprog_clipped_left (gamemode_txt[i - 1],
+				   corner[0] + 40 * xbuf - rolldec,
+				   - rolldec, -30);
 	for (j = 0; j < 10; j++) {
-	  DRAW_SPRITE (highs_txt[i][j], corner[0] - rolldec);
-	  DRAW_SPRITE (points_txt[i][j], corner[0] - rolldec);
+	  draw_sprprog_clipped_left (highs_txt[i - 1][j],
+				     corner[0] + (68 + 13 * j) * xbuf
+				     - rolldec, - rolldec, -30);
+	  draw_sprprog_clipped_left (points_txt[i - 1][j],
+				     corner[0] + (68 + 13 * j) * xbuf
+				     - rolldec, - rolldec, -30);
 	}
-	/* FIXME: should be clipped right, unless xbuf is enlaged */
-	DRAW_SPRITE (gamemode_txt[i], corner[0] + 40 * xbuf + 320 - rolldec);
+	draw_sprprog_clipped_right (gamemode_txt[i],
+				    corner[0] + 40 * xbuf + 320 - rolldec,
+				    320 - rolldec, 320);
 	for (j = 0; j < 10; j++) {
-	  DRAW_SPRITE (highs_txt[i][j], corner[0] + 320 - rolldec);
-	  DRAW_SPRITE (points_txt[i][j], corner[0] + 320 - rolldec);
+	  draw_sprprog_clipped_right (highs_txt[i][j],
+				      corner[0] + (68 + 13 * j) * xbuf
+				      + 320 - rolldec, 320 - rolldec, 320);
+	  draw_sprprog_clipped_right (points_txt[i][j],
+				      corner[0] + (68 + 13 * j) * xbuf
+				      + 320 - rolldec, 320 - rolldec, 320);
 	}
       }
       hrule (28);
