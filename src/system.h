@@ -294,4 +294,12 @@ int strcasecmp (const char *s1, const char *s2);
 # define ATTRIBUTE_PRINTF(str,fst) __attribute__ ((format (printf, str, fst)))
 #endif
 
+
+#ifndef PTR_TO_INT
+# define PTR_TO_INT(P) (((char *) P) - (char *) 0)
+#endif
+#ifndef INT_TO_PTR
+# define INT_TO_PTR(P) (((char *) P) + (char *) 0)
+#endif
+
 #endif /* HEROES__SYSTEM__H */

@@ -162,13 +162,13 @@ horizontal_zoom_wave (pixel_t *src, pixel_t *dest, int oldsize, int newsize)
   pixel_t tmp1;
   u32_t *adest;
 
-  if (((int) dest) & 3)
+  if (PTR_TO_INT (dest) & 3)
     do {
       tmp1 = *(src + (x >> 16));
       x += deltax;
       *dest++ = tmp1;
       newsize--;
-    } while (((int) dest) & 3);
+    } while (PTR_TO_INT (dest) & 3);
   ad = (u32_t*) (src + (x >> 16));
   tmp = GETWORD((u8_t*)ad);
   adest = (u32_t*) dest;	/* adest utilisé dans cette boucle seulement
