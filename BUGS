@@ -19,7 +19,259 @@ Killed
 
 ======================================================================
 
-From: =?iso-8859-1?Q?St=E9phane_Denis?= <S.Denis@darkworks.com>
+From: "Christian T. Steigies" <cts@debian.org>
+Date: Wed, 30 Aug 2000 17:49:34 +0200
+Version: 0.6pre3
+
+Hi,
+On Wed, Aug 30, 2000 at 05:31:27PM +0200, Alexandre Duret-Lutz wrote:
+
+> Have you seen other things in 0.6pre3 that would require cleanup?
+Seems my mail from home has not come through... I built a complete set of
+(debian) heroes packages on m68k, no problem. However it does not run, I got
+a variety of segfaults. I will resent the mail, there were some error codes,
+maybe somebody can make use of that. The fun thing, every time I started
+heroes, I got a different error message...
+
+----------
+
+From: "Christian T. Steigies" <cts@debian.org>
+Date: Thu, 31 Aug 2000 12:11:20 +0200
+Version: 0.6pre3
+
+On Wed, Aug 30, 2000 at 06:10:11PM +0200, Alexandre Duret-Lutz wrote:
+
+> Yes please.  Also, have you configured with --enable-debug?
+> This would allow:
+I had not, I did not (oups, no coredump, guess I switched that off).
+
+The old error messages:
+
+extradir: /usr/share/games/heroes/extralvl/: No such file or directory
+Cannot open /usr/share/games/heroes/sfx/sfx.conf, disabling sound-effects
+(run with -X to supress this message).
+Fatal signal: Segmentation Fault (SDL Parachute Deployed)
+Failed to open visual: 
+
+extradir: /usr/share/games/heroes/extralvl/: No such file or directory
+Cannot open /usr/share/games/heroes/sfx/sfx.conf, disabling sound-effects
+(run with -X to supress this message).
+Fatal signal: Segmentation Fault (SDL Parachute Deployed)
+
+extradir: /usr/share/games/heroes/extralvl/: No such file or directory
+Cannot open /usr/share/games/heroes/sfx/sfx.conf, disabling sound-effects
+(run with -X to supress this message).
+Fatal signal: Segmentation Fault (SDL Parachute Deployed)
+
+Xlib: unexpected async reply (sequence 0x48)!
+X connection to :0.0 broken (explicit kill or server shutdown).
+
+extradir: /usr/share/games/heroes/extralvl/: No such file or directory
+Cannot open /usr/share/games/heroes/sfx/sfx.conf, disabling sound-effects
+(run with -X to supress this message).
+Fatal signal: Segmentation Fault (SDL Parachute Deployed)
+X Error of failed request:  BadWindow (invalid Window parameter)
+  Major opcode of failed request:  38 (X_QueryPointer)
+  Resource id in failed request:  0x240000c
+  Serial number of failed request:  73
+  Current serial number in output stream:  76
+
+extradir: /usr/share/games/heroes/extralvl/: No such file or directory
+Cannot open /usr/share/games/heroes/sfx/sfx.conf, disabling sound-effects
+(run with -X to supress this message).
+Fatal signal: Segmentation Fault (SDL Parachute Deployed)
+Failed to open visual: 
+
+extradir: /usr/share/games/heroes/extralvl/: No such file or directory
+Cannot open /usr/share/games/heroes/sfx/sfx.conf, disabling sound-effects
+(run with -X to supress this message).
+Fatal signal: Segmentation Fault (SDL Parachute Deployed)
+
+extradir: /usr/share/games/heroes/extralvl/: No such file or directory
+Cannot open /usr/share/games/heroes/sfx/sfx.conf, disabling sound-effects
+(run with -X to supress this message).
+Fatal signal: Segmentation Fault (SDL Parachute Deployed)
+X Error of failed request:  BadShmSeg (invalid shared segment parameter)
+  Major opcode of failed request:  129 (MIT-SHM)
+  Minor opcode of failed request:  3 (X_ShmPutImage)
+  Segment id in failed request:  0x240000e
+  Serial number of failed request:  20
+  Current serial number in output stream:  23
+
+extradir: /usr/share/games/heroes/extralvl/: No such file or directory
+Fatal signal: Segmentation Fault (SDL Parachute Deployed)
+
+extradir: /usr/share/games/heroes/extralvl/: No such file or directory
+Cannot open /usr/share/games/heroes/sfx/sfx.conf, disabling sound-effects
+(run with -X to supress this message).
+Fatal signal: Segmentation Fault (SDL Parachute Deployed)
+
+extradir: /usr/share/games/heroes/extralvl/: No such file or directory
+Cannot open /usr/share/games/heroes/sfx/sfx.conf, disabling sound-effects
+(run with -X to supress this message).
+Fatal signal: Segmentation Fault (SDL Parachute Deployed)
+
+extradir: /usr/share/games/heroes/extralvl/: No such file or directory
+Cannot open /usr/share/games/heroes/sfx/sfx.conf, disabling sound-effects
+(run with -X to supress this message).
+Fatal signal: Segmentation Fault (SDL Parachute Deployed)
+X Error of failed request:  BadShmSeg (invalid shared segment parameter)
+  Major opcode of failed request:  129 (MIT-SHM)
+  Minor opcode of failed request:  3 (X_ShmPutImage)
+  Segment id in failed request:  0x240000e
+  Serial number of failed request:  20
+  Current serial number in output stream:  23
+
+extradir: /usr/share/games/heroes/extralvl/: No such file or directory
+Cannot open /usr/share/games/heroes/sfx/sfx.conf, disabling sound-effects
+(run with -X to supress this message).
+Fatal signal: Segmentation Fault (SDL Parachute Deployed)
+Xlib: unexpected async reply (sequence 0x44)!
+X connection to :0.0 broken (explicit kill or server shutdown).
+
+The new messages with HEROES_DEBUG
+heroes: set debug level to fffffbff
+heroes: initialization
+heroes: looking for HEROES_DATA_DIR or HEROES_DATADIR...
+heroes: ... not found.
+heroes: set resource $(data-dir)=/usr/share/games/heroes
+heroes: get resource $(heroesrc-txt)=$(data-dir)/etc/heroesrc
+heroes: get resource $(data-dir)=/usr/share/games/heroes
+heroes: expanded resource $(data-dir)=/usr/share/games/heroes
+heroes: expanded resource $(heroesrc-txt)=/usr/share/games/heroes/etc/heroesrc
+heroes: reading configuration file: /usr/share/games/heroes/etc/heroesrc ...
+heroes: get resource $(data-dir)=/usr/share/games/heroes
+heroes: expanded resource $(data-dir)=/usr/share/games/heroes
+heroes: reading sound config file: /usr/share/games/heroes/mod/sound.conf ...
+heroes: ... could not open.
+heroes: reading sound config file: /sound.conf ...
+heroes: ... could not open.
+heroes: ... finished reading /usr/share/games/heroes/etc/heroesrc.
+heroes: user directory setup
+heroes: directory /home/cts/.heroes/ already exists
+heroes: setup default extra directory
+heroes: get resource $(extra-levels-dir)=$(data-dir)/extralvl/
+heroes: get resource $(data-dir)=/usr/share/games/heroes
+heroes: expanded resource $(data-dir)=/usr/share/games/heroes
+heroes: expanded resource $(extra-levels-dir)=/usr/share/games/heroes/extralvl/
+heroes: reading configuration file: /home/cts/.heroes/heroesrc ...
+heroes: ... could not open.
+heroes: parsing command line
+heroes: get resource $(text-conf-txt)=$(data-dir)/txt_cfg/txti.cfg
+heroes: get resource $(data-dir)=/usr/share/games/heroes
+heroes: expanded resource $(data-dir)=/usr/share/games/heroes
+heroes: expanded resource $(text-conf-txt)=/usr/share/games/heroes/txt_cfg/txti.cfg
+heroes: parsing text configuration file: /usr/share/games/heroes/txt_cfg/txti.cfg ...
+heroes: ... done.
+heroes: randomize
+heroes: get resource $(levels-list-txt)=$(data-dir)/levels/level.lst
+heroes: get resource $(data-dir)=/usr/share/games/heroes
+heroes: expanded resource $(data-dir)=/usr/share/games/heroes
+heroes: expanded resource $(levels-list-txt)=/usr/share/games/heroes/levels/level.lst
+heroes: read level list: /usr/share/games/heroes/levels/level.lst ...
+heroes: ... done
+heroes: browsing directory /home/cts/.heroes/levels ...
+heroes: ... 0 files
+heroes: browsing directory /usr/share/games/heroes/extralvl/ ...
+extradir: /usr/share/games/heroes/extralvl/: No such file or directory
+heroes: reading option from /home/cts/.heroes/options.dat
+heroes: cannot open /home/cts/.heroes/options.dat
+heroes: reading scores from /home/cts/.heroes/scores.dat
+heroes: cannot open /home/cts/.heroes/scores.dat
+heroes: reading saved games from /home/cts/.heroes/savegame.dat
+heroes: cannot open /home/cts/.heroes/savegame.dat
+heroes: get resource $(sfx-dir)=$(data-dir)/sfx/
+heroes: get resource $(data-dir)=/usr/share/games/heroes
+heroes: expanded resource $(data-dir)=/usr/share/games/heroes
+heroes: expanded resource $(sfx-dir)=/usr/share/games/heroes/sfx/
+heroes: get resource $(sfx-conf-txt)=$(data-dir)/sfx/sfx.conf
+heroes: get resource $(data-dir)=/usr/share/games/heroes
+heroes: expanded resource $(data-dir)=/usr/share/games/heroes
+heroes: expanded resource $(sfx-conf-txt)=/usr/share/games/heroes/sfx/sfx.conf
+heroes: reading sound effects config: /usr/share/games/heroes/sfx/sfx.conf
+Cannot open /usr/share/games/heroes/sfx/sfx.conf, disabling sound-effects
+(run with -X to supress this message).
+heroes: initialize SDL
+heroes: initialize joystick
+heroes: opening audio at 22050 Hz 16 bit stereo, 1024 bytes audio buffer
+
+heroes: opened audio at 22050 Hz 16 bit stereo, 1024 bytes audio buffer
+
+heroes: set volume to 68/128
+
+heroes: set video mode
+
+----------
+
+From: "Christian T. Steigies" <cts@debian.org>
+Date: Thu, 31 Aug 2000 15:28:52 +0200
+Version: 0.6pre3
+
+>  - what version of SDL are you using?
+Hmm, a mixture of 1.1.2 and 1.0.[1 or 8] I think. I am not exactly sure
+which is used for the package, will check again, was late last night...
+
+>  - is a window mapped before the crash or not?
+window mapped? If you mean opened, yes a small window is opened, like with
+i386, drawn with a black background, maybe a little white.
+>  - how is configured you X server (resolution, depth)?
+m68k uses xserver-fbdev, with my grafics board it is not yet possible to
+change the resolution. so now its using 1024x768 in 8 bit. But also when I
+run heroes via ssh from my i386 machine (32bit) it crashes (did no ttest
+last night though).
+
+>  - can you cite me a couple of games that work well with SDL
+>    on m68k so I can look their sources for differences?
+Sure. I would think all the SDL games I maintain are working on m68k.
+Actually I did not test them all, but I am pretty sure at least gemdropx
+works, see here for the links:
+http://master.debian.org/~cts/packages.html
+
+======================================================================
+
+From: "Mattias Engdegård" <f91-men@nada.kth.se>
+Date: Sat, 2 Sep 2000 22:50:58 +0200 (MET DST)
+Version: 0.6
+
+It's often hard to enter tunnels on the Solaris version of Heroes --- the
+player is bounced away as if it was an obstacle. And sometimes the player
+can enter the tunnel but is shifted sideways, and it looks strange.
+I've put some screenshots at ftp://ptah.lnf.kth.se/pub/misc/hbug[0-2].png
+
+I suspect that the endianness might have something to do with it, or maybe
+the use of an uninitialised variable somewhere.
+
+----------
+
+From: "Mattias Engdegård" <f91-men@nada.kth.se>
+Date: Mon, 4 Sep 2000 22:10:50 +0200 (MET DST)
+Version: 0.6
+
+>>Just to narrow my search: does tunnels always behave identicaly?
+>>E.g. is the bug of hbug1.png persistant across different runs of
+>>the game?  Or can the same tunnel behave differently in the same
+>>conditions?
+
+Yes, it seems to behave randomly. It always deflects the vehicle and forces
+a 90-degree turn, but sometimes the vehicle manages to pass through anyway
+(essentially variations of hbug1.png - sometimes even more bizarre).
+
+>>Does the problem only occur when you take a tunnel from right
+>>to left?
+
+No, it occurs from both directions.
+
+>>On one tunnel tile (the blocks used to build the level) there is
+>>usually two tunnel-entry squares (squares are the size of the
+>>vehicle, there is 4 squares per tile), have you noticed if
+>>*both* entries for the same tile were not working or if only one
+>>wasn't and the other worked fine?
+
+No, there seems to be no such difference.
+
+======================================================================
+
+From: "Stéphane Denis" <S.Denis@darkworks.com>
 Date: Fri, 8 Sep 2000 15:08:07 +0200
 Version: 0.6
 
