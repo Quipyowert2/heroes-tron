@@ -1,5 +1,9 @@
 2000-11-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/menus.c (draw_end_level_info): Also shift winner_txt.
+
+2000-11-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/render.c (draw_trail_real, draw_vehicle_tail): Use only the
 	lower part of the players' positions to make sure `d' is never
 	greater than 12 (or 10).

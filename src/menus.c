@@ -2230,7 +2230,7 @@ draw_end_level_info (int decal, char l)
     }
     winner_txt = compile_menu_text (winner, T_CENTERED|T_WAVING, 20, 159 + 20);
   }
-  DRAW_SPRITE (winner_txt, corner[0]);
+  DRAW_SPRITE (winner_txt, corner[0] + decal);
 
   if (game_mode == M_QUEST)
     DRAW_SPRITE (info_mode_quest_txt, corner[0] + decal);
