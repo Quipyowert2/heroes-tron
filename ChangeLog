@@ -1,5 +1,15 @@
 2001-01-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Remove the (broken & undocumented) support for screenshots.
+
+	* src/argv.c (snap): Remove.
+	(long_options): Remove snap.
+	* src/argv.h (snap): Remove.
+	* src/heroes.c (write_rle, save_pcx): Remove.
+	(get_input_direction): Remove call to save_pcx.
+
+2001-01-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Flush the display directly wherever we can avoid to
 	write in `screen'.  There are still some places that use
 	`screen' (intro, level-editor, two-player display) and

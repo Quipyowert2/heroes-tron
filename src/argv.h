@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------.
-| Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>                 |
+| Copyright 2000, 2001  Alexandre Duret-Lutz <duret_g@epita.fr>           |
 |                                                                         |
 | This file is part of Heroes.                                            |
 |                                                                         |
@@ -26,7 +26,6 @@
    Otherwise set from_file to 0.*/
 int parse_argv (int argc, char **argv, const char *from_file, int from_line);
 
-extern int snap;
 extern int cpuon;
 extern bool nosfx;
 extern bool joyoff;

@@ -865,99 +865,6 @@ compute_corner (int p, int n)
 }
 
 static void
-write_rle (unsigned char *src, int t, FILE * fpcx)
-{
-  int oldc, newc;
-  int i;
-  int nbr = 1;
-
-  oldc = *src++;
-
-  for (i = 1; i < t; i++) {
-    newc = *src++;
-    if (nbr == 63 || (nbr > 1 && (newc != oldc))) {
-      putc (nbr | 192, fpcx);
-      putc (oldc, fpcx);
-      oldc = newc;
-      nbr = 1;
-    } else if (oldc == newc && nbr < 63)
-      nbr++;
-    else {
-      if (oldc < 192)
-	putc (oldc, fpcx);
-      else {
-	putc (193, fpcx);
-	putc (oldc, fpcx);
-      }
-      oldc = newc;
-    }
-  }
-  if (nbr == 1) {
-    if (oldc < 192)
-      putc (oldc, fpcx);
-    else {
-      putc (193, fpcx);
-      putc (oldc, fpcx);
-    }
-  } else {
-    putc (nbr | 192, fpcx);
-    putc (oldc, fpcx);
-  }
-}
-
-static void
-save_pcx (char q)
-{
-  FILE *fpcx;
-  static char nompcx[13];
-  static int pcxnbr;
-  pcx_header_t headpcx;
-  int i1;
-
-  headpcx.signature = 10;
-  headpcx.version = 5;
-  headpcx.rle = 1;
-  headpcx.bits_per_pixels = 8;
-  headpcx.x = headpcx.y = BSWAP16 (0);
-  headpcx.widthdpi = BSWAP16 (0);
-  headpcx.heightdpi = BSWAP16 (0);
-  headpcx.palette_kind = BSWAP16 (1);
-  headpcx.nbrplanes = 1;
-  if (q == 0) {
-    headpcx.width = BSWAP16 (320 - 1);
-    headpcx.height = BSWAP16 (200 - 1);
-    headpcx.bytes_per_lines = BSWAP16 (320);
-  } else {
-    headpcx.width = BSWAP16 (xbuf - 1);
-    headpcx.height = BSWAP16 (2 * ybuf);
-    headpcx.bytes_per_lines = BSWAP16 (xbuf);
-  }
-
-  sprintf (nompcx, "snap%.4d.pcx", pcxnbr++);
-
-  dmsg (D_MISC|D_FILE, "save pcx: %s", nompcx);
-
-  if ((fpcx = fopen (nompcx, "wb")) == NULL) {
-    dperror ("fopen");
-    return;
-  }
-  fwrite ((char *) &headpcx, 1, sizeof (pcx_header_t), fpcx);
-
-  if (q == 0)
-    write_rle (screen, 320 * 200, fpcx);
-  else {
-    write_rle ((unsigned char *) render_buffer[0], xbuf * ybuf, fpcx);
-    for (i1 = xbuf; i1; i1--)
-      putc (15, fpcx);
-    write_rle ((unsigned char *) render_buffer[1], xbuf * ybuf, fpcx);
-  }
-  putc (0xC, fpcx);
-  for (i1 = 0; i1 < 768; i1++)
-    putc (tile_set_img.palette.global[i1] << 2, fpcx);
-  fclose (fpcx);
-}
-
-static void
 load_level_from_number (int nbr, char cont)
 {
   char tmp[1024];
@@ -3193,10 +3100,6 @@ get_input_directions (void)
     if (is_joystick_button_a (1) && enable_blit)
       keyboard_map[HK_Pause] = 1;
   }
-  if (keyboard_map[HK_PrintScreen] && snap)
-    save_pcx (0);
-  if (keyboard_map[HK_SysRq] && snap)
-    save_pcx (1);
 }
 
 static unsigned char

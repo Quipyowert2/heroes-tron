@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------.
-| Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>                 |
+| Copyright 2000, 2001  Alexandre Duret-Lutz <duret_g@epita.fr>           |
 |                                                                         |
 | This file is part of Heroes.                                            |
 |                                                                         |
@@ -30,7 +30,6 @@
 #include "debughash.h"
 #include "musicfiles.h"
 
-int snap = 0;
 int cpuon = 1;
 bool nosfx = false;
 bool joyoff = false;
@@ -179,7 +178,6 @@ const struct option long_options[] = {
   {"quadruple",		no_argument,       NULL,	'4'},
   {"quiet",		no_argument,	   NULL,	'q'},
   {"really-quiet",	no_argument,	   NULL,	'Q'},
-  {"snap",		no_argument,       &snap,	0},
   {"swap-sides",	no_argument,       NULL,	's'},
   {"triple",		no_argument,       NULL,	'3'},
   {"verbose",		required_argument, NULL,	'v'},
