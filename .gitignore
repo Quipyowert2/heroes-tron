@@ -8,3 +8,5 @@ config.status
 config.cross.cache
 music.raw
 music.wav
+.deps
+stamp-h
