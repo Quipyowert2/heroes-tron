@@ -372,7 +372,7 @@ show_help (void)
 	nextligne = 1;
 	break;
       default:
-	t = 0;
+	/* NOP */
       }
      } else
        t = 0;

@@ -47,5 +47,6 @@ end_sprprogwav (void)
 {
   sprite_t *s = end_sprprog ();
   s->all.kind = S_PROG_WAV;	/* overwrite */
+  s->all.draw = draw_sprprogwav; /* overwrite */
   return s;
 }

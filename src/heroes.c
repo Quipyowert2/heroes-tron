@@ -3212,11 +3212,11 @@ static void
 pause_menu (void)
 {
   int i;
-  char l = 0;
-  keycode_t k;
-  int t, t2, dp;
+  int l = 0;
   unsigned char *src = render_buffer[0];
   htimer_t pause_htimer;
+
+  /* FIXME: this works in 320x200, this is shame, this is broken. */
 
   dmsg (D_SECTION, "pause menu");
 
@@ -3239,83 +3239,8 @@ pause_menu (void)
 	      20 * 320 / 4);
     draw_text_waving_320 ("PAUSE", 159, 5, 1);
 
-    dp = read_htimer (sound_track_htimer);
-    t = dp/2;
-    dp &= 1;
-    if (t > 5999)
-      t = 5999;
-    copy_rect_transp_320 (jukebox_img.buffer, corner[0] + 180 * 320 + 8, 306,
-			  19);
-    if (l == 0)
-      copy_rect_4_320 (jukebox_img.buffer + 19 * 320,
-		       corner[0] + 184 * 320 + 8 + 5, 12, 9);
-    else if (l == 1)
-      copy_rect_4_320 (jukebox_img.buffer + 19 * 320 + 12,
-		       corner[0] + 184 * 320 + 8 + 27, 12, 9);
-    else if (l == 2)
-      copy_rect_4_320 (jukebox_img.buffer + 19 * 320 + 24,
-		       corner[0] + 184 * 320 + 8 + 274, 16, 9);
-
-    if (soundtrack_title)
-      draw_deck_text (soundtrack_title, 110, 186, 1);
-    if (soundtrack_author)
-      draw_deck_text (soundtrack_author, 197, 186, 1);
-
-    t2 = t % 60;
-    t /= 60;
-    copy_rect_2_320 (jukebox_img.buffer + 19 * 320 + 227 + (t2 % 10) * 6,
-		     corner[0] + 186 * 320 + 8 + 228 + 19, 6, 5);
-    copy_rect_2_320 (jukebox_img.buffer + 19 * 320 + 227 + (t2 / 10) * 6,
-		     corner[0] + 186 * 320 + 8 + 228 + 13, 6, 5);
-    if (dp == 0)
-      copy_rect_2_320 (jukebox_img.buffer + 19 * 320 + 227 + 60 - 1,
-		       corner[0] + 186 * 320 + 8 + 228 + 10, 2, 5);
-    copy_rect_2_320 (jukebox_img.buffer + 19 * 320 + 227 + (t % 10) * 6,
-		     corner[0] + 186 * 320 + 8 + 227 + 6, 6, 5);
-    copy_rect_2_320 (jukebox_img.buffer + 19 * 320 + 227 + (t / 10) * 6,
-		     corner[0] + 186 * 320 + 8 + 227, 6, 5);
-
-    vsynch ();
-    fastmem4 ((char *) corner[0], (char *) screen + 90 * 320, 20 * 320 / 4);
-    fastmem4 ((char *) corner[0] + 180 * 320, (char *) screen + 180 * 320,
-	      20 * 320 / 4);
-    if (key_or_joy_ready ()) {
-      k = get_key_or_joy ();
-      if (k == HK_Up || k == HK_Down || k == HK_Left || k == HK_Right)
-	event_sfx (140);
-      if (k == HK_Up || k == HK_Left) {
-	if (l > 0)
-	  l--;
-	else
-	  l = 2;
-      }
-      if (k == HK_Down || k == HK_Right) {
-	if (l < 2)
-	  l++;
-	else
-	  l = 0;
-      }
-      if (k == HK_Enter) {
-	if (l == 2)
-	  k = HK_Escape;
-	else {
-	  unload_soundtrack ();
-	  if (l == 0) {
-	    event_sfx (74);
-	    load_next_soundtrack ();
-	  }
-	  if (l == 1) {
-	    event_sfx (75);
-	    load_prev_soundtrack ();
-	  }
-	  play_soundtrack ();
-	  reset_htimer (sound_track_htimer);
-	}
-      }
-      if (k == HK_Pause)
-	k = HK_Escape;
-    }
-  } while (k != HK_Escape);
+    jukebox_draw (l);
+  } while (jukebox_keys (&l));
 
   init_keyboard_map ();
   set_volume ();

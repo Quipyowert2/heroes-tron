@@ -1,5 +1,30 @@
 2000-11-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Rewrite parts of jukebox_menu so that it use the new sprites
+	drawing routines.  Factor code for pause_menu.
+
+	* src/menus.c (credit_menu_txt, jukebox_frame, jukebox_back,
+	jukebox_forw, jukebox_quit): New sprites.
+	(init_menus_sprites): Create them.
+	(uninit_menus_sprites): Free them.
+	(jukebox_draw): New.
+	(jukebox_keys): New.
+	(jukebox_menu): Use the above sprites.  Move some code to
+	jukebox_keys and jukebox_draw so that pause_menu can reuse it.
+	* src/heroes.c (pause_menu): Adapt to call jukebox_draw and
+	jukebox_keys.
+	* src/menus.h (jukebox_draw, jukebox_keys): Declare.
+
+	Fixes.
+
+	* src/sprprogwav.c (end_sprprogwav): Overwrite the drawing function.
+	* src/sprrle.c (compile_sprrle): Ensure to not overflow to
+	tranparant and opaque pixel counters.
+	* src/gfx_reader.h (show_help): Don't zero keys not handled in the
+	switch.
+
+2000-11-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Use get_sound_track_from_rank to cycle into the sound track list.
 	The jukebox menu do not require a hardcoded list of sound track
 	aliases anymore.  Move the jukebox_menu to menu.c.

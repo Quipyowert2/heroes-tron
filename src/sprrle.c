@@ -76,10 +76,10 @@ compile_sprrle (const pixel_t *src, pixel_t transp_color,
     /* encode a line */
     do {
       /* count the number of transparant pixels */
-      for (m = 0; *src == transp_color && src < eol; ++src)
+      for (m = 0; *src == transp_color && src < eol && m < 255; ++src)
 	++m;
       /* count the number of opaque pixels */
-      for (n = 0; src[n] != transp_color && src + n < eol;)
+      for (n = 0; src[n] != transp_color && src + n < eol && n < 255;)
 	++n;
 
       /* write the corresponding program */
