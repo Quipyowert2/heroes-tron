@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------.
-| Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>                 |
+| Copyright 2000, 2001  Alexandre Duret-Lutz <duret_g@epita.fr>           |
 |                                                                         |
 | This file is part of Heroes.                                            |
 |                                                                         |
@@ -23,17 +23,18 @@
 #include "debugmsg.h"
 #include "errors.h"
 #include "rsc_files.h"
+#include "stripslash.h"
 
 char* userdir = 0;
 
 /* Test if a file exists and is a directory */
-int 
-exists_dir (char* dir) 
+int
+exists_dir (char* dir)
 {
   struct stat s;
   int err = stat (dir, &s);
   if (err) {
-    if (errno == ENOENT) 
+    if (errno == ENOENT)
       return 0;
     dperror ("stat");
     return -1;
@@ -47,7 +48,7 @@ exists_dir (char* dir)
 
 
 /* create the $(user-dir) directory, if needed */
-int 
+int
 setup_userdir (void)
 {
   dmsg (D_SECTION,"user directory setup");
@@ -56,6 +57,7 @@ setup_userdir (void)
     free (userdir);
 
   userdir = get_non_null_rsc_file ("user-dir");
+  strip_trailing_slashes (userdir);
 
   {
     int err = exists_dir (userdir);

@@ -43,7 +43,7 @@
 #include "rsc_files.h"
 #include "debugmsg.h"
 #include "const.h"
-
+#include "stripslash.h"
 
 static pcx_image_t heditrsc;
 static pcx_image_t tile_set_img;
@@ -1636,8 +1636,10 @@ create_levels_output_dir (void)
 {
   int error;
 
-  if (!levels_output_dir)
+  if (!levels_output_dir) {
     levels_output_dir = get_non_null_rsc_file ("hedlite-output-dir");
+    strip_trailing_slashes (levels_output_dir);
+  }
 
   error = exists_dir (levels_output_dir);
   if (error < 0)
