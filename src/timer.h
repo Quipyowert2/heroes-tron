@@ -33,12 +33,12 @@
 /* If gettimeofday does not exists, we use clock() */
 
 #if HAVE_GETTIMEOFDAY
-#  define SEC 1000000
+#  define SECOND 1000000
 #else
-#  define SEC CLOCKS_PER_SEC
+#  define SECOND CLOCKS_PER_SEC
 #endif
 
-#define HZ(x)   (SEC/(x))
+#define HZ(x)   (SECOND/(x))
 
 /* A global timer returns durations between the reset of the timer and
    the current time, a local timer returns durations between two

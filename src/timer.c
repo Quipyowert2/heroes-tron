@@ -47,7 +47,7 @@ reset_htimer_with_offset (htimer_t timer, long sec)
 #ifdef HAVE_GETTIMEOFDAY
   timer->orig_time.tv_sec -= sec;
 #else
-  timer->orig_time -= sec * SEC;
+  timer->orig_time -= sec * SECOND;
 #endif
 }
 
@@ -98,9 +98,9 @@ read_htimer (htimer_t timer)
   d = timer->slice_duration;
 
   for (;;) {
-    /* The following formula computes `(s*SEC+u)/d', trying to not
-       overflow (obviously `s*SEC+u' is likely to be too big) */
-    res = (s*(SEC/d)) + ((s*(SEC%d))/d) + ((((s*(SEC%d))%d)+u)/d);
+    /* The following formula computes `(s*SECOND+u)/d', trying to not
+       overflow (obviously `s*SECOND+u' is likely to be too big) */
+    res = (s*(SECOND/d)) + ((s*(SECOND%d))/d) + ((((s*(SECOND%d))%d)+u)/d);
 
     if ((res != 0) || (((timer->kind & T_BLOCKING) == 0)))
       break;
@@ -115,9 +115,9 @@ read_htimer (htimer_t timer)
   if (timer->kind & T_LOCAL) {
     reset_htimer (timer);
     /* account for the time remaining from the last unfinished slice */
-    timer->orig_time.tv_usec -= (((s*(SEC%d))%d)+u)%d;
+    timer->orig_time.tv_usec -= (((s*(SECOND%d))%d)+u)%d;
     while (timer->orig_time.tv_usec < 0) {
-      timer->orig_time.tv_usec += SEC;
+      timer->orig_time.tv_usec += SECOND;
       --timer->orig_time.tv_sec;
     }
   }
@@ -157,15 +157,15 @@ shift_htimer (htimer_t to_shift, htimer_t amount)
   s = current_time.tv_sec - amount->orig_time.tv_sec;
   u = current_time.tv_usec - amount->orig_time.tv_usec;
   if (u < 0) {
-    u += SEC;
+    u += SECOND;
     --s;
   }
   
   /* add this amount from the timer's origin */
   to_shift->orig_time.tv_usec += u;
   to_shift->orig_time.tv_sec += s;
-  if (to_shift->orig_time.tv_usec >= SEC) {
-    to_shift->orig_time.tv_usec -= SEC;
+  if (to_shift->orig_time.tv_usec >= SECOND) {
+    to_shift->orig_time.tv_usec -= SECOND;
     ++to_shift->orig_time.tv_sec;
   }
 #else

@@ -1,5 +1,14 @@
 2000-09-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Solaris already defines SEC.
+
+	* src/timer.c (SEC): Rename to ...
+	(SECOND): ... this.
+	* src/timer.c (reset_htimer_with_offset,read_htimer,
+	shift_htimer): Addapt to use SECOND.
+
+2000-09-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/intro.c (show_intro): Addapt constants for better
 	synchronisation with the sound track.
 	* src/heroes.c (play_demo): Reset the fading_timer once,
