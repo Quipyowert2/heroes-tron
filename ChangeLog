@@ -1,3 +1,9 @@
+2001-04-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/persona.c (user_persona, sys_persona): Typo.
+	* src/display.c (get_directbuffers): Argument v is not a pointer.
+	* src/joystick.c (joystick): Not a pointer.
+
 2001-04-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/prefs.tpl (load_preferences): Free buf.

@@ -323,7 +323,7 @@ setup_WWWxHHHxB_display (void)
 }
 
 static void
-get_directbuffers (ggi_visual_t *v)
+get_directbuffers (ggi_visual_t v)
 {
   int numbuf;
   int i;

@@ -33,7 +33,7 @@ char joystick_detected = 0;
 #ifdef JOYSTICK_SUPPORT
 #ifdef HAVE_LIBGII
 
-gii_input_t* joystick;
+gii_input_t joystick;
 
 static void
 _get_joystick_state (void)
