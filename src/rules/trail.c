@@ -86,3 +86,12 @@ erase_trail (a_level_state *state, const a_level *lvl, int c)
       trigger_explosion (state, lvl, i, EXPLOSION_IMMEDIATE);
     }
 }
+
+bool
+state_trail_expending (const a_level_state *state, int player)
+{
+  int tmp1 = state->private->trail_offset[player]
+    + state->private->trail_size[player] - 1;
+  return (state->private->trail_pos[player][tmp1 & (maxq - 1)]
+	  == state->private->trail_pos[player][(tmp1 - 1) & (maxq - 1)]);
+}

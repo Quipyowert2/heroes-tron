@@ -35,16 +35,6 @@
 #include "state.h"
 #include "timer.h"
 
-typedef struct a_lemming a_lemming;
-struct a_lemming {
-  unsigned int pos_head, pos_tail; /* positions */
-  unsigned int min;		/* position in the tile */
-  a_lemming *next_dead;		/* next stain in the tile */
-  a_dir dir;
-  int couleur;
-  char dead;
-};
-
 typedef struct an_explosion_info an_explosion_info;
 
 #define maxq 128
@@ -54,10 +44,7 @@ struct a_level_state_bits {
   unsigned trail_offset[4];
   unsigned trail_size[4];	/* size of trails, minus one */
 
-#define lemmings_per_players 50
 #define lemmings_total (lemmings_per_players*4)
-  a_lemming **square_lemmings_list;
-  a_lemming **square_dead_lemmings_list;
   a_lemming lemmings_support[lemmings_total];
   int objects_nbr;
   int lemmings_move_offset;
@@ -71,6 +58,10 @@ struct a_level_state_bits {
   a_timer explo_timer;
   long explo_time;		/* Updated from explo_timer on each call
 				   to update_explosion.  */
+
+  /* FIXME: tile_bonus_cpu is a temporary array used by ai.c.
+     It should NOT be defined here. */
+  a_u8 *tile_bonus_cpu;
 };
 
 void add_color (a_level_state *state, const a_level *lvl, bool allow_clocks);
@@ -86,27 +77,21 @@ extern int bonus_points[2][17];	/* interest of bonuses,
 extern int *bonus_time;
 extern int *bonus_list;
 
-extern int txt_bonus_tempo[4];
-
-extern void add_bonus (const a_level *lvl, int pos_in_list,
-		       unsigned char what);
 extern void add_random_bonus (a_level_state *state, const a_level *lvl,
 			      int pos_in_list);
 extern void rem_bonus (a_level_state *state, const a_level *lvl, int pos);
 
 /* reset and allocate bonus data for a given level */
 extern int init_bonuses_level (a_level_state *state, const a_level *lvl);
-extern void uninit_bonuses_level (void);
+extern void uninit_bonuses_level (a_level_state *state);
 
 extern void spread_bonuses (a_level_state *state, const a_level *lvl);
-
-extern void set_txt_bonus (int pl, const char *txt, int tempo);
 
 extern void add_end_level_bonuses (a_level_state *state, const a_level *lvl);
 extern void apply_bonus (a_level_state *state, const a_level *lvl,
 			 int pl, char bonus);
 
-extern void update_player_bonus_vars (int pl);
-extern void update_bonuses (a_level_state *state, const a_level *lvl);
+void allocate_explosions (a_level_state *state, const a_level *lvl);
+void release_explosions (a_level_state *state);
 
 #endif /* HEROES__STATEPRIV__H */

@@ -29,13 +29,11 @@ find_lemming_direction (a_level_state *state, const a_level *lvl,
   a_dir d;
   a_dir_mask avail_dirm;
 
-  a_level_state_bits *bits = state->private;
-
   /* The lemming advances one square.  The tail takes the place of
      the head.  */
-  bits->square_lemmings_list[lem->pos_tail] = NULL;
+  state->square_lemmings_list[lem->pos_tail] = NULL;
   lem->pos_tail = lem->pos_head;
-  bits->square_lemmings_list[lem->pos_tail] = lem;
+  state->square_lemmings_list[lem->pos_tail] = lem;
 
   /* We need to compute the new square for the head (i.e. the
      direction of the lemming).  */
@@ -52,7 +50,7 @@ find_lemming_direction (a_level_state *state, const a_level *lvl,
 	|| state->square_occupied[dest] != SQOC_VACANT
 	/* neither should they go to a quare occupied by another
 	   lemming.  */
-	|| bits->square_lemmings_list[dest])
+	|| state->square_lemmings_list[dest])
       avail_dirm &= ~DIR_TO_DIRMASK(d);
   }
   /* Also, we don't want to allow lemmings to enter
@@ -121,8 +119,8 @@ find_lemming_direction (a_level_state *state, const a_level *lvl,
 
     /* If the lemming is moving, mark the destination square as
        occupied so that no other lemming dares to move there too. */
-    assert (bits->square_lemmings_list[lem->pos_head] == 0);
-    bits->square_lemmings_list[lem->pos_head] = lem;
+    assert (state->square_lemmings_list[lem->pos_head] == 0);
+    state->square_lemmings_list[lem->pos_head] = lem;
   }
 }
 
@@ -143,7 +141,7 @@ state_init_lemmings (a_level_state *state, const a_level *lvl)
 	assert (k < lvl->square_count);
       } while (lvl->square_type[k] == T_OUTWAY
 	       || state->square_occupied[k] != SQOC_VACANT
-	       || state->private->square_lemmings_list[k] != NULL);
+	       || state->square_lemmings_list[k] != NULL);
       ptir->pos_head = k;
       find_lemming_direction (state, lvl, ptir);
       ptir->min = 0;

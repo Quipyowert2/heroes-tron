@@ -189,19 +189,13 @@ draw_trail (int c, a_pixel* dest, a_dir8_pair d)
 }
 
 static void
-draw_trail_tail (int c, a_pixel* dest)
+draw_trail_tail (int c, a_pixel* dest, a_dir8_pair d)
 {
-  char k;
-  int tmp1;
   c -= 2;
-  /* FIXME: I don't undrestand what the code is checking here.  */
-  tmp1 = state.private->trail_offset[c] + state.private->trail_size[c] - 1;
-  k = state.private->trail_way[c][tmp1 & (maxq - 1)];
-  if (state.private->trail_pos[c][tmp1 & (maxq - 1)]
-      != state.private->trail_pos[c][(tmp1 - 1) & (maxq - 1)])
-    draw_trail_real ((char) c, k, dest, 1);
+  if (state_trail_expending (&state, c))
+    draw_trail_real ((char) c, d, dest, 0);
   else
-    draw_trail_real ((char) c, k, dest, 0);
+    draw_trail_real ((char) c, d, dest, 1);
 }
 
 static void
@@ -255,9 +249,6 @@ draw_lemming (a_pixel *dest, const a_lemming *lem, unsigned int pos)
 {
   const a_pixel *src;
 
-  assert (lem >= state.private->lemmings_support
-	  && lem < state.private->lemmings_support + lemmings_total);
-
   if (pos == lem->pos_tail) {
     int c = lem->couleur;
     a_dir d = lem->dir;
@@ -302,9 +293,6 @@ draw_dead_lemming (a_pixel *dest_, const a_lemming *lem)
   char d;
 
   do {
-    assert (lem >= state.private->lemmings_support
-	    && lem < state.private->lemmings_support + lemmings_total);
-
     dest = dest_;
     d = lem->dir;
     if (d == w_up)
@@ -415,11 +403,11 @@ draw_level (int p)
 	     2 + (nbr_tiles_cols - camera_stop_x[p]); j > 0; j--, i += 2) {
 	  i &= lvl.square_width_wrap;
 	  if ((unsigned) i < lvl.square_width) {
-	    tmppti = state.private->square_dead_lemmings_list[i + m];
+	    tmppti = state.square_dead_lemmings_list[i + m];
 	    if (tmppti != NULL) {
 	      draw_dead_lemming (dest, tmppti);
 	    }
-	    tmppti = state.private->square_dead_lemmings_list[i + m + 1];
+	    tmppti = state.square_dead_lemmings_list[i + m + 1];
 	    if (tmppti != NULL) {
 	      draw_dead_lemming (dest + 12, tmppti);
 	    }
@@ -440,11 +428,11 @@ draw_level (int p)
       m = k * lvl.square_width;
       for (i = corner_dx[p] * 2, j = (nbr_tiles_cols - camera_stop_x[p]);
 	   j > 0; j--, i = ((i + 2) & lvl.square_width_wrap)) {
-	tmppti = state.private->square_lemmings_list[i + m];
+	tmppti = state.square_lemmings_list[i + m];
 	if (tmppti != NULL) {
 	  draw_lemming (dest, tmppti, i + m);
 	}
-	tmppti = state.private->square_lemmings_list[i + m + 1];
+	tmppti = state.square_lemmings_list[i + m + 1];
 	if (tmppti != NULL) {
 	  draw_lemming (dest + 12, tmppti, i + m + 1);
 	}
@@ -520,7 +508,7 @@ draw_level (int p)
 	else if (bb >= 8 && bb < 12)
 	  draw_trail ((char) (bb - 6), dest, state.square_way[i + m]);
 	else if (bb >= 12 && bb < 16)
-	  draw_trail_tail ((char) (bb - 10), dest);
+	  draw_trail_tail ((char) (bb - 10), dest, state.square_way[i + m]);
       }
       bb = state.square_occupied[i + m + 1];
       if (bb != -1) {
@@ -532,7 +520,8 @@ draw_level (int p)
 	else if (bb >= 8 && bb < 12)
 	  draw_trail ((char) (bb - 6), dest2, state.square_way[i + m + 1]);
 	else if (bb >= 12 && bb < 16)
-	  draw_trail_tail ((char) (bb - 10), dest2);
+	  draw_trail_tail ((char) (bb - 10), dest2,
+			   state.square_way[i + m + 1]);
       }
       dest += 24;
     }
@@ -588,7 +577,7 @@ draw_level (int p)
   /* Draw tutorial arrows */
 
   if (tutor) {
-    int bonus_to_show = state.private->trail_size[state.col2plr[p]] < 55 ? 1 : 12;
+    int bonus_to_show = state_trail_size (&state, p) < 10 ? 1 : 12;
     long wavepos = read_htimer (waving_htimer);
     /* Angle is the angle of the tail of the arrow, i.e.
        `<-' is 0 and `->' is M_PI.
@@ -612,7 +601,7 @@ draw_level (int p)
       for (i = corner_dx[p] - 1, j = 2 + nbr_tiles_cols - camera_stop_x[p];
 	   j > 0; j--, i++) {
 	i &= lvl.tile_width_wrap;
-	if (tile_bonus[i + m] == bonus_to_show)
+	if (state.tile_bonus[i + m] == bonus_to_show)
 	  draw_sprunish_custom (s, dest, color);
 	dest += 24;
       }
@@ -685,7 +674,7 @@ draw_radar_map (a_square_coord dx, a_square_coord dy, int radar_shift)
       for (x = 73; x; --x) {
 	tdx &= lvl.square_width_wrap;
 	if (tdx < lvl.square_width) {
-	  tmp = tile_bonus[state.square_tile[tdx + tdym]];
+	  tmp = state.tile_bonus[state.square_tile[tdx + tdym]];
 	  /* If there is a bonus on this square ... */
 	  if (tmp != 0 && tmp != -1) {
 	    /* ... draw it, possibly blinking.  */

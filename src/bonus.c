@@ -41,6 +41,9 @@ unsigned char *tile_bonus_cpu;
 a_timer bonus_anim_htimer;
 int bonus_anim_offset;
 
+a_sprite *txt_bonus[4] = { 0, 0, 0, 0 };
+int txt_bonus_tempo[4];
+
 void
 init_bonuses (void)
 {
@@ -68,6 +71,15 @@ init_bonuses (void)
 }
 
 void
+render_init_bonus_level (void)
+{
+  txt_bonus_tempo[0] = 0;
+  txt_bonus_tempo[1] = 0;
+  txt_bonus_tempo[2] = 0;
+  txt_bonus_tempo[3] = 0;
+}
+
+void
 uninit_bonuses (void)
 {
   int bonus;
@@ -88,4 +100,20 @@ show_txt_bonus (int pl, a_pixel *dest)
 {
   if (txt_bonus_tempo[pl] > 0)
     DRAW_SPRITE (txt_bonus[pl], dest);
+}
+
+void
+set_txt_bonus (int pl, const char *txt, int tempo)
+{
+  FREE_SPRITE0 (txt_bonus[pl]);
+  txt_bonus[pl] = compile_bonus_text (txt, T_FLUSHED_LEFT | T_WAVING, 0, 0);
+  txt_bonus_tempo[pl] = tempo;
+}
+
+/* FIXME: Use a timer instead of calling this function.  */
+void
+update_player_bonus_vars (int pl)
+{
+  if (txt_bonus_tempo[pl] > 0)
+    txt_bonus_tempo[pl]--;
 }

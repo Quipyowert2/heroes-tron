@@ -66,8 +66,8 @@ state_init (a_level_state *state, const a_level *lvl, char cont,
   state->square_object = 0;
 
   if (state->game_mode == M_KILLEM) {
-    XCALLOC_ARRAY (bits->square_lemmings_list, lvl->square_count);
-    XCALLOC_ARRAY (bits->square_dead_lemmings_list, lvl->square_count);
+    XCALLOC_ARRAY (state->square_lemmings_list, lvl->square_count);
+    XCALLOC_ARRAY (state->square_dead_lemmings_list, lvl->square_count);
     memset (bits->lemmings_support, 0,
 	    lemmings_total * sizeof (*state->private->lemmings_support));
   } else if (state->game_mode >= M_TCASH) {
@@ -152,18 +152,26 @@ state_init (a_level_state *state, const a_level *lvl, char cont,
 	add_cash (state, lvl, 1);
     }
   }
+
+  allocate_explosions (state, lvl);
+  init_bonuses_level (state, lvl);
+  if (!in_menu)
+    spread_bonuses (state, lvl);
 }
 
 void
 state_free (a_level_state *state)
 {
+  uninit_bonuses_level (state);
+  release_explosions (state);
+
   free (state->square_occupied);
   free (state->square_way);
   free (state->square_tile);
   free (state->square_coord);
 
-  XFREE (state->private->square_lemmings_list);
-  XFREE (state->private->square_dead_lemmings_list);
+  XFREE (state->square_lemmings_list);
+  XFREE (state->square_dead_lemmings_list);
   XFREE (state->square_object);
 
   free (state->private);

@@ -18,13 +18,12 @@
 `------------------------------------------------------------------------*/
 
 #include "system.h"
+#include "statepriv.h"
 #include "sfx.h"
 #include "argv.h"
 #include "debugmsg.h"
-#include "statepriv.h"
 
 #include "bonus.h"		/* FIXME: Get rid of this.  */
-#include "sprtext.h"		/* FIXME: Get rid of this.  */
 #include "heroes.h"		/* FIXME: Get rid of this.  */
 #include "renderdata.h"		/* FIXME: Get rid of this.  */
 
@@ -57,10 +56,6 @@ int *bonus_list;
 static int bonus_total_nbr, bonus_real_nbr;
 static int next_bonus_to_update;
 
-a_sprite *txt_bonus[4] = { 0, 0, 0, 0 };
-int txt_bonus_tempo[4];
-
-
 static unsigned char
 random_bonus (void)
 {
@@ -73,16 +68,17 @@ random_bonus (void)
   return (b);
 }
 
-void
-add_bonus (const a_level *lvl, int pos_in_list, unsigned char what)
+static void
+add_bonus (a_level_state *state, const a_level *lvl,
+	   int pos_in_list, unsigned char what)
 {
   int pos;
 
   do
     pos = rand () % lvl->tile_count;
-  while (tile_bonus[pos] != 0);
+  while (state->tile_bonus[pos] != 0);
 
-  tile_bonus[pos] = what;
+  state->tile_bonus[pos] = what;
   bonus_list[pos_in_list] = pos;
   bonus_time[pos_in_list] = event_time + (rand () % 511) - 256;
 
@@ -111,7 +107,7 @@ add_random_bonus (a_level_state *state, const a_level *lvl, int pos_in_list)
     if (!(rand () & 3))
       what |= 128;
 
-  add_bonus (lvl, pos_in_list, what + 1);
+  add_bonus (state, lvl, pos_in_list, what + 1);
 }
 
 void
@@ -127,7 +123,7 @@ rem_bonus (a_level_state *state, const a_level *lvl, int pos)
   while (bonus_list[i] != pos);
 
   /* remove the bonus */
-  tile_bonus[pos] = 0;
+  state->tile_bonus[pos] = 0;
 
   /* don't draw it anymore */
   fg_data[pos].bonus = 0;
@@ -149,7 +145,7 @@ reset_bonus_mode (int mode)
 }
 
 static void
-mark_unreachable_places (const a_level *lvl)
+mark_unreachable_places (a_level_state *state, const a_level *lvl)
 {
   a_tile_index i;
 
@@ -162,21 +158,21 @@ mark_unreachable_places (const a_level *lvl)
 	|| (lvl->square_walls_out[SQR1 (lvl, s)] & (DM_DOWN | DM_LEFT))
 	|| (lvl->square_walls_out[SQR2 (lvl, s)] & (DM_UP | DM_RIGHT))
 	|| (lvl->square_walls_out[SQR3 (lvl, s)] & (DM_UP | DM_LEFT)))
-      tile_bonus[i] = 0xff;
+      state->tile_bonus[i] = 0xff;
   }
 }
 
 int
 init_bonuses_level (a_level_state *state, const a_level *lvl)
 {
-  uninit_bonuses_level ();	/* just in case */
+  uninit_bonuses_level (state);	/* just in case */
 
   dmsg (D_BONUS, "Initialize bonuses for level.");
 
   reset_bonus_mode (state->game_mode);
 
-  XCALLOC_ARRAY (tile_bonus, lvl->tile_count);
-  XCALLOC_ARRAY (tile_bonus_cpu, lvl->tile_count);
+  XCALLOC_ARRAY (state->tile_bonus, lvl->tile_count);
+  XCALLOC_ARRAY (state->private->tile_bonus_cpu, lvl->tile_count);
 
   bonus_total_nbr = (lvl->tile_count / 90) + 3;
   bonus_real_nbr = bonus_total_nbr - 2;
@@ -188,23 +184,19 @@ init_bonuses_level (a_level_state *state, const a_level *lvl)
   XMALLOC_ARRAY (bonus_time, bonus_total_nbr);
   XMALLOC_ARRAY (bonus_list, bonus_total_nbr);
 
-  mark_unreachable_places (lvl);
+  mark_unreachable_places (state, lvl);
 
-  txt_bonus_tempo[0] = 0;
-  txt_bonus_tempo[1] = 0;
-  txt_bonus_tempo[2] = 0;
-  txt_bonus_tempo[3] = 0;
-
+  render_init_bonus_level ();
   return 0;
 }
 
 void
-uninit_bonuses_level (void)
+uninit_bonuses_level (a_level_state *state)
 {
   dmsg (D_BONUS, "Uninitialize bonuses for level.");
 
-  XFREE0 (tile_bonus);
-  XFREE0 (tile_bonus_cpu);
+  XFREE0 (state->tile_bonus);
+  XFREE0 (state->private->tile_bonus_cpu);
   XFREE0 (bonus_time);
   XFREE0 (bonus_list);
 }
@@ -221,14 +213,6 @@ spread_bonuses (a_level_state *state, const a_level *lvl)
 }
 
 void
-set_txt_bonus (int pl, const char *txt, int tempo)
-{
-  FREE_SPRITE0 (txt_bonus[pl]);
-  txt_bonus[pl] = compile_bonus_text (txt, T_FLUSHED_LEFT | T_WAVING, 0, 0);
-  txt_bonus_tempo[pl] = tempo;
-}
-
-void
 add_end_level_bonuses (a_level_state *state, const a_level *lvl)
 {
   if (bonus_real_nbr != bonus_total_nbr) {
@@ -236,8 +220,8 @@ add_end_level_bonuses (a_level_state *state, const a_level *lvl)
 
     dmsg (D_BONUS, "Add end-level bonuses.");
 
-    add_bonus (lvl, bonus_real_nbr++, 12);
-    add_bonus (lvl, bonus_real_nbr++, 12 + 128);
+    add_bonus (state, lvl, bonus_real_nbr++, 12);
+    add_bonus (state, lvl, bonus_real_nbr++, 12 + 128);
     for (i = 11; i < 17; i++)
       bonus_proba[i] += 16;
     bonus_proba_sum += 16;
@@ -347,13 +331,6 @@ apply_bonus (a_level_state *state, const a_level *lvl, int pl, char bonus)
   }
 }
 
-void
-update_player_bonus_vars (int pl)
-{
-  if (txt_bonus_tempo[pl] > 0)
-    txt_bonus_tempo[pl]--;
-}
-
 /* only one bonus is updated at each frame (there is no hurry) */
 void
 update_bonuses (a_level_state *state, const a_level *lvl)
@@ -365,7 +342,7 @@ update_bonuses (a_level_state *state, const a_level *lvl)
 	  bonus_pos, next_bonus_to_update);
 
     /* erase the bonus */
-    tile_bonus[bonus_pos] = 0;
+    state->tile_bonus[bonus_pos] = 0;
     /* don't draw it anymore */
     fg_data[bonus_pos].bonus = 0;
     fg_data[bonus_pos].big_dollar = 0;

@@ -31,13 +31,15 @@ extern int bonus_anim_offset;
 #define N_BONUS_FRAMES 13
 extern a_sprite *bonus_rle[2][N_BONUSES][N_BONUS_FRAMES];
 
-extern unsigned char *tile_bonus;
-extern unsigned char *tile_bonus_cpu;
-
 /* globaly initialize bonuses */
 extern void init_bonuses (void);
 extern void uninit_bonuses (void);
 
+/* initialization routine for each level */
+extern void render_init_bonus_level (void);
+
 extern void show_txt_bonus (int pl, a_pixel *dest);
+extern void set_txt_bonus (int pl, const char *txt, int tempo);
+extern void update_player_bonus_vars (int pl);
 
 #endif

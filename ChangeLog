@@ -1,3 +1,51 @@
+2002-02-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Now the src/* code does not access the private parts
+	of src/rules/* anymore.
+
+	* src/rules/state.h: Do not include statepriv.h.
+	* src/rules/bonuses.c (txt_bonus, txt_bonus_tempo, set_txt_bonus,
+	update_player_bonus_var): Move ...
+	* src/bonus.c: ... back here.  Reverting part of 2002-01-30.
+	(renader_init_bonus_level): New function.
+	* src/rules/statepriv.h (set_txt_bonus,
+	update_player_bonus_vars): Move ...
+	* src/bonus.h: ... here.
+	(render_init_bonus_level): New function.
+	(tile_bonus, tile_bonus_cpu): Move ...
+	* src/rules/state.h (a_level_state.tile_bonus): ... here, and ...
+	* src/riles/statepriv.h (a_level_state_bits.tile_bonus_cpu): ... here.
+	* src/rules/bonuses.c (add_bonus, mark_unreachable_place,
+	uninit_bonus_level, update_bonuses): Adjust access to tile_bonus.
+	(init_bonus_level): Likewise.  Call render_init_bonus_level.
+	* src/heroes.c (load_level): Don't call allocate_explosions(),
+	init_bonus_level(), and spread_bonuses().
+	(unload_level): Don't call unit_bonuses_level(), and
+	relese_explosions().
+	* src/render.c (draw_trail_tail): Adjust to use
+	state_trail_expending().
+	(draw_level): Adjust the access to lemmings structures and trails.
+	* src/rules/ai.c: Likewise.
+	* src/rules/update.c: Likewise.
+	* src/rules/lemmings.c (find_lemming_direction, state_init_lemmings,
+	update_lemmings): Update access to lemmings structures.
+	* src/rules/state.c (state_init): Update access to lemmings
+	structures. Call allocate_explosions(), init_bonuses_level(),
+	and spread_bonuses().
+	(state_free): Update access to lemmings structures.  Call
+	uninit_bonus_level() and relese_explosions()
+	* src/rules/statepriv.h (a_lemming,
+	a_level_state_bits.square_lemmings_list,
+	a_level_state_bits.square_dead_lemmings_list,
+	update_bonuses): Move ...
+	* src/rules/state.h (a_lemming, a_level_state.square_lemmings_list,
+	a_level_state.square_dead_lemmings_list, update_bonuses): ... here.
+	(state_trail_expending): New function.
+	(allocate_explosions, release_explosions): Move ...
+	* src/rules/statepriv.h (allocate_explosions,
+	release_explosions): ... here.
+	* src/rules/trail.c (state_trail_expending): New function.
+
 2002-02-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/hedlite.c (gestclav) <HK_i>: Don't ignore tile #0 when

@@ -202,12 +202,6 @@ load_level (char *filename, char cont)
 	state.game_mode);
 
   state_init (&state, &lvl, cont, two_players, in_menu);
-  allocate_explosions (&state, &lvl);
-  if (init_bonuses_level (&state, &lvl))
-    return 15;
-
-  if (!in_menu)
-    spread_bonuses (&state, &lvl);
   return (0);
 }
 
@@ -217,9 +211,7 @@ unload_level (void)
   dmsg (D_LEVEL, "unloading level");
 
   uninit_render_data ();
-  uninit_bonuses_level ();
   img_free (&tile_set_img);
-  release_explosions (&state);
   state_free (&state);
   lvl_free (&lvl);
   unload_soundtrack ();

@@ -245,7 +245,7 @@ ia_eval_dir_target (a_level_state *state, const a_level *lvl,
 
   ia_cur_depth--;
   if (ia_cur_depth != 0) {
-    ((signed char *)state->square_occupied)[pos] = 128;
+    state->square_occupied[pos] = 128;
     mindist = U32_MAX;
 
     ia_eval_dir_target_inline (D_UP);
@@ -253,7 +253,7 @@ ia_eval_dir_target (a_level_state *state, const a_level *lvl,
     ia_eval_dir_target_inline (D_DOWN);
     ia_eval_dir_target_inline (D_LEFT);
 
-    ((signed char *)state->square_occupied)[pos] = 0xff;
+    state->square_occupied[pos] = 0xff;
     ia_cur_depth++;
     return mindist;
   } else {
@@ -281,7 +281,7 @@ ia_eval_dir_lemming (a_level_state *state, const a_level *lvl,
   if (ia_cur_depth != 0) {
     ((signed char*)state->square_occupied)[pos] = 128;
     mindist = 0;
-    tmppti = state->private->square_lemmings_list[pos];
+    tmppti = state->square_lemmings_list[pos];
     if (tmppti >= state->private->lemmings_support
 	&& tmppti < (state->private->lemmings_support + lemmings_total)) {
       if (tmppti->couleur == ia_player)
@@ -414,11 +414,11 @@ ia_eval_dir_bonus (a_level_state *state, const a_level *lvl,
     a_tile_index d = state->square_tile[pos];
     a_square_index idx;
     int tmp;
-    ((signed char*)state->square_occupied)[pos] = 128;
-    if (tile_bonus_cpu[d] == 0) {
-      tmp = tile_bonus[d];
+    state->square_occupied[pos] = 128;
+    if (state->private->tile_bonus_cpu[d] == 0) {
+      tmp = state->tile_bonus[d];
       if ((tmp != 0) && (tmp != 0xff)) {
-	tile_bonus_cpu[d] = 1;
+	state->private->tile_bonus_cpu[d] = 1;
 	if (tmp < 128)
 	  tmp2 = bonus_points[0][tmp - 1];
 	else
@@ -433,8 +433,8 @@ ia_eval_dir_bonus (a_level_state *state, const a_level *lvl,
     mindist += tmp2 * (5 + ia_cur_depth) /* /ia_max_depth */ ;
 
     if (tmp2)
-      tile_bonus_cpu[state->square_tile[pos]] = 0;
-    ((signed char*)state->square_occupied)[pos] = SQOC_VACANT;
+      state->private->tile_bonus_cpu[state->square_tile[pos]] = 0;
+    state->square_occupied[pos] = SQOC_VACANT;
     ia_cur_depth++;
     return mindist;
   } else {

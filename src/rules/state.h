@@ -28,6 +28,16 @@ typedef struct a_level_state a_level_state;
 /* Hidden details in a_level_state */
 typedef struct a_level_state_bits a_level_state_bits;
 
+typedef struct a_lemming a_lemming;
+struct a_lemming {
+  unsigned int pos_head, pos_tail; /* positions */
+  unsigned int min;		/* position in the tile */
+  a_lemming *next_dead;		/* next stain in the tile */
+  a_dir dir;
+  int couleur;
+  char dead;
+};
+
 typedef enum a_game_mode a_game_mode;
 enum a_game_mode {
   M_QUEST = 0,
@@ -125,14 +135,21 @@ struct a_level_state {
   LVL_STATE_MUTABLE an_explosion *square_explo_state;
   LVL_STATE_MUTABLE a_u8 *square_explo_type;
 
+  LVL_STATE_MUTABLE a_u8 *tile_bonus;
+
+#define lemmings_per_players 50
+  a_lemming **square_lemmings_list;
+  a_lemming **square_dead_lemmings_list;
+
   /* Private data.  Use the state_* functions to access them.  */
   LVL_STATE_MUTABLE a_level_state_bits *private;
 };
 
-#include "statepriv.h"		/* FIXME: Get rid of this.  */
-
 /* Size of the player's trail (i.e. number of L+ bonus eaten + 1).  */
 int state_trail_size (const a_level_state *state, int player);
+
+/* Return TRUE if the trail is expending.  */
+bool state_trail_expending (const a_level_state *state, int player);
 
 void state_erase_player (a_level_state *state, const a_level *lvl, unsigned i);
 void state_reinit_player (a_level_state *state, const a_level *lvl,
@@ -160,7 +177,6 @@ void trigger_possible_explosion (a_level_state *state, const a_level *lvl,
 				 a_square_index idx);
 void update_explosions (a_level_state *state, const a_level *lvl);
 
-void allocate_explosions (a_level_state *state, const a_level *lvl);
-void release_explosions (a_level_state *state);
+void update_bonuses (a_level_state *state, const a_level *lvl);
 
 #endif /* HEROES__STATE__H */

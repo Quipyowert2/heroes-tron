@@ -358,7 +358,7 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
     }
 
     if (state->game_mode == M_KILLEM) {
-      tmppti = state->private->square_lemmings_list[d2];
+      tmppti = state->square_lemmings_list[d2];
       if (tmppti) {
 	int lemmings_move_offset = state_lemmings_move_offset (state);
 	assert (tmppti >= state->private->lemmings_support
@@ -395,10 +395,10 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
 	    i = tmppti->pos_head;
 	    tmppti->dir = REVERSE_DIR (tmppti->dir);
 	  }
-	  state->private->square_lemmings_list[tmppti->pos_tail] = NULL;
-	  state->private->square_lemmings_list[tmppti->pos_head] = NULL;
-	  tmppti->next_dead = state->private->square_dead_lemmings_list[i];
-	  state->private->square_dead_lemmings_list[i] = tmppti;
+	  state->square_lemmings_list[tmppti->pos_tail] = NULL;
+	  state->square_lemmings_list[tmppti->pos_head] = NULL;
+	  tmppti->next_dead = state->square_dead_lemmings_list[i];
+	  state->square_dead_lemmings_list[i] = tmppti;
 	}
       }
       for (i = 0; i < 4; i++)
@@ -493,7 +493,7 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
 	  state->private->level_is_finished = i + 1;
     }
     {
-      int bonus = tile_bonus[d];
+      int bonus = state->tile_bonus[d];
       if (bonus && bonus != 0xff) {
 	rem_bonus (state, lvl, d);
 	if (!state->private->level_is_finished) {
