@@ -20,6 +20,7 @@ noinst_LIBRARIES += rules/libhrules.a
 
 rules_libhrules_a_SOURCES= \
   rules/bonuses.c \
+  rules/bonuses.h \
   rules/explosions.c \
   rules/lemmings.c \
   rules/objects.c \

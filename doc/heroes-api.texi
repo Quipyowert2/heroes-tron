@@ -122,7 +122,7 @@ Two required functions: initialize and finalize.
 Building a shared object.  Without Libtool.  With Libtool.
 
 Different kind of plugins.  Opponents.
-Pointer to the relevant API section.
+Pointer to the relevant API sections.
 
 @c ======================================================================
 @node API, Index, Writing, Top
@@ -382,6 +382,7 @@ one from Zsh (the Z shell).
 @menu
 * Hooking functions::
 * Defining and running a hook::
+* core hooks::
 @end menu
 
 @node Hooking functions, Defining and running a hook, Hooks, Hooks
@@ -470,7 +471,7 @@ The returned value is the @var{callback_data} passed to
 @end deftypefun
 
 
-@node Defining and running a hook,  , Hooking functions, Hooks
+@node Defining and running a hook, core hooks, Hooking functions, Hooks
 @subsubheading Definining and running a hook
 
 @cindex defining hooks
@@ -526,9 +527,24 @@ are called.
 
 @end deftypefun
 
-@node core hooks
+@node core hooks,  , Defining and running a hook, Hooks
 @subsubheading Core hooks
 
+@table @code
+@item "bonus-add"
+@itemx "bonus-rem"
+@vindex bonus-add
+@vindex bonus-rem
+These hooks are called whenever a bonus is added or removed from the
+board.  The @var{hook_data} pointer, as received by the functions
+registered for this hook, is a pointer to a @code{a_tile_index} variable
+holding the position of the changed (removed or added) bonus.
+
+The hooks are called @emph{after} a bonus have been added, or
+@emph{before} a bonus is removed.  This way you can lookup the bonus
+kind in the @code{tile_bonus} table.
+
+@end table
 
 @c ======================================================================
 @node Heroes data, System functions, Insinuating Heroes, API
@@ -550,6 +566,96 @@ FIXME: This section has yet to be written.
 @subsection @code{a_level_state}
 
 FIXME: This section has yet to be written.
+
+The @code{a_lvel_state} structure keep track of all dynamic data
+associated to a level.  This includes player vehicles and trails, bonus
+positions, explosion states, etc.
+
+
+@menu
+* Bonuses::
+@end menu
+
+@node Bonuses,  , a_level_state, a_level_state
+@subsubsection Bonuses
+@cindex bonuses, definitions
+@tindex a_bonus
+@tindex a_bonus8
+
+The @code{a_level_state} structure's @code{bonus_tile} attribute records
+the bonuses present in each tile.  This is an array of elements of type
+@code{a_bonus8}, indexed by tile numbers.
+
+The different kinds of bonuses are declared as an enumeration called
+@code{a_bonus}.
+
+@code{a_bonus8} and @code{a_bonus} have compatible values, the
+difference is that @code{a_bonus8} is restricted to 8 bits.  Use
+@code{a_bonus} in your code, and reserve @code{a_bonus8} where
+compactness is needed.
+
+Here are the possible values of @code{a_bonus}, and their meannings.
+First, we have two values that indicate emptiness:
+
+@vtable @code
+@item B_NOT_HERE
+No bonus should ever get dropped into this tile.  This is usually the
+case for unreachable tiles, or tiles with ramps or walls.
+
+@item B_NOTHING
+There is no bonus on this tile, however it's possible to drop one bonus
+here.
+@end vtable
+
+Then, we have all the bonus you know (assuming you played the game
+before reading this):
+
+@vtable @code
+@item B_LENGTH_UP
+@itemx B_LENGTH_DOWN
+@itemx B_SPEED_UP
+@itemx B_SPEED_DOWN
+@itemx B_RANDOM
+@itemx B_POINTS
+@itemx B_FIRE_TRAIL
+@itemx B_PAUSE
+@itemx B_INVERTED
+@itemx B_TURBO_UP
+@itemx B_TURBO_DOWN
+@itemx B_END_OF_LEVEL
+@itemx B_INVINCIBLE
+@itemx B_ROTOZOOM
+@itemx B_EXTRA_LIFE
+@itemx B_WAVES
+@itemx B_BIG_DOLLAR
+@end vtable
+
+All the above codes designate the purple-version of the bonus.  As you
+know, there is also a yellow-version of each bonus (except
+@code{B_BIG_DOLLAR}) that you can construct using @code{B_YELLOW}.
+
+@vtable @code
+@item B_YELLOW
+This value can be @emph{or}'ed with any bonus code (except
+@code{B_BIG_DOLLAR}) to create a yellow bonus, as in the following
+example.
+
+@example
+a_bonus b = B_RANDOM | B_YELLOW;
+@end example
+@end vtable
+
+Finally, here are a few convenient macros to inspect bonus values.
+@vtable @code
+@item BONUS_P(b)
+Check whether @var{b} is a bonus.
+Return 0 if @var{b} is @code{B_NOT_HERE} or @code{B_NOTHING}, 1 otherwise.
+@item BONUS_TYPE(b)
+Assuming @var{b} is a bonus, return its type, color excluded.
+For instance @code{BONUS_TYPE(B_RANDOM | B_YELLOW)} is @code{B_RANDOM}.
+@item BONUS_YELLOW_P(b)
+Return 1 iff @var{b} is a yellow bonus.
+@end vtable
 
 @c ======================================================================
 @node System functions,  , Heroes data, API

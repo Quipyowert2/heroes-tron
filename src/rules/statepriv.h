@@ -91,6 +91,7 @@ extern void grow_trail (a_level_state *state, int pl, int size);
 extern void shrink_trail (a_level_state *state, int pl, int size);
 extern void erase_trail (a_level_state *state, int c);
 
+
 extern void add_random_bonus (a_level_state *state, int pos_in_list);
 extern void rem_bonus (a_level_state *state, a_tile_index pos);
 
@@ -101,7 +102,8 @@ extern void uninit_bonuses_level (a_level_state *state);
 extern void spread_bonuses (a_level_state *state);
 
 extern void add_end_level_bonuses (a_level_state *state);
-extern void apply_bonus (a_level_state *state, int pl, char bonus);
+extern void apply_bonus (a_level_state *state, int pl, a_bonus bonus);
+
 
 extern void allocate_explosions (a_level_state *state);
 extern void release_explosions (a_level_state *state);

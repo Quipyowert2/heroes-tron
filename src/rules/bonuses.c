@@ -30,41 +30,43 @@
 
 /* density of bonuses in different modes */
 
-/* L+  L-  S+ S- R#   C  ZZ !!  -1  T+  T- EL []  X XL ~~  $$ */
-const int bonus_density[5][17] =
-{ {40, 10, 12, 8, 8, 40,  6, 8, 10, 16, 16, 0, 8, 7, 4, 7, 0},	/* quest */
-  { 0,  0, 10, 7, 7, 20, 12, 8, 10, 10, 11, 0, 6, 7, 2, 7, 0},	/* deathm */
-  {25, 10, 12, 8, 8, 40,  6, 8, 10, 16, 16, 0, 8, 7, 4, 7, 0},	/* killem */
-  {25, 10, 12, 8, 8, 20,  6, 8, 10, 16, 16, 0, 8, 7, 4, 7, 25},	/* tcash */
-  {25, 10, 12, 8, 8, 30,  6, 8, 10, 16, 16, 0, 8, 7, 4, 7, 0}    /* color */
+/* L+  L-  S+ S- R#   C  ZZ !!  -1  T+  T- EL []  X XL ~~     $$ */
+const int bonus_density[5][18] =
+{ {40, 10, 12, 8, 8, 40,  6, 8, 10, 16, 16, 0, 8, 7, 4, 7, 0, 0}, /* quest */
+  { 0,  0, 10, 7, 7, 20, 12, 8, 10, 10, 11, 0, 6, 7, 2, 7, 0, 0}, /* deathm */
+  {25, 10, 12, 8, 8, 40,  6, 8, 10, 16, 16, 0, 8, 7, 4, 7, 0, 0}, /* killem */
+  {25, 10, 12, 8, 8, 20,  6, 8, 10, 16, 16, 0, 8, 7, 4, 7, 0, 25}, /* tcash */
+  {25, 10, 12, 8, 8, 30,  6, 8, 10, 16, 16, 0, 8, 7, 4, 7, 0, 0} /* color */
 };
 
-static int bonus_proba[17];	/* FIXME: What's the english for
+static int bonus_proba[18];	/* FIXME: What's the english for
 				   "fonction de r\'epartition"? */
 static int bonus_proba_sum = 0;
 
-static unsigned char
+static a_bonus
 random_bonus (void)
 {
   int t;
-  unsigned char b;
-  b = 0;
+  a_bonus b = 0;
   t = (rand () % bonus_proba_sum) + 1;
-  while (t > bonus_proba[b])
+  while (t > bonus_proba[b]) {
     b++;
-  return (b);
+    assert (b < sizeof (bonus_proba) / sizeof (bonus_proba[0]));
+  }
+  return 1 + b;
 }
 
 static void
-add_bonus (a_level_state *state, int pos_in_list, unsigned char what)
+add_bonus (a_level_state *state, int pos_in_list, a_bonus what)
 {
   const a_level *lvl = state->level;
   a_tile_index pos;
 
   do
     pos = rand () % lvl->tile_count;
-  while (state->tile_bonus[pos] != 0);
+  while (state->tile_bonus[pos] != B_NOTHING);
 
+  assert (BONUS_TYPE (what) != B_NOTHING);
   state->tile_bonus[pos] = what;
   state->private->bonus_list[pos_in_list] = pos;
   state->private->bonus_time[pos_in_list] = event_time + (rand () % 511) - 256;
@@ -78,27 +80,43 @@ add_bonus (a_level_state *state, int pos_in_list, unsigned char what)
   --what;
   /* update foreground data for rendering */
   /* FIXME: This should no be done in rules/.  */
-  if (what == 16)
+  if (what == B_BIG_DOLLAR)
     fg_data[pos].big_dollar = 1;
-  else {
-    if (what & 128)
-      fg_data[pos].bonus = bonus_rle[1][what & 127];
-    else
-      fg_data[pos].bonus = bonus_rle[0][what];
-  }
+  else
+    fg_data[pos].bonus = bonus_rle[BONUS_YELLOW_P (what)][BONUS_TYPE (what)];
 }
 
 void
 add_random_bonus (a_level_state *state, int pos_in_list)
 {
-  unsigned char what;
+  a_bonus what;
 
   what = random_bonus ();
-  if (what != 16)		/* yellow `$$' bonuses do not exist */
+  /* Choose a color for bonuses.  */
+  if (what != B_BIG_DOLLAR)	/* yellow `$$' bonuses do not exist */
     if (!(rand () & 3))
-      what |= 128;
+      what |= B_YELLOW;
 
-  add_bonus (state, pos_in_list, what + 1);
+  add_bonus (state, pos_in_list, what);
+}
+
+static
+void
+rem_bonus_idx (a_level_state *state, a_tile_index pos, int idx)
+{
+  /* Inform other interested parties.  (Do that before removing the
+     bonus, so that the hooked functions can see what is removed.)  */
+  hook_run (BONUS_REM_HOOK, &pos);
+
+  /* remove the bonus */
+  state->tile_bonus[pos] = 0;
+
+  /* don't draw it anymore */
+  fg_data[pos].bonus = 0;
+  fg_data[pos].big_dollar = 0;
+
+  /* add a new bonus, at the same position in the list */
+  add_random_bonus (state, idx);
 }
 
 void
@@ -112,19 +130,7 @@ rem_bonus (a_level_state *state, a_tile_index pos)
   do
     i--;
   while (state->private->bonus_list[i] != pos);
-
-  /* remove the bonus */
-  state->tile_bonus[pos] = 0;
-
-  /* Inform other interested parties.  */
-  hook_run (BONUS_REM_HOOK, &pos);
-
-  /* don't draw it anymore */
-  fg_data[pos].bonus = 0;
-  fg_data[pos].big_dollar = 0;
-
-  /* add a new bonus, at the same position in the list */
-  add_random_bonus (state, i);
+  rem_bonus_idx (state, pos, i);
 }
 
 static void
@@ -146,14 +152,14 @@ mark_unreachable_places (a_level_state *state)
 
   for (i = 0; i < lvl->tile_count; ++i) {
     a_square_index s = TILE_INDEX_TO_SQR_INDEX (lvl, i);
-    /* if the place can't be reached, or is a corridor, don't
+    /* if the place can't be reached, or is a corridor, never
        put a bonus */
     if ((lvl_tile_type (lvl, i) == T_OUTWAY)
 	|| (lvl->square_walls_out[SQR0 (lvl, s)] & (DM_DOWN | DM_RIGHT))
 	|| (lvl->square_walls_out[SQR1 (lvl, s)] & (DM_DOWN | DM_LEFT))
 	|| (lvl->square_walls_out[SQR2 (lvl, s)] & (DM_UP | DM_RIGHT))
 	|| (lvl->square_walls_out[SQR3 (lvl, s)] & (DM_UP | DM_LEFT)))
-      state->tile_bonus[i] = 0xff;
+      state->tile_bonus[i] = B_NOT_HERE;
   }
 }
 
@@ -227,41 +233,44 @@ add_end_level_bonuses (a_level_state *state)
 
 
 void
-apply_bonus (a_level_state *state, int pl, char bonus)
+apply_bonus (a_level_state *state, int pl, a_bonus bonus)
 {
   static char txt_tmp[20];
   a_player *const p = state->player[pl];
 
   dmsg (D_BONUS, "Player %u got bonus %u.", pl, bonus);
 
-  if (bonus == 5) {
-    bonus = random_bonus () + 1;
-    if (bonus == 5)
-      bonus++;
+  if (bonus == B_RANDOM) {
+    bonus = random_bonus ();
+    /* We won't loop on random_bonus until it returns something
+       different from B_RANDOM.  Just default some other kind of bonus
+       if this happens.  */
+    if (bonus == B_RANDOM)
+      bonus = B_POINTS;
   }
 
   if (p->cpu == 2)
     event_sfx (19 + bonus);
   switch (bonus) {
-  case 1:
+  case B_LENGTH_UP:
     grow_trail (state, pl, 5);
     sprintf (txt_tmp, _("SIZE IS %d"), state_trail_size (state, pl));
     set_txt_bonus (pl, txt_tmp, 150);
     break;
-  case 2:
+  case B_LENGTH_DOWN:
     shrink_trail (state, pl, 5);
     sprintf (txt_tmp, _("SIZE IS %d"), state_trail_size (state, pl));
     set_txt_bonus (pl, txt_tmp, 150);
     break;
-  case 3:
+  case B_SPEED_UP:
     p->speedup = 500;
     set_txt_bonus (pl, _("SPEEDED UP"), 150);
     break;
-  case 4:
+  case B_SPEED_DOWN:
     p->speedup = -500;
     set_txt_bonus (pl, _("SPEEDED DOWN"), 150);
     break;
-  case 6:
+  case B_POINTS:
     {
       int i;
       i = rand () & 255;
@@ -270,61 +279,61 @@ apply_bonus (a_level_state *state, int pl, char bonus)
       set_txt_bonus (pl, txt_tmp, 150);
     }
     break;
-  case 7:
+  case B_FIRE_TRAIL:
     set_txt_bonus (pl, _("FIRE TRAIL!"), 150);
     p->fire_trail += 2000;
     break;
-  case 8:
+  case B_PAUSE:
     p->notify_delay = 1;
     break;
-  case 9:
+  case B_INVERTED:
     p->inversed_controls = 500;
     break;
-  case 10:
+  case B_TURBO_UP:
     if (p->turbo_level > 1024 - 512)
       p->turbo_level = 1024;
     else
       p->turbo_level += 512;
     set_txt_bonus (pl, _("GET TURBO+"), 150);
     break;
-  case 11:
+  case B_TURBO_DOWN:
     if (p->turbo_level > 256)
       p->turbo_level -= 256;
     else
       p->turbo_level = 0;
     set_txt_bonus (pl, _("GET TURBO-"), 150);
     break;
-  case 12:
+  case B_END_OF_LEVEL:
     if (state_trail_size (state, pl) >= 10)
       state_level_set_exit_code (state, pl + 1);
     break;
-  case 13:
+  case B_INVINCIBLE:
     p->invincible = 350;
     set_txt_bonus (pl, _("INVINCIBLE!"), 150);
     break;
-  case 14:
+  case B_ROTOZOOM:
     if (p->waves == 0 || doublefx != 0) {
       p->rotozoom += 1024;
       if (p->rotozoom == 0)
 	p->rotozoom_direction = rand () & 1;
     }
     break;
-  case 15:
+  case B_EXTRA_LIFE:
     if (p->lifes < 100) {
       p->lifes++;
       set_txt_bonus (pl, _("EXTRA-LIFE!"), 150);
     }
     break;
-  case 16:
+  case B_WAVES:
     if (p->rotozoom == 0 || doublefx != 0)
       p->waves += 1024;
     break;
-  case 17:
+  case B_BIG_DOLLAR:
     p->cash += 10;
     p->score += 50;
     break;
   default:
-    assert (0 /* unknown bonus! */ );
+    assert (0 /* unknown bonus! */);
     break;
   }
 }
@@ -340,13 +349,7 @@ update_bonuses (a_level_state *state)
     dmsg (D_BONUS, "Expired bonus: pos=%u, pos_in_list=%u",
 	  bonus_pos, bits->next_bonus_to_update);
 
-    /* erase the bonus */
-    state->tile_bonus[bonus_pos] = 0;
-    /* don't draw it anymore */
-    fg_data[bonus_pos].bonus = 0;
-    fg_data[bonus_pos].big_dollar = 0;
-    /* add a new bonus, at the same position in the list */
-    add_random_bonus (state, bits->next_bonus_to_update);
+    rem_bonus_idx (state, bonus_pos, bits->next_bonus_to_update);
   }
   ++bits->next_bonus_to_update;
   if (bits->next_bonus_to_update >= bits->bonus_real_nbr)

@@ -189,7 +189,7 @@ update_player (a_level_state *state, unsigned c)
     ++p->score_delta;
     /* 1 life every 10.000 points */
     if (p->score_delta % (10000 << 2) == 0)
-      apply_bonus (state, c, 15);
+      apply_bonus (state, c, B_EXTRA_LIFE);
   }
 
 /* if ((p->score_delta>>2)>p->score) p->score_delta--; */
@@ -531,17 +531,17 @@ update_player (a_level_state *state, unsigned c)
 	  state->private->level_is_finished = i + 1;
     }
     {
-      int bonus = state->tile_bonus[d];
-      if (bonus && bonus != 0xff) {
+      a_bonus bonus = state->tile_bonus[d];
+      if (BONUS_P (bonus)) {
 	rem_bonus (state, d);
 	if (!state->private->level_is_finished) {
 	  p->score += 10;
-	  if (bonus & 128) {
+	  if (BONUS_YELLOW_P (bonus)) {
 	    if (p->cpu == 2)
-	      event_sfx (39 + (bonus & 127));
+	      event_sfx (39 + BONUS_TYPE (bonus));
 	    for (i = 0; i < 4; i++)
 	      if ((c != i) && (bits->player[i].spec != 0xde))
-		apply_bonus (state, i, (bonus & 127));
+		apply_bonus (state, i, BONUS_TYPE (bonus));
 	  } else
 	    apply_bonus (state, c, bonus);
 	}

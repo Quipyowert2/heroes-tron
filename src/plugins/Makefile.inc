@@ -31,6 +31,7 @@ BUILT_SOURCES += plugins/plugin.h plugins/pconf.h
 PLUGIN_H_INPUTS = \
   $(srcdir)/system.h \
   $(srcdir)/lvl/lvl.h \
+  $(srcdir)/rules/bonuses.h \
   $(srcdir)/rules/player.h \
   $(srcdir)/rules/state.h \
   $(srcdir)/hooks.h \

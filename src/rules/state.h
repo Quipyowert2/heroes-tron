@@ -23,6 +23,7 @@
 # include "lvl.h"
 # include "player.h"
 # include "timer.h"
+# include "bonuses.h"
 
 /** -- BEGIN PUBLIC -- **/
 
@@ -132,7 +133,7 @@ struct a_level_state {
   const a_level *level;
 
   /* Informations about each player.  */
-  a_player *player[4];
+  a_player *player[4];		/* FIXME: use LVL_STATE_MUTABLE */
 
   /* State of each square.
      0xFF: free
@@ -141,7 +142,7 @@ struct a_level_state {
      8,9,10,11: trails
      12,13,14,15: tails of the trails.
   */
-  LVL_STATE_MUTABLE unsigned char *square_occupied;
+  LVL_STATE_MUTABLE a_u8 *square_occupied;
 #define SQOC_VEHICLE_TAIL(color) (color)
 #define SQOC_VEHICLE_HEAD(color) ((color) + 4)
 #define SQOC_TRAIL(color) ((color) + 8)
@@ -175,7 +176,7 @@ struct a_level_state {
       16: clock
       24: checked clock
    */
-  signed char *square_object;
+  a_s8 *square_object;
 #define SQOB_NOTHING (-1)
 #define SQOB_UNREACHABLE (-2)
   /* SQOB = SQuare OBject.  */
@@ -192,7 +193,7 @@ struct a_level_state {
 
   /* For each tile, the number of the bonus present, if any.
      FIXME: Document bonus values.  */
-  LVL_STATE_MUTABLE a_u8 *tile_bonus;
+  LVL_STATE_MUTABLE a_bonus8 *tile_bonus;
 
   /* For each square occupied by a lemming, this holds a pointer to
      the lemming data.  If the square is empty, the pointer is NULL.  */

@@ -1,3 +1,22 @@
+2002-05-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/rules/bonuses.h: New file.
+	* src/rules/Makefile.inc (rules_libhrules_a_SOURCES): Add it.
+	* src/plugins/Makefile.inc (PLUGIN_H_INPUTS): Add it.
+	* src/rules/state.h: Include it.
+	(a_level_state::bonus_tile): Declare as a_bonus8.
+	* src/rules/bonuses.c (rem_bonus): Run "bonus-rem" before removing
+	the bonus.
+	(rem_bonus_idx): New function, extracted from rem_bonus.
+	(update_bonuses): Use rem_bonus_idx.
+	(bonus_density, bonus_proba, random_bonus, add_bonus, add_random_bonus,
+	mark_unreachable_places, apply_bonuses): Use the new `a_bonus' enum
+	from bonuses.h.
+	* src/rules/update.c (update_player): Likewise.
+	* src/rules/statepriv.h (apply_bonus): Adjust prototype.
+	* doc/heroes-api.texi (core hooks): Document bonus-add and bonus-rem.
+	(Bonuses): New node.
+
 2002-04-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	First sketch of the plug-in documentation.
