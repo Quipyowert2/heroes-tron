@@ -64,6 +64,7 @@
 #include "bonus.h"
 #include "sprtext.h"
 #include "explosions.h"
+#include "items.h"
 
 char tile_set_name[128];
 char glenz_name[128];
@@ -3839,6 +3840,7 @@ main (int argc, char *argv[])
 
   init_fonts ();
   init_explosions ();
+  init_items ();
 
   for (i = 15; i >= 0; i--) {
     trail[i] += (int) trailimg.buffer;
@@ -3855,6 +3857,7 @@ main (int argc, char *argv[])
   uninit_fader ();
   uninit_text_waving_step ();
 
+  uninit_items ();
   uninit_explosions ();
   uninit_fonts ();
 

@@ -31,6 +31,7 @@
 #include "renderdata.h"
 #include "bonus.h"
 #include "explosions.h"
+#include "items.h"
 
 char tutor = 0;
 
@@ -55,42 +56,6 @@ copy_tile (const pixel_t* src, pixel_t* dest, int tx)
     d[5] = t2;
     s = (const int *) (((int) s) + tx);
     d = (int *) (((int) d) + xbuf);
-  }
-}
-
-static void
-draw_dollar (pixel_t *dest)
-{
-  int j, k;
-  const pixel_t *src = main_font_img.buffer + 81 * 320;
-
-  dest += 4 + 2 * xbuf;
-  if (opt.use_glenz) {
-    for (j = 17; j != 0; j--) {
-      for (k = 17; k != 0; k--) {
-	if (*src != 0) {
-	  if (*src == 1)
-	    *dest = glenz[0][*dest];
-	  else
-	    *dest = *src;
-	}
-	++src;
-	++dest;
-      }
-      src += 320 - 17;
-      dest += xbuf - 17;
-    }
-  } else {
-    for (j = 17; j != 0; j--) {
-      for (k = 17; k != 0; k--) {
-	if (*src != 0 && *src != 1)
-	  *dest = *src;
-	++src;
-	++dest;
-      }
-      src += 320 - 17;
-      dest += xbuf - 17;
-    }
   }
 }
 
@@ -697,7 +662,7 @@ draw_level (int p)
       if (fg_data[pos].bonus)
 	DRAW_SPRITE (fg_data[pos].bonus[bonus_anim_offset], dest);
       if (fg_data[pos].big_dollar)
-	draw_dollar (dest);
+	DRAW_SPRITE (big_dollar, dest + 4 + 2 * xbuf);
       if (fg_data[pos].sprite)
 	DRAW_SPRITE (fg_data[pos].sprite, dest);
       dest += 24;

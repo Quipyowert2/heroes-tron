@@ -69,6 +69,8 @@ heroes.c \
 heroes.h \
 intro.c \
 intro.h \
+items.c \
+items.h \
 joystick.c \
 joystick.h \
 keyb.c \
