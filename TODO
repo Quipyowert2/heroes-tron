@@ -14,12 +14,7 @@ Before 0.7
   JUSTIF_CALC in draw.c sometimes use tricky empty parameters, this does
   no work on VC6.0.
 
-  Rewrite the extras.c code to use opendir/readdir/closedir, do not
-  depend on scandir.
-
   Use FindFileFirst and Cie. in Windows.
-
-  Check and use <stdint.h>.
 
   Rewrite sleep() for lib/.
 
@@ -56,6 +51,8 @@ Before 1.0.0
   Write a developer guide.
 
   Perform real gamma correction, not basic lightening or shading of colors.
+
+  Use {u,s}{8,16,32}_t types where it's important.
 
 
 Left for a 1.1.x development branch

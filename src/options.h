@@ -26,31 +26,31 @@
 typedef struct
 {
   /* screen in_menu options */
-  char screen_size;		/* 0=max */
-  char radar_map;
-  char use_glenz;
-  char display_infos;
-  char luminance;
-  char inertia;
+  u8_t screen_size;		/* 0=max */
+  u8_t radar_map;
+  u8_t use_glenz;
+  u8_t display_infos;
+  u8_t luminance;
+  u8_t inertia;
   /* music in_menu options */
-  char music;
-  char music_volume;		/* 0=max */
-  char sfx;
-  char sfx_volume;		/* 0=max */
+  u8_t music;
+  u8_t music_volume;		/* 0=max */
+  u8_t sfx;
+  u8_t sfx_volume;		/* 0=max */
   /* control in_menu options */
-  char ctrl_one;		/* 0=keyboard */
-  char ctrl_two;		/* 1=joystick */
-  char autopilot_one;
-  char autopilot_two;
+  u8_t ctrl_one;		/* 0=keyboard */
+  u8_t ctrl_two;		/* 1=joystick */
+  u8_t autopilot_one;
+  u8_t autopilot_two;
   /* game in_menu options */
-  char ghosts;
-  char speed;
-  int gamerounds;
-  int player_color[4];
+  u8_t ghosts;
+  u8_t speed;
+  u32_t gamerounds;
+  u32_t player_color[4];
   /* keyboard in_menu options */
-  int player_keys[2][6];
+  u32_t player_keys[2][6];
   /* extra in_menu options */
-  char extras;
+  u8_t extras;
 }
 options_t __attribute__ ((packed));
 

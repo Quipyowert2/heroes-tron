@@ -3506,7 +3506,7 @@ scores_menu (void)
 	  draw_text(tmp1,185,68+13*j,1);
       }
 */
-	  sprintf (tmp1, "%ld", highs[i][j].points);
+	  sprintf (tmp1, "%u", highs[i][j].points);
 	  draw_text (tmp1, 316, 68 + 13 * j, 2);
 	}
       } else {
@@ -3519,7 +3519,7 @@ scores_menu (void)
 	  draw_text_clipped_left(tmp1,185-rolldec,68+13*j,1);
       }
 */
-	  sprintf (tmp1, "%ld", highs[i - 1][j].points);
+	  sprintf (tmp1, "%u", highs[i - 1][j].points);
 	  draw_text_clipped_left (tmp1, 316 - rolldec, 68 + 13 * j, 2);
 	}
 	draw_text_clipped_right (mode_name[i], 159 + 320 - rolldec, 40, 1);
@@ -3531,7 +3531,7 @@ scores_menu (void)
 	  draw_text_clipped_right(tmp1,185+320-rolldec,68+13*j,1);
       }
 */
-	  sprintf (tmp1, "%ld", highs[i][j].points);
+	  sprintf (tmp1, "%u", highs[i][j].points);
 	  draw_text_clipped_right (tmp1, 316 + 320 - rolldec, 68 + 13 * j, 2);
 	}
 

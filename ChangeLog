@@ -1,3 +1,20 @@
+2000-09-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Define common integer types, and use them in the structs
+	which are written to disk.
+
+	* configure.in: Check for stdint.h.
+	* src/common.h: Include stdint.h and defines common integer types.
+	* src/options.h (options_t): Use the above defined integer types.
+	* src/structs.h (tunnel_t, anim_t, param_u, tile_t, tile_info_t,
+	level_header_t, top_score, saved_game): Likewise.
+	(param_u): Rename to ...
+	(param_t): ... this.
+	* src/hedlite.c (affgt,majg,planfull,hmain): Don't print using long
+	format.
+	* src/heroes.c (scores_menu): Print using unsigned format.
+	* TODO: Update.
+
 2000-09-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Use opendir/readdir/closedir instead of scandir.

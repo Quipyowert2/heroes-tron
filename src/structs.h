@@ -94,62 +94,59 @@ static char dir_test[9][12] = {
 /*------------------- tiles structures --------------------*/
 typedef struct
 {
-  unsigned long int output;
-  unsigned char direction:4;
-  unsigned char tempo:4;
+  u32_t output;
+  u8_t direction:4;
+  u8_t tempo:4;
 }
 __attribute__ ((packed)) tunnel_t;
 
 typedef struct
 {
-  unsigned char frame_nbr;
-  unsigned char speed;		/* in VBL */
+  u8_t frame_nbr;
+  u8_t speed;		/* in VBL */
 }
 __attribute__ ((packed)) anim_t;
 
 
 typedef union
 {
-  unsigned char param[5];
+  u8_t param[5];
   tunnel_t tunnel;
   anim_t anim;
 }
-__attribute__ ((packed)) param_u;
-
-/****************************************/
-typedef struct
-{
-  unsigned long int number;	/* 4 */
-  unsigned char collision[4];	/* 4 */
-  unsigned short int sprite;	/* 2 */
-  param_u info;			/* 5 */
-  unsigned char type;		/* 1 */
-}
-__attribute__ ((packed)) tile_t;	/* size = 16 */
-/****************************************/
-typedef struct
-{
-  unsigned char collision[4];	/* 4 */
-  param_u info;			/* 5 */
-  unsigned char type;		/* 1 */
-}
-__attribute__ ((packed)) tile_info_t;	/* size = 10 */
-/****************************************/
-
+__attribute__ ((packed)) param_t;
 
 typedef struct
 {
-  unsigned long int xt;		/* 4 */
-  unsigned long int yt;		/* 4 */
-  unsigned long int xwrap;	/* 4 */
-  unsigned long int ywrap;	/* 4 */
-  unsigned long int start[4];	/* 16 */
-  unsigned char start_way[4];	/* 4  direction and sub-tile */
-  char tile_set_name[9];	/* 9 */
-  char soundtrack_name[9];	/* 9 */
-  char unused[10];		/* 10 */
+  u32_t number;
+  u8_t collision[4];
+  u16_t sprite;
+  param_t info;
+  u8_t type;
 }
-__attribute__ ((packed)) level_header_t;	/* sum => 64 */
+__attribute__ ((packed)) tile_t; /* 16 bytes */
+
+typedef struct
+{
+  u8_t collision[4];
+  param_t info;
+  u8_t type;
+}
+__attribute__ ((packed)) tile_info_t;  /* 10 bytes */
+
+typedef struct
+{
+  u32_t xt;
+  u32_t yt;
+  u32_t xwrap;
+  u32_t ywrap;
+  u32_t start[4];		/* starting tile */
+  u8_t start_way[4];		/* starting direction and square */
+  char tile_set_name[9];
+  char soundtrack_name[9];
+  char unused[10];
+}
+__attribute__ ((packed)) level_header_t; /* 64 bytes */
 
 /*------------------ player records -------------------*/
 
@@ -233,10 +230,9 @@ lemming_t;
 typedef struct
 {
   char name[9];
-  unsigned char magic;
-  unsigned char unused1;
-  char unused2;
-  unsigned long int points;
+  u8_t magic;
+  u8_t unused1, unused2;
+  u32_t points;
 }
 __attribute__ ((packed)) top_score;
 
@@ -245,10 +241,10 @@ __attribute__ ((packed)) top_score;
 typedef struct
 {
   char name[16];
-  unsigned int level;
-  unsigned int points[4];
-  unsigned int lifes[4];
-  unsigned char magic;
+  u32_t level;
+  u32_t points[4];
+  u32_t lifes[4];
+  u8_t magic;
   char used;
 }
 __attribute__ ((packed)) saved_game;

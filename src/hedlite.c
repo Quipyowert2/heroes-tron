@@ -413,9 +413,9 @@ affgt (int t)
     partiel4 (120, 112, 30, 27, 290, 112, &heditrsc);
 /*               ultoa(level_map[t].info.tunnel.tempo,&nombre,10); */
 /*               draw_text(&nombre,311,119,8,1); */
-    sprintf (nombre, "%lu", level_map[t].info.tunnel.output / hplaninfo.xt);
+    sprintf (nombre, "%u", level_map[t].info.tunnel.output / hplaninfo.xt);
     draw_text (nombre, 307, 133, 8, 0);
-    sprintf (nombre, "%lu", level_map[t].info.tunnel.output % hplaninfo.xt);
+    sprintf (nombre, "%u", level_map[t].info.tunnel.output % hplaninfo.xt);
     draw_text (nombre, 302, 133, 8, 2);
     break;
   case t_anim:
@@ -703,9 +703,9 @@ majg (void)
   }
   cadre (xplandec, yplandec, 23, 19, 8);
   partiel2 (0, 57, 30, 6, 290, 57, &heditrsc);
-  sprintf (nombre, "%lu", ((xplan + xplandec / 24) & hplaninfo.xwrap));
+  sprintf (nombre, "%u", ((xplan + xplandec / 24) & hplaninfo.xwrap));
   draw_text (nombre, 302, 57, 8, 2);
-  sprintf (nombre, "%lu", ((yplan + yplandec / 20) & hplaninfo.ywrap));
+  sprintf (nombre, "%u", ((yplan + yplandec / 20) & hplaninfo.ywrap));
   draw_text (nombre, 307, 57, 8, 0);
   vsynchro ();
 }
@@ -1108,9 +1108,9 @@ planfull (void)
   memset (screen, 0, 64000);
   partiel2 (0, 0, 30, 200, 290, 0, &heditrsc);
   draw_text (levelnomshort, 305, 29, 8, 1);
-  sprintf (nombre, "%lu", hplaninfo.xt);
+  sprintf (nombre, "%u", hplaninfo.xt);
   draw_text (nombre, 302, 43, 8, 2);
-  sprintf (nombre, "%lu", hplaninfo.yt);
+  sprintf (nombre, "%u", hplaninfo.yt);
   draw_text (nombre, 307, 43, 8, 0);
   majd ();
   majg ();
@@ -2065,9 +2065,9 @@ hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2,
   partiel2 (0, 0, 30, 200, 290, 0, &heditrsc);
   strupr (levelnomshort);
   draw_text (levelnomshort, 305, 29, 8, 1);
-  sprintf (nombre, "%lu", hplaninfo.xt);
+  sprintf (nombre, "%u", hplaninfo.xt);
   draw_text (nombre, 302, 43, 8, 2);
-  sprintf (nombre, "%lu", hplaninfo.yt);
+  sprintf (nombre, "%u", hplaninfo.yt);
   draw_text (nombre, 307, 43, 8, 0);
 
   majd ();

@@ -408,7 +408,15 @@ fi
 
 AC_HEADER_STDC
 AC_HEADER_DIRENT
-AC_CHECK_HEADERS([string.h memory.h strings.h unistd.h sys/time.h windows.h])
+AC_CHECK_HEADERS(
+ [memory.h] dnl
+ [stdint.h] dnl
+ [string.h] dnl
+ [strings.h] dnl
+ [sys/time.h] dnl
+ [unistd.h] dnl
+ [windows.h] dnl
+)
 AC_HEADER_TIME
 AC_HEADER_STAT
 
