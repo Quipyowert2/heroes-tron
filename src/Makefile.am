@@ -21,7 +21,7 @@ SUBDIRS = etc
 
 bin_PROGRAMS = heroes
 
-INCLUDES = -I$(top_srcdir)/lib -I../intl -I..
+INCLUDES = -I$(top_srcdir)/lib -I../lib -I../intl -I.. -I.
 LDADD = @INTLLIBS@ ../lib/libheroes.a
 
 # DATADIRNAME is set to share (or lib) by AM_GNU_GETTEXT, this has nothing

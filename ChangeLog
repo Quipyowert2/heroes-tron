@@ -1,5 +1,16 @@
 2000-12-31  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* m4/libintl.m4: Expand a possible relative $ac_aux_dir.
+	* src/timer.c (reset_htimer): The patch from 2000-12-06
+	broke the non-gettimeofday support, add non-member copy
+	back in this case.
+	* src/Makefile.am (INCLUDES): Add -I../lib and -I, because
+	getopt.h and keysdef-inc.h are created in the build directory.
+	* m4/runcheck.m4: Fix the cross-compile case.
+	* configure.in: Clear CC to prevent autoconf to add -O2 -g.
+
+2000-12-31  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* m4/checkpkg.m4 (UP,DOWN,DOWNALT): Rewrite to work around a
 	possible bug in m4 ??? (HAVE_PKG_SDL_MIXER was understood as
 	HAVE_PKG_SDLMIXER for autoheader - not for autoconf; I can

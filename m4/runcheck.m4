@@ -16,4 +16,4 @@ been installed in a location which is not looked at by your system).
 You might want to check the error messages in the file 'config.log'.
 If you believe this is a bug in Heroes, be sure to send the file
 'config.log' with your report to <heroes-bugs@lists.sourceforge.net>.
-])],)])
+])],[:])])

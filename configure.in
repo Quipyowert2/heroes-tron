@@ -31,6 +31,10 @@ heroes_CHECK_OBSOLETE_OPTIONS
 AC_CANONICAL_HOST
 AC_DEFINE_UNQUOTED([HOST],["$host"],[The canonical host])
 
+# If the user didn't supplied a CFLAGS value,
+# set an empty one to prevent autoconf to stick -O2 -g here.
+test -z "$CFLAGS" && CFLAGS=""
+
 # ===================
 # Check for programs.
 # ===================
