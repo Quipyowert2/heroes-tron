@@ -35,6 +35,10 @@ lib/ftruncate.c
 lib/getopt.c
 lib/getopt1.c
 lib/getopt.h:lib/gnugetopt.h
+lib/getline.c
+lib/getline.h
+lib/getstr.c
+lib/getstr.h
 lib/hash.c
 lib/hash.h
 lib/isdir.c

@@ -35,8 +35,12 @@ libheroes_a_SOURCES = \
   filelock.h \
   fstrcmp.c \
   fstrcmp.h \
+  getline.c \
+  getline.h \
   getshline.c \
   getshline.h \
+  getstr.c \
+  getstr.h \
   gnugetopt.h \
   hash.c \
   hash.h \
@@ -51,7 +55,8 @@ libheroes_a_SOURCES = \
   xstrduplwr.c \
   xstrduplwr.h
 
-pkginclude_HEADERS = xalloc.h
+# Headers that maybe helpful to plug-ins.
+pkginclude_HEADERS = xalloc.h getline.h
 
 # Additional files to compile, when functions are missing.
 libheroes_a_LIBADD = @LIBOBJS@ @ALLOCA@

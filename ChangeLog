@@ -1,5 +1,13 @@
 2002-07-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* lib/getline.c, lib/getline.h, lib/getstr.c, lib/getstr.h: New
+	files, from fileutils-4.1.1.
+	* tools/fetish-sync.sh (files): Add them.
+	* lib/Makefile.am (libheroes_a_SOURCES): Add them.
+	(pkginclude_HEADERS): Add getline.h.
+
+2002-07-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* po/fr.po: Update.
 
 2002-07-05  Ingo van Lil  <inguin@gmx.de>
