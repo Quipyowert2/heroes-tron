@@ -1,5 +1,10 @@
 2000-09-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/timer.c (shift_htimer) [!HAVE_GETTIMEOFDAY]: Remove unused
+	variable.
+
+2000-09-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Check for direct.h and io.h.
 	* lib/w_dirent.c: Don't include system headers, 
 	include common.h instead.

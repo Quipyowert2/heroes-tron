@@ -161,8 +161,6 @@ shift_htimer (htimer_t to_shift, htimer_t amount)
     ++to_shift->orig_time.tv_sec;
   }
 #else
-  clock_t c;
-
   to_shift->orig_time += current_time - amount->orig_time;
 #endif
   dmsg (D_TIMER, "timer %p shifted", to_shift);
