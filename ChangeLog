@@ -1,5 +1,10 @@
 2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* NEWS: Update.
+	* arch/VisualC/heroes.dsp: Remove font_deck.h and font_menu.h.
+
+2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* arch/VisualC/config.h: Blind update.
 	* arch/VisualC/heroes.dsp: Likewise.
 

@@ -195,15 +195,7 @@ SOURCE=..\src\font.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\font_deck.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\src\font_help.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\src\font_menu.h
 # End Source File
 # Begin Source File
 

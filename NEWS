@@ -1,5 +1,16 @@
 		      User visible changes in Heroes.
 
+Heroes 0.6e	November 20, 2000
+
+	* New section `Machines' in Texinfo manual (and README)
+	* Should work on DEC/OSF (out of the box), and NetBSD (not smooth
+	  yet)
+	* The use glenz option (screen menu) is no longer supported
+	* Fixes for bugs introduced in 0.6d:
+	  - CFLAGS were overwritten by optimisation flags in configure
+	  - work around the non-exiting check for realloc on DEC/OSF
+	  - Bonus texts were only displayed for the purple player
+
 Heroes 0.6d	November 16, 2000
 
 	* New aliases can be added to the sound config files, they will
