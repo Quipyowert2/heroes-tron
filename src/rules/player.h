@@ -100,7 +100,7 @@ struct a_player
 
   /* FIXME: Get rid of these horrors.  */
   int spec;			/* special event (tunnel,ice,death) */
-  int ia_max_depth;		/* recusrion depth for CPU (keep <= 7,
+  int ai_max_depth;		/* recusrion depth for CPU (keep <= 7,
 				   or it will be slow) */
   int target;			/* target to follow */
 

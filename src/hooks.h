@@ -101,11 +101,11 @@ void *hook_rem_fun (const char *name, a_hook_fun fun);
 
 /* Remove an occurence of FUN from the list of functions registered
    for a hook.  The occurence removed is the first occurence for which
-   IF_FUN return true.
+   IF_FUN returns true.
 
    This is usually used to remove a function whose CALLBACK_DATA (as
-   indicated to hook_add_fun) match something indicated by REF_DATA
-   (passed to hook_rem_fun_if.  */
+   indicated to hook_add_fun) matches something indicated by REF_DATA
+   (passed to hook_rem_fun_if).  */
 
 typedef bool (*a_hook_rem_if_fun)(void *ref_data, void *callback_data);
 void *hook_rem_fun_if (const char *name, a_hook_fun fun, void *ref_data,

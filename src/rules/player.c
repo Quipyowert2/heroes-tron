@@ -193,7 +193,7 @@ state_reinit_player (a_level_state *state, unsigned p)
 
   /**************/
 
-  pp->ia_max_depth = (rand () & 1) + 5;
+  pp->ai_max_depth = (rand () & 1) + 5;
   /* Attach the CPU to one of the human player.  */
   {
     int human_players = 0;

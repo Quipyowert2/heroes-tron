@@ -16,7 +16,7 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 
-info_TEXINFOS = heroes.texi
+info_TEXINFOS = heroes.texi heroes-api.texi
 EXTRA_DIST = doc.scm heroes.html
 
 if MAKE_HTML

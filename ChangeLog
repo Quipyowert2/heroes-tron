@@ -1,3 +1,44 @@
+2002-04-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	First sketch of the plug-in documentation.
+
+	* doc/heroes-api.texi: New file.
+	* doc/Makefile.am (info_TEXINFOS): Add it.
+
+	IA is the French for AI; get rid of that.
+
+	* src/plugins/stdai.c (ia_max_depth, ia_cur_depth,
+	ia_is_invincible, ia_player, ia_target_x, ia_target_y, ia_wrap_x,
+	ia_wrap_y, ia_wrap_left, ia_wrap_right, ia_eval_dist,
+	ia_eval_dir_target_inline, ia_eval_dir_bonus_inline,
+	ia_eval_dir_lemming_inline, ia_eval_dir_cash_inline,
+	ia_eval_dir_color_inline, ia_eval_neighb_pos, ia_eval_dir_target,
+	ia_eval_dir_lemming, ia_eval_dir_color, ia_eval_dir_cash,
+	ia_eval_dir_bonus, ia_goto_target_inline, ia_goto_bonus_inline,
+	ia_goto_color_inline, ia_goto_lemming_inline, ia_goto_target,
+	ia_goto_nearest_bonus, ia_goto_nearest_lemming,
+	ia_goto_nearest_color, ia_goto_nearest_cash): Rename to ...
+	(ai_max_depth, ai_cur_depth, ai_is_invincible, ai_player,
+	ai_target_x, ai_target_y, ai_wrap_x, ai_wrap_y, ai_wrap_left,
+	ai_wrap_right, ai_eval_dist, ai_eval_dir_target_inline,
+	ai_eval_dir_bonus_inline, ai_eval_dir_lemming_inline,
+	ai_eval_dir_cash_inline, ai_eval_dir_color_inline,
+	ai_eval_neighb_pos, ai_eval_dir_target, ai_eval_dir_lemming,
+	ai_eval_dir_color, ai_eval_dir_cash, ai_eval_dir_bonus,
+	ai_goto_target_inline, ai_goto_bonus_inline, ai_goto_color_inline,
+	ai_goto_lemming_inline, ai_goto_target, ai_goto_nearest_bonus,
+	ai_goto_nearest_lemming, ai_goto_nearest_color,
+	ai_goto_nearest_cash): ... these.
+	* src/rules/player.h (a_player) <ia_max_depth>: Rename to
+	ai_max_depth.
+	* src/rules/player.c (state_reinit_player): Adjust to use
+	ai_max_depth.
+
+	Misc.
+
+	* doc/heroes.texi, src/plugins/Makefile.inc: Adjust copyright dates.
+	* src/hooks.h, src/opponents.h: Typos.
+
 2002-04-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/rules/state.c (state_init): Don't initialize an opponent

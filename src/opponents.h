@@ -73,15 +73,15 @@ struct an_opponent_sig {
   void (*finalize_player)(const a_level_state *state, int player,
 			  void *callback_data);
 
-  /* Unless NULL, this functions is called every time the player is
+  /* Unless NULL, this function is called every time the player is
      introduced into the game (after a death, or at the beginning of
-     the game.  The returned void* data will replace any previous
+     the game).  The returned void* data will replace any previous
      callback data setup by initialize_player, in following function
      calls.  */
   void *(*start_player)(const a_level_state *state, int player,
 			void *callback_data);
 
-  /* Unless NULL, this functions is called every time the player is
+  /* Unless NULL, this function is called every time the player is
      removed from the game (i.e., after a death).  */
   void *(*stop_player)(const a_level_state *state, int player,
 		       void *callback_data);
@@ -94,7 +94,7 @@ struct an_opponent_sig {
 			an_opponent_action *action,
 			void *callback_data);
 
-  /* Unless NULL, this functions is called on each frame (i.e., 70
+  /* Unless NULL, this function is called on each frame (i.e., 70
      times per second).  This is called frequently, so please keep
      it fast!  */
   void (*frame_update)(const a_level_state *state, int player,

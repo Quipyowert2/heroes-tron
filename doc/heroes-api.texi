@@ -1,0 +1,569 @@
+\input texinfo   @c -*-texinfo-*-
+@c %**start of header
+@setfilename heroes-api.info
+@settitle Heroes' Plug-In API Reference Manual
+@setchapternewpage odd
+@c %**end of header
+
+@syncodeindex vr cp
+@syncodeindex fn cp
+@syncodeindex tp cp
+
+@include version-api.texi
+
+@dircategory Games
+@direntry
+* Heroes-api: (heroes-api).     Heroes' Plug-in API Reference Manual
+@end direntry
+
+@ifinfo
+This file documents Heroes' Plug-in API.
+
+Copyright 2002  Alexandre Duret-Lutz
+
+Permission is granted to make and distribute verbatim
+copies of this manual provided the copyright notice and
+this permission notice are preserved on all copies.
+
+@ignore
+Permission is granted to process this file through TeX
+and print the results, provided the printed document
+carries a copying permission notice identical to this
+one except for the removal of this paragraph (this
+paragraph not being relevant to the printed manual).
+
+@end ignore
+Permission is granted to copy and distribute modified
+versions of this manual under the conditions for
+verbatim copying, provided also that the sections
+entitled ``Copying'' and ``GNU General Public License''
+are included exactly as in the original, and provided
+that the entire resulting derived work is distributed
+under the terms of a permission notice identical to this
+one.
+
+Permission is granted to copy and distribute
+translations of this manual into another language,
+under the above conditions for modified versions,
+except that this permission notice may be stated in a
+translation approved by the Free Software Foundation.
+@end ifinfo
+
+@titlepage
+@title Heroes' Plug-In API Reference Manual
+@subtitle How to plug your code in Heroes
+@author Alexandre Duret-Lutz
+
+@page
+@vskip 0pt plus 1filll
+Copyright 2002  Alexandre Duret-Lutz
+
+Permission is granted to make and distribute verbatim
+copies of this manual provided the copyright notice and
+this permission notice are preserved on all copies.
+
+Permission is granted to copy and distribute modified
+versions of this manual under the conditions for
+verbatim copying, provided also that the sections
+entitled ``Copying'' and ``GNU General Public License''
+are included exactly as in the original, and provided
+that the entire resulting derived work is distributed
+under the terms of a permission notice identical to this
+one.
+
+Permission is granted to copy and distribute
+translations of this manual into another language,
+under the above conditions for modified versions,
+except that this permission notice may be stated in a
+translation approved by the Free Software Foundation.
+@end titlepage
+
+@c ======================================================================
+@node Top, Introduction, (dir), (dir)
+@top Heroes-api
+
+@ifinfo
+This document describes the API offered to plug-ins loaded by Heroes.
+
+This document applies to Heroes version @value{VERSION}.
+@end ifinfo
+
+@menu
+* Introduction::
+* Writing::
+* API::
+* Index::
+@end menu
+
+@c ======================================================================
+@node Introduction, Writing, Top, Top
+@chapter Introduction
+
+FIXME: This section has yet to be written.
+
+What are plug-in.
+
+Why plug-ins.
+
+How to load them.
+
+Pointer the the Heroes manual.
+
+Note about conventions. Why a_ and an_ for types.
+
+@c ======================================================================
+@node Writing, API, Introduction, Top
+@chapter Writing a plug-in
+
+FIXME: This section has yet to be written.
+
+Two required functions: initialize and finalize.
+
+Building a shared object.  Without Libtool.  With Libtool.
+
+Different kind of plugins.  Opponents.
+Pointer to the relevant API section.
+
+@c ======================================================================
+@node API, Index, Writing, Top
+@chapter Available API
+
+@menu
+* Insinuating Heroes::
+* Heroes data::
+* System functions::
+@end menu
+
+@c ======================================================================
+@node Insinuating Heroes, Heroes data, API, API
+@section Insinuating Heroes
+
+@menu
+* Registering Opponents::
+* Hooks::
+@end menu
+
+@c ----------------------------------------------------------------------
+@node Registering Opponents, Hooks, Insinuating Heroes, Insinuating Heroes
+@subsection Registering Opponents
+
+@cindex opponents, defined
+@cindex AI
+@cindex computer-controlled players
+
+An @dfn{opponent} is a behavior that can be associated to a
+computer-controlled player.  (You may prefer the term @dfn{AI}.)
+
+If your plug-in implements an opponent, you must register it to Heroes
+using this interface.
+
+Practically, you should supply a set of functions that will be called to
+drive some computer-controlled players.  Keep this plural in mind when
+writing an opponent: a single opponent can be used to control several
+vehicles.
+
+@deftypefun void opponent_register (an_opponent_sig *@var{opp})
+@deftypefunx void opponent_unregister (an_opponent_sig *@var{opp})
+
+Register or unregister an opponents.  These functions are usually called
+from the @code{initialize} and @code{finalize} functions of a plug-in.
+
+It's possible for a module to register many opponents (e.g., for
+different kinds of games), in which case the above functions must be
+called several time.
+
+@var{opp} is a pointer to an opponent signature, which is a structure
+describing the opponent.  See below.
+
+@end deftypefun
+
+@subsubheading @code{an_opponent_sig}
+
+@tindex an_opponent_sig
+@findex initialize_player
+@findex finalize_player
+@findex start_player
+@findex stop_player
+@findex square_update
+@findex frame_update
+
+Here is the definition of the @code{an_opponent_sig} structure.
+
+@example
+typedef struct an_opponent_sig an_opponent_sig;
+struct an_opponent_sig @{
+  const char *name;
+  an_opponent_type type;
+  void *(*initialize_player)(const a_level_state *state, int player);
+  void (*finalize_player)(const a_level_state *state, int player,
+  void *(*start_player)(const a_level_state *state, int player,
+                        void *callback_data);
+  void *(*stop_player)(const a_level_state *state, int player,
+                       void *callback_data);
+  void (*square_update)(const a_level_state *state, int player,
+                        an_opponent_action *action,
+  void (*frame_update)(const a_level_state *state, int player,
+                       an_opponent_action *action,
+                       void *callback_data);
+@};
+@end example
+
+You have to instantate a variable of this type for each opponent that
+your plug-in registers.  Here is how the standard AI plug-in declares
+its opponent for Quest and Death Match mode:
+
+ @example
+static an_opponent_sig ai_standard_deathm = @{
+  "standard AI for Death Match",
+  OT_QUEST | OT_DEATHM,
+  &ai_level_initialize,
+  &ai_level_finalize,
+  0,
+  0,
+  &ai_goto_target,
+  &ai_throttle
+@};
+@end example
+
+Here is the meaning of each field.
+
+@table @code
+@item name
+This is a name for the opponent plug-in.  This is not yet used today,
+except for debugging messages, bug it might be used later to present to
+the user a list of plug-ins to chose from.
+
+@item type
+@vindex OT_NONE
+@vindex OT_QUEST
+@vindex OT_DEATHM
+@vindex OT_KILLEM
+@vindex OT_TCASH
+@vindex OT_COLOR
+
+A mask indicating which mode this opponent can be used for.
+You can use one or more (just @i{OR} them) of the following
+values.
+@table @code
+@item OT_NONE
+cannot play
+@item OT_QUEST
+can play quest mode
+@item OT_DEATHM
+can play death match mode
+@item OT_KILLEM
+can play kill'em all mode
+@item OT_TCASH
+can play time-ca$h mode
+@item OT_COLOR
+can play color mode
+@end table
+
+The @code{OT} prefix is a short for Opponent Type.
+
+@item initialize_player
+This is a function called after the game state have been initialized, so
+that the opponent can prepare itself to play.  For example this is the
+right place to allocate and/or precompute maps that your opponent needs
+during the game.
+
+This function is called once for each player that will be driven by the
+current opponent.
+
+The returned @code{void *} data will be passed back to the opponent in
+following function calls.  You can use this to store per-player states.
+
+@item finalize_player
+This function is called after the level is over, so the opponent can do
+some cleanup.  If you @code{initialize_player()} function allocated some
+memory this is where it should be @code{free}d.  Also, don't forget to
+@code{free} @var{callback_data} if you @code{malloc}ed it.
+
+@item start_player
+Unless @code{NULL}, this function is called every time the player is
+introduced into the game (at the beginning of the new game, or after a
+death).
+
+The returned @code{void *} data will replace any previous
+@var{callback_data} returned by @code{initialize_player()}
+@code{start_player()}.  This is seldom needed, usually you will just
+return @var{callback_data} as-is.
+
+@item stop_player
+Unless @code{NULL}, this function is called every time the player is
+removed from the game (i.e., after a death).
+
+As with @code{start_player()}, the returned @code{void *} will replace
+@var{callback_data} in following calls to the opponent.
+
+@item square_update
+Unless @code{NULL}, this function is called each time the player enter a
+new square.  This is usually where the opponent should decide what's the
+next direction the player should take.  This must be done by changing
+@var{action} (see the @code{a_throttle} description below).
+
+@item frame_update
+Unless @code{NULL}, this function is called on each frame (i.e., 70
+times per second).  This is called frequently, so please, whatever you
+do here, keep it fast!  As with @code{square_update()}, driving the player
+can be done by fiddling with @var{action} (see the @code{a_throttle}
+description below).
+
+@end table
+
+@subsubheading @code{a_throttle}
+
+@tindex an_opponent_action
+@tindex a_throttle
+
+This structure is used by @code{square_update()} and
+@code{frame_update()} to drive players.  It is very
+simple.
+
+@example
+typedef struct an_opponent_action an_opponent_action;
+struct an_opponent_action @{
+  a_dir dir;
+  a_throttle throttle;
+@};
+@end example
+
+@table @code
+@item dir
+This is the current direction of the player.  The acceptable values are
+@code{D_UP}, @code{D_RIGHT}, @code{D_DOWN}, and @code{D_LEFT}.
+
+Changing this field will change the player's direction, but this can
+only have an effect when the player enter a new square.  Hence if you
+change @code{dir} from @code{square_update()} this will take effect
+immediatly, but if you do that from @code{frame_update()} it will take
+effect the next time a square is entered.
+
+Usually the value set in @code{dir}, i.e., the direction of the player,
+will not be change between calls to @code{square_update()} or
+@code{frame_update()}.  However it can change if the player enter a
+tunnel, hit a wall, or restart to play (after a die).
+
+Finally, it may be worth to note that this is the @emph{real} direction
+the player will take, even if the player has taken an @emph{inversed
+commands} bonus.  In fact inversed commands apply only to humans.
+
+@item throttle
+@vindex TH_BRAKE
+@vindex TH_NORMAL
+@vindex TH_SPEEDUP
+This is the accelerator pedal.  You can choose between three positions:
+@code{TH_BRAKE}, @code{TH_NORMAL}, and @code{TH_SPEEDUP}.
+
+Remember this is sticky: if you have set @code{throttle} to
+@code{TH_BRAKE} or @code{TH_SPEEDUP} it's your job to set it back to
+@code{TH_NORMAL} latter.
+
+This will be reset to @code{TH_NORMAL} each time the player restart to
+play.
+@end table
+
+@c ----------------------------------------------------------------------
+@node Hooks,  , Registering Opponents, Insinuating Heroes
+@subsection Hooks
+
+@cindex hooks, defined
+
+@dfn{Hooks} are named places in the code, where you can attach your own
+code (i.e. your own call-back functions).
+
+Usually, you will want to attach some functions to existing hooks in
+Heroes.  This API also allows you to create new hooks (this could be
+used for inter-module communications, for instance).
+
+The hook system implementation of Heroes is heavily inspired from the
+one from Zsh (the Z shell).
+
+@menu
+* Hooking functions::
+* Defining and running a hook::
+@end menu
+
+@node Hooking functions, Defining and running a hook, Hooks, Hooks
+@subsubheading Hooking functions
+
+@cindex Hooking functions
+@cindex registering hook functions
+@cindex unregistering hook functions
+
+Given the name of a hook, you can subscribe (i.e. add a function) to and
+unsubscribe from to it using the @code{hook_add_fun} and
+@code{hook_rem_fun} functions.  The hooked functions should have the
+following form:
+
+@findex sample_hook_fun
+@example
+void
+sample_hook_fun (const a_hook *@var{hook},
+                 void *@var{hook_data},
+                 void *@var{callback_data})
+@{
+  ...
+@}
+@end example
+
+@tindex a_hook_fun
+This is declared as the @code{a_hook_fun} type:
+@example
+typedef void (*a_hook_fun)(const a_hook *@var{hook},
+                           void *@var{hook_data},
+                           void *@var{callback_data});
+@end example
+
+The @var{hook} pointer points to the hook for which is function is being
+called back.  This is almost useless, except to get the name of this
+hook (@code{hook->name}).
+
+@var{hook_data} might point to additional data provided by the hook
+provider, its interpretation is hook-dependant (see the documentation
+for the hook you use).
+
+@var{callback_data} is a pointer that was supplied when the function was
+added registered for the hook being run.
+
+@deftypefun void hook_add_fun (const char *@var{name}, a_hook_fun @var{fun}, void *@var{callback_data})
+
+Add @var{fun} to the hook named @var{name}.  When the hook is run, the
+function @var{fun} will be called back and passed @var{callback_data}.
+
+@end deftypefun
+
+@deftypefun void* hook_rem_fun (const char *@var{name}, a_hook_fun @var{fun})
+
+Remove @emph{one} occurence of @var{fun} from the hook named @var{name}.
+
+If you have registered @var{fun} several times with different
+@var{callback_data} and want to remove only one of them, you should use
+the @code{hook_rem_fun_if} function defined below.
+
+The returned value is the @var{callback_data} passed to
+@code{hook_add_fun} when @var{fun} was registered.
+
+@end deftypefun
+
+@deftypefun void* hook_rem_fun_if (const char *@var{name}, a_hook_fun @var{fun}, void *@var{ref_data}, a_hook_rem_if_fun @var{if_fun})
+
+Remove an occurence of @var{fun} from the list of functions registered
+for the hook named @var{name}.  The occurence removed is the first
+occurence for which @var{if_fun} returns true.
+
+@code{a_hook_rem_if_fun} is a functional type defined as follows:
+
+@tindex a_hook_rem_if_fun
+@example
+typedef bool (*a_hook_rem_if_fun)(void *@var{ref_data},
+                                  void *@var{callback_data});
+@end example
+
+This is usually used to remove a function whose @var{callback_data} (as
+indicated to @code{hook_add_fun}) matches something indicated by
+@var{ref_data} (passed to @code{hook_rem_fun_if}).
+
+The returned value is the @var{callback_data} passed to
+@code{hook_add_fun} when the matched function was registered.
+
+@end deftypefun
+
+
+@node Defining and running a hook,  , Hooking functions, Hooks
+@subsubheading Definining and running a hook
+
+@cindex defining hooks
+@cindex hooks, defining
+@cindex running hooks
+@cindex hooks, running
+@tindex a_hook
+@findex HOOK_DEF
+
+The type @code{a_hook} is a struct whose definition should be considered
+as internal detail.  To define a hook, you need to create a global
+@code{a_hook} variable using the @code{HOOK_DEF} macro as follows:
+
+@example
+static a_hook sample_hook = HOOK_DEF ("sample");
+@end example
+
+@noindent
+and then you should register the hook with
+
+@example
+hook_define (&sample_hook);
+@end example
+
+@code{sample_hook} is the name of your hook variable, whose address is
+passed to @code{hook_define} or @code{hook_run}.  @code{"sample"} is the
+symbolic name if you hook; this is the name that hook clients should
+pass to @code{hook_add_fun} or @code{hook_rem_fun}.
+
+@deftypefun void hook_define (a_hook *@var{hook})
+@deftypefunx void hook_undefine (a_hook *@var{hook})
+
+@code{hook_define} registers a hook, so it can be latter populated with
+@code{hook_add_fun} and siblings.  @code{hook_undefine} does the
+converse, obviously.
+
+@end deftypefun
+
+@deftypefun void hook_define_many (a_hook *@var{hook}, int @var{size})
+@deftypefunx void hook_undefine_many (a_hook *@var{hook}, int @var{size})
+
+Same as @code{hook_define} and @code{hook_undefine}, but @var{hook} is
+an array of @var{size} hooks.
+
+@end deftypefun
+
+@deftypefun void hook_run (a_hook *@var{hook}, void *@var{hook_data})
+
+Run all function added to @var{hook}, and pass them @var{hook_data}.
+
+Note there is no garanty on the order into which registered functions
+are called.
+
+@end deftypefun
+
+@node core hooks
+@subsubheading Core hooks
+
+
+@c ======================================================================
+@node Heroes data, System functions, Insinuating Heroes, API
+@section Heroes data
+
+@menu
+* a_level::
+* a_level_state::
+@end menu
+
+@c ----------------------------------------------------------------------
+@node a_level, a_level_state, Heroes data, Heroes data
+@subsection @code{a_level}
+
+FIXME: This section has yet to be written.
+
+@c ----------------------------------------------------------------------
+@node a_level_state,  , a_level, Heroes data
+@subsection @code{a_level_state}
+
+FIXME: This section has yet to be written.
+
+@c ======================================================================
+@node System functions,  , Heroes data, API
+@section System functions
+
+FIXME: This section has yet to be written.
+
+@c ======================================================================
+@node    Index,  , API, Top
+@comment node-name,     next,           previous, up
+@chapter Index
+@cindex index
+
+@printindex cp
+
+@contents
+@bye

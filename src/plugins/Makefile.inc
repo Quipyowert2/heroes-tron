@@ -1,5 +1,5 @@
 ##                                                        -*- Makefile -*-
-## Copyright 2001  Alexandre Duret-Lutz <duret_g@epita.fr>
+## Copyright 2002  Alexandre Duret-Lutz <duret_g@epita.fr>
 ##
 ## This file is part of Heroes.
 ##
