@@ -190,7 +190,6 @@ load_scores (void)
 void
 load_scores_and_keep_locked (void)
 {
-  sys_persona ();
   load_scores_open ("r+t");
   load_scores_read ();
   if (fscores == 0)

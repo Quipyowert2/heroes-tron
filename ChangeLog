@@ -1,3 +1,31 @@
+2001-03-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Keep track of secure (trusted) resources, and only change
+	personna when handling such resources.
+
+	* src/rsc_files_hash.h: Add a secure attribute.
+	* src/rsc_files.gperf: Supply `true' for all secure attributes.
+	* src/Makefile.am (rsc_files_hash.c): Adjust to initialize the
+	secure member of empty hash entries to false.
+	* src/userconf.c: Take a secure argument.
+	* src/usercong.h: Adjust accordingly.
+	* src/rsc_files.c (set_rsc_file): Take a secure argument.
+	(rsc_expand, get_rsc_file, get_non_null_rsc_file): Rename to ...
+	(rsc_expand_secure, get_rsc_file_secure,
+	get_non_null_rsc_file_secure): ... these, and take a secure argument.
+	(rsc_expand, get_rsc_file, get_non_null_rsc_file): New function,
+	written using the above.
+	* src/rsc_files.h: Adjust accordingly.
+	* src/heroes.c (main): Adjust set_rsc_file, and read_userconf calls.
+	* src/persona.c (sys_persona_if_needed): Make sure we handle
+	secure resources.
+	* doc/heroes.texi (Global score file): Update accordingly.
+
+	Bug fix: persona_fopenlock already takes care of switching persona
+	if needed.
+
+	* src/scores.c (load_scores_and_keep_locked): Don't call sys_persona.
+
 2001-03-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Support for relocatable locales.

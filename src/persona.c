@@ -81,21 +81,26 @@ sys_persona_if_needed (const char *rsc, const char *mode)
   char *sysdir;
   char *file;
   int syslen;
+  bool sec = true;
 
-  file = get_non_null_rsc_file (rsc);
+  file = get_non_null_rsc_file_secure (rsc, &sec);
 
   /* If the file is open for reading only, we don't care
-     about switching persona.  */
+     about switching the persona.  */
   if (mode[0] == 'r' && mode[1] != '+')
     return file;
 
-  sysdir = get_non_null_rsc_file ("sys-dir");
-  syslen = strlen (sysdir);
+  sysdir = get_non_null_rsc_file_secure ("sys-dir", &sec);
 
-  /* Switch the the system personal if the file is located
-     beyond sysdir.  */
-  if (strncmp (file, sysdir, syslen) == 0)
-    sys_persona ();
+  /* Don't even consider changing the persona if the
+     resource hasn't been setup in a secure way.  */
+  if (sec) {
+    /* Switch the the system personal if the file is located
+       beyond sysdir.  */
+    syslen = strlen (sysdir);
+    if (strncmp (file, sysdir, syslen) == 0)
+      sys_persona ();
+  }
 
   free (sysdir);
   return file;

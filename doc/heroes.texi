@@ -1334,8 +1334,8 @@ The same considerations apply to the saved games (@samp{saved-games-file})
 and the run-time preferences (@samp{pref-file}).
 
 @samp{$(sys-dir)} is another resource the value of which defaults
-to @samp{/var/games/heroes}.  According to the Filsystem Hierarchy
-Standard this is the place where you should store modifiables game files.
+to @samp{/var/games/heroes}.  According to the Filesystem Hierarchy
+Standard this is the place where you should store modifiable game files.
 If you need to change this, simply add another @samp{setrsc:} line:
 @example
 setrsc: sys-dir /site/var/games/heroes
@@ -1347,7 +1347,7 @@ the right to create that directory anyway).
 Now you have to make several choices regarding the policy for granting
 access to that file.  This is a global score files, so you need to devise
 a setup which allows Heroes to write that file whoever run the game.
-The most straighforward way to allow this is to create the @file{scores} file
+The most straightforward way to allow this is to create the @file{scores} file
 with @samp{666} permission... you probably don't want to do this because
 everybody would be allowed to damage the file.
 
@@ -1379,12 +1379,18 @@ execute some code to drop this privilege as more as possible.
 Basically, it will revert its effective-group-id and effective-user-id
 to the player's group-id and user-id on startup and only switch back to
 it's file-group-id and file-user-id when it needs to write to a file in
-the @samp{${sys-dir}} directory.  This is what the @samp{${sys-dir}}
+the @samp{$(sys-dir)} directory.  This is what the @samp{$(sys-dir)}
 resource is for: a file which is beyond that directory is opened with
 the file-group&user-id (i.e. group `games' in the above example),
-anyother file is opened using the player's groups&user-id.  The visiable
+any other file is opened using the player's groups&user-id.  The visible
 consequence is that files created in the @samp{~/.heroes} directory
 won't be owned by group @samp{games} (or whatever you chose).
+
+Finally, note that Heroes does keep track of how a resource has been
+setup, and wont switch persona when @samp{$(sys-dir)} or
+@samp{$(score-file)} has been setup in a non-trusted way.  Roughly,
+all hard-coded and system-wide settings are trusted, while the user's
+personal settings are untrusted.
 
 @c ======================================================================
 @node    Game, Level editor, Global score file, Running

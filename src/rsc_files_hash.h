@@ -26,6 +26,9 @@ struct rsc_file {
   const char *value;
   char *modified_value;
   int expanded;
+
+  /* Whether the value has been set from a secure system-wide file.  */
+  bool secure;
 };
 
 struct rsc_file *in_rsc_set (const char *str, unsigned int len);

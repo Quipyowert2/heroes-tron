@@ -31,7 +31,7 @@
 #include "errors.h"
 
 int
-read_userconf (const char* file)
+read_userconf (const char* file, bool secure)
 {
   FILE* fs;
   int firstline = 0, endline = 0;
@@ -101,7 +101,7 @@ read_userconf (const char* file)
 	goto non_fatal_error;
       }
       argv[2] = strtok (0, "\n");
-      set_rsc_file (argv[1], argv[2]);
+      set_rsc_file (argv[1], argv[2], secure);
     } else {
       wmsg (_("%s:%d: unknown keyword `%s'"), file, firstline, argv[0]);
       return 1;

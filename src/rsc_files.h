@@ -21,9 +21,22 @@
 #ifndef HEROES__RSC_FILES__H
 #define HEROES__RSC_FILES__H
 
-int set_rsc_file (const char* rsc_name, const char* file_name);
-char* get_rsc_file (const char* rsc_name);
-char* get_non_null_rsc_file (const char* rsc_name);
-char* rsc_expand (char* value);
+
+int set_rsc_file (const char *rsc_name, const char *file_name,
+		  bool secure);
+
+/*
+ * The secure calls tell whether the returned value has been
+ * set in a secure way (i.e. hardcoded or from the global
+ * configuration file).  Note that the secure flag is set to 0
+ * when a value is not secure, but is never set to 1: this is
+ * the job of the caller.
+ */
+char *get_rsc_file (const char *rsc_name);
+char *get_rsc_file_secure (const char *rsc_name, bool *secure);
+char *get_non_null_rsc_file (const char *rsc_name);
+char *get_non_null_rsc_file_secure (const char *rsc_name, bool *secure);
+char *rsc_expand (char *value);
+char *rsc_expand_secure (char *value, bool *secure);
 
 #endif /* HEROES__RSC_FILES__H */

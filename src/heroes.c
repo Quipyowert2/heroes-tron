@@ -3630,10 +3630,10 @@ main (int argc, char *argv[])
     if ((locale_dir = getenv ("HEROES_LOCALE_DIR")) ||
 	(locale_dir = getenv ("HEROES_LOCALEDIR"))) {
       dmsg (D_SYSTEM,"... found: %s", locale_dir);
-      set_rsc_file ("locale-dir", locale_dir);
+      set_rsc_file ("locale-dir", locale_dir, false);
     } else {
       dmsg (D_SYSTEM, "... not found.");
-      set_rsc_file ("locale-dir", LOCALEDIR);
+      set_rsc_file ("locale-dir", LOCALEDIR, true);
     }
   }
 
@@ -3647,10 +3647,10 @@ main (int argc, char *argv[])
     if ((data_dir = getenv ("HEROES_DATA_DIR")) ||
 	(data_dir = getenv ("HEROES_DATADIR"))) {
       dmsg (D_SYSTEM,"... found: %s", data_dir);
-      set_rsc_file ("data-dir", data_dir);
+      set_rsc_file ("data-dir", data_dir, false);
     } else {
       dmsg (D_SYSTEM, "... not found.");
-      set_rsc_file ("data-dir", datadir);
+      set_rsc_file ("data-dir", datadir, true);
     }
   }
   {
@@ -3660,11 +3660,11 @@ main (int argc, char *argv[])
 	(home_dir = getenv ("HEROES_HOMEDIR")) ||
 	(home_dir = getenv ("HOME"))) {
       dmsg (D_SYSTEM,"... found: %s", home_dir);
-      set_rsc_file ("home-dir", home_dir);
+      set_rsc_file ("home-dir", home_dir, false);
     } else {
       dmsg (D_SYSTEM, "... not found.");
       wmsg (_("HOME variable not found in environment, defaulting to `.'"));
-      set_rsc_file ("home-dir", ".");
+      set_rsc_file ("home-dir", ".", false);
     }
   }
 
@@ -3673,9 +3673,10 @@ main (int argc, char *argv[])
   /* Read the system-wide configuration file. */
   {
     char* tmp;
-    tmp = get_rsc_file ("system-conf");
+    bool sec = true;
+    tmp = get_rsc_file_secure ("system-conf", &sec);
     if (tmp) {
-      read_userconf (tmp);
+      read_userconf (tmp, sec);
       free (tmp);
     }
   }
@@ -3688,9 +3689,10 @@ main (int argc, char *argv[])
   /* Read the user configuration file. */
   {
     char* tmp;
-    tmp = get_rsc_file ("user-conf");
+    bool sec = true;
+    tmp = get_rsc_file_secure ("user-conf", &sec);
     if (tmp) {
-      read_userconf (tmp);
+      read_userconf (tmp, sec);
       free (tmp);
     }
   }

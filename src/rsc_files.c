@@ -36,7 +36,7 @@ check_rsc_spelling_error (const char *rsc_name)
 }
 
 int
-set_rsc_file (const char* rsc_name, const char* file_name)
+set_rsc_file (const char* rsc_name, const char* file_name, bool secure)
 {
   struct rsc_file* res = in_rsc_set (rsc_name, strlen(rsc_name));
 
@@ -48,15 +48,16 @@ set_rsc_file (const char* rsc_name, const char* file_name)
   if (res->modified_value)
     free (res->modified_value);
   res->modified_value = xstrdup (file_name);
+  res->secure = secure;
   return 0;
 }
 
 /*  Search value for strings of the form `$(name)' to expand.  */
 char*
-rsc_expand (char* value)
+rsc_expand_secure (char *value, bool *secure)
 {
   int size = strlen (value) + 1;
-  char* result;
+  char *result;
   int dest;
 
   XMALLOC_ARRAY (result, size);
@@ -81,7 +82,7 @@ rsc_expand (char* value)
       {
 	char* expanded;
 
-	expanded = get_rsc_file (value);
+	expanded = get_rsc_file_secure (value, secure);
 	if (expanded) {
 	  char* src;
 
@@ -99,11 +100,18 @@ rsc_expand (char* value)
 }
 
 char*
-get_rsc_file (const char* rsc_name)
+rsc_expand (char *value)
 {
-  char* result;
-  char* tmp;
-  struct rsc_file* res = in_rsc_set (rsc_name, strlen(rsc_name));
+  return rsc_expand_secure (value, 0);
+}
+
+
+char *
+get_rsc_file_secure (const char *rsc_name, bool *secure)
+{
+  char *result;
+  char *tmp;
+  struct rsc_file *res = in_rsc_set (rsc_name, strlen(rsc_name));
 
   if (res == 0) {
     check_rsc_spelling_error (rsc_name);
@@ -111,25 +119,42 @@ get_rsc_file (const char* rsc_name)
   }
   if (res->expanded)		/* prevent infinite recursion */
     return 0;
+
+  if (secure)
+    *secure &= res->secure;
   res->expanded = 1;
 
   /* duplicate the value because rsc_expand will modify it */
   tmp = xstrdup (res->modified_value ? res->modified_value : res->value);
-  dmsg (D_RESOURCE, "get resource $(%s)=%s", rsc_name, tmp);
-  result = rsc_expand (tmp);
-  dmsg (D_RESOURCE, "expanded resource $(%s)=%s", rsc_name, result);
+  dmsg (D_RESOURCE, "get resource $(%s)=%s [%s]", rsc_name, tmp,
+	res->secure ? "trusted" : "untrusted");
+  result = rsc_expand_secure (tmp, secure);
+  dmsg (D_RESOURCE, "expanded resource $(%s)=%s [%s]", rsc_name, result,
+	secure ? (*secure ? "trusted" : "untrusted") : "don't care");
   free (tmp);
   res->expanded = 0;
   return result;
 }
 
-char*
-get_non_null_rsc_file (const char* rsc_name)
+char *
+get_rsc_file (const char *rsc_name)
 {
-  char* tmp = get_rsc_file (rsc_name);
+  return get_rsc_file_secure (rsc_name, 0);
+}
+
+char *
+get_non_null_rsc_file_secure (const char *rsc_name, bool *secure)
+{
+  char* tmp = get_rsc_file_secure (rsc_name, secure);
   if (tmp == 0)
     emsg (_("%s: null resource"), rsc_name);
   if (!strcmp(tmp, ""))
     emsg (_("%s: empty resource"), rsc_name);
   return tmp;
+}
+
+char *
+get_non_null_rsc_file (const char *rsc_name)
+{
+  return get_non_null_rsc_file_secure (rsc_name, 0);
 }
