@@ -127,15 +127,16 @@ static char dir_test[9][12] = {
 };
 
 static void
-partiel4 (int xs, int ys, int xd, int yd, int xc, int yc, pcx_image_t *source)
+rectangle_copy (int xs, int ys, int xd, int yd,
+		int xc, int yc, pcx_image_t *source)
 {
-  int i = source->width;
-  int j;
-  pixel_t *src = (source->buffer) + (i * ys) + xs;
+  int src_width = source->width;
+  pixel_t *src = source->buffer + src_width * ys + xs;
   pixel_t *dest = hedit_buffer + xc + yc * xbuf;
+  int j;
   for (j = yd; j > 0; j--) {
-    fastmem4 (src, dest, xd >> 2);
-    src += i;
+    memcpy (dest, src, xd);
+    src += src_width;
     dest += xbuf;
   }
 }
@@ -231,20 +232,6 @@ copy_square_transp_pcx (pixel_t *src, pixel_t *dest)
     }
     src += 320 - 12;
     dest += hplaninfo.xt * 24 - 12;
-  }
-}
-
-static void
-partiel2 (int xs, int ys, int xd, int yd, int xc, int yc, pcx_image_t *source)
-{
-  int i = source->width;
-  int j;
-  pixel_t *src = (source->buffer) + (i * ys) + xs;
-  pixel_t *dest = hedit_buffer + xc + yc * xbuf;
-  for (j = yd; j > 0; j--) {
-    fastmem2 (src, dest, xd >> 1);
-    src += i;
-    dest += xbuf;
   }
 }
 
@@ -399,14 +386,14 @@ affgt (int t)
 	     hedit_buffer + 294 + 99 * xbuf, 10, 9, 71);
     transpa (IMGPOS (heditrsc, 20, 30 + level_map[t].info.param[3] * 12 + 1),
 	     hedit_buffer + 306 + 99 * xbuf, 10, 9, 71);
-    partiel4 (0, 112, 30, 27, 290, 112, &heditrsc);
+    rectangle_copy (0, 112, 30, 27, 290, 112, &heditrsc);
 
     if ((level_map[t].info.param[4] >> 4) > 0) {
-      partiel2 (60, 168, 30, 32, 290, 168, &heditrsc);
+      rectangle_copy (60, 168, 30, 32, 290, 168, &heditrsc);
       sprintf (nombre, "%u", level_map[t].info.param[4] & 0xf);
       draw_text (nombre, 311, 193, 8, 1);
     } else
-      partiel2 (0, 168, 30, 32, 290, 168, &heditrsc);
+      rectangle_copy (0, 168, 30, 32, 290, 168, &heditrsc);
     break;
   case t_dust:
   case t_ice:
@@ -416,14 +403,14 @@ affgt (int t)
     carre (297 + 12, 91, level_map[t].info.param[1]);
     carre (297, 91 + 10, level_map[t].info.param[2]);
     carre (297 + 12, 91 + 10, level_map[t].info.param[3]);
-    partiel4 (0, 112, 30, 27, 290, 112, &heditrsc);
+    rectangle_copy (0, 112, 30, 27, 290, 112, &heditrsc);
   case t_outway:
     if ((level_map[t].info.param[4] >> 4) > 0) {
-      partiel2 (60, 168, 30, 32, 290, 168, &heditrsc);
+      rectangle_copy (60, 168, 30, 32, 290, 168, &heditrsc);
       sprintf (nombre, "%u", level_map[t].info.param[4] & 0xf);
       draw_text (nombre, 311, 193, 8, 1);
     } else
-      partiel2 (0, 168, 30, 32, 290, 168, &heditrsc);
+      rectangle_copy (0, 168, 30, 32, 290, 168, &heditrsc);
     break;
   case t_tunnel:
     transpa (IMGPOS (heditrsc, 20,
@@ -438,21 +425,21 @@ affgt (int t)
     transpa (IMGPOS (heditrsc, 20,
 		     30 + level_map[t].info.tunnel.direction * 12 + 1),
 	     hedit_buffer + 306 + 99 * xbuf, 10, 9, 71);
-    partiel4 (120, 112, 30, 27, 290, 112, &heditrsc);
+    rectangle_copy (120, 112, 30, 27, 290, 112, &heditrsc);
     sprintf (nombre, "%u", level_map[t].info.tunnel.output / hplaninfo.xt);
     draw_text (nombre, 307, 133, 8, 0);
     sprintf (nombre, "%u", level_map[t].info.tunnel.output % hplaninfo.xt);
     draw_text (nombre, 302, 133, 8, 2);
     break;
   case t_anim:
-    partiel4 (150 + 60, 112, 30, 27, 290, 112, &heditrsc);
+    rectangle_copy (150 + 60, 112, 30, 27, 290, 112, &heditrsc);
     sprintf (nombre, "%u", level_map[t].info.anim.speed);
     draw_text (nombre, 311, 133, 8, 1);
-    partiel2 (0, 168, 30, 32, 290, 168, &heditrsc);
+    rectangle_copy (0, 168, 30, 32, 290, 168, &heditrsc);
     break;
   default:
-    partiel4 (0, 112, 30, 27, 290, 112, &heditrsc);
-    partiel2 (0, 168, 30, 32, 290, 168, &heditrsc);
+    rectangle_copy (0, 112, 30, 27, 290, 112, &heditrsc);
+    rectangle_copy (0, 168, 30, 32, 290, 168, &heditrsc);
     break;
 
   }
@@ -568,9 +555,9 @@ anim_mod_bcl (int i, int x, int y)
 static void
 majd (void)
 {
-  partiel4 (xdalles, 0, 144, 200, 145, 0, &tile_set_img);
+  rectangle_copy (xdalles, 0, 144, 200, 145, 0, &tile_set_img);
   frame (145 + xdallesdec, ydalles, 23, 19, 15);
-  partiel2 (0, 64, 30, 6, 290, 64, &heditrsc);
+  rectangle_copy (0, 64, 30, 6, 290, 64, &heditrsc);
   sprintf (nombre, "%u", (xdalles + xdallesdec) / 24);
   draw_text (nombre, 302, 64, 15, 2);
   sprintf (nombre, "%u", ydalles / 20);
@@ -697,13 +684,13 @@ majg (void)
 		((yplan + yplandec / 20) & hplaninfo.ywrap) *
 		hplaninfo.xt].number, hedit_buffer + 293 + 88 * xbuf);
     affgt (curdallep ());
-    partiel2 (0, 71, 30, 13, 290, 71, &heditrsc);
+    rectangle_copy (0, 71, 30, 13, 290, 71, &heditrsc);
     if (level_map[curdallep ()].sprite != 0)
       draw_text ("[S]", 309, 71, 8, 0);
     draw_text (type_name[level_map[curdallep ()].type], 304, 78, 8, 1);
   }
   frame (xplandec, yplandec, 23, 19, 8);
-  partiel2 (0, 57, 30, 6, 290, 57, &heditrsc);
+  rectangle_copy (0, 57, 30, 6, 290, 57, &heditrsc);
   sprintf (nombre, "%u", ((xplan + xplandec / 24) & hplaninfo.xwrap));
   draw_text (nombre, 302, 57, 8, 2);
   sprintf (nombre, "%u", ((yplan + yplandec / 20) & hplaninfo.ywrap));
@@ -754,8 +741,8 @@ departfix (void)
 	transpa (IMGPOS (heditrsc, 29 + i * 9,
 			 31 + (hplaninfo.start_way[i] >> 4) * 12),
 		 hedit_buffer + 306 + 99 * xbuf, 10, 9, 71);
-    partiel4 (90, 112, 30, 27, 290, 112, &heditrsc);
-    partiel4 (96 + c * 5, 139, 4, 4, 296 + c * 5, 112, &heditrsc);
+    rectangle_copy (90, 112, 30, 27, 290, 112, &heditrsc);
+    rectangle_copy (96 + c * 5, 139, 4, 4, 296 + c * 5, 112, &heditrsc);
     vsynchro (hedit_buffer);
     while (mouse12 () == 0 && key_ready () == 0);
     if (mouse1 ()) {
@@ -956,7 +943,7 @@ planfull (void)
   } while (t != HK_Enter && t != HK_Space && t != HK_Escape &&
 	   mouse12 () == 0);
   memset (hedit_buffer, 0, xbuf * 200);
-  partiel2 (0, 0, 30, 200, 290, 0, &heditrsc);
+  rectangle_copy (0, 0, 30, 200, 290, 0, &heditrsc);
   draw_text (levelnomshort, 305, 29, 8, 1);
   sprintf (nombre, "%u", hplaninfo.xt);
   draw_text (nombre, 302, 43, 8, 2);
@@ -1757,7 +1744,7 @@ hmain (const char* lname, const char* tset_name,
   outwayinit ();
   XCALLOC_ARRAY (hedit_buffer, xbuf * 200);
   set_pal (tile_set_img.palette.global, 0, 256 * 3);
-  partiel2 (0, 0, 30, 200, 290, 0, &heditrsc);
+  rectangle_copy (0, 0, 30, 200, 290, 0, &heditrsc);
   strupr (levelnomshort);
   draw_text (levelnomshort, 305, 29, 8, 1);
   sprintf (nombre, "%u", hplaninfo.xt);

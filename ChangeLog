@@ -1,5 +1,10 @@
 2001-02-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/hedlite.c (partiel4, partiel2): Rename both as ...
+	(rectangle_copy): ... this.  Adjust all calls.
+
+2001-02-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/hedlite.c (fatalog): Remove.
 	(hmain): Replace calls to fatalog by calls to emsg,
 	gettextize the messages.
