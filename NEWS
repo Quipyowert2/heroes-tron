@@ -1,8 +1,9 @@
 		      User visible changes in Heroes.
 
-Heroes 0.6	September XX, 2000
+Heroes 0.6	September 2, 2000
 
-	* heroes has been split in four packages:
+	* heroes has been split in four packages, with different
+	  version numbering and release schedules.
 	   - heroes:               source code, documentation
 	   - heroes-data:          level maps, graphics
 	   - heroes-sound-track:   sound tracks
@@ -17,7 +18,7 @@ Heroes 0.6	September XX, 2000
 	  are relative to the configuration file directory.
 	* Filename given after a `soundconf:' command are subject
 	  to alias expansion (e.g. `$(data-dir)/mod/sound.conf').
-	* New options:
+	* New run-time options:
 	  -2: double display size (slow)
 	  -3: triple display size (slower)
 	  -S: disable sound
@@ -25,6 +26,11 @@ Heroes 0.6	September XX, 2000
 	* New environment variables:
 	  HEROES_DEBUG:    control debugging output
 	  HEROES_DATA_DIR: permit relocation of the game
+	* New configure options:
+          --enable-html-doc[=DIR]:  build and install html documentation
+	  --disable-heroes-debug:   disable support for HEROES_DEBUG
+	  --with-mikmod:	    link with LibMikMod
+	  --with-sdl_mixer:	    link with SDL_Mixer
 	* Bugs fixed:
 	  - -q option wasn't handled
 	  - keysdef-inc.h was not build if --with-sdl or --with-GGI
@@ -37,6 +43,8 @@ Heroes 0.6	September XX, 2000
 	  - mouse support for SDL 1.0.x was missing.
 	  - a ./configure test was broken due to unquoted
 	    variable substitution.
+	  - some more big-endian issues have been fixed
+	  - some unaligned memory access have been removed
 	* Internal major changes:
 	  - new directory lib/ for utility and compatibility functions.
 	  - timer code fully rewritten

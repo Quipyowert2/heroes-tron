@@ -1,5 +1,10 @@
 2000-08-31  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* NEWS: Update.
+	* doc/heroes.texi (Contributors): Add Mattias and Maxim.
+
+2000-08-31  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Mingw32 defines dirent.d_name as a pointer, so copying
 	a struct dirent needs some additional massaging.
 

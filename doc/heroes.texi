@@ -408,7 +408,18 @@ Is the Debian maintainer of Heroes.
 @item
 Jean Delvare @email{delvare@@ensicaen.ismra.fr}
 
-Reported numerous errors, and suggested various improvements.
+Reported numerous errors, suggested various improvements, and build
+RPMs.
+
+@item
+Mattias Engdeg@aa{}rd @email{f91-men@@nada.kth.se}
+
+Ported Heroes to Solaris.
+
+@item
+Maxim Sobolev @email{sobomax@@FreeBSD.org}
+
+Is the maintainer of the FreeBSD port (which he did).
 @end itemize
 
 @node     History,  , Contributors, Overview
