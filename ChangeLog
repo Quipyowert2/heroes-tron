@@ -1,5 +1,19 @@
 2000-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/sound.h [!HAVE_LIBSDL_MIXER && !HAVE_LIBMIKMOD]
+	(set_volume, halve_volume, init_sound_engine,
+	uninit_sound_engine, unload_soundtrack, play_soundtrack,
+	decode_sound_options, load_soundtrack_from_alias,
+	load_next_soundtrack, load_prev_soundtrack): Define as empty
+	macros.
+	* src/sound.c [!HAVE_LIBSDL_MIXER && !HAVE_LIBMIKMOD]
+	(set_volume, halve_volume, init_sound_engine,
+	uninit_sound_engine, unload_soundtrack, play_soundtrack,
+	decode_sound_options, load_soundtrack_from_alias,
+	load_next_soundtrack, load_prev_soundtrack): Don't define.
+
+2000-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Work around a bug in the realloc test on Alpha.
 
 2000-11-17  Alexandre Duret-Lutz  <duret_g@epita.fr>

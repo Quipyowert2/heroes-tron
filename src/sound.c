@@ -439,56 +439,10 @@ decode_sound_options (char* optarg, char* argv0)
 
 #else /* not HAVE_LIBSDL_MIXER and not HAVE_LIBMIKMOD */
 
-#include <stdio.h>
-
-/* empty implementation */
-
-void
-set_volume (void)
-{
-}
-
-void
-halve_volume (void)
-{
-}
-
-int
-init_sound_engine (void)
-{
-  return 0;
-}
-
-void
-uninit_sound_engine (void)
-{
-}
-
-void
-load_soundtrack (char *ptr ATTRIBUTE_UNUSED)
-{
-}
-
-void
-unload_soundtrack (void)
-{
-}
-
-void
-play_soundtrack (void)
-{
-}
-
 void
 print_drivers_list (void)
 {
   wmsg ("Heroes has been compiled without sound support.\n");
-}
-
-void
-decode_sound_options (char* optarg ATTRIBUTE_UNUSED,
-		      char* argv0 ATTRIBUTE_UNUSED)
-{
 }
 
 #endif /* not HAVE_LIBSDL_MIXER */
@@ -543,13 +497,6 @@ load_prev_soundtrack (void)
     dmsg (D_SOUND_TRACK, "loading previous sound track");
     load_and_setup_sound_track (st);
   }
-}
-
-#else /* !HAVE_LIBSDL_MIXER && !HAVE_LIBMIKMOD */
-
-void
-load_soundtrack_from_alias (const char* alias ATTRIBUTE_UNUSED)
-{
 }
 
 #endif
