@@ -1,5 +1,10 @@
 2001-08-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.ac: Bump version to 0.12d.
+	* NEWS: Update.
+
+2001-08-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/levellst.c (cmp_levels): Sort the level names on the last
 	digit first, so that they are played in this order:
 	010 020 030 ... 011 021 ..., and not this one 010 011 012 ...

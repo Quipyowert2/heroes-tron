@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.9\n"
-"POT-Creation-Date: 2001-07-30 09:54+0200\n"
+"POT-Creation-Date: 2001-08-06 10:21+0200\n"
 "PO-Revision-Date: 2001-03-18 18:27GMT\n"
 "Last-Translator: Hermann J. Beckers <beckers@st-oneline.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -795,43 +795,43 @@ msgstr ""
 "Alexandre Liverneaux and Philippe Meisburger.\n"
 "\n"
 
-#: src/heroes.c:584 src/heroes.c:672
+#: src/heroes.c:676 src/heroes.c:764
 #, c-format
 msgid "Cannot load level %s (error %d)"
 msgstr ""
 
-#: src/heroes.c:1813
+#: src/heroes.c:1910
 #, c-format
 msgid "INVERTED %d"
 msgstr "invertiert %d"
 
-#: src/heroes.c:1844
+#: src/heroes.c:1941
 #, c-format
 msgid "STOPPED %d"
 msgstr "gestoppt %d"
 
 #. TRANS: %d, the number of remaining lives, is always
 #. positive.
-#: src/heroes.c:2136
+#: src/heroes.c:2237
 msgid "LAST LIFE"
 msgid_plural "%d LIVES LEFT"
 msgstr[0] "Letztes Leben"
 
-#: src/heroes.c:2748
+#: src/heroes.c:2807
 msgid "Error during level loading"
 msgstr "Fehler beim Level-Laden"
 
-#: src/heroes.c:2784
+#: src/heroes.c:2843
 #, c-format
 msgid "-LEVEL %d-"
 msgstr "-LEVEL %d-"
 
-#: src/heroes.c:2786
+#: src/heroes.c:2845
 #, c-format
 msgid "-ROUND %d/%d-"
 msgstr "-Runde %d/%d-"
 
-#: src/heroes.c:3272
+#: src/heroes.c:3331
 msgid "error in sfx.cfg"
 msgstr "Fehler in sfx.cfg"
 

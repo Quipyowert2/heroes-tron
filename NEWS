@@ -1,3 +1,14 @@
+Heroes 0.12d	August 6, 2001
+
+	* Portability tweaks for MinGW and OpenBSD.
+	* Bug fixes:
+	  - Radar display was bogus on Y-wrapped levels (since 0.12a).
+	  - Prevent lemmings from entering tunnels (since 0.12a).
+	  - Sort the level list so that they are played in the same
+	    order as when level.lst was used (since 0.12b).
+	  - Wrong computation of camera position caused
+	    segfaults on unwrapped levels (since 0.12c).
+
 Heroes 0.12c	July 30, 2001
 
 	* Compile flags handling revamped:

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.9\n"
-"POT-Creation-Date: 2001-07-30 09:54+0200\n"
+"POT-Creation-Date: 2001-08-06 10:21+0200\n"
 "PO-Revision-Date: 2001-04-27 21:15+01:00\n"
 "Last-Translator: Alessandro Dotti <alessandro.dotti@libero.it>\n"
 "Language-Team: none <LL@li.org>\n"
@@ -842,44 +842,44 @@ msgstr ""
 "Alexandre Liverneaux e Philippe Meisburger.\n"
 "\n"
 
-#: src/heroes.c:584 src/heroes.c:672
+#: src/heroes.c:676 src/heroes.c:764
 #, c-format
 msgid "Cannot load level %s (error %d)"
 msgstr ""
 
-#: src/heroes.c:1813
+#: src/heroes.c:1910
 #, c-format
 msgid "INVERTED %d"
 msgstr "INVERTITO %d"
 
-#: src/heroes.c:1844
+#: src/heroes.c:1941
 #, c-format
 msgid "STOPPED %d"
 msgstr "FERMATO %d"
 
 #. TRANS: %d, the number of remaining lives, is always
 #. positive.
-#: src/heroes.c:2136
+#: src/heroes.c:2237
 msgid "LAST LIFE"
 msgid_plural "%d LIVES LEFT"
 msgstr[0] "ULTIMA VITA"
 msgstr[1] "%d VITE RIMASTE"
 
-#: src/heroes.c:2748
+#: src/heroes.c:2807
 msgid "Error during level loading"
 msgstr "Errore durante il caricamento del livello"
 
-#: src/heroes.c:2784
+#: src/heroes.c:2843
 #, c-format
 msgid "-LEVEL %d-"
 msgstr "-LIVELLO %d-"
 
-#: src/heroes.c:2786
+#: src/heroes.c:2845
 #, c-format
 msgid "-ROUND %d/%d-"
 msgstr "-ROUND %d/%d-"
 
-#: src/heroes.c:3272
+#: src/heroes.c:3331
 msgid "error in sfx.cfg"
 msgstr "errore in sfx.cfg"
 
