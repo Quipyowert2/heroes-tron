@@ -1249,8 +1249,10 @@ game_menu (void)
 
     if (!game_rounds_txt) {
       char rounds_txt[32];
-      /* FIXME: handle plural */
-      sprintf (rounds_txt, _("%d ROUNDS"), rounds_nbr_values[opt.gamerounds]);
+      sprintf (rounds_txt, ngettext ("%d ROUND",
+				     "%d ROUNDS",
+				     rounds_nbr_values[opt.gamerounds]),
+	       rounds_nbr_values[opt.gamerounds]);
       game_rounds_txt = compile_menu_text (rounds_txt,
 					   T_FLUSHED_LEFT, 153, 56);
     }

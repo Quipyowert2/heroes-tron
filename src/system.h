@@ -140,6 +140,7 @@
 # undef textdomain
 # define textdomain(Domain) /* empty */
 # define _(Text) Text
+# define ngettext(msg1, msg2, n) ((n) == 1 ? (msg1) : (msg2))
 #endif
 #define N_(Text) Text
 

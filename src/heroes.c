@@ -2426,13 +2426,14 @@ update_player (int c)
 	if (player[c].lifes > 1) {
 	  if (player[c].cpu == 2)
 	    event_sfx (60);
-	  /* FIXME: handle plural */
-	  sprintf (txt_tmp, _("%d LIVES LEFT"), player[c].lifes);
 	} else {
-	  strcpy (txt_tmp, _("LAST LIFE"));
 	  if (player[c].cpu == 2)
 	    event_sfx (61);
 	}
+	/* TRANS: %d, the number of remaining lives, is always
+	   positive.  */
+	sprintf (txt_tmp, ngettext("LAST LIFE", "%d LIVES LEFT",
+				   player[c].lifes), player[c].lifes);
       }
       if (!level_is_finished)
 	set_txt_bonus (c, txt_tmp, 150);
