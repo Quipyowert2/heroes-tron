@@ -17,14 +17,19 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 #
 
-SUBDIRS = etc
+include lvl/Makefile.inc
 
-bin_PROGRAMS = heroes
+SUBDIRS = etc #lvl
 
-INCLUDES = -I$(top_srcdir)/lib -I../lib -I../intl -I.. -I.
+bin_PROGRAMS = heroes heroeslvl
+
+INCLUDES = -I$(top_srcdir)/lib -I../lib -I../intl -I$(srcdir)/lvl -I.. -I.
 LDADD = @INTLLIBS@ ../lib/libheroes.a
 
 EXTRA_DIST = rsc_files.gperf debughash.gperf
+
+heroeslvl_SOURCES = heroeslvl.c
+heroeslvl_LDADD = lvl/libhlvl.a ../lib/libheroes.a
 
 heroes_SOURCES = \
 argv.c \

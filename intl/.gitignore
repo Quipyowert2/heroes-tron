@@ -26,6 +26,7 @@ localcharset.c
 locale.alias
 localealias.c
 ngettext.c
+plural.c
 plural.y
 ref-add.sin
 ref-del.sin

@@ -7,6 +7,7 @@ stamp-h
 .deps
 keysdef-inc.h
 heroes
+heroeslvl
 music.raw
 music.wav
 rsc_files_hash.c

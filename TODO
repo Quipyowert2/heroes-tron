@@ -17,6 +17,9 @@ Short term.
   generation of level.lst, level integrity checking -- maybe conversion
   of level format, should we need to do this a day).
 
+  /* Map square indexes to coordinates, for fast conversion.  */
+  const square_coord_pair_t *square_coord;
+
 Middle term.
 ------------
 

@@ -1,5 +1,22 @@
 2001-07-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/lvl/Makefile.inc: New file.
+	* src/lvl/de_body.c: New file.
+	* src/lvl/de_head.c: New file.
+	* src/lvl/in_body.c: New file.
+	* src/lvl/load.c: New file.
+	* src/lvl/loadmac.h: New file.
+	* src/lvl/lvl.h: New file.
+	* src/lvl/lvl_priv.h: New file.
+	* src/lvl/privacc.c: New file.
+	* src/heroeslvl.c: New file.
+	* src/Makefile.am: include src/lvl/Makefile.inc.
+	(bin_PROGRAMS): Add heroeslvl.
+	(INCLUDE, heroeslvl_SOURCES, heroeslvl_LDADD): New variables.
+	* src/system.h: Add O_BINARY support.
+
+2001-07-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.ac: Bump version to 0.12.
 	* HACKING: Update.
 	* TODO: Update.

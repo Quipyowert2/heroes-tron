@@ -49,7 +49,11 @@
 
 #include <ctype.h>
 #include <sys/stat.h>
-#include <fcntl.h>
+#if HAVE_FCNTL_H
+# include <fcntl.h>
+#else
+# include <sys/file.h>
+#endif
 #include <assert.h>
 #include <math.h>
 #include <errno.h>
@@ -326,6 +330,26 @@ int strcasecmp (const char *s1, const char *s2);
 # else
 #  error "Don't know how to create a directory on this system."
 # endif
+#endif
+
+/* For systems that distinguish between text and binary I/O.
+   O_BINARY is usually declared in fcntl.h  */
+#if !defined O_BINARY && defined _O_BINARY
+  /* For MSC-compatible compilers.  */
+# define O_BINARY _O_BINARY
+# define O_TEXT _O_TEXT
+#endif
+
+#ifdef __BEOS__
+  /* BeOS 5 has O_BINARY and O_TEXT, but they have no effect.  */
+# undef O_BINARY
+# undef O_TEXT
+#endif
+
+#ifndef O_BINARY
+  /* On reasonable systems, binary I/O is the default.  */
+# define O_BINARY 0
+# define O_TEXT 0
 #endif
 
 /* Define S_ISDIR if it isn't already defined in sys/stat.h */
