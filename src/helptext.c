@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------.
-| Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>                 |
+| Copyright 2000, 2001  Alexandre Duret-Lutz <duret_g@epita.fr>           |
 |                                                                         |
 | This file is part of Heroes.                                            |
 |                                                                         |
@@ -28,6 +28,8 @@ const char *const help_text1 = N_("\
 \n\
 \n\
 \n\
+\n\
+%{center}%pUse the arrow keys to scroll up and down.\n\
 \n\
 %{head 1}CONTROL & BOARD\n\
 \n\
