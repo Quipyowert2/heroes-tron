@@ -1,5 +1,13 @@
 2000-07-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Fix two bugs occuring when using GGI.
+	
+	* src/hedlite.c (gestclav): Handle `^F' manualy (needed with GGI).
+	* src/menus.c (editor_menu):  Transform `if's in `else if's to 
+	prevent an arrow keysyms from being used in the level name field.
+	
+2000-07-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Document the level editor.
 
 	* doc/heroes.texi (Top): Add a detailed node listing.

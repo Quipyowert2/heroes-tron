@@ -1674,6 +1674,9 @@ gestclav (int i, int mod)
     }
 //                  majg();
     break;
+  case 006: /* ^F */
+    gestclav (HK_f, HK_MOD_Ctrl);
+    break;
   case HK_f:
   case HK_F:
     if (mod & HK_MOD_Ctrl) {

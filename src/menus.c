@@ -1416,8 +1416,7 @@ editor_menu (void)
 	else
 	  l = 1;
 	event_sfx (110);
-      }
-      if (t == HK_Down) {
+      } else if (t == HK_Down) {
 	if (flaglock == 0)
 	  if (l < 6)
 	    l++;
@@ -1429,16 +1428,13 @@ editor_menu (void)
 	else
 	  l = 6;
 	event_sfx (110);
-      }
-      if (l == 0 && (t == HK_Right || t == HK_Left)) {
+      } else if (l == 0 && (t == HK_Right || t == HK_Left)) {
 	if (t == HK_Right) {
 	  if (tiles < 9)
 	    tiles++;
 	  else
 	    tiles = 0;
-	}
-
-	else {
+	} else {
 	  if (tiles > 0)
 	    tiles--;
 	  else
@@ -1452,8 +1448,7 @@ editor_menu (void)
 	if (p == -1)
 	  p = 0;
 	event_sfx (111);
-      }
-      if (l == 1) {
+      } else if (l == 1) {
 	l2 = t & 255;
 	if (l2 >= 'a' && l2 <= 'z')
 	  l2 -= 'a' - 'A';
@@ -1499,8 +1494,7 @@ editor_menu (void)
 	    flaglock = 0;
 	  flag = 0;
 	}
-      }
-      if (l == 2 && (t == HK_Right || t == HK_Left || t == HK_Enter)) {
+      } else if (l == 2 && (t == HK_Right || t == HK_Left || t == HK_Enter)) {
 	event_sfx (114);
 	if (xwrap != -1)
 	  xwrap = -1;
@@ -1517,8 +1511,7 @@ editor_menu (void)
 	    xwrap = 63;
 	  }
 	}
-      }
-      if (l == 3 && (t == HK_Right || t == HK_Left || t == HK_Enter)) {
+      } else if (l == 3 && (t == HK_Right || t == HK_Left || t == HK_Enter)) {
 	event_sfx (114);
 	if (ywrap != -1)
 	  ywrap = -1;
@@ -1535,8 +1528,7 @@ editor_menu (void)
 	    ywrap = 63;
 	  }
 	}
-      }
-      if (l == 4 && (t == HK_Right || t == HK_Left || t == HK_Enter)) {
+      } else if (l == 4 && (t == HK_Right || t == HK_Left || t == HK_Enter)) {
 	event_sfx (115);
 	if (t == HK_Left) {
 	  if (xsize > 15)
@@ -1552,8 +1544,7 @@ editor_menu (void)
 	    xsize = 15;
 	  xwrap = -1;
 	}
-      }
-      if (l == 5 && (t == HK_Right || t == HK_Left || t == HK_Enter)) {
+      } else if (l == 5 && (t == HK_Right || t == HK_Left || t == HK_Enter)) {
 	event_sfx (115);
 	if (t == HK_Left) {
 	  if (ysize > 11)
@@ -1575,8 +1566,8 @@ editor_menu (void)
     if (l == 6 && t == HK_Enter && tmp1[0] == 0)
       l = 1;
   } while (t != HK_Escape && !(l == 6 && t == HK_Enter));
-  img_free ((image_ *) & frmenu);
-  img_free ((image_ *) & tilesprev);
+  img_free (&frmenu);
+  img_free (&tilesprev);
   if (l == 6 && t == HK_Enter) {
     event_sfx (116);
 
