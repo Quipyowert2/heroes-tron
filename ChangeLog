@@ -1,5 +1,10 @@
 2002-04-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* tools/ltmain.sh, m4/libtool.m4: Downgrade to latest version
+	from CVS libtool on branch-1-4.
+
+2002-04-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/plugins/Makefile.inc (distclean-local): Remove.  Was a
 	workaround to an Automake bug fixed in 1.6.1.
 
