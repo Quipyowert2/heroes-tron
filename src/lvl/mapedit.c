@@ -86,21 +86,100 @@ int lvl_create (a_level *lvl, a_tile_coord height, a_tile_coord width,
   return 1;
 }
 
+static a_tile_index
+sprite_offset_to_tileset_index (a_tileset *tset, int spr_ofs)
+{
+  int spr_ofs_y = spr_ofs / tset->image_width;
+  int spr_ofs_x = spr_ofs % tset->image_width;
+  a_tile_index tset_idx = (spr_ofs_y / PIE_TILE_PIXELS_Y) * tset->tile_width +
+			  (spr_ofs_x / PIE_TILE_PIXELS_X);
+  return tset_idx;
+}
+
+/* mark all tiles that cannot be entered by any player as T_OUTWAY */
+static void
+mark_outway (a_level *lvl)
+{
+  a_u8 *outway_map;  /* 0: not yet visited
+			1: recently visited (during last move)
+			2: visited earlier */
+  bool finished = false; /* no more moves, game over */
+  a_square_index sidx;
+  a_tile_index tidx;
+  int i;
+  XCALLOC_ARRAY (outway_map, lvl->square_count);
+
+  /* reset all T_OUTWAYs to their original type */
+  for (tidx = 0; tidx < lvl->tile_count; ++tidx)
+    if (lvl->private->tile[tidx].type == T_OUTWAY) {
+      a_tile_index tset_idx = sprite_offset_to_tileset_index
+	(lvl->tileset, lvl->private->tile[tidx].sprite_offset);
+      a_square_index tset_square =
+	TILE_INDEX_TO_SQR_INDEX (lvl->tileset, tset_idx);
+      sidx = TILE_INDEX_TO_SQR_INDEX (lvl, tidx);
+      lvl->private->tile[tidx].type = lvl->tileset->tile[tset_idx].type;
+      for (i = 0; i < 4; ++i)
+	lvl->square_type[SQRX (lvl, sidx, i)] =
+	  lvl->tileset->square[SQRX (lvl->tileset, tset_square, i)].type;
+    }
+
+  /* The players' starting positions are the origins of the accessibility
+     check algorithm. Mark them as "recently visited" */
+  for (i = 0; i < 4; ++i) {
+    a_square_index square = SQR_COORDS_TO_INDEX (lvl,
+	lvl->private->start_pos[i].y, lvl->private->start_pos[i].x);
+    outway_map[square] = 1;
+  }
+
+  /* find unexplored squares next to recently visited ones. If no more
+     accessible squares are found, stop iterating */
+  while (!finished) {
+    finished = true; /* assume there are no more squares to explore */
+    for (sidx = 0; sidx < lvl->square_count; ++sidx)
+      if (outway_map[sidx] == 1) {
+	outway_map[sidx] = 2;
+	for (i = 0; i < 4; ++i) { /* explore each neighbour */
+	  a_square_index dest = lvl->square_move[i][sidx];
+	  if ((dest != INVALID_INDEX) && (outway_map[dest] == 0)) {
+	    finished = false;
+	    outway_map[dest] = 1;
+	  }
+	}
+      }
+  }
+
+  /* mark unvisited tiles/squares as T_OUTWAY */
+  for (tidx = 0; tidx < lvl->tile_count; ++tidx) {
+    sidx = TILE_INDEX_TO_SQR_INDEX (lvl, tidx);
+    if (((outway_map[SQR0 (lvl, sidx)] == 0) ||
+	 (outway_map[SQR1 (lvl, sidx)] == 0) ||
+	 (outway_map[SQR2 (lvl, sidx)] == 0) ||
+	 (outway_map[SQR3 (lvl, sidx)] == 0)) &&
+	(lvl->private->tile[tidx].type != T_TUNNEL)) {
+      lvl->private->tile[tidx].type = T_OUTWAY;
+      for (i = 0; i < 4; ++i) {
+	a_square_index dest = SQRX (lvl, sidx, i);
+	if (outway_map[dest] == 0)
+	  lvl->square_type[dest] = T_OUTWAY;
+	else
+	  lvl->square_type[dest] = T_NONE;
+      }
+    }
+  }
+
+  XFREE (outway_map);
+}
+
 static void
 rebuild_walls (a_level *lvl, a_tile_index idx)
 {
   a_tileset *tset = lvl->tileset;
   a_square_index d_square0 = TILE_INDEX_TO_SQR_INDEX (lvl, idx);
   a_square_index s_square0;
-  int spr_ofs_x, spr_ofs_y;
-  a_tile_index tset_idx;
   int subsquare;
 
-  /* Calculate tileset index from sprite offset */
-  spr_ofs_y = lvl->private->tile[idx].sprite_offset / tset->image_width;
-  spr_ofs_x = lvl->private->tile[idx].sprite_offset % tset->image_width;
-  tset_idx = (spr_ofs_y / PIE_TILE_PIXELS_Y) * tset->tile_width +
-	     (spr_ofs_x / PIE_TILE_PIXELS_X);
+  a_tile_index tset_idx = sprite_offset_to_tileset_index
+		(tset, lvl->private->tile[idx].sprite_offset);
   s_square0 = TILE_INDEX_TO_SQR_INDEX (tset, tset_idx);
 
   /* Add the walls given in tileset square information */
@@ -287,10 +366,12 @@ int lvl_assign_tile (a_level *lvl, a_tile_index dest, a_tile_index src)
       rebuild_walls (lvl, TILE_COORDS_TO_INDEX (lvl, dtile_y, dtile_x));
   }
 
+  mark_outway (lvl);
+
   return 1;
 }
 
-void lvl_set_soundtrack (a_level *lvl, const char* sound_track_alias)
+void lvl_set_soundtrack (a_level *lvl, const char *sound_track_alias)
 {
   XFREE0 (lvl->private->sound_track_alias);
   lvl->private->sound_track_alias = xstrdup (sound_track_alias);
@@ -298,6 +379,8 @@ void lvl_set_soundtrack (a_level *lvl, const char* sound_track_alias)
 
 int lvl_set_start (a_level *lvl, int player, a_square_index idx, a_dir dir)
 {
+  if (! lvl->tileset)
+    return 0;
   if (idx >= lvl->square_count)
     return 0;
   if ((dir != D_UP) && (dir != D_RIGHT) && (dir != D_DOWN) && (dir != D_LEFT))
@@ -305,17 +388,21 @@ int lvl_set_start (a_level *lvl, int player, a_square_index idx, a_dir dir)
   lvl->private->start_pos[player].x = SQR_INDEX_TO_COORD_X (lvl, idx);
   lvl->private->start_pos[player].y = SQR_INDEX_TO_COORD_Y (lvl, idx);
   lvl->private->start_dir[player] = dir;
+  mark_outway (lvl);
   return 1;
 }
 
 int lvl_setup_tunnel (a_level *lvl, a_square_index start, a_square_index end)
 {
   int td = lvl->square_direction[start];
+  if (! lvl->tileset)
+    return 0;
   if (lvl->square_type[start] != T_TUNNEL)
     return 0;
   if (lvl->square_type[end] != T_TUNNEL)
     return 0;
   lvl->square_move[td][start] = end;
+  mark_outway (lvl);
   return 1;
 }
 
@@ -323,4 +410,3 @@ void lvl_set_anim_delay (a_level *lvl, a_tile_index idx, unsigned int delay)
 {
   lvl->private->tile[idx].frame_delay = delay;
 }
-
