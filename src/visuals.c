@@ -205,7 +205,8 @@ horizontal_zoom_flip (pixel_t *src, pixel_t *dest, int oldsize, int newsize)
 static void
 vertical_zoom_wave (pixel_t *src, pixel_t *dest, int oldsize, int newsize)
 {
-  unsigned long int y = 0, deltay = ((1 + oldsize) << 16) / (newsize);
+  unsigned long int y = 0;	/* current line << 16 */
+  unsigned long int deltay = ((1 + oldsize) << 16) / newsize;
   u32_t tmp1, tmp2;
   newsize--;
   do {
@@ -222,7 +223,7 @@ vertical_zoom_wave (pixel_t *src, pixel_t *dest, int oldsize, int newsize)
   } while (newsize > 0);
   if (newsize == 0) {
     pixel_t *p;
-    p = src + ((y >> 16) * 3 << 7);
+    p = src + ((y >> 16) * xbuf);
     tmp1 = GETWORD(p);
     *(u32_t *) dest = tmp1;
   }
@@ -257,56 +258,56 @@ which_offset (int y, int a)
 void
 wave_buffer (void)
 {
-  int i, p = player[col2plr[0]].waves * 7, gauche, droite, j;
+  int i, p = player[col2plr[0]].waves * 7, left, right, j;
   int waves_begin = player[col2plr[0]].waves_begin;
   for (i = 0; i < 320; i += 4) {
-    gauche = ((16 + moyensinus[(i * 2 + p) & 511]) * waves_begin) / 128;
-    droite = ((16 + moyensinus[(i + p) & 511]) * waves_begin) / 128;
-    for (j = 0; j < gauche; j++)
+    left = ((16 + moyensinus[(i * 2 + p) & 511]) * waves_begin) / 128;
+    right = ((16 + moyensinus[(i + p) & 511]) * waves_begin) / 128;
+    for (j = 0; j < left; j++)
       *(u32_t *) (render_buffer[1] + i + j * xbuf) = 0;
-    vertical_zoom_wave (corner[0] + i, render_buffer[1] + i + gauche * xbuf,
-			200, 200 - droite - gauche);
-    for (j = 0; j < droite; j++)
+    vertical_zoom_wave (corner[0] + i, render_buffer[1] + i + left * xbuf,
+			200, 200 - right - left);
+    for (j = 0; j < right; j++)
       *(u32_t *) (render_buffer[1] + i + (200 - j) * xbuf) = 0;
   }
   for (i = 0; i < 200; i++) {
-    gauche = ((16 + moyensinus[(i * 2 + p) & 511]) * waves_begin) / 128;
-    droite = ((16 + moyensinus[(i - p) & 511]) * waves_begin) / 128;
-    for (j = 0; j < gauche; j++)
-      *(render_buffer[0] + i * xbuf + j) = 0;
+    left = ((16 + moyensinus[(i * 2 + p) & 511]) * waves_begin) / 128;
+    right = ((16 + moyensinus[(i - p) & 511]) * waves_begin) / 128;
+    for (j = 0; j < left; j++)
+      render_buffer[0][i * xbuf + j] = 0;
     horizontal_zoom_wave (render_buffer[1] + i * xbuf,
-			  render_buffer[0] + i * xbuf + gauche, 320,
-			  320 - droite - gauche);
-    for (j = 0; j < droite; j++)
-      *(render_buffer[0] + i * xbuf + 319 - j) = 0;
+			  render_buffer[0] + i * xbuf + left, 320,
+			  320 - right - left);
+    for (j = 0; j < right; j++)
+      render_buffer[0][i * xbuf + 319 - j] = 0;
   }
 }
 
 void
 wave_half_buffer (int c)
 {
-  int i, p = player[col2plr[c]].waves * 7, gauche, droite, j;
+  int i, p = player[col2plr[c]].waves * 7, left, right, j;
   int waves_begin = player[col2plr[c]].waves_begin;
   for (i = 0; i < 160; i += 4) {
-    gauche = ((16 + moyensinus[(i * 2 + p) & 511]) * waves_begin) / 128;;
-    droite = ((16 + moyensinus[(i + p) & 511]) * waves_begin) / 128;;
-    for (j = 0; j < gauche; j++)
+    left = ((16 + moyensinus[(i * 2 + p) & 511]) * waves_begin) / 128;;
+    right = ((16 + moyensinus[(i + p) & 511]) * waves_begin) / 128;;
+    for (j = 0; j < left; j++)
       *(u32_t *) (render_buffer[c] + 200 + i + j * xbuf) = 0;
     vertical_zoom_wave (corner[c] + i,
-			render_buffer[c] + 200 + i + gauche * xbuf, 200,
-			200 - droite - gauche);
-    for (j = 0; j < droite; j++)
+			render_buffer[c] + 200 + i + left * xbuf, 200,
+			200 - right - left);
+    for (j = 0; j < right; j++)
       *(u32_t *) (render_buffer[c] + 200 + i + (200 - j) * xbuf) = 0;
   }
   for (i = 0; i < 200; i++) {
-    gauche = ((16 + moyensinus[(i * 2 + p) & 511]) * waves_begin) / 128;;
-    droite = ((16 + moyensinus[(i - p) & 511]) * waves_begin) / 128;;
-    for (j = 0; j < gauche; j++)
+    left = ((16 + moyensinus[(i * 2 + p) & 511]) * waves_begin) / 128;;
+    right = ((16 + moyensinus[(i - p) & 511]) * waves_begin) / 128;;
+    for (j = 0; j < left; j++)
       *(render_buffer[c] + i * xbuf + j) = 0;
     horizontal_zoom_wave (render_buffer[c] + 200 + i * xbuf,
-			  render_buffer[c] + i * xbuf + gauche, 160,
-			  160 - droite - gauche);
-    for (j = 0; j < droite; j++)
+			  render_buffer[c] + i * xbuf + left, 160,
+			  160 - right - left);
+    for (j = 0; j < right; j++)
       *(render_buffer[c] + i * xbuf + 159 - j) = 0;
   }
 }
@@ -314,26 +315,26 @@ wave_half_buffer (int c)
 void
 flip_buffer (int p2)
 {
-  int i, y, gauche, j;
+  int i, y, left, j;
   for (i = 0; i < 200; i++) {
     y = which_line (i - 100, p2);
     if (y >= -100 && y < 100) {
-      gauche = which_offset (y, p2) + 160;
-      if (gauche >= 0) {
+      left = which_offset (y, p2) + 160;
+      if (left >= 0) {
 	y += 100;
-	for (j = 0; j < gauche; j++)
+	for (j = 0; j < left; j++)
 	  render_buffer[1][i * xbuf + j] = 0;
 	horizontal_zoom_wave (corner[0] + y * xbuf,
-			      render_buffer[1] + i * xbuf + gauche, 320,
-			      320 - gauche - gauche);
-	for (j = 320 - gauche; j < 320; j++)
+			      render_buffer[1] + i * xbuf + left, 320,
+			      320 - left - left);
+	for (j = 320 - left; j < 320; j++)
 	  render_buffer[1][i * xbuf + j] = 0;
       } else {
-	gauche = which_column (y, p2) + 160;
+	left = which_column (y, p2) + 160;
 	y += 100;
-	horizontal_zoom_flip (corner[0] + y * xbuf + gauche,
+	horizontal_zoom_flip (corner[0] + y * xbuf + left,
 			      render_buffer[1] + i * xbuf,
-			      320 - gauche - gauche, 320);
+			      320 - left - left, 320);
       }
     } else {
       memset (render_buffer[1] + i * xbuf, 0, 320);
