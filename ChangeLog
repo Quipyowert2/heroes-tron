@@ -1,10 +1,16 @@
 2001-11-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/media/Makefile.inc (media/ggi/keysdef.c, media/sdl/keysdef.c,
+	media/allegro/keysdef.c): Allow these file to be built even if their
+	source file do not exists.  This is needed by target such as TAGS.
+
+2001-11-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/Makefile.am, src/media/Makefile.inc, src/sys/Makefile.inc:
 	Use $(MUMBLE) instead of @MUMBLE@ for
 	AC_SUBST'ed variables.
-	* tools/Makefile.inc, src/etc/Makefile.inc: Add emacs hint for
-	Makefile mode.
+	* arch/Makefile.inc, tools/Makefile.inc, src/etc/Makefile.inc: Add
+	emacs hint for Makefile mode.
 
 	* m4/gccwarn.m4 (CF_GCC_MORE_WARNINGS): Don't include $(CFLAGS) in
 	MORE_WARNINGS_CFLAGS.
