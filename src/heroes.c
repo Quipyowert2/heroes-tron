@@ -3286,8 +3286,13 @@ heroes_main (int argc, char *argv[])
   freeze_sound_track_list ();
 
   dmsg (D_SYSTEM, "parsing command line");
-  if (parse_argv (argc, argv, 0, 0))
-    exit (1);
+  {
+    int err = parse_argv (argc, argv, 0, 0);
+    if (err < 0)
+      exit (0);
+    if (err > 0)
+      exit (err);
+  }
 
   dmsg (D_SYSTEM, "randomize");
   srand (time (0));

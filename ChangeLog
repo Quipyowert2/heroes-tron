@@ -1,3 +1,11 @@
+2001-09-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/argv.c (print_help): Take a 'status' argument and use it as
+	exit value.
+	(parse_argv): Return -1 instead of 1 when the game must quit but not
+	with a non-null exit status.
+	(heroes_main): Handle return values of parse_argv().
+
 2001-09-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.ac: Rewrite the configuration report.

@@ -64,6 +64,8 @@ version (void)
 	  " FOR A PARTICULAR PURPOSE."));
 }
 
+/* Return true if the game can exit on return, or false if some action
+   has been postponed.  */
 static bool
 list (char *word)
 {
@@ -106,9 +108,15 @@ Use `-lWORD' or `--list=WORD' where WORD can be:\n\
   return true;
 }
 
-static void
-print_help (void)
+static void ATTRIBUTE_NORETURN
+print_help (int status)
 {
+  if (status) {
+    fprintf (stderr, _("Try '%s --help' for more information.\n"),
+             program_name);
+    exit (status);
+  }
+
   printf (_("Usage: %s [OPTIONS]...\n\n"), program_name);
   puts (_("\
 Heroes is a game similar to the \"Tron\" and \"Nibbles\" games of yore\n\
@@ -166,6 +174,7 @@ before parsing other command line options) using a line like the following:\n\
   puts (_("\
 Visit http://heroes.sourceforge.net/ for news, documentation, and updates."));
   puts (_("Report bugs to <heroes-bugs@lists.sourceforge.net>."));
+  exit (status);
 }
 
 const struct option long_options[] = {
@@ -234,14 +243,13 @@ parse_argv (int argc, char **argv, const char *from_file, int from_line)
     case 'v':
       if (!optarg) {
 	version ();
-	return 1;
+	return -1;
       } else {
 	dmsg_parse_string (optarg);
 	break;
       }
     case 'h':
-      print_help ();
-      return 1;
+      print_help (0);
     case 's':
       swapside = false;
       break;
@@ -259,7 +267,7 @@ parse_argv (int argc, char **argv, const char *from_file, int from_line)
       break;
     case 'l':
       if (list (optarg))
-        return 1;
+        return -1;
       break;
     case 'L':
       level_name = xstrdup (optarg);
@@ -273,7 +281,7 @@ parse_argv (int argc, char **argv, const char *from_file, int from_line)
       wmsg (_("-n is an obsolete option, "
 	      "you should use --list=sound-drivers"));
       print_drivers_list ();
-      return 1;
+      return -1;
     case 'd':
       decode_sound_options (optarg, from_file ? from_file : argv[0]);
       break;
@@ -306,6 +314,7 @@ parse_argv (int argc, char **argv, const char *from_file, int from_line)
       break;
     case '?':
       /* getopt_long already printed an error message. */
+      print_help (1);
     case 0:
       break;
     case 'Q':
