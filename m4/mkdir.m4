@@ -1,14 +1,14 @@
 dnl AC_FUNC_MKDIR
-dnl Check for mkdir.  
+dnl Check for mkdir.
 dnl Can define HAVE_MKDIR, HAVE__MKDIR and MKDIR_TAKES_ONE_ARG.
 dnl
-dnl #ifdef HAVE_MKDIR
-dnl # ifdef MKDIR_TAKES_ONE_ARG
+dnl #if HAVE_MKDIR
+dnl # if MKDIR_TAKES_ONE_ARG
 dnl    /* Mingw32 */
 dnl #  define mkdir(a,b) mkdir(a)
 dnl # endif
 dnl #else
-dnl # ifdef HAVE__MKDIR
+dnl # if HAVE__MKDIR
 dnl    /* plain Win32 */
 dnl #  define mkdir(a,b) _mkdir(a)
 dnl # else
@@ -24,7 +24,7 @@ AC_CACHE_CHECK([whether mkdir takes one argument],
                 [ac_cv_mkdir_takes_one_arg],
 [AC_TRY_COMPILE([
 #include <sys/stat.h>
-#ifdef HAVE_UNISTD_H
+#if HAVE_UNISTD_H
 # include <unistd.h>
 #endif
 ],[mkdir (".");],

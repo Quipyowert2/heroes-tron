@@ -22,7 +22,7 @@ dnl include it when available.  Here is how:
 dnl
 dnl /* keep this header at the end of the include list, because it may
 dnl    define some macros to change the declaration of malloc functions */
-dnl #ifdef HAVE_DMALLOC_H
+dnl #if HAVE_DMALLOC_H
 dnl # define DMALLOC_FUNC_CHECK
 dnl # include <dmalloc.h>
 dnl #endif

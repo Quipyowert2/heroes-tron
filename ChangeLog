@@ -1,3 +1,8 @@
+2001-01-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* m4/mkdir.m4: Use #if instead of #ifdef.
+	* m4/memdebug.m4: Likewise.
+
 2001-01-09  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Distribute the html documentation.  Check that Heroes
