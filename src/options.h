@@ -48,7 +48,9 @@ typedef struct
   u32_t gamerounds;
   u32_t player_color[4];
   /* keyboard in_menu options */
-  u32_t player_keys[2][6];
+  u32_t player_keys[2][6];	/* FIXME: should be of type keycode_t,
+				   but the size of keycode_t is defined
+				   by the library used to read the keys. */
   /* extra in_menu options */
   u8_t extras;
 }

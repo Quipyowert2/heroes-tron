@@ -29,7 +29,7 @@ extern unsigned int keyboard_modifiers;
 void init_keyboard_map (void);
 void uninit_keyboard_map (void);
 void process_input_events (void);
-int get_key (void);
+keycode_t get_key (void);
 int key_ready (void);
 
 int init_mouse (void);

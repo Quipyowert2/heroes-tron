@@ -140,9 +140,11 @@
 #endif
 #ifdef HAVE_PKG_GGI
 # include <ggi/ggi.h>
+typedef uint32		keycode_t;
 #endif
 #ifdef HAVE_SDL
 # include <SDL.h>
+typedef SDLKey		keycode_t;
 #endif
 
 /* joystick library */

@@ -204,7 +204,7 @@ uninit_keyboard_map (void)
 {
 }
 
-int
+keycode_t
 get_key (void)
 {
   ggi_event ev;
@@ -329,7 +329,7 @@ uninit_keyboard_map (void)
 {
 }
 
-int
+keycode_t
 get_key (void)
 {
   SDL_Event e;

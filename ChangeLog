@@ -1,5 +1,28 @@
 2000-10-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Use keycode_t when handling key codes.
+
+	* src/common.h (keycode_t): New.
+	* src/const.h (get_key_or_joy): Return keycode_t.
+	* src/const.c (get_key_or_joy): Likewise.
+	* src/keyb.h (get_key): Likewise.
+	* src/keyb.c [HAVE_PKG_GGI,HAVE_SDL] (get_key): Likewise.
+	* src/gfx_reader.h (show_help): Use keycode_t.
+	* src/heroes.c (jukebox_menu, enter_your_name, play_menu, load_demo,
+	main_menu, pause_menu): Likewise.
+	* src/keysdef.h (keynames_s): Likewise.
+	* src/menus.c (control_menu, keyboard_menu, sound_menu, screen_menu,
+	quit_menu): Likewise.
+	* src/options.h (options_t): Document that player_key should be
+	keycode_t.
+
+	Less warnings.
+
+	* src/menus.c (extra_menu,editor_selector): Fix comparisons
+	between signed and unsigned.
+
+2000-10-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Miscellaneous warning fixes
 
 	* src/fontdata.c (compute_text_width): Cast *text indice to int.

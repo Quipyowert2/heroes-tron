@@ -251,7 +251,7 @@ static void
 control_menu (void)
 {
   char l = 0;
-  int t;
+  keycode_t t;
   
   std_white_fadein (&tile_set_img.palette);
   do {
@@ -317,7 +317,7 @@ control_menu (void)
 }
 
 static const char*
-search_keyname (int key)
+search_keyname (keycode_t key)
 {
   const struct keynames_s* k = keynames;
 
@@ -330,7 +330,8 @@ static void
 keyboard_menu (void)
 {
   int l = 0, testing = 0;
-  int i, t;
+  int i;
+  keycode_t t;
   int unconfigured_keys = -1;
   /* line for each keyname */
   int keyline[12] = { 38, 49, 60, 71, 82, 93, 121, 132, 143, 154, 165, 176 };
@@ -460,7 +461,7 @@ static void
 sound_menu (void)
 {
   char l = 0;
-  int t;
+  keycode_t t;
 
   std_white_fadein (&tile_set_img.palette);
   do {
@@ -575,7 +576,7 @@ static void
 screen_menu (void)
 {
   char l = 1;
-  int t;
+  keycode_t t;
 
   std_white_fadein (&tile_set_img.palette);
   do {
@@ -694,7 +695,7 @@ static void
 game_menu (void)
 {
   char l = 0, tmp;
-  int t;
+  keycode_t t;
   char rounds[32];
 
   std_white_fadein (&tile_set_img.palette);
@@ -848,7 +849,7 @@ extra_menu (void)
       copy_rect_transp (main_font_img.buffer + 61 * 320,
 			corner[0] + (169) * xbuf + 100, 120, 3);
       for (i = -3; i <= 3; i++)
-	if ((i + ll) >= 0 && (i + ll) < extra_nbr) {
+	if ((i + ll) >= 0 && (unsigned int)(i + ll) < extra_nbr) {
 	  strcpy (lname, extra_list[i + ll].level_name);
 	  draw_text_array[i == 0] (lname, 200, 118 + i * 13, 2);
 	  chkbox (115 + i * 13, 210, extra_selected_list[i + ll]);
@@ -871,7 +872,7 @@ extra_menu (void)
 	    l = 1;
 	}
 	if (t == HK_Down) {
-	  if (ll < (extra_nbr - 1))
+	  if ((unsigned int) (ll + 1) < extra_nbr)
 	    ll++;
 	  else
 	    l = 3;
@@ -883,7 +884,8 @@ extra_menu (void)
 	if (t == HK_PageUp)
 	  ll = (ll > 10) ? (ll - 10) : 0;
 	if (t == HK_PageDown)
-	  ll = (ll < (extra_nbr - 11)) ? (ll + 10) : (extra_nbr - 1);
+	  ll = (((unsigned int) (ll + 11) < extra_nbr) ?
+		(ll + 10) : (extra_nbr - 1));
       } else {
 	if (t == HK_Up) {
 	  if (l > 0)
@@ -1029,7 +1031,7 @@ char
 quit_menu (void)
 {
   char l = 0;
-  int t;
+  keycode_t t;
   
   std_white_fadein (&tile_set_img.palette);
   do {
@@ -1162,7 +1164,7 @@ editor_selector (void)
     copy_rect_transp (main_font_img.buffer + 61 * 320,
 		      corner[0] + (187) * xbuf + 100, 120, 3);
     for (i = -5; i <= 5; i++)
-      if ((i + l) >= 0 && (i + l) < extra_user_nbr) {
+      if ((i + l) >= 0 && (unsigned int) (i + l) < extra_user_nbr) {
 	strcpy (lname, extra_list[i + l].level_name);
 	draw_text_array[i == 0] (lname, 159, 105 + i * 13, 1);
       }
@@ -1181,7 +1183,7 @@ editor_selector (void)
 	  l = extra_user_nbr - 1;
       }
       if (t == HK_Down) {
-	if (l < (extra_user_nbr - 1))
+	if ((unsigned int) (l + 1) < extra_user_nbr)
 	  l++;
 	else
 	  l = 0;
@@ -1193,7 +1195,8 @@ editor_selector (void)
       if (t == HK_PageUp)
 	l = (l > 10) ? (l - 10) : 0;
       if (t == HK_PageDown)
-	l = (l < (extra_user_nbr - 11)) ? (l + 10) : (extra_user_nbr - 1);
+	l = (((unsigned int) (l + 11) < extra_user_nbr) 
+	     ? (l + 10) : (extra_user_nbr - 1));
     } else
       t = 0;
   } while (t != HK_Enter && t != HK_Escape);

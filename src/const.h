@@ -63,7 +63,7 @@ extern char camera_stop_y[2];
 extern pixel_t *(render_buffer[2]);	/* 384*260 */
 
 char key_or_joy_ready (void);
-int get_key_or_joy (void);
+keycode_t get_key_or_joy (void);
 
 extern char kbjoy[6];
 extern char kbjoyold[6];

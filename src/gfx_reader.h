@@ -191,7 +191,7 @@ show_help (void)
   pixel_t *imgsrc;
   int imgxsize;
   int ligne, nextligne = 2, curligne = 20, ldec;
-  int t;
+  keycode_t t;
 #ifdef SDF
   int slices;
   htimer_t reader_htimer;

@@ -267,7 +267,7 @@ key_or_joy_ready (void)
   return (0);
 }
 
-int
+keycode_t
 get_key_or_joy (void)
 {
   if (key_ready ())

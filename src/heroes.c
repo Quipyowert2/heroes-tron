@@ -1159,6 +1159,7 @@ static void
 jukebox_menu (void)
 {
   int t, t2, dp;
+  keycode_t k;
   signed char sinl;
   char l = 0;
   htimer_t lemming_htimer = new_htimer (T_GLOBAL, HZ (18));
@@ -1241,24 +1242,24 @@ jukebox_menu (void)
       vsynch ();
       aff_buffer ();
     } while (!key_or_joy_ready ());
-    t = get_key_or_joy ();
-    if (t == HK_Up || t == HK_Down || t == HK_Left || t == HK_Right)
+    k = get_key_or_joy ();
+    if (k == HK_Up || k == HK_Down || k == HK_Left || k == HK_Right)
       event_sfx (79);
-    if (t == HK_Up || t == HK_Left) {
+    if (k == HK_Up || k == HK_Left) {
       if (l > 0)
 	l--;
       else
 	l = 2;
     }
-    if (t == HK_Down || t == HK_Right) {
+    if (k == HK_Down || k == HK_Right) {
       if (l < 2)
 	l++;
       else
 	l = 0;
     }
-    if (t == HK_Enter) {
+    if (k == HK_Enter) {
       if (l == 2)
-	t = HK_Escape;
+	k = HK_Escape;
       else {
 	if (l == 0) {
 	  event_sfx (74);
@@ -1278,7 +1279,7 @@ jukebox_menu (void)
 	reset_htimer (sound_track_htimer);
       }
     }
-  } while (t != HK_Escape);
+  } while (k != HK_Escape);
   event_sfx (76);
   in_jokebox = 0;
   free_htimer (lemming_htimer);
@@ -1419,7 +1420,7 @@ load_random_level (char cont)
 static void
 enter_your_name (char c, char* name)
 {
-  int t = 0;
+  keycode_t t = 0;
   int pos = 0;
   char l;
   char head[256];
@@ -1482,7 +1483,8 @@ play_menu (void)
   int gamemodeh;
   static int l = 1, u = 0;
   char flagload = 0;
-  int t, i;
+  keycode_t t;
+  int i;
   int mag;
   htimer_t flip_timer;
   long flip_pos;
@@ -3434,7 +3436,7 @@ load_demo (void)
 static void
 scores_menu (void)
 {
-  int t;
+  keycode_t t;
   int i = 0, j;
   char flag = 0;
   int rolldec;
@@ -3525,7 +3527,7 @@ static void
 main_menu (void)
 {
   static char l = 0;
-  int t;
+  keycode_t t;
   char flag = 0;
 
   dmsg (D_SECTION, "-- menu --");
@@ -3661,6 +3663,7 @@ pause_menu (void)
 {
   int i;
   char l = 0;
+  keycode_t k;
   int t, t2, dp;
   unsigned char *src = render_buffer[0];
   htimer_t pause_htimer;
@@ -3727,24 +3730,24 @@ pause_menu (void)
     fastmem4 ((char *) corner[0] + 180 * 320, (char *) screen + 180 * 320,
 	      20 * 320 / 4);
     if (key_or_joy_ready ()) {
-      t = get_key_or_joy ();
-      if (t == HK_Up || t == HK_Down || t == HK_Left || t == HK_Right)
+      k = get_key_or_joy ();
+      if (k == HK_Up || k == HK_Down || k == HK_Left || k == HK_Right)
 	event_sfx (140);
-      if (t == HK_Up || t == HK_Left) {
+      if (k == HK_Up || k == HK_Left) {
 	if (l > 0)
 	  l--;
 	else
 	  l = 2;
       }
-      if (t == HK_Down || t == HK_Right) {
+      if (k == HK_Down || k == HK_Right) {
 	if (l < 2)
 	  l++;
 	else
 	  l = 0;
       }
-      if (t == HK_Enter) {
+      if (k == HK_Enter) {
 	if (l == 2)
-	  t = HK_Escape;
+	  k = HK_Escape;
 	else {
 	  if (l == 0) {
 	    event_sfx (74);
@@ -3765,10 +3768,10 @@ pause_menu (void)
 	  reset_htimer (sound_track_htimer);
 	}
       }
-      if (t == HK_Pause)
-	t = HK_Escape;
+      if (k == HK_Pause)
+	k = HK_Escape;
     }
-  } while (t != HK_Escape);
+  } while (k != HK_Escape);
 
   init_keyboard_map ();
   set_volume ();
@@ -3791,7 +3794,7 @@ quit_yes_no (void)
   int i, j;
   char l = 0;
   unsigned char *src = render_buffer[1];
-  int t;
+  keycode_t t;
   htimer_t pause_htimer;
 
   dmsg (D_SECTION, "quit y/n menu");
@@ -3892,7 +3895,7 @@ get_input_directions (void)
       ((keyboard_map[opt.player_keys[0][4]] == 1) ? 2 : 1);
     if (keyboard_map[opt.player_keys[0][5]] == 1) {
       if (player[col2plr[0]].turbo == 2) {
-	/* deux boutons appuyés */
+	/* two buttons pushed */
 	player[col2plr[0]].turbo = 1;
       } else
 	player[col2plr[0]].turbo = 0;
