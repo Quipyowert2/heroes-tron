@@ -22,6 +22,9 @@ Heroes 0.6	September XX, 2000
 	  -3: triple display size (slower)
 	  -S: disable sound
 	  -X: disable sfx (not new, but was undocumented)
+	* New environment variables:
+	  HEROES_DEBUG:    control debugging output
+	  HEROES_DATA_DIR: permit relocation of the game
 	* Bugs fixed:
 	  - -q option wasn't handled
 	  - keysdef-inc.h was not build if --with-sdl or --with-GGI
