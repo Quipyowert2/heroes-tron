@@ -15,7 +15,7 @@ Before 0.7
 
   Handle SDL_quit events.
 
-  JUSTIF_CALC in draw.c sometimes use tricky empty parameters, this do
+  JUSTIF_CALC in draw.c sometimes use tricky empty parameters, this does
   no work on VC6.0.
 
   Rewrite the extras.c code to use opendir/readdir/closedir, do not
@@ -38,7 +38,7 @@ Before 1.0.0
 
   There are several comments in French.  They should be translated.
 
-  Check every place were filenames are used, use buffer allocated dynamicaly.
+  Check every place were filenames are used, use buffer allocated dynamically.
 
   The code is VERY UGLY and needs to be cleaned up.
 
@@ -48,7 +48,7 @@ Before 1.0.0
 
   const.[ch] should not exist.
 
-  Think of the case were two heroes process access a global score file.
+  Think of the case were two heroes processes access a global score file.
 
   Save games/options/scores files in text format.
 
@@ -68,7 +68,7 @@ Left for a 1.1.x development branch
 
   The external editor should be ported too, it will need more work.
 
-  Programmable vehicles (for CPU controled ones) would be nice.  It
+  Programmable vehicles (for CPU controlled ones) would be nice.  It
   would be fun to link with Guile and control the vehicles in scheme.
 
   Network support.        
@@ -81,7 +81,7 @@ Miscellaneous
 
   Would Hermes be faster than LibGGI's crossblit ?
 
-  Redesign the way menus are handled internaly.
+  Redesign the way menus are handled internally.
 
   Write assembly routines for stretching code.
 
@@ -89,6 +89,6 @@ Miscellaneous
 Ideas, to be discussed
 ----------------------
 
-  Load GGI, SDL, and MikMod libraries dymicaly (i.e. select
-  available library at run-time versus configure-time).  This need
+  Load GGI, SDL, and MikMod libraries dymically (i.e. select
+  available library at run-time versus configure-time).  This needs
   to be discussed.

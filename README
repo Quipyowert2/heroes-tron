@@ -21,15 +21,14 @@ includes many graphical improvements and new game features.
 powerups while avoiding obstacles, your opponents' trails, and even
 your own trail.
 
-   Several modes of play are available. Quest is the classical Nibbles,
-in Death Match you start with very long tails a must kill your
+   There are five game modes available. Quest is the classical Nibbles,
+in Death Match you start with very long tails and you must kill your
 opponents, in Kill'em All you must run over lemmings moving on the
 ground, in Color or Time Cash you must collect money or pyramids of
 color.
 
    Heroes features 12 original soundtracks, 94 levels (in 10 different
-tilesets) plus a level editor.  There are five game modes like Quest
-(the classical Nibbles), or Kill'em all (run over lemmings).
+tilesets) plus a level editor.
 
    Heroes was a DOS game and this is the Unix port.  Presently, the
 port is complete, but it needs cleaning before further work (e.g.
@@ -64,7 +63,7 @@ mirror. You will have to wait three or four days to have the files
 available on MetaLab after a release.
 
    Heroes is distributed as four packages with independent version
-numbering and release schedule.  Be sure to get them four:
+numbering and release schedule.  Be sure to get them all:
 
 `heroes'
      The source code, info file, and man page.
@@ -78,7 +77,7 @@ numbering and release schedule.  Be sure to get them four:
 `heroes-sound-effects'
      The sound effects for the game (.wav files).
 
-   The game have been so split because data and sound file are big and
+   The game has been so split because the data and sound files are big and
 don't evolve as often as the code does.
 
    A public CVS server is accessible.  See
@@ -111,7 +110,7 @@ subset).
      (the game can be compiled without).  Get it from
      `http://www.ggi-project.org/'.  It is needed by LibGGI, by the way.
 
-   * SDL can be used as a display and keyboard driver.  Recent revision
+   * SDL can be used as a display and keyboard driver.  Recent revisions
      will also provide support for joysticks.  Get it from
      `http://www.libsdl.org/'.
 
@@ -135,13 +134,13 @@ you want sound output.
 you more control over the driver used.  On the other hand, SDL seems
 better at doing full screen display and is maintained actively.
 
-   Heroes also support memory debugging library, such as `dmalloc' or
+   Heroes also supports memory debugging libraries, such as `dmalloc' or
 `efence'.  See the `--enable-mem-debug' option below.
 
 configure generic instructions
 ==============================
 
-  Heroes use autoconf, read INSTALL for generic instructions.  
+  Heroes uses autoconf, read INSTALL for generic instructions.  
 
 configure options for Heroes
 ============================
@@ -177,19 +176,19 @@ help it, or to configure special features of Heroes.
 `--with-libmikmod[=DIR]'
      Link with LibMikMod.  This is the default if LibMikMod is installed
      and LibGGI have been selected.  You may specify where LibMikMod is
-     installed using the optionnal argument.
+     installed using the optional argument.
 
 `--with-sdl_mixer[=DIR]'
      Link with SDL_mixer (note the underscore in the option name).
      This is the default if SDL_mixer is installed and SDL have been
      selected.  You may specify where SDL_mixer is installed using the
-     optionnal argument.  Using this options imply -with-sdl.
+     optional argument.  Using this option implies --with-sdl.
 
 `--enable-debug'
      Turn on debugging options: compile and link with debugging symbols,
      enable assertions, and debug code.  This is disabled by default
-     because it slow down the code and produce a bigger binary.  This
-     also turn off optimization options.
+     because it slows down the code and produces a bigger binary.  This
+     also turns off optimization options.
 
 `--disable-heroes-debug'
      Turn off tracing support.  See the description of the
@@ -199,16 +198,16 @@ help it, or to configure special features of Heroes.
 `--enable-mem-debug'
      Turn on support for malloc debugging libraries such as electric
      fence or dmalloc (dmalloc will be preferred if both libraries are
-     installed).  This is disables by default.
+     installed).  This is disabled by default.
 
 `--disable-user-config'
      Don't use a per-user configuration file, but a system wide file
-     instead.  This configuration file record keyboard configuration,
+     instead.  This configuration file records keyboard configuration,
      colors of players, speed of the game, volume, etc. (everything
      that can be configured from the OPTIONS menu of the game).  If you
      save this as a global file, you will want to give special right to
      that file and to the heroes binary so that it can read and write
-     that file whoever ran it; this could leads to security issue.
+     that file whoever ran it; this could lead to security issues.
 
      The default is to save those options in `~/.heroes/options.dat', if
      you specify this option they will be saved in
@@ -217,9 +216,9 @@ help it, or to configure special features of Heroes.
 `--disable-user-scores'
      Don't use a per-user scores file, but a system wide file instead.
      If you save this as a global file, you will want to give special
-     right to that file and to the heroes binary so that it can read
-     and write that file whoever ran it; this could leads to security
-     issue.
+     rights to that file and to the heroes binary so that it can read
+     and write that file whoever ran it; this could lead to security
+     issues.
 
      The default is to save the scores in `~/.heroes/scores.dat', if
      you specify this option they will be saved in
@@ -228,10 +227,10 @@ help it, or to configure special features of Heroes.
 `--disable-user-saves'
      Don't use a per-user saves file, but a system wide file instead.
      This file allow people to save their progression in Quest Mode.
-     Their is 10 save slots.  If you save this as a global file, you
-     will want to give special right to that file and to the heroes
+     There are 10 save slots.  If you save this as a global file, you
+     will want to give special rights to that file and to the heroes
      binary so that it can read and write that file whoever ran it;
-     this could leads to security issue.
+     this could lead to security issues.
 
      The default is to save the games in `~/.heroes/savegame.dat', if
      you specify this option they will be saved in

@@ -98,7 +98,7 @@ Overview of Heroes
 * Mailing lists::               
 * Bug Reporting::               Sending bugs, suggestions, contributions.
 * Authors::                     Who made Heroes.
-* Contributors::                Contributed to Heroes.
+* Contributors::                Contributions to Heroes.
 * History::                     History of the DOS version.
 
 Installation of Heroes
@@ -161,7 +161,7 @@ that what they have is not what we distributed, so that any problems
 introduced by others will not reflect on our reputation.
 
   The precise conditions of the license for Heroes are found in the
-General Public Licenses that accompany it.
+GNU General Public License that accompanies it.
 
 @node    Overview, Installation, Copying, Top
 @comment node-name,     next,           previous, up
@@ -177,14 +177,13 @@ In it, you must maneuver a small vehicle around a world and
 collect powerups while avoiding obstacles, your opponents' trails, and even
 your own trail.
 
-Several modes of play are available. Quest is the classical Nibbles, in
+There are five game modes available. Quest is the classical Nibbles, in
 Death Match you start with very long tails a must kill your opponents,
 in Kill'em All you must run over lemmings moving on the ground, in Color
 or Time Cash you must collect money or pyramids of color.
 
 Heroes features 12 original soundtracks, 94 levels (in 10 different
-tilesets) plus a level editor.  There are five game modes like Quest
-(the classical Nibbles), or Kill'em all (run over lemmings).
+tilesets) plus a level editor.
 
 Heroes was a DOS game and this is the Unix port.  Presently, the port is
 complete, but it needs cleaning before further work (e.g. network
@@ -239,7 +238,7 @@ The scores for the game (.xm files).
 The sound effects for the game (.wav files).
 @end table
 
-The game have been so split because data and sound file are big
+The game has been so split because the data and sound files are big
 and don't evolve as often as the code does.
 
 A public CVS server is accessible.  See@*
@@ -263,7 +262,7 @@ A public mailing list for bug reports.
 @item heroes-discuss@@lists.sourceforge.net
 @cindex heroes-discuss
 
-A public mailing list for discussion (questions, criticizes,
+A public mailing list for discussion (questions, criticism,
 suggestions, contributions, ...) on the game.
 
 @uref{http://lists.sourceforge.net/mailman/listinfo/heroes-discuss, subscription page}.
@@ -290,7 +289,7 @@ so you don't need to subscribe to both lists.
 documentation, or data files).  Please email them publicly (preferred) to
 @email{heroes-bugs@@lists.sourceforge.net} or privately to
 @email{duret_g@@epita.fr}.  For bug reports, please include enough
-information to reproduce the problem, if possible.  Useful informations
+information to reproduce the problem, if possible.  Useful information
 include:
 
 @itemize @bullet
@@ -349,7 +348,7 @@ however large, than many small ones.
 @cindex   contributing
 @cindex   TODO
 
-  Do not hesitate to contribute.  This is YOUR game and GPL allow you to
+  Do not hesitate to contribute.  This is YOUR game and the GPL allows you to
 apply any modifications you want to the game (provided that you keep
 those modifications under the GPL).  There are numerous places were you
 can contribute: you can hack the code (take a glance at the TODO file),
@@ -367,7 +366,7 @@ Romuald Genevois (Guen) @email{rgenevois@@besancon.net}@*
 @uref{http://www.realtech.scene.org/romualdgenevois}
 
 Had the idea of that game, designed most of it, 
-drew the graphisms, created most of the levels.
+drew the graphics, created most of the levels.
 
 @item
 Alexandre Liverneaux (Alexel) @email{alex.livernaux@@wanadoo.fr}@*
@@ -385,7 +384,7 @@ Composed the soundtracks and created a few levels.
 Alexandre Duret-Lutz (Pollux) @email{duret_g@@epita.fr}@*
 @uref{http://www.epita.fr/~duret_g/}
 
-Wrote the original source code, ported it to Linux 
+Wrote the original source code, ported it to GNU/Linux 
 and created a few levels.
 @end itemize
 
@@ -408,7 +407,7 @@ Is the Debian maintainer of Heroes.
 @item
 Jean Delvare @email{delvare@@ensicaen.ismra.fr}
 
-Reported numerous errors, suggested various improvements, and build
+Reported numerous errors, suggested various improvements, and built
 RPMs.
 
 @item
@@ -435,14 +434,14 @@ moment, we were only three: Guen, Toalnkor (now known as Tnk) and me
 quite slow (it took us two years actually) mainly because of our studies.
 Maybe the fact that Guen and me communicated by (snail-)mail was another
 slowing down factor.  I sent more than 60 letters to Guen during this two
-years !  During the first year, we decided to sale the game.  We made a
+years !  During the first year, we decided to sell the game.  We made a
 demo version (with only 10 levels, no editor, and an order form), and a
 CD version (with songs remixed on audio track, but not used in the game).
 Our main issue was the price of Midas' license (the sound engine used);
 we were also hesitating on the way we should distribute Heroes (shall we
 do it shareware or commercial ?).  Finally, after a couple of wasted months
 we decided to spread it freeware (Enjoy !), because we thought that no
-one would realy like to buy such a game today; today where 3D rules.
+one would really like to buy such a game today; today where 3D rules.
 
 Now let's talk about the content of the game.  At first, Tnk decided to
 make some four channels songs in the old original mod format.  As there
@@ -463,16 +462,16 @@ development at home).  These screens and tiles were used to make the level
 editor.  Actually I learned C while making this editor so there is some
 piece of code I am not proud of into (and also in the game).  When it was
 nearly done, I started to code the game.  The first thing done was the
-introduction, and then came the multi-directionnal scroller.  I remember
-me that the first level that were loaded was sized 4x4 and wrapped in all
-directions; this was very small but at this time there were no tail and
-the vehicles were crossings the walls...
+introduction, and then came the multi-directional scroller.  I remember
+that the first level which was loaded was sized 4x4 and wrapped in all
+directions; this was very small but at this time there were no tails and
+the vehicles were crossing the walls...
 
 Most of the levels were done by Guen. But Tnk and I also did some.
-Guen made a cleanup of all the level we made: some were relegated in
+Guen made a cleanup of all the levels we made: some were relegated in
 the EXTRALVL directory, other were simply erased. We aimed to spread
 the game with 100 of them, but as it is going late and that we are not
-going to sale the game anymore I don't know how less levels there will be.
+going to sell the game anymore I don't know how many levels there will be.
 
 @node    Installation, Running, Overview, Top
 @comment node-name,     next,           previous, up
@@ -515,12 +514,12 @@ can be compiled without).  Get it from
 @uref{http://www.ggi-project.org/}.  It is needed by LibGGI, by the way.
 
 @item
-SDL can be used as a display and keyboard driver.  Recent revision will
+SDL can be used as a display and keyboard driver.  Recent revisions will
 also provide support for joysticks.  Get it from
 @uref{http://www.libsdl.org/}.
 
 @item
-LibMikMod is a sound engine. You don't need it if you
+LibMikMod is a sound library. You don't need it if you
 want to compile Heroes without sound support.  Get it from
 @uref{http://mikmod.darkorb.net/}.  If you install LibMikMod from
 sources you may want to compile LibMikMod without Alsa support
@@ -543,7 +542,7 @@ My personal preference goes to LibGGI/LibGII and LibMikMod which give
 you more control over the driver used.  On the other hand, SDL seems
 better at doing full screen display and is maintained actively.
 
-Heroes also support memory debugging library, such as @samp{dmalloc} or
+Heroes also supports memory debugging libraries, such as @samp{dmalloc} or
 @samp{efence}.  See the @samp{--enable-mem-debug} option in section
 @ref{configure options}.
 
@@ -559,7 +558,7 @@ To be filled.
 @section configure options for Heroes
 @cindex  configure options for Heroes
 
-@samp{configure} will do its best to find the library and functions
+@samp{configure} will do its best to find the libraries and functions
 needed by the game.  Still, you may give several options to
 @samp{configure} help it, or to configure special features of Heroes.
 
@@ -595,21 +594,21 @@ specify the installation path as an argument
 @cindex --with-libmikmod
 Link with LibMikMod.  This is the default if LibMikMod is installed
 and LibGGI have been selected.  You may specify where LibMikMod is
-installed using the optionnal argument.
+installed using the optional argument.
 
 @item --with-sdl_mixer[=DIR]
 @cindex --with-sdl_mixer[=DIR]
 Link with SDL_mixer (note the underscore in the option name).  
 This is the default if SDL_mixer is installed
-and SDL have been selected.  You may specify where SDL_mixer is
-installed using the optionnal argument.  Using this options
-imply --with-sdl.
+and SDL has been selected.  You may specify where SDL_mixer is
+installed using the optional argument.  Using this option
+implies --with-sdl.
 
 @item --enable-debug
 @cindex --enable-debug
 Turn on debugging options: compile and link with debugging symbols,
 enable assertions, and debug code.  This is disabled by default because
-it slow down the code and produce a bigger binary.  This also turn off
+it slows down the code and produces a bigger binary.  This also turns off
 optimization options.
 
 @item --disable-heroes-debug
@@ -622,7 +621,7 @@ bug reporting.
 @cindex --enable-mem-debug
 Turn on support for malloc debugging libraries such as electric fence or
 dmalloc (dmalloc will be preferred if both libraries are installed).
-This is disables by default.
+This is disabled by default.
 
 @item --enable-html-doc[=DIR]
 @cindex --enable-html-doc[=DIR]
@@ -635,9 +634,9 @@ Don't use a per-user configuration file, but a system wide file instead.
 This configuration file record keyboard configuration, colors of
 players, speed of the game, volume, etc. (everything that can be
 configured from the OPTIONS menu of the game).  If you save this as a
-global file, you will want to give special right to that file and to the
+global file, you will want to give special rights to that file and to the
 heroes binary so that it can read and write that file whoever ran it;
-this could leads to security issue.
+this could lead to security issues.
 
 The default is to save those options in @file{~/.heroes/options.dat}, if
 you specify this option they will be saved in
@@ -646,9 +645,9 @@ you specify this option they will be saved in
 @item --disable-user-scores
 @cindex --disable-user-scores
 Don't use a per-user scores file, but a system wide file instead.  If
-you save this as a global file, you will want to give special right to
+you save this as a global file, you will want to give special rights to
 that file and to the heroes binary so that it can read and write that
-file whoever ran it; this could leads to security issue.
+file whoever ran it; this could lead to security issues.
 
 The default is to save the scores in @file{~/.heroes/scores.dat}, if
 you specify this option they will be saved in
@@ -657,10 +656,10 @@ you specify this option they will be saved in
 @item --disable-user-saves
 @cindex --disable-user-saves
 Don't use a per-user saves file, but a system wide file instead.  This
-file allow people to save their progression in Quest Mode.  Their is 10
+file allow people to save their progression in Quest Mode.  There are 10
 save slots.  If you save this as a global file, you will want to give
-special right to that file and to the heroes binary so that it can read
-and write that file whoever ran it; this could leads to security issue.
+special rights to that file and to the heroes binary so that it can read
+and write that file whoever ran it; this could lead to security issues.
 
 The default is to save the games in @file{~/.heroes/savegame.dat}, if
 you specify this option they will be saved in
@@ -701,7 +700,7 @@ Display Heroes version number and copyright informations.
 @itemx --help
 @cindex -h
 @cindex --help
-Print an help message about these run-time options.
+Print a help message about these run-time options.
 
 @comment sound options:
 
@@ -744,7 +743,7 @@ heroes -d freq=11050:buffers=512
 
 @item -S
 @itemx --no-sound
-Disable sound output completly (both sound tracks and soundeffects).
+Disable sound output completely (both sound tracks and soundeffects).
 
 @item -X
 @itemx --no-sfx
@@ -855,7 +854,7 @@ created the next time Heroes run.
 Swap sides when playing in two players mode.  The default is to have
 player one on the right and player two on the left, because the default
 key bindings use the arrows for player one and left letters keys for
-player tow.
+player two.
 
 @item --no-double-fx
 @cindex --no-double-fx
@@ -1078,7 +1077,7 @@ setrsc: main-font /home/adl/heroes-dev/tmp/fontem.pcx
 
 Heroes has an `INFO' menu, that should describe the different game modes
 and options, with pictures and colors.  Please refer to it until this
-section get written.
+section is written.
 
 @node    Level editor, Troubleshooting, Game, Running
 @comment node-name,  next,  previous,  up
@@ -1291,7 +1290,7 @@ framebuffers, ...) it's easy to get stuck if the game freeze.
 @cindex keyboard
 @cindex keys
 @cindex keycodes
-There is a menu `KEYS' in the submenu `OPTIONS' that let you change the
+There is a menu `KEYS' in the submenu `OPTIONS' that lets you change the
 key bindings used during the game.  Please set the keys here before
 playing since keycodes can vary from place to place (hmm...  is that
 right?).
@@ -1336,7 +1335,7 @@ Remember that you can always put these options in your
 @samp{~/.heroes/heroes} file (@pxref{heroesrc}) so that you don't need
 to type them every time you run the game.
 
-@subsection SegFault when using Alsa drivers with and LibMikMod (Linux)
+@subsection SegFault when using Alsa drivers with and LibMikMod (GNU/Linux)
 @cindex Alsa
 @cindex sound errors
 @cindex LibMikMod and Alsa

@@ -1,3 +1,8 @@
+2000-09-11  Uwe Hermann  <uh1763@bingo-ev.de>
+
+	* AUTHORS, TODO, doc/heroes.texi: Fixed several typos and some other
+          minor stuff.
+
 2000-09-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* lib/strcasecmp.c: New file.

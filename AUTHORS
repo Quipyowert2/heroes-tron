@@ -2,7 +2,7 @@
   http://www.realtech.scene.org/romualdgenevois
 
 	Had the idea of that game, designed most of it, 
-	drew the graphisms, created most of the levels.
+	drew the graphics, created most of the levels.
 
 
 * Alexandre Liverneaux (Alexel) <alex.livernaux@wanadoo.fr>
@@ -20,5 +20,5 @@
 * Alexandre Duret-Lutz (Pollux) <duret_g@epita.fr>
   http://www.epita.fr/~duret_g/
 
-	Wrote the original source code, ported it to Linux 
+	Wrote the original source code, ported it to GNU/Linux 
 	and created a few levels.
