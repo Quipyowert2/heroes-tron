@@ -80,32 +80,51 @@ st_hasher (const void *data, unsigned size)
 }
 
 static void
-st_free (void *data)
+st_uninit (a_sound_track *st)
 {
-  a_sound_track *st = data;
   free (st->alias);
   free (st->filename);
   free (st->title);
   free (st->author);
+}
+
+static void
+st_free (void *data)
+{
+  a_sound_track *st = data;
+  st_uninit (st);
   free (st);
+}
+
+static void
+st_init (a_sound_track *st,
+	 const char *alias, const char *filename,
+	 const char *title, const char *author)
+{
+  st->alias = xstrdup (alias);
+  st->filename = xstrdup (filename);
+  st->title = xstrdup (title);
+  st->author = xstrdup (author);
+  st->rank = 0;
 }
 
 static a_sound_track *
 st_cons (char *alias, char *filename, char *title, char *author)
 {
   NEW (a_sound_track, st);
-  st->alias = xstrdup (alias);
-  st->filename = xstrdup (filename);
-  st->title = xstrdup (title);
-  st->author = xstrdup (author);
-  st->rank = 0;
+  st_init (st, alias, filename, title, author);
   return st;
 }
 
 void
 add_sound_track_cons (char *alias, char *filename, char *title, char *author)
 {
-  if (!hash_insert (st_hash, st_cons (alias, filename, title, author)))
+  /* If the alias already exists, overide it.  Otherwise, create it.  */
+  a_sound_track *st = get_sound_track_from_alias (alias);
+  if (st) {
+    st_uninit (st);
+    st_init (st, alias, filename, title, author);
+  } else if (!hash_insert (st_hash, st_cons (alias, filename, title, author)))
     xalloc_die ();
 }
 

@@ -1,5 +1,12 @@
 2002-03-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/musicfiles.c (st_uninit, st_init): New functions.
+	(st_free, st_cons): Use them.
+	(add_sound_track_cons): If the alias already exist, override it.
+	This used to be done by hash_insert.
+
+2002-03-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* doc/heroes.texi (heroesrc): Don't use `:' in index entry names.
 
 2002-03-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
