@@ -1,3 +1,8 @@
+2001-04-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* m4/getoptlong.m4: Update for submission to the Autoconf
+	macro archive.
+
 2001-04-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* m4/normpath.m4: New file.
