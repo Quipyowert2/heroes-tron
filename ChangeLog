@@ -1,5 +1,12 @@
 2002-02-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/heroes.c (play_game): Process input directions right before
+	updating the game state, not after the next display.  This was
+	reported to improve responsiveness significantly.
+	Reported by Tomas Pospisek.
+
+2002-02-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/levellst.c (cmp_levels): Fix the sorting order of levels,
 	broken since 0.12d.
 	Reported by Raphaël Poss.

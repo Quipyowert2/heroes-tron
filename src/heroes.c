@@ -1296,8 +1296,8 @@ play_game (char cont)
     enable_blit = 1;
     output_screen ((char) n);
     process_input_events ();
-    n = update_all (1);
     get_input_directions ();
+    n = update_all (1);
     if (devparm && keyboard_map[HK_F12])
       state_level_set_exit_code (&state, 1);
     if (opt.ctrl_one ^ opt.ctrl_two)

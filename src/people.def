@@ -193,6 +193,12 @@ person = {
 };
 
 person = {
+  name    = "Thomas Pospisek";
+  email   =  tpo_deb@sourcepole.ch;
+  bugs;
+};
+
+person = {
   name    = "Benjamin Preidecker";
   email   = bpreidecker@gmx.de;
   bugs;
