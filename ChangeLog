@@ -1,5 +1,9 @@
 2000-08-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* Makefile.am (EXTRA_DIST): Add misc/heroes.xpm.
+
+2000-08-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Ellipsis in macro argument list is non-standard.
 	
 	* src/debugmsg.h [!DEBUG] (dmsg): Don't use ellipsis, rely

@@ -17,5 +17,5 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 #
 
-EXTRA_DIST = TODO ChangeLog THANKS BUGS
+EXTRA_DIST = TODO ChangeLog THANKS BUGS misc/heroes.xpm
 SUBDIRS = lib src man doc
