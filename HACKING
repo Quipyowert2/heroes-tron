@@ -18,9 +18,11 @@ Questions or suggestions about this file can be sent to
 Required to bootstrap a CVS checkout:
 
  autoconf 2.49a  (from alpha.gnu.org)
- automake 1.4a   (current CVS version)
+ automake 1.4a   (from sources.redhat.com/automake)
  gettext 0.10.35 (from ftp.gnu.org)
  gperf		 (from ftp.gnu.org)
+
+(numbers are *minimal* versions required)
 
 Optionally needed if you change some specific parts of the game:
 
@@ -46,28 +48,9 @@ dedicated to patches.)
 
 ** Formatting
 
-Function definitions (in .c files) are written with their name on the
-first column, return type and linkage specifiers are left on the line
-above.
-
-  static int
-  foo (const char* bar)
-  {
-    /* ... */
-  }
-
-This allow to detect function definitions easily (should it be needed
-to write such a script somewhen in future) since `grep ^foo *.c' is an
-easy mean to locate a function definition.
-
-Functions declarations (in .h or sometimes .c files) can be written on
-a single line, we don't really care.
-
-  static int fubar (void);
-
-We use a two spaces indentations, as the GNU standards; but we keep
-brackets on the same line as the flow-control keywords (if, switch,
-for, etc.), like in the Linux kernel.
+Look the code around to see how the code is formated.  Basically this
+is the GNU formatting standard, except that braces are kept on the
+same line as the flow-control keywords, as in
 
   do {
     if (cond2) {
@@ -79,14 +62,12 @@ for, etc.), like in the Linux kernel.
     }
   } while (cond1);
 
-`-br' and `-ce' are the options to give to `indent' to get this
-formatting -- but the use of `indent' on existing files is
-discouraged: in some cases the output is uglier than the original.
+The corresponding indent options are `-br' and `-ce'.
 
 ** Includes
 
-Any .c file should include "system.h" as the first included file.
-Read the beginning of system.h for more explanations.  Any .h
+Any .c-file should include "system.h" as the first included file.
+Read the beginning of system.h for more explanations.  Any .h-file
 can assume system.h has already been included, but should include
 other local headers needed (e.g. type declaration used in function
 prototypes) so that inclusion order is not important.
@@ -101,25 +82,9 @@ FIXME: *.[ch]' give a nice summary.
 ** ChangeLog
 
 Any change to a file that goes into the distribution should have a
-corresponding ChangeLog entry.  Do NOT abbreviate filenames or
-functions names in any way!  A simple search in the ChangeLog should
-allow anyone to find the last change to the searched file or function
-(this is very helpful the day you try to fix a bug without having
-access to the CVS history).
-
-Removals in files BUGS or TODO can be implicit (i.e. without ChangeLog
-entries) when the current patch is fixing the corresponding bug or
-completing a TODO item.  Idem for additions to THANKS.
-
-Changes to files which are out of the distribution (e.g. .cvsignore
-files) don't need any ChangeLog entry.
-
-Always prepend to the ChangeLog, and avoid changing an old ChangeLog
-entries.  If you *really* need to modify an old entry, make a separate
-patch for this.  Generally speaking it better to make many small
-patches rather than one big patch, whenever you work can be cut.
-
-The most accurate the ChangeLog is, the more it is helpful.
+corresponding ChangeLog entry (verbosity is prefered).  Removals in
+files BUGS and TODO or additions to THANKS can be implicit
+(i.e. without ChangeLog entries).
 
 ** RCS keywords
 
@@ -127,8 +92,8 @@ Do not use them; they make the mixing of files from different projects
 complicated.
 
 If you stole a file from another project which has such keywords,
-don't remove them, just "cvs add -ko" the file (-ko prevent keywords
-substitution).
+don't remove them, just "cvs add -ko" the file (-ko prevent futur
+keywords substitution).
 
 
 * Files that should not be changed
@@ -208,7 +173,7 @@ Avoid any change to these files, if possible.
 Jim Meyering is keeping all the above files up to date in his fetish
 tools (fileutils, textutils, or shellutils).  The script
 tools/fetish-sync.sh can be used to upgrade all of them from the
-latest fetish released.
+latest fetish release.
 
 DO NOT use gettextize (from gettext-0.10.35) to populate intl/.
 The files shipped with fetish are more up to date than those of
@@ -255,36 +220,12 @@ subversion.gnu.org CVS server).
 clcommit will use your ChangeLog entry as a commit message, and complain
 if you forgot to make a ChangeLog entry.
 
-Exceptional cases where clcommit is not used:
-  - if your patch is a modification of some prior entry (you would
-    otherwise fool clcommit which use diff to extract the commit message).
-  - you cannot have a ChangeLog entry for the patch (because the ChangeLog
-    entry is already in CVS, you just forgot to "cvs add" the file; or
-    you have changed a non-distribued file, such as .cvsignore, not
-    even worth to mention in a ChangeLog).
-  - you are merging a CVS branch
-
 ** Tracking other changes
 
 CVS commit are automatically sent as patches, to
 heroes-commits@lists.sourceforge.net.  You can
 subscribe to this list using the following page.
 http://lists.sourceforge.net/mailman/listinfo/heroes-commits
-
-** CVS write access
-
-When you have send some patches for Heroes, want to further contribute
-to the game, and would prefer to commit to the CVS directly, just ask!
-
-The present policy is to commit most changes BEFORE discussing (if
-needed).  Most of the time there is nothing to discuss, therefore it
-saves time.  Moreover, it forces people to put important comments
-in the code (it would otherwise be tempting to document something on
-the mailling list and not in the code).
-
-But this put more responsibility on the people who commit
-patches, therefore if you don't feel confident you can still send your
-patches to the list for review before committing them.
 
 ** Committing patches from other people
 
@@ -333,7 +274,7 @@ If the above was successful:
 
  - commit the changes to CVS
  - tag the repository (cvs tag heroes_xx_yy)
- - update the webpages
+ - update the webpages (the repository needs to be tagged before)
 
 ** Where to upload
 
