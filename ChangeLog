@@ -1,3 +1,9 @@
+2001-05-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* m4/gnu-source.m4: New file.
+	* tools/fetish-sync.sh (files): Add m4/gnu-source.m4.
+	* configure.in: Call AC__GNU_SOURCE.
+
 2001-05-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Change the CREDIT screen to thanks ALL people.

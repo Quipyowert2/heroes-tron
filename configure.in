@@ -57,6 +57,9 @@ AM_CONDITIONAL(HAVE_GPERF, [test \! -z "$GPERF"])
 
 AC_CACHE_SAVE
 
+# Set _GNU_SOURCE before any other tests.
+AC__GNU_SOURCE
+
 # =====================
 # Checks for libraries.
 # =====================
