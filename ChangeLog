@@ -1,5 +1,16 @@
 2000-11-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/heroes.c (scores_menu): Move to ...
+	* src/menus.c (scores_menu): ... here.
+
+	* src/menus.c (higher_scores_txt): New.
+	(init_menus_sprites, uninit_menus_sprites): Handle higher_scores_txt.
+	(scores_menu): Adapt to use the new drawing functions. This needs
+	additional work, either to clip the text or enlarge xbuf.
+	* src/menus.h (scores_menu): Export.
+
+2000-11-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/heroes.c (draw_end_level_info, draw_round_info): Move to ...
 	* src/menus.c (draw_end_level_info, draw_round_info): ... here.
 

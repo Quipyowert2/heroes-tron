@@ -50,6 +50,7 @@
 #include "timer.h"
 #include "joystick.h"
 #include "pixelize.h"
+#include "scores.h"
 
 static sprite_t* left_arrow = 0;
 static sprite_t* right_arrow = 0;
@@ -110,6 +111,7 @@ static sprite_t* info_mode_next_txt = 0;
 static sprite_t* info_mode_save_txt = 0;
 static sprite_t* info_mode_return_txt = 0;
 static sprite_t* info_round_txt = 0;
+static sprite_t* higher_scores_txt = 0;
 static sprite_t* jukebox_frame = 0;
 static sprite_t* jukebox_back = 0;
 static sprite_t* jukebox_forw = 0;
@@ -454,6 +456,10 @@ init_menus_sprites (void)
 					    T_CENTERED, 160, 159);
   info_round_txt = compile_menu_text (txti[62],
 				      T_CENTERED, 50, 180);
+
+  /* higher scores */
+  higher_scores_txt = compile_menu_text (txti[10],
+					 T_CENTERED|T_WAVING, 10, 159);
 }
 
 void
@@ -545,6 +551,7 @@ uninit_menus_sprites (void)
   FREE_SPRITE0 (info_mode_save_txt);
   FREE_SPRITE0 (info_mode_return_txt);
   FREE_SPRITE0 (info_round_txt);
+  FREE_SPRITE0 (higher_scores_txt);
 }
 
 static void
@@ -2223,4 +2230,107 @@ draw_round_info (int decal)
     FREE_SPRITE0 (lines[i][1]);
     FREE_SPRITE0 (lines[i][2]);
   }
+}
+
+void
+scores_menu (void)
+{
+  keycode_t t;
+  int i, j;
+  char flag = 0;
+  int rolldec;
+  signed char rollflag = 0;
+  sprite_t *points_txt[5][10];
+  sprite_t *highs_txt[5][10];
+
+  for (i = 0; i < 5; ++i)
+    for (j = 0; j < 10; ++j) {
+      char points[32];
+      highs_txt[i][j] = compile_menu_text (highs[i][j].name,
+					   T_FLUSHED_LEFT, 68 + 13 * j, 3);
+      sprintf (points, "%u", highs[i][j].points);
+      points_txt[i][j] = compile_menu_text (points, T_FLUSHED_RIGHT,
+					    68 + 13 * j, 316);
+    }
+
+  i = 0;
+  std_white_fadein (&tile_set_img.palette);
+  do {
+    if (flag) {
+      if (rollflag)
+	event_sfx (19);
+    } else
+      flag = 1;
+    do {
+      background_menu ();
+      draw_glenz_box (corner[0] + xbuf * 70, 2, 320, 6);
+      draw_glenz_box (corner[0] + xbuf * 83, 3, 320, 6);
+      draw_glenz_box (corner[0] + xbuf * 96, 4, 320, 6);
+      draw_glenz_box (corner[0] + xbuf * 109, 5, 320, 6);
+      draw_glenz_box (corner[0] + xbuf * 122, 0, 320, 6);
+      draw_glenz_box (corner[0] + xbuf * 135, 0, 320, 6);
+      draw_glenz_box (corner[0] + xbuf * 148, 0, 320, 6);
+      draw_glenz_box (corner[0] + xbuf * 161, 0, 320, 6);
+      draw_glenz_box (corner[0] + xbuf * 174, 0, 320, 6);
+      draw_glenz_box (corner[0] + xbuf * 187, 0, 320, 6);
+      DRAW_SPRITE (higher_scores_txt, corner[0]);
+
+      if (!rollflag) {
+	DRAW_SPRITE (gamemode_txt[i], corner[0] + 40 * xbuf);
+	for (j = 0; j < 10; j++) {
+	  DRAW_SPRITE (highs_txt[i][j], corner[0]);
+	  DRAW_SPRITE (points_txt[i][j], corner[0]);
+	}
+      } else {
+	/* FIXME: should be clipped left, unless xbuf is enlarged */
+	DRAW_SPRITE (gamemode_txt[i - 1], corner[0] + 40 * xbuf - rolldec);
+	for (j = 0; j < 10; j++) {
+	  DRAW_SPRITE (highs_txt[i][j], corner[0] - rolldec);
+	  DRAW_SPRITE (points_txt[i][j], corner[0] - rolldec);
+	}
+	/* FIXME: should be clipped right, unless xbuf is enlaged */
+	DRAW_SPRITE (gamemode_txt[i], corner[0] + 40 * xbuf + 320 - rolldec);
+	for (j = 0; j < 10; j++) {
+	  DRAW_SPRITE (highs_txt[i][j], corner[0] + 320 - rolldec);
+	  DRAW_SPRITE (points_txt[i][j], corner[0] + 320 - rolldec);
+	}
+      }
+      hrule (28);
+      hrule (59);
+      vsynch ();
+      aff_buffer ();
+      if (rollflag == 1) {
+	rolldec += 1 + (320 - rolldec) / 8;
+	if (rolldec == 320)
+	  rollflag = 0;
+      } else if (rollflag == -1) {
+	rolldec -= 1 + rolldec / 8;
+	if (rolldec == 0) {
+	  rollflag = 0;
+	  i--;
+	}
+      }
+    } while (!key_or_joy_ready ());
+    t = get_key_or_joy ();
+    if ((t == HK_Right || t == 0x3920 || t == 0x1C0D || t == HK_Down)
+	&& i < 4) {
+      rollflag = 1;
+      rolldec = 0;
+      i++;
+    } else if ((t == HK_Left || t == HK_Up) && i != 0
+	       && (i > 1 || rollflag != -1)) {
+      if (rollflag == -1)
+	i--;
+      else
+	rollflag = -1;
+      rolldec = 320;
+    }
+  } while (t != HK_Escape);
+  event_sfx (8);
+
+  for (i = 0; i < 5; ++i)
+    for (j = 0; j < 10; ++j) {
+      FREE_SPRITE0 (points_txt[i][j]);
+      FREE_SPRITE0 (highs_txt[i][j]);
+    }
 }

@@ -49,5 +49,6 @@ void enter_your_name (char c, char* name);
 
 void draw_round_info (int decal);
 void draw_end_level_info (int decal, char l);
+void scores_menu (void);
 
 #endif /* HEROES__MENUS__H */
