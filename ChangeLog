@@ -1,5 +1,15 @@
 2000-12-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Move malloc() debugger tests in their own file.
+
+	* m4/memdebug.m4: New file.
+	* configure.in: Call adl_WITH_DMALLOC, adl_WITH_EFENCE,
+	and adl_ENABLE_MEM_DEBUG.  Don't display the malloc() debugger
+	used in the summary.
+	* src/system.h: Use HAVE_DMALLOC_H, not HAVE_DMALLOC.
+
+2000-12-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Move the readdir test in its own file.
 
 	* m4/w_dirent.m4: New file.
