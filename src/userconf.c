@@ -29,6 +29,7 @@
 #include "rsc_files.h"
 #include "debugmsg.h"
 #include "errors.h"
+#include "vars.h"
 
 int
 read_userconf (const char* file, bool secure)
@@ -95,13 +96,30 @@ read_userconf (const char* file, bool secure)
       read_sound_config_file (argv[1]);
     } else if (!strcasecmp (argv[0], "setrsc:")){
       /* get the resource name */
-      argv [1] = strtok (0, " \t\n");
+      argv[1] = strtok (0, " \t\n");
       if (argv[1] == 0) {
 	wmsg (_("%s:%d: missing resource name"), file, firstline);
 	goto non_fatal_error;
       }
       argv[2] = strtok (0, "\n");
       set_rsc_file (argv[1], argv[2], secure);
+    } else if (!strcasecmp (argv[0], "ifdef")){
+      argv[1] = strtok (0, " \t\n");
+      if (argv[1] == 0)
+	wmsg (_("%s:%d: missing variable name"), file, firstline);
+      if (argv[1] == 0 || var_get_value (argv[1]) == 0)
+	/* Skip all lines until "endif", this is very basic: it doesn't
+	   handled nested ifdef/endif.  I don't really care, some
+	   day this config file should be parsed by guile or librep
+	   and thus be much powerful. */
+	while (getshline_numbered (&firstline, &endline,
+				   &buf, &bufsize, fs) != -1) {
+	  argv[0] = strtok (buf, " \t\n");
+	  if (!strcasecmp (argv[0], "endif"))
+	    break;
+	}
+    } else if (!strcasecmp (argv[0], "endif")){
+      /* Ignore.  */
     } else {
       wmsg (_("%s:%d: unknown keyword `%s'"), file, firstline, argv[0]);
       return 1;

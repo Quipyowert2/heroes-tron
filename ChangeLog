@@ -1,5 +1,11 @@
 2001-04-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/etc/heroesrc (soundconf): Suggest to use ifdef suid-or-sgid
+	to protect the definition of global paths.
+	* src/userconf.c (read_userconf): Handle ifdef/endif.
+
+2001-04-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/vars.h: New file.
 	* src/vars.c: New file.
 	* src/Makefile.am (heroes_SOURCES): Add vars.c and vars.h.
