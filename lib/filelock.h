@@ -17,42 +17,5 @@
 | 02111-1307 USA                                                     |
 `-------------------------------------------------------------------*/
 
-#if HAVE_CONFIG_H
-# include <config.h>
-#endif
-
-#include <unistd.h>
-#include <stdio.h>
-
-#if HAVE_FCNTL_H
-# include <fcntl.h>
-#endif
-
-#include "fopenlock.h"
-
-
-/*
- * Open and lock a file (block if the file is already locked).
- */
-FILE *
-fopenlock (const char *path, const char *mode)
-{
-  FILE *f;
-  f = fopen (path, mode);
-  if (f == 0)
-    return 0;
-
-  /* FIXME: implement other kind of locking for system
-     which doesn't have fcntl locking.  */
-#ifdef F_SETLKW
-  {
-    struct flock lock;
-    lock.l_type = (*mode == 'r' && mode[1] != '+' ? F_RDLCK : F_WRLCK);
-    lock.l_whence = SEEK_SET;
-    lock.l_start = 0;
-    lock.l_len = 0;		/* Lock the whole file.  */
-    fcntl (fileno (f), F_SETLKW, &lock);
-  }
-#endif
-  return f;
-}
+void file_lock (FILE *f, const char *mode);
+void file_unlock (FILE *f);

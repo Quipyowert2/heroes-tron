@@ -17,4 +17,51 @@
 | 02111-1307 USA                                                     |
 `-------------------------------------------------------------------*/
 
-FILE *fopenlock (const char *path, const char *mode);
+#if HAVE_CONFIG_H
+# include <config.h>
+#endif
+
+#include <unistd.h>
+#include <stdio.h>
+
+#if HAVE_FCNTL_H
+# include <fcntl.h>
+#endif
+
+#include "filelock.h"
+
+void
+file_lock (FILE *f, const char *mode)
+{
+#ifdef F_SETLKW
+  {
+    struct flock lock;
+    lock.l_type = ((*mode == 'r' && mode[1] != '+') ? F_RDLCK : F_WRLCK);
+    lock.l_whence = SEEK_SET;
+    lock.l_start = 0;
+    lock.l_len = 0;		/* Lock the whole file.  */
+    fcntl (fileno (f), F_SETLKW, &lock);
+  }
+#else
+  /* FIXME: implement other kind of locking for system
+     which doesn't have fcntl locking.  */
+#endif
+}
+
+void
+file_unlock (FILE *f)
+{
+#ifdef F_SETLKW
+  {
+    struct flock lock;
+    lock.l_type = F_UNLCK;
+    lock.l_whence = SEEK_SET;
+    lock.l_start = 0;
+    lock.l_len = 0;		/* Unlock the whole file.  */
+    fcntl (fileno (f), F_SETLKW, &lock);
+  }
+#else
+  /* FIXME: implement other kind of locking for system
+     which doesn't have fcntl locking.  */
+#endif
+}

@@ -30,18 +30,22 @@
 #include "getshline.h"
 #include "errors.h"
 #include "persona.h"
+#include "filelock.h"
 
 top_score highs[5][10];
 
 static char *name = 0;
 static FILE *fscores = 0;
 
-static char*
-score_file (void)
+void
+init_scores (void)
 {
-  if (!name)
-    name = get_non_null_rsc_file ("score-file");
-  return name;
+  name = sys_persona_if_needed ("score-file", "a+t");
+  dmsg (D_SYSTEM | D_FILE, "opening %s", name);
+  fscores = fopen (name, "a+t");
+  if (!fscores)
+    dperror ("fopen");
+  user_persona ();
 }
 
 static int
@@ -81,24 +85,20 @@ clear_scores (void)
 }
 
 void
-write_scores (void)
+write_scores_locked (void)
 {
   unsigned int i, j;
 
   if (fscores == 0) {
-    fscores = persona_fopenlock ("score-file", "wt");
-    if (fscores == 0) {
-      wmsg (_("cannot write %s"), score_file ());
-      dperror (score_file ());
-    }
+    wmsg (_("cannot write %s"), name);
   } else {
     fflush (fscores);
     if (ftruncate (fileno (fscores), 0) != 0)
-      emsg (_("%s: truncate error"), score_file ());
+      emsg (_("%s: truncate error"), name);
   }
 
   if (fscores) {
-    dmsg (D_FILE, "writing scores to %s", score_file ());
+    dmsg (D_FILE, "writing scores to %s", name);
 
     /* Write down scores to disk.  */
     for (i = 0; i < 5; ++i)
@@ -108,32 +108,33 @@ write_scores (void)
 		 i, j, highs[i][j].points, gidtxt, highs[i][j].name);
 	free (gidtxt);
       }
-
-    fclose (fscores);
-    fscores = 0;
+    dmsg (D_FILE | D_SYSTEM, "unlocking %s", name);
+    file_unlock (fscores);
   }
-
-  user_persona ();
 }
 
 static void
-load_scores_open (const char *mode)
+load_scores_seek (const char *mode)
 {
-  dmsg (D_FILE, "reading scores from %s", score_file ());
-  fscores = persona_fopenlock ("score-file", mode);
-
-  if (fscores == 0) {
-    dmsg (D_FILE, "cannot open %s", score_file ());
-    dperror ("fopen");
-    clear_scores ();
+  dmsg (D_FILE, "reading scores from %s", name);
+  if (fscores) {
+    fseek (fscores, 0L, SEEK_SET);
+    dmsg (D_FILE | D_SYSTEM, "locking %s (%s)", name, mode);
+    file_lock (fscores, mode);
   }
+}
+
+void
+write_scores (void)
+{
+  load_scores_seek ("wt");
+  write_scores_locked ();
 }
 
 static void
 load_scores_error (int line)
 {
-  wmsg (_("%s:%d: parse error.  Clearing score table."),
-	score_file (), line);
+  wmsg (_("%s:%d: parse error.  Clearing score table."), name, line);
   clear_scores ();
 }
 
@@ -179,21 +180,17 @@ load_scores_read (void)
 void
 load_scores (void)
 {
-  load_scores_open ("rt");
+  load_scores_seek ("rt");
   load_scores_read ();
-  if (fscores) {
-    fclose (fscores);
-    fscores = 0;
-  }
+  dmsg (D_FILE | D_SYSTEM, "unlocking %s", name);
+  file_unlock (fscores);
 }
 
 void
 load_scores_and_keep_locked (void)
 {
-  load_scores_open ("r+t");
+  load_scores_seek ("r+t");
   load_scores_read ();
-  if (fscores == 0)
-    load_scores_open ("w+t");
   if (fscores)
     fseek (fscores, 0L, SEEK_SET);
 }
@@ -206,6 +203,11 @@ free_scores (void)
   if (name)
     free (name);
   name = 0;
+
+  if (fscores) {
+    fclose (fscores);
+    fscores = 0;
+  }
 }
 
 /* Insert an score entry in the score table.

@@ -23,7 +23,6 @@
 #include "persona.h"
 #include "debugmsg.h"
 #include "rsc_files.h"
-#include "fopenlock.h"
 #include "vars.h"
 
 static uid_t sys_uid;
@@ -70,6 +69,15 @@ user_persona (void)
 }
 
 void
+user_persona_definitively (void)
+{
+  dmsg (D_SYSTEM, "switching to the user persona definitively");
+  setreuid (user_uid, user_uid);
+  setregid (user_gid, user_gid);
+  print_persona ();
+}
+
+void
 sys_persona (void)
 {
   dmsg (D_SYSTEM, "switching to the system persona");
@@ -83,7 +91,7 @@ sys_persona (void)
   print_persona ();
 }
 
-static char *
+char *
 sys_persona_if_needed (const char *rsc, const char *mode)
 {
   char *sysdir;
@@ -112,13 +120,4 @@ sys_persona_if_needed (const char *rsc, const char *mode)
 
   free (sysdir);
   return file;
-}
-
-FILE *
-persona_fopenlock (const char *rsc, const char *mode)
-{
-  char *n = sys_persona_if_needed (rsc, mode);
-  FILE *f = fopenlock (n, mode);
-  free (n);
-  return f;
 }

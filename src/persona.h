@@ -34,11 +34,13 @@
 void init_persona (void);
 /* Switch to the user persona.  */
 void user_persona (void);
+/* Likewise, but don't allow to swtich back to the system persona.  */
+void user_persona_definitively (void);
 /* Switch to the system persona.  */
 void sys_persona (void);
-/* Open the file whose resource is given, and switch to the system
-   persona if the file is located in sys-dir.  */
-FILE *
-persona_fopenlock (const char *rsc, const char *mode);
+/* Change persona if needed to open the resource `rsc' with mode `mode',
+   and return the value of `rsc'.  */
+char *sys_persona_if_needed (const char *rsc, const char *mode);
+
 
 #endif /* HEROES_PERSONA_H */

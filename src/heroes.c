@@ -1224,10 +1224,9 @@ play_menu (void)
 	enter_your_name (plr2col[t] + 1, player_name);
 	load_scores_and_keep_locked ();
 	insert_scores (gamemodeh, player_name, game_id, player[t].score);
-	write_scores ();
+	write_scores_locked ();
       }
     }
-  write_scores ();
 }
 
 static void
@@ -3651,6 +3650,10 @@ main (int argc, char *argv[])
   if (setup_userdir ())
     exit (1);
 
+  init_scores ();
+  init_save_records ();
+  user_persona_definitively ();
+
   add_default_extra_directories ();
 
   /* Read the user configuration file. */
@@ -3685,6 +3688,7 @@ main (int argc, char *argv[])
     exit (0);
   }
 
+  /* FIXME: remove this option.  */
   if (reinitsco) {
     clear_scores ();
     write_scores ();

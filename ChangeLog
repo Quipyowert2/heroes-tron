@@ -1,5 +1,69 @@
 2001-05-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Change the way global file access and file locking is done.
+	Before this patch whenever an update of a global file was requested
+	the game had to
+	   a) switch personna if needed to access the file
+	   b) open the file
+	   c) lock it
+	   d) update the file
+	   e) close the file
+	With this patch the global files are now open when the game begin,
+	using the system persona, the game then switch to the user persona
+	definitively, be keep the global file open for the whole life of the
+	game.  Updating a file now just consist of
+	   a) seeking to the beginning of the file
+	   b) locking the file
+	   c) updating the file
+	   d) unlocking the file
+	The rationnal for this change is that it allows to drop
+	all privileges definitively after the global files are open.
+	Later, when scripting capability will be added to Heroes, it is
+	important that the user cannot switch persona at will :)
+
+	* lib/fopenlock.c: Delete.
+	* lib/fopenlock.h: Delete.
+	* lib/filelock.c: New file.
+	* lib/filelock.h: New file.
+	* lib/Makefile.am (libheroes_a_SOURCES, noinst_HEADERS): Replace
+	fopenlock.c and fopenlock.h by filelock.c and filelock.h.
+	* src/persona.c (user_persona_definitively): New function.
+	(sys_persona_if_needed): Export.
+	(persona_fopenlock): Remove.
+	* src/persona.h (user_persona_definitively): New function.
+	(sys_persona_if_needed): Export.
+	(persona_fopenlock): Remove.
+	* src/savegame.c (init_save_records): New.
+	(save_games_file): Remove, adjust all callers to use name instead.
+	(write_save_records): Rename as ...
+	(write_save_records_locked): ... this.  Don't close the file.
+	(write_save_records): New, call write_save_records_lock.
+	(load_save_records_open): Rewrite and rename as ...
+	(load_save_records_seek): ... this.  Adjust all callers.
+	(load_save_records): Don't close the file, but unlock it.
+	(load_save_records_and_keep_locked): Don't create the file.
+	(free_save_records): Close the file here.
+	* src/savegame.h (init_save_records): New.
+	(write_save_records_locked): New.
+	* src/scores.c (init_scores): New.
+	(score_file): Remove, adjust all callers to use name instead.
+	(write_scores): Rename as ...
+	(write_scores_locked): ... this.  Don't close the file.
+	(write_scores): New, call write_scores_locked.
+	(load_scores_open): Rewrite and rename as ...
+	(load_scores_seek): ... this.  Adjust all callers.
+	(load_scores): Don't close the file, but unlock it.
+	(load_scores_and_keep_locked): Don't create the file.
+	(free_scores): Close the file here.
+	* src/scores.h (init_scores): New.
+	(write_scores_locked): New.
+	* src/heroes.c (play_menu): Use write_scores_locked()
+	instead of write_scores().
+	(main): Call init_scores(), init_save_records(),
+	and user_persona_definitively().
+
+2001-05-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Hopefully, Heroes now works back with MinGW.
 
 	* lib/stripslash.c: New file from fileutils-4.1.

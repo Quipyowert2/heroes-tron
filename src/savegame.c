@@ -32,18 +32,22 @@
 #include "getshline.h"
 #include "errors.h"
 #include "persona.h"
+#include "filelock.h"
 
 saved_game saverec[10];
 
 static char *name = 0;
 static FILE *fsave = 0;
 
-static char*
-saved_games_file (void)
+void
+init_save_records (void)
 {
-  if (!name)
-    name = get_non_null_rsc_file ("saved-games-file");
-  return name;
+  name = sys_persona_if_needed ("saved-games-file", "a+t");
+  dmsg (D_FILE | D_SYSTEM, "opening %s", name);
+  fsave = fopen (name, "a+t");
+  if (!fsave)
+    dperror ("fopen");
+  user_persona ();
 }
 
 void
@@ -67,24 +71,21 @@ clear_save_records (void)
 }
 
 void
-write_save_records (void)
+write_save_records_locked (void)
 {
   int i;
 
   if (fsave == 0) {
-    fsave = persona_fopenlock ("saved-games-file", "wt");
-    if (fsave == 0) {
-      wmsg (_("cannot write %s"), saved_games_file ());
-      dperror (saved_games_file ());
-    }
+    wmsg (_("cannot write %s"), name);
+    dperror (name);
   } else {
     fflush (fsave);
     if (ftruncate (fileno (fsave), 0) != 0)
-      emsg (_("%s: truncate error"), saved_games_file ());
+      emsg (_("%s: truncate error"), name);
   }
 
   if (fsave) {
-    dmsg (D_FILE, "saving games to %s", saved_games_file ());
+    dmsg (D_FILE, "saving games to %s", name);
 
     for (i = 0; i < 10; ++i) {
       saved_game *sg = saverec + i;
@@ -100,18 +101,16 @@ write_save_records (void)
 	       sg->name);
       free (gidtxt);
     }
-    fclose (fsave);
-    fsave = 0;
+    dmsg (D_FILE | D_SYSTEM, "unlocking %s", name);
+    file_unlock (fsave);
   }
-
-  user_persona ();
 }
 
 static void
 load_save_records_error (int line)
 {
   wmsg (_("%s:%d: parse error.  Clearing saved-games table."),
-	saved_games_file (), line);
+	name, line);
   clear_scores ();
 }
 
@@ -170,40 +169,39 @@ load_save_records_read (void)
 }
 
 static void
-load_save_records_open (const char *mode)
+load_save_records_seek (const char *mode)
 {
-  dmsg (D_FILE, "reading saved games from %s", saved_games_file ());
-
-  fsave = persona_fopenlock ("saved-games-file", mode);
-
-  if (fsave == 0) {
-    dmsg (D_FILE, "cannot open %s", saved_games_file ());
-    dperror ("fopen");
-    clear_save_records ();
-    return;
+  dmsg (D_FILE, "reading saved games from %s", name);
+  if (fsave) {
+    fseek (fsave, 0L, SEEK_SET);
+    dmsg (D_FILE | D_SYSTEM, "locking %s (%s)", name, mode);
+    file_lock (fsave, mode);
   }
 }
 
 void
 load_save_records (void)
 {
-  load_save_records_open ("rt");
+  load_save_records_seek ("rt");
   load_save_records_read ();
-  if (fsave) {
-    fclose (fsave);
-    fsave = 0;
-  }
+  dmsg (D_FILE | D_SYSTEM, "unlocking %s", name);
+  file_unlock (fsave);
 }
 
 void
 load_save_records_and_keep_locked (void)
 {
-  load_save_records_open ("r+t");
+  load_save_records_seek ("r+t");
   load_save_records_read ();
-  if (fsave == 0)
-    load_save_records_open ("w+t");
   if (fsave)
     fseek (fsave, 0L, SEEK_SET);
+}
+
+void
+write_save_records (void)
+{
+  load_save_records_seek ("wt");
+  write_save_records_locked ();
 }
 
 void
@@ -214,6 +212,11 @@ free_save_records (void)
   if (name)
     free (name);
   name = 0;
+
+  if (fsave) {
+    fclose (fsave);
+    fsave = 0;
+  }
 }
 
 void
@@ -222,5 +225,5 @@ write_save_one_record (int rec)
   saved_game save = saverec[rec];
   load_save_records_and_keep_locked ();
   saverec[rec] = save;
-  write_save_records ();
+  write_save_records_locked ();
 }

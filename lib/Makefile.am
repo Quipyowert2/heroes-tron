@@ -34,7 +34,7 @@ noinst_HEADERS= \
 basename.h \
 dirname.h \
 error.h \
-fopenlock.h \
+filelock.h \
 fstrcmp.h \
 gnugetopt.h \
 getshline.h \
@@ -52,7 +52,7 @@ libheroes_a_SOURCES= \
 basename.c \
 dirname.c \
 error.c \
-fopenlock.c \
+filelock.c \
 fstrcmp.c \
 getshline.c \
 hash.c \
