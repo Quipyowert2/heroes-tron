@@ -138,7 +138,7 @@ draw_vehicle_head (int c, pixel_t* dest)
     b = player[c].tunnel_way;
   else
     b = player[c].way;
-  posit = vehicles_img.buffer + (c << 6) + (player[c].way << 4);
+  posit = vehicles_img.buffer + (c << 6) + (b << 4);
   if (invincible[c])
     posit += 10 * 320;
 
