@@ -1,5 +1,9 @@
 2001-10-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* BUGS: Update with input from Eero Tamminen <oak@welho.fi>.
+
+2001-10-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* tools/autogen.sh (moreverb): Use automake --force-missing.
 	Don't run autoheader if AC_CONFIG_HEADER is not called.
 	Call autoconf before autoheader, so the latter can use
