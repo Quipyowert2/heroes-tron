@@ -46,6 +46,7 @@
 #include "sprtext.h"
 #include "sprprogwav.h"
 #include "sprshade.h"
+#include "spropaque.h"
 #include "sound.h"
 #include "debugmsg.h"
 #include "timer.h"
@@ -121,6 +122,17 @@ static sprite_t* jukebox_forw = 0;
 static sprite_t* jukebox_quit = 0;
 static sprite_t* vehicles_spr[4] = { 0, 0, 0, 0 };
 static sprite_t* lemming[8] = { 0, 0, 0, 0, 0, 0, 0 };
+static sprite_t* ctrl_ico[2] = { 0, 0 };
+static sprite_t* autopilot_ico[2] = { 0, 0 };
+static sprite_t* music_ico[7] = { 0, 0, 0, 0, 0, 0 };
+static sprite_t* sfx_ico[7] = { 0, 0, 0, 0, 0, 0 };
+static sprite_t* radar_ico[2] = { 0, 0 };
+static sprite_t* infos_ico[2] = { 0, 0 };
+static sprite_t* inertia_ico[2] = { 0, 0 };
+static sprite_t* luminance_ico[7] = { 0, 0, 0, 0, 0, 0, 0 };
+static sprite_t* player_logo[4] = { 0, 0, 0, 0}; /* for end level info */
+static sprite_t* player_ico[4] = { 0, 0, 0, 0}; /* for menus */
+static sprite_t* speed_ico[5] = { 0, 0, 0, 0, 0};
 
 /* the following definitions are used to compile text-centered menus,
    that is, the main and the option menus */
@@ -252,11 +264,10 @@ init_menus_sprites (void)
 			      14, 7, main_font_img.width, xbuf);
   horizontal_rule = compile_sprrle (IMGPOS (main_font_img, 61, 0), 0,
 				    3, 120, main_font_img.width, xbuf);
-  /* FIXME: These two should be OPAQUE */
-  bigarr_cursor = compile_sprrle (IMGPOS (main_font_img, 50, 260), 0,
-				  11, 16, main_font_img.width, xbuf);
-  sqr_cursor = compile_sprrle (IMGPOS (main_font_img, 81, 32), 0,
-			       5, 8, main_font_img.width, xbuf);
+  bigarr_cursor = compile_spropaque (IMGPOS (main_font_img, 50, 260),
+				     11, 16, main_font_img.width, xbuf);
+  sqr_cursor = compile_spropaque (IMGPOS (main_font_img, 81, 32),
+				  5, 8, main_font_img.width, xbuf);
 
   small_arrows[1][0] = compile_sprrle (IMGPOS (main_font_img, 60, 147), 0,
 				       10, 10, main_font_img.width, xbuf);
@@ -266,6 +277,54 @@ init_menus_sprites (void)
 				       10, 10, main_font_img.width, xbuf);
   small_arrows[0][1] = compile_sprrle (IMGPOS (main_font_img, 50, 157), 0,
 				       10, 10, main_font_img.width, xbuf);
+
+  ctrl_ico[0] = compile_spropaque (IMGPOS (icons_img, 106, 0),
+				   18, 32, icons_img.width, xbuf);
+  ctrl_ico[1] = compile_spropaque (IMGPOS (icons_img, 106 + 19, 0),
+				18, 32, icons_img.width, xbuf);
+  autopilot_ico[0] = compile_spropaque (IMGPOS (icons_img, 11, 144),
+					18, 32, icons_img.width, xbuf);
+  autopilot_ico[1] = compile_spropaque (IMGPOS (icons_img, 11 + 19, 144),
+					18, 32, icons_img.width, xbuf);
+  {
+    int i;
+    for (i = 0; i < 7; ++i) {
+      music_ico[i] = compile_spropaque (IMGPOS (icons_img, 68 + 19 * i, 36),
+					18, 32, icons_img.width, xbuf);
+      sfx_ico[i] = compile_spropaque (IMGPOS (icons_img, 68 + 19 * i, 72),
+				      18, 32, icons_img.width, xbuf);
+      luminance_ico[i] =
+	compile_spropaque (IMGPOS (icons_img, 11 + 19 * i, 252),
+			   18, 32, icons_img.width, xbuf);
+    }
+  }
+  radar_ico[0] = compile_spropaque (IMGPOS (icons_img, 11, 36),
+				    18, 32, icons_img.width, xbuf);
+  radar_ico[1] = compile_spropaque (IMGPOS (icons_img, 11 + 19, 36),
+				    18, 32, icons_img.width, xbuf);
+  infos_ico[0] = compile_spropaque (IMGPOS (icons_img, 11, 180),
+				    18, 32, icons_img.width, xbuf);
+  infos_ico[1] = compile_spropaque (IMGPOS (icons_img, 11 + 19, 180),
+				    18, 32, icons_img.width, xbuf);
+  inertia_ico[0] = compile_spropaque (IMGPOS (icons_img, 68, 109),
+				      18, 32, icons_img.width, xbuf);
+  inertia_ico[1] = compile_spropaque (IMGPOS (icons_img, 68 + 19, 108),
+				      18, 32, icons_img.width, xbuf);
+  {
+    int i;
+    for (i = 0; i < 4; ++i) {
+      player_logo[i] =
+	compile_spropaque (IMGPOS (main_font_img, 72, 196 + i * 28),
+			   11, 28, main_font_img.width, xbuf);
+      player_ico[i] =
+	compile_spropaque (IMGPOS (icons_img, 68 + 19 * i, 144),
+			   18, 32, icons_img.width, xbuf);
+    }
+    for (i = 0; i < 5; ++i)
+      speed_ico[i] =
+	compile_spropaque (IMGPOS (icons_img, 11 + 19 * (4 - i), 216),
+			   18, 32, icons_img.width, xbuf);
+  }
 
   /* control menu */
   new_sprprog ();
@@ -308,6 +367,9 @@ init_menus_sprites (void)
   add_sprprog0 (compile_menu_text (txti[119], T_FLUSHED_LEFT, 105, 56));
   add_sprprog0 (compile_menu_text (txti[120], T_FLUSHED_LEFT, 129, 56));
   add_sprprog0 (compile_menu_text (txti[94], T_FLUSHED_LEFT, 177, 56));
+  add_sprprog (compile_spropaque (IMGPOS (icons_img, 68 + 19 * 4, 144),
+				  18, 32, icons_img.width, xbuf),
+	       149 * xbuf + 20);
   game_menu_txt = end_sprprog ();
 
   /* keyboard menu */
@@ -506,6 +568,33 @@ uninit_menus_sprites (void)
   FREE_SPRITE0 (small_arrows[0][1]);
   FREE_SPRITE0 (small_arrows[1][0]);
   FREE_SPRITE0 (small_arrows[1][1]);
+  FREE_SPRITE0 (ctrl_ico[0]);
+  FREE_SPRITE0 (ctrl_ico[1]);
+  FREE_SPRITE0 (autopilot_ico[0]);
+  FREE_SPRITE0 (autopilot_ico[1]);
+  {
+    int i;
+    for (i = 0; i < 7; ++i) {
+      FREE_SPRITE0 (music_ico[i]);
+      FREE_SPRITE0 (sfx_ico[i]);
+      FREE_SPRITE0 (luminance_ico[7]);
+    }
+  }
+  FREE_SPRITE0 (radar_ico[0]);
+  FREE_SPRITE0 (radar_ico[1]);
+  FREE_SPRITE0 (infos_ico[0]);
+  FREE_SPRITE0 (infos_ico[1]);
+  FREE_SPRITE0 (inertia_ico[0]);
+  FREE_SPRITE0 (inertia_ico[1]);
+  {
+    int i;
+    for (i = 0; i < 4; ++i) {
+      FREE_SPRITE0 (player_logo[i]);
+      FREE_SPRITE0 (player_ico[i]);
+    }
+    for (i = 0; i < 5; ++i)
+      FREE_SPRITE0 (speed_ico[i]);
+  }
 
   FREE_SPRITE0 (control_menu_txt);
   FREE_SPRITE0 (sound_menu_txt);
@@ -742,14 +831,10 @@ control_menu (void)
   std_white_fadein (&tile_set_img.palette);
   do {
     background_menu ();
-    copy_rect_4 (icons_img.buffer + (106 + 19 * opt.ctrl_one) * 320,
-		 corner[0] + 35 * xbuf + 20, 32, 18);
-    copy_rect_4 (icons_img.buffer + (11 + 19 * opt.autopilot_one) * 320 + 144,
-		 corner[0] + 68 * xbuf + 20, 32, 18);
-    copy_rect_4 (icons_img.buffer + (106 + 19 * opt.ctrl_two) * 320,
-		 corner[0] + 107 * xbuf + 20, 32, 18);
-    copy_rect_4 (icons_img.buffer + (11 + 19 * opt.autopilot_two) * 320 + 144,
-		 corner[0] + 140 * xbuf + 20, 32, 18);
+    DRAW_SPRITE (ctrl_ico[opt.ctrl_one], corner[0] + 35 * xbuf + 20);
+    DRAW_SPRITE (autopilot_ico[opt.autopilot_one], corner[0] + 68 * xbuf + 20);
+    DRAW_SPRITE (ctrl_ico[opt.ctrl_two], corner[0] + 107 * xbuf + 20);
+    DRAW_SPRITE (autopilot_ico[opt.autopilot_two], corner[0] + 140 * xbuf + 20);
     arrows (35 + l * 35 - 2 * (l == 1) + 2 * (l == 2 || l == 4), 1);
     chkbox (69, 260, opt.autopilot_one);
     chkbox (141, 260, opt.autopilot_two);
@@ -913,23 +998,18 @@ sound_menu (void)
   std_white_fadein (&tile_set_img.palette);
   do {
     background_menu ();
-    copy_rect_4 (icons_img.buffer + 163 * 320 + 252,
-		 corner[0] + 35 * xbuf + 20, 32, 18);
-    copy_rect_4 (icons_img.buffer + 182 * 320 + 252,
-		 corner[0] + 105 * xbuf + 20, 32, 18);
+    DRAW_SPRITE (music_ico[0], corner[0] + 35 * xbuf + 20);
+    DRAW_SPRITE (sfx_ico[0], corner[0] + 105 * xbuf + 20);
     arrows (35 + l * 35, 1);
     chkbox (36, 260, opt.music);
     chkbox (106, 260, opt.sfx);
     if (opt.music) {
-      copy_rect_4 (icons_img.buffer +
-		   (68 + 19 * (opt.music_volume / 2)) * 320 + 36,
-		   corner[0] + 70 * xbuf + 20, 32, 18);
+      DRAW_SPRITE (music_ico[opt.music_volume / 2], corner[0] + 70 * xbuf + 20);
       cursor (72, 251, 13 - opt.music_volume, 13);
       DRAW_SPRITE (music_vol_txt, corner[0]);
     }
     if (opt.sfx) {
-      copy_rect_4 (icons_img.buffer + (68 + 19 * (opt.sfx_volume / 2)) * 320 +
-		   72, corner[0] + 140 * xbuf + 20, 32, 18);
+      DRAW_SPRITE (sfx_ico[opt.sfx_volume / 2], corner[0] + 140 * xbuf + 20);
       cursor (142, 251, 13 - opt.sfx_volume, 13);
       DRAW_SPRITE (sfx_vol_txt, corner[0]);
     }
@@ -1008,16 +1088,13 @@ screen_menu (void)
   do {
     background_menu ();
 
-    copy_rect_4 (icons_img.buffer + (11 + 19 * opt.radar_map) * 320 + 36,
-		 corner[0] + 30 * xbuf + 20, 32, 18);
+    DRAW_SPRITE (radar_ico[opt.radar_map], corner[0] + 30 * xbuf + 20);
+    /* FIXME: remove the use_glenz option from the game */
     copy_rect_4 (icons_img.buffer + (11 + 19 * opt.use_glenz) * 320 + 108,
 		 corner[0] + 59 * xbuf + 20, 32, 18);
-    copy_rect_4 (icons_img.buffer + (11 + 19 * opt.display_infos) * 320 + 180,
-		 corner[0] + 88 * xbuf + 20, 32, 18);
-    copy_rect_4 (icons_img.buffer + (11 + 19 * opt.luminance) * 320 + 252,
-		 corner[0] + 117 * xbuf + 20, 32, 18);
-    copy_rect_4 (icons_img.buffer + (68 + 19 * opt.inertia) * 320 + 108,
-		 corner[0] + 146 * xbuf + 20, 32, 18);
+    DRAW_SPRITE (infos_ico[opt.display_infos], corner[0] + 88 * xbuf + 20);
+    DRAW_SPRITE (luminance_ico[opt.luminance], corner[0] + 117 * xbuf + 20);
+    DRAW_SPRITE (inertia_ico[opt.inertia], corner[0] + 146 * xbuf + 20);
 
     arrows (30 + l * 29, 1);
     chkbox (31, 260, opt.radar_map);
@@ -1070,19 +1147,11 @@ game_menu (void)
   std_white_fadein (&tile_set_img.palette);
   do {
     background_menu ();
-    copy_rect_4 (icons_img.buffer + (68 + 19 * opt.player_color[0]) * 320 +
-		 144, corner[0] + 29 * xbuf + 20, 32, 18);
-    copy_rect_4 (icons_img.buffer + (68 + 19 * opt.player_color[1]) * 320 +
-		 144, corner[0] + 53 * xbuf + 20, 32, 18);
-    copy_rect_4 (icons_img.buffer + (68 + 19 * opt.player_color[2]) * 320 +
-		 144, corner[0] + 77 * xbuf + 20, 32, 18);
-    copy_rect_4 (icons_img.buffer + (68 + 19 * opt.player_color[3]) * 320 +
-		 144, corner[0] + 101 * xbuf + 20, 32, 18);
-    copy_rect_4 (icons_img.buffer + (11 + 19 * (4 - opt.speed * 2)) * 320 +
-		 216, corner[0] + 125 * xbuf + 20, 32, 18);
-
-    copy_rect_4 (icons_img.buffer + (68 + 19 * 4) * 320 + 144,
-		 corner[0] + 149 * xbuf + 20, 32, 18);
+    DRAW_SPRITE (player_ico[opt.player_color[0]], corner[0] + 29 * xbuf + 20);
+    DRAW_SPRITE (player_ico[opt.player_color[1]], corner[0] + 53 * xbuf + 20);
+    DRAW_SPRITE (player_ico[opt.player_color[2]], corner[0] + 77 * xbuf + 20);
+    DRAW_SPRITE (player_ico[opt.player_color[3]], corner[0] + 101 * xbuf + 20);
+    DRAW_SPRITE (speed_ico[opt.speed * 2], corner[0] + 125 * xbuf + 20);
     cursor (128, 251, opt.speed, 2);
     cursor (154, 251, opt.gamerounds, 15);
     arrows (29 + l * 24 + 24 * (l > 2), 1);
@@ -2184,8 +2253,8 @@ draw_end_level_info (int decal, char l)
 		    2 * xbuf, col2plr[i] + 2, 284 + i * 6, 6);
     DRAW_SPRITE (vehicles_spr[col2plr[i]],
 		 corner[0] + decal + (75 + i * 12) * xbuf + 284 + i * 6);
-    copy_rect_4 (main_font_img.buffer + 196 + col2plr[i] * 28 + 72 * 320,
-		 corner[0] + decal + (75 + i * 12) * xbuf + 5, 28, 11);
+    DRAW_SPRITE (player_logo[col2plr[i]],
+		 corner[0] + decal + (75 + i * 12) * xbuf + 5);
     if (player[col2plr[i]].martians_nbr)
       DRAW_SPRITE (info_martian[i],
 		   corner[0] + decal + (69 + i * 12) * xbuf + 35);
@@ -2246,8 +2315,8 @@ draw_round_info (int decal)
 		    2 * xbuf, col2plr[i] + 2, 284 + i * 6, 6);
     DRAW_SPRITE (vehicles_spr[col2plr[i]],
 		 corner[0] + decal + (75 + i * 12) * xbuf + 284 + i * 6);
-    copy_rect_4 (main_font_img.buffer + 196 + col2plr[i] * 28 + 72 * 320,
-		 corner[0] + decal + (75 + i * 12) * xbuf + 5, 28, 11);
+    DRAW_SPRITE (player_logo[col2plr[i]],
+		 corner[0] + decal + (75 + i * 12) * xbuf + 5);
     if (!lines[i][0]) {
       sprintf (info, "%d", player[col2plr[i]].wins);
       lines[i][0] = compile_menu_text (info,

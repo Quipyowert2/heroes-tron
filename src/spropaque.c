@@ -19,40 +19,66 @@
 `------------------------------------------------------------------------*/
 
 #include "system.h"
-#include "sprite.h"
-#include "sprrle.h"
-#include "sprprog.h"
-#include "sprzcol.h"
-#include "sprshade.h"
-#include "sprglenz.h"
 #include "spropaque.h"
 
 void
-free_sprite (sprite_t* sprite)
+draw_spropaque (const sprite_t *sprite, pixel_t *dest)
 {
-  if (!sprite)
-    return;
+  pixel_t	*data;		/* input position */
+  pixel_t	*edata;		/* end of input */
+  int		width;
+  int		lskip;
 
-  /* dispatch */
-  switch (sprite->all.kind) {
-  case S_OPAQUE:
-    free_spropaque (sprite);
-    break;
-  case S_RLE:
-    free_sprrle (sprite);
-    break;
-  case S_RLE_ZCOL:
-    free_sprzcol (sprite);
-    break;
-  case S_RLE_SHADE:
-    free_sprshade (sprite);
-    break;
-  case S_RLE_GLENZ:
-    free_sprglenz (sprite);
-    break;
-  case S_PROG:
-  case S_PROG_WAV:
-    free_sprprog (sprite);
-    break;
+  assert (sprite->all.kind == S_OPAQUE);
+
+  data = sprite->opaq.data;
+  edata = sprite->opaq.end_data;
+  width = sprite->opaq.width;
+  lskip = sprite->opaq.line_skip;
+
+  while (data < edata) {
+    int i = width;
+    while (i--)
+      *dest++ = *data++;
+    dest += lskip;
   }
+}
+
+sprite_t *
+compile_spropaque (const pixel_t *src,
+		   unsigned int block_height, unsigned int block_width,
+		   unsigned int src_width, unsigned int dest_width)
+{
+  sprite_t *sprite;
+  unsigned int row;
+  unsigned int data_size;
+  pixel_t *data;
+
+  data_size = block_height * block_width;
+
+  XMALLOC_VAR (sprite);
+  XMALLOC_ARRAY (sprite->opaq.data, data_size);
+  data = sprite->opaq.data;
+
+  for (row = block_height; row; --row) {
+    memcpy (data, src, block_width);
+    src += src_width;
+    data += block_width;
+  }
+
+  sprite->opaq.kind = S_OPAQUE;
+  sprite->opaq.draw = draw_spropaque;
+  sprite->opaq.end_data = data;
+  sprite->opaq.width = block_width;
+  sprite->opaq.line_skip = dest_width - block_width;
+
+  return sprite;
+}
+
+void
+free_spropaque (sprite_t *prog)
+{
+  assert (prog->all.kind == S_OPAQUE);
+  free (prog->opaq.data);
+  free (prog);
 }

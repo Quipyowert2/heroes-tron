@@ -1,5 +1,26 @@
 2000-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Add a new sprite type: S_OPAQUE.
+
+	* src/spropaque.c: New file.
+	* src/spropaque.h: New file.
+	* src/Makefile.am (heroes_SOURCES): Add spropaque.c and spropaque.h.
+	* src/sprite.h (sprite_kind): Add S_OPAQUE.
+	(sprite_opaque_s): New.
+	(sprite_s): Add member opaq.
+	* src/sprite.c (free_sprite): Handle the S_OPAQUE case.
+
+	Use this new kind of sprite to replace copy_rect_transp_* calls.
+
+	* src/menus.c (ctrl_ico, autopilot_ico, music_ico, sfx_ico,
+	radar_ico, infos_ico, inertia_ico, luminance_ico, player_logo,
+	player_ico, speed_ico): New.
+	(init_menus_sprites, uninit_menus_sprites): (Un)initialize them.
+	(control_menu, sound_menu, screen_menu, game_menu,
+	draw_end_level_info, draw_round_info): Adapt to use them.
+
+2000-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/render.c (draw_logo_info): Adapt to use red_cross.
 	* src/draw.c (copy_rect_transp_red): Remove.
 	* src/draw.h (copy_rect_transp_red): Remove.

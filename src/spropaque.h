@@ -18,41 +18,22 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-#include "system.h"
+#ifndef HEROES__SPROPAQUE__H
+#define HEROES__SPROPAQUE__H
+
+/*------------------------.
+| standard opaque-sprites |
+`------------------------*/
+
 #include "sprite.h"
-#include "sprrle.h"
-#include "sprprog.h"
-#include "sprzcol.h"
-#include "sprshade.h"
-#include "sprglenz.h"
-#include "spropaque.h"
 
-void
-free_sprite (sprite_t* sprite)
-{
-  if (!sprite)
-    return;
+void draw_spropaque (const sprite_t* sprite, pixel_t* dest);
 
-  /* dispatch */
-  switch (sprite->all.kind) {
-  case S_OPAQUE:
-    free_spropaque (sprite);
-    break;
-  case S_RLE:
-    free_sprrle (sprite);
-    break;
-  case S_RLE_ZCOL:
-    free_sprzcol (sprite);
-    break;
-  case S_RLE_SHADE:
-    free_sprshade (sprite);
-    break;
-  case S_RLE_GLENZ:
-    free_sprglenz (sprite);
-    break;
-  case S_PROG:
-  case S_PROG_WAV:
-    free_sprprog (sprite);
-    break;
-  }
-}
+sprite_t* compile_spropaque (const pixel_t* src,
+			     unsigned int block_height,
+			     unsigned int block_width,
+			     unsigned int src_width, unsigned int dest_width);
+
+void free_spropaque (sprite_t* sprite);
+
+#endif /* HEROES__SPROPAQUE__H */

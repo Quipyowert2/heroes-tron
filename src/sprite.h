@@ -31,7 +31,7 @@
 /* Different kind of sprites, they are not all used yet.  These values
    should be used *internally* by the sprite handling functions.  */
 enum sprite_kind {
-  /* S_OPAQUE, */		/* opaque (yes!) */
+  S_OPAQUE,			/* opaque (yes!) */
   S_RLE,			/* transparant */
   S_RLE_SHADE,			/* transparant, using one line of glenz */
   S_RLE_ZCOL,			/* transparant, using a kind of
@@ -128,6 +128,16 @@ struct sprite_rle_glenz_s {
   pixel_t*	glenz;
 };
 
+struct sprite_opaque_s {
+  SPRITE_COMMON_MEMBERS;
+  pixel_t*	data;		/* data to write (concatenated) */
+  pixel_t*	end_data;	/* pointer the pixel right after the last
+				   in data */
+  int		width;		/* number of data to write per line */
+  int		line_skip;	/* byte to skip at the end of a line, to
+				   jump to the next one. */
+};
+
 union sprite_s {
   SPRITE_FIRST_MEMBER;
   struct sprite_common_s	all;
@@ -135,6 +145,7 @@ union sprite_s {
   struct sprite_rle_s		rle;
   struct sprite_rle_shade_s	shade;
   struct sprite_rle_glenz_s	glenz;
+  struct sprite_opaque_s	opaq;
 };
 
 /* generic sprite freeing function, this will dispatch to the right
