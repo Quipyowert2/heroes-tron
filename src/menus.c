@@ -101,7 +101,15 @@ static sprite_t* load_select_txt = 0;
 static sprite_t* save_select_txt = 0;
 sprite_t* saverec_name[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 static sprite_t* enter_your_name_txt = 0;
-
+static sprite_t* info_mode_quest_txt = 0;
+static sprite_t* info_mode_deathm_txt = 0;
+static sprite_t* info_mode_killem_txt = 0;
+static sprite_t* info_mode_tcash_txt = 0;
+static sprite_t* info_mode_color_txt = 0;
+static sprite_t* info_mode_next_txt = 0;
+static sprite_t* info_mode_save_txt = 0;
+static sprite_t* info_mode_return_txt = 0;
+static sprite_t* info_round_txt = 0;
 static sprite_t* jukebox_frame = 0;
 static sprite_t* jukebox_back = 0;
 static sprite_t* jukebox_forw = 0;
@@ -426,6 +434,26 @@ init_menus_sprites (void)
   add_sprprog0 (compile_menu_text (txti[37],
 				   T_CENTERED, 70, 159));
   enter_your_name_txt = end_sprprog ();
+
+  /* end level info */
+  info_mode_quest_txt = compile_menu_text (txti[53],
+					   T_CENTERED, 50, 180);
+  info_mode_deathm_txt = compile_menu_text (txti[54],
+					    T_CENTERED, 50, 221);
+  info_mode_killem_txt = compile_menu_text (txti[55],
+					    T_CENTERED, 50, 180);
+  info_mode_tcash_txt = compile_menu_text (txti[56],
+					   T_CENTERED, 50, 180);
+  info_mode_color_txt = compile_menu_text (txti[57],
+					   T_CENTERED, 50, 170);
+  info_mode_next_txt = compile_menu_text (txti[58],
+					  T_CENTERED, 150, 159);
+  info_mode_save_txt = compile_menu_text (txti[59],
+					  T_CENTERED, 170, 159);
+  info_mode_return_txt = compile_menu_text (txti[60],
+					    T_CENTERED, 160, 159);
+  info_round_txt = compile_menu_text (txti[62],
+				      T_CENTERED, 50, 180);
 }
 
 void
@@ -508,6 +536,15 @@ uninit_menus_sprites (void)
       FREE_SPRITE0 (saverec_name[i]);
   }
   FREE_SPRITE0 (enter_your_name_txt);
+  FREE_SPRITE0 (info_mode_quest_txt);
+  FREE_SPRITE0 (info_mode_deathm_txt);
+  FREE_SPRITE0 (info_mode_killem_txt);
+  FREE_SPRITE0 (info_mode_tcash_txt);
+  FREE_SPRITE0 (info_mode_color_txt);
+  FREE_SPRITE0 (info_mode_next_txt);
+  FREE_SPRITE0 (info_mode_save_txt);
+  FREE_SPRITE0 (info_mode_return_txt);
+  FREE_SPRITE0 (info_round_txt);
 }
 
 static void
@@ -1002,10 +1039,11 @@ game_menu (void)
     DRAW_SPRITE (game_menu_txt, corner[0]);
 
     if (!game_rounds_txt) {
-      char rounds[32];
-      sprintf (rounds, txti[121], rounds_nbr_values[opt.gamerounds],
+      char rounds_txt[32];
+      sprintf (rounds_txt, txti[121], rounds_nbr_values[opt.gamerounds],
 	       (opt.gamerounds == 0) ? '\0' : 'S');
-      game_rounds_txt = compile_menu_text (rounds, T_FLUSHED_LEFT, 153, 56);
+      game_rounds_txt = compile_menu_text (rounds_txt,
+					   T_FLUSHED_LEFT, 153, 56);
     }
     DRAW_SPRITE (game_rounds_txt, corner[0]);
 
@@ -2037,4 +2075,152 @@ enter_your_name (char c, char* name)
   free_htimer (pixelize_timer);
   FREE_SPRITE0 (player_number);
   FREE_SPRITE0 (player_name);
+}
+
+void
+draw_end_level_info (int decal, char l)
+{
+  int i;
+  char winner[128];
+  char nbr[32];
+  sprite_t *winner_txt = 0;
+  sprite_t *lines[4][3] = { { 0, 0, 0 },
+			    { 0, 0, 0 },
+			    { 0, 0, 0 },
+			    { 0, 0, 0 } };
+
+  if (!winner_txt) {
+    if (level_is_finished != 15) {
+      sprintf (winner, txti[50], plr2col[level_is_finished - 1] + 1);
+      draw_glenz_box (corner[0] + decal + 22 * xbuf,
+		      level_is_finished + 1, 320, 6);
+    } else {
+      if (two_players)
+	sprintf (winner, txti[51]);
+      else
+	sprintf (winner, txti[52]);
+      draw_glenz_box (corner[0] + decal + 22 * xbuf, 7, 320, 6);
+    }
+    winner_txt = compile_menu_text (winner, T_CENTERED|T_WAVING, 20, 159 + 20);
+  }
+  DRAW_SPRITE (winner_txt, corner[0]);
+
+  if (game_mode == M_QUEST)
+    DRAW_SPRITE (info_mode_quest_txt, corner[0] + decal);
+  else if (game_mode == M_DEATHM)
+    DRAW_SPRITE (info_mode_deathm_txt, corner[0] + decal);
+  else if (game_mode == M_KILLEM)
+    DRAW_SPRITE (info_mode_killem_txt, corner[0] + decal);
+  else if (game_mode == M_TCASH)
+    DRAW_SPRITE (info_mode_tcash_txt, corner[0] + decal);
+  else if (game_mode == M_COLOR)
+    DRAW_SPRITE (info_mode_color_txt, corner[0] + decal);
+
+  if ((level_is_finished != 15) && (game_mode == M_QUEST)) {
+    draw_sprprogwav_if (l == 0, info_mode_next_txt, corner[0] + decal);
+    draw_sprprogwav_if (l == 1, info_mode_save_txt, corner[0] + decal);
+    waving_arrows (145 + l * 20, 45);
+  } else {
+    DRAW_SPRITE (info_mode_return_txt, corner[0] + decal);
+  }
+  for (i = 0; i < 4; i++) {
+    draw_glenz_box (corner[0] + decal + (75 + i * 12) * xbuf +
+		    2 * xbuf /*+25+28 */ , col2plr[i] + 2,
+		    284 /*-25-28*/  + i * 6, 6);
+    copy_rect_transp (vehicles_img.buffer + 16 + 64 * col2plr[i],
+		      corner[0] + decal + (75 + i * 12) * xbuf + 284 + i * 6,
+		      12, 10);
+    copy_rect_4 (main_font_img.buffer + 196 + col2plr[i] * 28 + 72 * 320,
+		 corner[0] + decal + (75 + i * 12) * xbuf + /*25 */ 5, 28,
+		 11);
+    if (player[col2plr[i]].martians_nbr)
+      copy_rect_transp_shadow (main_font_img.buffer + 120 * 320 + 40 + i * 64,
+			       corner[0] + decal + (69 + i * 12) * xbuf + 35,
+			       24, 19);
+    if (!lines[i][0]) {
+      if (game_mode == M_QUEST)
+	sprintf (nbr, "%d", (trail_size[col2plr[i]] + 1) / 5 - 1);
+      else if (game_mode == M_DEATHM)
+	sprintf (nbr, "   ");
+      else if (game_mode == M_KILLEM)
+	sprintf (nbr, "%d", player[col2plr[i]].lemmings_nbr);
+      else if (game_mode >= M_TCASH)
+	sprintf (nbr, "%d", player[col2plr[i]].cash);
+      lines[i][0] = compile_menu_text (nbr, T_CENTERED, 75 + i * 12, 108 - 10);
+    }
+    DRAW_SPRITE (lines[i][0], corner[0] + decal);
+    if (!lines[i][1]) {
+      sprintf (nbr, "%d", player[col2plr[i]].score);
+      lines[i][1] = compile_menu_text (nbr, T_CENTERED, 75 + i * 12, 182 - 10);
+    }
+    DRAW_SPRITE (lines[i][1], corner[0] + decal);
+    if (!lines[i][2]) {
+      sprintf (nbr, "%d", player[col2plr[i]].lifes);
+      lines[i][2] = compile_menu_text (nbr, T_CENTERED, 75 + i * 12, 265 - 10);
+    }
+    DRAW_SPRITE (lines[i][2], corner[0] + decal);
+  }
+  FREE_SPRITE0 (winner_txt);
+  for (i = 0; i < 4; ++i) {
+    FREE_SPRITE0 (lines[i][0]);
+    FREE_SPRITE0 (lines[i][1]);
+    FREE_SPRITE0 (lines[i][2]);
+  }
+}
+
+void
+draw_round_info (int decal)
+{
+  int i;
+  char info[128];
+  sprite_t *winner_txt = 0;
+  sprite_t *lines[4][3] = { { 0, 0, 0 },
+			    { 0, 0, 0 },
+			    { 0, 0, 0 },
+			    { 0, 0, 0 } };
+
+  draw_glenz_box (corner[0] + decal + 22 * xbuf, 1, 320, 6);
+  if (!winner_txt) {
+    sprintf (info, txti[61], rounds_nbr_values[opt.gamerounds] - rounds + 1,
+	     rounds_nbr_values[opt.gamerounds]);
+    winner_txt = compile_menu_text (info, T_CENTERED, 20, 159);
+  }
+  DRAW_SPRITE (winner_txt, corner[0] + decal);
+  DRAW_SPRITE (info_round_txt, corner[0] + decal);
+  DRAW_SPRITE (info_mode_return_txt, corner[0] + decal);
+
+  for (i = 0; i < 4; i++) {
+    draw_glenz_box (corner[0] + decal + (75 + i * 12) * xbuf +
+		    2 * xbuf /*+25+28 */ , col2plr[i] + 2,
+		    284 /*-25-28*/  + i * 6, 6);
+    copy_rect_transp (vehicles_img.buffer + 16 + 64 * col2plr[i],
+		      corner[0] + decal + (75 + i * 12) * xbuf + 284 + i * 6,
+		      12, 10);
+    copy_rect_4 (main_font_img.buffer + 196 + col2plr[i] * 28 + 72 * 320,
+		 corner[0] + decal + (75 + i * 12) * xbuf + /*25 */ 5, 28,
+		 11);
+    if (!lines[i][0]) {
+      sprintf (info, "%d", player[col2plr[i]].wins);
+      lines[i][0] = compile_menu_text (info,
+				       T_CENTERED, 75 + i * 12, 108 - 10);
+    }
+    DRAW_SPRITE (lines[i][0], corner[0] + decal);
+    if (!lines[i][1]) {
+      sprintf (info, "%d", player[col2plr[i]].score);
+      lines[i][1] = compile_menu_text (info,
+				       T_CENTERED, 75 + i * 12, 182 - 10);
+    }
+    DRAW_SPRITE (lines[i][1], corner[0] + decal);
+    if (!lines[i][2]) {
+      sprintf (info, "%d", player[col2plr[i]].lifes);
+      lines[i][2] = compile_menu_text (info,
+				       T_CENTERED, 75 + i * 12, 265 - 10);
+    }
+    DRAW_SPRITE (lines[i][2], corner[0] + decal);
+  }
+  for (i = 0; i < 4; ++i) {
+    FREE_SPRITE0 (lines[i][0]);
+    FREE_SPRITE0 (lines[i][1]);
+    FREE_SPRITE0 (lines[i][2]);
+  }
 }

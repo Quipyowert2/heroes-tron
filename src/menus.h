@@ -47,4 +47,7 @@ void pause_menu (void);
 char quit_yes_no (void);
 void enter_your_name (char c, char* name);
 
+void draw_round_info (int decal);
+void draw_end_level_info (int decal, char l);
+
 #endif /* HEROES__MENUS__H */

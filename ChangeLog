@@ -1,3 +1,22 @@
+2000-11-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/heroes.c (draw_end_level_info, draw_round_info): Move to ...
+	* src/menus.c (draw_end_level_info, draw_round_info): ... here.
+
+	* src/heroes.c (play_game): Call update_text_wavinf_step
+	when drawing end level and round info.
+	* src/heroes.h (rounds): Export.
+	* src/menus.c (info_mode_quest_txt, info_mode_deathm_txt,
+	info_mode_killem_txt, info_mode_tcash_txt, info_mode_color_txt,
+	info_mode_next_txt, info_mode_save_txt, info_mode_return_txt,
+	info_round_txt): New sprites.
+	(init_menus_sprites, uninit_menus_sprites): Handle them.
+	(game_menu): Rename local variable rounds as rounds_txt to suppress
+	a warning.
+	(draw_end_level_info, draw_round_info): Adapt to use new
+	text drawing functions.
+	* src/menus.h (draw_round_info, draw_end_level_info): Export.
+
 2000-11-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/menu.c (display_menu): Blit conditionally (add a 3rd arg)

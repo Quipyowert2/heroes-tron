@@ -3311,109 +3311,6 @@ get_input_directions (void)
     save_pcx (1);
 }
 
-static void
-draw_end_level_info (int decal, char l)
-{
-  int i;
-  char winner[128];
-  char nbr[32];
-
-  if (level_is_finished != 15) {
-    sprintf (winner, txti[50], plr2col[level_is_finished - 1] + 1);
-    draw_glenz_box (corner[0] + decal + 22 * xbuf, level_is_finished + 1, 320,
-		    6);
-  } else {
-    if (two_players)
-      sprintf (winner, txti[51]);
-    else
-      sprintf (winner, txti[52]);
-    draw_glenz_box (corner[0] + decal + 22 * xbuf, 7, 320, 6);
-  }
-
-  draw_text_waving (winner, 159 + decal, 20, 1);
-  if (game_mode == M_QUEST)
-    draw_text (txti[53], 180 + decal, 50, 1);
-  else if (game_mode == M_DEATHM)
-    draw_text (txti[54], 221 + decal, 50, 1);
-  else if (game_mode == M_KILLEM)
-    draw_text (txti[55], 180 + decal, 50, 1);
-  else if (game_mode == M_TCASH)
-    draw_text (txti[56], 180 + decal, 50, 1);
-  else if (game_mode == M_COLOR)
-    draw_text (txti[57], 170 + decal, 50, 1);
-  if ((level_is_finished != 15) && (game_mode == M_QUEST)) {
-    draw_text_array[l == 0] (txti[58], 159 + decal, 150, 1);
-    draw_text_array[l == 1] (txti[59], 159 + decal, 170, 1);
-    waving_arrows (145 + l * 20, 45);
-  } else {
-    draw_text (txti[60], 159 + decal, 160, 1);
-  }
-  for (i = 0; i < 4; i++) {
-    draw_glenz_box (corner[0] + decal + (75 + i * 12) * xbuf +
-		    2 * xbuf /*+25+28 */ , col2plr[i] + 2,
-		    284 /*-25-28*/  + i * 6, 6);
-    copy_rect_transp (vehicles_img.buffer + 16 + 64 * col2plr[i],
-		      corner[0] + decal + (75 + i * 12) * xbuf + 284 + i * 6,
-		      12, 10);
-    copy_rect_4 (main_font_img.buffer + 196 + col2plr[i] * 28 + 72 * 320,
-		 corner[0] + decal + (75 + i * 12) * xbuf + /*25 */ 5, 28,
-		 11);
-    if (player[col2plr[i]].martians_nbr)
-      copy_rect_transp_shadow (main_font_img.buffer + 120 * 320 + 40 + i * 64,
-			       corner[0] + decal + (69 + i * 12) * xbuf + 35,
-			       24, 19);
-    if (game_mode == M_QUEST)
-      sprintf (nbr, "%d", (trail_size[col2plr[i]] + 1) / 5 - 1);
-    else if (game_mode == M_DEATHM)
-      sprintf (nbr, "   ");
-    else if (game_mode == M_KILLEM)
-      sprintf (nbr, "%d", player[col2plr[i]].lemmings_nbr);
-    else if (game_mode >= M_TCASH)
-      sprintf (nbr, "%d", player[col2plr[i]].cash);
-    draw_text (nbr, 108 - 10 + decal, 75 + i * 12, 1);
-    sprintf (nbr, "%d", player[col2plr[i]].score);
-    draw_text (nbr, 182 - 10 + decal, 75 + i * 12, 1);
-    sprintf (nbr, "%d", player[col2plr[i]].lifes);
-    draw_text (nbr, 265 - 10 + decal, 75 + i * 12, 1);
-  }
-}
-
-static void
-draw_round_info (int decal)
-{
-  int i;
-  char info[128];
-
-  sprintf (info, txti[61], rounds_nbr_values[opt.gamerounds] - rounds + 1,
-	   rounds_nbr_values[opt.gamerounds]);
-  draw_glenz_box (corner[0] + decal + 22 * xbuf, 1, 320, 6);
-  draw_text_waving (info, 159 + decal, 20, 1);
-  draw_text (txti[62], 180 + decal, 50, 1);
-
-  draw_text (txti[60], 159 + decal, 160, 1);
-
-  for (i = 0; i < 4; i++) {
-    draw_glenz_box (corner[0] + decal + (75 + i * 12) * xbuf +
-		    2 * xbuf /*+25+28 */ , col2plr[i] + 2,
-		    284 /*-25-28*/  + i * 6, 6);
-    copy_rect_transp (vehicles_img.buffer + 16 + 64 * col2plr[i],
-		      corner[0] + decal + (75 + i * 12) * xbuf + 284 + i * 6,
-		      12, 10);
-    copy_rect_4 (main_font_img.buffer + 196 + col2plr[i] * 28 + 72 * 320,
-		 corner[0] + decal + (75 + i * 12) * xbuf + /*25 */ 5, 28,
-		 11);
-    sprintf (info, "%d", player[col2plr[i]].wins);
-    draw_text (info, 108 - 10 + decal, 75 + i * 12, 1);
-    sprintf (info, "%d", player[col2plr[i]].score);
-    draw_text (info, 182 - 10 + decal, 75 + i * 12, 1);
-    sprintf (info, "%d", player[col2plr[i]].lifes);
-    draw_text (info, 265 - 10 + decal, 75 + i * 12, 1);
-  }
-}
-
-
-
-
 static unsigned char
 play_game (char cont)
 {
@@ -3581,6 +3478,7 @@ play_game (char cont)
     else
       event_sfx (65);
     do {
+      update_text_waving_step ();
       if (two_players == false) {
 	draw_end_level_info (0, l);
 	vsynch ();
@@ -3746,6 +3644,7 @@ play_game (char cont)
       if (l == 255)
 	event_sfx (68);		/* echap */
       for (i = 1; i <= 40; i += n) {
+	update_text_waving_step ();
 	if (two_players == false) {
 	  draw_end_level_info (0, l);
 	  vsynch ();
@@ -3787,6 +3686,7 @@ play_game (char cont)
 
       event_sfx (129);
       do {
+	update_text_waving_step ();
 	if (two_players == false) {
 	  draw_round_info (0);
 	  vsynch ();
@@ -3820,6 +3720,7 @@ play_game (char cont)
       if (l == 255)
 	event_sfx (68);		/*esc */
       for (i = 1; i <= 40; i += n) {
+	update_text_waving_step ();
 	if (two_players == false) {
 	  draw_round_info (0);
 	  vsynch ();
