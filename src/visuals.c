@@ -462,7 +462,7 @@ corner_buffer_end (int i)
 	src += xbuf;
 	dest++;
       }
-    } else 
+    } else
       memset (dest, 0, 320);
   }
   for (l = 0; i + l < 200; l++) {
@@ -483,7 +483,7 @@ corner_buffer (void)
     corner_buffer_middle (t2);
   else if (t2 < 520)
     corner_buffer_end (t2);
-  else 
+  else
     return 1;
   return 0;
 }

@@ -3081,7 +3081,7 @@ main_menu (void)
 	      break;
 	    vsynch ();
 	    aff_buffer ();
-	  };
+	  }
 	  load_demo ();
 	  dmsg (D_SECTION, "-- (back to) menu (from demo) --");
 	  demo_ready = 0;

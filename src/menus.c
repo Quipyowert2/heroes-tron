@@ -600,7 +600,7 @@ background_menu (void)
 }
 
 static void
-display_menu (menu_t *menu, int l)
+display_menu (menu_t *menu, int l, bool blit)
 {
   int line;
   background_menu ();
@@ -610,8 +610,10 @@ display_menu (menu_t *menu, int l)
   for (line = 0; line < menu->lines - 1; ++line)
     hrule (menu->hrules[line]);
   waving_arrows (l * 20 + menu->first_row - 5, menu->arrows_col);
-  aff_buffer ();
-  vsynch ();
+  if (blit) {
+    aff_buffer ();
+    vsynch ();
+  }
 }
 
 static void
@@ -625,7 +627,7 @@ exec_menu (menu_t *menu)
 
     std_white_fadein (&tile_set_img.palette);
     do {
-      display_menu (menu, l);
+      display_menu (menu, l, true);
       if (key_or_joy_ready ()) {
 	k = get_key_or_joy ();
 	k = move_updown (k, &l, menu->lines - 1);
@@ -1298,7 +1300,7 @@ draw_play_menu (int l)
 void
 draw_main_menu (int l)
 {
-  display_menu (main_menu_data, l);
+  display_menu (main_menu_data, l, false);
 }
 
 char tile_sets_names[10][3] =

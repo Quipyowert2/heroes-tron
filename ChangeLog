@@ -1,5 +1,15 @@
 2000-11-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/menu.c (display_menu): Blit conditionally (add a 3rd arg)
+	(exec_menu, draw_main_menu): Call display_menu with the right
+	blitting option.
+
+	* src/heroes.c (main_menu): Cosmetic change.
+	* src/visual.c (corner_buffer_end, corner_buffer): Strip trailing
+	spaces.
+
+2000-11-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/heroes.c (enter_your_name): Move ...
 	* src/menus.c (enter_your_name): ... here.  Adapt to use the new
 	text drawing functions.
