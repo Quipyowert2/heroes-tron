@@ -42,5 +42,6 @@ void draw_saved_games_info (int decal, int l, char h);
 
 void jukebox_menu (void);
 void pause_menu (void);
+char quit_yes_no (void);
 
 #endif /* HEROES__MENUS__H */

@@ -48,6 +48,7 @@
 #include "sound.h"
 #include "debugmsg.h"
 #include "timer.h"
+#include "joystick.h"
 
 static sprite_t* left_arrow = 0;
 static sprite_t* right_arrow = 0;
@@ -71,6 +72,9 @@ static sprite_t* extra_modes_txt[3] = { 0, 0, 0 };
 static sprite_t* extra_combine_txt[3] = { 0, 0, 0 };
 static sprite_t* credit_menu_txt = 0;
 static sprite_t* pause_menu_txt = 0;
+static sprite_t* quitgame_menu_txt = 0;
+static sprite_t* quitgame_yes_txt = 0;
+static sprite_t* quitgame_no_txt = 0;
 
 static sprite_t* jukebox_frame = 0;
 static sprite_t* jukebox_back = 0;
@@ -204,6 +208,13 @@ init_menus_sprites (void)
 
   /* pause menu */
   pause_menu_txt = compile_menu_text ("PAUSE", T_CENTERED|T_WAVING, 5, 159);
+
+  /* quit y/n menu */
+
+  quitgame_menu_txt = compile_menu_text (txti[40],
+					 T_CENTERED|T_WAVING, 75, 159);
+  quitgame_no_txt = compile_menu_text (txti[41], T_CENTERED, 95, 159);
+  quitgame_yes_txt = compile_menu_text (txti[42], T_CENTERED, 110, 159);
 }
 
 void
@@ -1645,4 +1656,72 @@ pause_menu (void)
 
   free_htimer (pause_htimer);
   dmsg (D_SECTION, "exit pause menu");
+}
+
+char
+quit_yes_no (void)
+{
+  char l = 0;
+  keycode_t t;
+  htimer_t pause_htimer;
+
+  dmsg (D_SECTION, "quit y/n menu");
+
+  pause_htimer = new_htimer (T_GLOBAL, 1);
+
+  backup_screen (render_buffer[0]);
+  shade_scr_area (render_buffer[0], render_buffer[1]);
+  corner[0] = render_buffer[0];
+
+  if (opt.ctrl_one || opt.ctrl_two)
+    do {
+      get_joystick_state ();
+      vsynch ();
+    } while (joystick_b[0] || joystick_b[1]);
+
+  uninit_keyboard_map ();
+  halve_volume ();
+  event_sfx (85);
+  do {
+    copy_scr_area (render_buffer[1], corner[0]);
+    update_text_waving_step ();
+
+    DRAW_SPRITE (quitgame_menu_txt, corner[0]);
+    draw_sprprogwav_if (l == 0, quitgame_no_txt, corner[0]);
+    draw_sprprogwav_if (l == 1, quitgame_yes_txt, corner[0]);
+    waving_arrows (91 + 15 * l, 90);
+
+    vsynch ();
+    aff_buffer ();
+    t = 0;
+    if (key_or_joy_ready ()) {
+      t = get_key_or_joy ();
+      if (t == HK_Down) {
+	if (l != 1)
+	  event_sfx (86);
+	l = 1;
+      }
+      if (t == HK_Up) {
+	if (l != 0)
+	  event_sfx (86);
+	l = 0;
+      }
+    }
+  } while (t != HK_Enter);
+  set_volume ();
+  enable_blit = 0;
+  if (l == 1)
+    event_sfx (88);
+  else
+    event_sfx (87);
+  init_keyboard_map ();
+
+  /* delay important timers that continued running during the pause */
+  shift_htimer (update_htimer, pause_htimer);
+  shift_htimer (event_htimer, pause_htimer);
+
+  reset_htimer (background_htimer);
+  free_htimer (pause_htimer);
+  dmsg (D_SECTION, "exit quit menu");
+  return (1 - l);
 }

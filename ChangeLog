@@ -1,5 +1,17 @@
 2000-11-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Cleanup quit_yes_no.
+
+	* src/heroes.c (quit_yes_no): Move to ...
+	* src/menus.c (quit_yes_no): ... here.  Rewrite using the new sprite
+	routines, and using xbuf wide buffers.
+	(quitgame_menu_txt, quitgame_yes_txt, quitgame_no_txt): New.
+	(init_menus_sprites): Initialize the three above variables.
+	(uninit_menus_sprites): Free them.
+	* src/menus.h (quit_yes_no): Export.
+
+2000-11-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Cleanup pause_menu.
 
 	* src/heroes.h (event_htimer, update_htimer, enable_blit): Export.
