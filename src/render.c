@@ -1,0 +1,1156 @@
+/*------------------------------------------------------------------------.
+| Copyright (C) 1997,1998,2000 Alexandre Duret-Lutz <duret_g@epita.fr>    |
+|                                                                         |
+| This file is part of Heroes.                                            |
+|                                                                         |
+| Heroes is free software; you can redistribute it and/or modify it under |
+| the terms of the GNU General Public License as published by the Free    |
+| Software Foundation; either version 2 of the License, or (at your       |
+| option) any later version.                                              |
+|                                                                         |
+| Heroes is distributed in the hope that it will be useful, but WITHOUT   |
+| ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or   |
+| FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   |
+| for more details.                                                       |
+|                                                                         |
+| You should have received a copy of the GNU General Public License along |
+| with this program; if not, write to the Free Software Foundation, Inc., |
+| 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
+`------------------------------------------------------------------------*/
+
+
+#include <stdlib.h>
+#include <stdio.h>
+
+#include "display.h"
+#include "const.h"
+#include "options.h"
+#include "fastmem.h"
+#include "draw.h"
+#include "render.h"
+#include "argv.h"
+
+char tutor = 0;
+
+static void
+copy_tile (unsigned char *src, unsigned char *dest, int tx)
+{
+  int *s = (int *) src;
+  int *d = (int *) dest;
+  int t1, t2, y;
+  for (y = 20; y; --y) {
+    t1 = s[0];
+    t2 = s[3];
+    d[0] = t1;
+    d[3] = t2;
+    t1 = s[1];
+    t2 = s[4];
+    d[1] = t1;
+    d[4] = t2;
+    t1 = s[2];
+    t2 = s[5];
+    d[2] = t1;
+    d[5] = t2;
+    s = (int *) (((int) s) + tx);
+    d = (int *) (((int) d) + xbuf);
+  }
+}
+
+static void
+copy_tile_transp (int src_, char *dest)
+{
+  int i = tile_set_img.width;
+  int j, k;
+  char c;
+  char *src = (tile_set_img.buffer) + src_;
+  for (j = 20; j != 0; j--) {
+    for (k = 24; k != 0; k--) {
+      c = *src++;
+      if (c != 0)
+	*dest = c;
+      dest++;
+    }
+    src += i - 24;
+    dest += xbuf - 24;
+  }
+}
+
+static void
+draw_bonus (unsigned char b, unsigned char *dest)
+{
+  int j, k;
+  unsigned char *src;
+  unsigned char c;
+  if (b != 16 && b != (128 + 16)) {
+    if (b & 128)
+      src = (bonus_b_img.buffer) + (b & 127) * 320 * 20 + bonus_anim_offset;
+    else
+      src = (bonus_a_img.buffer) + b * 320 * 20 + bonus_anim_offset;
+
+    for (j = 20; j != 0; j--) {
+      for (k = 24; k != 0; k--) {
+	c = *src++;
+	if (c != 0)
+	  *dest = c;
+	dest++;
+      }
+      src += 320 - 24;
+      dest += xbuf - 24;
+    }
+  } else {
+    src = main_font_img.buffer + 81 * 320;
+    dest += 4 + 2 * xbuf;
+    if (opt.use_glenz)
+      for (j = 17; j != 0; j--) {
+	for (k = 17; k != 0; k--) {
+	  if (*src != 0) {
+	    if (*src == 1)
+	      *dest = glenz[0][*dest];
+	    else
+	      *dest = *src;
+	  }
+	  src++;
+	  dest++;
+	}
+	src += 320 - 17;
+	dest += xbuf - 17;
+    } else
+      for (j = 17; j != 0; j--) {
+	for (k = 17; k != 0; k--) {
+	  if (*src != 0 && *src != 1)
+	    *dest = *src;
+	  src++;
+	  dest++;
+	}
+	src += 320 - 17;
+	dest += xbuf - 17;
+      }
+
+  }
+}
+
+static void
+copy_square_transp (char *src, char *dest, char d, char e)
+{
+  int j, k;
+  char c;
+  for (j = 10 - e; j != 0; j--) {
+    for (k = 12 - d; k != 0; k--) {
+      c = *src++;
+      if (c != 0)
+	*dest = c;
+      dest++;
+    }
+    src += 320 - 12 + d;
+    dest += 384 - 12 + d;
+  }
+}
+
+static void
+draw_trail_real (int c, unsigned char s, unsigned char *dest,
+		 unsigned char fixe)
+{
+  unsigned char *src;
+  char ch;
+  unsigned char *glenzline;
+  int d = 0, x, y;
+
+  if (fixe) {
+    if (s & 1)
+      d = player[c].d.e / 5461;
+    else
+      d = player[c].d.e / 6554;
+  }
+  src = (char *) trail[s] + (d << 4);
+  if (opt.use_glenz) {
+    glenzline = glenz[c + 2];
+    for (y = 10; y != 0; y--) {
+      for (x = 12; x != 0; x--) {
+	ch = *src++;
+	if (ch != 0)
+	  *dest = glenzline[*dest];
+	dest++;
+      }
+      dest += xbuf - 12;
+      src += 192 - 12;		//320-12;
+    }
+  } else {
+    c = (char) (NOGLENZPLR + (c << 4));
+    for (y = 10; y != 0; y--) {
+      for (x = 12; x != 0; x--) {
+	ch = *src++;
+	if (ch != 0)
+	  *dest = c;		/* pb ici pour watcom: c */
+	dest++;			/*  est dans la pile !?! */
+      }
+      dest += xbuf - 12;
+      src += 192 - 12;		//320-12;
+    }
+  }
+}
+
+static void
+draw_vehicle_tail (int c, unsigned char *dest)
+{
+  int d = 0, x, y;
+  char *posit = 0;
+  int s = ((player[c].old_way ^ 2) + ((player[c].way ^ 2) << 2));
+  unsigned char *src, *tmp = dest;
+  char *glenzline;
+  char ch, cc;
+
+  if (s & 4) {
+    d = player[c].d.e / 5461;
+    src = (unsigned char *) trail[s] + ((12 - (d + 12) / 2) << 4);
+  } else {
+    d = player[c].d.e / 6554;
+    src = (unsigned char *) trail[s] + ((10 - (d + 10) / 2) << 4);
+  }
+  if (opt.use_glenz) {
+    glenzline = glenz[c + 2];
+    for (y = 10; y != 0; y--) {
+      for (x = 12; x != 0; x--) {
+	ch = *src++;
+	if (ch != 0)
+	  *dest = glenzline[*dest];
+	dest++;
+      }
+      dest += xbuf - 12;
+      src += 192 - 12;		//320-12;
+    }
+  } else {
+    cc = (char) (NOGLENZPLR + (c << 4));
+    for (y = 10; y != 0; y--) {
+      for (x = 12; x != 0; x--) {
+	ch = *src++;
+	if (ch != 0)
+	  *dest = cc;		/* pb ici pour watcom: cc */
+	dest++;			/*  est dans la pile !?!  */
+      }
+      dest += xbuf - 12;
+      src += 192 - 12;		//320-12;
+    }
+  }
+  posit = vehicles_img.buffer + (c << 6) + (player[c].way << 4);
+  if (invincible[c])
+    posit += 10 * 320;
+  if (player[c].way == w_left)
+    copy_square_transp (posit + d, tmp, (char) d, 0);
+  if (player[c].way == w_right)
+    copy_square_transp (posit, tmp + d, (char) d, 0);
+  if (player[c].way == w_up)
+    copy_square_transp (posit + d * 320, tmp, 0, (char) d);
+  if (player[c].way == w_down)
+    copy_square_transp (posit, tmp + d * xbuf, 0, (char) d);
+}
+
+static void
+draw_vehicle_head (int c, char *dest)
+{
+  int d;
+  char b;
+  char *posit;
+
+  if (player[c].spec == t_tunnel)
+    b = player[c].tunnel_way;
+  else
+    b = player[c].way;
+  posit = vehicles_img.buffer + (c << 6) + (player[c].way << 4);
+  if (invincible[c])
+    posit += 10 * 320;
+
+  if (b == w_left) {
+    d = 12 - player[c].d.e / 5461;
+    copy_square_transp (posit, dest + d, (char) d, 0);
+  }
+  if (b == w_right) {
+    d = 12 - player[c].d.e / 5461;
+    copy_square_transp (posit + d, dest, (char) d, 0);
+  }
+  if (b == w_up) {
+    d = 10 - player[c].d.e / 6554;
+    copy_square_transp (posit, dest + d * xbuf, 0, (char) d);
+  }
+  if (b == w_down) {
+    d = 10 - player[c].d.e / 6554;
+    copy_square_transp (posit + d * 320, dest, 0, (char) d);
+  }
+}
+
+static void
+draw_trail (int c, char *dest, char d)
+{
+  draw_trail_real ((char) (c - 2), (char) (d & 15), dest, 0);
+}
+
+static void
+draw_trail_tail (int c, char *dest)
+{
+  char k;
+  int tmp1;
+  c -= 2;
+  tmp1 = trail_offset[c] + trail_size[c] - 1;
+  k = trail_way[c][tmp1 & (maxq - 1)];
+  if (trail_pos[c][tmp1 & (maxq - 1)]
+      != trail_pos[c][(tmp1 - 1) & (maxq - 1)])
+    draw_trail_real ((char) c, (char) k, dest, 1);
+  else
+    draw_trail_real ((char) c, (char) k, dest, 0);
+}
+
+static void
+copy_lemming_transp (unsigned char *src, unsigned char *dest)
+{
+  int j, k;
+  if (opt.use_glenz)
+    for (j = 8; j != 0; j--) {
+      for (k = 8; k != 0; k--) {
+	if (*src != 0) {
+	  if (*src == 1)
+	    *dest = glenz[0][*dest];
+	  else
+	    *dest = *src;
+	}
+	src++;
+	dest++;
+      }
+      src += 320 - 8;
+      dest += xbuf - 8;
+  } else
+    for (j = 8; j != 0; j--) {
+      for (k = 8; k != 0; k--) {
+	if (*src != 0 && *src != 1)
+	  *dest = *src;
+	src++;
+	dest++;
+      }
+      src += 320 - 8;
+      dest += xbuf - 8;
+    }
+}
+
+static void
+draw_color (unsigned char *dest, int c)
+{
+  int j, k, xt = 9, yt = 7;
+  unsigned char *src = main_font_img.buffer + 64 * 320 + 16 * (c & 7);
+  unsigned char *dest2 = dest;
+
+  if (c & 16) {
+    xt = yt = 10;
+    dest2 = dest - xbuf * 2;
+    src = clock_anim_offset;
+  }
+
+
+  if (opt.use_glenz) {
+    for (j = yt; j != 0; j--) {
+      for (k = xt; k != 0; k--) {
+	if (*src != 0) {
+	  if (*src == 1)
+	    *dest2 = glenz[0][*dest2];
+	  else
+	    *dest2 = *src;
+	}
+	src++;
+	dest2++;
+      }
+      src += 320 - xt;
+      dest2 += xbuf - xt;
+    }
+    if (c & 8) {
+      src = main_font_img.buffer + 81 * 320 + 40;
+      dest2 = dest - 2 - xbuf;
+      for (j = 7; j != 0; j--) {
+	for (k = 12; k != 0; k--) {
+	  if (*src == 16)
+	    *dest2 = glenz[6][*dest2];
+	  src++;
+	  dest2++;
+	}
+	src += 320 - 12;
+	dest2 += xbuf - 12;
+      }
+    }
+  } else {
+    for (j = yt; j != 0; j--) {
+      for (k = xt; k != 0; k--) {
+	if (*src != 0 && *src != 1)
+	  *dest2 = *src;
+	src++;
+	dest2++;
+      }
+      src += 320 - xt;
+      dest2 += xbuf - xt;
+    }
+    if (c & 8) {
+      src = main_font_img.buffer + 81 * 320 + 40;
+      dest2 = dest - 2 - xbuf;
+      for (j = 7; j != 0; j--) {
+	for (k = 12; k != 0; k--) {
+	  if (*src == 16)
+	    *dest2 = 16;
+	  src++;
+	  dest2++;
+	}
+	src += 320 - 12;
+	dest2 += xbuf - 12;
+      }
+    }
+  }
+
+}
+
+static void
+draw_cash (unsigned char *dest, int c)
+{
+  int j, k, xt = 10, yt = 10;
+  unsigned char *src = main_font_img.buffer + 81 * 320 + 18;
+
+  if (c == 15) {		/*xt=yt=10; */
+    src = clock_anim_offset;
+  }
+
+  if (opt.use_glenz)
+    for (j = yt; j != 0; j--) {
+      for (k = xt; k != 0; k--) {
+	if (*src != 0) {
+	  if (*src == 1)
+	    *dest = glenz[0][*dest];
+	  else
+	    *dest = *src;
+	}
+	src++;
+	dest++;
+      }
+      src += 320 - xt;
+      dest += xbuf - xt;
+  } else
+    for (j = yt; j != 0; j--) {
+      for (k = xt; k != 0; k--) {
+	if (*src != 0 && *src != 1)
+	  *dest = *src;
+	src++;
+	dest++;
+      }
+      src += 320 - xt;
+      dest += xbuf - xt;
+    }
+}
+
+
+static void
+draw_lemming (unsigned char *dest, lemming_t * ptibptr, unsigned int pos)
+{
+  char c, d;
+  unsigned char *src;
+
+  if (ptibptr >= lemmings_support
+      && ptibptr < lemmings_support + lemmings_total && pos == ptibptr->pos1) {
+    c = ptibptr->couleur;
+    d = ptibptr->way;
+    src = vehicles_img.buffer + 164 * 320;
+    if (d != 5)
+      src += lemmings_anim_offset;
+    if (d & 1)
+      src += 8 * 320;
+    src += 64 * c;
+    if (d == w_up)
+      dest -= (lemmings_move_offset / 6553) * xbuf;
+    if (d == w_right)
+      dest += lemmings_move_offset / 5461;
+    if (d == w_down)
+      dest += (lemmings_move_offset / 6553) * xbuf;
+    if (d == w_left)
+      dest -= lemmings_move_offset / 5461;
+//                 copy_rect_transp(src,dest,8,7);
+    copy_lemming_transp (src, dest);
+  }
+
+}
+
+static void
+copy_dead_lemming_transp (unsigned char *src, unsigned char *dest,
+			  int couleur)
+{
+  int x, y;
+  if (opt.use_glenz) {
+    for (y = 10; y != 0; y--, src += 320 - 12, dest += xbuf - 12)
+      for (x = 12; x != 0; x--, src++, dest++)
+	if (*src != 0)
+	  *dest = glenz[couleur][*dest];
+  } else {
+    couleur = ((couleur == 6) ? NOGLENZRED : NOGLENZPLR + 16 * 3);
+    for (y = 10; y != 0; y--, src += 320 - 12, dest += xbuf - 12)
+      for (x = 12; x != 0; x--, src++, dest++)
+	if (*src != 0)
+	  *dest = couleur;
+  }
+}
+
+static void
+draw_dead_lemming (char *src, lemming_t * ptibptr)
+{
+  char *dest;
+  char d;
+
+  if (ptibptr >= lemmings_support
+      && ptibptr < lemmings_support + lemmings_total)
+    do {
+      dest = src;
+      d = ptibptr->way;
+      if (d == w_up)
+	dest -= (ptibptr->min / 6553) * xbuf;
+      if (d == w_right)
+	dest += ptibptr->min / 5461;
+      if (d == w_down)
+	dest += (ptibptr->min / 6553) * xbuf;
+      if (d == w_left)
+	dest -= ptibptr->min / 5461;
+//        copy_rect_transp(vehicles_img.buffer+240+(ptibptr->dead<<4),dest,12,10);
+
+      copy_dead_lemming_transp (vehicles_img.buffer + 181 * 320 - 16 +
+				(ptibptr->dead << 4), dest,
+				6 - (ptibptr->couleur));
+      ptibptr = (lemming_t *) ptibptr->nexttache;
+    } while (ptibptr >= lemmings_support
+	     && ptibptr < lemmings_support + lemmings_total);
+}
+
+
+void
+draw_level (int p)
+{
+  int i, j;
+  int k, l, m, tmp, tmp2;
+  lemming_t *tmppti;
+  signed char bb;
+  unsigned char b;
+  unsigned int ib;
+  unsigned char t;
+  signed char sinl;
+  unsigned char *dest = render_buffer[p] + sbuf;
+  unsigned char *dest2;
+
+  clock_anim_offset =
+    main_font_img.buffer + 81 * 320 + 52 + ((frame_cur >> 3) & 7) * 10;
+  lemmings_anim_offset = (lemmings_move_offset * 64 / 65536) & 7 << 3;
+  if (frame_old & 8)
+    for (bb = 3; bb >= 0; bb--)
+      invincible[bb] = (player[bb].invincible != 0);
+  else
+    for (bb = 3; bb >= 0; bb--)
+      invincible[bb] = 0;
+
+  bonus_anim_offset = (frame_cur >> 1) & 15;
+  if (bonus_anim_offset > 8)
+    bonus_anim_offset = 16 - bonus_anim_offset;
+  bonus_anim_offset *= 24;
+
+  if (map_info.ywrap == 0xffffffff && (corner_dy[p] + 11U) > map_info.yt)
+    camera_stop_y[p] = 1;
+  else
+    camera_stop_y[p] = 0;
+  if (map_info.xwrap == 0xffffffff && 
+      (corner_dx[p] + nbr_tiles_cols) > map_info.xt)
+    camera_stop_x[p] = 1;
+  else
+    camera_stop_x[p] = 0;
+/******************** Affichage des tile_set_img ***********************/
+
+  for (k = corner_dy[p], l = 11 - camera_stop_y[p]; l > 0; l--, k++) {
+    k = k & map_info.ywrap;
+    m = k * map_info.xt;
+    for (i = corner_dx[p], j = nbr_tiles_cols - camera_stop_x[p]; j > 0;
+	 j--, i++) {
+      i = (i & map_info.xwrap);
+      if ((i + m) < (int)(map_info.xt * map_info.yt)) {
+	t = level_map[i + m].type;
+	if (t == t_anim ||
+	    (((level_map[i + m].info.param[4] & 0xf0) != 0) &&
+	     (t == t_speed || t == t_boom || t == t_stop || t == t_ice
+	      || t == t_outway || t == t_dust))) {
+	  if (t == t_anim)
+	    copy_tile ((char *)
+		       (level_map[i + m].number +
+			24 *
+			((frame_old / (level_map[i + m].info.anim.speed + 1))
+			 % (level_map[i + m].info.anim.frame_nbr + 1))), dest,
+		       tile_set_img.width);
+	  else {
+	    tmp2 = level_map[i + m].info.param[4] >> 4;
+	    tmp =
+	      ((frame_old / ((level_map[i + m].info.param[4] & 15) + 1)) %
+	       (tmp2 << 1));
+	    if (tmp > tmp2)
+	      tmp = (tmp2 << 1) - tmp;
+	    copy_tile ((char *) (level_map[i + m].number + 24 * tmp), dest,
+		       tile_set_img.width);
+	  }
+	} else
+	  copy_tile ((char *) level_map[i + m].number, dest, 
+		     tile_set_img.width);
+
+      }
+      dest += 24;
+    }
+    dest += xbuf * 20 - 24 * (nbr_tiles_cols - camera_stop_x[p]);
+  }
+
+/*************************** affichage des taches ***************************/
+  if (game_mode == M_KILLEM) {
+    dest = render_buffer[p] + sbuf - 24 - 10 * xbuf;
+    for (k = corner_dy[p] * 2 - 1, l = 2 + (11 - camera_stop_y[p]) * 2; l > 0;
+	 l--, k++) {
+      k &= map_info_2ywrap;
+      if ((unsigned) k < map_info_2yt) {
+	m = k * map_info_2xt;
+	for (i = corner_dx[p] * 2 - 2, j =
+	     2 + (nbr_tiles_cols - camera_stop_x[p]); j > 0; j--, i += 2) {
+	  i &= map_info_2xwrap;
+	  if ((unsigned) i < map_info_2xt) {
+	    tmppti = square_dead_lemmings_list[i + m];
+	    if (tmppti != NULL) {
+	      draw_dead_lemming (dest, tmppti);
+	    }
+	    tmppti = square_dead_lemmings_list[i + m + 1];
+	    if (tmppti != NULL) {
+	      draw_dead_lemming (dest + 12, tmppti);
+	    }
+	  }
+	  dest += 24;
+	}
+	dest += xbuf * 10 - 24 * (nbr_tiles_cols - camera_stop_x[p]) - 24 * 2;
+      } else
+	dest += xbuf * 10;
+    }
+
+/************************* affichage des bonhommes **************************/
+    dest = render_buffer[p] + sbuf + 3 + xbuf;
+    for (k = corner_dy[p] * 2, l = (11 - camera_stop_y[p]) * 2; l > 0;
+	 l--, k = ((k + 1) & (map_info_2ywrap))) {
+      m = k * map_info_2xt;
+      for (i = corner_dx[p] * 2, j = (nbr_tiles_cols - camera_stop_x[p]);
+	   j > 0; j--, i = ((i + 2) & (map_info_2xwrap))) {
+	tmppti = square_lemmings_list[i + m];
+	if (tmppti != NULL) {
+	  draw_lemming (dest, tmppti, i + m);
+	}
+	tmppti = square_lemmings_list[i + m + 1];
+	if (tmppti != NULL) {
+	  draw_lemming (dest + 12, tmppti, i + m + 1);
+	}
+	dest += 24;
+      }
+      dest += xbuf * 10 - 24 * (nbr_tiles_cols - camera_stop_x[p]);
+    }
+  }
+/********************* affichage des pyramides de couleur *******************/
+  if (game_mode == M_COLOR) {
+    dest = render_buffer[p] + sbuf + 2 + xbuf * 2;
+    for (k = corner_dy[p] * 2, l = (11 - camera_stop_y[p]) * 2; l > 0;
+	 l--, k = ((k + 1) & (map_info_2ywrap))) {
+      m = k * map_info_2xt;
+      for (i = corner_dx[p] * 2, j = (nbr_tiles_cols - camera_stop_x[p]);
+	   j > 0; j--, i = ((i + 2) & (map_info_2xwrap))) {
+	bb = square_object[i + m];
+	if (bb >= 0)
+	  draw_color (dest, bb);
+	bb = square_object[i + m + 1];
+	if (bb >= 0)
+	  draw_color (dest + 12, bb);
+	dest += 24;
+      }
+      dest += xbuf * 10 - 24 * (nbr_tiles_cols - camera_stop_x[p]);
+    }
+  }
+
+  if (game_mode == M_TCASH) {
+    dest = render_buffer[p] + sbuf + 2;
+    for (k = corner_dy[p] * 2, l = (11 - camera_stop_y[p]) * 2; l > 0;
+	 l--, k = ((k + 1) & (map_info_2ywrap))) {
+      m = k * map_info_2xt;
+      for (i = corner_dx[p] * 2, j = (nbr_tiles_cols - camera_stop_x[p]);
+	   j > 0; j--, i = ((i + 2) & (map_info_2xwrap))) {
+	bb = square_object[i + m];
+	if (bb >= 0)
+	  draw_cash (dest, bb);
+	bb = square_object[i + m + 1];
+	if (bb >= 0)
+	  draw_cash (dest + 12, bb);
+	dest += 24;
+      }
+      dest += xbuf * 10 - 24 * (nbr_tiles_cols - camera_stop_x[p]);
+    }
+  }
+
+/******************** affichage des trainées et vehicules *******************/
+  dest = render_buffer[p] + sbuf;
+  for (k = corner_dy[p] * 2, l = (11 - camera_stop_y[p]) * 2; l > 0;
+       l--, k = ((k + 1) & (map_info_2ywrap))) {
+    m = k * map_info_2xt;
+    for (i = corner_dx[p] * 2, j = (nbr_tiles_cols - camera_stop_x[p]); j > 0;
+	 j--, i = ((i + 2) & (map_info_2xwrap))) {
+      bb = square_occupied[i + m];
+      if (bb != -1) {
+	if (bb >= 0 && bb < 4)
+	  draw_vehicle_tail (bb, dest);
+	else if (bb >= 4 && bb < 8)
+	  draw_vehicle_head ((char) (bb - 4), dest);
+	else if (bb >= 8 && bb < 12)
+	  draw_trail ((char) (bb - 6), dest, square_way[i + m]);
+	else if (bb >= 12 && bb < 16)
+	  draw_trail_tail ((char) (bb - 10), dest);
+      }
+      bb = square_occupied[i + m + 1];
+      if (bb != -1) {
+	dest2 = dest + 12;
+	if (bb >= 0 && bb < 4)
+	  draw_vehicle_tail (bb, dest2);
+	else if (bb >= 4 && bb < 8)
+	  draw_vehicle_head ((char) (bb - 4), dest2);
+	else if (bb >= 8 && bb < 12)
+	  draw_trail ((char) (bb - 6), dest2, square_way[i + m + 1]);
+	else if (bb >= 12 && bb < 16)
+	  draw_trail_tail ((char) (bb - 10), dest2);
+      }
+      dest += 24;
+    }
+    dest += xbuf * 10 - 24 * (nbr_tiles_cols - camera_stop_x[p]);
+  }
+/********************* affichage des bonus et des sprites *******************/
+  dest = render_buffer[p] + sbuf;
+  for (k = corner_dy[p], l = 11 - camera_stop_y[p]; l > 0;
+       l--, k = ((k + 1) & map_info.ywrap)) {
+    m = k * map_info.xt;
+    for (i = corner_dx[p], j = nbr_tiles_cols - camera_stop_x[p]; j > 0;
+	 j--, i = ((i + 1) & map_info.xwrap)) {
+      if (tile_bonus[i + m] != 0 && tile_bonus[i + m] != 0xff)
+	draw_bonus ((char) (tile_bonus[i + m] - 1), dest);
+      if (level_map[i + m].sprite != 0)
+	copy_tile_transp (level_map[i + m].sprite, dest);
+      dest += 24;
+    }
+    dest += xbuf * 20 - 24 * (nbr_tiles_cols - camera_stop_x[p]);
+  }
+/*************** Affichage des explosions, s'il y en a.**********************/
+
+  dest = render_buffer[p] + sbuf - 12 - 11 * xbuf - 20 * xbuf - 12;
+  for (k = corner_dy[p] * 2 - 2, l = 0; l != 4 + (11 - camera_stop_y[p]) * 2;
+       l++, k++) {
+    k &= map_info_2ywrap;
+    if (((unsigned) k) < map_info_2yt) {
+      m = k * map_info_2xt;
+      for (i = corner_dx[p] * 2 - 1, j = 0;
+	   (unsigned)j != 2 + (nbr_tiles_cols - camera_stop_x[p]) * 2; 
+	   j++, i++) {
+	i &= map_info_2xwrap;
+	if (((unsigned) i) < map_info_2xt) {
+	  b = square_explosion[m + i];
+	  if (b < (nfrexplo1 - 1) * 8 - 1) {
+	    b++;
+	    if (square_explosion_type[m + i] == 1)
+	      copy_32x32_transp_z ((char *) fst_explo_list[b >> 3], dest);
+	    else
+	      copy_32x32_transp_z ((char *) snd_explo_list[b >> 3], dest);
+	  }
+	}
+	dest += 12;
+      }
+      dest += xbuf * 10 - 24 * (nbr_tiles_cols - camera_stop_x[p]) - 2 * 12;
+    } else
+      dest += xbuf * 10;
+  }
+
+/*********** Affichage des explosions des morts, s'il y en a.*****************/
+
+  if ((unsigned) (frame_old - last_explo) < (nfrexplo1 - 1) * 8 - 1) {
+    dest = render_buffer[p] + sbuf - 12 - 11 * xbuf - 20 * xbuf - 12;
+    for (k = corner_dy[p] * 2 - 2, l = 0;
+	 l != 4 + (11 - camera_stop_y[p]) * 2; l++, k++) {
+      k &= map_info_2ywrap;
+      if (((unsigned) k) < map_info_2yt) {
+	m = k * map_info_2xt;
+	for (i = corner_dx[p] * 2 - 1, j = 0;
+	     (unsigned)j != 2 + (nbr_tiles_cols - camera_stop_x[p]) * 2; 
+	     j++, i++) {
+	  i &= map_info_2xwrap;
+	  if (((unsigned) i) < map_info_2xt) {
+	    ib = frame_old - square_dead_explosion[m + i];
+	    if (ib < (nfrexplo1 - 1) * 8 - 1) {
+	      ib++;
+	      if (square_explosion_type[m + i] == 1)
+		copy_32x32_transp_z ((char *)
+				     fst_explo_list[nfrexplo1 - 2 -
+						    (ib >> 3)], dest);
+	      else
+		copy_32x32_transp_z ((char *)
+				     snd_explo_list[nfrexplo1 - 2 -
+						    (ib >> 3)], dest);
+	    }
+	  }
+	  dest += 12;
+	}
+	dest += xbuf * 10 - 24 * (nbr_tiles_cols - camera_stop_x[p]) - 2 * 12;
+      } else
+	dest += xbuf * 10;
+    }
+  }
+/****************************** tutorial... *********************************/
+
+  if (tutor) {
+    sinl = (signed char) minisinus[(frame_old + 2) & 31];
+    dest = render_buffer[p] + sbuf - (7 + sinl) * xbuf + 15 + sinl - 48;
+    if (trail_size[col2plr[p]] < 55)
+      for (k = corner_dy[p] - 0, l = 1 + 11 - camera_stop_y[p]; l > 0;
+	   l--, k++) {
+	k &= map_info.ywrap;
+	m = k * map_info.xt;
+	for (i = corner_dx[p] - 2, j = 2 + nbr_tiles_cols - camera_stop_x[p];
+	     j > 0; j--, i++) {
+	  i &= map_info.xwrap;
+	  if (tile_bonus[i + m] == 1) {
+	    if (j != 1)
+	      copy_rect_transp_8 (main_font_img.buffer + 17 + 91 * 320, dest,
+				  49, 13, 10 + sinl);
+	    else
+	      copy_rect_transp_8 (main_font_img.buffer + 17 + 91 * 320, dest,
+				  20, 13, 10 + sinl);
+	  }
+	  dest += 24;
+	}
+	dest += xbuf * 20 - 24 * (2 + nbr_tiles_cols - camera_stop_x[p]);
+    } else
+      for (k = corner_dy[p] - 0, l = 1 + 11 - camera_stop_y[p]; l > 0;
+	   l--, k++) {
+	k &= map_info.ywrap;
+	m = k * map_info.xt;
+	for (i = corner_dx[p] - 2, j = 2 + nbr_tiles_cols - camera_stop_x[p];
+	     j > 0; j--, i = (i + 1)) {
+	  i &= map_info.xwrap;
+	  if (tile_bonus[i + m] == 12) {
+	    if (j != 1)
+	      copy_rect_transp_8 (main_font_img.buffer + 17 + 91 * 320, dest,
+				  49, 13, 10 + sinl);
+	    else
+	      copy_rect_transp_8 (main_font_img.buffer + 17 + 91 * 320, dest,
+				  20, 13, 10 + sinl);
+	  }
+	  dest += 24;
+	}
+	dest += xbuf * 20 - 24 * (2 + nbr_tiles_cols - camera_stop_x[p]);
+      }
+  }
+
+}
+
+
+
+void
+draw_radar_map (int dx, int dy)
+{
+  unsigned char *src = corner[0] + 5 * xbuf + 239 + radar_current_pos;
+  int x, y, tdx, tdy, tdym, dede = 50 * (radar_current_pos > 60);
+  signed char tmp;
+
+  if (radar_current_pos >= 81)
+    return;
+  for (x = 75 - dede; x != 0; x--)
+    *src++ = 15;
+  src += xbuf - 75 + dede;
+
+  for (y = 40; y != 0; y--)
+/*  {*src++=15;
+   for (x=73-dede;x!=0;x--) ;// *src++=glenz[0][*src];
+   *src=15;
+   src+=xbuf-74+dede;
+  }
+*/
+  {
+    *src = 15;
+    src[74 - dede] = 15;
+    src += xbuf;
+  }
+  for (x = 75 - dede; x != 0; x--)
+    *src++ = 15;
+
+  src = corner[0] + 6 * xbuf + 240 + radar_current_pos;
+  tdy = dy - 20;
+  for (y = 40; y != 0; y--) {
+    tdy &= map_info_2ywrap;
+    if (tdy >= 0 && (tdy >> 1) < (int)map_info.yt) {
+      tdym = tdy * map_info_2xt;
+      tdx = dx - 36;
+      for (x = 73 - dede; x != 0; x--) {
+	tdx &= map_info_2xwrap;
+	if (tdx >= 0 && (tdx >> 1) < (int)map_info.xt) {
+	  tmp = tile_bonus[square2tile[tdx + tdym]];
+	  if (tmp != 0 && tmp != -1) {
+	    if ((tmp & 127) == 1 && (frame_cur & 16))
+	      *src = 31;
+	    else
+	      *src = 27;
+	  } else if ((tmp = square_occupied[tdx + tdym]) != -1)
+	    *src = radar_trail_color[tmp];
+	  else if ((tmp = square_wall[tdx + tdym]) != 0)	// square_radar_wall
+	    *src = radar_wall_color[tmp];
+	  else
+	    *src = glenz[0][*src];
+	} else
+	  *src = glenz[0][*src];
+	src++;
+	tdx++;
+      }
+    } else			/*src+=xbuf; */
+      for (x = 73 - dede; x != 0; x--)
+	*src++ = glenz[0][*src];
+    src += xbuf - 73 + dede;
+    tdy++;
+  }
+}
+
+void
+draw_score (int c, int p, unsigned char *dest)
+{
+  unsigned char *src = corner[p] + (int) dest;
+  unsigned char *tmp = src + 22 + 2 * xbuf;
+  unsigned char *tmp2 = src + 25 + 5 * xbuf + 53 * xbuf;
+  int x, y, i;
+
+  if (radar_current_pos > 60)
+    return;
+
+  dest = src + 2 + 2 * xbuf;
+
+  for (y = ((game_mode < M_TCASH) ? 63 : 75); y != 0; y--) {
+    for (x = 33; x != 0; x--)
+      *src++ = glenz[0][*src];
+    src += xbuf - 33;
+  }
+  sprintf (tmp1, "%.6d", player[c].score_delta >> 2);
+  for (i = 0; i < 6; i++) {
+    src = main_font_img.buffer + 72 * 320 + (tmp1[i] - '0') * 18;
+    for (y = 9; y != 0; y--) {
+      for (x = 18; x != 0; x--, src++, dest++)
+	if (*src != 0)
+	  *dest = *src;
+      dest += xbuf - 18;
+      src += 302;
+    }
+    dest += xbuf;
+  }
+  src =
+    main_font_img.buffer + 50 * 320 +
+    ((player[c].lifes < 11) ? player[c].lifes - 1 : 10) * 10;
+  for (y = 11; y != 0; y--) {
+    for (x = 9; x != 0; x--, src++, tmp++)
+      if (*src != 0)
+	*tmp = *src;
+    tmp += xbuf - 9;
+    src += 311;
+  }
+  tmp += xbuf;
+  src = main_font_img.buffer + 72 * 320 + 184;
+  for (y = 47; y != 0; y--) {
+    for (x = 9; x != 0; x--, src++, tmp++)
+      if (*src != 0)
+	*tmp = *src;
+      else
+	*tmp = glenz[0][*tmp];
+    tmp += xbuf - 9;
+    src += 311;
+  }
+  x = player[c].turbo_level_delta * 41 / 1024;
+  tmp2 -= xbuf;
+  src = main_font_img.buffer + 72 * 320 + 184 + 9 + x * 320 - 320;
+  for (y = x; y != 0; y--) {
+    *tmp2++ = *src++;
+    *tmp2++ = *src++;
+    *tmp2++ = *src++;
+    tmp2 -= 3 + xbuf;
+    src -= 3 + 320;
+  }
+  if (game_mode >= M_TCASH) {
+    sprintf (tmp1, "%.3d", player[c].time / 70);
+    for (i = 0; i < 3; i++) {
+      src = main_font_img.buffer + 50 * 320 + (tmp1[i] - '0') * 10;
+      for (y = 11; y != 0; y--) {
+	for (x = 9; x != 0; x--, src++, dest++)
+	  if (*src != 0)
+	    *dest = *src;
+	dest += xbuf - 9;
+	src += 320 - 9;
+      }
+      dest += 10 - 11 * xbuf;
+    }
+  }
+}
+
+void
+draw_logo_info (int c, int nbr, unsigned char *dest)
+{
+  unsigned char *src = dest;
+  unsigned char *tmp;
+  unsigned char *tmp2;
+  unsigned char *tmp3;
+  int x, y;
+
+  if (game_mode < M_TCASH) {
+    for (x = 50; x != 0; x--)
+      *src++ = glenz[0][*src];
+    src += xbuf - 50;
+    tmp = src + 1;
+    tmp2 = src + 11;
+    for (y = 11; y != 0; y--) {
+      for (x = 21; x != 0; x--)
+	*src++ = glenz[0][*src];
+      *(src + 28) = glenz[0][*(src + 28)];
+      src += xbuf - 21;
+    }
+    for (x = 50; x != 0; x--)
+      *src++ = glenz[0][*src];
+    copy_rect_4 (main_font_img.buffer + 196 + c * 28 + 72 * 320,
+		 dest + xbuf + 21, 28, 11);
+
+    src = main_font_img.buffer + 50 * 320 + (nbr / 10) * 10;
+    for (y = 11; y != 0; y--) {
+      for (x = 9; x != 0; x--, src++, tmp++)
+	if (*src != 0)
+	  *tmp = *src;
+      tmp += xbuf - 9;
+      src += 311;
+    }
+    src = main_font_img.buffer + 50 * 320 + (nbr % 10) * 10;
+    for (y = 11; y != 0; y--) {
+      for (x = 9; x != 0; x--, src++, tmp2++)
+	if (*src != 0)
+	  *tmp2 = *src;
+      tmp2 += xbuf - 9;
+      src += 311;
+    }
+    if (nbr == 0)
+      copy_rect_transp_red (main_font_img.buffer + 320 * 119 + (c << 6),
+			    dest - 5 * xbuf + 10, 40, 22);
+  } else {
+    src -= 5;
+    dest -= 5;
+    for (x = 60; x != 0; x--)
+      *src++ = glenz[0][*src];
+    src += xbuf - 60;
+    tmp = src + 1;
+    tmp2 = src + 11;
+    tmp3 = src + 21;
+    for (y = 11; y != 0; y--) {
+      for (x = 31; x != 0; x--)
+	*src++ = glenz[0][*src];
+      *(src + 28) = glenz[0][*(src + 28)];
+      src += xbuf - 31;
+    }
+    for (x = 60; x != 0; x--)
+      *src++ = glenz[0][*src];
+    copy_rect_4 (main_font_img.buffer + 196 + c * 28 + 72 * 320,
+		 dest + xbuf + 31, 28, 11);
+
+    src = main_font_img.buffer + 50 * 320 + (nbr / 100) * 10;
+    for (y = 11; y != 0; y--) {
+      for (x = 9; x != 0; x--, src++, tmp++)
+	if (*src != 0)
+	  *tmp = *src;
+      tmp += xbuf - 9;
+      src += 311;
+    }
+    src = main_font_img.buffer + 50 * 320 + ((nbr / 10) % 10) * 10;
+    for (y = 11; y != 0; y--) {
+      for (x = 9; x != 0; x--, src++, tmp2++)
+	if (*src != 0)
+	  *tmp2 = *src;
+      tmp2 += xbuf - 9;
+      src += 311;
+    }
+    src = main_font_img.buffer + 50 * 320 + (nbr % 10) * 10;
+    for (y = 11; y != 0; y--) {
+      for (x = 9; x != 0; x--, src++, tmp3++)
+	if (*src != 0)
+	  *tmp3 = *src;
+      tmp3 += xbuf - 9;
+      src += 311;
+    }
+    if (player[ /*plr2col[ */ c /*] */ ].spec == 0xde)
+      copy_rect_transp_red (main_font_img.buffer + 320 * 119 + (c << 6),
+			    dest - 5 * xbuf + 20, 40, 22);
+  }
+}
+
+void
+display_buffer_tmp1 (void)
+{
+  char *src = render_buffer[1];
+  char *dest = (char *) screen;
+  int i;
+  draw_demo_stick (src);
+  for (i = 200; i > 0; i--, src += xbuf, dest += 320)
+    fastmem4 (src, dest, 320 / 4);
+}
+
+void
+display_buffer_moving (int x)
+{
+  char *src = corner[0];
+  char *dest = (char *) screen;
+  int *desti;
+  int i, j;
+  draw_demo_stick (src);
+  for (i = 200; i > 0; i--, src += xbuf, dest += 320) {
+    fastmem4 (src + (x << 2), dest, 160 / 4 - x);
+    desti = ((int *) dest) + 40 - x;
+    for (j = (x << 1); j != 0; j--)
+      *desti++ = 0;
+    fastmem4 (src + 160, dest + 160 + (x << 2), 160 / 4 - x);
+  }
+}
+void
+display_two_buffers (void)
+{
+  char *src1 = corner[swapside], *src2 = corner[1 - swapside];
+  char *dest = (char *) screen;
+  int i;
+  draw_demo_stick (src2 - 160);
+  for (i = 200; i > 0; i--, src1 += xbuf, src2 += xbuf, dest += 320) {
+    fastmem4 (src1, dest, 160 / 4);
+    fastmem4 (src2, dest + 160, 160 / 4);
+  }
+}
+
+void
+display_two_buffers_moving (int x)
+{
+  char *src1 = corner[swapside], *src2 = corner[1 - swapside];
+  char *dest = (char *) screen;
+//  int *desti;
+  int i;			//,j;
+  draw_demo_stick (src2 - 160);
+  for (i = 200; i > 0; i--, src1 += xbuf, src2 += xbuf, dest += 320) {
+    fastmem4 (src1 + (x << 2), dest, 160 / 4 - x);
+//      desti=((int*)dest)+40-x;
+//      for (j=(x<<1);j!=0;j--) *desti++=0;
+    fastmem4 (src2, dest + 160 + (x << 2), 160 / 4 - x);
+  }
+}
+
+/* cette version efface aussi l'écran */
+void
+display_two_buffers_moving_and_clear (int x)
+{
+  char *src1 = corner[swapside], *src2 = corner[1 - swapside];
+  char *dest = (char *) screen;
+  int *desti;
+  int i, j;
+  draw_demo_stick (src2 - 160);
+  for (i = 200; i > 0; i--, src1 += xbuf, src2 += xbuf, dest += 320) {
+    fastmem4 (src1 + (x << 2), dest, 160 / 4 - x);
+    desti = ((int *) dest) + 40 - x;
+    for (j = (x << 1); j != 0; j--)
+      *desti++ = 0;
+    fastmem4 (src2, dest + 160 + (x << 2), 160 / 4 - x);
+  }
+}

@@ -1,0 +1,127 @@
+epÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+ep³               eo  HEROES EDITOR (c) 1998 RealTech & Olympus  ep                ³
+epÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+                hlI.hi    Introduction
+                hlII.hi   Control Keys
+                hlIII.hi  Mouse clix
+                hlIV.hi   Setting up a tunnel
+                hlV.hi    Setting up a sprite
+                hlVI.hi   Setting up a animation
+                hlVII.hi  Setting up departures
+                hlVIII.hi Saving
+
+            Press [hkPhi] to print this file, or [hkFhi] to save it to disk.
+
+eo-Ä-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ-=ğ elI.ep Introductioneo ğ=ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ-Ä--
+
+        This editor is a cut down version of the one that served us to build
+all 100 levels of this game. This one will allow you to construct your own
+levels in a quite simplified manner.
+        On the left side of the screen, you can see a part of your level.
+You can move with keyboard or mouse (read the two next sections). In the
+middle of the screen you can see the set of all the available tiles. You
+will pick tiles here to build you level. And on the right there is some
+informations about the level and the selected (orange box) tile.
+
+eo-Ä-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ-=ğ elII.ep Control Keyseo ğ=ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ-Ä--
+
+       hk[F1]hi         Help. Show this file.
+       hk[F3]hi         Enable/Disable sprites&vehicles display
+       hk[F6]hi         Enable/Disable collide tests display
+       hk[Esc]hi        Quit and Save
+
+       hk[CtrlLeft]hi   ô
+       hk[CtrlRight]hi  ³ 
+       hk[CtrlHome]hi   ³ move the cursor in the tiles side
+       hk[CtrlEnd]hi    ³
+       hk[CtrlPgUp]hi   ³
+       hk[CtrlPgDn]hi   õ
+
+       hk[Left]hi       ô
+       hk[Right]hi      ³ 
+       hk[Up]hi         ³ 
+       hk[Down]hi       ³ move the cursor in the level side
+       hk[Num2]hi       ³
+       hk[Num4]hi       ³ 
+       hk[Num6]hi       ³ 
+       hk[Num8]hi       õ
+
+       hk[Space]hi      Copy a tile (from the white box, to the orange one)
+       hk[S]hi          Copy a sprite. [S] a second time remove the sprite.
+       
+       hk[D]hi          Setup the starting positions on the selected tile
+       hk[CtrlF]hi      Fill the whole level with the selected tile
+       hk[AltF]hi       Fill the whole level with the two first tiles (for the
+                    10th set of tiles)
+       hk[P]hi          Output the level map as a big PCX file
+
+       hk[Enter]hi      Full screen mode
+       hk[CtrlEnter]hi  Play animations
+
+       hk[T]hi          Select a tile for tunnel dest
+
+eo-Ä-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ-=ğ elIII.ep Mouse clix eo ğ=ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ-Ä--
+
+        You can select a tiles by clicking on it with the left mouse button.
+Keeping this button pulled down will allow you to move the map without using
+the keyboard.
+        The center button (if you have one) used in the left side will
+temporaly select a tile, as if you were using the [T] key.
+        The right button, used at left, will copy a tile to the pointed tile,
+in a way it behaves like the space key.
+
+eo-Ä-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ-=ğ elIV.ep Setting up a tunneleo ğ=ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ-Ä--
+
+Copy your two tiles that are the entrances of your tunnel. Move the
+box-pointer on one, and select it if the [T] key (or clic on it with the
+middle button). Once you will move the pointer, this tile will appear in
+a dashed box. Move on the second tunnel and clic on the [GO TO] box that
+is on the right of your screen. Now you have set up the first way: for
+now if your were playing on this level you could go from this place to
+the dashed one, but from the dashed to this one. So you also have to set
+up the tunnel in the other way: select the current tiles with [T], move
+on the former and clic on [GO TO]. That's all.
+
+Notice that with this technique you can also typeset some kind of
+triangular tunnel. Let A, B, C be the entrances, you could setup the way
+like that A->B, B->C, and C->A.
+
+(0x0) for the coordinate of the destination denote a non-setup way. That's
+why you can't put a tunnel on the (0x0) position.
+
+eo-Ä-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ-=ğ elV.ep Setting up a spriteeo ğ=ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ-Ä--
+
+With some set of tiles (like the Egyptian one), there are tiles (like
+palm trees) designed to be used as "sprites", i.e. put over others with
+transparancy. You have to use the [S] key for this:
+1)  copy the ground tile with [space] or the first button
+2)  copy the sprite tile with [S]
+(if you don't see any sprite on the level, press F3)
+
+eo-Ä-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ-=ğ elVI.ep Setting up a animationeo ğ=ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ-Ä--
+
+You may have noticed that during the game, some tiles are animated:
+color cycle (like the speed arrows) or moving objects (ventilators).
+Each frame of an animation is actually a separate tile. The different
+tiles of an animations are drawn horizontaly in the sets. To setup
+an animation, you just have to select the first one and copy it into
+your level. Optionnaly, press [Ctrl+Return] to see the animation.
+When the orange box is on an animated tile, you should find a button
+on the right to modify the speed: the greater the number is, the slower
+the animation goes.
+
+eo-Ä-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ-=ğ elVII.ep Setting up departureseo ğ=ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ-Ä--
+
+Select a tile and press the [D] key. Then look at the right side, select a
+color and clic on the arrow you want. (if you don't see any vehicle on the
+level, press F3)
+
+eo-Ä-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ-=ğ elVIII.ep Saving eo ğ=ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ-Ä--
+
+Saving is done automaticaly when you quit with [Esc]. The level is saved
+under a subdirectory EXTRALVL\ with the name you choose and the .LVL
+suffixe. Heroes does not provide a way to rename a level, but it is safe
+to do it manualy with DOS' ren or in any Windows file manager provinding
+that you use only these characters : A-Z and 0-9. (actualy the problem
+is that using a character unavailable in the Heroes font may crash the game).

@@ -1,0 +1,49 @@
+This is my rough TODO list.  Just in case you want to
+contribute on these, or on the contrary if you don't
+want to work on something that somebody else may do :)
+If you think there is something that should be added
+to that list, please e-mail me.
+
+High priority
+=============
+
+GENERAL There are several comments in French.  They shall be translated.
+
+GENERAL The code is VERY UGLY and needs to be cleaned up.
+
+
+Medium priority
+===============
+
+GENERAL Some filenames are in french, they should be translated.
+
+GENERAL Some parts should be modularized. Especially, ensure 
+        that gfx/sound/mouse/joystick/keyboard-calls are not squattered 
+        throughout the code.
+
+DISPLAY Direct X11 support would be nice.
+
+INPUT   A mouse interface is needed for the editor.
+
+EDITOR  The builtin editor must be ported.
+
+MISC    Saves of games/options/scores are only performed when quitting, this
+	may not be good.  Think of the case were two heroes process access
+	a global score file.
+
+MISC	It would be nice to have games/options/scores files in text format.
+
+INSTALL Some ./configure options should be added to specify data paths.
+
+I18N    Use gettext.
+
+Low priority
+============
+
+SOUND   Test with older version of MikMod.
+
+SOUND   Try to play with DMODE_SOFT_MUSIC and GUS.
+
+GFX	Would Hermes be faster than LibGGI's crossblit ?
+
+EDITOR  The external editor should be ported too, it will need more work.

@@ -1,0 +1,278 @@
+/*------------------------------------------------------------------------.
+| Copyright (C) 1997,1998,2000 Alexandre Duret-Lutz <duret_g@epita.fr>    |
+|                                                                         |
+| This file is part of Heroes.                                            |
+|                                                                         |
+| Heroes is free software; you can redistribute it and/or modify it under |
+| the terms of the GNU General Public License as published by the Free    |
+| Software Foundation; either version 2 of the License, or (at your       |
+| option) any later version.                                              |
+|                                                                         |
+| Heroes is distributed in the hope that it will be useful, but WITHOUT   |
+| ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or   |
+| FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   |
+| for more details.                                                       |
+|                                                                         |
+| You should have received a copy of the GNU General Public License along |
+| with this program; if not, write to the Free Software Foundation, Inc., |
+| 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
+`------------------------------------------------------------------------*/
+
+
+#include <stdlib.h>
+#include "sound.h"
+#include "config.h"
+
+#ifdef HAVE_LIBMIKMOD
+#include <mikmod.h>
+#include <pthread.h>
+#include <signal.h>
+#include <errno.h>
+#include <unistd.h>
+#include <string.h>
+#include "options.h"
+#include "argv.h"
+#include "musicfiles.h"
+#ifdef HAVE_DMALLOC
+#include <dmalloc.h>
+#endif
+
+MODULE* module;
+pthread_t polling_thread;
+pthread_mutex_t playing;	/* this mutex is used to tell the polling 
+				   thread that it must continue polling ... */
+int nth_driver = 0;
+char* driver_options = 0;
+
+void
+set_volume (void)
+{
+  if (opt.music)
+    md_musicvolume = (13 - opt.music_volume) * 128 / 13;
+  else
+    md_musicvolume = 0;
+  /* 
+     This doesn't want to work.  I'm changing the volume of each sample
+     as a work around, see event_sfX() in sfx.c.
+
+  if (opt.sfx)
+    md_sndfxvolume = (13 - opt.sfx_volume) * 128 / 13;
+  else
+    md_sndfxvolume = 0;
+  */
+}
+
+void
+halve_volume (void)
+{
+  md_musicvolume /= 2;
+  md_sndfxvolume /= 2;
+}
+
+int
+init_sound_engine (void)
+{
+  /* register all the drivers */
+  MikMod_RegisterAllDrivers ();
+
+  /* register the xm module loader */
+  MikMod_RegisterLoader (&load_xm);
+
+  /* initialize the library */
+  md_device = nth_driver;
+  md_mode |= DMODE_SOFT_MUSIC | DMODE_SOFT_SNDFX;
+  if (mono)
+    md_mode &= ~DMODE_STEREO;
+  if (MikMod_Init (driver_options?driver_options:"")) {
+    fprintf (stderr, "Could not initialize sound, reason: %s\n",
+	     MikMod_strerror (MikMod_errno));
+    return 1;
+  }
+
+  if (MikMod_InitThreads () != 1) {
+    fprintf (stderr, "Could not initialize sound, reason: LibMikMod is not thread safe.\n");
+    return 1;
+  }
+
+  pthread_mutex_init (&playing, 0);
+  set_volume ();
+
+  return 0;
+}
+
+void
+uninit_sound_engine (void)
+{
+  MikMod_Exit ();
+}
+
+void
+load_soundtrack (char *ptr)
+{  
+  module = Player_Load (ptr, 16, 0);
+}
+
+void
+unload_soundtrack (void)
+{
+  if (!module)
+    return;
+  pthread_mutex_unlock (&playing);
+  pthread_join (polling_thread, 0);
+  Player_Stop ();
+  //  MikMod_DisableOutput ();
+  Player_Free (module);
+}
+
+static void *
+update_thread (void *arg __attribute__ ((unused)))
+{
+  while (pthread_mutex_trylock (&playing) == EBUSY) {
+    MikMod_Update ();
+    usleep (10000);
+  }
+  pthread_mutex_unlock (&playing);
+  return 0;
+}
+
+void
+play_soundtrack (void)
+{
+  if (!module)
+    return;
+  pthread_mutex_lock (&playing);
+  MikMod_SetNumVoices (-1, 6);
+  //  MikMod_EnableOutput ();
+  Player_Start (module);
+  pthread_create (&polling_thread, 0, update_thread, 0);
+}
+
+void
+print_drivers_list (void)
+{
+  char* info;
+  long engineversion = MikMod_GetVersion();
+
+  MikMod_RegisterAllDrivers ();
+  printf ("LibMikMod version %ld.%ld.%ld\n",
+	  (engineversion >> 16) & 255,(engineversion >> 8) & 255, engineversion & 255);
+  info = MikMod_InfoDriver();
+  printf("\nAvailable drivers:\n%s\n", info);
+  free (info);
+}
+
+/* This function is adapted from from Mikmod 3.1.6 */
+static void 
+get_int (char *arg, int *value, int min, int max, char* argv0)
+{
+  char *end = NULL;
+  int t = min - 1;
+  
+  if (arg)
+    t = strtol (arg, &end, 10);
+  if (end && (!*end) && (t >= min) && (t <= max))
+    *value = t;
+  else
+    fprintf(stderr, 
+	    "Argument '%s' out of bounds, must be between %d and %d.\n"
+	    "Use '%s --help' for more information.\n",
+	    arg?arg:"(not given)", min, max, argv0);
+}
+
+void 
+decode_sound_options (char* optarg, char* argv0)
+{
+  /* This is adapted from Mikmod 3.1.6 */
+  if (strlen (optarg) > 2) {
+    char* opts = strchr (optarg, ',');
+    if (opts) {
+      *opts=0;
+      
+      /* numeric driver specification ? */
+      if (opts - optarg <= 2)
+	get_int (optarg, &nth_driver, 0, 99, argv0);
+      else    
+	nth_driver = MikMod_DriverFromAlias(optarg);
+      if (driver_options)
+	free (driver_options);
+      driver_options = strdup(opts+1);
+    } else  
+      nth_driver = MikMod_DriverFromAlias (optarg);
+  } else  
+    get_int(optarg, &nth_driver, 0, 99, argv0);
+}
+
+void 
+load_soundtrack_from_alias (char* alias)
+{
+  sound_track_t* st = get_sound_track_from_alias (alias);
+
+  if (st)
+    load_soundtrack (st->filename);
+  else
+    module = 0;
+}
+
+#else // not HAVE_LIBMIKMOD
+
+#include <stdio.h>
+
+/* empty implementation */
+
+void
+set_volume (void)
+{
+}
+
+void
+halve_volume (void)
+{
+}
+
+int
+init_sound_engine (void)
+{
+  return 0;
+}
+
+void
+uninit_sound_engine (void)
+{
+}
+
+void
+load_soundtrack (char *ptr __attribute__ ((unused)))
+{
+}
+
+void
+unload_soundtrack (void)
+{
+}
+
+void
+play_soundtrack (void)
+{
+}
+
+void
+print_drivers_list (void)
+{
+  printf ("Heroes has been compiled without sound support.\n");
+}
+
+void
+decode_sound_options (char* optarg __attribute__ ((unused)), 
+		      char* argv0 __attribute__ ((unused)))
+{
+}
+
+
+void 
+load_soundtrack_from_alias (char* alias __attribute__ ((unused)))
+{
+}
+
+#endif // not HAVE_MIKMOD
+
+

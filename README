@@ -1,0 +1,160 @@
+In short
+========
+
+   This is a port of Heroes for Linux. Heroes was a DOS game, like nibble
+but with many enhancements. It can be played by one or two players. It
+features 12 original soundtracks, 94 levels (in 10 different tilesets) plus
+a level editor. There are five game modes like Quest (the classical
+nibble), or Kill'em all (run over lemmings).
+
+   Presently the port is not complete, but the game is playable.  The main
+missing feature is the level editor.  Some other features as the audio CD
+player (which was extern to the game) and the installation from floppy have
+been totally removed.
+
+   Anybody is encouraged to contribute.
+
+License
+=======
+
+   The full game (that is: source code, pictures, sound-tracks, and levels)
+is distributed under the terms of the GNU General Public License.  See the
+file COPYING for details.
+
+Getting Heroes
+==============
+
+   The web page of Heroes is `http://www.realtech.scene.org/heroes/'.
+It has been designed by Romuald Genevois <rgenevois@besancon.net>.
+
+   Latest version of Heroes are always uploaded to
+`http://gadl.free.fr/heroes/linux/' and
+`http://www.epita.fr/~duret_g/heroes/linux/', the former site being a
+lot faster.
+
+   Heroes is also uploaded to MetaLab (sunsite) in `/pub/linux/games';
+see the MetaLab mirror list
+(http://metalab.unc.edu/pub/linux/MIRRORS.html) to find your nearest
+mirror. You will have to wait three or four days to have files
+available on MetaLab after a release.
+
+Needed Libraries
+================
+
+   Heroes can be configured to use several libraries to handle display,
+sound output, joystick support or memory debugging.
+
+   Here is a list of supported libraries (hopefully you won't have to
+install all of them but just a subset).
+
+   * LibMikMod is the only sound engine supported. You don't need it if
+     you want to compile Heroes without sound support.  Get it from
+     `http://mikmod.darkorb.net/'.
+
+   * LibGGI (General Graphic Interface) can be used as a display and
+     keyboard driver. Get it from `http://www.ggi-project.org/'.
+
+   * LibGII (General Input Interface) will provide joystick support
+     (the game can be compiled without).  Get it from
+     `http://www.ggi-project.org/'.  It is needed by LibGGI, by the way.
+
+   * SDL can be used as a display and keyboard driver.  Recent revision
+     will also provide support for joysticks.  Get it from
+     `http://www.devolution.com/~slouken/SDL/'.
+
+   To summarize, install at least LibGGI or SDL to get video output and
+keyboard handling.  Install LibMikMod if you want sound output.  Install
+LibGII to get joystick support, unless you have a recent SDL.
+
+   My personal preference goes to LibGGI which seems to be faster than SDL.
+
+configure generic instructions
+==============================
+
+  Heroes use autoconf, read INSTALL for generic instructions.  
+
+configure options for Heroes
+============================
+
+   You may give several options to `configure' to configure the
+building of Heroes.
+
+`--disable-sound'
+     Do not link with LibMikMod, thus compiling Heroes without sound
+     support.  Sound support is enabled by default, unless LibMikMod is
+     not found.
+
+`--disable-joystick'
+     Do not include joystick support in the game.  Joystick support is
+     enabled by default, unless you don't have GII or joystick support
+     in SDL.
+
+`--with-sdl[=DIR]'
+     Specify that you want to link with SDL.  This is the default if
+     LibGGI is not installed.  If you installed SDL in some
+     non-standard place, you can specify the installation path as an
+     argument.  For example:
+          ./configure --with-sdl=/home/adl/usr
+     `configure' will then look for `/home/adl/usr/bin/sdl-config' and
+     configure Heroes accordingly.
+
+`--with-GGI[=DIR]'
+     Link with LibGGI.  This is the default if LibGGI is installed.  If
+     you installed LibGGI in some non-standard place, you can specify
+     the installation path as an argument
+
+`--with-libmikmod-prefix[=DIR]'
+     Specify where LibMikMod is installed.
+
+`--enable-debug'
+     Turn on debugging options: compile and link with debugging symbols,
+     enable assertions, and debug code.  This is disabled by default
+     because it slow down the code and produce a bigger binary.
+
+`--enable-mem-debug'
+     Turn on support for malloc debugging libraries such as electric
+     fence or dmalloc (dmalloc will be used if both are installed).
+     This is disable by default.
+
+`--disable-user-config'
+     Don't use a per-user configuration file, but a system wide file
+     instead.  This configuration file record keyboard configuration,
+     colors of players, speed of the game, volume, etc. (everything
+     that can be configured from the OPTIONS menu of the game).  If you
+     save this as a global file, you will want to give special right to
+     that file and to the heroes binary so that it can read and write
+     that file whoever ran it; this could leads to security issue.
+
+     The default is to save those options in `~/.heroes/options.dat', if
+     you specify this option they will be saved in
+     `DATADIR/heroes/txt_cfg/options.dat'.
+
+`--disable-user-scores'
+     Don't use a per-user scores file, but a system wide file instead.
+     If you save this as a global file, you will want to give special
+     right to that file and to the heroes binary so that it can read
+     and write that file whoever ran it; this could leads to security
+     issue.
+
+     The default is to save the scores in `~/.heroes/scores.dat', if
+     you specify this option they will be saved in
+     `DATADIR/heroes/txt_cfg/scores.dat'.
+
+`--disable-user-saves'
+     Don't use a per-user saves file, but a system wide file instead.
+     This file allow people to save their progression in Quest Mode.
+     Their is 10 save slots.  If you save this as a global file, you
+     will want to give special right to that file and to the heroes
+     binary so that it can read and write that file whoever ran it;
+     this could leads to security issue.
+
+     The default is to save the games in `~/.heroes/savegame.dat', if
+     you specify this option they will be saved in
+     `DATADIR/heroes/txt_cfg/savegame.dat'.
+
+Reporting bugs, sending suggestions or contribution
+===================================================
+
+   We welcome bug reports or suggestions for Heroes (both program or
+documentation).  Please email them to <duret_g@epita.fr>, but look at 
+the Texinfo documentation of Heroes before.

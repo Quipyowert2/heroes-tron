@@ -1,0 +1,773 @@
+\input texinfo   @c -*-texinfo-*-
+@c %**start of header
+@setfilename heroes.info
+@settitle Heroes Manual
+@setchapternewpage odd
+@c %**end of header
+
+@include version.texi
+
+@ifinfo
+This file documents Heroes, a nibble clone, just better.
+
+Copyright 2000 Alexandre Duret-Lutz
+
+Permission is granted to make and distribute verbatim
+copies of this manual provided the copyright notice and
+this permission notice are preserved on all copies.
+
+@ignore
+Permission is granted to process this file through TeX
+and print the results, provided the printed document
+carries a copying permission notice identical to this
+one except for the removal of this paragraph (this
+paragraph not being relevant to the printed manual).
+
+@end ignore
+Permission is granted to copy and distribute modified
+versions of this manual under the conditions for
+verbatim copying, provided also that the sections
+entitled ``Copying'' and ``GNU General Public License''
+are included exactly as in the original, and provided
+that the entire resulting derived work is distributed
+under the terms of a permission notice identical to this
+one.
+
+Permission is granted to copy and distribute
+translations of this manual into another language,
+under the above conditions for modified versions,
+except that this permission notice may be stated in a
+translation approved by the Free Software Foundation.
+@end ifinfo
+
+@c  This title page illustrates only one of the
+@c  two methods of forming a title page.
+
+@titlepage
+@title Heroes Manual
+@subtitle A nibble clone, just better
+@author Alexandre Duret-Lutz
+
+@c  The following two commands
+@c  start the copyright page.
+@page
+@vskip 0pt plus 1filll
+Copyright @copyright{} 2000 Alexandre Duret-Lutz
+
+Permission is granted to make and distribute verbatim
+copies of this manual provided the copyright notice and
+this permission notice are preserved on all copies.
+
+Permission is granted to copy and distribute modified
+versions of this manual under the conditions for
+verbatim copying, provided also that the sections
+entitled ``Copying'' and ``GNU General Public License''
+are included exactly as in the original, and provided
+that the entire resulting derived work is distributed
+under the terms of a permission notice identical to this
+one.
+
+Permission is granted to copy and distribute
+translations of this manual into another language,
+under the above conditions for modified versions,
+except that this permission notice may be stated in a
+translation approved by the Free Software Foundation.
+@end titlepage
+
+@node Top, Copying, (dir), (dir)
+
+@ifinfo
+This document describes Heroes, a nibble clone, just better.
+
+This document applies to Heroes version @value{VERSION}.
+@end ifinfo
+
+@menu
+* Copying::                     Your rights.
+* Overview::                    Heroes in brief.
+* Installation::                Installing Heroes.
+* Running::                     Running Heroes.
+* Index::                       A menu covering many topics.
+@end menu
+
+@node Copying, Overview, Top, Top
+@chapter Heroes Copying Conditions
+@cindex copying
+@cindex rights
+@cindex free
+@cindex distribution
+
+  Heroes is "free"; this means that everyone is free to use it and free
+to redistribute it on a free basis.  Heroes is not in the public domain;
+it is copyrighted and there are restrictions on its distribution, but
+these restrictions are designed to permit everything that a good
+cooperating citizen would want to do.  What is not allowed is to try to
+prevent others from further sharing any version of Heroes that they
+might get from you.
+
+  Specifically, we want to make sure that you have the right to give
+away copies of Heroes, that you receive source code or else can get it
+if you want it, that you can change Heroes or use pieces of it in new
+free programs, and that you know you can do these things.
+
+  To make sure that everyone has such rights, we have to forbid you to
+deprive anyone else of these rights.  For example, if you distribute
+copies of Heroes, you must give the recipients all the rights that you
+have.  You must make sure that they, too, receive or can get the source
+code.  And you must tell them their rights.
+
+  Also, for our own protection, we must make certain that everyone finds
+out that there is no warranty for Heroes.  If these programs are
+modified by someone else and passed on, we want their recipients to know
+that what they have is not what we distributed, so that any problems
+introduced by others will not reflect on our reputation.
+
+  The precise conditions of the license for Heroes are found in the
+General Public Licenses that accompany it.
+
+@node    Overview, Installation, Copying, Top
+@comment node-name,     next,           previous, up
+@chapter Overview of Heroes
+@cindex  overview
+@cindex  nibble
+Heroes is a game inspired from Nibble, but with a lot of enhancements.
+
+In a Nibble-like game, you drive a kind of snake whose tail grows
+when you eat certain bonuses.  You can't cross your tail, so the more you
+grow the more difficult the game is.  The aim is to get ten of these bonuses.
+
+Heroes features several game mode that are variations over these rules.
+Quest is the classical Nibble, in Death Match you start with very long
+tails a must kill your opponents, in Kill'em All you must run over
+lemmings moving on the ground, in Color or Time Cash you must collect
+money or pyramids of color.
+
+Heroes can be played by one or two players. It features 12 original
+soundtracks, 94 levels (in 10 different tilesets) plus a level
+editor. 
+
+Heroes was a DOS game and this is the Linux port.  Presently, the port
+is incomplete, the main missing feature is the level editor.
+
+@menu
+* Getting Heroes::              Where to download Heroes from.
+* Bug Reporting::               Sending bugs, suggestions, contributions.
+* Authors::                     Who made Heroes.
+* Contributors::                Contributed to Heroes.
+* History::                     History of the DOS version.
+@end menu
+
+@node Getting Heroes, Bug Reporting, Overview, Overview
+@comment  node-name,  next,  previous,  up
+@section  Getting Heroes
+@cindex   getting heroes
+@cindex   download
+@cindex   sunsite
+@cindex   metalab
+
+The web page of Heroes is @uref{http://www.realtech.scene.org/heroes/}.
+It has been designed by Romuald Genevois @email{rgenevois@@besancon.net}.
+
+Latest version of Heroes are always uploaded to
+@uref{http://gadl.free.fr/heroes/linux/} and
+@uref{http://www.epita.fr/~duret_g/heroes/linux/}, the former site being
+a lot faster.  
+
+Heroes is also uploaded to MetaLab (sunsite) in @file{/pub/linux/games};
+see @uref{http://metalab.unc.edu/pub/linux/MIRRORS.html,the MetaLab
+mirror list} to find your nearest mirror. You will have to wait three or
+four days to have files available on MetaLab after a release.
+
+
+@node     Bug Reporting, Authors, Getting Heroes, Overview
+@comment  node-name,  next,  previous,  up
+@section  Reporting bugs, sending suggestions or contribution
+@cindex   bug
+@cindex   bug report
+@cindex   suggestions
+
+  We welcome bug reports or suggestions for Heroes (both program or
+documentation).  Please email them to @email{duret_g@@epita.fr}.  For
+bug reports, please include enough information to reproduce the problem.
+
+@itemize @bullet
+@item 
+the version number of Heroes.
+
+@item 
+hardware, operating system, and compiler versions.
+
+@item 
+any unusual options you gave to `configure'.
+
+@item 
+the actions necessary to reproduce the bug.
+
+@item 
+a description of the problem.
+
+@item 
+anything else that you think would be helpful.
+
+@end itemize
+
+  When in doubt whether something is needed or not, include it.  It's
+better to include too much than to leave out something important.
+
+@cindex   coredump
+  To get useful coredumps, @samp{./configure} with @samp{--enable-debug}
+and @samp{--disable-sound}.
+
+@cindex   patch
+@cindex   diff
+  Patches are most welcome; if possible, please make them with
+@samp{diff -u} (@pxref{Unified Format,Unified Format,diff,diff.info,Diff
+Manual}) or @samp{diff -c} (@pxref{Context Format,Context
+Format,Diff,diff.info,Diff Manual}) and include @samp{ChangeLog} entries
+(@pxref{Change Log,Change Log,emacs,emacs-e20,Emacs Manual}).
+
+@cindex   shar
+@cindex   GNU shar
+  When sending email, please do not encode or split the messages in any
+way if possible; it's much easier to deal with one plain text message,
+however large, than many small ones.  GNU shar
+(@uref{ftp://ftp.gnu.org/gnu/sharutils/}) is a convenient way of
+packaging multiple and/or binary files for email.
+
+@cindex   contributing
+@cindex   TODO
+  Do not hesitate to contribute.  This is YOUR game and GPL allow you to
+do any modifications you want in the game (provided that you keep those
+modifications under the GPL).  There are numerous places were you can
+contribute: you can hack the code (if so, please read my TODO file),
+design new levels (well, of course you will have to wait the port of the
+editor to do that, unless you use the MS-DOS version), create new
+drawings (e.g. new sets of tiles), track some new music or add your
+personal touch here and there.  Yet, I will be quite reluctant do add
+new sound-track because that tends to take a lot of place and would
+augment a lot the size of the archive.
+
+@node     Authors, Contributors, Bug Reporting, Overview
+@comment  node-name,  next,  previous,  up
+@section  Authors
+@cindex   authors
+
+@itemize @bullet
+@item
+Romuald Genevois (Guen) @email{rgenevois@@besancon.net}
+  @uref{http://www.realtech.scene.org/romualdgenevois}
+
+Had the idea of that game, designed most of it, 
+drew the graphisms, created most of the levels.
+
+@item
+Alexandre Liverneaux (Alexel) @email{alex.livernaux@@wanadoo.fr}
+  @uref{http://alexel.planet-d.net/}
+
+Composed the soundtracks.
+
+@item
+Philippe Meisburger (Tnk) @email{philmeis@@mail.dotcom.fr}
+  @uref{http://perso.club-internet.fr/philmeis/}
+
+Composed the soundtracks and created a few levels.
+
+@item
+Alexandre Duret-Lutz (Pollux) @email{duret_g@@epita.fr}
+  @uref{http://www.epita.fr/~duret_g/}
+
+Wrote the original source code, ported it to Linux 
+and created a few levels.
+@end itemize
+
+@node     Contributors, History, Authors, Overview
+@comment  node-name,  next,  previous,  up
+@section  Contributors
+@cindex   contributors
+
+@itemize @bullet
+@item
+Pierre Baillet @email{octplane@@via.ecp.fr}
+
+Contributed support for non-8bits depth video mode with LibGGI.
+
+@item
+Jean Delvare @email{delvare@@ensicaen.ismra.fr}
+
+Reported numerous errors, and suggested various improvements.
+@end itemize
+
+@node     History,  , Contributors, Overview
+@comment  node-name,  next,  previous,  up
+@section  History of the DOS version
+@cindex   history
+
+The next paragraphs are extracted from the DOS version of Heroes.
+
+  We started this game in summer 96. The idea came form Guen.  At this
+  moment, we were only three: Guen, Toalnkor (now known as Tnk) and me
+  (Pollux); Alexel joined us one year later.  The development was going
+  quite slow (it took us two years actually) mainly because of our studies.
+  Maybe the fact that Guen and me communicated by (snail-)mail was another
+  slowing down factor.  I sent more than 60 letters to Guen during this two
+  years !  During the first year, we decided to sale the game.  We made a
+  demo version (with only 10 levels, no editor, and an order form), and a
+  CD version (with songs remixed on audio track, but not used in the game).
+  Our main issue was the price of Midas' license (the sound engine used);
+  we were also hesitating on the way we should distribute Heroes (shall we
+  do it shareware or commercial ?).  Finally, after a couple of wasted months
+  we decided to spread it freeware (Enjoy !), because we thought that no
+  one would realy like to buy such a game today; today where 3D rules.
+
+  Now let's talk about the content of the game.  At first, Tnk decided to
+  make some four channels songs in the old original mod format.  As there
+  were only two scores done and we were waiting for the next tunes, we used
+  some songs from Clawz just to vary. These were 'overtaking' and
+  'hibakusha2' and gave a better taste to the game.  So we removed old
+  Tnk's songs and he was asked to make some more Clawz-like musics. By the
+  time, Alexel joined and came with 10 channels XM, thus all tunes are now
+  8 or 10 channels XM... There was 13 tunes in the game (for a total of
+  2.88Mb unpacked), these are the introtune, the menutune, the 10 levels,
+  and the endtune (you can't hear the later without finishing the quest
+  game); most of them have been done by Alexel.
+
+  All sprites and pictures were drawn by Guen.  He first made some
+  level-tiles and a set of hand-done previews of the game before any other
+  work get started (I guess he has a few other projects at this state of
+  development at home).  These screens and tiles were used to make the level
+  editor.  Actually I learned C while making this editor so there is some
+  piece of code I am not proud of into (and also in the game).  When it was
+  nearly done, I started to code the game.  The first thing done was the
+  introduction, and then came the multi-directionnal scroller.  I remember
+  me that the first level that were loaded was sized 4x4 and wrapped in all
+  directions; this was very small but at this time there were no tail and
+  the vehicles were crossings the walls...
+
+  Most of the levels were done by Guen. But Tnk and I also did some.
+  Guen made a cleanup of all the level we made: some were relegated in
+  the EXTRALVL directory, other were simply erased. We aimed to spread
+  the game with 100 of them, but as it is going late and that we are not
+  going to sale the game anymore I don't know how less levels there will be.
+
+@node    Installation, Running, Overview, Top
+@comment node-name,     next,           previous, up
+@chapter Installation of Heroes
+@cindex installation
+
+@menu
+* Libraries::                   Libraries Heroes can link with.
+* configure::                   Generic configure instructions.
+* configure options::           Configure options specific to heroes.
+@end menu
+
+@node    Libraries, configure, Installation, Installation
+@comment node-name,  next,  previous,  up
+@section Needed Libraries
+@cindex  libraries
+@cindex  libmikmod
+@cindex  mikmod
+@cindex  libggi
+@cindex  ggi
+@cindex  libgii
+@cindex  gii
+@cindex  libsdl
+@cindex  sdl
+@cindex  Simple DirectMedia Layer
+
+Heroes can be configured to use several libraries to handle display,
+sound output, joystick support or memory debugging.
+
+Here is a list of supported libraries (hopefully you won't have to
+install all of them but just a subset).
+
+@itemize @bullet
+@item
+LibMikMod is the only sound engine supported. You don't need it
+if you want to compile Heroes without sound support.  Get it
+from @uref{http://mikmod.darkorb.net/}.
+
+@item
+LibGGI (General Graphic Interface) can be used as a display and keyboard
+driver. Get it from @uref{http://www.ggi-project.org/}.
+
+@item
+LibGII (General Input Interface) will provide joystick support (the game
+can be compiled without).  Get it from
+@uref{http://www.ggi-project.org/}.  It is needed by LibGGI, by the way.
+
+@item
+SDL can be used as a display and keyboard driver.  Recent revision will
+also provide support for joysticks.  Get it from
+@uref{http://www.devolution.com/~slouken/SDL/}.
+@end itemize
+
+To summarize, install at least LibGGI or SDL to get video output and
+keyboard handling.  Install LibMikMod if you want sound output.  Install
+LibGII to get joystick support, unless you have a recent SDL.
+
+My personal preference goes to LibGGI which seems to be faster than SDL.
+
+@node    configure, configure options, Libraries, Installation
+@comment node-name,  next,  previous,  up
+@section configure generic instructions
+@cindex  configure generic instructions
+
+To be filled.
+
+@node    configure options,  , configure, Installation
+@comment node-name,  next,  previous,  up
+@section configure options for Heroes
+@cindex  configure options for Heroes
+
+You may give several options to @samp{configure} to configure the
+building of Heroes.
+
+@table @samp
+@item --disable-sound
+@cindex --disable-sound
+Do not link with LibMikMod, thus compiling Heroes without sound support.
+Sound support is enabled by default, unless LibMikMod is not found.
+
+@item --disable-joystick
+@cindex --disable-joystick
+Do not include joystick support in the game.  Joystick support is enabled
+by default, unless you don't have GII or joystick support in SDL.
+
+@item --with-sdl[=DIR]
+@cindex --with-sdl
+Specify that you want to link with SDL.  This is the default if LibGGI is
+not installed.  If you installed SDL in some non-standard place, you can
+specify the installation path as an argument.  For example:
+@example
+./configure --with-sdl=/home/adl/usr
+@end example
+@samp{configure} will then look for @file{/home/adl/usr/bin/sdl-config}
+and configure Heroes accordingly.
+
+@item --with-GGI[=DIR]
+@cindex --with-GGI
+Link with LibGGI.  This is the default if LibGGI is installed.
+If you installed LibGGI in some non-standard place, you can
+specify the installation path as an argument
+
+@item --with-libmikmod-prefix[=DIR]
+@cindex --with-libmikmod-prefix
+Specify where LibMikMod is installed.
+
+@item --enable-debug
+@cindex --enable-debug
+Turn on debugging options: compile and link with debugging symbols,
+enable assertions, and debug code.  This is disabled by default because
+it slow down the code and produce a bigger binary.
+
+@item --enable-mem-debug
+@cindex --enable-mem-debug
+Turn on support for malloc debugging libraries such as electric fence or
+dmalloc (dmalloc will be used if both are installed).  This is disable
+by default.
+
+@item --disable-user-config
+@cindex --disable-user-config
+Don't use a per-user configuration file, but a system wide file instead.
+This configuration file record keyboard configuration, colors of
+players, speed of the game, volume, etc. (everything that can be
+configured from the OPTIONS menu of the game).  If you save this as a
+global file, you will want to give special right to that file and to the
+heroes binary so that it can read and write that file whoever ran it;
+this could leads to security issue.
+
+The default is to save those options in @file{~/.heroes/options.dat}, if
+you specify this option they will be saved in
+@file{DATADIR/heroes/txt_cfg/options.dat}.
+
+@item --disable-user-scores
+@cindex --disable-user-scores
+Don't use a per-user scores file, but a system wide file instead.  If
+you save this as a global file, you will want to give special right to
+that file and to the heroes binary so that it can read and write that
+file whoever ran it; this could leads to security issue.
+
+The default is to save the scores in @file{~/.heroes/scores.dat}, if
+you specify this option they will be saved in
+@file{DATADIR/heroes/txt_cfg/scores.dat}.
+
+@item --disable-user-saves
+@cindex --disable-user-saves
+Don't use a per-user saves file, but a system wide file instead.  This
+file allow people to save their progression in Quest Mode.  Their is 10
+save slots.  If you save this as a global file, you will want to give
+special right to that file and to the heroes binary so that it can read
+and write that file whoever ran it; this could leads to security issue.
+
+The default is to save the games in @file{~/.heroes/savegame.dat}, if
+you specify this option they will be saved in
+@file{DATADIR/heroes/txt_cfg/savegame.dat}.
+
+@end table
+
+@node    Running, Index, Installation, Top
+@comment node-name,     next,           previous, up
+@chapter Running Heroes
+@cindex running
+
+@menu
+* Options::                     Heroes options.
+* heroesrc::                    Heroes config file.
+* Game::                        Game rules.
+* Troubleshooting::             Common problems.
+@end menu
+
+@node    Options, heroesrc, Running, Running
+@comment node-name,  next,  previous,  up
+@section Heroes options
+@cindex  options
+@cindex  runtime options
+
+Heroes call be called with several options.
+
+@table @samp
+@item -v
+@itemx --version
+@cindex -v
+@cindex --version
+Display Heroes version number and copyright informations.
+
+@item -h
+@itemx --help
+@cindex -h
+@cindex --help
+Print an help message about these run-time options.
+
+@item --cpu-off
+@cindex --cpu-off
+Disable computer opponents driving.  The opponents are still there
+(there will always be four players) but they are no more driven: they
+turn when they hit wall.  You won't want to use this options, it is here
+for historical reason: when the game was started in 1996 this used to
+suppress some overhead on slow machines.
+
+@item --default-scores
+@itemx --default-options
+@itemx --default-saves
+@cindex --default-scores
+@cindex --default-options
+@cindex --default-saves
+Don't read the corresponding file, but use default value instead.
+The files will be saved at the end of the game anyway, so you can
+use these options to revert the default value of the given file.  
+Another way to do this is simply to delete the file, it will be
+created the next time Heroes run.
+
+@item -m
+@itemx --mono
+@cindex -m
+@cindex --mono
+Output sound in mono.  This has no effect if the game is compiled
+without sound support.
+
+@item -s
+@itemx --swap-sides
+@cindex -s
+@cindex --swap-sides
+Swap sides when playing in two players mode.  The default is to have
+player one on the right and player two on the left, because the default
+key bindings use the arrows for player one and left letters keys for
+player tow.
+
+@item --no-double-fx
+@cindex --no-double-fx
+Disable superposition of rotozoom and waves.  This is also a prehistoric
+option.  These two visual effects lead to a small overhead that one may
+not want to combine on a slow host.
+
+@item -g
+@itemx --go
+@cindex -g
+@cindex --go
+Skip the game introduction, start right on the main menu.
+
+@item -J
+@itemx --no-joystick
+@cindex -J
+@cindex --no-joystick
+Disable joystick handling.  Most of the time you will use this because
+you don't have a joystick and are annoyed by the warning message output
+when heroes start.
+
+@item -n
+@itemx --drivers-info
+@cindex -n
+@cindex --drivers-info
+Print libmikmod's sound drivers list.  The expected output is something
+like this:
+@example
+% heroes -n
+LibMikMod version 3.1.7
+
+Available drivers:
+ 1 Enlightened sound daemon (EsounD) driver v0.2.12
+ 2 Advanced Linux Sound Architecture (ALSA) driver v0.3.2
+ 3 Open Sound System driver v1.5
+ 4 Raw disk writer (music.raw) v1.1
+ 5 Wav disk writer (music.wav) v1.2
+ 6 Piped Output driver v0.1
+ 7 Standard output driver v1.1
+ 8 Nosound Driver v3.0
+@end example
+
+@item -d N[,OPTIONS]
+@itemx --driver=N[,OPTIONS]
+@cindex -d N[,OPTIONS]
+@cindex --driver=N[,OPTIONS]
+@cindex sound driver
+Specify the driver to use. @samp{N} is the number of the driver taken
+from the output of @samp{heroes -n}. Use @samp{0} for auto-detection.
+Additional options can be given to the driver, see LibMikMod's
+@file{README} file.
+
+@item -G OPTIONS
+@itemx --gfx-options=OPTIONS
+@cindex -G OPTIONS
+@cindex --gfx-options=OPTIONS
+@cindex target.txt
+@vindex GGI_DISPLAY
+@vindex SDL_VIDEODRIVER
+@cindex display driver
+Give additional options to the display driver.  With GGI, this replaces
+the @samp{GGI_DISPLAY} variable (see LibGGI's @file{target.txt}).
+Example:
+@example
+% heroes -G 'tile:0,0,160,200,(x):160,0,160,200,(x)'
+@end example
+With SDL this replaces the environment variable @samp{SDL_VIDEODRIVER}.  
+
+@item -F
+@itemx --full-screen
+@cindex -F
+@cindex --full-screen
+@cindex full screen
+SDL needs to be given an additional parameter to do full screen output,
+this is the purpose of this command line flag.  With GGI, this has the
+effect of allowing Heroes to run on video mode of any size (i.e. not
+constrained to 320x200).
+
+@end table
+
+@node    heroesrc, Game, Options, Running
+@comment node-name,  next,  previous,  up
+@section @file{~/.heroes/heroesrc}
+@subsection @samp{option:}
+@cindex  heroesrc
+@cindex  options
+
+Each time you start heroes, it tries to read the file
+@file{~/.heroes/heroesrc} in your home directory.  You can specify
+options in that files, they will be processed before options given on
+the command line.  Put the word @samp{Options:} in front of a line, and
+write the options after (separated by spaces, as on the command line,
+except that there is no quoting or variable substitution).  For example, 
+if you want that Heroes always skip the introduction, and swap the player
+sides, add the following line to your @file{~/.heroes/heroesrc}:
+
+@example
+Options: -g -s
+@end example
+
+Multiple @samp{Options:} lines can be given, they are processed in order.
+
+@subsection @samp{setenv:}
+@cindex setenv
+@vindex SDL_VIDEODRIVER
+@cindex environment variable
+@cindex variable
+You can also have line starting with @samp{setenv:}, followed by a
+variable name and a value (the rest of the line, after the variable name
+is taken as the value).  This will setup the corresponding environment
+variable.  This provide a way to configure the used libraries.  For example, to
+instruct SDL to use its dga driver, use the following line:
+@example
+setenv: SDL_VIDEODRIVER dga
+@end example
+
+This may seams redundant with @samp{--gfx-options} and @samp{--driver} but
+can be used to configure other libraries.  For example, setup GGI or SDL to
+use AAlib (the ASCII art rendering library) and configure AAlib via its 
+@samp{AAOPTS} variable.
+
+@subsection @samp{extradir:}
+@cindex extradir
+@cindex extra levels directory
+
+Lines starting with @samp{extradir:} are used to specify 
+additional extra levels directories.
+
+@node    Game, Troubleshooting, heroesrc, Running
+@comment node-name,  next,  previous,  up
+@section Game
+@cindex  game
+
+Heroes has an `INFO' menu, that should describe the different game modes
+and options, with pictures and colors.  Please refer to it until this
+section get written.
+
+@node    Troubleshooting,  , Game, Running
+@comment node-name,  next,  previous,  up
+@section Troubleshooting
+@cindex  troubleshooting
+
+@subsection Video mode
+@cindex video mode
+@vindex GGI_DISPLAY
+@cindex --gfx-options
+@cindex X
+This game was primary made for MS-DOS, with VGA 320x200x8bits display.
+If GGI is used to manage the video modes and you run into trouble with
+video modes, I suggest you play with a environment variable called
+@samp{GGI_DISPLAY} used to select the display used.  LibGGI come with a file
+@file{env.txt} that describes this variable.  As an alternative you may
+use heroes' @samp{--gfx-options} option instead of the above variable.  If
+you want to force X display, you can add a line
+@example
+Options: --gfx-display=X
+@end example
+in your @file{~/.heroes/heroesrc} file.
+Note: @samp{--gfx-options} has no effect if you are using SDL.
+
+I suggest you run the game under X because in console modes (libvga,
+framebuffers, ...) it's easy to get stuck if the game freeze.
+
+@subsection Keyboard
+@cindex keyboard
+@cindex keys
+@cindex keycodes
+There is a menu `KEYS' in the submenu `OPTIONS' that let you change the
+key bindings used during the game.  Please set the keys here before
+playing since keycodes can vary from place to place (hmm...  is that
+right?).
+
+@subsection Sound
+@cindex sound effects
+@cindex sfx
+@cindex delay
+You may find that there is some delay between an action and the
+associated sound effect.  This is because libmikmod is polling in a
+buffer and is thus always one buffer ahead in the playback. It is
+possible to reduce the size of that buffer using some driver parameters,
+please see the section `DRIVER PARAMETERS' of libmikmod's @file{README}.  For
+instance I'm using the OSS driver and I reduce the size of libmikmod's
+buffer by running heroes with the line
+@example
+Options: -d3,buffer=11,count=4
+@end example
+in my @file{~/.heroes/heroesrc} file.  If you can find correct values for 
+other drivers, please send them to @email{duret_g@@epita.fr,me}!
+
+@node    Index,  , Running, Top
+@comment node-name,     next,           previous, up
+@chapter Index
+@cindex index
+
+@synindex vr cp
+@printindex cp
+
+@contents

@@ -1,0 +1,1934 @@
+2000-07-09  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/pcx.h (entete_): Rename to...
+	(header_): ... this.  Rename attributes as follow:
+	bits_par_pixels -> bits_per_pixels
+	largeur -> width
+	hauteur -> height
+	largeurdpi -> widthdpi
+	hauteurdpi -> heightdpi
+	nbrplans -> nbrplanes
+	bytes_par_lignes -> bytes_per_lines
+	palette_genre -> palette_kind
+	(couleur_): Rename to ...
+	(color_): ... this. And rename the `v' attribute to `g'.
+	* src/pcx.c: Adapt to new names.
+	(pcx_load): Swap endianess, if needed.
+	* src/heroes: Adapt to new names.
+	(save_pcx): Swap endianess, if needed.
+	* src/intro.c (show_intro): Adapt to new names.
+	* src/render.c: Adapt to new names.
+
+2000-07-08  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Remove keywords (Id:) from all files to make switching to CVS
+	easier (since there is binary files in the repository, -kb will be
+	needed).
+
+2000-07-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Preliminary big-endian support.
+
+	* configure.in: Check for endianess.
+	* src/endian.h: New file.
+	* src/Makefile.am (heroes_SOURCES): Add endian.h.
+	
+	* src/scores.c (bswap_scores): New.
+	(write_scores,load_scores): Adapt to call bswap_scores.
+	* src/savegame.c (compute_magic): Translate a comment.
+	(bswap_save_records): New.
+	(write_save_records,load_save_records): Adapt to call
+	bswap_save_records.
+	* src/options.c (bswap_options): New.
+	(write_options,load_options): Adapt to call bswap_options.
+	* src/heroes.c (load_level): Swap map_info, and level_map
+	attributes.
+	* src/structs.h: Translate some comments.
+	(saved_game): Tag level points and lifes as unsigned.
+	
+2000-07-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* doc/heroes.texi (Libraries): Add a note to suggest using GGI
+	instead of SDL.
+	* README: Likewise.
+	
+2000-07-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Handle --full-screen with GGI too.
+	
+	* src/argv.c (long_options): Typo.
+	* src/display.c (full_screen): New.
+	(set_full_screen_mode): The full_screen to 1.
+	(init_video): Set the recommanded video mode, if full_screen.
+	(vsynchro): CrossBlit the rendered buffer centered in the visual.
+	* doc/heroes.texi (Options): Updated.
+	
+2000-07-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Bug fix.
+	
+	* configure.in: Disable joystick support if neighter libGII or
+	support from SDL are available..
+
+2000-07-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	SDL needs a special flag parameter to do full screen.
+	
+	* src/argv.c (print_help,long_options,parse_argv): Handle -F or 
+	--full-screen.
+	* src/display.c [HAVE_PKG_GGI] (set_full_screen_mode): New.
+	[HAVE_SDL] (visu_options,set_full_screen_mode): New.
+	[HAVE_SDL] (init_SDL): Use visu_options.
+	* src/display.h (set_full_screen_mode): New.
+
+2000-07-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Reinterpret level_header_t.soundtrack_name as an alias which
+	could be linked to any soundtrack file.
+	
+	* src/sound.h
+	[HAVE_MIKMOD] (load_soundtrack_from_alias): New.
+	[!HAVE_MIKMOD] (load_soundtrack_from_alias): New.
+	[HAVE_MIKMOD] (unload_soundtrack,play_soundtrack): Don't do
+	anything if no module loaded.
+	
+	* src/intro.c (show_intro): Adapt to call load_soundtrack_from_alias.
+	* src/heroes.c (soundtrack_name): Remove.
+	(load_level,jukebox_menu,play_menu,pause): Adapt to call 
+	load_soundtrack_from_alias.
+	(main): Call init_sound_track_list.
+
+	* src/musicfiles.h: New file.
+	* src/musicfiles.c: New file.
+	* src/generic_list.h: New file.
+	* src/Makefile.am (heroes_SOURCES): Add generic_list.h,
+	musicfiles.c and musicfiles.h.
+	
+2000-07-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/heroes.c (pause): Handle HK_Pause as an alias to HK_Escape.
+	* userconf.c (read_userconf): Add a `;' to prevent a parsing error
+	from lclint.
+
+2000-07-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Handle multiple extra levels directories.
+	
+	* src/extras.c (make_extra_list): Rename to ...
+	(browse_extra_directory): ... this.  Take the directory in
+	argument, handle error of scandir, append to (instead of
+	overwriting) the the list of extra levels, sort the list.
+	(make_extra_list): New. Call browse_extra_directory (extradir).
+	(cmp_filenames): New.
+	* src/extras.h (browse_extra_directory): New.
+	* src/userconf.c (read_userconf): Call browse_extra_directory
+	for each `extradir:' line.
+	* doc/heroes.texi (heroesrc): Split the section in subsections 
+	for each keyword recognized (Option: and setenv:).
+	(setenv:): New subsection.
+
+2000-07-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Change --gfx-options to SDL_VIDEODRIVER with SDL.
+
+	* src/display.c [HAVE_SDL] (set_display_params): Call setenv.
+	* doc/heroes.texi (Heroes options,heroesrc): Document.
+	
+2000-07-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Bug fix.
+
+	* acinclude.m4 (AC_caolan_CHECK_PACKAGE): Restore CFLAGS, LDFLAGS
+	and CPPFLAGS with correct values.
+	
+2000-07-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Bug fix.
+	
+	* src/argv.c (long_options): --gfx-options should take one
+	argument, no zero.
+
+2000-07-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/keysdef.c: Typo.
+
+2000-07-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/Makefile.am: Rename keysdef-gii.h and keysdef-sdl.h into
+	keysdef-inc.h since they are never both used.
+	* src/keysdef.c: Adapt to include keysdef-inc.h.
+
+2000-07-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/Makefile.am (heroes_SOURCES): Add missing keys_heroes.h.
+	
+2000-07-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.in: Change version to 0.4.
+	* README: Update.
+	* TODO: Update.
+	* NEWS: Update.
+
+2000-07-02  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Use 3rd and 4th buttons of first joystick if there is no
+	second joystick to fill second joystick buttons states
+	(this is used during the game for pause and quit).
+	
+	* src/joystick.c [HAVE_SDL] (joyinit): Get number of buttons for
+	the first joystick.
+	[HAVE_SDL] (get_joystick_state): Get the state of the 3rd and 4th
+	buttons of first joystick if needed.
+
+2000-07-02  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Support for `setenv:' in ~/.heroes/heroesrc.
+
+	* src/userconf.c (read_userconf): Handle `setenv:' lines.
+	* doc/heroes.texi (heroesrc): Document it.
+	
+2000-07-02  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Texinfo documentation.
+	
+	* Makefile.am (EXTRA_DIST): Remove HISTORY.
+	(SUBDIRS): Add doc.
+	* configure.in: Build doc/Makefile.  Print info manual install
+	path.
+	* man/Makefile.am [HAVE_HELP2MAN] (heroes.6): Suppress the -N
+	option (in order to have a pointer to the info manual).
+	* doc/Makefile.am: New file.
+	* doc/heroes.texi: New file.
+	* doc/mdate-sh: New file.
+	* HISTORY: Delete.
+	
+	* src/keys_heroes.h [HAVE_PKG_GGI] [HK_Enter]: Typo.
+	
+2000-07-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Joystick handling with SDL.
+
+	* src/display.c (init_video): Move the call to SDL_Init to...
+	(init_SDL): ... herem so that init_SDL can be called from joyinit().  
+	(init_SDL) [HAVE_SDL_JOYSTICKOPEN]: Call SDL_Init with
+	SDL_INIT_JOYSTICK.
+	* src/joystick.h (is_joystick_up,is_joystick_right,
+	is_joystick_down,is_joystick_left): Accept a slight variation
+	arround 0 (+-8000).
+	* src/joystick.c [HAVE_SDL_JOYSTICKOPEN] (joyinit,
+	get_joystick_state): New.
+	* configure.in: Check if SDL handles joysticks.
+	
+2000-07-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Call SDL_EnableKeyRepeat where available.
+
+	* src/display.c [HAVE_SDL] (init_video) [HAVE_ENABLEKEYREPEAT]: 
+	Call SDL_EnableKeyRepeat.
+	* configure.in: Check for SDL_EnableKeyRepeat.
+	
+2000-07-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/argv.c (print_help): Typo.
+	* src/display.c [HAVE_SDL] (init_video): Print SDL error messages.
+	
+2000-07-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Rename --ggi-display in --gfx-options.
+	
+	* src/argv.c (print_help): Rename option in printed message.
+	(long_options): Rename option.
+	
+2000-07-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Better ./configure support for linking with SDL from non-standard
+	places.
+
+	* configure.in: Rename --with-SDL to --with-sdl for consistency
+	with other --with-sdl-* options.  Rename *_SDL variables to *_sdl.
+	Assume that --with-sdl-exec-prefix=DIR imply --with-sdl=DIR and
+	vice versa.
+	
+2000-07-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	--disable-joystick `support'.
+
+	* src/joystick.c: Move code under #ifdef JOYSTICK_SUPPORT and 
+	#ifdef HAVE_PKG_GII.
+	[JOYSTICK_SUPPORT,HAVE_PKG_GII] (joyinit): Suggest -J options
+	if no joystick detected.
+	[!JOYSTICK_SUPPORT] (joyinit,get_joystick_state): New.
+
+	* acconfig.h [HAVE_PKG_GII]: New.
+	* configure.in: Add support for --disable-joystick.  Change
+	configuration status display to print selected libraries.
+	
+2000-07-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Concat keymap.* and keyb.*.  Remove keymap.*.
+	
+	* src/keymap.h (get_key,key_ready): Move to ...
+	* src/keyb.h (get_key,key_ready): ... here.
+	* src/keymap.c (get_key,key_ready): Move to ...
+	* src/keyb.c (get_key,key_ready): ... here.
+	* src/keymap.h: Delete.
+	* src/keymap.c: Delete.
+	* src/Makefile.am (source_HEROES): Remove src/keymap.h amd 
+	src/keymap.c.	
+	* src/endscroll.c: Include keyb.h instead of keymap.h.
+	* src/menus.c: Likewise.
+	* src/heroes.c: Likewise.
+	* src/const.c: Likewise.
+
+	Interface with SDL.
+	
+	* src/display.c: Include config.h, and move existing code under
+	#ifdef HAVE_PKG_GGI.
+	[HAVE_SDL] (visu,screen,set_display_params,init_video,
+	uninit_video,set_color,set_pal,vsynchro): New interface with SDL.
+	* src/keymap.c: Move code under #ifdef HAVE_PKG_GGI.
+	[HAVE_SDL] (process_input_events,uninit_keyboard_map,get_key,
+	key_ready): New interface with SDL.
+	* keys_heroes.h: Move definitions under #ifdef HAVE_PKG_GGI.
+	[HAVE_SDL] (KH_*): New definitions for SDL.
+
+	Misc.
+	
+	* src/heroes (play_game): Use HK_Enter instead of HK_Return.
+	* configure.in: Define DEBUG when --enable-debug.
+	
+2000-06-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Preliminary support for SDL.
+
+	* acconfig.h [HAVE_PKG_LibGGI]: Rename to ...
+	[HAVE_PKG_GGI]: ... this.
+	* Makefile.am (EXTRA_DIST): Add HISTORY.
+	* configure.in: Add support detection of SDL.  Add option
+	--with-SDL.  Handle choice between GGI and SDL.  Replace
+	all occurance of LibGGI by GII.  Use $GGI_include to
+	search for ggi/keyboard.h.  Fix the use of --enable-mem-debug.
+	* acinclude.m4 (AC_caolan_CHECK_PACKAGE): Cosmetic change.
+	* src/Makefile.am (heroes_SRC): Remove keysdef-gii.h.
+	[GGI] (BUILT_SOURCES): Set to keysdef-gii.h.
+	[GGI] (keysdef-gii.h): Rule to make keysdef-gii.h.
+	[SDL] (BUILT_SOURCES): Set to keysdef-sdl.h.
+	[SDL] (keysdef-sdl.h): Rule to make keysdef-sdl.h.
+	* src/keysdef.c: Include options.h.  Include keysdef-ggi.h or
+	keysdef-sdl.h with respect to HAVE_PKG_GGI and HAVE_SDL.
+	
+2000-06-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Move files around, to prepare the interfacing with some other
+	library than LibGGI.
+	
+	* Makefile.am (heroes_SOURCES): Add keysdef-gii.h.
+	(BUILT_SOURCES): Rename keysdef.c to keysdef-gii.h.
+	(keysdef.c): Rename to ...
+	(keysdef-gii.h): ... this.  And adapt to produce #ifndef/#endif
+	guards.
+
+	* src/keysdef.h: Don't include ggi/keyboard.h anymore.
+	* src/keysdef.c: New file.
+	* src/menus.c: Include keysdef.h.
+	* keys_heroes.h: Include ggi/keyboard.h instead of keysdef.h.
+
+	* acinclude.m4: Remove occurence of `AM_PATH_GTK' to suppress a
+	warning from autoreconf.
+	
+2000-06-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Centralize the definitions of used key in src/keys_heroes.h to
+	make the interfacing with another library easiest.
+	
+	* src/keys_heroes.h: New file.
+	* src/gfx_reader.h: Adapt to use keys_heroes.h.
+	* src/options.c: Likewise.
+	* src/menus.c: Likewise.
+	* src/heroes.c: Likewise.
+	* src/const.c: Likewise.
+	
+2000-06-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.in: Change version to 0.3.
+	* TODO: Update.
+	* README: Update.
+
+	* src/getshline.c: Include stdlib.h.
+
+2000-06-23  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Smarter keyboard configurator: allow to assign a key already
+	assigned.  Don't use keyboard_map anymore.
+	
+	* src/menus.c (keyboard_menu): Use get_key and key_ready instead
+	of keyboard_map.  Assign GIIK_NIL to stolen keys.  Jump on NIL keys
+	when trying to quit.
+
+2000-06-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Joystick(s?) handling.
+	
+	* src/joystick.h (joystick_x, joystick_y): Change signedness to 
+	signed.
+	(joystick_limit_up,joystick_limit_right,joystick_limit_down,
+	joystick_limit_left): Remove.
+	(is_joystick_up,is_joystick_right,is_joystick_down,
+	is_joystick_left): Redefine, using joystick_x and joystick_y.
+	* src/joystick.c: Include ggi/gii.h.
+	(joystick_x, joystick_y): Change signedness to 	signed.
+	(joystick_limit_up,joystick_limit_right,joystick_limit_down,
+	joystick_limit_left): Remove.
+	(joystick): New variable.
+	(joystick_x,joystick_y,joystick_b,joydetected): Set values.
+	(_get_joystick_state,joyinit): Rewrite using libgii.
+	(get_joystick_state): Adapt the call to _get_joystick_state.
+	(is_joystick_up,is_joystick_right,is_joystick_down,
+	is_joystick_left): Remove these useless macros.
+	* src/heroes.c (play_demo,quit_yes_no,get_input_directions,
+	play_game): Uncomment joystick handling code.
+	(get_input_directions): Remove detection of joystick unplugging.
+	(main): Call joy_init() if joystick handling not disabled.
+	* src/const.c (key_or_joy_ready): Remove detection of joystick 
+	unplugging.
+	(get_key_or_joy): Return correct KeySyms.
+
+	* src/argv.c (print_help): Display -J and --no-joystick options.
+	(long_options): Rename joystick-off to no-joystick.
+	(parse_argv): Handle -J.
+
+2000-06-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Suppress warning for unused parameters in empty functions.
+	
+	* src/sound.c [HAVE_MIKMOD] (update_thread): Flag parameter as unused.
+	[!HAVE_MIKMOD] (update_thread,decode_sound_options): Likewise.
+	* src/sfx.c [!HAVE_MIKMOD] (load_sfx_mode,event_sfx): Likewise.
+	* src/joystick.c [!HAVE_MIKMOD] (_get_joystick_state): Likewise.
+	* src/draw.c (draw_demo_stick): Likewise.
+
+2000-06-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/heroes.c: Translate all comments to English.
+	(reinit_player): Rename `flag' to `unusable', move the declaration
+	of `bitfl' in the loop where it is used.
+	(main) [PORT]: Remove obselete code.
+	
+2000-06-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Handles -G and --ggi-display options.
+	
+	* src/display.h (set_display_params): New function.
+	* src/display.c: Include string.h and dmalloc.h.
+	(display_params): New variable.
+	(set_display_params): New function.
+	(init_video): Pass display_params to ggiOpen.  Test return values
+	of ggiOpen for errors.
+	* src/argv.c (print_help): Display -G and --ggi-display options.
+	(long_options): Declare -G and --ggi-display options.
+	(parse_argv): Handles them.
+
+2000-06-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/sound.c [!HAVE_MIKMOD]: Include stdio.h.
+	[!HAVE_MIKMOD] (decode_sound_options): Add the argv0 parameters.
+
+2000-06-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Support for sound and sfx volumes.
+
+	* src/sound.c (set_volume): Set md_musicvolume.
+	(halve_volume): Likewise.
+	* src/sfx.c (event_sfx): Set the sample volume.
+	
+2000-06-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Support for options setup in ~/.heroes/heroesrc.  Always create
+	~/.heroes/ directory.
+
+	* src/heroes.c: Always include userdir.h.
+	(main): Always setup userdir.  Call read_userconf before
+	parse_argv.
+	* acconfig.h (USER_DIR): Remove
+	* configure.in: Check for prototypes support.  Suppress handling
+	of USER_DIR.
+	* src/Makefile.am (UDSRC): Remove.
+	(EXTRA_DIST): Remove userdir.c and userdir.h.
+	(heroes_SOURCES): Add userdir.c, userdir.h, getshline.h,
+	getshline.c, userconf.c, and userconf.h.
+	* src/argv.c (print_help): Display a pair of lines about
+	~/.heroes/heroesrc.
+	(parse_argv): Reset optind to 0 so that parse_argv can be called
+	multiple times.  
+	* src/userconf.h: New file.
+	* src/userconf.c: New file.
+	* src/getshline.h: New file.
+	* src/getshline.c: New file.
+	
+	Move MikMod specific options parsing to sound.c.
+
+	* src/sound.h (nth_driver, driver_option): Remove.
+	(decode_sound_options): New.
+	* src/argv.c (parse_argv): Move the 'd' case to
+	decode_sound_options above.
+	* src/argv.c (get_int): Move to...
+	* src/sound.c (get_int): ...here.
+
+	Missing include for dmalloc.h.
+	
+	* src/misc.c [HAVE_DMALLOC]: Include dmalloc.h.
+	
+2000-06-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Support for dmalloc or electric fence.
+	
+	* src/txts.c [HAVE_DMALLOC]: Include dmalloc.h.
+	* src/start.c [HAVE_DMALLOC]: Likewise.
+	* src/sound.c [HAVE_DMALLOC]: Likewise.
+	* src/sfx.c [HAVE_DMALLOC]: Likewise.
+	* src/endscroll.c [HAVE_DMALLOC]: Likewise.
+	* src/pcx.c [HAVE_DMALLOC]: Likewise.
+	* src/menus.c [HAVE_DMALLOC]: Likewise.
+	* src/intro.c [HAVE_DMALLOC]: Likewise.
+	* src/heroes.c [HAVE_DMALLOC]: Likewise.
+	* src/hedlite.c [HAVE_DMALLOC]: Likewise.
+	* src/extras.c [HAVE_DMALLOC]: Likewise.
+	* src/userdir.c [HAVE_DMALLOC]: Likewise.
+
+	* acconfig.h: Remove useless #undefs.
+
+	* configure.in: Add comments.  Add option --enable-mem-debug.
+	Check for dmalloc or else efence.
+	
+2000-06-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Support for sound driver selection and arguments passing.
+	
+	* src/sound.h (print_drivers_list,nth_driver,driver_options): New.
+	* src/sound.c (print_drivers_list,nth_driver,driver_options): New.
+	(init_sound_engine): Initialize md_device with nth_driver. Call
+	MikMod_Init qith driver_options.
+	* src/argv.c (print_help): Display -n and -d options.
+	(get_int): New.
+	(long_options): Add -n and -d options.
+	(parse_argv): Handle -n and -d options.
+
+2000-06-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.in: Change version to 0.2.
+	* TODO: Update.
+	* README: Update.
+	* THANKS: Update.
+	* src/sfx/Makefile.am: New (was missing).
+
+	Various (signedness) cleanups.
+	
+	* configure.in: Suppress -Wno-implicit flag, add -W.
+	* src/txts.c (read_txti_cfg): nbr is now unsigned.
+	* src/sound.h (setup,sync,error): Remove.
+	* src/sound.c (setup,sync,error): Likewise.
+	* src/savegame.c (checksaverec): i is now unsigned.
+	* src/render.c (draw_lemming): Take unsigned pos as argument.
+	(draw_level): Adapt to signedness changes of other variables.
+	* src/gfx_reader.h (draw_text_help): Switch const and static tags
+	in declaration of colorhelp.
+	* src/structs.h (level_info_t): Cosmetic changes. Score and
+	score_delta are now unsigned.
+	* src/pcx.c (pcx_load):	compteur is now unsigned.
+	* src/menus.c: #include misc.h.
+	* src/heroes.c (load_level,compute_corner,ia_eval_dir_target,
+	update_player): Adapt to signedness changes of other variables.
+	(draw_round_info): Supress unused `l' argument. Adapt all callers.
+	* src/const.h (camera_x,camera_y,corner_x,corner_y,corner_dx,
+	corner_dy,inert_x,inert_y,nbr_tiles_cols,nbr_tiles_rows,
+	map_info_2xt,map_info_2yt): Now	unsigned.
+	* src/const.h (camera_x,camera_y,corner_x,corner_y,corner_dx,
+	corner_dy,inert_x,inert_y,nbr_tiles_cols,nbr_tiles_rows,
+	map_info_2xt,map_info_2yt): Likewise.
+	(map_info): Complete initalizer.
+	* src/argv.c: #include string.h
+	
+2000-06-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/sfx/*.raw : Convert each .raw file into ...
+	* src/sfx/*.wav : ... a .wav file.
+	
+2000-06-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/txt_cfg/txti.cfg: Fix a spelling mistake.
+	* src/txt_cfg/heroes.hlp: Transform `COMMERCIAL INFORMATION' into
+	`CONTACT'.  Change the homepage address, add a bug report e-mail.
+	Point to the THANKS file for extra credits.
+
+2000-06-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/heroes.c (jukebox_menu): Remove credit for EOS and MIDAS.
+	Point to the file THANKS instead.
+
+2000-06-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Support for --disable-sound in sfx.c.
+	
+	* src/sfx.c
+	[!HAVE_LIBMIKMOD] (read_sfx_conf,close_sfx_handle,
+	load_sfx_mode,free_all_sfx,event_sfx): New (dummy) fonctions.
+
+2000-06-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Support for sound effects.
+	
+	* src/sound.h (mono): Remove.
+	* src/sound.c (mono): Remove. 
+	(init_sound_engine): Switch to mono if --mono.
+	(play_soundtrack): Set number of SFX voices.
+	* src/sfx.c: Port all #ifdef'ed-out code. Translate comments.
+	* src/sfx/sfx.cfg: Translate comments.  Adapt the file (list .wav,
+	use a space to separate first letter from number).
+	* configure.in: Include sfx un musicdir.  Generate
+	src/sfx/Makefile.
+	* src/argv.h (mono): New variable.
+	* src/argv.c (mono): New variable.
+	(print_help): Print help for --mono.
+	(long_options): Add mono.
+	(parse_argv): Handle mono.
+
+2000-06-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Suppress the `orange line' bug when playing a two player game.
+	
+	* src/const.c (glenz): Change type from char to unsigned char.
+	* src/const.h (glenz): Likewise.
+
+2000-06-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Save options|saves|scores files in ~/.heroes/ by default.
+	
+	* src/scores.c (SCORES_FILE,name,scores_file): New.
+	(write_scores,load_scores): Use scores_file.
+	* src/savegame.c (SAVES_FILE,name,saves_file): New.
+	(write_save_records,load_save_records): Use saves_file.
+	* src/options.c (CONFIG_FILE,name,options_file): New.
+	(write_options,load_options): Use options_file.
+	(reinit_options): Use GII symkeys for default player keys.
+
+	* src/heroes.c (main) [USER_DIR]: Call setup_userdir.
+	* src/misc.h (strcat_alloc): New.
+	* src/misc.c (strcat_alloc): New.
+	* src/userdir.h: New file.
+	* src/userdir.c: New file.
+
+	* acconfig.h: Add USER_SCORES_FILE, USER_CONFIG_FILE,
+	USER_SAVES_FILE, USER_DIR.
+	* configure.in: Add --disable-user-config, --disable-user-scores,
+	and --disable-user-saves options.
+	* src/Makefile.am (heroes_SOURCES): Include userdir.c and
+	userdir.h if needed.
+	(EXTRA_DIST): New.
+	* src/txt_cfg/Makefile.am (x_DATA): Empty (don't install
+	scores.dat).
+	(y_DATA): Empty (don't install options.dat and savegame.dat).	
+	
+2000-05-31  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/heroes.c (enter_your_name): Use delete or backspace.
+	(play_game): Likewise (in "savegame" menu).
+	* src/menus.c (editor_menu): Likewise.
+
+2000-05-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/display.c (init_video): Try to get 8bits display mode before
+	any other depth.
+
+2000-05-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	A smarter way to search for LibGGI.
+	
+	* acconfig.h (HAVE_PKG_LibGGI): New. 
+	* configure.in: Use AC_caolan_CHECK_PACKAGE to search LibGGI.
+	* acinclude.m4 (AC_caolan_CHECK_PACKAGE): New.
+	
+2000-05-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Better keyboard handling (use GII unified scancodes, and
+	display the correct names).	
+
+	* src/menus.c (search_keyname): New.
+	(draw_key): Use search_keyname.
+	(keyboard_menu): Don't limit scancodes to 8bits, use keysyms.
+	* src/keyb.h (KEY_MAX): Change value from 0xff to 0xffff.
+	* src/keyb.c: Don't include keysdef.h.
+	(process_input_events): Use key.label instead of key.number.
+	* src/heroes.c: Don't include keysdef.h.
+	(play_demo,pause,get_input_directions,play_game): Use keysyms.
+	* src/Makefile.am (heroes_SOURCES): Add keysdef.c.
+	(BUILT_SOURCES): New.
+	(keysdef.c): New.
+	* src/keysdef.h: Erase the old file. This now defines 
+	struct keynames_s.
+	* configure.in: Figure out where is ggi/keyboard.h. Test for cpp,
+	and awk.
+	
+2000-05-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Draw in memory before bliting to visual with any depth.
+	Original patch from Pierre Baillet <octplane@via.ecp.fr>.
+	
+	* src/display.c (render_visu): New.
+	(init_video): Open render_visu and acquire a direct-buffer
+	in render_visu. visu has now an unconstrained depth.
+	(uninit_video): Close render_visu.
+	(set_color): Set color in render_visu too.
+	(set_pal): Set colors in render_visu too.
+	(vsynchro): CrossBlit from render_visu to visu.
+	* src/keyb.c (init_keyboard_map): Cosmetic cleanup.
+
+	Suppress a buffer overflow.
+	
+	* src/pixelize (pixel16inline2): Rename to...
+	(pixel_16_inline_2): ... this.  Draw one line less.
+	(pixelize_16): Adapt.
+	(pixel32inline2): Rename to...
+	(pixel_32_inline_2): ... this.  Draw one line less.
+	(pixelize_32): Adapt.
+	(pixel64inline2): Rename to...
+	(pixel_64_inline_2): ... this.  Draw one line less.
+	(pixelize_64): Adapt.	
+	
+2000-05-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/intro.c (show_intro): Don't show wrong copyright info.
+	* src/txt_cfg/heroes.hlp: Update copyright info.
+
+2000-05-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/heroes.c (play_game): Fix handling of escape in 
+	savegame menu.
+
+2000-05-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/keyb.c (process_input_events): Read and ignore KeyRepeat 
+	events so that further calls of get_key don't see them.
+
+2000-05-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/sound.c (init_sound_engine): Register only the xm loader.
+	* TODO: Updated.
+	
+2000-05-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/heroes.c (play_game): Suppress an infinite loop
+	when waiting for the Escape key by calling process_input_event.
+
+	* src/keyb.h (KEY_MAX): New.
+	(keyboard_map): Define using KEY_MAX.
+	* src/keyb.c (keyboard_map): Likewise.
+	(init_keyboard_map): Use KEY_MAX.
+	(process_input_events): Ensure that keyboard_map won't overflow.
+	
+2000-05-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	More arguments fixes...
+	
+	* src/argv.c (long_options): Clean up. Correct values.
+	
+2000-05-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+	
+	Fix a bug in argument handling.
+	
+	* src/argv.c (parse_argv): Handle 0 return from getopt_long.
+	Remove cases that can be processed directly by getopt_long.  
+	Move long_option array out of parse_argv.
+
+2000-05-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+	
+	* configure.in: Evaluate $mandir before echoing.
+	
+2000-05-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	From Jean Delvare <delvare@ensicaen.ismra.fr>.
+
+	* src/display.c (init_video): Add newline to error message.
+	
+2000-05-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Don't supply help2man in the dist.
+	
+	* configure.in: Check for help2man.
+	* man/Makefile.am: Build heroes.6 if HAVE_HELP2MAN.  Strip one
+	extra space. 
+	(EXTRA_DIST): Remove help2man.
+	* man/help2man: Delete. 
+	* README: Updated.
+
+2000-05-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* THANKS: New file.
+	* Makefile.am (EXTRA_DIST): Add THANKS.
+
+2000-05-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Better error handling when setting video mode.
+	
+	* src/display.c (init_video): Exit if correct video unavailable.
+	* README: Update.
+
+	Fix filenames modified by the big renaming patch.
+
+	* src/intro/lezard.pcx: Renamed to ...
+	* src/intro/erase.pcx: ... this.
+	* savegame.c: Fix loaded filenames.
+	* src/gfx_reader.h: Likewise.
+	* src/pcx.c: Display filename on error.
+	* src/heroes.c: Fix loaded file names.
+	
+2000-05-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Build a man page.
+	
+	* Makefile.am (SUBDIRS): Add man subdir.
+	* configure.in: Check for perl. Output man/Makefile. Display $mandir.
+	* src/argv.c (version): Don't indent authors.
+	(print_help): Display help.
+	* man/Makefile.am: New file.
+	* man/help2man: New file.
+	
+	* src/draw.c: Cosmetic changes.
+
+2000-05-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* TODO: Update.
+
+2000-05-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Rename some source files.
+
+	* src/vga_.c: Rename to ...
+	* src/display.c: ... this.
+	* src/vga_.h: Rename to ...
+	* src/display.h: ... this.
+
+	* src/sdf.c: Rename to ...
+	* src/endscroll.c: ... this.
+	* src/sdf.h: Rename to ...
+	* src/endscroll.h: ... this.
+
+	* src/readvga.h: Rename to ...
+	* src/gfx_reader.h: ... this.
+
+	* src/pixel.c: Rename to ...
+	* src/pixelize.c: ... this.
+	* src/pixel.h: Rename to ...
+	* src/pixelize.h: ... this.
+
+	* src/erreurs.c: Rename to ...
+	* src/errors.c: ... this.
+	* src/erreurs.h: Rename to ...
+	* src/errors.h: ... this.
+
+	* src/clavier.c: Rename to ...
+	* src/keymap.c: ... this.
+	* src/clavier.h: Rename to ...
+	* src/keymap.h: ... this.
+
+	* src/affvga.c: Rename to ...
+	* src/draw.c: ... this.
+	* src/affvga.h: Rename to ...
+	* src/draw.h: ... this.
+
+	* src/timer_.c: Rename to ...
+	* src/timer.c: ... this.
+	* src/timer_.h: Rename to ...
+	* src/timer.h: ... this.
+
+	* src/piece.h: Rename to ...
+	* src/structs.h: ... this.
+
+	* src/fonte.h: Rename to ...
+	* src/font.h: ... this.
+	* src/fontem.h: Rename to ...
+	* src/font_menu.h: ... this.
+	* src/fonteh.h: Rename to ...
+	* src/font_help.h: ... this.
+
+	* src/Makefile.am (heroes_SOURCES): Adjust.
+
+	* Adjust all includers.
+	
+2000-05-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Rename all functions and global variables as given by the two
+	columns below (left = old name, right = new one):
+
+	affvga          draw_text
+	affvgaclipleft  draw_text_clipped_left
+	affvgaclipright draw_text_clipped_right
+	affvgasin       draw_text_waving
+	affvga320       draw_text_320
+	affvga320       draw_text_waving_320
+	affvgatype      draw_text_array
+	affvga320type   draw_text_array_320
+	afftyponus      draw_text_bonus
+	transp          copy_rect_transp
+	transp8         copy_rect_transp_8
+	transpred       copy_rect_transp_red
+	transp320       copy_rect_transp_320
+	transpz32       copy_32x32_transp_z
+	copie4          copy_rect_4
+	copie2          copy_rect_2
+	copie2320       copy_rect_2_320
+	copie4320       copy_rect_4_320
+	demostick       draw_demo_stick
+	transpomb       copy_rect_transp_shadow
+
+	touche          get_key
+	toucheready     key_ready
+
+	explo1l         fst_explo_list
+	explo2l         snd_explo_list
+	tunnelsc        tunnel_square_io
+	radarcolor      radar_trail_color
+	collicolor      radar_wall_color
+	aleamode        bonus_proba_array
+	bonusint        bonus_points
+	roundsval       rounds_nbr_values
+	souscasedec     square_offset_320
+	souscasedec384  square_offset
+	modenames       mode_name
+	d2s             d2w
+	s2d             w2d
+	menu            in_menu
+	demo            in_demo
+	jukeboxfl       in_jokebox
+	frametot        frame_cur
+	framenew        frame_old
+	nbrdalles_x     nbr_tiles_cols
+	nbrdalles_y     nbr_tiles_rows
+	flag_x          camera_stop_x
+	flag_y          camera_stop_y
+	tmpbuffer       render_buffer
+	planinfo        map_info
+	planinfo2xt     map_info_2xt
+	planinfo2yt     map_info_2yt
+	planinfo2xwrap  map_info_2xwrap
+	planinfo2ywrap  map_info_2ywrap
+	fonte           main_font_img
+	icones          icons_img
+	vehic           vehicles_img
+	bonusa          bonus_a_img
+	bonusb          bonus_b_img
+	typonus         bonus_font_img
+	jukebox         jukebox_img
+	dalles          tile_set_img
+	deuxplr         two_players
+	trainloc        trail_pos
+	trainsens       trail_way
+	trainnbr        trail_offset
+	trainsize       trail_size
+	coulplr         col2plr
+	plrcoul         plr2col
+	plan            level_map
+	lastexplo       last_explo
+	doccup          square_occupied
+	dtsens          square_way
+	dradar          square_radar_wall
+	dcolli          square_wall
+	dexplo          square_explosion
+	dexplomorts     square_dead_explosion
+	dexploptr       explo_list_ptr
+	dexplox         explo_list_pos_x
+	dexploy         explo_list_pos_y
+	dexplonbr       explo_nbr
+	dexplot         square_explosion_type
+	dbonus          tile_bonus
+	dbonuscpu       tile_bonus_cpu
+	dbonustmp	bonus_time
+	dbonusptr	bonus_ptr
+	dbonuslook      square2tile
+	dwrap           square_wrap
+	dref            square_offset2coord
+	dcolor          square_object
+	nbrptibplr      lemmings_per_players
+	nbrptibtot      lemmings_total
+	dptib           square_lemmings_list
+	dtds            square_dead_lemmings_list
+	ptibsupport     lemmings_support
+	dbonusnbr       bonus_total_nbr
+	dbonusnbre      bonus_real_nbr
+	dcolornbr       objects_nbr
+	dbonuscur       next_bonus_to_update
+	scacces         square2offset
+	decalbonus      bonus_anim_offset
+	radarpos        radar_target_pos
+	radarcurpos     radar_current_pos
+	gamemode        game_mode
+	gamemagic       game_magic
+	centerx         camera_center_x
+	clockanim       clock_anim_offset
+	ptibanim        lemmings_anim_offset
+	ptibdecal       lemmings_move_offset
+	invinc          invincible
+	demoready       demo_ready
+	demoflag        demo_done
+	touchejoyready  key_or_joy_ready
+	touchejoy       get_key_or_joy
+	glenzbox        draw_glenz_box
+	defpallum       set_pal_with_luminance
+
+	fatal           fatal_error
+
+	extralst        extra_list
+	extraflg        extra_selected_list
+	extranbr        extra_nbr
+	makeextralst    make_extra_list
+
+	fonteloc        font_pos
+	fontepre        font_first_ascii
+	fontetransp     font_transp_color
+	fonteY          font_height
+	fonteX          font_width
+
+	fontehelpX      help_font_width
+
+	dallenom        tile_set_name
+	glenznom        glenz_name
+	modulenom       soundtrack_name
+	levellst        level_list
+	levelnbr        level_list_nbr
+	levelinfo       level_wrapped
+	levelrndlst     level_full_list
+	levelrndnbr     level_full_list_size
+	questpos        current_quest_level
+	listemod        soundtrack_list
+	auteur          soundtrack_author_list
+	modnbr          soundtrack_current_nbr
+	modtime         soundtrack_time
+	levelfinished   level_is_finished
+	skip1stmoves    ia_skip_firsts_moves
+	evaldirmax      ia_max_depth
+	evaldirlvl      ia_cur_depth
+	evalinvinc      ia_is_invincible
+	evalplr         ia_player
+	targetx         ia_target_x
+	targety         ia_targer_y
+	midx            ia_wrap_x
+	midy            ia_wrap_y
+	lowmidx         ia_wrap_left
+	lowmidy         ia_wrap_right
+	DEMOTIME        DEMO_DURATION
+	affok           enable_blit
+	aleabonus       bonus_proba
+	aleabonustot    bonus_proba_sum
+	mousefound      mouse_found
+	txt             txt_tmp
+	txtbonus        txt_bonus
+	txtbonustempo   txt_bonus_tempo
+	play            play_game
+	randbonus       random_bonus
+	newbonus        add_random_bonus
+	newbonust       add_bonus
+	delbonus        rem_bonus
+	newcolor        add_color
+	newcash         add_cash
+	efface_plr      erase_player
+	reinitplr       reinit_player
+	loadlevel       load_level
+	endlevel        unload_level
+	calc_corner     compute_corner
+	sendrle         write_rle
+	savepcx         save_pcx
+	afftxtbonus     draw_txt_bonus
+	showtxtbonus    show_txt_bonus
+	jukeboxmenu     jukebox_menu
+	loadlvlpasrand  load_level_from_number
+	initrandlvllst  compute_level_full_list
+	freerandlvllst  free_level_full_list
+	randlvlpick     random_level
+	loadlvlrand     load_random_wrapped_level
+	loadlvlrandround load_random_level
+	enteryourname   enter_your_name
+	playmenu        play_menu
+	outputscreen    output_screen
+	thetapoint      theta_prime
+	PASEULER        EULER_STEP
+	NBRPAS          NBR_STEPS
+	tempsecoule     elapsed_time
+	pendule_init    pendulum_init
+	pendule_un_pas  pandulum_one_step
+	pendule_maj     pendulum_update
+	growtrail       grow_trail
+	shrinktrail     shrink_trail
+	effacetrace     erase_trail
+	evaldist        ia_eval_dist
+	evaldirinline   ia_eval_dir_target_inline
+	evaldirbonusinline ia_eval_dir_bonus_inline
+	evaldirecraseinline ia_eval_dir_lemming_inline
+	evaldirdollarinline ia_eval_dir_cash_inline
+	evaldircolorinline ia_eval_dir_color_inline
+	evalposcote     ia_eval_neighb_pos
+	evaldir         ia_eval_dir_target
+	evaldirecrase   ia_eval_dir_lemming
+	evaldircolor    ia_eval_dir_color
+	evaldirdollar   ia_eval_dir_cash
+	evaldirbonus    ia_eval_dir_bonus
+	gototargetinline ia_goto_target_inline
+	gotobonusinline ia_goto_bonus_inline
+	gotoecraseinline ia_goto_lemming_inline
+	gotocolorinline ia_goto_color_inline
+	gotodollarinline ia_goto_cash_inline
+	gototarget      ia_goto_target
+	gotobonusnear   ia_goto_nearest_bonus
+	gotoecrasenear  ia_goto_nearest_lemming
+	gotocolornear   ia_goto_nearest_color
+	gotodollarnear  ia_goto_nearest_cash
+	trouvesens      find_free_way
+	avplr           update_player
+	majexplo        update_explo
+	majptib         update_lemmings
+	majbonus        update_bonus
+	majall          update_all
+	playdemo        play_demo
+	prepdemo        load_demo
+	scoresmenu      scores_menu
+	mainmenu        main_menu
+	quit_yn         quit_yes_no
+	inputdir        get_input_directions
+	aff_endlevelinfo draw_end_level_info
+	aff_roundinfo   draw_round_info
+	readlvllst      read_level_list
+
+	fadepal         fade_pal
+	introimg        intro_img
+	lezardata       erase_data
+	lezardatac      erase_data_cur
+	coulnbr         color_nbr
+	lezardcoulptr   erase_color_ptr
+	copiemoto1      copy_vehicle_1
+	copiemoto2      copy_vehicle_2
+	lezardcalc      compute_erase_data
+	lezard          erase
+	showintro       play_intro
+
+	joydetected     joystick_detected
+	joylimitup      joystick_limit_up
+	joylimitright   joystick_limit_right
+	joylimitdown    joystick_limit_down
+	joylimitleft    joystick_limit_left
+
+	_getjoystate    _get_joystick_state
+	getjoystate     get_joystick_state
+	isjoyup         is_joystick_up
+	isjoydown       is_joystick_down
+	isjoyleft       is_joystick_left
+	isjoyright      is_joystick_right
+	isjoybuta       is_joystick_button_a
+	isjoybutb       is_joystick_button_b
+
+	clavier         keyboard_map
+	instkbdhdl      init_keyboard_map
+	uninstkbdhdl    uninit_keyboard_map
+
+	keysdefstr      key_string
+
+	menufond        background_menu
+	controlmenu     control_menu
+	afftouche       draw_key
+	keybmenu        keyboard_menu
+	soundmenu       sound_menu
+	screenmenu      screen_menu
+	gamemenu        game_menu
+	extramenu       extra_menu
+	demoinfo        demo_info
+	optionmenu      option_menu
+	affquitmenu     draw_quit_menu
+	quitmenu        quit_menu
+	affplaymenu     draw_play_menu
+	affmainmenu     draw_main_menu
+	tilesnames      tile_sets_names
+	loadtilesprev   load_tile_set_preview
+	editselect      editor_selector
+	editormenu      editor_menu
+	editorpremenu   editor_first_menu
+	aff_savegameinfo draw_saved_games_info
+
+	writeoptions    write_options
+	reinitoptions   reinit_options
+	loadoptions     load_options
+
+	scrsize         screen_size
+	scrmap          radar_map
+	scrglenz        use_glenz
+	scrinfo         display_infos
+	scrcont         luminance
+	scrinrt         inertia
+	mus             music
+	musvol          music_volume
+	sfxvol          sfx_volume
+	ctrlone         ctrl_one
+	ctrltwo         ctrl_two
+	autoone         autopilot_one
+	autotwo         autopilot_two
+	gameghost       ghosts
+	gamespeed       speed
+	gameplr         player_color
+	keysdef         player_keys
+	t_opt           options_t
+
+	d_haut          d_up
+	d_droite        d_right
+	d_bas           d_down
+	d_gauche        d_left
+	s_haut          w_up
+	s_droite        w_right
+	s_bas           w_down
+	s_gauche        w_left
+	c_bas           c_down
+	c_gauche        c_left
+	c_haut          c_up
+	c_droite        c_right
+	t_nbr           type_nbr
+	t_noms          type_name
+	sortie          output
+	nbrimages       frame_nbr
+	vitesse         speed
+	tunnel_s        tunnel_t
+	anim_s          anim_t
+	paramunion      param_u
+	numero          number
+	dallemem        tile_t
+	infodallemem    tile_info_t
+	depart          start
+	departsens      start_way
+	dallepcx        tile_set_name
+	lvlmodule       soundtrack_name
+	level_header    level_header_t
+	sens            way
+	nextsens        next_way
+	oldsens         old_way
+	oldsens2        old_old_way
+	senstun         tunnel_way
+	sc              square
+	invcom          inversed_controls
+	scorepp         score_delta
+	turbol	        turbo_level
+	turbolpp        turbo_level_delta
+	deform          rotozoom
+	sensroto        rotozoom_direction
+	deformgel       waves
+	deformgelbeg    waves_begin
+	invinc          invincible
+	vies            lifes
+	notdelay        notify_delay
+	tinv            tunnel_inverse
+	autopil         autopilot
+	comportement    behaviour
+	targ            target
+	nbrbonhommes    lemmings_nbr
+	nbrmartiens     martians_nbr
+	joueur          player_t
+	ptibonhomme     lemming
+	pts             points
+	topscore        top_score
+	savegame        saved_game
+
+	pixel1          pixelize_1
+	pixel2inline    pixelize_2_inline
+	pixel2          pixelize_2
+	pixel4inline    pixelize_4_inline
+	pixel4          pixelize_4
+	pixel8inline    pixelize_8_inline
+	pixel8          pixelize_8
+	pixel16inline   pixelize_16_inline
+	pixel16         pixelize_16
+	pixel32inline   pixelize_32_inline
+	pixel32         pixelize_32
+	pixel64inline   pixelize_64_inline
+	pixel64         pixelize_64
+
+	nbrlignes       nbr_lines
+	fonteh          font_help_img
+	helpics         help_pics_img
+	transphelp      copy_rect_transp_help
+	transphelpgl    copy_rect_transp_help_with_glenz
+	transphelpfgl   copy_rect_transp_help_full_glenz
+	affhelpvga      draw_text_help
+	showhelp        show_help
+	readvga         graphic_reader
+
+	partiel4b       copy_tile
+	dalletransp     copy_tile_transp
+	affbonus        draw_bonus
+	sousdalletransp copy_square_transp
+	afftrail        draw_trail_real
+	affvehic        draw_vehicle_tail
+	affvehic2       draw_vehicle_head
+	afftrain        draw_trail
+	afftrain2       draw_trail_tail
+	transpbonh      copy_lemming_transp
+	affpyra         draw_color
+	affcash         draw_cash
+	affbonh         draw_lemming
+	transptache     copy_dead_lemming_transp
+	afftache        draw_dead_lemming
+	draw_lvl        draw_level
+	affradar        draw_radar_map
+	affscore        draw_score
+	afflogoinfo     draw_logo_info
+	aff_buffer_tmp1 display_buffer_tmp1
+	aff_buffer_dyna1 display_buffer_moving
+	aff_buffer_half display_two_buffers
+	aff_buffer_half_dyna1 display_two_buffers_moving
+	aff_buffer_half_dyna2 display_two_buffers_moving_and_clear
+
+	setmagic        set_magic
+	allocmagic      compute_magic
+	findmagic       find_magic
+	checksaverec    check_save_records
+	reinitsaverec   clear_save_records
+	writesaverec    write_save_records
+	loadsaverec     load_save_records
+
+	cmpscores       cmp_scores
+	sortscores      sort_scores
+	reinitscores    clear_scores
+	checkscores     check_scores
+	writescores     write_scores
+	loadscores      load_scores
+
+	sbuffer         scroll_buffer
+	sauts           jumps
+	couleurs        colors
+	fond            background_img
+	copiefond       copy_background
+	preppage        draw_background
+	affpage         display_page
+	defpalfade      set_pal_fade
+	renderpage      render_background
+	sdf             end_scroll
+
+	maxevent        max_events
+	filenamet       filename_t
+	sfxnames        sfx_names
+	sfxloaded       sfx_loaded
+	sfxhandles      sfx_handles
+	playhandles     play_handles
+	eventhdl        event_handle
+	maxsfx          max_sfx
+	virem           remove_comments
+	aspc            forward_spaces
+	readsfxcfg      read_sfx_conf
+	closesfxhdl     close_sfx_handle
+	msfx            mark_sfx
+	stgame          std_sfx_set
+	freeallsfx      free_all_sfx
+	loadsfxmode     load_sfx_mode
+	eventsfx        event_sfx
+
+	modvolume       set_volume
+	halfvolume      halve_volume
+	init_midas      init_sound_engine
+	close_midas     uninit_sound_engine
+	chargexm        load_soundtrack
+	videxm          unload_soundtrack
+	playxm          play_soundtrack
+
+	frametimer      frame_timer
+	installetimer   init_timer
+	desinstalletimer uninit_timer
+	readsettimer    read_and_reset_timer
+	readsettimernozero read_and_reset_timer_non_zero
+	readsettimer_withvalue read_and_set_timer_with_value
+	updatetimer     update_timer
+	updatetimer_block update_timer_block
+
+	maxtxti         max_txti
+	readtxticfg     read_txti_cfg
+	close_video     uninit_video
+	defcoul         set_color
+	defpal          set_pal
+
+	aff_buffer_def  rotozoom_buffer
+	aff_buffer_def_half rotozoom_half_buffer
+	hlzoom          horizontal_zoom_wave
+	hlzoom2         horizontal_zoom_flip
+	vlzoom          vertical_zoom_wave
+	whichligne      which_line
+	whichcol        which_column
+	whichoffset     which_offset
+	aff_buffer_gel  wave_buffer
+	aff_buffer_gel_half wave_half_buffer
+	flippage        flip_buffer
+	coinglz         corner_buffer_glenz
+	coin1           corner_buffer_begin
+	coin2           corner_buffer_middle
+	coin3           corner_buffer_end
+	coin            corner_buffer
+	visualsinit     compute_lut
+
+2000-05-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Misc cleanups.
+	
+	* src/sdf.c (texte): Remove.
+	(sdf): Don't load srtattxt.pcx.
+	* src/render (draw_lvl): Remove useless comments.
+	* src/optionss.h (struct t_opt): Document blocs of options.
+	* src/menus.c (editormenu): Lowercase newlevel.pcx.
+	* src/intro.c (lezard): Cosmetic change in prototype.
+	* src/extras.c (makeextralst): Remove old DOS code.
+	* src/clavier.h (etatclav): Remove.
+	* src/clavier.c (etatclav): Remove.
+	* src/intro/Makefile.am (x_DATA): Add start.pcx.
+
+2000-05-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Fix the extramenu bug.
+	
+	* src/misc.c (strupr): New.
+	* src/misc.h (strupr): New.
+	* src/menus.c (extramenu): Upper case the filenames before
+	displaying them.
+	* TODO: Remove associated entry.
+
+2000-05-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/timer_.c (updatetimer): Typo.
+	(installetimer): Init start_time.
+
+2000-05-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/intro/Makefile.am (x_DATA): Specify the exact filenames.
+
+2000-05-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Use gettimeofday to simulate the frame timer (don't use 
+	times anymore).
+	
+	* src/timer_.c: Use HAVE_SYS_TIME to #include the correct header.
+	(start_time): Change type to struct timeval.
+	(frame_lenght): Remove.
+	(usec_frame_lenght): New.
+	(frames_per_second): New.
+	(installetimer): Don't try to compute the retrace time anymore,
+	fix it to 70FPS instead.
+	(readsettimer_withvalue,updatetimer): Adapted to use gettimeofday.
+	(updatetimer_block): Comment added.
+	* configure.in: Check for sys/time.h.
+	
+2000-05-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Add the intro and tweak the timer to wait the next 
+	frame in updatetimer_block.
+	
+	* src/intro.c (lezardata,lezardatac,lezardcoulptr): Now unsigned.
+	(img2vram,copiemoto1,copiemoto2,lezardcalc,
+	lezard,antialias,show_intro): Tag static.
+	(lezard,antialias): Translated from assembly to C.
+	* src/heroes.c (main): Call showintro.  Call installtimer right
+	after init_video.
+	* src/Makefile.am (SUBDIRS): Add intro.
+	(heroes_SOURCES): Add intro.c.
+	* src/intro/Makefile.am: New file.
+	* configure.in: Add $LIBS on linker flags status line. Generate
+	src/intro/Makefile.
+
+	* src/const.c (vsynch): Call updatetimer_block instead of updatetimer.
+	* src/timer_.c (updatetimer_block): New.
+	* src/timer_.h (updatetimer_block): New.
+	
+2000-05-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.in: Guess canonical host.  Exit if LibGGI is not
+	usable. Add -NDEBUG to $CFLAGS.  Display configuration status.
+	* config.guess: New file.
+	* config.new: New file.
+	* acconfig.h (HOST): Added. 
+	* src/argv.c (version): Display canonical host.
+
+2000-05-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Tag local functions with static.
+	
+	* src/sound.c (init_midas): Typo.
+	(update_thread): Tag static.
+	* src/sfx.c (filenamet,sfxnames,sfxloaded,sfxhandles,
+	playhandles,eventhdl,maxsfx,tmp3,virem,stgame): #ifdef out.
+	(readsfxcfg,closesfxhdl,freeallsfx,loadsfxmode,eventsfx): Remove 
+	extern tag.
+	* src/scores.c (cmpscores,checkscores): Tag static.
+	* src/savegame.c (setmagic,checksaverec): Tag static.
+	* src/render.c (partiel4b,dalletransp,affbonus,sousdalletransp,
+	afftrail,affvehic,affvehic2,afftrain,afftrain2,transpbonh,
+	affpyra,affcash,affbonh,transptache,afftache): Tag static.
+	* src/pixel.c (pixel2inline,pixel4inline,pixel8inline,
+	pixel16inline,pixel16inline2,pixel32inline,pixel32inline2,
+	pixel64inline,pixel64inline2): Tag static.
+	* src/pcx.c (delta): Tag static.
+	* src/menus.c (controlmenu,afftouche,keybmenu,soundmenu,
+	screenmenu,gamemenu,extramenu,loadtilesprev,editselect,
+	editormenu): Tag static.
+	(loadtilesprev): Lowercase the strings.
+	* src/joystick.c (_getjoystate): Tag static.
+	
+2000-05-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.in: Add support for --disable-sound and
+	--enable-debug.  Add more compiler warning and 
+	optimization flags.
+	* README (Installation): Document --disable-sound and
+	--enable-debug.
+
+	* src/Makefile.am (heroes_LDADD): Remove.
+	
+	* TODO: Update.
+
+2000-05-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* TODO: Update.
+	* README: Update.
+	* HISTORY: New file.
+
+2000-05-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Sound with MikMod and pthread.
+
+	* src/sound.h (init_midas): Return status.
+	* src/sound.c [HAVE_LIBMIKMOD]: Use Mikmod.
+	[!HAVE_LIBMIKMOD]: Empty implemetation.
+	
+	* src/heroes.c (loadlevel): Downcase module name.
+	(jukeboxmenu): Likewise.
+	(pause): Likewise.
+	(playmenu): Downcase filename.
+
+	* acconfig.h: Add HAVE_LIBMIKMOD.
+	* configure.in: Test for libmikmod.
+	* acinclude.m4: Add AC_PATH_GENERIC macro.
+
+	* src/mod/Makefile.am: New file.
+	
+	* TODO: Add some notes.
+
+2000-05-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Handle command line options with getopt_long.
+
+	* src/argv.h: New.
+	* src/argv.c: New.
+	
+	* src/sfx.h (nosfx): Move to argv.h.
+	* src/sfx.c (nosfx): Move to argv.c.
+
+	* src/savegame.h (x10sav): Move to argv.h.
+	* src/savegame.c: #include argv.h.
+	(x10sav): Move to argv.c.
+
+	* src/options.h (swapside): Move to argv.h.
+
+	* src/heroes.c: #include argv.h.
+	(levelnom): Remove.
+	(play): Use level_name from argv.h instead of levelnom.
+	(main): Remove all command line parsing code.
+	(doublefx,snap,joyoff,devparm,loadulevel,directmenu,
+	reinitsco,reinitopt,reinitsav): Moved to argv.h and argv.c.	
+	
+	* src/render.c: #include argv.h.
+	
+	* src/Makefile.am (heroes_SOURCES): Add argv.c and argv.h.
+	
+2000-05-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	A working autoconf/automake configuration.
+	
+	* src/sfx.c (readsfxcfg): Return 0.
+
+	* src/Makefile.am (SUBDIRS): New.
+	* src/txt_cfg/Makefile.am: New.
+	* src/sprites/Makefile.am: New.
+	* src/rsc/Makefile.am: New.
+	* src/level/Makefile.am: New.
+	* src/extralvl/Makefile.am: New.
+	
+	* acinclude.m4: New, defines AC_DEFINE_DIR.
+	* configure.in: Use AC_DEFINE_DIR.
+
+2000-05-09  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Some fixes, plus autoconf/automake installation.
+	
+	* src/sfx.c: #ifdef out all the code.
+
+	* src/heroes.c: Rename to ...
+	* src/heroes.h: ... this.
+	* src/sdf.c: Adapt to #incluide heroes.h.
+	* src/heroes.c: Likewise.
+
+	* acconfig.h: Used to generate src/config.h.
+	* src/config.h: Remove from project (generated by configure).
+	* src/Makefile: Likewise.
+	* src/level/demo.lst: Delete.
+	
+	* README: New file.
+	* AUTHORS: New file.
+	* NEWS: New file.
+	* COPYING: New file.
+	* INSTALL: New file.
+	
+	* Makefile.am: New file.
+	* configure.in: New file.
+	* src/Makefile.am: New file.
+	
+	* install-sh: New file.
+	* aclocal.m4: New file.
+	
+2000-05-08  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Recode each source file from MSDOS to latin1 charset.
+	Indent -br -ce each source file.
+	Insert copyright header on top of each source file.
+	
+2000-05-08  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Handle keyboard events.
+
+	* src/keyb.h
+	(clavier): Don't need to be volatile anymore.
+	(instkbdfil,uninstkbdfil,instkbdcc,uninstkbdcc): Remove.
+	(process_input_events): New.
+	* src/keyb.c: Likewise.
+	
+	* src/menus.c (keybmenu): Call process_input_events.
+	* src/heroes.c 
+	(playdemo): Call process_input_events.
+	(quit_yn): Use touchejoy instead of clavier.
+	(play): Call process_input_events. Use touchejoy instead of
+	clavier.
+	(main): Remove calls to instkbdcc, instkbdfil, uninstkbdfil,
+	uninstkbdcc.
+
+2000-05-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/visuals.c (aff_buffer_def_half): Thinko.
+
+	* src/timer_.h (readsettimer_withvalue): New.
+	* src/heroes.c (loadlevel): Use it.
+	* src/timer_.h (readsettimer_withvalue): New.
+	(frame_lenght): New.
+	(installetimer): Calculate frame_lenght.
+	(updatetimer): Use frame_lenght.
+	
+	* src/readvga.c (transphelpfgl): Specify signedness of some char 
+	variables.
+	* src/heroes.c (outputscreen): Likewise.
+	
+2000-05-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/visuals.c (aff_buffer_def_half): Handle the case where a
+	full line may be black.
+
+	* src/txt_cfg/options.dat: Overwrite.
+
+	* src/render.c (affbonh,afftache): Correct use of ptibsupport.
+	* src/heroes.c (loadlevel,endlevel): Likewise.
+
+	* src/pixel.c
+	(pixe8inline,pixe16inline,pixe32inline,pixe64inline): Correct
+	wrong calculation.
+	
+	* src/readvga.c (showhelp): Use GII keysyms.
+	* src/menus.c: Likewise.
+	* src/heroes.c: Likewise.
+	* src/clavier.h: #include ggi/keyboard.h.
+	
+	* src/const.h (touchejoy): Return int.
+	* src/const.c (touchejoy): Likewise.
+	
+2000-05-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/visuals.c (aff_buffer_def): Write on 320 columns, not 319.
+	(aff_buffer_def_half): Write on 160 columns, not 159.
+	* src/vga_.c 
+	(init_video): Call ggiSetColorfulPalette.
+	(defcoul,defpal): Scale colors by 1024.
+	* src/render.c (partiel4b): Typo.
+	(draw_lvl): Specify signedness of some char 
+	variables (or promote some other to int).
+	* src/piece.h: Use proper syntax for __attribute__ ((packed)).
+	* src/heroes.c: Various tweaks for timer.
+	* src/const.c (vsynch): Update frametot.
+	* src/Makefile (OBJ): Remove finfo.o.
+	* src/timer_.c (updatetimer): Don't use CLOCKS_PER_SEC.
+	
+2000-05-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Interface with GGI. Replace timer stuff. 
+	Miscellaneous fixes.
+	
+	* src/vga_.h: Remove all DOS stuff.  Specify signedness 
+	of some char variables (or promote some other to int).
+	* src/vga_.c: Likewise.  Interface with libggi.
+
+	* src/timer_.h:  Specify signedness 
+	of some char variables (or promote some other to int).
+	* src/timer_.c:
+
+	* src/sound.c (init_midas): Remove video mode switching.
+	* src/sdf.c (sdf): Likewise.
+	* src/intro.c (show_intro): Likewise.
+	
+	* src/menus.c: Remove tests of demoversion.
+
+	* src/keyb.c: #ifdef out all the code.
+	* src/joystick.c (_getjoystate): Do nothing.
+
+	* src/heroes.c: Remove reference to finfo.h. Remove tests of 
+	demoversion.
+	(readlevellst): Prevent NULL dereferencing.
+	(main): Init srand from time(0). Call init_video and close_video.
+
+	* src/extras.c: Free the correct buffer.
+
+	* src/erreurs.c: Call close_video.
+
+	* src/const.h (demoversion): Remove.
+	(windaube): Remove.
+	(frametot): Don't need to be volatile anymore.
+	* src/const.c: Likewise.
+	(vsynch): Use vsynchro and updatetimer.
+	(prevr): Remove.
+
+	* src/clavier.h
+	(touche): Return int.
+	(toucheready): Return int.
+	* src/clavier.c
+	(touche): Use ggiGetc.
+	(toucheready): Use ggiKbhit.
+
+	* Makefile
+	(CFLAGS): Add debugging symbols.
+	(LDFLAGS): Link with libggi.
+	(OBJ): Remove intro.o and start.o. Add timer_.o and keyb.o.
+
+	* src/timer_.c: New file (replace timer_.asm).
+	* src/timer_.asm: Delete.
+	* src/misc.h: New file (declare strlwr).
+	* src/misc.c: New file (define it).
+
+	* src/finfo.c: Delete.
+	* src/finfo.h: Delete.
+	
+2000-05-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Translate assembly code back to C.
+
+	* src/visuals.c 
+	(rotoinline): Remove.
+	(aff_buffer_def): Add C code to replace rotoinline call.
+	(rotoinline2): Remove.
+	(aff_buffer_def_half): Add  C code to replace rotoinline2 call.
+	* src/render.c (partiel4b): Translate to C.
+	* src/pixel.c 
+	(pixel2inline,pixel4inline,pixel8inline,pixel16inline,pixel16inline2,
+	pixel32inline,pixel32inline2): Translate to C.
+	(pixel2,pixel4,pixel8,pixel16,pixel32): Adapt.
+	
+2000-05-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Move all directory #definitions in the same file (src/config.h).
+
+	* src/config.h: New file.
+
+	* src/txts.c: #include src/config.h.
+	* src/start.c: Likewise.
+	(introdir): Remove.
+	* src/sdf.c: Likewise.
+	(introdir): Remove.
+	* src/scores.c: Likewise.
+	* src/savegame.c: Likewise.
+	* src/readvga.c: Likewise.
+	* src/options.c: Likewise.
+	* src/menus.c: Likewise.
+	* src/intro.c: Likewise.
+	* src/heroes.c: Likewise.
+	* src/hedlite.c: Likewise.
+	(rscdir,nivdir,heddir,moddir): Remove.
+	* src/finfo.c: Likewise.
+	* src/extras.c: Likewise.
+	(extradir): Remove.
+	* src/const.c: Likewise.
+	(spritedir,rscdir,nivdir,heddir,moddir,introdir,extradir): Remove.
+	* src/sfx.c: Likewise. 
+	(sfxdir): Remove.
+	* src/extras.h (extradir): Remove.
+	* src/const.h (spritedir,rscdir,nivdir,heddir,moddir,introdir): Remove.
+	* src/Makefile: New file.
+	
+2000-05-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	For each X.c: #include X.h and solve the conflicts.
+
+	* src/txts.c: #include txts.h
+	* src/start.c: #include src/start.h.
+	* src/sound.c: #include src/sound.h.
+	* src/sfx.c: #include src/sfx.h.
+	* src/sdf.c: #include src/sdf.h.
+	* src/scores.c: #include src/scores.h.
+	* src/savegame.c: #include src/savegame.h.
+	* src/pixel.c: #include src/pixel.h.
+	* src/options.c: #include src/options.h.
+	* src/menus.c: #include src/menus.h.
+	* src/keyb.c: #include src/keyb.h.
+	* src/joystick.c: #include src/joystick.h.
+	* src/intro.c: #include src/intro.h.
+	* src/heroes.c: #include src/heroes.h.
+	* src/heroes.h: Correct.
+	* src/hedlite.c: #include src/hedlite.h.
+	* src/finfo.c: #include src/finfo.h.
+	* src/erreurs.c: #include src/erreurs.h.
+	* src/const.c: #include src/const.h.
+	* src/const.h: Correct.
+	* src/clavier.c: #include src/clavier.h.
+	* src/affvga.c: #include src/affvga.h.  Specify signedness 
+	of some char variables (or promote some other to int)
+	* src/affvga.h: Adapt.
+	
+	* src/hcdplay.h: Delete.
+	* src/test.c: Delete.
+	
+2000-05-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Many changes allowing all the following files to compile : sfx.c
+	pcx.c erreurs.c joystick.c clavier.c const.c options.c scores.c
+	savegame.c intro.c vga_.c menus.c affvga.c extras.c visuals.c
+	render.c start.c sound.c pixel.c finfo.c sdf.c txts.c misc.c.
+
+	* src/visuals.h: Specify signedness of	some char variables 
+	(or promote some other to int).
+	* src/render.h: Likewise.
+	* src/visuals.c: Likewise. #ifdef out some assembly code.
+	* src/render.c: Likewise.
+	* src/pixel.c: Likewise.
+	* src/txts.c: Rewrite all `(*X)[]' as `*X'.
+	* src/sound.c: #ifdef out Midas stuff left.
+	* src/sfx.h (sxfrev): Remove.
+	* src/sfx.c: Rewrite all `(*X)[]' as `*X'. Move freeallsfx
+	arround.
+	* src/sdf.c: Remove reference to mallox.h.
+	* src/savegame.c: Minor fixes.
+	* src/pcx.c: #include stdlib.h.
+	* src/options.c: Reverse the order of functions.
+	* src/menus.c: Add '{ }' arround many ambiguous if/else.
+	Specify signedness of some char variables (or promote some 
+	other to int).
+	* src/keybc.c: Remove reference to dos.h and conio.h.
+	* src/intro.c: Remove reference to mallox.h. Specify signedness 
+	of some char variables (or promote some other to int). 
+	#ifdef out some assembly code.
+	* src/fastmem.h: Typos.
+	* src/extras.h: Rewrite all `(*X)[]' as `*X'.
+	* src/extras.c (makeextralst): Use scandir to list extra levels.
+	(select_file): New.
+	* src/erreurs.c: Remove the MS-DOS part.
+	* src/const.c: Specify signedness of some char variables (or 
+	promote some other to int).  Rewrite all `(*X)[]' as `*X'.
+	* src/affvga.c: Specify signedness of some char variables (or 
+	promote some other to int).  Rewrite call to JUSTIF_CALL with
+	empty parameter as `JUSTIF_CALC( )'.
+	
+2000-05-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Many changes allowing heroes.c to compile.
+
+	* src/render.h (afftxtbonus): Remove.
+	* src/readvga.c: Remove ref. to conio.h, specify signedness of
+	some char variables (or promote some other to int).
+	* src/optionss.h: Specify signedness of	some char variables 
+	(or promote some other to int).
+	* src/options.h: Likewise.
+	* src/keyb.c: Likewise.
+	* src/extras.h: Likewise.
+	* src/const.h: Likewise.
+	* src/const.c: Likewise.	
+	* src/piece.h: Likewise.  Replace #pragma pack by 
+	__attribute__ ((packed)).
+	* src/pcx.h: Replace #pragma pack by __attribute__ ((packed)).
+	Remove to #pragma aux.
+
+	* src/heroes.c: Too many changes to list. Many functions moved.
+	Specify signedness of some char variables (or promote some 
+	other to int).  Rewrite all `(*X)[]' as `*X'.
+	* src/extras.c: Rewrite all `(*X)[]' as `*X'.
+	
+2000-05-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/mallox.h: Delete.
+	* src/mallox.c: Delete.
+	* src/makefile: Delete.
+	* src/fortune.h: Delete. 
+	* src/fortune.c: Delete. 
+
+	* src/start.c: Remove reference to mallox.h.
+	* src/sfx.c: Likewise.
+	* src/pcx.c: Likewise.
+	* src/menus.c: Likewise.
+	* src/hedlite.c: Likewise.
+	* src/finfo.c: Likewise.
+	src/extras.c
+	* src/heroes.c: Likewise. Remove reference to fortune.h.
+	
+	* src/keyb.h: Remove LED stuff.
+	* src/keyb.c: Likewise.
+	* src/clavier.h (touche,toucheready): Remove #pargma aux.
+	* src/clavier.c: Likewise.
+	
+2000-05-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/cdplayer.bat: Delete.
+	* src/cdrom.c: Delete.
+	* src/cdrom.h: Delete.
+	* src/cdrom_a.asm: Delete.
+	* src/file_id.diz: Delete.
+	* src/hcdplay.c: Delete.
+	* src/info.bat: Delete.
+	* src/install/: Delete recursively.
+	* src/install.bat: Delete.
+	* src/install.c: Delete.
+	* src/install.h: Delete.
+	* src/midas/: Delete recursively.
+	* src/reader.c: Delete.
+	* src/reader.h: Delete.
+	* src/setup.c: Delete.
+	* src/setup.h: Delete.
+	* src/setupex.c: Delete.
+	* src/vgatxt.h: Delete.
+	* src/vgatxt_a.asm: Delete.
+
+	* src/sound.c: #ifdef out all calls to Midas. Remove 
+	reference to setup.h.
+	* src/sfx.c: #ifdef out all calls to Midas.
+
+	* src/mouse.h: Remove every #pragma aux (assembly code).
+	* src/joystick.c (_getjoystate): Remove #pragma aux.
+	
+	* src/menus.c: Remove reference to reader.h. #ifdef out
+	calls to hmain (level editor).
+
+	* src/intro.c: Remove reference to midas.h. #ifdef out calls to
+	tmrSyncSrc.
+
+	* src/heroes.c: #ifdef out reference to mouse.h.  Remove references
+	to reader.h, install.h, hcdplay.h and midas.h.  
+	#ifdef out calls to tmrSyncSrc, access to joysticks states, mouse
+	and sound initialization.
+	(createbatches): Remove.
+	(testinstall): Remove.
+	(icoinst): Remove.
+	Remove callers to these three functions.
+
+	* fastmem.h: Replace inline assembly code by memcpy using #define.
+
+	* src/const.h: Remove reference to midas.h.
+	* src/const.c: Likewise.
+	
+2000-05-06:  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* Initial revision (MS-DOS version).

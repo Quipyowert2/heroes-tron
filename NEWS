@@ -1,0 +1,42 @@
+		      User visible changes in Heroes.
+
+Heroes 0.4	July 3, 2000
+
+	* Simple DirectMedia Layer (SDL) support.
+	* Texinfo documentation.
+	* `setenv:' command in ~/.heroes/heroesrc.
+	* ./configure --disable-joystick.
+
+Heroes 0.3	June 24, 2000
+
+	* Joystick support.
+	* Support of options specification in ~/.heroes/heroesrc.
+	* Sound driver selection via -n and -d options.
+	* LibGGI configuration via --ggi-display option.
+	* Handling of music and sfx volume configuration.
+	* Smarter keyboard configurator.
+	* ./configure --enable-mem-debug will link with dmalloc 
+	  or electric fence.
+
+Heroes 0.2	June 3, 2000
+       
+	* Support for non-8bits video mode (thanks to Pierre Baillet).
+	* Sound effects now works.
+	* Options, scores, and saved games are now written in
+	  the ~/.heroes/ user directory (old behaviour still available 
+	  with ./configure options).
+	* Better keycode handling.  Report correct keysyms 
+	  in the KEYS menu.
+	* Improved ./configure options to specify LibGGI location.
+	* Bugs fixed :
+	  - a buffer overflow in pixelize
+          - backspace and delete didn't work in console
+	  - the `orange vertical line' when playing a two players game
+       
+Heroes 0.1	May 25, 2000
+
+	* First release under linux.
+
+Local Variables:
+mode: indented-text
+End:

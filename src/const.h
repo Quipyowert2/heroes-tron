@@ -1,0 +1,176 @@
+/*------------------------------------------------------------------------.
+| Copyright (C) 1997,1998,2000 Alexandre Duret-Lutz <duret_g@epita.fr>    |
+|                                                                         |
+| This file is part of Heroes.                                            |
+|                                                                         |
+| Heroes is free software; you can redistribute it and/or modify it under |
+| the terms of the GNU General Public License as published by the Free    |
+| Software Foundation; either version 2 of the License, or (at your       |
+| option) any later version.                                              |
+|                                                                         |
+| Heroes is distributed in the hope that it will be useful, but WITHOUT   |
+| ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or   |
+| FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   |
+| for more details.                                                       |
+|                                                                         |
+| You should have received a copy of the GNU General Public License along |
+| with this program; if not, write to the Free Software Foundation, Inc., |
+| 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
+`------------------------------------------------------------------------*/
+
+
+/* constantes d'Heroes ... variables et fonctions diverses */
+
+#ifndef __CONST_H_plx__
+#define __CONST_H_plx__
+
+#include "pcx.h"
+#include "structs.h"
+
+#define nfrexplo1 15
+extern int fst_explo_list[nfrexplo1];
+extern int snd_explo_list[nfrexplo1];
+extern int trail[16];
+
+extern int tunnel_square_io[4][2];
+
+#define xbuf 384		// pour des multiplications plus faciles
+#define ybuf 300		// une bande vide de 50 lignes au dessus et en dessous...
+#define sbuf 50*xbuf		// ...pour éviter de faire du clipping
+
+#define NOGLENZPLR 108		// colors pour les trainées sans glenz
+#define NOGLENZRED 16		// couleur pour le sang sans glenz
+
+extern char radar_trail_color[16];
+extern char radar_wall_color[16];
+
+extern int bonus_proba_array[5][17];
+extern int bonus_points[2][17];	//interet (pour le cpu)
+
+extern int rounds_nbr_values[16];
+
+extern int frame_cur;
+extern int frame_old;
+//extern unsigned int sync;
+
+extern signed char p;
+extern signed int p2;
+
+extern unsigned long int camera_x[2];	// virgule fixe 16b,16b
+extern unsigned long int camera_y[2];	// idem
+extern unsigned long int corner_x[2];	// en pixels
+extern unsigned long int corner_y[2];	// idem
+extern char *(corner[2]);	// addresse absolue
+extern unsigned long int corner_dx[2];	// coordonées de dalle
+extern unsigned long int corner_dy[2];	// idem
+extern unsigned long int inert_x[2], inert_y[2];
+extern unsigned int nbr_tiles_cols;	// nbr de colonnes de tile_set_img à afficher
+extern unsigned int nbr_tiles_rows;	//     ... lignes ...
+extern char camera_stop_x[2];
+extern char camera_stop_y[2];
+
+extern char *(render_buffer[2]);	// BUFFER DE RENDU 384*260
+
+void vsynch (void);
+void pal2pal (palette_ * src, palette_ * dest, char step);
+char key_or_joy_ready (void);
+int get_key_or_joy (void);
+void set_pal_with_luminance (palette_ * palsrc);
+
+extern char kbjoy[6];
+extern char kbjoyold[6];
+extern palette_ temppal;
+extern char in_jokebox;
+extern char in_menu;
+extern char in_demo;
+
+extern char demo_ready;
+extern char demo_done;
+
+extern int square_offset_320[4];
+extern int square_offset[4];
+
+extern char mode_name[5][12];
+extern int d2w[9];
+extern int w2d[4];
+
+extern unsigned char glenz[8][256];
+void draw_glenz_box (unsigned char *dest, int c, int xt, int yt);
+
+extern level_header_t map_info;
+extern unsigned long int map_info_2xt, map_info_2yt;
+extern signed long int map_info_2xwrap, map_info_2ywrap;
+extern palette_ pal;
+
+extern image_ main_font_img, icons_img, vehicles_img, trailimg, bonus_a_img,
+  bonus_b_img, bonus_font_img, jukebox_img;
+extern image_ tile_set_img;
+
+extern char tmp1[512];
+extern char tmp2[512];
+
+extern signed char minisinus[32];
+extern char two_players;
+
+#define maxq 128
+// maxq à reporter dans const.c !!!
+extern player_t player[4];
+extern int trail_pos[4][maxq];
+extern char trail_way[4][maxq];
+extern int trail_offset[4];
+extern char trail_size[4];	// Taille de la trainée MOINS UN
+
+extern int col2plr[4];
+extern int plr2col[4];
+
+/****** STOCKAGE DU LEVEL ******/
+
+extern tile_t *level_map;	// pointeur sur le level_map du niveau
+
+extern int last_explo;
+
+extern unsigned char *square_occupied;
+extern unsigned char *square_way;
+extern unsigned char *square_radar_wall;
+extern unsigned char *square_wall;
+extern unsigned char *square_explosion;
+extern int *square_dead_explosion;
+extern unsigned char **explo_list_ptr;
+extern int *explo_list_pos_x;
+extern int *explo_list_pos_y;
+extern int explo_nbr;
+extern unsigned char *square_explosion_type;
+extern unsigned char *tile_bonus;
+extern unsigned char *tile_bonus_cpu;
+extern int *square2tile;
+extern int *bonus_time;
+extern unsigned char **bonus_ptr;
+extern int *square_wrap;
+extern int *square_offset2coord;
+extern signed char *square_object;
+#define lemmings_per_players 50
+#define lemmings_total (lemmings_per_players*4)
+// constantes à reporter dans const.c
+extern lemming_t **square_lemmings_list;
+extern lemming_t **square_dead_lemmings_list;
+extern lemming_t lemmings_support[lemmings_total];
+extern int bonus_total_nbr, bonus_real_nbr, objects_nbr;
+extern int next_bonus_to_update;
+extern int square2offset[4];	/*deux dernières valeurs calculées plus tard */
+
+extern int bonus_anim_offset;
+extern int radar_target_pos;
+extern int radar_current_pos;
+
+extern int game_mode;
+//extern char questmode;
+extern unsigned char game_magic;
+
+extern int camera_center_x;
+extern char *clock_anim_offset;
+extern int lemmings_anim_offset;
+extern int lemmings_move_offset;
+
+extern char invincible[4];
+
+#endif
