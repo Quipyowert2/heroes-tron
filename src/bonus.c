@@ -31,18 +31,18 @@
 
 /* density of bonuses in different modes */
 
-/* L+  L-  S+ S- R#  C  ZZ !!  -1  T+  T- EL []  X XL ~~  $$ */
+/* L+  L-  S+ S- R#   C  ZZ !!  -1  T+  T- EL []  X XL ~~  $$ */
 const int bonus_density[5][17] =
-{ {40, 10, 12, 8, 8, 40, 0, 8, 10, 16, 16, 0, 8, 7, 4, 7, 0},	/* quest */
-  { 0,  0, 10, 7, 7, 20, 0, 8, 10, 10, 11, 0, 6, 7, 2, 7, 0},	/* deathm */
-  {25, 10, 12, 8, 8, 40, 0, 8, 10, 16, 16, 0, 8, 7, 4, 7, 0},	/* killem */
-  {25, 10, 12, 8, 8, 20, 0, 8, 10, 16, 16, 0, 8, 7, 4, 7, 25},	/* tcash */
-  {25, 10, 12, 8, 8, 30, 0, 8, 10, 16, 16, 0, 8, 7, 4, 7, 0}    /* color */
+{ {40, 10, 12, 8, 8, 40,  6, 8, 10, 16, 16, 0, 8, 7, 4, 7, 0},	/* quest */
+  { 0,  0, 10, 7, 7, 20, 12, 8, 10, 10, 11, 0, 6, 7, 2, 7, 0},	/* deathm */
+  {25, 10, 12, 8, 8, 40,  6, 8, 10, 16, 16, 0, 8, 7, 4, 7, 0},	/* killem */
+  {25, 10, 12, 8, 8, 20,  6, 8, 10, 16, 16, 0, 8, 7, 4, 7, 25},	/* tcash */
+  {25, 10, 12, 8, 8, 30,  6, 8, 10, 16, 16, 0, 8, 7, 4, 7, 0}    /* color */
 };
 
 /* interest of each bonus, for the CPU controled vehicles */
 int bonus_points[2][17] =
-{ {20, -15, 15, -10, 5, 18, 0, -10, 0, 0, -5, 50, 5, 0, 8, 0, 25}, /* orchid */
+{ {20, -15, 15, -10, 5, 18, 19, -10, 0, 0, -5, 50, 5, 0, 8, 0, 25}, /* orchid */
   {-15, 10, 0, 10, 5, -5, 0, 8, 8, -5, 5, -20, -5, 9, -10, 9, -25} /* peach */
 };
 
@@ -347,7 +347,10 @@ apply_bonus (int pl, char bonus)
       set_txt_bonus (pl, txt_tmp, 150);
     }
     break;
-  /* case 7: cut the trail */
+  case 7:
+    set_txt_bonus (pl, _("FIRE TRAIL!"), 150);
+    player[pl].fire_trail += 2000;
+    break;
   case 8:
     player[pl].notify_delay = 1;
     break;

@@ -172,6 +172,7 @@ typedef struct
   int rotozoom_direction;
   int waves;
   int waves_begin;
+  int fire_trail;
   int invincible;		/* blinking */
   int lifes;			/* lifes LEFT */
   int turbo;

@@ -84,6 +84,7 @@ const char *const help_text2 = N_("\
 %{img L 0 132 20 22}%{>}%{img L 0 154 20 22}%{>>>}Speed Down\n\
 %{img L 0 176 20 22}%{>}%{img L 0 198 20 22}%{>>>}Random Bonus\n\
 %{img L 0 220 20 22}%{>}%{img L 0 242 20 22}%{>>>}Points\n\
+%{img L 0 264 20 22}%{>}%{img L 0 286 20 22}%{>>>}Fire Trail\n\
 %{img L 20 0 20 22}%{>}%{img L 20 22 20 22}%{>>>}Stop\n\
 %{img L 20 44 20 22}%{>}%{img L 20 66 20 22}%{>>>}Inverted controls\n\
 %{img L 20 88 20 22}%{>}%{img L 20 110 20 22}%{>>>}Power +\n\
@@ -184,7 +185,7 @@ visibility.\n\
 %{>>}%gAUTOPILOT\n\
 \n\
 %{>>>}If you are mad, you can try to play without %gAUTOPILOT%w, \
-rest in peace...\n\
+rest in peace...  Note that %gAUTOPILOT%w does not work against fire trails.\n\
 \n\
 ");
 

@@ -297,6 +297,7 @@ reinit_player (unsigned p)
   player[p].rotozoom = 0;
   player[p].waves = 0;
   player[p].waves_begin = 0;
+  player[p].fire_trail = 0;
   player[p].tunnel_inverse = 0;
   player[p].next_way = player[p].old_old_way = player[p].old_way =
     player[p].way;
@@ -1780,6 +1781,21 @@ find_free_way (int c)
   f = player[c].next_way;
   if (!(d & (1 << f)))
     return;
+
+  /* If we reach this place, NEXT_WAY cannot be taken because there is
+     a wall or someone else.  Therefore we will want to find some
+     other direction automatically.  */
+
+  if (player[c].cpu & 2) {
+    /* The autopilot for human players does not work against fire trails,
+       that would be too easy :).
+       If NEXT_WAY would lead to a fired square, return immediately.  */
+    square_index_t idx = lvl.square_move[f][m];
+    if (idx != INVALID_INDEX
+	&& square_explo_state[idx] <= EXPLOSION_IMMEDIATE)
+      return;
+  }
+
   e = o[player[c].next_way];
 
   /* when a trail force someone to turn, the owner of this trail is credited */
@@ -1899,6 +1915,8 @@ update_player (int c)
     if (player[c].waves < 128 && player[c].waves_begin > 0)
       player[c].waves_begin--;
   }
+  if (player[c].fire_trail)
+    --player[c].fire_trail;
 
   if (player[c].spec == 0xde)
     return;
@@ -1954,7 +1972,8 @@ update_player (int c)
 	(char) (player[c].way + (player[c].old_way << 2));
       a = (trail_offset[c] + trail_size[c]) & (maxq - 1);
       if (trail_pos[c][a]
-	  != trail_pos[c][(trail_offset[c] + trail_size[c] - 1) & (maxq - 1)]) {
+	  != trail_pos[c][(trail_offset[c] + trail_size[c] - 1)
+			 & (maxq - 1)]) {
 	if (square_occupied[trail_pos[c][a]] == c + 12)
 	  square_occupied[trail_pos[c][a]] = 0xff;
 	a = (trail_offset[c] + trail_size[c] - 1) & (maxq - 1);
@@ -1963,6 +1982,12 @@ update_player (int c)
       } else
 	square_occupied[trail_pos[c][a]] = (char) (c + 12);
 
+      /* If the player has fire_trail on, trigger explosions on
+	 the head and the tail of the trail.  */
+      if (player[c].fire_trail) {
+	trigger_explosion (trail_pos[c][a], EXPLOSION_IMMEDIATE);
+	trigger_explosion (trail_pos[c][trail_offset[c]], EXPLOSION_IMMEDIATE);
+      }
     }
 
     d2 = player[c].y2 * lvl.square_width + player[c].x2;

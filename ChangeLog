@@ -1,5 +1,18 @@
 2001-07-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	New bonus: fire trail.
+
+	* src/helptext.c (help_text2, help_text4): Document it.
+	* src/bonus.c (bonus_density, bonus_point): Fill in the fire trail
+	column.
+	(apply_bonus): Handle fire_trail.
+	* src/structs.h (player_t) <fire_trail>: New.
+	* src/player.c (reinit_player): Zeroes player[p].fire_trail.
+	(find_free_way): Disable autopilot against fire trails.
+	(update_player): Handle fire_trail.
+
+2001-07-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/heroes.c (compute_corner): Compute and cast tw and th
 	once for all.
 	(update_all): Fix camera position computation (typo from 2001-07-13).
