@@ -21,14 +21,15 @@
 #ifndef HEROES__RSC_FILES_HASH__H
 #define HEROES__RSC_FILES_HASH__H
 
-struct rsc_file { 
-  const char* name; 
-  const char* value;
-  char*	modified_value;
-  int expanded; 
+struct rsc_file {
+  const char *name;
+  const char *value;
+  char *modified_value;
+  int expanded;
 };
 
-struct rsc_file* in_rsc_set (const char* str, unsigned int len);
+struct rsc_file *in_rsc_set (const char *str, unsigned int len);
 void print_rsc_files (void);
+const char *get_rsc_approx (const char *rsc_name);
 
 #endif /* HEROES__RSC_FILES_HASH__H */

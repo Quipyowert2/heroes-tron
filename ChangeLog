@@ -1,5 +1,48 @@
 2000-10-31  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Rename common.h into system.h for consistency with
+	other existing packages.
+
+	* src/common.h: Move to ...
+	* src/system.h: ... here.  ADAPT ALL REFERENCES.
+	* HACKING: Reflect change.
+	* src/Makefile.am (heroes_SOURCES): Remove common.h, add system.h.
+
+	Add new files to the 'stolen-code' repository.
+
+	* configure.in: Check for malloc, realloc, strerror, and strerror_r.
+	* lib/Makefile.am (EXTRA_DIST): Add malloc.c, realloc.c, strndup.c.
+	(noinst_HEADERS): Add error.h, fstrcmp.h, and xalloc.h.
+	(INCLUDES): Add -I$(top_srcdir)/src.
+	(libheroes_a_SOURCES): Add error.c, fstrcmp.c and, xmalloc.c.
+	* lib/error.c: New file.
+	* lib/error.h: New file.
+	* lib/fstrcmp.c: New file.
+	* lib/fstrcmp.h: New file.
+	* lib/malloc.c: New file.
+	* lib/realloc.c: New file.
+	* lib/strcasecmp.c: New file (overwrite existing file).
+	* lib/strndup.c: New file.
+	* lib/xalloc.h: New file.
+	* lib/xmalloc.c: New file.
+	* m4/Makefile.am (EXTRA_DIST): Add malloc.m4 and realloc.m4.
+	* m4/malloc.m4: New file.
+	* m4/realloc.m4: New file.
+	* src/debugmsg.c (progname): Rename into ...
+	(program_name): ... this.  To please error.c.
+	(dmsg, dperror): Adapt to use program_name.
+	* src/errors.c (emsg, wmsg): Likewise.
+
+	Give better error message, by detecting possible misspelling
+	of resource names.
+
+	* src/rsc_files.c (check_rsc_spelling_error): New.
+	(set_rsc_file, get_rsc_file): Use it.
+	* src/rsc_files.gperf (get_rsc_approx): New.
+	* src/rsc_files_hash.h (get_rsc_approx): New.
+
+2000-10-31  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Remove auto-installed files from CVS. Arrange so most of
 	auto-installed file go in tools/, not in the base directory.
 

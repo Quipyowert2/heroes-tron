@@ -21,7 +21,7 @@
 
 /* Save/load/re-initialize heroes options. */
 
-#include "common.h"
+#include "system.h"
 #include "options.h"
 #include "misc.h"
 #include "userdir.h"

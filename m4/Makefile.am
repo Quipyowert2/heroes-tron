@@ -25,4 +25,6 @@ ac_c_bigendian_cross.m4 \
 ac_caolan_check_package.m4 \
 ac_define_dir.m4 \
 ac_func_mkdir.m4 \
-generic-config.m4
+generic-config.m4 \
+malloc.m4 \
+realloc.m4

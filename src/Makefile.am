@@ -31,7 +31,6 @@ argv.c \
 argv.h \
 bonus.c \
 bonus.h \
-common.h \
 const.c \
 const.h \
 debugmsg.c \
@@ -108,6 +107,7 @@ sfx.h \
 sound.c \
 sound.h \
 structs.h \
+system.h \
 timer.c \
 timer.h \
 txts.c \

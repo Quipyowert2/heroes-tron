@@ -26,7 +26,7 @@
  * that all .c files will therefore include all these system headers,
  * even if they don't need it; but since most of these headers can
  * have different names or may not be needed at all on some systems,
- * its safer if the selection is done in one unique place.  
+ * its safer if the selection is done in one unique place.
  *
  * Since this file is always included first, local .h files can assume
  * that this file has already been included.
@@ -35,8 +35,8 @@
  * headers are included here.
  */
 
-#ifndef HEROES__COMMON__H
-#define HEROES__COMMON__H
+#ifndef HEROES__SYSTEM__H
+#define HEROES__SYSTEM__H
 
 #include "config.h"
 
@@ -198,6 +198,8 @@ typedef signed char		s8_t;
 #define U32_MAX		(0xffffffffU)
 #endif
 
+#include "xalloc.h"
+
 /* keep this header at the end of the include list, because it may
    define macro to change the declaration of malloc functions */
 #ifdef HAVE_DMALLOC
@@ -257,5 +259,4 @@ int strcasecmp (const char *s1, const char *s2);
 # define ATTRIBUTE_PRINTF(str,fst) __attribute__ ((format (printf, str, fst)))
 #endif
 
-
-#endif /* HEROES__COMMON__H */
+#endif /* HEROES__SYSTEM__H */

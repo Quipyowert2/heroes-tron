@@ -20,7 +20,7 @@
 
 /* Heroes constants */
 
-#include "common.h"
+#include "system.h"
 #include "keyb.h"
 #include "keys_heroes.h"
 #include "joystick.h"

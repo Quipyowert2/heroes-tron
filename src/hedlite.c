@@ -29,7 +29,7 @@
 #define __HEDITver__ "1.5"
 #define __HEDLITE__
 
-#include "common.h"
+#include "system.h"
 
 #include "display.h"
 #include "pcx.h"

@@ -84,9 +84,9 @@ discouraged: in some cases the output is uglier than the original.
 
 ** Includes
 
-Any .c file should include "common.h" as the first included file.
-Read the beginning of common.h for more explanations.  Any .h
-can assume common.h has already been included, but should include
+Any .c file should include "system.h" as the first included file.
+Read the beginning of system.h for more explanations.  Any .h
+can assume system.h has already been included, but should include
 other local headers needed (e.g. type declaration used in function
 prototypes) so that inclusion order is not important.
 
@@ -183,7 +183,7 @@ Avoid any change to these files, if possible.
 ** Building from CVS
 
 As generated files are not kept in CVS, you need to generate them
-after your first checkout.  The script toos/autogen.sh will take care
+after your first checkout.  The script tools/autogen.sh will take care
 of generating the autotools required files.  After you have run
 autogen, you will be able to make a first build first build
 (./configure; make) to create the documentation and the other files

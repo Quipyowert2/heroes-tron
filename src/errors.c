@@ -18,20 +18,20 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-#include "common.h"
+#include "system.h"
 #include "errors.h"
 #include "display.h"
 #include "sound.h"
 
-extern const char* progname;	/* defined in debugmsg.c */
+extern const char* program_name;	/* defined in debugmsg.c */
 
 int disable_wmsg = 0;
 
 #if defined VA_START
-void 
+void
 wmsg (const char* msg, ...)
 #else
-void 
+void
 wmsg (msg, va_alist)
      const char* msg;
      va_dcl;
@@ -43,7 +43,7 @@ wmsg (msg, va_alist)
 
   if (disable_wmsg)
     return;
-  fprintf (stderr, "%s: ", progname);
+  fprintf (stderr, "%s: ", program_name);
 #ifdef VA_START
   VA_START (args, msg);
 # if HAVE_VPRINTF
@@ -63,10 +63,10 @@ wmsg (msg, va_alist)
 int disable_emsg = 0;
 
 #if defined VA_START
-void 
+void
 emsg (const char* msg, ...)
 #else
-void 
+void
 emsg (msg, va_alist)
      const char* msg;
      va_dcl;
@@ -77,7 +77,7 @@ emsg (msg, va_alist)
 #endif
 
   if (!disable_emsg) {
-    fprintf (stderr, "%s: ", progname);
+    fprintf (stderr, "%s: ", program_name);
 #ifdef VA_START
     VA_START (args, msg);
 # if HAVE_VPRINTF

@@ -18,7 +18,7 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-#include "common.h"
+#include "system.h"
 #include "const.h"
 #include "argv.h"
 #include "sound.h"

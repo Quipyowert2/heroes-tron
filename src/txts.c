@@ -20,7 +20,7 @@
 
 /* this file will be obsolete once gettext is used */
 
-#include "common.h"
+#include "system.h"
 #include "errors.h"
 #include "txts.h"
 #include "rsc_files.h"

@@ -22,7 +22,7 @@
  *   Create the list of extra levels.
  */
 
-#include "common.h"
+#include "system.h"
 #include "extras.h"
 #include "generic_list.h"
 #include "hedlite.h"

@@ -20,7 +20,7 @@
 
 /* the intro animation */
 
-#include "common.h"
+#include "system.h"
 #include "display.h"
 #include "pcx.h"
 #include "timer.h"

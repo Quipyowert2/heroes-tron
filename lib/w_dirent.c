@@ -13,7 +13,7 @@
  * by Alexandre Duret-Lutz <duret_g@epita.fr>
  */
 
-#include "common.h"
+#include "system.h"
 #include "w_dirent.h"
 
 #define SUFFIX	"*"

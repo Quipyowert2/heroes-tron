@@ -18,12 +18,12 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-#include "common.h"
+#include "system.h"
 #include "debugmsg.h"
 #include "errors.h"
 
 enum debug_lvl debug_level = 0;
-const char* progname = 0;
+const char* program_name = 0;
 
 #ifndef dmsg
 
@@ -42,7 +42,7 @@ dmsg (dlvl, msg, va_alist)
 #ifdef VA_START
     va_list args;
 #endif
-    fprintf (stderr, "%s: ", progname);
+    fprintf (stderr, "%s: ", program_name);
 #ifdef VA_START
     VA_START (args, msg);
 # if HAVE_VPRINTF
@@ -63,7 +63,7 @@ void
 dperror (const char* s)
 {
   if (debug_level) {
-    fprintf (stderr, "%s: ", progname);
+    fprintf (stderr, "%s: ", program_name);
     fflush (stderr);
     perror (s);
   }
@@ -147,7 +147,7 @@ dmsg_parse_string (const char* opt)
 void
 dmsg_init (const char* prgname)
 {
-  progname = prgname;
+  program_name = prgname;
 
   dmsg_parse_string (getenv ("HEROES_DEBUG"));
 }

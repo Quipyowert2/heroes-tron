@@ -22,7 +22,7 @@
 #ifndef HEROES__KEYS_HEROES__H
 #define HEROES__KEYS_HEROES__H
 
-#include "common.h"
+#include "system.h"
 
 /* Define keys hard coded into heroes code */
 
