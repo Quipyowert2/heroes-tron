@@ -22,8 +22,8 @@ EXTRA_DIST = $(man_MANS)
 heroes.6 : $(srcdir)/../src/argv.c $(top_srcdir)/configure.in
 	@if test -f $(top_builddir)/src/heroes; then \
 	  echo "Updating man page $@"; \
-	  $(HELP2MAN) -n game -s6 $(top_builddir)/src/heroes | \
-            sed -e 's/ FSF//' > $@; \
+	  $(HELP2MAN) -n 'a game like Nibbles or Tron, just better' \
+	    -s6 $(top_builddir)/src/heroes | sed -e 's/ FSF//' > $@; \
 	else \
 	  echo "WARNING: The man page $@ cannot be updated yet."; \
 	  echo "         Retry once the corresponding executable is built."; \

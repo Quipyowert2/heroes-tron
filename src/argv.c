@@ -100,10 +100,9 @@ static void
 print_help (void)
 {
   printf (_("Usage: %s [OPTIONS]...\n\n"), program_name);
-  /* append '\n' to all lines, even the last in a puts (we
-     want an empty line between paragraphs) */
   puts (_("\
-Heroes is a game like nibbles but different.\n"));
+Heroes is a game similar to the \"Tron\" and \"Nibbles\" games of yore\n\
+but includes many graphical improvements and new game features.\n"));
   puts (_("\
 Mandatory arguments to long options are mandatory for short options too.\n"));
   puts (_("\

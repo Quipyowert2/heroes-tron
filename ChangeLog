@@ -1,3 +1,8 @@
+2001-01-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* man/Makefile.am (heroes.6): Be more verbose in game description.
+	* src/argv.c (print_help): Change game description.
+
 2001-01-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* po/Makefile.in.in (update-po): Merge po-files in temporary files
