@@ -230,11 +230,9 @@ fi
 
 if test "${with_sdl-yes}" != no; then
 
-AC_PATH_GENERIC(sdl,1.0.1,[
-CFLAGS="$SDL_CFLAGS $CFLAGS"
-LIBS="$SDL_LIBS $LIBS"
-AC_DEFINE(HAVE_SDL,1,[Define if you have the SDL library])
-],[with_sdl=no])
+AC_adl_PKG_GENERIC(sdl,1.0.1,SDL_Init,
+[AC_DEFINE(HAVE_SDL,1,[Define if you have the SDL library])],
+[with_sdl=no])
 
 fi
 if test "${with_sdl-yes}" != no; then
@@ -372,10 +370,8 @@ fi # with_sdl_mixer
 
 if test "${with_sdl_mixer-no}" = no; then
 
-AC_PATH_GENERIC(libmikmod,3.1.7,[
-CFLAGS="$LIBMIKMOD_CFLAGS $CFLAGS"
-LIBS="$LIBMIKMOD_LIBS $LIBS"
-sound_lib="libmikmod dnl
+AC_adl_PKG_GENERIC(libmikmod,3.1.7,[MikMod_Init],
+[sound_lib="libmikmod dnl
 $libmikmod_config_major_version.$libmikmod_config_minor_version.dnl
 $libmikmod_config_micro_version"
 ]AC_DEFINE(HAVE_LIBMIKMOD,1,[Define if you have the LibMikMod library]))

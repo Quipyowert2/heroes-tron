@@ -1,5 +1,13 @@
 2000-09-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	AC_PATH_GENERIC is not enough to test for a library, we 
+	need to check wether the library link or not.
+
+	* acinclude.m4: Add AC_adl_PKG_GENERIC.
+	* configure.in: Use it to check for libMikMod and SDL.
+
+2000-09-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	On some machines, quit_yes_no used to be called
 	in a loop because the release of the <Esc> key
 	was not recorded.
