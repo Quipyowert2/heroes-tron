@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------.
-| Copyright 2001  Alexandre Duret-Lutz <duret_g@epita.fr>           |
+| Copyright 2001, 2002  Alexandre Duret-Lutz <duret_g@epita.fr>     |
 |                                                                   |
 | This file is part of Heroes.                                      |
 |                                                                   |
@@ -175,6 +175,7 @@ struct a_level {
    various constant square_* maps declared in a_level.  If LOAD_BODY
    is false, only the header of the level will be loaded.  */
 int lvl_load_file (const char *filename, a_level *out, bool load_body);
+int lvl_save_file (const char *filename, const a_level *out);
 /* Free any data associated to LVL.  */
 void lvl_free (a_level *lvl);
 

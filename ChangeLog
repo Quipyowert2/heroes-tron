@@ -1,3 +1,14 @@
+2002-01-20  Ingo van Lil  <inguin@gmx.de>
+
+	Teach liblvl how to save a level.
+
+	* src/lvl/en_body.c, src/lvl/en_head.c, src/lvl/save.c,
+	src/lvl/savemac.h: New files.
+	* src/lvl/Makefile.inc (lvl_libhlvl_a_SOURCES): Add them.
+	* src/lvl/lvl.h (lvl_save_file): New function.
+	* src/lvl/lvl_priv.h (encode_level_header, encode_level_body):
+	New function.
+
 2002-01-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/heroeslvl.c (version): Bump copyright year to 2002.

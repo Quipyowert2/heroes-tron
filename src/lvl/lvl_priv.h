@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------.
-| Copyright 2001  Alexandre Duret-Lutz <duret_g@epita.fr>           |
+| Copyright 2001, 2002  Alexandre Duret-Lutz <duret_g@epita.fr>     |
 |                                                                   |
 | This file is part of Heroes.                                      |
 |                                                                   |
@@ -75,5 +75,7 @@ void decode_level_header (const a_u8 *data, a_level *lvl);
 void decode_level_body (const a_u8 *data, a_level *lvl);
 void initialize_level_body (a_level *out);
 void initialize_empty_level_body (a_level *lvl);
+void encode_level_header (a_u8 *data, const a_level *lvl);
+void encode_level_body (a_u8 *data, const a_level *lvl);
 
 #endif /* HEROES__LVL_PRIV__H */
