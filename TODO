@@ -1,6 +1,9 @@
 Tasks for Heroes.  If you think something is missing here,
 please send a note to <heroes-discuss@lists.sourceforge.net>.
 
+* Prefer clock_gettime() over gettime().  fileutils-4.1.6 has some
+  check and lib/gettime.c for this.
+
 * Use the level-loading library in the level editor, so as to get rid
   of most struct in src/struct.h (and their ugly ATTRIBUTE_PACKED).
   This require makeing the level editor work with libhlvl (see
