@@ -18,7 +18,7 @@ the creation of this library.
 Today, this library is used for loading levels in Heroes (before
 playing), and by the `heroeslvl' utility.  The level editor included
 in Heroes is still using the old level loading/saving scheme, because
-libhlvl is not yet able to save a level (moreover the level editor
+libhlvl is not yet able to load tilesets (moreover the level editor
 still uses the old level representation, not the one offered by
 libhlvl).  Changing the level editor and libhlvl to work together is
 one of the not trivial tasks to do (it will probably involve a lot of

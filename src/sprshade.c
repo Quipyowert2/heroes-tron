@@ -43,7 +43,7 @@ void draw_sprshade (const a_sprite *sprite, a_pixel *dest)
       cur += m;
       /* draw the opaque pixels */
       for (; n; --n)
-	*cur++ = *pc++;		/* FIXME: would an inlined memcpy be better? */
+	*cur++ = *pc++;
       /* draw the glenz pixels */
       for (m = *pc++; m; --m) {
 	*cur = sprite->shade.glenz[*cur];

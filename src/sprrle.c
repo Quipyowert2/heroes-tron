@@ -41,7 +41,7 @@ draw_sprrle (const a_sprite *sprite, a_pixel *dest)
     } else {
       cur += m;
       for (; n; --n)
-	*cur++ = *pc++;		/* FIXME: would an inlined memcpy be better? */
+	*cur++ = *pc++;
     }
   }
 }

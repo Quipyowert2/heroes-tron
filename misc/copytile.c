@@ -7,12 +7,14 @@
    5.380000    2.820000    7.051600    3.260000
    5.030000    2.650000    9.738528    4.690000
    6.050000    3.160000    7.072096    3.260000
+   17.930000   untested    untested    untested
 
    Pentium     G3
 
    33.251687   2.490000
    33.260924   2.630000
    50.832590   2.620000
+   untested    untested
 */
 
 #include <sys/time.h>
@@ -113,6 +115,17 @@ copy_tile3 (const a_pixel* src, a_pixel* dest, int tx)
   }
 }
 
+static void
+copy_tile4 (const a_pixel* src, a_pixel* dest, int tx)
+{
+  int y;
+  for (y = 20; y; --y) {
+    memcpy (dest, src, 24);
+    src += tx;
+    dest += xbuf;
+  }
+}
+
 /* Subtract the `struct timeval' values X and Y,
    storing the result in RESULT.
    Return 1 if the difference is negative, otherwise 0.  */
@@ -185,6 +198,12 @@ int main()
   start();
   for (i = 1, n = 0; i < TIMES; i++) {
     copy_tile3 (s + (n * 547) % (27 * 10), d + (n % 1000) * 20 * 24, 27 * 24);
+  }
+  stop();
+
+  start();
+  for (i = 1, n = 0; i < TIMES; i++) {
+    copy_tile4 (s + (n * 547) % (27 * 10), d + (n % 1000) * 20 * 24, 27 * 24);
   }
   stop();
 
