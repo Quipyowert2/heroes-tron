@@ -110,7 +110,11 @@ stretch_threefold (void)
 #include <stdio.h>
 #include <ggi/ggi.h>
 #include "display.h"
-#include <string.h>
+#ifdef HAVE_STRING_H
+#  include <string.h>
+#else
+#  include <strings.h>
+#endif
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif

@@ -1,5 +1,15 @@
 2000-08-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* autoconf.in: Test for the "string.h" header.
+	* src/config.h, src/fastmem.h, src/gfx_reader.h, src/argv.c,
+	src/display.c, src/extras.c, src/hedlite.c, src/heroes.c,
+	src/intro.c, src/menus.c, src/misc.c, src/musicfiles.c,
+	src/pixelize.c, src/rsc_files.c, src/savegame.c, src/scores.c,
+	src/sfx.c, src/sound.c, src/txts.c, src/userconf.c, src/visuals.c:
+	Include "string.h" or "strings.h" conditionaly.
+	
+2000-08-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in: Change the definition of GGI and SDL conditional
 	so they also works when $with_GGI and $with_sdl are directory 
 	names.

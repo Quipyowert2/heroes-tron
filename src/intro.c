@@ -28,7 +28,11 @@
 //#include "keyboard_map.h"
 //#include "errors.h"
 #include "fastmem.h"
-#include "string.h"
+#ifdef HAVE_STRING_H
+#  include <string.h>
+#else
+#  include <strings.h>
+#endif
 
 #include "const.h"
 #include "sound.h"

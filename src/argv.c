@@ -24,7 +24,11 @@
 #ifdef HAVE_GETOPT_H
 #include <getopt.h>
 #endif
-#include <string.h>
+#ifdef HAVE_STRING_H
+#  include <string.h>
+#else
+#  include <strings.h>
+#endif
 #include <stdlib.h>
 #include "const.h"
 #include "argv.h"

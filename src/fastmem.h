@@ -22,7 +22,11 @@
 #ifndef _FASTMEM_H_plx_
 #define _FASTMEM_H_plx_
 
-#include <string.h>
+#ifdef HAVE_STRING_H
+#  include <string.h>
+#else
+#  include <strings.h>
+#endif
 
 #define fastmem1(src,dest,size) memcpy((dest),(src),(size))
 #define fastmem2(src,dest,size) memcpy((dest),(src),(size)<<1)

@@ -30,7 +30,11 @@
 #include "keysdef.h"
 #include "draw.h"
 #include "heroes.h"
-#include <string.h>
+#ifdef HAVE_STRING_H
+#  include <string.h>
+#else
+#  include <strings.h>
+#endif
 #include <math.h>
 #include "structs.h"
 #include "extras.h"

@@ -326,7 +326,7 @@ fi
 
 AC_HEADER_DIRENT
 AC_HEADER_STDC
-AC_CHECK_HEADERS(sys/time.h)
+AC_CHECK_HEADERS(string.h sys/time.h)
 
 # ==============================================================
 # Checks for typedefs, structures, and compiler characteristics.
