@@ -119,8 +119,8 @@ end_scroll (void)
 //      FILE* aux;
 //      char flag;
 
-  scroll_buffer = (char *) malloc (XBUF * YBUF);
-  page = (char *) malloc (320 * 220);
+  scroll_buffer = malloc (XBUF * YBUF);
+  page = malloc (320 * 220);
   if (scroll_buffer == NULL || page == NULL)
     return;
 

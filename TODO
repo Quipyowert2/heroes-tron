@@ -30,6 +30,8 @@ Before 0.7
 Before 1.0.0
 ------------
 
+  Replace all C++-style comments (//foo) with C-style comments (/* foo */)
+
   There are several comments in French.  They should be translated.
 
   Check every place were filenames are used, use buffer allocated dynamically.

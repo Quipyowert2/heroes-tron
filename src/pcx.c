@@ -28,7 +28,7 @@
 static void
 img_init (image_ * image)
 {
-  image->buffer = (char *) malloc (image->size);
+  image->buffer = malloc (image->size);
   if (image->buffer == NULL)
     fatal_error ("[PCX] Not enough memory.");
 }

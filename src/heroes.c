@@ -128,8 +128,8 @@ static unsigned char play_game (char);
 static void
 init_buffers (void)
 {
-  render_buffer[0] = (char *) malloc (xbuf * ybuf);
-  render_buffer[1] = (char *) malloc (xbuf * ybuf);
+  render_buffer[0] = malloc (xbuf * ybuf);
+  render_buffer[1] = malloc (xbuf * ybuf);
   if ((render_buffer[0]) == NULL || (render_buffer[1]) == NULL)
     fatal_error ("init_buffer(): mem error");
 }
@@ -463,7 +463,7 @@ load_level (char *nomlvl, char cont)
 	map_info.xwrap, map_info.ywrap,
 	map_info.tile_set_name, map_info.soundtrack_name);
 
-  level_map = (tile_t *) malloc (map_info.xt * map_info.yt * sizeof (tile_t));
+  level_map = malloc (map_info.xt * map_info.yt * sizeof (tile_t));
   if (level_map == NULL)
     return (3);
 
@@ -509,65 +509,54 @@ load_level (char *nomlvl, char cont)
   map_info_2yt = map_info.yt << 1;
   map_info_2xwrap = (map_info.xwrap << 1) + 1;
   map_info_2ywrap = (map_info.ywrap << 1) + 1;
-  square_occupied =
-    (unsigned char *) malloc (map_info_2xt * map_info_2yt *
-			      sizeof (*square_occupied));
+  square_occupied = malloc (map_info_2xt * map_info_2yt *
+			    sizeof (*square_occupied));
   if (square_occupied == NULL)
     return (9);
   memset (square_occupied, 0xff, map_info_2xt * map_info_2yt);
-  square_radar_wall =
-    (unsigned char *) malloc (map_info_2xt * map_info_2yt *
+  square_radar_wall = malloc (map_info_2xt * map_info_2yt *
 			      sizeof (*square_radar_wall));
   if (square_radar_wall == NULL)
     return (10);
   memset (square_radar_wall, 0, map_info_2xt * map_info_2yt);
-  square_wall =
-    (unsigned char *) malloc (map_info_2xt * map_info_2yt *
-			      sizeof (*square_wall));
+  square_wall = malloc (map_info_2xt * map_info_2yt *
+                        sizeof (*square_wall));
   if (square_wall == NULL)
     return (11);
   memset (square_wall, 0, map_info_2xt * map_info_2yt);
-  square_explosion =
-    (unsigned char *) malloc ((map_info_2xt * map_info_2yt + 1) *
-			      sizeof (*square_explosion));
+  square_explosion = malloc ((map_info_2xt * map_info_2yt + 1) *
+		     sizeof (*square_explosion));
   /* +1 ?????? */
   if (square_explosion == NULL)
     return (12);
   memset (square_explosion, 254,
 	  (map_info_2xt * map_info_2yt + 1) * sizeof (*square_explosion));
   square_dead_explosion =
-    (int *) malloc ((map_info_2xt * map_info_2yt + 1) * sizeof (int));
+    malloc ((map_info_2xt * map_info_2yt + 1) * sizeof (int));
     /* ??? */
   if (square_dead_explosion == NULL)
     return (12);
   memset (square_dead_explosion, 0,
 	  (map_info_2xt * map_info_2yt + 1) * sizeof (int));
   last_explo = 0;
-  square_explosion_type =
-    (unsigned char *) malloc ((map_info_2xt * map_info_2yt + 1) *
-			      sizeof (*square_explosion_type));
+  square_explosion_type = malloc ((map_info_2xt * map_info_2yt + 1) *
+			          sizeof (*square_explosion_type));
   if (square_explosion_type == NULL)
     return (13);
 /* memset(square_explosion_type,254,map_info_2xt*map_info_2yt+1); */
   for (i = map_info_2xt * map_info_2yt - 1; i >= 0; i--)
     square_explosion_type[i] = rand () & 1;
-  square_way =
-    (unsigned char *) malloc (map_info_2xt * map_info_2yt *
-			      sizeof (*square_way));
+  square_way = malloc (map_info_2xt * map_info_2yt * sizeof (*square_way));
   if (square_way == NULL)
     return (14);
-  tile_bonus =
-    (unsigned char *) malloc (map_info.xt * map_info.yt *
-			      sizeof (*tile_bonus));
+  tile_bonus = malloc (map_info.xt * map_info.yt * sizeof (*tile_bonus));
   if (tile_bonus == NULL)
     return (15);
-  tile_bonus_cpu =
-    (unsigned char *) malloc (map_info.xt * map_info.yt *
-			      sizeof (*tile_bonus_cpu));
+  tile_bonus_cpu = malloc (map_info.xt * map_info.yt *
+                           sizeof (*tile_bonus_cpu));
   if (tile_bonus_cpu == NULL)
     return (15);
-  square2tile =
-    (int *) malloc (map_info_2xt * map_info_2yt * sizeof (*square2tile));
+  square2tile = malloc (map_info_2xt * map_info_2yt * sizeof (*square2tile));
   if (square2tile == NULL)
     return (15);
 
@@ -585,26 +574,23 @@ load_level (char *nomlvl, char cont)
   }
 
   square_wrap =
-    (int *) malloc (map_info_2xt * map_info_2yt * 4 * sizeof (*square_wrap));
+    malloc (map_info_2xt * map_info_2yt * 4 * sizeof (*square_wrap));
   if (square_wrap == NULL)
     return (16);
   memset (square_wrap, 0,
 	  map_info_2xt * map_info_2yt * 4 * sizeof (*square_wrap));
-  square_offset2coord =
-    (int *) malloc (map_info_2xt * map_info_2yt * 2 *
-		    sizeof (*square_offset2coord));
+  square_offset2coord = malloc (map_info_2xt * map_info_2yt * 2 *
+                                sizeof (*square_offset2coord));
   if (square_offset2coord == NULL)
     return (17);
   memset (square_offset2coord, 0,
 	  map_info_2xt * map_info_2yt * 2 * sizeof (*square_offset2coord));
   if (game_mode == M_KILLEM) {
-    square_lemmings_list =
-      (lemming_t **) malloc ((map_info_2xt * map_info_2yt) *
-			     sizeof (lemming_t *));
-    square_dead_lemmings_list =
-      (lemming_t **) malloc ((map_info_2xt * map_info_2yt) *
-			     sizeof (lemming_t *));
-    /* lemmings_support=(lemming_t*) malloc(lemmings_total*sizeof(lemming_t)); */
+    square_lemmings_list = malloc ((map_info_2xt * map_info_2yt) *
+                                   sizeof (lemming_t *));
+    square_dead_lemmings_list = malloc ((map_info_2xt * map_info_2yt) *
+                                        sizeof (lemming_t *));
+    /* lemmings_support= malloc(lemmings_total*sizeof(lemming_t)); */
     if (square_lemmings_list == NULL
 	|| /*lemmings_support==NULL || */ square_dead_lemmings_list == NULL)
       return (18);
@@ -615,20 +601,18 @@ load_level (char *nomlvl, char cont)
     memset (lemmings_support, 0, lemmings_total * sizeof (lemming_t));
   }
   if (game_mode >= M_TCASH) {
-    square_object =
-      (signed char *) malloc (map_info_2xt * map_info_2yt *
-			      sizeof (*square_object));
+    square_object = malloc (map_info_2xt * map_info_2yt *
+                            sizeof (*square_object));
     if (square_object == NULL)
       return (19);
   }
 
   bonus_total_nbr = (map_info.xt * map_info.yt / 90) + 3;
   bonus_real_nbr = bonus_total_nbr - 2;
-  bonus_time = (int *) malloc (bonus_total_nbr * sizeof (*bonus_time));
+  bonus_time = malloc (bonus_total_nbr * sizeof (*bonus_time));
   if (bonus_time == NULL)
     return (20);
-  bonus_ptr =
-    (unsigned char **) malloc (bonus_total_nbr * sizeof (*bonus_ptr));
+  bonus_ptr = malloc (bonus_total_nbr * sizeof (*bonus_ptr));
   if (bonus_ptr == NULL)
     return (21);
   next_bonus_to_update = 0;
@@ -720,16 +704,13 @@ load_level (char *nomlvl, char cont)
     if (square_explosion[i] == 255)
       explo_nbr++;
   if (explo_nbr != 0) {
-    explo_list_ptr =
-      (unsigned char **) malloc (explo_nbr * sizeof (*explo_list_ptr));
+    explo_list_ptr = malloc (explo_nbr * sizeof (*explo_list_ptr));
     if (explo_list_ptr == NULL)
       return (34);
-    explo_list_pos_x =
-      (int *) malloc (explo_nbr * sizeof (*explo_list_pos_x));
+    explo_list_pos_x = malloc (explo_nbr * sizeof (*explo_list_pos_x));
     if (explo_list_pos_x == NULL)
       return (35);
-    explo_list_pos_y =
-      (int *) malloc (explo_nbr * sizeof (*explo_list_pos_x));
+    explo_list_pos_y = malloc (explo_nbr * sizeof (*explo_list_pos_x));
     if (explo_list_pos_y == NULL)
       return (36);
     j = 0;
@@ -4678,8 +4659,8 @@ read_level_list (void)
       level_list_nbr++;
   }
   fseek (f, 0, 0);
-  level_list = (char *) malloc (level_list_nbr * 13 * sizeof (char));
-  levelinf = (char *) malloc (level_list_nbr);
+  level_list = malloc (level_list_nbr * 13 * sizeof (char));
+  levelinf = malloc (level_list_nbr);
   while (!feof (f)) {
     char *tmp;
     fgets ((char *) string, 32, f);
@@ -4714,7 +4695,7 @@ static void readlvllstq2(void)
    if (string[0]!=0) levelnbrq2++;
   }
   fseek(f,0,0);
-  levellstq2=(char[][13])malloc(levelnbrq2*13);
+  levellstq2=malloc(levelnbrq2*13);
   while (!feof(f))
   {
    fgets((char*)string,32,f);

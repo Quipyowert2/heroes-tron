@@ -42,7 +42,7 @@ strupr (char *in)
 char *
 strcat_alloc (const char *fst, const char* snd)
 {
-  char *res = (char *)malloc (strlen (fst) + strlen (snd) + 1);
+  char *res = malloc (strlen (fst) + strlen (snd) + 1);
   return res ? strcat (strcpy (res,fst), snd) : NULL;
 }
 

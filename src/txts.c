@@ -68,7 +68,7 @@ read_txti_cfg (void)
       if (txti != NULL)
 	return;
       max_txti = atol (tmpptr + 1);
-      txti = (char **) malloc (max_txti * sizeof (char *));
+      txti = malloc (max_txti * sizeof (char *));
       memset (txti, 0, max_txti * sizeof (char *));
     } else if (c == 'T') {
       tmpptr2 = strchr (tmpptr, ' ');

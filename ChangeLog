@@ -1,19 +1,28 @@
 2000-09-15  Uwe Hermann  <uh1763@bingo-ev.de>
 
-	* ChangeLog: Fixed my old ChangeLog-entries to use imperative mode.
-	* src/argv.c (version): Added a missing 'void' in the definition.
-	Changed the 'const struct option long_options[]' to use
+	* ChangeLog: Fix old ChangeLog-entries to use imperative mode (again).
+	* TODO: Add new item.
+	* src/endscroll.c, src/heroes.c, src/misc.c, src/pcx.c, src/txts.c:
+	Remove all casts of malloc/realloc. Such casts are not necessary as
+	malloc/realloc return 'void *', but they can hide the fact that
+	the '#include <stdlib.h>' is missing...
+
+2000-09-15  Uwe Hermann  <uh1763@bingo-ev.de>
+
+	* ChangeLog: Fix old ChangeLog-entries to use imperative mode.
+	* src/argv.c (version): Add a missing 'void' in the definition.
+	Change the 'const struct option long_options[]' to use
 	no_argument, required_argument and NULL instead of 0, 1 and 0. This
 	increases readability (IMHO).
-	* src/const.c, src/endscroll.c, src/intro.c: Translated some french
+	* src/const.c, src/endscroll.c, src/intro.c: Translate some french
 	comments into english language.
 	* src/debugmsg.h, src/draw.c, src/extras.c, src/fastmem.h: Typo.
 	* src/endscroll.c, src/font.h, src/font_help.h, src/font_menu.h,
 	src/gfx_reader.h, src/hedlite.c, src/heroes.c, src/joystick.c,
-	src/menus.c, src/options.h: Changed some C++-style comments (//foo) into
+	src/menus.c, src/options.h: Change some C++-style comments (//foo) into
 	C-style comments (/* foo */).
 	* src/font.h, src/font_help.h, src/font_menu.h: Cosmetic changes.
-	* src/debugmsg.h, src/gfx_reader.h, src/heroes.c, : Added a
+	* src/debugmsg.h, src/gfx_reader.h, src/heroes.c, : Add a
 	missing 'void'.
 
 2000-09-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
