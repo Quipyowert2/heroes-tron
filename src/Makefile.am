@@ -82,6 +82,8 @@ musicfiles.c \
 musicfiles.h \
 options.c \
 options.h \
+parafmt.c \
+parafmt.h \
 pcx.c \
 pcx.h \
 pixelize.c \
@@ -184,3 +186,12 @@ debughash.c: debughash.gperf
 	      -k 1,3,$$ $(srcdir)/debughash.gperf | \
 	sed -e 's/{""}/{"",0,0}/g' > $@
 endif
+
+# This is handled manually, until Automake allows per-target CFLAGS
+parafmt-check.o: parafmt.c
+	@rm -f parafmt-check.o
+	$(COMPILE) -DTEST $< -c -o $@
+
+parafmt-check: parafmt-check.o
+	@rm -f parafmt-check
+	$(LINK) $< $(heroes_LDADD) -o $@
