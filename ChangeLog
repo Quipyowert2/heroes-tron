@@ -1,5 +1,11 @@
 2000-11-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/const.h (two_players): Declare as boolean.
+	* src/const.c (two_players): Likewise.
+	* src/heroes.c: Adapt all most refences to two_players.
+
+2000-11-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/menu.c (edit_first_menu_txt, edit_first_new_txt,
 	edit_first_load_txt): New.
 	(init_menus_sprites, uninit_menus_sprites): Handle the above new

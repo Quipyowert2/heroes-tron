@@ -1379,7 +1379,7 @@ output_screen (char n)
     for (i = 0; i < 4; i++)
       loginf[i] = player[col2plr[i]].cash;
 
-  if (two_players == 0) {
+  if (two_players == false) {
     compute_corner (0, n);
     draw_level (0);
     if (player[col2plr[0]].waves) {
@@ -2858,7 +2858,7 @@ play_demo (void)
 /*   corner[0]=render_buffer[0]; */
 /*   corner[1]=render_buffer[1]; */
 
-  if (two_players == 0) {
+  if (two_players == false) {
     int flip_pos;
     pendulum_init ();
     n = 0;
@@ -2903,7 +2903,7 @@ play_demo (void)
 	fader_status_flagback (&fade_stat);
       }
       vsynch ();
-      if (two_players == 0) {
+      if (two_players == false) {
 	aff_buffer ();
       } else {
 	display_two_buffers ();
@@ -3288,7 +3288,7 @@ get_input_directions (void)
   if (((player[col2plr[0]].next_way ^ 2) == player[col2plr[0]].tunnel_way)
       && (player[col2plr[0]].spec == t_tunnel))
     player[col2plr[0]].next_way = player[col2plr[0]].tunnel_way;
-  if (two_players == 1) {
+  if (two_players == true) {
     if (opt.ctrl_two == 0) {
       if (keyboard_map[opt.player_keys[1][0]] == 1) {
 	player[col2plr[1]].next_way = w_up;
@@ -3538,7 +3538,7 @@ play_game (char cont)
 
   levelname = compile_menu_text (bufstr, T_CENTERED, 99, 159);
 
-  if (two_players == 0) {
+  if (two_players == false) {
     int pendulum_pos;
     pendulum_init ();
     n = 0;
@@ -3597,7 +3597,7 @@ play_game (char cont)
     event_time = read_htimer (event_htimer);
     update_text_waving_step ();
     if (enable_blit) {
-      if (two_players == 0) {
+      if (two_players == false) {
 	vsynch ();
 	aff_buffer ();
       } else {
@@ -3639,7 +3639,7 @@ play_game (char cont)
     else
       event_sfx (65);
     do {
-      if (two_players == 0) {
+      if (two_players == false) {
 	draw_end_level_info (0, l);
 	vsynch ();
 	aff_buffer ();
@@ -3688,7 +3688,7 @@ play_game (char cont)
 	l = 0;
 	editflag = 0;
 	do {
-	  if (two_players == 0) {
+	  if (two_players == false) {
 	    draw_saved_games_info (0, l, 1);
 	    vsynch ();
 	    aff_buffer ();
@@ -3800,7 +3800,7 @@ play_game (char cont)
       if (l == 255)
 	event_sfx (68);		/* echap */
       for (i = 1; i <= 40; i += n) {
-	if (two_players == 0) {
+	if (two_players == false) {
 	  draw_end_level_info (0, l);
 	  vsynch ();
 	  display_buffer_moving (i);
@@ -3819,7 +3819,7 @@ play_game (char cont)
 	process_input_events ();
 	n = update_all (1);
       }
-      if (two_players == 0) {
+      if (two_players == false) {
 	draw_end_level_info (0, l);
 	vsynch ();
 	display_buffer_moving (40);
@@ -3841,7 +3841,7 @@ play_game (char cont)
 
       event_sfx (129);
       do {
-	if (two_players == 0) {
+	if (two_players == false) {
 	  draw_round_info (0);
 	  vsynch ();
 	  aff_buffer ();
@@ -3874,7 +3874,7 @@ play_game (char cont)
       if (l == 255)
 	event_sfx (68);		/*esc */
       for (i = 1; i <= 40; i += n) {
-	if (two_players == 0) {
+	if (two_players == false) {
 	  draw_round_info (0);
 	  vsynch ();
 	  display_buffer_moving (i);
@@ -3892,7 +3892,7 @@ play_game (char cont)
 	process_input_events ();
 	n = update_all (1);
       }
-      if (two_players == 0) {
+      if (two_players == false) {
 	draw_round_info (0);
 	vsynch ();
 	display_buffer_moving (40);

@@ -91,7 +91,7 @@ extern pcx_image_t bonus_font_img, jukebox_img;
 extern pcx_image_t tile_set_img, font_deck_img;
 
 extern signed char minisinus[32];
-extern char two_players;
+extern bool two_players;
 
 #define maxq 128
 /* maxq à reporter dans const.c !!! */

@@ -143,7 +143,7 @@ pcx_image_t bonus_font_img, jukebox_img;
 pcx_image_t tile_set_img, font_deck_img;
 
 signed char minisinus[32];
-char two_players = 0;
+bool two_players = false;
 
 /****** JOUEURS ET TRAINEE ******/
 #define maxq 128
