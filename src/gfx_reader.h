@@ -415,7 +415,7 @@ graphic_reader (void)
   txtptr = malloc (ftaille);
   fread (txtptr, ftaille, 1, f);
   fclose (f);
-  for (i = ftaille; i >= 0; i--)
+  for (i = ftaille - 1; i >= 0; i--)
     if (*(txtptr + i) == 10)
       nbr_lines++;
   strptr = malloc ((nbr_lines + 2) * sizeof (char *));

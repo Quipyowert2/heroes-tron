@@ -1,3 +1,7 @@
+2000-11-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/gfx_reader.h (graphic_reader): Fix a fence-post read.
+
 2000-11-23  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* ANNOUNCE: New file.
