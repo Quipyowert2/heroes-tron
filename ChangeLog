@@ -1,5 +1,11 @@
 2001-08-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.ac: Bump version to 0.12e.
+	* NEWS: Update.
+	* tools/genpotfiles.sh: Grep the files in src/media/ too.
+
+2001-08-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/lvl/de_body.c (ANIM_FRAME_DELAY): Add 1.
 	* src/lvl/load.c (lvl_load_body_file): Typo.
 

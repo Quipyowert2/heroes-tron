@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.9\n"
-"POT-Creation-Date: 2001-08-06 10:21+0200\n"
+"POT-Creation-Date: 2001-08-22 15:41+0200\n"
 "PO-Revision-Date: 2001-03-18 18:27GMT\n"
 "Last-Translator: Hermann J. Beckers <beckers@st-oneline.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -365,49 +365,6 @@ msgstr "%s: Kein solcher Kanal, ich vermute, Du meinst '%s'."
 msgid "%s: no such channel (--list=debug will list all known channels)"
 msgstr "%s: Kein solcher Kanal (--list=debug zeigt alle bekannten Kanaele an)"
 
-#. FIXME: ask to send a bug report with a trace
-#: src/display.c:353
-msgid "failed to get any direct buffer for this visual"
-msgstr "Konnte Direkt-Puffer fuer diese Farbeinstellung nicht bekommen"
-
-#. TRANS: a `visual' is associated by LibGGI to a display.  You can
-#. actually call it a `display', this makes no big difference.
-#: src/display.c:373
-msgid "failed to open visual."
-msgstr "Konnte diese Farbeinstellung nicht oeffnen"
-
-#: src/display.c:381
-msgid "cannot setup a correct display."
-msgstr "Kann keine korrekte Anzeige einrichten."
-
-#: src/display.c:388
-#, c-format
-msgid "negociated video mode is too small (width=%d, height=%d)"
-msgstr "Videomodus ist zu klein (Breite=%d, Hoehe=%d)"
-
-#. TRANS: `display-memory' is the name of a LibGGI driver and
-#. make no sense to translate.
-#: src/display.c:401
-msgid "Failed to open an internal `display-memory' visual."
-msgstr "Konnte interne 'Anzeigespeicher'-Farbeinstellung nicht oeffnen."
-
-#: src/display.c:403
-msgid "Failed to set 320x200x8 mode on display-memory"
-msgstr "Konnte Modus 320x200x8 im Anzeigespeicher nicht setzen"
-
-#: src/display.c:486
-msgid "failed to acquire direct-buffer"
-msgstr "Konnte Direkt-Puffer nicht belegen"
-
-#: src/display.c:503
-msgid "failed to release direct-buffer"
-msgstr "Konnte Direkt-Puffer nicht freigeben."
-
-#: src/display.c:581
-#, c-format
-msgid "Failed to open visual: %s"
-msgstr "Konnte Farbeinstellung: %s nicht oeffnen"
-
 #: src/endscroll.c:114
 msgid "THE END"
 msgstr "Das Ende (this is finish)"
@@ -417,12 +374,12 @@ msgstr "Das Ende (this is finish)"
 msgid "character '%c' is not drawable (in message '%s')"
 msgstr "Zeichen '%c' (in Meldung '%s') kann nicht gezeichnet werden"
 
-#: src/hedlite.c:1651
+#: src/hedlite.c:1623
 #, c-format
 msgid "Cannot create directory `%s'."
 msgstr "Kann Verzeicnis '%s' nicht anlegen."
 
-#: src/hedlite.c:1708 src/hedlite.c:1715
+#: src/hedlite.c:1680 src/hedlite.c:1687
 #, c-format
 msgid "%s: invalid level file"
 msgstr "%s: fehlerhafte Ebenen-Datei"
@@ -817,32 +774,23 @@ msgid "LAST LIFE"
 msgid_plural "%d LIVES LEFT"
 msgstr[0] "Letztes Leben"
 
-#: src/heroes.c:2807
+#: src/heroes.c:2808
 msgid "Error during level loading"
 msgstr "Fehler beim Level-Laden"
 
-#: src/heroes.c:2843
+#: src/heroes.c:2844
 #, c-format
 msgid "-LEVEL %d-"
 msgstr "-LEVEL %d-"
 
-#: src/heroes.c:2845
+#: src/heroes.c:2846
 #, c-format
 msgid "-ROUND %d/%d-"
 msgstr "-Runde %d/%d-"
 
-#: src/heroes.c:3331
+#: src/heroes.c:3332
 msgid "error in sfx.cfg"
 msgstr "Fehler in sfx.cfg"
-
-#: src/joystick.c:99
-#, c-format
-msgid "unexpected event %d\n"
-msgstr "unerwartetes Ereignis %d\n"
-
-#: src/joystick.c:112 src/joystick.c:148
-msgid "No joystick found (run with `-J' to suppress this message)."
-msgstr "Kein Joystick gefunden (-J unterdrueckt diese Meldung)"
 
 #: src/levellst.c:54
 #, fuzzy, c-format
@@ -852,12 +800,12 @@ msgstr "Kann Verzeicnis '%s' nicht anlegen."
 #. TRANS: in QUEST mode, the player goes throught all the levels, but
 #. have to search for specific powerups in order to jump to the next
 #. level.  Hence this is a `quest' for those powerups.
-#: src/menus.c:148
+#: src/menus.c:147
 msgid "QUEST"
 msgstr "QUEST"
 
 #. TRANS: in DEATH MATCH mode, the user has to kill all other players.
-#: src/menus.c:150
+#: src/menus.c:149
 msgid "DEATH MATCH"
 msgstr "DEATH MATCH"
 
@@ -865,246 +813,246 @@ msgstr "DEATH MATCH"
 #. and the player must run over them all.  You may want to translate
 #. `kill' as `run over', `squash', `mash' or something among those
 #. lines.
-#: src/menus.c:155
+#: src/menus.c:154
 msgid "KILL'EM ALL"
 msgstr "KILL'EM ALL"
 
 #. TRANS: in TIME CA$H mode, the player must collect dollars with
 #. restricted time.
-#: src/menus.c:158
+#: src/menus.c:157
 msgid "TIME CA$H"
 msgstr "TIME CA$H"
 
 #. TRANS: in COLOR mode, the player must collect some colored gems
 #. with restricted time.
-#: src/menus.c:161
+#: src/menus.c:160
 msgid "COLORS"
 msgstr "COLORS"
 
-#: src/menus.c:194
+#: src/menus.c:193
 msgid "GAME"
 msgstr "SPIEL"
 
-#: src/menus.c:195
+#: src/menus.c:194
 msgid "SCREEN"
 msgstr "BILDSCHIRM"
 
-#: src/menus.c:196
+#: src/menus.c:195
 msgid "SOUND"
 msgstr "SOUND"
 
-#: src/menus.c:197
+#: src/menus.c:196
 msgid "CONTROL"
 msgstr "STEUERUNG"
 
-#: src/menus.c:198
+#: src/menus.c:197
 msgid "KEYS"
 msgstr "TASTEN"
 
-#: src/menus.c:199
+#: src/menus.c:198
 msgid "EXTRAS"
 msgstr "EXTRAS"
 
-#: src/menus.c:200 src/menus.c:224 src/menus.c:387 src/menus.c:397
-#: src/menus.c:411 src/menus.c:423 src/menus.c:433 src/menus.c:456
-#: src/menus.c:547
+#: src/menus.c:199 src/menus.c:223 src/menus.c:386 src/menus.c:396
+#: src/menus.c:410 src/menus.c:422 src/menus.c:432 src/menus.c:455
+#: src/menus.c:546
 msgid "GO BACK"
 msgstr "ZURUECK"
 
 #. play menu
-#: src/menus.c:207 src/menus.c:541
+#: src/menus.c:206 src/menus.c:540
 msgid "PLAY"
 msgstr "SPIELEN"
 
 #. options menu
-#: src/menus.c:208 src/menus.c:528
+#: src/menus.c:207 src/menus.c:527
 msgid "OPTIONS"
 msgstr "OPTIONEN"
 
-#: src/menus.c:209 src/menus.c:408
+#: src/menus.c:208 src/menus.c:407
 msgid "INFOS"
 msgstr "INFOS"
 
-#: src/menus.c:210
+#: src/menus.c:209
 msgid "CREDITS"
 msgstr "CREDITS"
 
-#: src/menus.c:211
+#: src/menus.c:210
 msgid "SCORES"
 msgstr "HIGHSCORE"
 
 #. editor first menu
-#: src/menus.c:212 src/menus.c:538
+#: src/menus.c:211 src/menus.c:537
 msgid "EDITOR"
 msgstr "EDITOR"
 
-#: src/menus.c:213
+#: src/menus.c:212
 msgid "QUIT"
 msgstr "BEENDEN"
 
 #. TRANS: Create a new level.
-#: src/menus.c:221 src/menus.c:505
+#: src/menus.c:220 src/menus.c:504
 msgid "NEW LEVEL"
 msgstr "NEUER LEVEL"
 
 #. TRANS: Load an existing level for edition.
-#: src/menus.c:223
+#: src/menus.c:222
 msgid "LOAD LEVEL"
 msgstr "LADE LEVEL"
 
-#: src/menus.c:377
+#: src/menus.c:376
 msgid "CONTROL OPTIONS"
 msgstr "STEUERUNGS-OPTIONEN"
 
 #. 1st player
-#: src/menus.c:379 src/menus.c:418 src/menus.c:435
+#: src/menus.c:378 src/menus.c:417 src/menus.c:434
 msgid "PLAYER 1"
 msgstr "SPIELER 1"
 
-#: src/menus.c:381 src/menus.c:385
+#: src/menus.c:380 src/menus.c:384
 msgid "AUTO PILOT"
 msgstr "AUTO-PILOT"
 
 #. 2nd player
-#: src/menus.c:383 src/menus.c:419 src/menus.c:443
+#: src/menus.c:382 src/menus.c:418 src/menus.c:442
 msgid "PLAYER 2"
 msgstr "SPIELER 2"
 
-#: src/menus.c:393
+#: src/menus.c:392
 msgid "SOUND OPTIONS"
 msgstr "SOUND-OPTIONEN"
 
-#: src/menus.c:395
+#: src/menus.c:394
 msgid "MUSIC"
 msgstr "MUSIK"
 
-#: src/menus.c:396
+#: src/menus.c:395
 msgid "SFX"
 msgstr "SFX"
 
-#: src/menus.c:400
+#: src/menus.c:399
 msgid "MUSIC VOL"
 msgstr "VOL. MUS."
 
-#: src/menus.c:401
+#: src/menus.c:400
 msgid "SFX VOL"
 msgstr "VOL. SFX."
 
-#: src/menus.c:405
+#: src/menus.c:404
 msgid "SCREEN OPTIONS"
 msgstr "ANZEIGE-OPTIONEN"
 
-#: src/menus.c:407
+#: src/menus.c:406
 msgid "RADAR"
 msgstr "RADAR"
 
-#: src/menus.c:409
+#: src/menus.c:408
 msgid "LIGHTING"
 msgstr "BELEUCHTUNG"
 
-#: src/menus.c:410
+#: src/menus.c:409
 msgid "INERTIA"
 msgstr "INERTIA"
 
-#: src/menus.c:416
+#: src/menus.c:415
 msgid "GAME OPTIONS"
 msgstr "SPIEL-OPTIONEN"
 
-#: src/menus.c:420
+#: src/menus.c:419
 msgid "PLAYER 3"
 msgstr "SPIELER 3"
 
-#: src/menus.c:421
+#: src/menus.c:420
 msgid "PLAYER 4"
 msgstr "SPIELER 4"
 
-#: src/menus.c:422
+#: src/menus.c:421
 msgid "SPEED"
 msgstr "GESCHW."
 
-#: src/menus.c:431
+#: src/menus.c:430
 msgid "KEYBOARD DEFS"
 msgstr "TASTEN-DEF."
 
-#: src/menus.c:436 src/menus.c:444
+#: src/menus.c:435 src/menus.c:443
 msgid "UP"
 msgstr "HOCH"
 
-#: src/menus.c:437 src/menus.c:445
+#: src/menus.c:436 src/menus.c:444
 msgid "LEFT"
 msgstr "LINKS"
 
-#: src/menus.c:438 src/menus.c:446
+#: src/menus.c:437 src/menus.c:445
 msgid "DOWN"
 msgstr "RUNTER"
 
-#: src/menus.c:439 src/menus.c:447
+#: src/menus.c:438 src/menus.c:446
 msgid "RIGHT"
 msgstr "RECHTS"
 
-#: src/menus.c:440 src/menus.c:448
+#: src/menus.c:439 src/menus.c:447
 msgid "TURBO"
 msgstr "TURBO"
 
-#: src/menus.c:441 src/menus.c:449
+#: src/menus.c:440 src/menus.c:448
 msgid "STOP"
 msgstr "STOP"
 
-#: src/menus.c:454
+#: src/menus.c:453
 msgid "EXTRAS LEVELS"
 msgstr "EXTRA-LEVEL"
 
-#: src/menus.c:458
+#: src/menus.c:457
 msgid "ORIGINAL LEVELS"
 msgstr "ORIGINAL-LEVEL"
 
-#: src/menus.c:460
+#: src/menus.c:459
 msgid "ORIGINAL+EXTRAS"
 msgstr "ORIGINAL+EXTRAS"
 
-#: src/menus.c:462
+#: src/menus.c:461
 msgid "EXTRAS ONLY"
 msgstr "NUR EXTRAS"
 
-#: src/menus.c:464
+#: src/menus.c:463
 msgid "EXTRAS: NONE"
 msgstr "EXTRAS: KEINE"
 
-#: src/menus.c:466
+#: src/menus.c:465
 msgid "EXTRAS: ALL"
 msgstr "EXTRAS: ALLE"
 
-#: src/menus.c:468
+#: src/menus.c:467
 msgid "EXTRAS: SELECT"
 msgstr "EXTRAS: AUSWAHL"
 
 #. pause menu
-#: src/menus.c:493
+#: src/menus.c:492
 msgid "PAUSE"
 msgstr "PAUSE"
 
 #. quit y/n menus
-#: src/menus.c:497
+#: src/menus.c:496
 msgid "QUIT THIS GAME?"
 msgstr "DIESES SPIEL BEENDEN ?"
 
-#: src/menus.c:499
+#: src/menus.c:498
 msgid "REALLY QUIT?"
 msgstr "WIRKLICH BEENDEN?"
 
-#: src/menus.c:501
+#: src/menus.c:500
 msgid "NO"
 msgstr "NEIN"
 
-#: src/menus.c:502
+#: src/menus.c:501
 msgid "YES"
 msgstr "JA"
 
-#: src/menus.c:507
+#: src/menus.c:506
 msgid "EXISTING LEVEL"
 msgstr "BESTEHENDER LEVEL"
 
-#: src/menus.c:509
+#: src/menus.c:508
 msgid "NAME"
 msgstr "NAME"
 
@@ -1115,139 +1063,139 @@ msgstr "NAME"
 #. bounds that you cannot cross.  X-WRAP is a check box used to specified
 #. whether a level must be wrapped horizontally or not when creating a
 #. new level.
-#: src/menus.c:517
+#: src/menus.c:516
 msgid "X-WRAP"
 msgstr "X-WRAP"
 
 #. TRANS: Y-WRAP is a check box used to specified whether a level
 #. must be wrapped vertically or not.
-#: src/menus.c:520
+#: src/menus.c:519
 msgid "Y-WRAP"
 msgstr "Y-WRAP"
 
 #. TRANS: width of the level
-#: src/menus.c:522
+#: src/menus.c:521
 msgid "X-SIZE"
 msgstr "X-GROESSE"
 
 #. TRANS: height of the level
-#: src/menus.c:524
+#: src/menus.c:523
 msgid "Y-SIZE"
 msgstr "Y-GROESSE"
 
-#: src/menus.c:525
+#: src/menus.c:524
 msgid "EDIT"
 msgstr "EDIT"
 
 #. main menu
-#: src/menus.c:531
+#: src/menus.c:530
 msgid "HEROES"
 msgstr "HEROES"
 
 #. editor selector
-#: src/menus.c:534
+#: src/menus.c:533
 msgid "SELECT A LEVEL"
 msgstr "LEVEL WAEHLEN"
 
-#: src/menus.c:543
+#: src/menus.c:542
 msgid "ONE PLAYER"
 msgstr "EIN SPIELER"
 
-#: src/menus.c:545
+#: src/menus.c:544
 msgid "TWO PLAYERS"
 msgstr "ZWEI SPIELER"
 
-#: src/menus.c:549
+#: src/menus.c:548
 msgid "LOAD..."
 msgstr "LADE..."
 
 #. saved game selection
-#: src/menus.c:558
+#: src/menus.c:557
 msgid "CHOOSE A SAVE SLOT"
 msgstr "SICHERUNGS-SLOT WAEHLEN"
 
-#: src/menus.c:560
+#: src/menus.c:559
 msgid "CHOOSE A LOAD SLOT"
 msgstr "LADE-SLOT WAEHLEN"
 
 #. enter your name
-#: src/menus.c:564
+#: src/menus.c:563
 msgid "ENTER YOUR NAME:"
 msgstr "NAME EINGEBEN:"
 
 #. end level info
 #. TRANS: SIZE is the size of the player trail, PTS the
 #. number of PoinTS
-#: src/menus.c:570
+#: src/menus.c:569
 msgid "SIZE  PTS  LIVES"
 msgstr "GROESSE PKT. LEBEN"
 
-#: src/menus.c:572
+#: src/menus.c:571
 msgid "PTS  LIVES"
 msgstr "PUNKTE  LEBEN"
 
 #. TRANS: this is for KILL'EM ALL mode, and MEN is the number
 #. of lemmings killed by one player
-#: src/menus.c:576
+#: src/menus.c:575
 msgid " MEN  PTS  LIVES"
 msgstr " LEM. PKT. LEBEN"
 
-#: src/menus.c:578
+#: src/menus.c:577
 msgid "CA$H  PTS  LIVES"
 msgstr "GELD  PKT.  LEBEN"
 
-#: src/menus.c:580
+#: src/menus.c:579
 msgid "COLORS  PTS  LIVES"
 msgstr "FARBEN  PKT.  LEBEN"
 
-#: src/menus.c:585
+#: src/menus.c:584
 msgid "NEXT LEVEL"
 msgstr "NAECHSTER LEVEL"
 
 #. TRANS: this is a menu entry that introduce the user to another
 #. menu.  This is NOT displayed DURING saving.
-#: src/menus.c:590
+#: src/menus.c:589
 msgid "SAVE..."
 msgstr "SPEICHERN..."
 
-#: src/menus.c:595
+#: src/menus.c:594
 msgid "PRESS RETURN"
 msgstr "RETURN DRUECKEN"
 
-#: src/menus.c:604
+#: src/menus.c:603
 msgid "WINS  PTS  LIVES"
 msgstr "GEW.  PKT.  LEBEN"
 
 #. higher scores
-#: src/menus.c:615
+#: src/menus.c:614
 msgid "HIGHER SCORES"
 msgstr "HOEH. TREFFER"
 
-#: src/menus.c:1241
+#: src/menus.c:1232
 #, fuzzy, c-format
 msgid "%d ROUND"
 msgid_plural "%d ROUNDS"
 msgstr[0] "%d RUNDEN"
 
-#: src/menus.c:2237
+#: src/menus.c:2221
 #, c-format
 msgid "PLAYER %d, YOU CAME IN THE TOP 10"
 msgstr "SPIELER %d, DU HAST DIE TOP 10 ERREICHT"
 
-#: src/menus.c:2303
+#: src/menus.c:2287
 #, c-format
 msgid "PLAYER %d WON!"
 msgstr "SPIELER %d GEWANN!"
 
-#: src/menus.c:2309
+#: src/menus.c:2293
 msgid "EVERYONE LOST!"
 msgstr "JEDER HAT VERLOREN!"
 
-#: src/menus.c:2311
+#: src/menus.c:2295
 msgid "YOU LOST!"
 msgstr "DU HAST VERLOREN!"
 
-#: src/menus.c:2390
+#: src/menus.c:2374
 #, c-format
 msgid "ROUND %d/%d"
 msgstr "RUNDE %d/%d"
@@ -1382,102 +1330,6 @@ msgstr ""
 msgid "%s:%d: parse error.  Clearing score table."
 msgstr ""
 
-#: src/sfx.c:153
-#, c-format
-msgid ""
-"Cannot open %s, disabling sound-effects\n"
-"(run with -X to supress this message)."
-msgstr ""
-"Kann %s nicht oeffnen, Soundeffekt deaktiviert.\n"
-"(-X unterdrueckt diese Meldung)."
-
-#: src/sfx.c:319
-#, c-format
-msgid "Unable to load sample %s"
-msgstr "Kann Sample %s nicht laden"
-
-#: src/sound.c:111
-#, c-format
-msgid ""
-"Could not initialize sound, reason: %s\n"
-"Disabling sound output (use -S to suppress this message)."
-msgstr ""
-"Kann Sound nicht initialisieren, Grund: %s\n"
-"Sound deaktiviert (-S unterdrueckt diese Meldung)."
-
-#: src/sound.c:121
-msgid ""
-"Could not initialize sound, reason: LibMikMod is not thread safe.\n"
-"Disabling sound output (use -S to suppress this message)."
-msgstr ""
-"Kann Sound nicht initialisieren, Grund: LibMikMod ist nicht thread-sicher.\n"
-"Sound ist deaktiviert (-S unterdrueckt diese Meldung)."
-
-#: src/sound.c:156 src/sound.c:371
-#, c-format
-msgid "Could not load %s, reason: %s"
-msgstr "Konnte %s nicht laden, Grund: %s"
-
-#: src/sound.c:220
-#, c-format
-msgid "LibMikMod version %ld.%ld.%ld\n"
-msgstr "LibMikMod Version %ld.%ld.%ld\n"
-
-#: src/sound.c:223
-#, c-format
-msgid ""
-"\n"
-"Available drivers:\n"
-"%s\n"
-msgstr ""
-"\n"
-"Verfuegbare Treiber:\n"
-"%s\n"
-
-#: src/sound.c:239
-#, c-format
-msgid ""
-"Argument '%s' out of bounds, must be between %d and %d.\n"
-"Use '%s --help' for more information."
-msgstr ""
-"Argument '%s': Bereichsueberschreitung, muﬂ zwischen %d und %d liegen.\n"
-"Benutze '%s --help' fuer weitere Informationen."
-
-#: src/sound.c:333
-#, c-format
-msgid ""
-"Couldn't open audio: %s\n"
-"Disabling sound output (use -S to suppress this message)."
-msgstr ""
-"Konnte Audio nicht oeffnen: %s\n"
-"Sound ist deaktiviert (-S unterdrueckt diese Meldung)."
-
-#: src/sound.c:409
-msgid ""
-"Heroes has been compiled with SDL_mixer, there is no driver list available."
-msgstr ""
-"Heroes wurde mit SDL_mixer kompiliert, es ist keine Treiber-\n"
-"Liste verfuegbar."
-
-#: src/sound.c:425
-#, c-format
-msgid "%s: missing parameter for 'freq'"
-msgstr "%s: fehlender Parameter fuer 'freq'"
-
-#: src/sound.c:431
-#, c-format
-msgid "%s: missing parameter for `buffers'"
-msgstr "%s: fehlender Parameter fuer `buffers'"
-
-#: src/sound.c:433
-#, c-format
-msgid "%s: recognized sound options are freq=nnn and buffers=nnn"
-msgstr "%s: zulaessige Klangoptionen sind freq=nnn und buffers=nnn"
-
-#: src/sound.c:446
-msgid "Heroes has been compiled without sound support."
-msgstr "Heroes wurde ohne Sound-Unterstuetzung kompiliert."
-
 #: src/userconf.c:83 src/userconf.c:110
 #, c-format
 msgid "%s:%d: missing variable name"
@@ -1502,6 +1354,154 @@ msgstr "%s:%d: unbekanntes Schluesselwort `%s'"
 #, c-format
 msgid "%s:%d: unknown keyword `%s'"
 msgstr "%s:%d: unbekanntes Schluesselwort `%s'"
+
+#: src/media/sfx.c:95
+#, c-format
+msgid ""
+"Cannot open %s, disabling sound-effects\n"
+"(run with -X to supress this message)."
+msgstr ""
+"Kann %s nicht oeffnen, Soundeffekt deaktiviert.\n"
+"(-X unterdrueckt diese Meldung)."
+
+#: src/media/sfx.c:261
+#, c-format
+msgid "Unable to load sample %s"
+msgstr "Kann Sample %s nicht laden"
+
+#: src/media/dummy/strack.c:76
+msgid "Heroes has been compiled without sound support."
+msgstr "Heroes wurde ohne Sound-Unterstuetzung kompiliert."
+
+#. FIXME: ask to send a bug report with a trace
+#: src/media/ggi/video.c:155
+msgid "failed to get any direct buffer for this visual"
+msgstr "Konnte Direkt-Puffer fuer diese Farbeinstellung nicht bekommen"
+
+#. TRANS: a `visual' is associated by LibGGI to a display.  You can
+#. actually call it a `display', this makes no big difference.
+#: src/media/ggi/video.c:177
+msgid "failed to open visual."
+msgstr "Konnte diese Farbeinstellung nicht oeffnen"
+
+#: src/media/ggi/video.c:185
+msgid "cannot setup a correct display."
+msgstr "Kann keine korrekte Anzeige einrichten."
+
+#: src/media/ggi/video.c:192
+#, c-format
+msgid "negociated video mode is too small (width=%d, height=%d)"
+msgstr "Videomodus ist zu klein (Breite=%d, Hoehe=%d)"
+
+#. TRANS: `display-memory' is the name of a LibGGI driver and
+#. make no sense to translate.
+#: src/media/ggi/video.c:205
+msgid "Failed to open an internal `display-memory' visual."
+msgstr "Konnte interne 'Anzeigespeicher'-Farbeinstellung nicht oeffnen."
+
+#: src/media/ggi/video.c:207
+msgid "Failed to set 320x200x8 mode on display-memory"
+msgstr "Konnte Modus 320x200x8 im Anzeigespeicher nicht setzen"
+
+#: src/media/ggi/video.c:284
+msgid "failed to acquire direct-buffer"
+msgstr "Konnte Direkt-Puffer nicht belegen"
+
+#: src/media/ggi/video.c:301
+msgid "failed to release direct-buffer"
+msgstr "Konnte Direkt-Puffer nicht freigeben."
+
+#: src/media/gii/joystick.c:97
+#, c-format
+msgid "unexpected event %d\n"
+msgstr "unerwartetes Ereignis %d\n"
+
+#: src/media/gii/joystick.c:110 src/media/sdl/joystick.c:51
+msgid "No joystick found (run with `-J' to suppress this message)."
+msgstr "Kein Joystick gefunden (-J unterdrueckt diese Meldung)"
+
+#: src/media/mikmod/strack.c:104
+#, c-format
+msgid ""
+"Could not initialize sound, reason: %s\n"
+"Disabling sound output (use -S to suppress this message)."
+msgstr ""
+"Kann Sound nicht initialisieren, Grund: %s\n"
+"Sound deaktiviert (-S unterdrueckt diese Meldung)."
+
+#: src/media/mikmod/strack.c:114
+msgid ""
+"Could not initialize sound, reason: LibMikMod is not thread safe.\n"
+"Disabling sound output (use -S to suppress this message)."
+msgstr ""
+"Kann Sound nicht initialisieren, Grund: LibMikMod ist nicht thread-sicher.\n"
+"Sound ist deaktiviert (-S unterdrueckt diese Meldung)."
+
+#: src/media/mikmod/strack.c:149 src/media/sdl_mixer/strack.c:134
+#, c-format
+msgid "Could not load %s, reason: %s"
+msgstr "Konnte %s nicht laden, Grund: %s"
+
+#: src/media/mikmod/strack.c:214
+#, c-format
+msgid "LibMikMod version %ld.%ld.%ld\n"
+msgstr "LibMikMod Version %ld.%ld.%ld\n"
+
+#: src/media/mikmod/strack.c:217
+#, c-format
+msgid ""
+"\n"
+"Available drivers:\n"
+"%s\n"
+msgstr ""
+"\n"
+"Verfuegbare Treiber:\n"
+"%s\n"
+
+#: src/media/mikmod/strack.c:233
+#, c-format
+msgid ""
+"Argument '%s' out of bounds, must be between %d and %d.\n"
+"Use '%s --help' for more information."
+msgstr ""
+"Argument '%s': Bereichsueberschreitung, muﬂ zwischen %d und %d liegen.\n"
+"Benutze '%s --help' fuer weitere Informationen."
+
+#: src/media/sdl/video.c:98
+#, c-format
+msgid "Failed to open visual: %s"
+msgstr "Konnte Farbeinstellung: %s nicht oeffnen"
+
+#: src/media/sdl_mixer/strack.c:96
+#, c-format
+msgid ""
+"Couldn't open audio: %s\n"
+"Disabling sound output (use -S to suppress this message)."
+msgstr ""
+"Konnte Audio nicht oeffnen: %s\n"
+"Sound ist deaktiviert (-S unterdrueckt diese Meldung)."
+
+#: src/media/sdl_mixer/strack.c:172
+msgid ""
+"Heroes has been compiled with SDL_mixer, there is no driver list available."
+msgstr ""
+"Heroes wurde mit SDL_mixer kompiliert, es ist keine Treiber-\n"
+"Liste verfuegbar."
+
+#: src/media/sdl_mixer/strack.c:188
+#, c-format
+msgid "%s: missing parameter for 'freq'"
+msgstr "%s: fehlender Parameter fuer 'freq'"
+
+#: src/media/sdl_mixer/strack.c:194
+#, c-format
+msgid "%s: missing parameter for `buffers'"
+msgstr "%s: fehlender Parameter fuer `buffers'"
+
+#: src/media/sdl_mixer/strack.c:196
+#, c-format
+msgid "%s: recognized sound options are freq=nnn and buffers=nnn"
+msgstr "%s: zulaessige Klangoptionen sind freq=nnn und buffers=nnn"
 
 #~ msgid "Error %d during loading level"
 #~ msgstr "Fehler %d beim Level-Laden"

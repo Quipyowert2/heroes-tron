@@ -1,3 +1,19 @@
+Heroes 0.12e	August 22, 2001
+
+	* Interfaces with media libraries (SDL/GGI/GII/MikMod/SDL_mixer)
+	  completly revamped.  See src/media/.  This look cleaner, and
+	  should make addition of new interfaces easier.
+	* ./configure will now check for *all* supported media libraries
+	  (e.g. it used to not check for SDL if GGI was found: it will
+	  now check for both and make a selection later).
+	  --with-package options are used by the installer to give his/her
+	  *preference* on which package to use.
+	  --without-package options are used to disable the checks for
+	  package (it's probably a bug if you need this).
+	* Bug fixes:
+	  - The SDL version won't initialize sound or joystick if not needed.
+	  - Animation were looping to fast (since 0.12a).
+
 Heroes 0.12d	August 6, 2001
 
 	* Portability tweaks for MinGW and OpenBSD.
