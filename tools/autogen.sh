@@ -53,7 +53,7 @@ p
   # generate configure
   saferun autoconf ${moreverb}
 
-  if grep AC_CONFIG_HEADER configure.* >/dev/null 2>/dev/null; then
+  if grep A._CONFIG_HEADER configure.* >/dev/null 2>/dev/null; then
     # generate src/config.h.in
     saferun autoheader ${moreverb}
   fi

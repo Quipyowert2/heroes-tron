@@ -1,3 +1,16 @@
+2002-02-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* Makefile.am (EXTRA_DIST): Add misc/ltdlaux.patch.
+	(SUBDIRS): Prepend libltdl.
+	* configure.ac: Call libtools/libltdl configury macros.
+	* libltdl/COPYING.LIB, libltdl/Makefile.am, libltdl/README,
+	libltdl/acinlude.m4, libltdl/configure.ac, libltdl/ltdc.c,
+	libltdl/ltdc.h, m4/libtool.m4: New files, from CVS libtool.
+	* tools/autogen.sh: Recognize AM_CONFIG_HEADER.
+	* tools/uplibtool.sh: New file.
+	* tools/cvsboot.sh: Add the tools/uplibtool.sh invokation, but
+	as a comment (because we keep the result in CVS for now).
+
 2002-02-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/rules/bonuses.c (bonus_time, bonus_list, bonus_total_nbr,

@@ -35,11 +35,12 @@ misc/heroes-6.xpm \
 misc/heroes-7.xpm \
 misc/heroes-8.xpm \
 misc/01-intl.patch \
-misc/05-po.patch
+misc/05-po.patch \
+misc/ltdlaux.patch
 
 # lib must be built after intl
 # man must be built after src
-SUBDIRS = intl lib src man po doc tests
+SUBDIRS = libltdl intl lib src man po doc tests
 
 README: $(top_srcdir)/doc/heroes.texi $(top_srcdir)/tools/readme.sed
 	LC_ALL=C $(MAKEINFO) --no-header -I $(top_srcdir)/doc heroes.texi | \

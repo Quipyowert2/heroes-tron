@@ -44,7 +44,6 @@ AC_PROG_CC_STDC
 AM_PROG_CC_C_O
 AC_PROG_CPP
 AC_PROG_AWK
-AC_PROG_RANLIB
 AC_PROG_LN_S
 
 AM_MISSING_PROG([HELP2MAN], [help2man])
@@ -159,6 +158,23 @@ AC_C_BIGENDIAN_CROSS
 # ===============
 
 jm_AC_DOS
+
+# ==================
+# Dynamic libraries.
+# ==================
+
+dnl Enable building of the convenience library
+dnl and set LIBLTDL accordingly
+AC_LIBLTDL_CONVENIENCE
+dnl Substitute LTDLINCL and LIBLTDL in the Makefiles
+AC_SUBST([LTDLINCL])
+AC_SUBST([LIBLTDL])
+dnl Check for dlopen support
+AC_LIBTOOL_DLOPEN
+dnl Configure libtool
+AC_PROG_LIBTOOL
+dnl Configure libltdl
+AC_CONFIG_SUBDIRS([libltdl])
 
 # =====================
 # Internationalization.
