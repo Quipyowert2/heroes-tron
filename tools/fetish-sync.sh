@@ -25,29 +25,6 @@
 # files whenever a new fetish is released.
 
 files='
-intl/ChangeLog
-intl/Makefile.in
-intl/VERSION
-intl/bindtextdom.c
-intl/cat-compat.c
-intl/dcgettext.c
-intl/dgettext.c
-intl/explodename.c
-intl/finddomain.c
-intl/gettext.c
-intl/gettext.h
-intl/gettextP.h
-intl/hash-string.h
-intl/intl-compat.c
-intl/l10nflist.c
-intl/libgettext.h
-intl/linux-msg.sed
-intl/loadinfo.h
-intl/loadmsgcat.c
-intl/localealias.c
-intl/po2tbl.sed.in
-intl/textdomain.c
-intl/xopen-msg.sed
 lib/alloca.c
 lib/basename.c
 lib/error.c
@@ -68,12 +45,10 @@ lib/xmalloc.c
 lib/xstrdup.c
 m4/ftruncate.m4
 m4/lcmessage.m4
-m4/libintl.m4
 m4/malloc.m4
 m4/progtest.m4
 m4/realloc.m4
-m4/strerror_r.m4
-po/Makefile.in.in'
+m4/strerror_r.m4'
 
 function check_syntax ()
 {

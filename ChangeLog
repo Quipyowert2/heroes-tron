@@ -1,3 +1,48 @@
+2001-04-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Drop the fetish copy of gettext and switch to gettext-0.10.37,
+	released a few days ago.  The main reason for the change is that
+	the change needed to run the old gettext on MinGW are already
+	present in 0.10.37.
+
+	* m4/lcmessage.m4: Update to gettext-0.10.37.
+	* m4/progtest.m4: Likewise.
+	* tools/cvsboot.sh: Run tools.upgettext.sh.
+	* tools/fetish-sync.sh: Remove the gettext files, we are now
+	using stock gettext.
+	* ABOUT-NLS: Delete, installed by gettextize.
+	* intl/ChangeLog: Likewise.
+	* intl/Makefile.in: Likewise.
+	* intl/VERSION: Likewise.
+	* intl/bindtextdom.c: Likewise.
+	* intl/cat-compat.c: Likewise.
+	* intl/dcgettext.c: Likewise.
+	* intl/dgettext.c: Likewise.
+	* intl/explodename.c: Likewise.
+	* intl/finddomain.c: Likewise.
+	* intl/gettext.c: Likewise.
+	* intl/gettext.h: Likewise.
+	* intl/gettextP.h: Likewise.
+	* intl/hash-string.h: Likewise.
+	* intl/intl-compat.c: Likewise.
+	* intl/l10nflist.c: Likewise.
+	* intl/libgettext.h: Likewise.
+	* intl/linux-msg.sed: Likewise.
+	* intl/loadinfo.h: Likewise.
+	* intl/loadmsgcat.c: Likewise.
+	* intl/localealias.c: Likewise.
+	* intl/po2tbl.sed.in: Likewise.
+	* intl/textdomain.c: Likewise.
+	* intl/xopen-msg.sed: Likewise.
+	* po/Makefile.in.in: Likewise.
+	* m4/libintl.m4: Delete, gettext use gettext.m4.
+	* m4/codeset.m4: New file, from gettext-0.10.37.
+	* m4/gettext.m4: Likewise.
+	* m4/iconv.m4: Likewise.
+	* m4/isc-posix.m4: Likewise.
+	* tools/upgettext.m4: New file.
+	* HACKING: Reflect changes.
+
 2001-04-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.in: Bump version number to 0.9a.

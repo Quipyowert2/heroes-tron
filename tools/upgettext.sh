@@ -1,5 +1,5 @@
 #! /bin/sh
-# Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>
+# Copyright 2001  Alexandre Duret-Lutz <duret_g@epita.fr>
 #
 # This file is free software; you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free
@@ -16,11 +16,11 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 verb=':'
-opts=''
+moreverb=''
 
 function usage ()
 {
-  echo "Usage: cvsboot.sh [-h] [-v] [-V]"
+  echo "Usage: upgettext.sh [-h] [-v]"
 }
 
 function die ()
@@ -35,14 +35,12 @@ function saferun ()
   $@ || die "*** Error '${1+\"$@\"}' exited with bad status."
 }
 
-opts="$@"
-
 while test $# -gt 0 ; do
   case "${1}" in
     -h | --h*)
       usage
       exit 0 ;;
-    -v | --v* | -V | --V*)
+    -v | --v* | -V)
       verb='echo'
       shift ;;
     *)
@@ -51,7 +49,8 @@ while test $# -gt 0 ; do
   esac
 done
 
-saferun tools/upgettext.sh $opts
-saferun tools/genpotfiles.sh $opts
-saferun tools/genm4mam.sh $opts
-saferun tools/autogen.sh $opts
+test -f configure.in || die "Cannot find configure.in in current directory."
+
+# install gettext by copying files
+saferun gettextize --force
+saferun rm -f po/ChangeLog
