@@ -81,7 +81,7 @@ extern unsigned long int map_info_2xt, map_info_2yt;
 extern signed long int map_info_2xwrap, map_info_2ywrap;
 extern palette_t pal;
 
-extern pcx_image_t main_font_img, icons_img, vehicles_img, trailimg;
+extern pcx_image_t main_font_img, icons_img, vehicles_img;
 extern pcx_image_t bonus_font_img, jukebox_img;
 extern pcx_image_t tile_set_img, font_deck_img;
 

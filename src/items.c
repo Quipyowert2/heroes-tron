@@ -40,6 +40,7 @@ void
 init_items (void)
 {
   int i;
+  pcx_image_t trailimg;
 
   big_dollar = compile_sprshade (IMGPOS (main_font_img, 81, 0),
 				 0, 1, glenz[0],
@@ -58,6 +59,8 @@ init_items (void)
   catch_this = compile_sprshade (IMGPOS (main_font_img, 91, 17),
 				 0, 82 , glenz[0],
 				 13, 49, main_font_img.width, xbuf);
+
+  pcx_load_from_rsc ("trails-img", &trailimg);
   for (i = 0; i < 16; ++i) {
     int j;
     if (trail_row[i] < 0)
@@ -74,6 +77,7 @@ init_items (void)
     red_cross[i] = compile_sprglenz (IMGPOS (main_font_img, 119, i << 6),
 				     0, glenz[6],
 				     22, 40, main_font_img.width, xbuf);
+  img_free (&trailimg);
 }
 
 void

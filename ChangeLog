@@ -1,5 +1,12 @@
 2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/const.c (trailimg): Remove.
+	* src/const.h (trailimg): Remove.
+	* src/heroes.c (main): Don't handle trailimg here ...
+	* src/itemc.c (init_items): ... but do it there.
+
+2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/bonus.c (init_bonuses): Free bonus_b_img and bonus_a_img
 	once the sprite have been generated.
 	(uninit_bonuses): Don't free bonus_b_img and bonus_a_img anymore.
