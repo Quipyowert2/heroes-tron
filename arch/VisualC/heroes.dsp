@@ -95,7 +95,11 @@ SOURCE=..\src\argv.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\common.h
+SOURCE=..\src\bonus.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\bonus.h
 # End Source File
 # Begin Source File
 
@@ -104,6 +108,14 @@ SOURCE=..\src\const.c
 # Begin Source File
 
 SOURCE=..\src\const.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\debughash.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\debughash.h
 # End Source File
 # Begin Source File
 
@@ -151,11 +163,27 @@ SOURCE=..\src\errors.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\src\explosions.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\explosions.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\src\extras.c
 # End Source File
 # Begin Source File
 
 SOURCE=..\src\extras.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\fader.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\fader.h
 # End Source File
 # Begin Source File
 
@@ -187,15 +215,15 @@ SOURCE=..\src\font_menu.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\src\fontdata.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\fontdata.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\src\generic_list.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\src\getshline.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\src\getshline.h
 # End Source File
 # Begin Source File
 
@@ -295,10 +323,6 @@ SOURCE=..\src\options.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\optionss.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\src\pcx.c
 # End Source File
 # Begin Source File
@@ -371,11 +395,67 @@ SOURCE=..\src\sound.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\start.h
+SOURCE=..\src\sprite.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\sprite.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\sprrle.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\sprrle.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\sprprog.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\sprprog.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\sprprogwav.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\sprprogwav.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\sprshade.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\sprshade.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\sprtext.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\sprtext.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\sprzcol.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\sprzcol.c
 # End Source File
 # Begin Source File
 
 SOURCE=..\src\structs.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\system.h
 # End Source File
 # Begin Source File
 
@@ -429,11 +509,6 @@ SOURCE=.\config.h
 
 SOURCE=".\keysdef-inc.h"
 # End Source File
-# Begin Source File
-
-SOURCE=.\mikmod.h
-# End Source File
-# End Group
 # Begin Group "Resource Files"
 
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
@@ -441,6 +516,22 @@ SOURCE=.\mikmod.h
 # Begin Group "Lib"
 
 # PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=..\lib\error.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\error.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\fstrcmp.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\fstrcmp.h
+# End Source File
 # Begin Source File
 
 SOURCE=..\lib\getopt.c
@@ -455,7 +546,23 @@ SOURCE=..\lib\getopt1.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\lib\strcasecmp.c
+SOURCE=..\lib\getshline.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\getshline.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\getshline.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\hash.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\hash.c
 # End Source File
 # Begin Source File
 
@@ -464,6 +571,18 @@ SOURCE=..\lib\w_dirent.c
 # Begin Source File
 
 SOURCE=..\lib\w_dirent.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\xalloc.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\xmalloc.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\xstrdup.c
 # End Source File
 # Begin Source File
 

@@ -1,5 +1,12 @@
 2000-11-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* NEWS: Update.
+	* tools/Makefile.am (EXTRA_DIST): Rename readme.sh as readme.sed.
+	* src/Makefile.am (EXTRA_DIST): Add debughash.gperf.
+	* arch/VisualC/heroes.dsp: Blind update.
+
+2000-11-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/const.c (clock_anim_offset): Remove.
 	* src/const.h (clock_anim_offset): Remove.
 	* src/items.c (small_dollar, clocks, pyramids): New.

@@ -1,5 +1,28 @@
 		      User visible changes in Heroes.
 
+Heroes 0.6d	November 16, 2000
+
+	* New aliases can be added to the sound config files, they will
+	  be shown in the jukebox
+	* New options:
+	  --list=sound-tracks: list the configured sound tracks
+	  --list=debug: show the debug channels
+	* Spelling errors in debug channels or file resources
+	  are reported as `possible misspelling of xxx'
+	* Bug fixes:
+	  - timer reads could leads to quasi-infinite loop
+	  - etc/heroesrc was not installed under share/heroes
+	  - the internal level editor was unable to load levels generated
+	    by the DOS version (such as the levels from heroes-data)
+	  - -fstrict-aliasing is not recognized by any gcc
+	  - LDFLAGS could be erased in configure.in in some conditions
+	* New configure option:
+	  --enable-gprof
+	* Major internal changes:
+	  - new sprite drawing interface (a large part of the code
+	    has been converted to it)
+	  - base directory cleaned up
+
 Heroes 0.6c	October 20, 2000
 
 	* New option:

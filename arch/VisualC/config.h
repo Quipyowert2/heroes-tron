@@ -1,4 +1,4 @@
-/* arch/VisualC/VisualC/config.h.  Generated manually from src/config.h.in. 
+/* arch/VisualC/config.h.  Generated manually from src/config.h.in.
                          VERSION is updated automatically by arch/Makefile. */
 /* src/config.h.in. Generated automatically from configure.in by autoheader. */
 
