@@ -1,17 +1,26 @@
 In short
 ========
 
-   This is a port of Heroes for Linux.  Heroes is similar to the "Tron" and
-"Nibbles" games of yore, but includes many graphical improvements and new
-game features.  In it, you must maneuver a small vehicle around a world and
-collect powerups while avoiding obstacles, your opponents' trails, and even
-your own trail. Several modes of play are available, including
-"get-all-the-bonuses", deathmatch, and "squish-the-pedestrians".  It
-features 12 original soundtracks, 94 levels (in 10 different tilesets) plus
-a level editor.  There are five game modes like Quest (the classical
-nibbles), or Kill'em all (run over lemmings).
+   Heroes is similar to the "Tron" and "Nibbles" games of yore, but
+includes many graphical improvements and new game features.
 
-   Presently the port is complete, needs cleaning.
+   In it, you must maneuver a small vehicle around a world and collect
+powerups while avoiding obstacles, your opponents' trails, and even
+your own trail.
+
+   Several modes of play are available. Quest is the classical Nibbles,
+in Death Match you start with very long tails a must kill your
+opponents, in Kill'em All you must run over lemmings moving on the
+ground, in Color or Time Cash you must collect money or pyramids of
+color.
+
+   Heroes features 12 original soundtracks, 94 levels (in 10 different
+tilesets) plus a level editor.  There are five game modes like Quest
+(the classical Nibbles), or Kill'em all (run over lemmings).
+
+   Heroes was a DOS game and this is the Unix port.  Presently, the
+port is complete, but it needs cleaning before further work (e.g.
+network support) can be done.
 
    Anybody is encouraged to contribute.
 
@@ -27,13 +36,13 @@ Getting Heroes
 
    The web page of Heroes is `http://www.realtech.scene.org/heroes/'.
 This page has been designed by Romuald Genevois
-<rgenevois@besancon.net>.  See also the project home page on
+<rgenevois@besancon.net>.  More up to date information about recent
+versions are can be found on the Heroes project home page on
 SourceForge: `http://sourceforge.net/projects/heroes/'.
 
    The latest version of Heroes is always uploaded to
-`ftp://download.sourceforge.net/pub/sourceforge/heroes/' and
-`http://www.epita.fr/~duret_g/heroes/linux/', the former site being
-faster.
+`ftp://download.sourceforge.net/pub/sourceforge/heroes/' and announced
+on the `heroes-announce' mailing list (*note Mailing lists::).
 
    Heroes is also uploaded to MetaLab (sunsite) in `/pub/linux/games';
 see the MetaLab mirror list
@@ -41,21 +50,41 @@ see the MetaLab mirror list
 mirror. You will have to wait three or four days to have files
 available on MetaLab after a release.
 
-   A public CVS server is accessible.  See this page
-(ftp://download.sourceforge.net/pub/sourceforge/heroes/) for details.
+   Heroes is distributed as four packages with independent version
+numbering.  Be sure to get them four:
+
+`heroes'
+     The source code, info file, and man page.
+
+`heroes-data'
+     The level data (level maps, sprites, etc.)
+
+`heroes-sound-track'
+     The scores for the game (.xm files).
+
+`heroes-sound-effects'
+     The sound effects for the game (.wav files).
+
+   The game have been so split because data and sound file are big and
+don't evolve as often as the code does.
+
+   A public CVS server is accessible.  See
+`http://sourceforge.net/cvs/?group_id=7982' for details.
 
 Needed Libraries
 ================
 
    Heroes can be configured to use several libraries to handle display,
-sound output, joystick support or memory debugging.
+sound output and joystick support.
 
    Here is a list of supported libraries (hopefully you won't have to
 install all of them but just a subset).
 
    * LibMikMod is the only sound engine supported. You don't need it if
      you want to compile Heroes without sound support.  Get it from
-     `http://mikmod.darkorb.net/'.
+     `http://mikmod.darkorb.net/'.  If you install LibMikMod from
+     sources you may want to compile LibMikMod without Alsa support
+     (*note Troubleshooting::).
 
    * LibGGI (General Graphic Interface) can be used as a display and
      keyboard driver. Get it from `http://www.ggi-project.org/'.
@@ -63,7 +92,6 @@ install all of them but just a subset).
    * LibGII (General Input Interface) will provide joystick support
      (the game can be compiled without).  Get it from
      `http://www.ggi-project.org/'.  It is needed by LibGGI, by the way.
-
    * SDL can be used as a display and keyboard driver.  Recent revision
      will also provide support for joysticks.  Get it from
      `http://www.devolution.com/~slouken/SDL/'.
@@ -73,8 +101,11 @@ keyboard handling.  Install LibMikMod if you want sound output.  Install
 LibGII to get joystick support, unless you have a recent SDL.
 
    My personal preference goes to LibGGI which seems to be faster than
-SDL.  On the other hand, SDL seems better at doing full screen
-display.
+SDL.  On the other hand, SDL seems better at doing full screen display
+and is maintained actively.
+
+   Heroes also support memory debugging library, such as `dmalloc' or
+`efence'.  See the `--enable-mem-debug' option below.
 
 configure generic instructions
 ==============================
@@ -164,6 +195,6 @@ Reporting bugs, sending suggestions or contribution
 ===================================================
 
    We welcome bug reports or suggestions for Heroes (both program or
-documentation).  Please email them to the Heroes' mailing list
-<heroes-discuss@@lists.sourceforge.net>.  Please, see the Texinfo 
-documentation of Heroes for guidelines regarding to bug reporting.
+documentation).  Please email them to <heroes-bugs@lists.sourceforge.net>
+or <heroes-discuss@lists.sourceforge.net>.  Please, see the Texinfo 
+documentation of Heroes for guidelines regarding bug reporting.

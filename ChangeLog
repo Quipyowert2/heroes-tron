@@ -1,5 +1,27 @@
 2000-08-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Documents new features (file resources, HEROES_DATA_DIR), the
+	four packages and the mailing lists.
+
+	* doc/heroes.texi (Getting Heroes): Describe the four packages.
+	Fix urls.
+	(Mailing list): Rename to ...
+	(Mailing lists): ... this.  Describe the three public mailing lists.
+	(Bug Reporting): Do not suggest shar.  Remove the statement about
+	the size of sound tracks, this is as true in the current packaging
+	scheme.
+	(Libraries): Move the note about memory debugger at the 
+	end of the section.
+	(Environment): Describes the HEROES_DATA_DIR variable.
+	(heroesrc): Describes the setrsc command.
+	(Troubleshooting): Fix the way the user is tell how to
+	run libmikmod in OSS-emulation.
+	* README: Update, from the texinfo manual.
+	* src/argv.c (print_help): Change bug reports address to 
+	<heroes-bugs@lists.sourceforge.net>
+
+2000-08-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.in (confdir): Remove declaration of heddir, introdir,
 	nivdir, rscdir and spritedir directories.
 

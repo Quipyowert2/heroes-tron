@@ -84,7 +84,7 @@ This document applies to Heroes version @value{VERSION}.
 
 @menu
 * Copying::                     Your rights.
-* Overview::                    Heroes in brief.
+* Overview::                    Heroes in brief and contact information.
 * Installation::                Installing Heroes.
 * Running::                     Running Heroes.
 * Index::                       A menu covering many topics.
@@ -95,7 +95,7 @@ This document applies to Heroes version @value{VERSION}.
 Overview of Heroes
 
 * Getting Heroes::              Where to download Heroes from.
-* Mailing list::                The @samp{heroes-discuss} mailing-list.
+* Mailing lists::               
 * Bug Reporting::               Sending bugs, suggestions, contributions.
 * Authors::                     Who made Heroes.
 * Contributors::                Contributed to Heroes.
@@ -109,7 +109,8 @@ Installation of Heroes
 
 Running Heroes
 
-* Options::                     Heroes options.
+* Options::                     Heroes launch-time options.
+* Environment::                 Environment variables used by Heroes.
 * heroesrc::                    Heroes configuration file.
 * Game::                        Game rules.
 * Level editor::                How to create new levels.
@@ -168,8 +169,6 @@ General Public Licenses that accompany it.
 @cindex  overview
 @cindex  nibbles
 @cindex  tron
-Heroes is a game inspired from Nibbles (or Tron), but with a lot of
-enhancements.
 
 Heroes is similar to the "Tron" and "Nibbles" games of yore, but
 includes many graphical improvements and new game features.
@@ -183,23 +182,24 @@ Death Match you start with very long tails a must kill your opponents,
 in Kill'em All you must run over lemmings moving on the ground, in Color
 or Time Cash you must collect money or pyramids of color.
 
-It features 12 original soundtracks, 94 levels (in 10 different
+Heroes features 12 original soundtracks, 94 levels (in 10 different
 tilesets) plus a level editor.  There are five game modes like Quest
 (the classical Nibbles), or Kill'em all (run over lemmings).
 
-Heroes was a DOS game and this is the Linux port.  Presently, the port
-is complete, but it needs cleaning.
+Heroes was a DOS game and this is the Unix port.  Presently, the port is
+complete, but it needs cleaning before further work (e.g. network
+support) can be done.
 
 @menu
 * Getting Heroes::              Where to download Heroes from.
-* Mailing list::                The @samp{heroes-discuss} mailing-list.
+* Mailing lists::               
 * Bug Reporting::               Sending bugs, suggestions, contributions.
 * Authors::                     Who made Heroes.
 * Contributors::                Contributed to Heroes.
 * History::                     History of the DOS version.
 @end menu
 
-@node Getting Heroes, Mailing list, Overview, Overview
+@node Getting Heroes, Mailing lists, Overview, Overview
 @comment  node-name,  next,  previous,  up
 @section  Getting Heroes
 @cindex   getting heroes
@@ -209,54 +209,96 @@ is complete, but it needs cleaning.
 
 The web page of Heroes is @uref{http://www.realtech.scene.org/heroes/}.
 This page has been designed by Romuald Genevois
-@email{rgenevois@@besancon.net}.  See also the project home page on
+@email{rgenevois@@besancon.net}.  More up to date information about
+recent versions are can be found on the Heroes project home page on
 SourceForge: @uref{http://sourceforge.net/projects/heroes/}.
 
 The latest version of Heroes is always uploaded to@*
-@uref{ftp://download.sourceforge.net/pub/sourceforge/heroes/} and@*
-@uref{http://www.epita.fr/~duret_g/heroes/linux/}, the former site being
-faster.  
+@uref{ftp://download.sourceforge.net/pub/sourceforge/heroes/} and announced
+on the @samp{heroes-announce} mailing list (@pxref{Mailing lists}).
 
 Heroes is also uploaded to MetaLab (sunsite) in @file{/pub/linux/games};
 see @uref{http://metalab.unc.edu/pub/linux/MIRRORS.html,the MetaLab
 mirror list} to find your nearest mirror. You will have to wait three or
 four days to have files available on MetaLab after a release.
 
+Heroes is distributed as four packages with independent version
+numbering.  Be sure to get them four:
+
+@table @samp
+@item heroes
+The source code, info file, and man page.
+
+@item heroes-data
+The level data (level maps, sprites, etc.)
+
+@item heroes-sound-track
+The scores for the game (.xm files).
+
+@item heroes-sound-effects
+The sound effects for the game (.wav files).
+@end table
+
+The game have been so split because data and sound file are big
+and don't evolve as often as the code does.
+
 A public CVS server is accessible.  See@*
-@uref{ftp://download.sourceforge.net/pub/sourceforge/heroes/,this page}
-for details.
+@uref{http://sourceforge.net/cvs/?group_id=7982} for details.
 
-@node Mailing list, Bug Reporting, Getting Heroes, Overview
+@node Mailing lists, Bug Reporting, Getting Heroes, Overview
 @comment  node-name,  next,  previous,  up
-@section Mailing list.
+@section Mailing lists.
 
-A public mailing-list is available for Heroes users and developers.  Any
-questions, suggestions, bug reports, or other questions related to
-Heroes may be posted to the list.  Announcements of newer versions of
-Heroes will be posted there too.  You are invited to subscribe to the
-list by visiting
-@uref{http://lists.sourceforge.net/mailman/listinfo/heroes-discuss, this
-page}.
+Three mailing lists are available for you to report bugs, discuss the
+game or get announcements of new releases.
 
-@node     Bug Reporting, Authors, Mailing list, Overview
+@table @samp
+@item heroes-bugs@@lists.sourceforge.net
+@cindex heroes-bugs
+
+A public mailing list for bug reports.
+
+@uref{http://lists.sourceforge.net/mailman/listinfo/heroes-bugs, subscription page}.
+
+@item heroes-discuss@@lists.sourceforge.net
+@cindex heroes-discuss
+
+A public mailing list for discussion (questions, criticizes,
+suggestions, contributions, ...) on the game.
+
+@uref{http://lists.sourceforge.net/mailman/listinfo/heroes-discuss, subscription page}.
+
+@item heroes-announce@@lists.sourceforge.net
+@cindex heroes-announce
+
+A read-only and low traffic list for announcements of Heroes releases.
+Mails posted to this list are also forwarded to @samp{heroes-discuss}
+so you don't need to subscribe to both lists.
+
+@uref{http://lists.sourceforge.net/mailman/listinfo/heroes-announce, subscription page}.
+@end table
+
+
+@node     Bug Reporting, Authors, Mailing lists, Overview
 @comment  node-name,  next,  previous,  up
 @section  Reporting bugs, sending suggestions or contribution
 @cindex   bug
 @cindex   bug report
 @cindex   suggestions
 
-  We welcome bug reports or suggestions for Heroes (both program or
-documentation).  Please email them publicly (preferred) to
-@email{heroes-discuss@@lists.sourceforge.net} or privately to
+  We welcome bug reports or suggestions for Heroes (both program,
+documentation, or data files).  Please email them publicly (preferred) to
+@email{heroes-bugs@@lists.sourceforge.net} or privately to
 @email{duret_g@@epita.fr}.  For bug reports, please include enough
-information to reproduce the problem.  Tipacaly:
+information to reproduce the problem, if possible.  Useful informations
+include:
 
 @itemize @bullet
 @item 
 the version number of Heroes.
 
 @item 
-hardware, operating system, and compiler versions.
+hardware, operating system (and OS distribution), and compiler versions.
 
 @item 
 any unusual options you gave to `configure'.
@@ -266,7 +308,12 @@ the actions necessary to reproduce the bug.
 
 @item 
 a description of the problem (sometimes, a snapshot may be a 
-good description).
+good description) and of the behavior you are expecting (this 
+is not always obvious for everyone)
+
+@item
+a stack trace of the crash, if you compiled the game with debugging
+options (see below).
 
 @item 
 anything else that you think would be helpful.
@@ -276,7 +323,7 @@ anything else that you think would be helpful.
   When in doubt whether something is needed or not, include it.  It's
 better to include too much than to leave out something important.
 
-@cindex   coredump
+@cindex  coredump
   To get useful coredumps, @samp{./configure} with @samp{--enable-debug}
 and @samp{--disable-sound}.
 
@@ -292,22 +339,17 @@ Format,Diff,diff.info,Diff Manual}) and include @samp{ChangeLog} entries
 @cindex   GNU shar
   When sending email, please do not encode or split the messages in any
 way if possible; it's much easier to deal with one plain text message,
-however large, than many small ones.  GNU shar
-(@uref{ftp://ftp.gnu.org/gnu/sharutils/}) is a convenient way of
-packaging multiple and/or binary files for email.
+however large, than many small ones.
 
 @cindex   contributing
 @cindex   TODO
+
   Do not hesitate to contribute.  This is YOUR game and GPL allow you to
-do any modifications you want in the game (provided that you keep those
-modifications under the GPL).  There are numerous places were you can
-contribute: you can hack the code (if so, please read my TODO file),
-design new levels (well, of course you will have to wait the port of the
-editor to do that, unless you use the MS-DOS version), create new
-drawings (e.g. new sets of tiles), track some new music or add your
-personal touch here and there.  Yet, I will be quite reluctant do add
-new sound-track because that tends to take a lot of place and would
-augment a lot the size of the archive.
+apply any modifications you want to the game (provided that you keep
+those modifications under the GPL).  There are numerous places were you
+can contribute: you can hack the code (take a glance at the TODO file),
+design new levels, create new drawings (e.g. new sets of tiles), track
+some new music or add your personal touch here and there.
 
 @node     Authors, Contributors, Bug Reporting, Overview
 @comment  node-name,  next,  previous,  up
@@ -442,7 +484,7 @@ The next paragraphs are extracted from the DOS version of Heroes.
 @cindex  Simple DirectMedia Layer
 
 Heroes can be configured to use several libraries to handle display,
-sound output, joystick support or memory debugging.
+sound output and joystick support.
 
 Here is a list of supported libraries (hopefully you won't have to
 install all of them but just a subset).
@@ -475,7 +517,12 @@ keyboard handling.  Install LibMikMod if you want sound output.  Install
 LibGII to get joystick support, unless you have a recent SDL.
 
 My personal preference goes to LibGGI which seems to be faster than SDL.
-On the other hand, SDL seems better at doing full screen display.
+On the other hand, SDL seems better at doing full screen display and is
+maintained actively.
+
+Heroes also support memory debugging library, such as @samp{dmalloc} or
+@samp{efence}.  See the @samp{--enable-mem-debug} option in section
+@ref{configure options}.
 
 @node    configure, configure options, Libraries, Installation
 @comment node-name,  next,  previous,  up
@@ -533,8 +580,8 @@ it slow down the code and produce a bigger binary.
 @item --enable-mem-debug
 @cindex --enable-mem-debug
 Turn on support for malloc debugging libraries such as electric fence or
-dmalloc (dmalloc will be used if both are installed).  This is disable
-by default.
+dmalloc (dmalloc will be preferred if both libraries are installed).
+This is disables by default.
 
 @item --disable-user-config
 @cindex --disable-user-config
@@ -581,20 +628,21 @@ you specify this option they will be saved in
 @cindex running
 
 @menu
-* Options::                     Heroes options.
+* Options::                     Heroes launch-time options.
+* Environment::                 Environment variables used by Heroes.
 * heroesrc::                    Heroes configuration file.
 * Game::                        Game rules.
 * Level editor::                How to create new levels.
 * Troubleshooting::             Common problems.
 @end menu
 
-@node    Options, heroesrc, Running, Running
+@node    Options, Environment, Running, Running
 @comment node-name,  next,  previous,  up
 @section Heroes options
 @cindex  options
 @cindex  runtime options
 
-Heroes call be called with several options.
+Heroes call be launched with various options.
 
 @table @samp
 @item -v
@@ -754,7 +802,22 @@ Stretch the game threefold before blitting to screen.  This is even slower.
 
 @end table
 
-@node    heroesrc, Game, Options, Running
+@node    Environment, heroesrc, Options, Running
+@comment node-name,  next,  previous,  up
+@section Environment variables
+@cindex  environment
+@cindex  @samp{HEROES_DATA_DIR}
+
+The very first action of Heroes when it starts is to look the
+environment for a @samp{HEROES_DATA_DIR} variable.  This variable may
+specify the path were the data files are located.  It thus allows you to
+relocate the data file.  If this variable is not found the default path
+(configured at build time) will be used.
+
+Common people don't need to set this variable.  This is only useful if
+you got Heroes as a binary distribution and want to move files around.
+
+@node    heroesrc, Game, Environment, Running
 @comment node-name,  next,  previous,  up
 @section @file{~/.heroes/heroesrc}
 @cindex  heroesrc
@@ -767,7 +830,7 @@ directory.
 @subsection @samp{option:}
 @cindex options:
 
-You can specify options in that file, they will be processed before
+You can specify options in that file, they will be processed before any
 options given on the command line.  Put the word @samp{Options:} in
 front of a line, and write the options after (separated by spaces, as on
 the command line, except that there is no quoting or variable
@@ -795,7 +858,7 @@ instruct SDL to use its dga driver, use the following line:
 setenv: SDL_VIDEODRIVER dga
 @end example
 
-This may seams redundant with @samp{--gfx-options} and @samp{--driver} but
+This may seam redundant with @samp{--gfx-options} and @samp{--driver} but
 can be used to configure other libraries.  For example, setup GGI or SDL to
 use AAlib (the ASCII art rendering library) and configure AAlib via its 
 @samp{AAOPTS} variable.
@@ -846,6 +909,31 @@ All that sound configuration stuff should allow you to make drop-in
 remplacement for heroes modules.  You just make a set of modules
 available whith a config file that any user can get read from its
 @samp{~/.heroes/heroesrc}.
+
+@subsection @samp{setrsc:}
+@cindex setrsc:
+@cindex file resources
+
+This follow the same format as @samp{setenv} but is used to overwrite
+some filenames used by the game.  Heroes internally handles file or
+directory names using name aliases called file resources whose values (actual
+filenames) can be overridden by @samp{setrsc} and are subject to variable
+expansion.
+
+See the file @file{src/rsc_files.gperf} for a list of available file
+resources.  @samp{data-dir} is a special resource which content is setup
+from the @samp{HEROES_DATA_DIR} environment variable, or from the path
+used to install the files when the game was built.
+
+An example of @samp{setrsc:} usage is to run the game with an alternate
+picture file.  Say you are working on a modified version of the main font
+used in the game, you can override the installed pictures by yours with
+the following line.
+
+@example
+setrsc: main-font /home/adl/heroes-dev/tmp/fontem.pcx
+@end example
+
 
 @node    Game, Level editor, heroesrc, Running
 @comment node-name,  next,  previous,  up
@@ -1112,7 +1200,7 @@ Remember that you can always put these options in your
 @samp{~/.heroes/heroes} file (@pxref{heroesrc}) so that you don't need
 to type them every time you run the game.
 
-@subsection SegFault when using Alsa drivers
+@subsection SegFault when using Alsa drivers (Linux)
 @cindex Alsa
 @cindex sound errors
 @cindex MikMod and Alsa
@@ -1125,11 +1213,12 @@ version of LibMikMod (3.1.9 at the time of writing) lacks support for
 Alsa 0.5.
 
 A solution is to run Alsa in OSS-emulation mode: simply run @samp{heroes
--doss} to force LibMikMod using its OSS@footnote{Open Sound System is a
-set of device drivers that provide a uniform API across all the major
-UNIX architectures.  The Linux kernel contain free code from the
-commercial OSS (See @uref{http://www.linux.org.uk/OSS/,this page} for
-details).} interface.
+-d x} (where x is the OSS driver number printed by @samp{heroes -n}) to
+force LibMikMod using its OSS@footnote{Open Sound System is a set of
+device drivers that provide a uniform API across all the major UNIX
+architectures.  The Linux kernel contain free code from the commercial
+OSS (See @uref{http://www.linux.org.uk/OSS/,this page} for details).}
+interface.
 
 As a more general solution, you may want to compile LibMikMod without Alsa
 support (@samp{./configure --disable-alsa}) so that it never crash 
