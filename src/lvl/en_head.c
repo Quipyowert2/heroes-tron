@@ -18,10 +18,9 @@
 | 02111-1307 USA                                                    |
 `------------------------------------------------------------------*/
 
-#include <string.h>
 #include "system.h"
 #include "lvl_priv.h"
-#include "savemac.h"
+#include "access.h"
 #include "xstrduplwr.h"
 
 void

@@ -20,7 +20,7 @@
 
 #include "system.h"
 #include "lvl_priv.h"
-#include "loadmac.h"
+#include "format.h"
 
 /* Simple helper function to transform masked direction into
    directions.  */
@@ -43,93 +43,6 @@ dir_mask_to_dir (a_dir_mask dm)
   }
 }
 
-/* The body is a succession of tile_width*tile_height records.
-   One for each tile.
-
-   Structure of a record:
-
-   Offset  Size  Repeat  What
-   --------------------------------------------------------------------
-    0      4             sprite offset of the tile in the tile sprite map
-    4      1     4       walls for each sub square: if D_UP is set, you
-                         cannot *enter* the square from the *bottom* edge.
-                         Note this is not the expected content of
-                         square_walls_out.  Actually if these bytes
-                         set the bit D_LEFT for the square (Y,X), then
-			   the same bit should be set in square_walls_out
-			   for the square (Y,X+1) (i.e. the square on the
-			   right).
-    8      2             sprite offset of the overlay in the tile sprite map,
-                         unless nul
-   10      5             parameters (see interpretation below)
-   15      1             tile type
-   ==
-   16 bytes.
-*/
-#define TILE_WALLS(p) ((const a_u8 *) ((p) + 4))
-#define TILE_SPRITE(p) ((a_u32) (GET_U32 ((p) + 0)))
-#define TILE_OVERLAY(p) ((a_u16) (GET_U16 ((p) + 8)))
-#define TILE_TYPE(p) ((a_tile_type) (GET_U8 ((p) + 15)))
-/* Parameters are used differently for each type of tile.
-
-   Tunnels:
-
-   Offset  Size  What
-   ------------------------
-    0      4     output tile index
-    4      1     direction (4 lower bits), delay (4 upper bits)
-                 delay was never used with tunnels.  The original
-                 purpose was to delay the player underground (for the time
-                 given by delay, computed by the level editor from the
-                 length of the tunnel).  Its has been abandoned because
-                 handling of vehicles "out of the map" would complexify
-                 the game internals.
-   ==
-    5 bytes.
-*/
-#define TUNNEL_OUTPUT(p) ((a_tile_index) (GET_U32 ((p) + 10)))
-#define TUNNEL_DIR(p) (dir_mask_to_dir ((a_dir_mask) \
-                                        ((GET_U8 ((p) + 14)) & 15)))
-/* Animations:
-
-   Offset  Size  What
-   ------------------------
-    0      1     frame count
-    1      1     delay between each frame (in 70th of sec.)
-                 0 is 1/70s, 1 is 2/70s, etc.
-    2      3     unused
-   ==
-    5 bytes.
-*/
-#define ANIM_FRAME_COUNT(p) (GET_U8 ((p) + 10))
-#define ANIM_FRAME_DELAY(p) (GET_U8 ((p) + 11) + 1)
-
-/* Stops, Booms, Ices, Dusts, Outway:
-
-   Offset  Size  Repeat  What
-   ---------------------------------
-    0      1     4       For each square, zero means no effect, non-zero
-                         means effect (stop, boom, ice, dust).
-    4      1     1       animation: frame count (upper 4 bits), and
-                         delay (lower 4 bits, where 0 means 1 and 1 is 16).
-   ==
-    5 bytes.
-*/
-#define EFFECT_SET(p) ((const a_u8*) ((p) + 10))
-#define SANIM_FRAME_COUNT(p) ((GET_U8 ((p) + 14)) >> 4)
-#define SANIM_FRAME_DELAY(p) (((GET_U8 ((p) + 14)) & 15) + 1)
-
-/* Speeds:
-
-   Offset  Size  Repeat  What
-   ---------------------------------
-    0      1     4       For each square, the direction*s* of the effect.
-    4      1     1       animation: frame count (upper 4 bits), and
-                         delay (lower 4 bits, where 0 means 1 and 1 is 16).
-   ==
-    5 bytes.
-*/
-#define SPEED_DIR(p) ((const a_dir_mask8 *) ((p) + 10))
 
 
 /* Each tunnel has two input/output squares, indiced 0 and 1.
@@ -232,7 +145,7 @@ decode_level_body (const a_u8 *data, a_level *lvl)
     si = TILE_INDEX_TO_SQR_INDEX (lvl, ti);
 
     /* Store tile type.  */
-    tt = TILE_TYPE (data);
+    tt = GET_TILE_TYPE (data);
     lvl->private->tile[ti].type = tt;
     lvl->square_type[SQR0 (lvl, si)] = tt;
     lvl->square_type[SQR1 (lvl, si)] = tt;
@@ -241,14 +154,14 @@ decode_level_body (const a_u8 *data, a_level *lvl)
 
     /* Store inside walls.  This will be used latter to initialize
        outside walls (only the latter are useful in the game).  */
-    square_walls_in[SQR0 (lvl, si)] = TILE_WALLS (data)[0];
-    square_walls_in[SQR1 (lvl, si)] = TILE_WALLS (data)[1];
-    square_walls_in[SQR2 (lvl, si)] = TILE_WALLS (data)[2];
-    square_walls_in[SQR3 (lvl, si)] = TILE_WALLS (data)[3];
+    square_walls_in[SQR0 (lvl, si)] = GET_TILE_WALLS (data)[0];
+    square_walls_in[SQR1 (lvl, si)] = GET_TILE_WALLS (data)[1];
+    square_walls_in[SQR2 (lvl, si)] = GET_TILE_WALLS (data)[2];
+    square_walls_in[SQR3 (lvl, si)] = GET_TILE_WALLS (data)[3];
 
     /* Store sprite.  */
-    lvl->private->tile[ti].sprite_offset = TILE_SPRITE (data);
-    lvl->private->tile[ti].sprite_overlay_offset = TILE_OVERLAY (data);
+    lvl->private->tile[ti].sprite_offset = GET_TILE_SPRITE (data);
+    lvl->private->tile[ti].sprite_overlay_offset = GET_TILE_OVERLAY (data);
 
     switch (tt) {
     case T_TUNNEL:
@@ -258,9 +171,9 @@ decode_level_body (const a_u8 *data, a_level *lvl)
 	a_dir td;		/* Tunnel direction.  */
 	a_dir dtd;		/* Tunnel direction for destination tile.  */
 
-	dti = TUNNEL_OUTPUT (data);
+	dti = GET_TUNNEL_OUTPUT (data);
 	dsi = TILE_INDEX_TO_SQR_INDEX (lvl, dti);
-	td = TUNNEL_DIR (data);
+	td = GET_TUNNEL_DIR (data);
 
 	/* In order to link theses squares (inputs of the tunnel) to
 	   the output squares, we need to know the direction used for
@@ -268,8 +181,8 @@ decode_level_body (const a_u8 *data, a_level *lvl)
 	   record unless it's not a T_TUNNEL, in this latter case
 	   we'll just assume the output direction is the reverse of
 	   the input direction.  */
-	if (TILE_TYPE (base_data + dti * LVL_RECORD_SIZE) == T_TUNNEL)
-	  dtd = TUNNEL_DIR (base_data + dti * LVL_RECORD_SIZE);
+	if (GET_TILE_TYPE (base_data + dti * LVL_RECORD_SIZE) == T_TUNNEL)
+	  dtd = GET_TUNNEL_DIR (base_data + dti * LVL_RECORD_SIZE);
 	else
 	  dtd = REVERSE_DIR (td);
 
@@ -299,15 +212,15 @@ decode_level_body (const a_u8 *data, a_level *lvl)
       }
       break;
     case T_ANIM:
-      lvl->private->tile[ti].frame_count = ANIM_FRAME_COUNT (data);
-      lvl->private->tile[ti].frame_delay = ANIM_FRAME_DELAY (data);
+      lvl->private->tile[ti].frame_count = GET_ANIM_FRAME_COUNT (data);
+      lvl->private->tile[ti].frame_delay = GET_ANIM_FRAME_DELAY (data);
       lvl->private->tile[ti].anim = A_LOOP;
       break;
     case T_SPEED:
       {
 	int x;
 	for (x = 0; x < 4; ++x) {
-	  a_dir_mask dm = SPEED_DIR (data)[x];
+	  a_dir_mask dm = GET_SPEED_DIR (data)[x];
 	  if (dm)
 	    lvl->square_direction[SQRX (lvl, si, x)] = dir_mask_to_dir (dm);
 	  else
@@ -324,15 +237,15 @@ decode_level_body (const a_u8 *data, a_level *lvl)
 	/* The type of each square is already set, but we don't want
 	   it on the squares where effects are not enabled.  */
 	for (x = 0; x < 4; ++x)
-	  if (! EFFECT_SET (data)[x])
+	  if (! GET_EFFECT_SET (data)[x])
 	    lvl->square_type [SQRX (lvl, si, x)] = T_NONE;
       }
       /* Fall through.  */
     decode_small_anim:
     case T_OUTWAY:
     case T_NONE:
-      lvl->private->tile[ti].frame_count = SANIM_FRAME_COUNT (data);
-      lvl->private->tile[ti].frame_delay = SANIM_FRAME_DELAY (data);
+      lvl->private->tile[ti].frame_count = GET_SANIM_FRAME_COUNT (data);
+      lvl->private->tile[ti].frame_delay = GET_SANIM_FRAME_DELAY (data);
       if (lvl->private->tile[ti].frame_count)
 	lvl->private->tile[ti].anim = A_PINGPONG;
       else
