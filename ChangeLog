@@ -1,3 +1,15 @@
+2000-07-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Point people to the heroes-discuss mailing list and other
+	SourceForge services.
+	
+	* src/argv.c (print_help): Change the `reports bug to:' email.
+	* doc/heroes.texi (Getting Heroes): Add sourceforge URLs for
+	project home page, download, and CVS.
+	(Mailing list): New section.
+	(Bug Reporting): Change email.  Suggest sending snapshots of
+	problems.
+	
 2000-07-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Mouse support with via SDL.

@@ -151,13 +151,14 @@ is incomplete, the main missing feature is the level editor.
 
 @menu
 * Getting Heroes::              Where to download Heroes from.
+* Mailing list::                
 * Bug Reporting::               Sending bugs, suggestions, contributions.
 * Authors::                     Who made Heroes.
 * Contributors::                Contributed to Heroes.
 * History::                     History of the DOS version.
 @end menu
 
-@node Getting Heroes, Bug Reporting, Overview, Overview
+@node Getting Heroes, Mailing list, Overview, Overview
 @comment  node-name,  next,  previous,  up
 @section  Getting Heroes
 @cindex   getting heroes
@@ -166,20 +167,37 @@ is incomplete, the main missing feature is the level editor.
 @cindex   metalab
 
 The web page of Heroes is @uref{http://www.realtech.scene.org/heroes/}.
-It has been designed by Romuald Genevois @email{rgenevois@@besancon.net}.
+This page has been designed by Romuald Genevois
+@email{rgenevois@@besancon.net}.  See also the project home page on
+SourceForge: @uref{http://sourceforge.net/projects/heroes/}.
 
-Latest version of Heroes are always uploaded to
-@uref{http://gadl.free.fr/heroes/linux/} and
+The latest version of Heroes is always uploaded to
+@uref{ftp://download.sourceforge.net/pub/sourceforge/heroes/} and
 @uref{http://www.epita.fr/~duret_g/heroes/linux/}, the former site being
-a lot faster.  
+faster.  
 
 Heroes is also uploaded to MetaLab (sunsite) in @file{/pub/linux/games};
 see @uref{http://metalab.unc.edu/pub/linux/MIRRORS.html,the MetaLab
 mirror list} to find your nearest mirror. You will have to wait three or
 four days to have files available on MetaLab after a release.
 
+A public CVS server is accessible.  See
+@uref{ftp://download.sourceforge.net/pub/sourceforge/heroes/,this page}
+for details.
 
-@node     Bug Reporting, Authors, Getting Heroes, Overview
+@node Mailing list, Bug Reporting, Getting Heroes, Overview
+@comment  node-name,  next,  previous,  up
+@section Mailing list.
+
+A public mailing-list is available for Heroes users and developers.  Any
+questions, suggestions, bug reports, or other questions related to
+Heroes may be posted to the list.  Announcements of newer versions of
+Heroes will be posted there too.  You are invited to subscribe to the
+list by visiting
+@uref{http://lists.sourceforge.net/mailman/listinfo/heroes-discuss, this
+page}.
+
+@node     Bug Reporting, Authors, Mailing list, Overview
 @comment  node-name,  next,  previous,  up
 @section  Reporting bugs, sending suggestions or contribution
 @cindex   bug
@@ -187,8 +205,10 @@ four days to have files available on MetaLab after a release.
 @cindex   suggestions
 
   We welcome bug reports or suggestions for Heroes (both program or
-documentation).  Please email them to @email{duret_g@@epita.fr}.  For
-bug reports, please include enough information to reproduce the problem.
+documentation).  Please email them publicly (preferred) to
+@email{heroes-discuss@@lists.sourceforge.net} or privately to
+@email{duret_g@@epita.fr}.  For bug reports, please include enough
+information to reproduce the problem.  Tipacaly:
 
 @itemize @bullet
 @item 
@@ -204,7 +224,7 @@ any unusual options you gave to `configure'.
 the actions necessary to reproduce the bug.
 
 @item 
-a description of the problem.
+a description of the problem (sometimes, a snapshot may be a good description).
 
 @item 
 anything else that you think would be helpful.
@@ -514,7 +534,7 @@ you specify this option they will be saved in
 
 @menu
 * Options::                     Heroes options.
-* heroesrc::                    Heroes config file.
+* heroesrc::                    
 * Game::                        Game rules.
 * Troubleshooting::             Common problems.
 @end menu
@@ -671,7 +691,6 @@ constrained to 320x200).
 
 @node    heroesrc, Game, Options, Running
 @comment node-name,  next,  previous,  up
-
 @section @file{~/.heroes/heroesrc}
 @cindex  heroesrc
 

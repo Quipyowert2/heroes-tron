@@ -93,7 +93,7 @@ print_help (char* argv0)
 	"this:\n\n"
 	"  Options: -gs -d3,buffer=11,count=4\n"
 	"\n"
-	"Report bugs to <duret_g@epita.fr>.");
+	"Report bugs to <heroes-discuss@lists.sourceforge.net>.");
 }
 
 const struct option long_options[] = {
