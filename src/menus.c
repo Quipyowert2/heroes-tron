@@ -23,7 +23,7 @@
 #include "system.h"
 #include "const.h"
 #include "sfx.h"
-#include "options.h"
+#include "prefs.h"
 #include "keyb.h"
 #include "keys_heroes.h"
 #include "keysdef.h"

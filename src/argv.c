@@ -49,6 +49,7 @@ bool hqmix = false;
 int stretch = 1;
 bool nosound = false;
 bool even_lines = false;
+bool showprefs = false;
 
 static void
 version (void)
@@ -62,17 +63,18 @@ version (void)
 	  " FOR A PARTICULAR PURPOSE."));
 }
 
-static void
+static bool
 list (char *word)
 {
   if (!word) {
     puts (_("\
 Use `-lWORD' or `--list=WORD' where WORD can be:\n\
   debug                 display all debugging channels\n\
+  preferences           print the preferences settings\n\
   resources             print the resources list\n\
   sound-drivers         print the sound driver list\n\
   sound-tracks		print the sound track list"));
-    return;
+    return true;
   }
   if (!strcasecmp (word,"resources") ||
       !strcasecmp (word,"rsc")) {
@@ -86,6 +88,10 @@ Use `-lWORD' or `--list=WORD' where WORD can be:\n\
   } else if (!strcasecmp (word,"sound-tracks") ||
 	     !strcasecmp (word,"st")) {
     print_sound_track_list ();
+  } else if (!strcasecmp (word,"preferences") ||
+	     !strcasecmp (word,"prefs")) {
+    showprefs = true;
+    return false;
   } else if (!strcasecmp (word,"sound-tracks-stat") || /* undocumented */
 	     !strcasecmp (word,"sts")) {
     print_sound_track_list_stat ();
@@ -93,6 +99,7 @@ Use `-lWORD' or `--list=WORD' where WORD can be:\n\
     /* Unknown WORD, print usage. */
     list (0);
   }
+  return true;
 }
 
 static void
@@ -247,8 +254,9 @@ parse_argv (int argc, char **argv, const char *from_file, int from_line)
       nosfx = true;
       break;
     case 'l':
-      list (optarg);
-      return 1;
+      if (list (optarg))
+        return 1;
+      break;
     case 'L':
       level_name = xstrdup (optarg);
       level_name = strappend (level_name, ".lvl");

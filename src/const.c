@@ -29,7 +29,7 @@
 #include "pcx.h"
 #include "sfx.h"
 #include "structs.h"
-#include "options.h"
+#include "prefs.h"
 #include "display.h"
 #include "const.h"
 #include "timer.h"

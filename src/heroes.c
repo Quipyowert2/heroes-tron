@@ -29,7 +29,7 @@
 #include "errors.h"
 #include "fastmem.h"
 #include "sfx.h"
-#include "options.h"
+#include "prefs.h"
 #include "scores.h"
 #include "savegame.h"
 #include "intro.h"
@@ -2920,7 +2920,7 @@ main_menu (void)
       play_menu ();
     if (l == 1) {
       option_menu ();
-      write_options ();
+      save_preferences ();
     }
     if (l == 2)
       help_menu ();
@@ -3710,9 +3710,13 @@ main (int argc, char *argv[])
 
   browse_extra_directories ();
   if (reinitopt)
-    reinit_options ();
+    reinit_preferences ();
   else
-    load_options ();
+    load_preferences ();
+  if (showprefs) {
+    output_preferences (stdout);
+    exit (0);
+  }
 
   if (reinitsco) {
     clear_scores ();
@@ -3813,10 +3817,10 @@ main (int argc, char *argv[])
   uninit_sound_track_list ();
   free_extra_list ();
   free_extra_directories ();
-  write_options ();
+  save_preferences ();
   free_save_records ();
   free_scores ();
-  free_options ();
+  free_preferences ();
   free_userdir ();
   free_modified_rsc ();
   return 0;

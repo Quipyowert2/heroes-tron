@@ -23,22 +23,7 @@
 #ifndef HEROES__DEBUGMSG__H
 #define HEROES__DEBUGMSG__H
 
-#define DEBUG_CHANNEL(x) (1<<(x))
-
-enum debug_lvl { D_SECTION =	DEBUG_CHANNEL (0),
-		 D_SYSTEM =	DEBUG_CHANNEL (2),
-		 D_RESOURCE =	DEBUG_CHANNEL (3),
-		 D_FILE =	DEBUG_CHANNEL (4),
-		 D_LEVEL =	DEBUG_CHANNEL (5),
-		 D_SOUND_TRACK = DEBUG_CHANNEL (6),
-		 D_SOUND_EFFECT = DEBUG_CHANNEL (7),
-		 D_VIDEO =	DEBUG_CHANNEL (8),
-		 D_JOYSTICK =	DEBUG_CHANNEL (9),
-		 D_TIMER =	DEBUG_CHANNEL (10),
-		 D_MISC =	DEBUG_CHANNEL (11),
-		 D_FADER =	DEBUG_CHANNEL (12),
-		 D_BONUS =	DEBUG_CHANNEL (13)
-};
+#include "debugchn.h"
 
 extern enum debug_lvl debug_level;
 extern const char* program_name;

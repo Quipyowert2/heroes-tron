@@ -45,5 +45,6 @@ extern bool hqmix;
 extern int stretch;
 extern bool nosound;
 extern bool even_lines;
+extern bool showprefs;
 
 #endif /* HEROES__ARGV__H */

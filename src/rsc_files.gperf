@@ -51,7 +51,7 @@ locale-dir,	"is hardcoded or initialized from $HEROES_LOCALE_DIR",0,0,true
 main-font,		"$(data-dir)/pics/fontem.pcx",		0,0,true
 menu-pictures-img,	"$(data-dir)/pics/fontem2.pcx",		0,0,true
 new-level-menu-img,	"$(data-dir)/pics/newlevel.pcx",	0,0,true
-options-file,		"$(user-dir)/options.dat",		0,0,true
+pref-file,		"$(user-dir)/preferences",		0,0,true
 purple-bonus-img,	"$(data-dir)/pics/bonusa.pcx",		0,0,true
 score-file,		"$(user-dir)/scores",			0,0,true
 sfx-conf-txt,		"$(data-dir)/sfx/sfx.conf",		0,0,true

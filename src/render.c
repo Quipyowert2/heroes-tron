@@ -23,7 +23,7 @@
 #include "system.h"
 #include "display.h"
 #include "const.h"
-#include "options.h"
+#include "prefs.h"
 #include "fastmem.h"
 #include "render.h"
 #include "argv.h"

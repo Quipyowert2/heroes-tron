@@ -20,7 +20,7 @@
 
 #include "system.h"
 #include "sound.h"
-#include "options.h"
+#include "prefs.h"
 #include "argv.h"
 #include "musicfiles.h"
 #include "debugmsg.h"

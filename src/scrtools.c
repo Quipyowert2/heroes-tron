@@ -23,7 +23,7 @@
 #include "fader.h"
 #include "timer.h"
 #include "display.h"
-#include "options.h"
+#include "prefs.h"
 #include "const.h"
 #include "fastmem.h"
 #include "argv.h"

@@ -26,7 +26,7 @@
 
 #if defined HAVE_LIBMIKMOD || defined HAVE_LIBSDL_MIXER
 
-#include "options.h"
+#include "prefs.h"
 #include "misc.h"
 #include "argv.h"
 #include "rsc_files.h"

@@ -41,6 +41,7 @@ bonus.h \
 bytesex.h \
 const.c \
 const.h \
+debugchn.h \
 debughash.c \
 debughash.h \
 debugmsg.c \
@@ -90,8 +91,6 @@ misc.c \
 misc.h \
 musicfiles.c \
 musicfiles.h \
-options.c \
-options.h \
 parafmt.c \
 parafmt.h \
 pcx.c \
@@ -100,6 +99,8 @@ persona.c \
 persona.h \
 pixelize.c \
 pixelize.h \
+prefs.c \
+prefs.h \
 readmake.c \
 readmake.h \
 render.c \
@@ -153,7 +154,14 @@ userdir.h \
 visuals.c \
 visuals.h
 
-BUILT_SOURCES = keysdef-inc.h rsc_files_hash.c
+BUILT_SOURCES = \
+debugchn.h \
+debughash.gperf \
+keysdef-inc.h \
+prefs.c \
+prefs.h \
+rsc_files_hash.c
+
 DISTCLEANFILES = keysdef-inc.h
 
 # This explicit dependency is needed, otherwise automake 1.4a
@@ -204,6 +212,18 @@ debughash.c: debughash.gperf
 	      -k 1,3,$$ $(srcdir)/debughash.gperf | \
 	sed -e 's/{""}/{"",0,0}/g' > $@
 endif
+
+debughash.gperf: debugchn.def debugchn.tpl
+	$(AUTOGEN) -o 'gperf=$@' $<
+
+debugchn.h: debugchn.def debugchn.tpl
+	$(AUTOGEN) -o 'h=$@' $<
+
+prefs.h: prefs.def prefs.tpl
+	$(AUTOGEN) -o h $<
+
+prefs.c: prefs.def prefs.tpl
+	$(AUTOGEN) -o c $<
 
 # This is handled manually, until Automake allows per-target CFLAGS
 parafmt-check.o: parafmt.c

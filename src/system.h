@@ -164,14 +164,17 @@
 # include <ggi/ggi.h>
 typedef uint32		keycode_t;
 #define KEYCODE_MAX	U32_MAX
+#define PREF_INPUT_GROUP "ggi"
 #else /* !HAVE_LIBGGI */
 # if HAVE_LIBSDL
 #  include <SDL.h>
 typedef SDLKey		keycode_t;
 #define KEYCODE_MAX	(SDLK_LAST-1)
+#define PREF_INPUT_GROUP "sdl"
 # else /* !HAVE_LIBSDL */
 typedef u32_t		keycode_t;
 #define KEYCODE_MAX	U32_MAX
+#define PREF_INPUT_GROUP "none"
 # endif /* !HAVE_LIBSDL */
 #endif /* !HAVE_LIBGGI */
 

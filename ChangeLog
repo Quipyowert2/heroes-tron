@@ -1,5 +1,89 @@
 2001-04-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Merge with autogen-pending-BRANCH, I thought I would
+	wait until Autogen 5.1.5 is released, but I give up
+	(most of my upcomming patches would introduce conflicts
+	in one branch or the other.  There is a prerelease of
+	autogen available here:
+	ftp://autogen.sourceforge.net/pub/autogen/
+	Version 5.1.4d is a minimum.
+
+|2001-03-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+|
+|	 * src/prefs.tpl: Use the ".name" notation to designate
+|	 locale variables in AutoGen >= 5.1.5 (not yet released).
+|
+|2001-03-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+|
+|	 Basic protection against people that don't have AutoGen.
+|
+|	 * configure.in: Define AUTOGEN using AM_MISSING_PROG, fix
+|	 other AM_MISSING_PROG uses.
+|	 * doc/Makefile.am: Use $(AUTOGEN).
+|	 * src/Makefile.am: Likewise.
+|
+|2001-03-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+|
+|	 * HACKING (Auto-generated files): Add src/prefs.c and src/prefs.h.
+|
+|2001-03-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+|
+|	 * doc/heroes.texi (Heroes options): Document --list=preferences.
+|	 * src/argv.c (showprefs): New variable.
+|	 (list): Handle --list=preferences.  Return a boolean
+|	 to indicate whether the action is finished or has been delayed.
+|	 (parse_argv): Adapt to follow this latter convention.
+|	 * src/argv.h (showprefs): New variable.
+|	 * src/heroes.c (main): Output the preferences if requested.
+|
+|2001-03-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+|
+|	 Save preferences in text form.  Generate the i/o code
+|	 automatically from a description of the preferences.
+|
+|	 * src/options.c: Delete.
+|	 * src/options.h: Delete.
+|	 * src/prefs.def: New file.
+|	 * src/prefs.tpl: New file.
+|	 * src/Makefile.am (heroes_SOURCES): Remove options.c and options.h,
+|	 add prefs.c and prefs.h.
+|	 (BUILT_SOURCES): Add prefs.c and prefs.h.
+|	 (prefs.h, prefs.c): New files.
+|	 * src/const.c: Include prefs.h instead of options.h.
+|	 * src/menus.c: Likewise.
+|	 * src/render.c: Likewise.
+|	 * src/scrtools.c: Likewise.
+|	 * src/sfx.c: Likewise.
+|	 * src/sound.c: Likewise.
+|	 * src/heroes.c: Likewise, also transform call to write_options,
+|	 reinit_options, load_options, and free_options to their new names:
+|	 save_preferences, reinit_preferences, load_preferences,
+|	 free_preferences.
+|	 * src/rsc_files.gperf: Remove options-file, add pref-file.
+|	 * src/system.h (PREF_INPUT_GROUP): New macro.
+|
+|2001-03-11  Alexandre Duret-Lutz  <duret_g@epita.fr>
+|
+|	 Centralize the definition of debug channels into src/debugchn.def.
+|	 Use AutoGen the generate the hash table, the channel enumeration,
+|	 and the documentation.
+|
+|	 * doc/Makefile.am (heroes_TEXINFOS): New.
+|	 (MAINTAINERCLEANFILES): New.
+|	 (debugchn.texi): New.
+|	 * doc/heroes.texi (Environment variables): Remove the debug channels
+|	 table, include debugchn.texi instead.
+|	 * src/Makefile.am (heroes_SOURCES): Add debugchn.h.
+|	 (BUILT_SOURCES): Add debugchn.h and debughash.gperf.
+|	 (debughash.gperf, debugchn.h): New.
+|	 * src/debughash.gperf: Remove from CVS (now generated).
+|	 * src/debugmsg.h: Don't declare the channels, include debugchn.h
+|	 instead.
+|	 * src/debugchn.def: New file.
+|	 * src/debugchn.tpl: New file.
+|
+2001-04-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* THANKS: Update Jos Boersema's email, the old bounced and I just
 	came across this new one in the archive for the bug-texinfo
 	mailing list.

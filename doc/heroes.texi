@@ -892,7 +892,9 @@ values as @samp{HEROES_DEBUG} (@pxref{Environment}).
 @cindex -lWORD
 @cindex --list=WORD
 
-Show various internal information.  @samp{WORD} can be @samp{debug} or @samp{sound-drivers}, @samp{resources} or @samp{sound-tracks}.
+Show various internal information.  @samp{WORD} can be @samp{debug} or
+@samp{preferences}, @samp{sound-drivers}, @samp{resources} or
+@samp{sound-tracks}.
 
 @samp{--list=debug} will list the available debugging channel, to be used
 with @samp{--verbose} or @samp{HEROES_DEBUG} (@pxref{Environment}).
@@ -922,7 +924,10 @@ the @samp{setrsc:} command.  This command will also list the original
 
 @samp{--list=sound-tracks} will print the list of sound-tracks used
 in the game in a format compatible with the @samp{soundconf:} command
-(@pxref{heroesrc})
+(@pxref{heroesrc}).
+
+@samp{--list=preferences} will print the preferences and their values,
+as they would be saved in @file{~/.heroes/preferences}.
 
 @comment sound options:
 
@@ -1103,51 +1108,7 @@ is the default), this variable specify the kind of debug messages that
 should be printed out.  Possible values are the following (they can
 be printed using the @samp{--list=debug} option).
 
-@table @samp
-@item SECTION
-The different parts of the game (introduction, demonstration, menus, ...).
-
-@item SYSTEM
-Handling of environment variables, creation of directories, initialization
-of libraries.
-
-@item RESOURCE
-Handling of file name resources.
-
-@item FILE
-File or directory handling.
-
-@item LEVEL
-Level handling.
-
-@item SOUND_TRACK
-Sound track handling.
-
-@item SOUND_EFFECT
-Sound effect handling.
-
-@item VIDEO
-Events related to display interface.
-
-@item JOYSTICK
-Joystick initialization.
-
-@item TIMER
-Timer handling.
-
-@item MISC
-Miscellaneous.
-
-@item FADER
-Fader handling.
-
-@item BONUS
-Bonuses handling.
-
-@item ALL
-All of the above.
-
-@end table
+@include debugchn.texi
 
 Multiple values can be separated by @samp{:}, and a value is negated if
 prefixed by @samp{-}.  For example the following command line sets

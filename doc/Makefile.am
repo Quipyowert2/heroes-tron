@@ -18,8 +18,10 @@
 
 
 info_TEXINFOS = heroes.texi
-
+heroes_TEXINFOS = debugchn.texi
 EXTRA_DIST = heroes.html
+
+MAINTAINERCLEANFILES = debugchn.texi
 
 if MAKE_HTML
 hdir = @htmldir@
@@ -31,3 +33,6 @@ SUFFIXES = .html
 .texi.html:
 	@cd $(srcdir) && rm -f $@ $@-[0-9] $@-[0-9][0-9]
 	cd $(srcdir) && $(MAKEINFO) --html `echo $< | sed 's,.*/,,'`
+
+debugchn.texi: $(top_srcdir)/src/debugchn.def $(top_srcdir)/src/debugchn.tpl
+	$(AUTOGEN) -L $(top_srcdir)/src -o 'texi=$@' $<
