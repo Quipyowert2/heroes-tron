@@ -1,5 +1,9 @@
 2001-07-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/lvl/de_body.c (decode_level_body): Free square_walls_in.
+
+2001-07-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/locales.c: New file.
 	* src/locales.h: New file.
 	* src/Makefile.am (heroes_SOURCES): Add them.

@@ -349,4 +349,6 @@ decode_level_body (const u8_t *data, level_t *lvl)
   for (si = 0; si < lvl->square_count; ++si)
     if (square_walls_in[si] == DM_ALL)
       lvl->square_type[si] = T_OUTWAY;
+
+  free (square_walls_in);
 }
