@@ -1,3 +1,16 @@
+2001-06-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	These patches are no longer needed with gettext-0.10.38.
+
+	* misc/04-intl.patch: Delete.
+	* misc/04-m4.patch: Delete.
+	* misc/06-intl.patch: Delete.
+	* Makefile.am (EXTRA_DIST): Remove them.
+
+	* m4/gettext.m4: Upgrade for gettext-0.10.38.
+	* m4/glibc21.m4: Likewise.
+	* m4/iconv.m4: Likewise.
+
 2001-06-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Yet another couple of fixes suggested by Jean.

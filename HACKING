@@ -14,7 +14,7 @@ Required to bootstrap a CVS checkout:
  autoconf 2.50   (from ftp.gnu.org)
  automake 1.4d   (from sources.redhat.com/automake)
  autogen 5.2     (from autogen.sourceforge.net)
- gettext 0.10.37 (from alpha.gnu.org)
+ gettext 0.10.38 (from alpha.gnu.org)
  gperf		 (from ftp.gnu.org)
  gnu make	 (from ftp.gnu.org)
 
