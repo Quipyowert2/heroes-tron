@@ -1,5 +1,17 @@
 2000-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Don't support the use_glenz option any longer.
+
+	* src/menus.c (init_menus_sprites): Remove the "GLENZ" options
+	from screen_menu_txt, and recenter the other lines on the screen.
+	(screen_menu): Remove handling of use_glenz, relayout every thing.
+	* src/options.c (reinit_options): Don't initialize opt.use_glenz.
+	* src/options.h (options_t): Rename `use_glenz' as `_obsolete'.
+	* src/render,c (copy_lemming_transp, copy_dead_lemming_transp):
+	Remove use_glenz handling.
+
+2000-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/menus.c (deck_digits): New.
 	(init_menus_sprites, uninit_menus_sprites): (Un)initialize it.
 	(jukebox_draw): Adapt to use it.

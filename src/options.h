@@ -28,7 +28,7 @@ typedef struct
   /* screen in_menu options */
   u8_t screen_size;		/* 0=max */
   u8_t radar_map;
-  u8_t use_glenz;
+  u8_t _obsolete;		/* was use_glenz */
   u8_t display_infos;
   u8_t luminance;
   u8_t inertia;

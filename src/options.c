@@ -48,7 +48,6 @@ reinit_options (void)
 {
   opt.screen_size = 0;		/* 0=max */
   opt.radar_map = 1;
-  opt.use_glenz = 1;
   opt.display_infos = 1;
   opt.luminance = 3;
   opt.inertia = 1;
@@ -146,7 +145,7 @@ load_options (void)
   }
 }
 
-void 
+void
 free_options (void)
 {
   dmsg (D_MISC, "free options");

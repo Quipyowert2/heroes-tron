@@ -184,31 +184,21 @@ static void
 copy_lemming_transp (const pixel_t* src, pixel_t *dest)
 {
   int j, k;
-  if (opt.use_glenz)
-    for (j = 8; j != 0; j--) {
-      for (k = 8; k != 0; k--) {
-	if (*src != 0) {
-	  if (*src == 1)
-	    *dest = glenz[0][*dest];
-	  else
-	    *dest = *src;
-	}
-	src++;
-	dest++;
-      }
-      src += 320 - 8;
-      dest += xbuf - 8;
-  } else
-    for (j = 8; j != 0; j--) {
-      for (k = 8; k != 0; k--) {
-	if (*src != 0 && *src != 1)
+
+  for (j = 8; j != 0; j--) {
+    for (k = 8; k != 0; k--) {
+      if (*src != 0) {
+	if (*src == 1)
+	  *dest = glenz[0][*dest];
+	else
 	  *dest = *src;
-	src++;
-	dest++;
       }
-      src += 320 - 8;
-      dest += xbuf - 8;
+      src++;
+      dest++;
     }
+    src += 320 - 8;
+    dest += xbuf - 8;
+  }
 }
 
 static void
@@ -269,18 +259,11 @@ static void
 copy_dead_lemming_transp (const pixel_t* src, pixel_t* dest, int couleur)
 {
   int x, y;
-  if (opt.use_glenz) {
-    for (y = 10; y != 0; y--, src += 320 - 12, dest += xbuf - 12)
-      for (x = 12; x != 0; x--, src++, dest++)
-	if (*src != 0)
-	  *dest = glenz[couleur][*dest];
-  } else {
-    couleur = ((couleur == 6) ? NOGLENZRED : NOGLENZPLR + 16 * 3);
-    for (y = 10; y != 0; y--, src += 320 - 12, dest += xbuf - 12)
-      for (x = 12; x != 0; x--, src++, dest++)
-	if (*src != 0)
-	  *dest = couleur;
-  }
+
+  for (y = 10; y != 0; y--, src += 320 - 12, dest += xbuf - 12)
+    for (x = 12; x != 0; x--, src++, dest++)
+      if (*src != 0)
+	*dest = glenz[couleur][*dest];
 }
 
 static void

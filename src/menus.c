@@ -351,11 +351,10 @@ init_menus_sprites (void)
   /* screen menu */
   new_sprprog ();
   add_sprprog0 (compile_menu_text (txti[109], T_CENTERED|T_WAVING, 5, 159));
-  add_sprprog0 (compile_menu_text (txti[110], T_FLUSHED_LEFT, 34, 56));
-  add_sprprog0 (compile_menu_text (txti[111], T_FLUSHED_LEFT, 63, 56));
-  add_sprprog0 (compile_menu_text (txti[112], T_FLUSHED_LEFT, 92, 56));
-  add_sprprog0 (compile_menu_text (txti[113], T_FLUSHED_LEFT, 121, 56));
-  add_sprprog0 (compile_menu_text (txti[114], T_FLUSHED_LEFT, 150, 56));
+  add_sprprog0 (compile_menu_text (txti[110], T_FLUSHED_LEFT, 41, 56));
+  add_sprprog0 (compile_menu_text (txti[112], T_FLUSHED_LEFT, 75, 56));
+  add_sprprog0 (compile_menu_text (txti[113], T_FLUSHED_LEFT, 109, 56));
+  add_sprprog0 (compile_menu_text (txti[114], T_FLUSHED_LEFT, 143, 56));
   add_sprprog0 (compile_menu_text (txti[94], T_FLUSHED_LEFT, 179, 56));
   screen_menu_txt = end_sprprog ();
 
@@ -1097,53 +1096,47 @@ screen_menu (void)
   do {
     background_menu ();
 
-    DRAW_SPRITE (radar_ico[opt.radar_map], corner[0] + 30 * xbuf + 20);
-    /* FIXME: remove the use_glenz option from the game */
-    copy_rect_4 (icons_img.buffer + (11 + 19 * opt.use_glenz) * 320 + 108,
-		 corner[0] + 59 * xbuf + 20, 32, 18);
-    DRAW_SPRITE (infos_ico[opt.display_infos], corner[0] + 88 * xbuf + 20);
-    DRAW_SPRITE (luminance_ico[opt.luminance], corner[0] + 117 * xbuf + 20);
-    DRAW_SPRITE (inertia_ico[opt.inertia], corner[0] + 146 * xbuf + 20);
+    DRAW_SPRITE (radar_ico[opt.radar_map], corner[0] + 37 * xbuf + 20);
+    DRAW_SPRITE (infos_ico[opt.display_infos], corner[0] + 71 * xbuf + 20);
+    DRAW_SPRITE (luminance_ico[opt.luminance], corner[0] + 105 * xbuf + 20);
+    DRAW_SPRITE (inertia_ico[opt.inertia], corner[0] + 139 * xbuf + 20);
 
-    arrows (30 + l * 29, 1);
-    chkbox (31, 260, opt.radar_map);
-    chkbox (60, 260, opt.use_glenz);
-    chkbox (89, 260, opt.display_infos);
+    arrows (37 + l * 34 + 2 * (l == 4), 1);
+    chkbox (38, 260, opt.radar_map);
+    chkbox (72, 260, opt.display_infos);
 
-    cursor (120, 251, 6 - opt.luminance, 6);
-    chkbox (147, 260, opt.inertia);
+    cursor (108, 251, 6 - opt.luminance, 6);
+    chkbox (140, 260, opt.inertia);
     DRAW_SPRITE (screen_menu_txt, corner[0]);
 
     vsynch ();
     aff_buffer ();
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
-      t = move_updown (t, &l, 5);
+      t = move_updown (t, &l, 4);
       if (t == HK_Right || t == HK_Left || t == HK_Enter)
 	if (l < 5) {
 	  if (l == 0)
 	    opt.radar_map ^= 1;
 	  else if (l == 1)
-	    opt.use_glenz ^= 1;
-	  else if (l == 2)
 	    opt.display_infos ^= 1;
-	  else if (l == 3) {
+	  else if (l == 2) {
 	    if (t == HK_Right && opt.luminance > 0)
 	      --opt.luminance;
 	    else if (t == HK_Left && opt.luminance < 6)
 	      ++opt.luminance;
 	    set_pal_with_luminance (&tile_set_img.palette);
-	  } else if (l == 4)
+	  } else if (l == 3)
 	    opt.inertia ^= 1;
 
-	  if (l == 3)
+	  if (l == 4)
 	    event_sfx (4);
 	  else
 	    event_sfx (3);
 	}
     } else
       t = 0;
-  } while (t != HK_Enter || l != 5);
+  } while (t != HK_Enter || l != 4);
   event_sfx (8);
 }
 
