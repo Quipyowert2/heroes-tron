@@ -86,7 +86,7 @@ get_sound_track_from_alias (const char* alias)
 }
 
 static char* 
-dirname (const char* filename)
+dir_name (const char* filename)
 {
   char* pos = strrchr (filename, '/');
   char* res;
@@ -106,7 +106,7 @@ read_sound_config_file (char* filename)
   size_t bufsize = 0;
   int firstline = 0, endline = 0;
   char* expfilename = rsc_expand (filename);
-  char* dir = dirname (expfilename);
+  char* dir = dir_name (expfilename);
 
   fs = fopen (expfilename, "r");
 

@@ -1,5 +1,13 @@
 2000-08-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	OSF already defines dirname
+
+	* src/musicfiles.c (dirname): Rename to...
+	(dir_name): ... this.
+	(read_sound_config_file): Adapt call ro dir_name.
+
+2000-08-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Remove src/extradir from the distribution.
 
 	* src/Makefile.am (SUBDIRS): Supress extradir.
