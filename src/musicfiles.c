@@ -109,7 +109,7 @@ read_sound_config_file (char* filename)
   char* expfilename = rsc_expand (filename);
   char* dir = dir_name (expfilename);
 
-  dmsg (D_SECTION|D_FILE,"reading sound config file: %s ...", filename);
+  dmsg (D_SECTION|D_FILE,"reading sound config file: %s ...", expfilename);
 
   fs = fopen (expfilename, "r");
 
