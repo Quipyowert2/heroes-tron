@@ -4916,10 +4916,7 @@ main (int argc, char *argv[])
   free (extra_list);
   free (extra_selected_list);
   close_buffers ();
-#ifdef PORT
-  /* FIXME: MIDAS */
   uninit_sound_engine ();
-#endif
   uninit_video ();
   write_save_records ();
   write_scores ();
