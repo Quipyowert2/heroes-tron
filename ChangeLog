@@ -1,5 +1,10 @@
 2001-02-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/argv.c (version): Set copyright year to 2001.
+	Reported by Jean Delvare <devare@ensicaen.ismra.fr>.
+
+2001-02-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Make sure the manual pages are up-to-date before releasing.
 	Reported by Jean Delvare <devare@ensicaen.ismra.fr>.
 
