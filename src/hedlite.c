@@ -97,14 +97,12 @@ fatalog (const char *ptr)
 }
 
 static void
-partiel4 (xs, ys, xd, yd, xc, yc, source)
-     short int xs, ys, xd, yd, xc, yc;
-     pcx_image_t *source;
+partiel4 (int xs, int ys, int xd, int yd, int xc, int yc, pcx_image_t *source)
 {
   int i = source->width;
   int j;
-  char *src = (source->buffer) + (i * ys) + xs;
-  char *dest = screen + xc + yc * 320;
+  pixel_t *src = (source->buffer) + (i * ys) + xs;
+  pixel_t *dest = screen + xc + yc * 320;
   for (j = yd; j > 0; j--) {
     fastmem4 (src, dest, xd >> 2);
     src += i;
@@ -113,11 +111,11 @@ partiel4 (xs, ys, xd, yd, xc, yc, source)
 }
 
 static void
-copy_tile (int src_, char *dest)
+copy_tile (int src_, pixel_t *dest)
 {
   int i = tile_set_img.width;
   int j;
-  char *src = (tile_set_img.buffer) + src_;
+  pixel_t *src = tile_set_img.buffer + src_;
   for (j = 20; j > 0; j--) {
     fastmem4 (src, dest, 24 >> 2);
     src += i;
@@ -126,11 +124,11 @@ copy_tile (int src_, char *dest)
 }
 
 static void
-partiel4c (int src_, char *dest)
+partiel4c (int src_, pixel_t *dest)
 {
   int i = tile_set_img.width;
   int j;
-  char *src = (tile_set_img.buffer) + src_;
+  pixel_t *src = tile_set_img.buffer + src_;
   for (j = 20; j > 0; j--) {
     fastmem4 (src, dest, 24 >> 2);
     src += i;
@@ -139,11 +137,11 @@ partiel4c (int src_, char *dest)
 }
 
 static void
-copy_tile_transp (int src_, char *dest)
+copy_tile_transp (int src_, pixel_t *dest)
 {
   int i = tile_set_img.width;
   int j, k;
-  char *src = (tile_set_img.buffer) + src_;
+  pixel_t *src = tile_set_img.buffer + src_;
   for (j = 20; j > 0; j--) {
     for (k = 24; k > 0; k--) {
       if (*src != 0)
@@ -157,11 +155,11 @@ copy_tile_transp (int src_, char *dest)
 }
 
 static void
-dalletranspc (int src_, char *dest)
+copy_tile_transp_pcx (int src_, pixel_t *dest)
 {
   int i = tile_set_img.width;
   int j, k;
-  char *src = (tile_set_img.buffer) + src_;
+  pixel_t *src = tile_set_img.buffer + src_;
   for (j = 20; j > 0; j--) {
     for (k = 24; k > 0; k--) {
       if (*src != 0)
@@ -175,7 +173,7 @@ dalletranspc (int src_, char *dest)
 }
 
 static void
-copy_square_transp (char *src, char *dest)
+copy_square_transp (pixel_t *src, pixel_t *dest)
 {
   int j, k;
   for (j = 10; j > 0; j--) {
@@ -191,7 +189,7 @@ copy_square_transp (char *src, char *dest)
 }
 
 static void
-sousdalletranspc (char *src, char *dest)
+copy_square_transp_pcx (pixel_t *src, pixel_t *dest)
 {
   int j, k;
   for (j = 10; j > 0; j--) {
@@ -207,14 +205,12 @@ sousdalletranspc (char *src, char *dest)
 }
 
 static void
-partiel2 (xs, ys, xd, yd, xc, yc, source)
-     short int xs, ys, xd, yd, xc, yc;
-     pcx_image_t *source;
+partiel2 (int xs, int ys, int xd, int yd, int xc, int yc, pcx_image_t *source)
 {
   int i = source->width;
   int j;
-  char *src = (source->buffer) + (i * ys) + xs;
-  char *dest = screen + xc + yc * 320;
+  pixel_t *src = (source->buffer) + (i * ys) + xs;
+  pixel_t *dest = screen + xc + yc * 320;
   for (j = yd; j > 0; j--) {
     fastmem2 (src, dest, xd >> 1);
     src += i;
@@ -223,12 +219,10 @@ partiel2 (xs, ys, xd, yd, xc, yc, source)
 }
 
 static void
-cadre (x0, y0, xd, yd, col)
-     short int x0, y0, xd, yd;
-     char col;
+frame (int x, int y, int xd, int yd, pixel_t col)
 {
   int i;
-  char *dest = screen + y0 * 320 + x0;
+  pixel_t *dest = screen + y * 320 + x;
   for (i = xd; i > 0; i--) {
     *(dest + yd * 320) = col;
     *dest++ = col;
@@ -241,12 +235,10 @@ cadre (x0, y0, xd, yd, col)
 }
 
 static void
-cadrept (x0, y0, xd, yd, col1, col2)
-     short int x0, y0, xd, yd;
-     char col1, col2;
+framept (int x, int y, int xd, int yd, pixel_t col1, pixel_t col2)
 {
   int i;
-  char *dest = screen + y0 * 320 + x0;
+  pixel_t *dest = screen + y * 320 + x;
   for (i = (xd >> 1); i > 0; i--) {
     *(dest + (yd - 1) * 320) = col1;
     *dest++ = col2;
@@ -266,14 +258,15 @@ cadrept (x0, y0, xd, yd, col1, col2)
 }
 
 static void
-draw_text (const char *texte, int posx, int posy, char coul, char cent)
+draw_text (const char *texte, int posx, int posy, pixel_t coul, char cent)
 {
   int i, j;
   int k, d = -1;
-  char *dest = screen + posx + posy * 320;
-  char *src = texte;
-  for (; *src != 0; src++) {
-    i = *src - font_first_ascii;
+  pixel_t *dest = screen + posx + posy * 320;
+  pixel_t *src;
+  const char *tmp = texte;
+  for (; *tmp != 0; tmp++) {
+    i = *tmp - font_first_ascii;
     d += font_width[i] + 1;
   }
   if (cent == 0)
@@ -299,7 +292,7 @@ draw_text (const char *texte, int posx, int posy, char coul, char cent)
 
 
 static void
-transpa (char *source, char *dest, int xt, int yt, char coul)
+transpa (pixel_t *source, pixel_t *dest, int xt, int yt, char coul)
 {
   int x, y;
   for (y = yt; y > 0; y--) {
@@ -316,7 +309,7 @@ transpa (char *source, char *dest, int xt, int yt, char coul)
 }
 
 static void
-transpac (char *source, char *dest, int xt, int yt, char coul)
+transpac (pixel_t *source, pixel_t *dest, int xt, int yt, char coul)
 {
   int x, y;
   for (y = yt; y > 0; y--) {
@@ -333,18 +326,33 @@ transpac (char *source, char *dest, int xt, int yt, char coul)
 }
 
 static void
-carre (int x, int y, char c)
+carre (int x, int y, pixel_t c)
 {
-  long int *dest = (long int *) (screen + x + y * 320);
+  pixel_t *dest = screen + x + y * 320;
+
+  if (c)
+    c = 8;
+
   *dest = 0;
-  if (c) {
-    *(dest + 80) = 0x80800;
-    *(dest + 80 * 2) = 0x80800;
-  } else {
-    *(dest + 80) = 0;
-    *(dest + 80 * 2) = 0;
-  }
-  *(dest + 80 * 3) = 0;
+  dest[0] = 0;
+  dest[1] = 0;
+  dest[2] = 0;
+  dest[3] = 0;
+  dest += 320;
+  dest[0] = 0;
+  dest[1] = c;
+  dest[2] = c;
+  dest[3] = 0;
+  dest += 320;
+  dest[0] = 0;
+  dest[1] = c;
+  dest[2] = c;
+  dest[3] = 0;
+  dest += 320;
+  dest[0] = 0;
+  dest[1] = 0;
+  dest[2] = 0;
+  dest[3] = 0;
 }
 
 static void
@@ -409,10 +417,7 @@ affgt (int t)
     transpa (heditrsc.buffer + 30 + 20 * 320 +
 	     level_map[t].info.tunnel.direction * 12 + 1,
 	     screen + 306 + 99 * 320, 10, 9, 71);
-/*               partiel2(0,168,30,32,290,168,&heditrsc); */
     partiel4 (120, 112, 30, 27, 290, 112, &heditrsc);
-/*               ultoa(level_map[t].info.tunnel.tempo,&nombre,10); */
-/*               draw_text(&nombre,311,119,8,1); */
     sprintf (nombre, "%u", level_map[t].info.tunnel.output / hplaninfo.xt);
     draw_text (nombre, 307, 133, 8, 0);
     sprintf (nombre, "%u", level_map[t].info.tunnel.output % hplaninfo.xt);
@@ -420,8 +425,6 @@ affgt (int t)
     break;
   case t_anim:
     partiel4 (150 + 60, 112, 30, 27, 290, 112, &heditrsc);
-/*            ultoa(level_map[t].info.anim.frame_nbr+1,&nombre,10); */
-/*            draw_text(&nombre,311,119,8,1); */
     sprintf (nombre, "%u", level_map[t].info.anim.speed);
     draw_text (nombre, 311, 133, 8, 1);
     partiel2 (0, 168, 30, 32, 290, 168, &heditrsc);
@@ -506,28 +509,9 @@ stop_mod (int i, int x, int y)
 static void
 tunnel_mod (int i, int x ATTRIBUTE_UNUSED, int y)
 {
-/* unsigned char m;
-
- if (y<112)
- {
-  if (y>98)  y=y-99;  else y=y-88;
-  if (x>=305) x=x-305; else x=x-293;
-  if (x>11 || y>8 || x<0 || y<0) return;
-  m=spd_test[y][x] &0xf;
-   level_map[i].info.tunnel.direction=m;
- }
- else
- {
-  if (y<126 && x<305)
-  { level_map[i].info.tunnel.tempo=level_map[i].info.tunnel.tempo + ((y<119)?+1:-1);
-  } else
-*/
   if (y > 126 && y < 133 && tempd != DONT_WRAP)
     level_map[i].info.tunnel.output = tempd;
-/* } */
 }
-
-
 
 static void
 anim_mod (int i, int x, int y)
@@ -538,10 +522,7 @@ anim_mod (int i, int x, int y)
     m = ((y - 112) / 7);
     {
       if (m >= 2)
-
-	level_map[i].info.anim.speed =
-	  level_map[i].info.anim.speed + ((m == 2) ? +1 : -1);
-/*    else     level_map[i].info.anim.frame_nbr= (level_map[i].info.anim.frame_nbr + ((m==0)?+1:-1))&63; */
+	level_map[i].info.anim.speed += ((m == 2) ? +1 : -1);
     }
   }
 }
@@ -559,7 +540,6 @@ anim_mod_bcl (int i, int x, int y)
 	level_map[i].info.param[4] =
 	  (level_map[i].info.param[4] & 0xf0) |
 	  ((level_map[i].info.param[4] + ((m == 2) ? +1 : -1)) & 0xf);
-/*    else     level_map[i].info.param[4]=(level_map[i].info.param[4])&0x0f | (((level_map[i].info.param[4]+ ((m==0)?+16:-16))&0xf0)); */
     }
   }
 }
@@ -568,7 +548,7 @@ static void
 majd (void)
 {
   partiel4 (xdalles, 0, 144, 200, 145, 0, &tile_set_img);
-  cadre (145 + xdallesdec, ydalles, 23, 19, 15);
+  frame (145 + xdallesdec, ydalles, 23, 19, 15);
   partiel2 (0, 64, 30, 6, 290, 64, &heditrsc);
   sprintf (nombre, "%u", (xdalles + xdallesdec) / 24);
   draw_text (nombre, 302, 64, 15, 2);
@@ -583,7 +563,7 @@ affplan (int xloc, int yloc, char c)
   int j;
   unsigned int i, k, m;
   int l, n;
-  char *dest = screen;
+  pixel_t *dest = screen;
   int xx, yy = 7;
   for (k = yloc, l = 10; l > 0; l--, k = ((k + 1) & hplaninfo.ywrap)) {
     m = k * hplaninfo.xt;
@@ -615,7 +595,7 @@ affplan (int xloc, int yloc, char c)
 				  dest + square_offset_320[n]);
       }
       if (i + m == tempd)
-	cadrept (xx - 12, yy - 7, 24, 20, 8, 15);
+	framept (xx - 12, yy - 7, 24, 20, 8, 15);
       dest += 24;
       xx += 24;
     }
@@ -701,7 +681,7 @@ majg (void)
       draw_text ("[S]", 309, 71, 8, 0);
     draw_text (type_name[level_map[curdallep ()].type], 304, 78, 8, 1);
   }
-  cadre (xplandec, yplandec, 23, 19, 8);
+  frame (xplandec, yplandec, 23, 19, 8);
   partiel2 (0, 57, 30, 6, 290, 57, &heditrsc);
   sprintf (nombre, "%u", ((xplan + xplandec / 24) & hplaninfo.xwrap));
   draw_text (nombre, 302, 57, 8, 2);
@@ -793,164 +773,10 @@ departfix (void)
   majg ();
 }
 
-/*
-static collisionsd()
-{
-  unsigned int d=curdalled();
-  signed int x,y;
-
-  partiel4(xdalles+xdallesdec,ydalles,24,20,293,88,&tile_set_img);
-  partiel4(30,112,30,27,290,112,&heditrsc);
-
-  while (mouse12()!=0);
- do{
-  carre(291,91,   ddef[d].collision[0]&c_left);
-  carre(303,91,   ddef[d].collision[1]&c_left | ddef[d].collision[0]&c_right);
-  carre(315,91,   ddef[d].collision[1]&c_right);
-  carre(291,101,ddef[d].collision[2]&c_left);
-  carre(303,101,ddef[d].collision[3]&c_left | ddef[d].collision[2]&c_right);
-  carre(315,101,ddef[d].collision[3]&c_right);
-  carre(297,86,   ddef[d].collision[0]&c_up);
-  carre(297,96,   ddef[d].collision[0]&c_down | ddef[d].collision[2]&c_up);
-  carre(297,106,  ddef[d].collision[2]&c_down);
-  carre(309,86,   ddef[d].collision[1]&c_up);
-  carre(309,96,   ddef[d].collision[1]&c_down | ddef[d].collision[3]&c_up);
-  carre(309,106,  ddef[d].collision[3]&c_down);
-
-  mouseon();
-  while (mouse12()==0 && key_ready()==0 );
-  if (mouse1() && mousex()>290)
-  {
-    x=mousex();
-    y=mousey();
-    if (x>=291 && x<=294)
-    { if (y>=91 && y<=94) ddef[d].collision[0]^=c_left;
-      else if (y>=101 && y<=104) ddef[d].collision[2]^=c_left;
-    }
-    if (x>=297 && x<=300)
-    { if (y>=86 && y<=89) ddef[d].collision[0]^=c_up;
-      if (y>=96 && y<=99){ddef[d].collision[0]^=c_down;
-                          ddef[d].collision[2]^=c_up;}
-      if(y>=106 && y<=109)ddef[d].collision[2]^=c_down;
-    }
-    if (x>=303 && x<=306)
-    { if (y>=91 && y<=94) {ddef[d].collision[0]^=c_right;
-                           ddef[d].collision[1]^=c_left;}
-      else if (y>=101 && y<=104) {ddef[d].collision[2]^=c_right;
-                                  ddef[d].collision[3]^=c_left;}
-    }
-    if (x>=309 && x<=312)
-    { if (y>=86 && y<=89) ddef[d].collision[1]^=c_up;
-      if (y>=96 && y<=99){ddef[d].collision[1]^=c_down;
-                          ddef[d].collision[3]^=c_up;}
-      if(y>=106 && y<=109)ddef[d].collision[3]^=c_down;
-    }
-    if (x>=315 && x<=319)
-    { if (y>=91 && y<=94) ddef[d].collision[1]^=c_right;
-      else if (y>=101 && y<=104) ddef[d].collision[3]^=c_right;
-    }
-    if (y>=112 && y<119) {ddef[d].collision[0]=0xf;
-                          ddef[d].collision[1]=0xf;
-                          ddef[d].collision[2]=0xf;
-                          ddef[d].collision[3]=0xf;}
-    if (y>=119 && y<126) {ddef[d].collision[0]=0x0;
-                          ddef[d].collision[1]=0x0;
-                          ddef[d].collision[2]=0x0;
-                          ddef[d].collision[3]=0x0;}
-    while (mouse12()!=0);
-  }
-  mouseoff();
- }
- while(mousex()>290 && (!key_ready()) && mouse2()==0 );
- majd();
- cadre(292,87,25,21,0);
- cadre(291,86,27,23,71);
- if (mousex()>290) notestmouse=1;
-}
-
-static collisionsg()
-{
-  unsigned int d=curdallep();
-  signed int x,y;
-  copy_tile(level_map[((xplan+xplandec/24)&hplaninfo.xwrap)+((yplan+yplandec/20)&hplaninfo.ywrap)*hplaninfo.xt].number,screen+293+88*320);
-  partiel4(30,112,30,27,290,112,&heditrsc);
-
-  while (mouse12()!=0);
- do{
-  carre(291,91,  level_map[d].collision[0]&c_left);
-  carre(301,91,  level_map[d].collision[0]&c_right);
-  carre(305,91,  level_map[d].collision[1]&c_left);
-  carre(315,91,  level_map[d].collision[1]&c_right);
-  carre(291,101,level_map[d].collision[2]&c_left);
-  carre(301,101,level_map[d].collision[2]&c_right);
-  carre(305,101,level_map[d].collision[3]&c_left);
-  carre(315,101,level_map[d].collision[3]&c_right);
-  carre(297,86,   level_map[d].collision[0]&c_up);
-  carre(297,94,   level_map[d].collision[0]&c_down);
-  carre(297,98,   level_map[d].collision[2]&c_up);
-  carre(297,106,  level_map[d].collision[2]&c_down);
-  carre(309,86,   level_map[d].collision[1]&c_up);
-  carre(309,94,   level_map[d].collision[1]&c_down);
-  carre(309,98,   level_map[d].collision[3]&c_up);
-  carre(309,106,  level_map[d].collision[3]&c_down);
-
-  mouseon();
-  while (mouse12()==0 && key_ready()==0 );
-  if (mouse1() && mousex()>290)
-  {
-    x=mousex();
-    y=mousey();
-    if (x>=291 && x<=294)
-    { if (y>=91 && y<=94) level_map[d].collision[0]^=c_left;
-      else if (y>=101 && y<=104) level_map[d].collision[2]^=c_left;
-    }
-    if (x>=297 && x<=300)
-    { if (y>=86 && y<=89) level_map[d].collision[0]^=c_up;
-      if (y>=94 && y<=97) level_map[d].collision[0]^=c_down;
-      if (y>=98 && y<=101)level_map[d].collision[2]^=c_up;
-      if(y>=106 && y<=109)level_map[d].collision[2]^=c_down;
-    }
-    if (x>=301 && x<=304)
-    { if (y>=91 && y<=94) level_map[d].collision[0]^=c_right;
-      else if (y>=101 && y<=104) level_map[d].collision[2]^=c_right;
-    }
-    if (x>=305 && x<=308)
-    { if (y>=91 && y<=94) level_map[d].collision[1]^=c_left;
-      else if (y>=101 && y<=104) level_map[d].collision[3]^=c_left;
-    }
-    if (x>=309 && x<=312)
-    { if (y>=86 && y<=89) level_map[d].collision[1]^=c_up;
-      if (y>=94 && y<=97) level_map[d].collision[1]^=c_down;
-      if (y>=98 && y<=101)level_map[d].collision[3]^=c_up;
-      if(y>=106 && y<=109)level_map[d].collision[3]^=c_down;
-    }
-    if (x>=315 && x<=319)
-    { if (y>=91 && y<=94) level_map[d].collision[1]^=c_right;
-      else if (y>=101 && y<=104) level_map[d].collision[3]^=c_right;
-    }
-    if (y>=112 && y<119) {level_map[d].collision[0]=0xf;
-                          level_map[d].collision[1]=0xf;
-                          level_map[d].collision[2]=0xf;
-                          level_map[d].collision[3]=0xf;}
-    if (y>=119 && y<126) {level_map[d].collision[0]=0x0;
-                          level_map[d].collision[1]=0x0;
-                          level_map[d].collision[2]=0x0;
-                          level_map[d].collision[3]=0x0;}
-    while (mouse12()!=0);
-  }
-  mouseoff();
- }* do *
- while(mousex()>290 && (!key_ready()) && mouse2()==0);
- majg();
- cadre(292,87,25,21,0);
- cadre(291,86,27,23,71);
- if (mousex()>290) notestmouse=1;
-}
-*/
 static void
-write_rle (char *src, int t, FILE * fpcx)
+write_rle (pixel_t *src, int t, FILE * fpcx)
 {
-  unsigned char old, new;
+  pixel_t old, new;
   int i;
   int nbr = 1;
 
@@ -995,10 +821,9 @@ save_pcx (void)
   pcx_header_t headpcx;
   unsigned int i1, i3, n;
   unsigned int j3;
-  char *tempc, *dest;
+  pixel_t *tempc;
+  pixel_t *dest;
   int sdec[4];
-
-/* fprintf(hlog,"\tSaving pcx: %s... ",pcxnom); */
 
   tempc = malloc (hplaninfo.xt * 20 * 24);
   sdec[0] = 0;
@@ -1029,25 +854,25 @@ save_pcx (void)
       if (sprhide == 0) {
 	for (n = 0; n < 4; n++)
 	  if (i1 + j3 == hplaninfo.start[n])
-	    sousdalletranspc (heditrsc.buffer + (16 + (n << 4)) * 320 + 256 +
-			      (hplaninfo.start_way[n] & 0xf0),
-			      dest + sdec[hplaninfo.start_way[n] & 0xf]);
+	    copy_square_transp_pcx (heditrsc.buffer + 
+				    (16 + (n << 4)) * 320 + 256 +
+				    (hplaninfo.start_way[n] & 0xf0),
+				    dest + sdec[hplaninfo.start_way[n] & 0xf]);
 	if (level_map[i1 + j3].sprite != 0)
-	  dalletranspc (level_map[i1 + j3].sprite, dest);
+	  copy_tile_transp_pcx (level_map[i1 + j3].sprite, dest);
       }
       if (afftests) {
 	if (level_map[i1 + j3].type == t_outway)
 	  transpac (heditrsc.buffer + 10 * 320 + 222, dest, 24, 20, 0);
 	else
 	  for (n = 0; n < 4; n++)
-/*         sousdalletranspc(heditrsc.buffer+10*320+30+level_map[i1+j3].collision[n]*12,dest+sdec[n]); */
 	    if (level_map[i1 + j3].collision[n] == 0xf)
-	      sousdalletranspc (heditrsc.buffer + 10 * 320 + 222 +
-				scdec320[n], dest + sdec[n]);
+	      copy_square_transp_pcx (heditrsc.buffer + 10 * 320 + 222 +
+				      scdec320[n], dest + sdec[n]);
 	    else
-	      sousdalletranspc (heditrsc.buffer + 10 * 320 + 30 +
-				level_map[i1 + j3].collision[n] * 12,
-				dest + sdec[n]);
+	      copy_square_transp_pcx (heditrsc.buffer + 10 * 320 + 30 +
+				      level_map[i1 + j3].collision[n] * 12,
+				      dest + sdec[n]);
       }
       dest += 24;
     }
@@ -1058,7 +883,6 @@ save_pcx (void)
   for (i1 = 0; i1 < 768; i1++)
     putc (tile_set_img.palette.global[i1] << 2, fpcx);
   fclose (fpcx);
-/* fprintf(hlog,"done\n"); */
 }
 
 static void
@@ -1115,37 +939,6 @@ planfull (void)
   majd ();
   majg ();
 }
-
-/*
-outwayrecurs(int d,short int x,short int y)
-{
-        outwaymap[d]=1;
-        if (!(hdcolli[d]&d_right)) {
-                htmp=(x+1)&((hplaninfo.xwrap<<1)+1);
-                htmp2=htmp+y*hplaninfo.xt*2;
-                if (!outwaymap[htmp2])
-                        outwayrecurs(htmp2,htmp,y);
-        };
-        if (!(hdcolli[d]&d_left)) {
-                htmp=(x-1)&((hplaninfo.xwrap<<1)+1);
-                htmp2=htmp+y*hplaninfo.xt*2;
-                if (!outwaymap[htmp2])
-                        outwayrecurs(htmp2,htmp,y);
-        };
-        if (!(hdcolli[d]&d_up)) {
-                htmp=(y-1)&((hplaninfo.ywrap<<1)+1);
-                htmp2=x+htmp*hplaninfo.xt*2;
-                if (!outwaymap[htmp2])
-                        outwayrecurs(htmp2,x,htmp);
-        };
-        if (!(hdcolli[d]&d_down)) {
-                htmp=(y+1)&((hplaninfo.ywrap<<1)+1);
-                htmp2=x+htmp*hplaninfo.xt*2;
-                if (!outwaymap[htmp2])
-                        outwayrecurs(htmp2,x,htmp);
-        };
-
-} */
 
 static char
 outwayinit (void)
@@ -1241,7 +1034,6 @@ outwayflag (void)
       i++;
       j++;
     }
-/*                outwayrecurs(i+j*hplaninfo.xt*2,i,j); */
     outwaymap[i + j * hplaninfo.xt * 2] = 1;
   }
 
@@ -1254,11 +1046,6 @@ outwayflag (void)
 	outwaymap[i * 2 + k + 1] = 1;
 	outwaymap[i * 2 + k + hplaninfo.xt * 2] = 1;
 	outwaymap[i * 2 + k + hplaninfo.xt * 2 + 1] = 1;
-
-        /* outwayrecurs(i*2+k,i*2,j*2); */
-        /* outwayrecurs(i*2+k+1,i*2+1,j*2); */
-        /* outwayrecurs(i*2+k+hplaninfo.xt*2,i*2,j*2+1); */ 
-        /* outwayrecurs(i*2+k+hplaninfo.xt*2+1,i*2+1,j*2+1); */
       }
     k += hplaninfo.xt << 2;
   }
@@ -1306,10 +1093,7 @@ outwayflag (void)
 	    outwaymap[d] = 2;
 	  else
 	    flag = 1;
-            /* flag|=flag2; */
 	}
-
-
       }
   } while (flag);
 
@@ -1338,7 +1122,6 @@ outwayflag (void)
     }
     k += hplaninfo.xt << 2;
   }
-
 }
 
 static void
@@ -1355,7 +1138,7 @@ joueanim (void)
   unsigned int i, m;
   int k, l, j, n;
   unsigned int tmp;
-  char *dest;
+  pixel_t *dest;
   int xx, yy, t = 0;
 
   do {
@@ -1406,7 +1189,7 @@ joueanim (void)
 				  level_map[i + m].collision[n] * 12,
 				  dest + square_offset_320[n]);
 	  if (i + m == tempd)
-	    cadrept (xx - 12, yy - 7, 24, 20, 8, 15);
+	    framept (xx - 12, yy - 7, 24, 20, 8, 15);
 	}
 	dest += 24;
 	xx += 24;
@@ -1981,10 +1764,12 @@ hmain (const char* lname, const char* tset_name,
   afftests = 0;
   notestmouse = 0;
 
-  strcpy (levelnomshort, tset_name);
+  strcpy (levelnomshort, lname);
   strlwr (levelnomshort);
-  strcat (strcpy (hplaninfo.tile_set_name, "level"), lname);
-  strcat (strcpy (hplaninfo.soundtrack_name, "heroes"), lname);
+  if (tset_name) {
+    strcat (strcpy (hplaninfo.tile_set_name, "level"), tset_name);
+    strcat (strcpy (hplaninfo.soundtrack_name, "heroes"), tset_name);
+  }
   hplaninfo.xt = xsize;
   hplaninfo.yt = ysize;
   hplaninfo.xwrap = xwrap;
@@ -2055,7 +1840,7 @@ hmain (const char* lname, const char* tset_name,
     return 1;
   }
   memset (screen, 0, 64000);
-  set_pal ((char *) &tile_set_img.palette, 0, 256 * 3);
+  set_pal (tile_set_img.palette.global, 0, 256 * 3);
   partiel2 (0, 0, 30, 200, 290, 0, &heditrsc);
   strupr (levelnomshort);
   draw_text (levelnomshort, 305, 29, 8, 1);

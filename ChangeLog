@@ -1,3 +1,21 @@
+2000-10-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Remove most warnings from src/hedlite.c.
+
+	* src/hedlite.c (partiel4,cadre,cadrept): Fix prototype.
+	(dalletranspc): Rename to ...
+	(copy_tile_transp_pcx): ... this, adjust callers.
+	(sousdalletranspc): Rename to ...
+	(copy_square_transp_pcx): ... this, adjust callers.
+	(cadre,cadrept): Rename to ...
+	(frame,framept): ... these, adjust callers.
+	(partiel4,copy_tile,partiel4c,copy_tile_transp,
+	copy_square_transp,copy_tile_transp_pcx,partiel2,frame,
+	framept,draw_text,transpa,transpac,carre,affgt,majd,
+	write_rle,save_pcx,planfull,joueanim): Fix signedness issues.
+	(hmain): Fix an error introduced in recent prototype change (on
+	2000-10-10).
+
 2000-10-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Factor the handling of vertical movements in menus.
