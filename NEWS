@@ -1,5 +1,31 @@
 		      User visible changes in Heroes.
 
+Heroes 0.6b	October 5, 2000
+
+        * More Win32 support, again.
+       	* Distribute VisualC projects files (in arch/VisualC/).
+	* REMOVED configure options:
+	  --disable-user-config
+	  --disable-user-scores
+	  --disable-user-saves
+	  They are superseded by the options-file, scores-file 
+	  and games-file resources. See src/etc/heroesrc.
+	* Renamed options:
+	  -q is now -i.
+	* New options:
+	  -v, --verbose: debug output.
+	  -q, --quiet: suppress warnings.
+	  -Q, --really-qiet: suppress errors.
+	* Bugs fixed:
+	  - Tunnels didn't work on bigendian machines.
+	  - A subtle bug in a configure macro prevented SDL_mixer
+	    to be found if the detection of GGI failed.
+	  - A couple of memory leaks.
+	* Internal changes:
+	  - configure macros moved to m4/
+	  - fading code rewritten
+	  - ./configure --enable-debug will enable a pile of compile checks.
+
 Heroes 0.6a	September 19, 2000
 
         * Better support for Win32:

@@ -1,5 +1,12 @@
 2000-10-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* README: Update from Texinfo documentation.
+	* NEWS: Update from 
+	* configure.in (GGI_KEYBOARD_H): Typo.
+	* m4/Makefile.am (EXTRA_DIST): Typo.
+
+2000-10-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Include VicualC project files, from Stéphane Denis.
 
 	* arch/Makefile.am: New.

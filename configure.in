@@ -171,7 +171,7 @@ AC_adl_FIND_HEADER([ggi/keyboard.h],,
  [#[ 	]*define[ 	][ 	]*GIIUC*],7,,
  [AC_MSG_ERROR([Keysyms macros not found: where is GGI installed?])])
 
-GGI_KEYBOARD_H="$ac_header_path_ggi_keyboard_h"
+GGI_KEYBOARD_H="$ac_cv_header_path_ggi_keyboard_h"
 AC_SUBST([GGI_KEYBOARD_H])
 
 with_sdl=no

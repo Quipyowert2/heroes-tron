@@ -4,7 +4,7 @@ Summary
   * Overview of Heroes
     - License
     - Getting Heroes
-    - Reporting bugs, sending suggestions or contribution
+    - Reporting bugs, sending suggestions or contributions
 
   * Installation of Heroes
     - Needed Libraries
@@ -46,21 +46,29 @@ file COPYING for details.
 Getting Heroes
 ==============
 
-   The web page of Heroes is `http://www.realtech.scene.org/heroes/'.
-This page has been designed by Romuald Genevois
-<rgenevois@besancon.net>.  More up to date information about recent
-versions can be found on the Heroes project home page on SourceForge:
-`http://sourceforge.net/projects/heroes/'.
+Where to fetch new releases?
+----------------------------
 
-   The latest version of Heroes is always uploaded to
-`ftp://download.sourceforge.net/pub/sourceforge/heroes/' and announced
-on the `heroes-announce' mailing list (*note Mailing lists::).
+   Heroes development is powered by the free services offered by
+SourceForge to the Open-Source compunity.  The web page of Heroes is
+`http://heroes.sourceforge.net/'.
 
-   Heroes is also uploaded to MetaLab (sunsite) in `/pub/linux/games';
-see the MetaLab mirror list
+   The latest releases of Heroes is always uploaded to SourceForge and
+available from `http://sourceforge.net/projects/heroes/'.  Annouces are
+sent to the `heroes-announce' mailing list
+(http://lists.sourceforge.net/mailman/listinfo/heroes-announce).
+
+   Source code releases are also uploaded to MetaLab (sunsite) in
+`/pub/linux/games'; see the MetaLab mirror list
 (http://metalab.unc.edu/pub/linux/MIRRORS.html) to find your nearest
-mirror. You will have to wait three or four days to have the files
+mirror.  You will have to wait three or four days to have the files
 available on MetaLab after a release.
+
+   A public CVS server is also accessible.  See
+`http://sourceforge.net/cvs/?group_id=7982' for details.
+
+What to download?
+-----------------
 
    Heroes is distributed as four packages with independent version
 numbering and release schedule.  Be sure to get them four:
@@ -78,13 +86,12 @@ numbering and release schedule.  Be sure to get them four:
      The sound effects for the game (.wav files).
 
    The game has been so split because the data and sound files are big
-and don't evolve as often as the code does.
+and don't evolve as often as the code does.  It would therefore be
+unfair to bloat the bandwidth by requiring the mirrors and users to
+download everything on each release.
 
-   A public CVS server is accessible.  See
-`http://sourceforge.net/cvs/?group_id=7982' for details.
-
-Reporting bugs, sending suggestions or contribution
-===================================================
+Reporting bugs, sending suggestions or contributions
+====================================================
 
    We welcome bug reports or suggestions for Heroes (both program or
 documentation).  Please email them to <heroes-bugs@lists.sourceforge.net>
@@ -122,7 +129,6 @@ subset).
      you use SDL as display driver. You don't need it if you want to
      compile Heroes without sound support.  Get it from
      `http://www.devolution.com/~slouken/SDL/projects/SDL_mixer/'.
-
 
    To summarize, install at least LibGGI or SDL to get video output and
 keyboard handling.  Install LibGII to get joystick support, unless you
@@ -181,7 +187,7 @@ help it, or to configure special features of Heroes.
      Link with SDL_mixer (note the underscore in the option name).
      This is the default if SDL_mixer is installed and SDL has been
      selected.  You may specify where SDL_mixer is installed using the
-     optional argument.  Using this option implies --with-sdl.
+     optional argument.  Using this option implies `--with-sdl'.
 
 `--enable-debug'
      Turn on debugging options: compile and link with debugging symbols,
@@ -202,39 +208,3 @@ help it, or to configure special features of Heroes.
 `--enable-html-doc[=DIR]'
      Build and install html documentation in directory `DIR'.  If `DIR'
      is not given, install in `$datadir/heroes/doc'.
-
-`--disable-user-config'
-     Don't use a per-user configuration file, but a system wide file
-     instead.  This configuration file records keyboard configuration,
-     colors of players, speed of the game, volume, etc. (everything
-     that can be configured from the OPTIONS menu of the game).  If you
-     save this as a global file, you will want to give special rights
-     to that file and to the heroes binary so that it can read and
-     write that file whoever ran it; this could lead to security issues.
-
-     The default is to save those options in `~/.heroes/options.dat', if
-     you specify this option they will be saved in
-     `DATADIR/heroes/txt_cfg/options.dat'.
-
-`--disable-user-scores'
-     Don't use a per-user scores file, but a system wide file instead.
-     If you save this as a global file, you will want to give special
-     rights to that file and to the heroes binary so that it can read
-     and write that file whoever ran it; this could lead to security
-     issues.
-
-     The default is to save the scores in `~/.heroes/scores.dat', if
-     you specify this option they will be saved in
-     `DATADIR/heroes/txt_cfg/scores.dat'.
-
-`--disable-user-saves'
-     Don't use a per-user saves file, but a system wide file instead.
-     This file allow people to save their progression in Quest Mode.
-     There are 10 save slots.  If you save this as a global file, you
-     will want to give special rights to that file and to the heroes
-     binary so that it can read and write that file whoever ran it;
-     this could lead to security issues.
-
-     The default is to save the games in `~/.heroes/savegame.dat', if
-     you specify this option they will be saved in
-     `DATADIR/heroes/txt_cfg/savegame.dat'.
