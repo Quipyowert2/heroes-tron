@@ -85,9 +85,23 @@ read_level_dir (const char *dirname)
 static int
 cmp_levels (const void *a, const void *b)
 {
-  const level_info_t *la = a;
-  const level_info_t *lb = b;
-  return strcasecmp (la->name, lb->name);
+  const level_info_t *lia = a;
+  const level_info_t *lib = b;
+  int la = strlen (lia->name);
+  int lb = strlen (lib->name);
+  if (la != lb || la < 6) {
+    /* This should not happen, unless someone intentionally add some
+       strange level files to the directory.  */
+    return strcmp (lia->name, lib->name);
+  } else {
+    /* Sort on the last digit first.  */
+    int ret = (int) lia->name[la - 5] - (int) lib->name[lb - 5];
+    if (ret)
+      return ret;
+    else
+      /* Then use the remaingin of the name.  */
+      return strncmp (lia->name, lib->name, la - 6);
+  }
 }
 
 int

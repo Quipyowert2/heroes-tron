@@ -1,5 +1,11 @@
 2001-08-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/levellst.c (cmp_levels): Sort the level names on the last
+	digit first, so that they are played in this order:
+	010 020 030 ... 011 021 ..., and not this one 010 011 012 ...
+
+2001-08-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/heroes.c (find_free_way): Autopilot still work against
 	file trails for invincible players.
 
