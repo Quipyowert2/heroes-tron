@@ -1,3 +1,16 @@
+2000-12-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.in: Typo.
+	* m4/checkpkg.m4 (UP,DOWN,DOWNLAT): New.
+	(AC_caolan_CHECK_PACKAGE): Use them.
+	* m4/h-display.m4: Use with_ggi instead of with_GGI.
+	* m4/h-ggi.m4: Likewise.
+	* m4/h-joystick.m4: Likewise.
+	* m4/h-sound.m4: Likewise.
+	* m4/h-mikmod.m4: Use LibMikMod instead of libMikMod.
+	* m4/h-sdlmixer.m4: Use HAVE_PKG_SDL_MIXER instead of
+	HAVE_PKG_sdl_mixer.
+
 2000-12-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.in: Use heroes_DEBUG.

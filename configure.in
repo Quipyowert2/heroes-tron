@@ -169,7 +169,7 @@ AC_DEFINE_DIR([datadir],[data_dir],[Path to the data directory.])
 # ==============
 
 adl_ENABLE_HTML_DOC
-heroes_HEROES_DEBUG
+heroes_DEBUG
 
 # ============
 # Output files

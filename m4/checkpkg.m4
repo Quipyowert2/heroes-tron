@@ -20,39 +20,44 @@ dnl @author Caolan McNamara <caolan@skynet.ie> with fixes from Alexandre Duret-L
 dnl
 AC_DEFUN([AC_caolan_CHECK_PACKAGE],
 [
+dnl we're going to need uppercase, lowercase and user-friendly versions of the
+dnl string `LIBRARY'
+pushdef([UP], translit([$1], [a-z-], [A-Z_]))dnl
+pushdef([DOWN], translit([$1], [A-Z-], [a-z_]))dnl
+pushdef([DOWNALT], translit([$1], [A-Z_], [a-z-]))dnl
 
-AC_ARG_WITH([$1],
-[AC_HELP_STRING([--with-$1=DIR],[root directory of $1 installation])],
-[with_$1=$withval
-if test "${with_$1}" != yes; then
-        $1_include="$withval/include"
-        $1_libdir="$withval/lib"
+AC_ARG_WITH([DOWNALT],
+[AC_HELP_STRING([--with-]DOWNALT[=DIR],[root directory of $1 installation])],
+[with_[]DOWN=$withval
+if test "${with_[]DOWN}" != yes; then
+        DOWN[]_include="$withval/include"
+        DOWN[]_libdir="$withval/lib"
 fi]
 )
 
-AC_ARG_WITH([$1-include],
-[AC_HELP_STRING([--with-$1-include=DIR],
+AC_ARG_WITH([DOWNALT-include],
+[AC_HELP_STRING([--with-]DOWNALT[-include=DIR],
                 [specify exact include dir for $1 headers])],
-[$1_include="$withval"])
+[DOWN[]_include="$withval"])
 
-AC_ARG_WITH($1-libdir,
-[AC_HELP_STRING([--with-$1-libdir=DIR],
+AC_ARG_WITH([DOWNALT-libdir],
+[AC_HELP_STRING([--with-]DOWNALT[-libdir=DIR],
                 [specify exact library dir for $1 library])
-AC_HELP_STRING([--without-$1],[disables $1 usage completely])],
-[$1_libdir="$withval"])
+AC_HELP_STRING([--without-]DOWNALT,[disables ]DOWN[ usage completely])],
+[DOWN[]_libdir="$withval"])
 
-if test "${with_$1}" != no ; then
+if test "${with_[]DOWN}" != no ; then
         OLD_LIBS=$LIBS
         OLD_LDFLAGS=$LDFLAGS
         OLD_CFLAGS=$CFLAGS
         OLD_CPPFLAGS=$CPPFLAGS
 
-        if test "${$1_libdir}" ; then
-                LDFLAGS="$LDFLAGS -L${$1_libdir}"
+        if test "${DOWN[]_libdir}" ; then
+                LDFLAGS="$LDFLAGS -L${DOWN[]_libdir}"
         fi
-        if test "${$1_include}" ; then
-                CPPFLAGS="$CPPFLAGS -I${$1_include}"
-                CFLAGS="$CFLAGS -I${$1_include}"
+        if test "${DOWN[]_include}" ; then
+                CPPFLAGS="$CPPFLAGS -I${DOWN[]_include}"
+                CFLAGS="$CFLAGS -I${DOWN[]_include}"
         fi
 
 	no_good=no
@@ -70,7 +75,7 @@ dnl     broken
 dnl     fixed
                 ifelse([$5], , , [$5])
 
-                AC_DEFINE(HAVE_PKG_$1)
+                AC_DEFINE(HAVE_PKG_[]UP)
         fi
 
 fi

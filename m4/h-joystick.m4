@@ -8,7 +8,7 @@ if test "${enable_joystick-yes}" = yes; then
   # -- check for Joystick support in SDL
 
   sdl_joystick=no
-  if test "${with_sdl-yes}" != no && test "${with_GII-no}" = no;  then
+  if test "${with_sdl-yes}" != no && test "${with_gii-no}" = no;  then
     AC_CHECK_FUNCS([SDL_JoystickOpen],[
 sdl_joystick=yes
 joystick_lib="SDL dnl
@@ -19,7 +19,7 @@ $sdl_config_major_version.$sdl_config_minor_version.$sdl_config_micro_version"
   # -- check for LibGII (another way to get joystick support)
 
   gii_joystick=no
-  if test $sdl_joystick = no && test "${with_GII-yes}" != no;  then
+  if test $sdl_joystick = no && test "${with_gii-yes}" != no;  then
     # Provide a config.h help string, as AC_caolan_CHECK_PACKAGE does not.
     AH_TEMPLATE([HAVE_PKG_GII],[Define if you have libgii.])
     AC_caolan_CHECK_PACKAGE([GII],[giiOpen],[gii],[ggi/gii.h],[

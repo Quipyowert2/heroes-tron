@@ -1,10 +1,10 @@
 AC_DEFUN([heroes_CHECK_SOUND_LIB_PRELIM],
 [# SDL_mixer imply SDL
 if test "${with_sdl_mixer-no}" != no; then
-  if test "${with_GGI-no}" != no; then
+  if test "${with_ggi-no}" != no; then
     AC_MSG_ERROR([GGI and SDL_mixer can't be both used.])
   fi
-  with_GGI=no
+  with_ggi=no
 fi
 
 # handle choice between SDL_mixer and libMikmod

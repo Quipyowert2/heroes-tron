@@ -12,12 +12,12 @@ test "${with_mikmod-yes}" != yes &&
 AC_DEFUN([heroes_CHECK_MIKMOD],
 [AC_ARG_WITH([mikmod],
  [AC_HELP_STRING([--with-mikmod=DIR],
-                 [root directory of libMikMod installation])
+                 [root directory of LibMikMod installation])
 AC_HELP_STRING([--without-mikmod],
-               [disables libMikMod usage completely])])
+               [disables LibMikMod usage completely])])
 
  if test "${with_mikmod-yes}" != no; then
-   AC_adl_PKG_GENERIC([libmikmod],[3.1.7],[MikMod_Init],
+   AC_adl_PKG_GENERIC([LibMikMod],[3.1.7],[MikMod_Init],
    [AC_DEFINE([HAVE_LIBMIKMOD],1,[Define if you have the LibMikMod library.])],
    [with_mikmod=no])
  fi
