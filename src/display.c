@@ -530,12 +530,12 @@ uninit_video (void)
 void
 set_color (unsigned char c, unsigned char r, unsigned char g, unsigned char b)
 {
-  SDL_Color cmap[256];
-  cmap[c].r = r * 4;
-  cmap[c].g = g * 4;
-  cmap[c].b = b * 4;
-  dmsg (D_VIDEO, "set color %d=(%d,%d,%d)",c,r,g,b);
-  SDL_SetColors (visu, cmap, c, 1);
+  SDL_Color col;
+  col.r = r * 4;
+  col.g = g * 4;
+  col.b = b * 4;
+  dmsg (D_VIDEO, "set color %d=(%d,%d,%d)", c, r, g, b);
+  SDL_SetColors (visu, &col, c, 1);
 }
 
 void

@@ -1,5 +1,15 @@
 2000-12-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	[HAVE_SDL] set_color always set color #0, this is visible
+	at the begining of the introduction when half of the screen
+	has a random color for 1second.
+	Reported by Daniel Burrow.
+
+	* src/display.c [HAVE_SDL] (set_color): Rewrite, using only
+	one SDL_Color struct instead of a full palette.
+
+2000-12-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Get rid of txti.cfg.  Inline in the sources all the strings
 	that was defined here.  While doing this, enclose them all
 	in a call to _() to prepare of i18n.
