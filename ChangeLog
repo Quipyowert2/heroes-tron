@@ -1,3 +1,17 @@
+2000-08-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Move data to a separate package `heroes-data'.
+
+	* src/hedit/: Remove recursively (moved to heroes-data/pics)
+	* src/sprites/: Remove recursively (moved to heroes-data/pics)
+	* src/intro/: Remove recursively (moved to heroes-data/pics)
+	* src/rsc/: Remove recursively (moved to heroes-data/tilesets)
+	* src/level/: Remove recursively (moved to heroes-data/levels)
+	* src/rsc_files.gperf: Adapt to new locations.
+	* src/Makefile.am (SUBDIRS): Remove hedit, sprites, intro, rsc
+	and level directories.
+	* configure.in: Do not generate Makfile for the above directories.
+
 2000-07-31  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/argv.c (print_help): Document -X option.

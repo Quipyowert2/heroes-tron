@@ -17,7 +17,7 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 # 
 
-SUBDIRS = etc extralvl intro sprites rsc level txt_cfg hedit
+SUBDIRS = etc extralvl txt_cfg
 
 bin_PROGRAMS = heroes
 
