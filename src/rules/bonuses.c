@@ -230,6 +230,7 @@ void
 apply_bonus (a_level_state *state, int pl, char bonus)
 {
   static char txt_tmp[20];
+  a_player *const p = state->player[pl];
 
   dmsg (D_BONUS, "Player %u got bonus %u.", pl, bonus);
 
@@ -239,7 +240,7 @@ apply_bonus (a_level_state *state, int pl, char bonus)
       bonus++;
   }
 
-  if (state->player[pl].cpu == 2)
+  if (p->cpu == 2)
     event_sfx (19 + bonus);
   switch (bonus) {
   case 1:
@@ -253,44 +254,44 @@ apply_bonus (a_level_state *state, int pl, char bonus)
     set_txt_bonus (pl, txt_tmp, 150);
     break;
   case 3:
-    state->player[pl].speedup = 500;
+    p->speedup = 500;
     set_txt_bonus (pl, _("SPEEDED UP"), 150);
     break;
   case 4:
-    state->player[pl].speedup = -500;
+    p->speedup = -500;
     set_txt_bonus (pl, _("SPEEDED DOWN"), 150);
     break;
   case 6:
     {
       int i;
       i = rand () & 255;
-      state->player[pl].score += i;
+      p->score += i;
       sprintf (txt_tmp, _("GET %dPTS"), i);
       set_txt_bonus (pl, txt_tmp, 150);
     }
     break;
   case 7:
     set_txt_bonus (pl, _("FIRE TRAIL!"), 150);
-    state->player[pl].fire_trail += 2000;
+    p->fire_trail += 2000;
     break;
   case 8:
-    state->player[pl].notify_delay = 1;
+    p->notify_delay = 1;
     break;
   case 9:
-    state->player[pl].inversed_controls = 500;
+    p->inversed_controls = 500;
     break;
   case 10:
-    if (state->player[pl].turbo_level > 1024 - 512)
-      state->player[pl].turbo_level = 1024;
+    if (p->turbo_level > 1024 - 512)
+      p->turbo_level = 1024;
     else
-      state->player[pl].turbo_level += 512;
+      p->turbo_level += 512;
     set_txt_bonus (pl, _("GET TURBO+"), 150);
     break;
   case 11:
-    if (state->player[pl].turbo_level > 256)
-      state->player[pl].turbo_level -= 256;
+    if (p->turbo_level > 256)
+      p->turbo_level -= 256;
     else
-      state->player[pl].turbo_level = 0;
+      p->turbo_level = 0;
     set_txt_bonus (pl, _("GET TURBO-"), 150);
     break;
   case 12:
@@ -298,29 +299,29 @@ apply_bonus (a_level_state *state, int pl, char bonus)
       state_level_set_exit_code (state, pl + 1);
     break;
   case 13:
-    state->player[pl].invincible = 350;
+    p->invincible = 350;
     set_txt_bonus (pl, _("INVINCIBLE!"), 150);
     break;
   case 14:
-    if (state->player[pl].waves == 0 || doublefx != 0) {
-      state->player[pl].rotozoom += 1024;
-      if (state->player[pl].rotozoom == 0)
-	state->player[pl].rotozoom_direction = rand () & 1;
+    if (p->waves == 0 || doublefx != 0) {
+      p->rotozoom += 1024;
+      if (p->rotozoom == 0)
+	p->rotozoom_direction = rand () & 1;
     }
     break;
   case 15:
-    if (state->player[pl].lifes < 100) {
-      state->player[pl].lifes++;
+    if (p->lifes < 100) {
+      p->lifes++;
       set_txt_bonus (pl, _("EXTRA-LIFE!"), 150);
     }
     break;
   case 16:
-    if (state->player[pl].rotozoom == 0 || doublefx != 0)
-      state->player[pl].waves += 1024;
+    if (p->rotozoom == 0 || doublefx != 0)
+      p->waves += 1024;
     break;
   case 17:
-    state->player[pl].cash += 10;
-    state->player[pl].score += 50;
+    p->cash += 10;
+    p->score += 50;
     break;
   default:
     assert (0 /* unknown bonus! */ );

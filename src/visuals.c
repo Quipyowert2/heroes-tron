@@ -49,8 +49,8 @@ rotozoom_buffer (void)
   int deltax2, deltay2;
 
   srcroto = corner[0];
-  angle = (state.player[state.col2plr[0]].rotozoom & 511) >> 1;
-  if (state.player[state.col2plr[0]].rotozoom_direction)
+  angle = (state.player[state.col2plr[0]]->rotozoom & 511) >> 1;
+  if (state.player[state.col2plr[0]]->rotozoom_direction)
     angle = (-angle) & 255;
   deltay = rotosinus[angle];	/* 2; */
   deltax = rotocosinus[angle];	/* 2; */
@@ -106,8 +106,8 @@ rotozoom_half_buffer (int c)
 
   srcroto = corner[c];
 
-  angle = (state.player[state.col2plr[c]].rotozoom & 511) >> 1;
-  if (state.player[state.col2plr[c]].rotozoom_direction)
+  angle = (state.player[state.col2plr[c]]->rotozoom & 511) >> 1;
+  if (state.player[state.col2plr[c]]->rotozoom_direction)
     angle = (-angle) & 255;
   deltay = rotosinus[angle];	/* 2; */
   deltax = rotocosinus[angle];	/* 2; */
@@ -258,8 +258,8 @@ which_offset (int y, int a)
 void
 wave_buffer (void)
 {
-  int i, p = state.player[state.col2plr[0]].waves * 7, left, right, j;
-  int waves_begin = state.player[state.col2plr[0]].waves_begin;
+  int i, p = state.player[state.col2plr[0]]->waves * 7, left, right, j;
+  int waves_begin = state.player[state.col2plr[0]]->waves_begin;
   for (i = 0; i < 320; i += 4) {
     left = ((16 + moyensinus[(i * 2 + p) & 511]) * waves_begin) / 128;
     right = ((16 + moyensinus[(i + p) & 511]) * waves_begin) / 128;
@@ -286,8 +286,8 @@ wave_buffer (void)
 void
 wave_half_buffer (int c)
 {
-  int i, p = state.player[state.col2plr[c]].waves * 7, left, right, j;
-  int waves_begin = state.player[state.col2plr[c]].waves_begin;
+  int i, p = state.player[state.col2plr[c]]->waves * 7, left, right, j;
+  int waves_begin = state.player[state.col2plr[c]]->waves_begin;
   for (i = 0; i < 160; i += 4) {
     left = ((16 + moyensinus[(i * 2 + p) & 511]) * waves_begin) / 128;;
     right = ((16 + moyensinus[(i + p) & 511]) * waves_begin) / 128;;

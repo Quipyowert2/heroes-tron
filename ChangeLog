@@ -1,5 +1,37 @@
 2002-04-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/rules/statepriv.h (a_level_state_bits) <player, iplayer>: New.
+	* src/rules/state.h (a_level_state) <player>: Make this an array of
+	pointers to the player entries in a_level_state_bits.
+	* src/rules/player.h (a_player_internal): New struct.
+	(a_player) <v, vi, viit, old_old_way>: Move to a_player_internal.
+
+	* src/camera.c (position_camera, init_camera): Adjust player lookup.
+	* src/heroes.c (play_menu, output_screen,
+	get_input_directions, play_game): Likewise.
+	* src/menus.c (draw_end_level_info, draw_round_info): Likewise.
+	* src/render.c (draw_trail_real, draw_vehicle_tail, draw_vehicle_head,
+	draw_level, draw_score, draw_logo_info): Likewise.
+	* src/visuals.c (rotozoom_buffer, rotozoom_half_buffer,
+	(wave_buffer, wave_half_buffer): Likewise.
+	* src/plugins/stdai.c (ai_throttle, ia_goto_target,
+	ia_goto_nearest_bonus, ia_goto_nearest_lemming,
+	ia_goto_nearest_color, ia_goto_nearest_cash): Likewise.
+	* src/rules/bonuses.c (apply_bonus): Likewise.
+	* src/rules/lemmings.c (state_init_lemmings): Likewise.
+	* src/rules/player.c (state_erase_player, state_position_player,
+	state_reinit_player): Likewise.
+	* src/rules/state.c (state_init): Likewise.
+	* src/rules/trail.c (grow_trail): Likewise.
+	* src/rules/update.c (find_free_way, opponent_action_prepare,
+	opponent_action_honor, update_player): Likewise.
+
+	* src/heroes.c (load_level): Don't configure CPU players
+	here ...
+	* src/rules/state.c (state_init): ... but do it here.
+
+2002-04-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/rules/update.c (update_player): Typo in speed adjustment.
 
 2002-03-30  Alexandre Duret-Lutz  <duret_g@epita.fr>

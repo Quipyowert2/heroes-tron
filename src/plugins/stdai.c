@@ -71,17 +71,18 @@ ai_throttle (const a_level_state *state, int p,
      some opponent prevents it to move.  */
   static bool dead_end[4] = {false, false, false, false};
 
+  const a_player *const pp = state->player[p];
+
   unsigned free_directions = 4;
   bool seen_opponent = false;
   bool seen_opponent_head = false;
 
   /* Check squares neighboring next position.  */
-  a_square_index next_pos =
-    state->level->square_move[state->player[p].way][state->player[p].pos];
+  a_square_index next_pos = state->level->square_move[pp->way][pp->pos];
   a_dir i;
   for (i = 0; i < 4; i++) {
     a_square_index idx = state->level->square_move[i][next_pos];
-    if (idx == INVALID_INDEX || i == REVERSE_DIR (state->player[p].way)) {
+    if (idx == INVALID_INDEX || i == REVERSE_DIR (pp->way)) {
       --free_directions;
     } else {
       a_u8 o = state->square_occupied[idx];
@@ -93,7 +94,7 @@ ai_throttle (const a_level_state *state, int p,
 	}
 	--free_directions;
       } else if (state->square_explo_state[idx] < EXPLOSION_IMMEDIATE + 2
-		 && ! state->player[p].invincible) {
+		 && ! pp->invincible) {
 	--free_directions;
       }
     }
@@ -129,9 +130,9 @@ ai_throttle (const a_level_state *state, int p,
        Better do it now.  */
     int chance = 3;
     assert (seen_opponent && free_directions == 0);
-    if (state->player[p].rotozoom)
+    if (pp->rotozoom)
       --chance;
-    if (state->player[p].waves)
+    if (pp->waves)
       --chance;
     if (rand() % 4 <= chance)
       action->throttle = TH_BRAKE;
@@ -558,12 +559,13 @@ ia_goto_target (const a_level_state *state, int c,
   a_u32 mindist = U32_MAX;
   a_dir mindir = 0;
   const a_level *lvl = state->level;
+  const a_player *const pp = state->player[c];
   (void) callback_data;
 
   ia_player = c;
-  ia_max_depth = state->player[c].ia_max_depth;
-  ia_target_x = state->player[state->player[c].target].x2;
-  ia_target_y = state->player[state->player[c].target].y2;
+  ia_max_depth = pp->ia_max_depth;
+  ia_target_x = state->player[pp->target]->x2;
+  ia_target_y = state->player[pp->target]->y2;
   ia_wrap_x = ia_target_x + lvl->tile_width;
   if (ia_wrap_x >= lvl->square_width) {
     ia_wrap_x -= lvl->square_width;
@@ -577,14 +579,14 @@ ia_goto_target (const a_level_state *state, int c,
   } else
     ia_wrap_right = 0;
 
-  ia_is_invincible = (state->player[c].invincible != 0);
-  pos = state->player[c].pos;
+  ia_is_invincible = (pp->invincible != 0);
+  pos = pp->pos;
   ia_goto_target_inline (D_UP);
   ia_goto_target_inline (D_RIGHT);
   ia_goto_target_inline (D_DOWN);
   ia_goto_target_inline (D_LEFT);
-  if (tmp[state->player[c].way] == tmp[mindir])
-    action->dir = state->player[c].way;
+  if (tmp[pp->way] == tmp[mindir])
+    action->dir = pp->way;
   else
     action->dir = mindir;
 }
@@ -599,18 +601,19 @@ ia_goto_nearest_bonus (const a_level_state *state, int c,
   int mindist = 0;
   a_dir mindir = 0;
   const a_level *lvl = state->level;
+  const a_player *const pp = state->player[c];
   (void) callback_data;
 
   ia_player = c;
-  ia_max_depth = state->player[c].ia_max_depth;
-  ia_is_invincible = (state->player[c].invincible != 0);
-  pos = state->player[c].pos;
+  ia_max_depth = pp->ia_max_depth;
+  ia_is_invincible = (pp->invincible != 0);
+  pos = pp->pos;
   ia_goto_bonus_inline (D_UP);
   ia_goto_bonus_inline (D_RIGHT);
   ia_goto_bonus_inline (D_DOWN);
   ia_goto_bonus_inline (D_LEFT);
-  if (tmp[state->player[c].way] == tmp[mindir])
-    action->dir = state->player[c].way;
+  if (tmp[pp->way] == tmp[mindir])
+    action->dir = pp->way;
   else
     action->dir = mindir;
 }
@@ -625,18 +628,19 @@ ia_goto_nearest_lemming (const a_level_state *state, int c,
   int mindist = 0;
   a_dir mindir = 0;
   const a_level *lvl = state->level;
+  const a_player *const pp = state->player[c];
   (void) callback_data;
 
   ia_player = c;
-  ia_max_depth = state->player[c].ia_max_depth;
-  ia_is_invincible = (state->player[c].invincible != 0);
-  pos = state->player[c].pos;
+  ia_max_depth = pp->ia_max_depth;
+  ia_is_invincible = (pp->invincible != 0);
+  pos = pp->pos;
   ia_goto_lemming_inline (D_UP);
   ia_goto_lemming_inline (D_RIGHT);
   ia_goto_lemming_inline (D_DOWN);
   ia_goto_lemming_inline (D_LEFT);
-  if (tmp[state->player[c].way] == tmp[mindir])
-    action->dir = state->player[c].way;
+  if (tmp[pp->way] == tmp[mindir])
+    action->dir = pp->way;
   else
     action->dir = mindir;
 }
@@ -651,18 +655,19 @@ ia_goto_nearest_color (const a_level_state *state, int c,
   int mindist = 0;
   a_dir mindir = 0;
   const a_level *lvl = state->level;
+  const a_player *const pp = state->player[c];
   (void) callback_data;
 
   ia_player = c;
-  ia_max_depth = state->player[c].ia_max_depth;
-  ia_is_invincible = (state->player[c].invincible != 0);
-  pos = state->player[c].pos;
+  ia_max_depth = pp->ia_max_depth;
+  ia_is_invincible = (pp->invincible != 0);
+  pos = pp->pos;
   ia_goto_color_inline (D_UP);
   ia_goto_color_inline (D_RIGHT);
   ia_goto_color_inline (D_DOWN);
   ia_goto_color_inline (D_LEFT);
-  if (tmp[state->player[c].way] == tmp[mindir])
-    action->dir = state->player[c].way;
+  if (tmp[pp->way] == tmp[mindir])
+    action->dir = pp->way;
   else
     action->dir = mindir;
 }
@@ -677,18 +682,19 @@ ia_goto_nearest_cash (const a_level_state *state, int c,
   int mindist = 0;
   a_dir mindir = 0;
   const a_level *lvl = state->level;
+  const a_player *const pp = state->player[c];
   (void) callback_data;
 
   ia_player = c;
-  ia_max_depth = state->player[c].ia_max_depth;
-  ia_is_invincible = (state->player[c].invincible != 0);
-  pos = state->player[c].pos;
+  ia_max_depth = pp->ia_max_depth;
+  ia_is_invincible = (pp->invincible != 0);
+  pos = pp->pos;
   ia_goto_cash_inline (D_UP);
   ia_goto_cash_inline (D_RIGHT);
   ia_goto_cash_inline (D_DOWN);
   ia_goto_cash_inline (D_LEFT);
-  if (tmp[state->player[c].way] == tmp[mindir])
-    action->dir = state->player[c].way;
+  if (tmp[pp->way] == tmp[mindir])
+    action->dir = pp->way;
   else
     action->dir = mindir;
 }

@@ -31,6 +31,7 @@ state_erase_player (a_level_state *state, unsigned i)
 {
   const a_level *lvl = state->level;
   an_opponent_sig *s = state->private->opponent[i];
+  const a_player *p = state->player[i];
 
   dmsg (D_MISC, "erase player %d", i);
 
@@ -43,33 +44,27 @@ state_erase_player (a_level_state *state, unsigned i)
      It's not clear to me why this is needed.
   */
   state->square_occupied
-    [SQR_COORDS_TO_INDEX (lvl,
-			  state->player[i].y2,
-			  state->player[i].x2)] = SQOC_VACANT;
+    [SQR_COORDS_TO_INDEX (lvl, p->y2, p->x2)] = SQOC_VACANT;
 
-  switch (state->player[i].way) {
+  switch (p->way) {
   case D_LEFT:
     state->square_occupied
-      [SQR_COORDS_TO_INDEX (lvl, state->player[i].y2,
-			    SQR_COORD_LEFT (lvl, state->player[i].x2))]
+      [SQR_COORDS_TO_INDEX (lvl, p->y2, SQR_COORD_LEFT (lvl, p->x2))]
       = SQOC_VACANT;
     break;
   case D_RIGHT:
     state->square_occupied
-      [SQR_COORDS_TO_INDEX (lvl, state->player[i].y2,
-			    SQR_COORD_RIGHT (lvl, state->player[i].x2))]
+      [SQR_COORDS_TO_INDEX (lvl, p->y2, SQR_COORD_RIGHT (lvl, p->x2))]
       = SQOC_VACANT;
     break;
   case D_UP:
     state->square_occupied
-      [SQR_COORDS_TO_INDEX (lvl,
-			    SQR_COORD_UP (lvl, state->player[i].y2),
-			    state->player[i].x2)] = SQOC_VACANT;
+      [SQR_COORDS_TO_INDEX (lvl, SQR_COORD_UP (lvl, p->y2), p->x2)]
+      = SQOC_VACANT;
   case D_DOWN:
     state->square_occupied
-      [SQR_COORDS_TO_INDEX (lvl,
-			    SQR_COORD_DOWN (lvl, state->player[i].y2),
-			    state->player[i].x2)] = SQOC_VACANT;
+      [SQR_COORDS_TO_INDEX (lvl, SQR_COORD_DOWN (lvl, p->y2), p->x2)]
+      = SQOC_VACANT;
     break;
   default:
     assert (0);
@@ -80,6 +75,7 @@ static void
 state_position_player (a_level_state *state, unsigned i)
 {
   const a_level *lvl = state->level;
+  const a_player *p = state->player[i];
   dmsg (D_MISC, "position player %d", i);
 
   /* FIXME: this first line used to be guarded by
@@ -87,34 +83,28 @@ state_position_player (a_level_state *state, unsigned i)
      It's not clear to me why this is needed.
   */
   state->square_occupied
-    [SQR_COORDS_TO_INDEX (lvl,
-			  state->player[i].y2,
-			  state->player[i].x2)] = SQOC_VEHICLE_TAIL (i);
+    [SQR_COORDS_TO_INDEX (lvl, p->y2, p->x2)] = SQOC_VEHICLE_TAIL (i);
 
-  switch (state->player[i].way) {
+  switch (p->way) {
   case D_LEFT:
     state->square_occupied
-      [SQR_COORDS_TO_INDEX (lvl, state->player[i].y2,
-			    SQR_COORD_LEFT (lvl, state->player[i].x2))]
+      [SQR_COORDS_TO_INDEX (lvl, p->y2, SQR_COORD_LEFT (lvl, p->x2))]
       = SQOC_VEHICLE_HEAD (i);
     break;
   case D_RIGHT:
     state->square_occupied
-      [SQR_COORDS_TO_INDEX (lvl, state->player[i].y2,
-			    SQR_COORD_RIGHT (lvl, state->player[i].x2))]
+      [SQR_COORDS_TO_INDEX (lvl, p->y2, SQR_COORD_RIGHT (lvl, p->x2))]
       = SQOC_VEHICLE_HEAD (i);
     break;
   case D_UP:
     state->square_occupied
-      [SQR_COORDS_TO_INDEX (lvl,
-			    SQR_COORD_UP (lvl, state->player[i].y2),
-			    state->player[i].x2)] = SQOC_VEHICLE_HEAD (i);
+      [SQR_COORDS_TO_INDEX (lvl, SQR_COORD_UP (lvl, p->y2), p->x2)]
+      = SQOC_VEHICLE_HEAD (i);
     break;
   case D_DOWN:
     state->square_occupied
-      [SQR_COORDS_TO_INDEX (lvl,
-			    SQR_COORD_DOWN (lvl, state->player[i].y2),
-			    state->player[i].x2)] = SQOC_VEHICLE_HEAD (i);
+      [SQR_COORDS_TO_INDEX (lvl, SQR_COORD_DOWN (lvl, p->y2), p->x2)]
+      = SQOC_VEHICLE_HEAD (i);
     break;
   default:
     assert (0);
@@ -132,6 +122,10 @@ state_reinit_player (a_level_state *state, unsigned p)
   a_dir start_dir;
   a_square_index start_idx, next_idx;
 
+  a_level_state_bits *bits = state->private;
+  a_player *pp = state->player[p];
+  a_player_internal *ipp = &bits->iplayer[p];
+
   dmsg (D_MISC, "initialize player %d", p);
 
   tries = 4;
@@ -145,10 +139,10 @@ state_reinit_player (a_level_state *state, unsigned p)
   } while (tries && (next_idx == INVALID_INDEX ||
 		     state->square_occupied[next_idx] != 0xff));
 
-  state->player[p].way = start_dir;
-  state->player[p].x2 = start_coord.x;
-  state->player[p].y2 = start_coord.y;
-  state->player[p].pos = start_idx;
+  pp->way = start_dir;
+  pp->x2 = start_coord.x;
+  pp->y2 = start_coord.y;
+  pp->pos = start_idx;
 
   /* ensure that the start position is usable,
      otherwise try another position (randomly) */
@@ -183,73 +177,70 @@ state_reinit_player (a_level_state *state, unsigned p)
 	    & dir_unusable[D_DOWN]
 	    & dir_unusable[D_LEFT])) {
 	/* then rotate until we find that direction */
-	while (dir_unusable[state->player[p].way])
-	  state->player[p].way = (state->player[p].way + 1) & 3;
+	while (dir_unusable[pp->way])
+	  pp->way = (pp->way + 1) & 3;
 	break;
       }
     }
     /* else, get a new position randomly on the map */
-    state->player[p].y2 = rand () % lvl->square_height;
-    state->player[p].x2 = rand () % lvl->square_width;
-    start_idx = SQR_COORDS_TO_INDEX (lvl, state->player[p].y2,
-				     state->player[p].x2);
+    pp->y2 = rand () % lvl->square_height;
+    pp->x2 = rand () % lvl->square_width;
+    start_idx = SQR_COORDS_TO_INDEX (lvl, pp->y2, pp->x2);
   }
 
-  state->player[p].x = state->player[p].x2 >> 1;
-  state->player[p].y = state->player[p].y2 >> 1;
+  pp->x = pp->x2 >> 1;
+  pp->y = pp->y2 >> 1;
 
   /**************/
 
-  state->player[p].ia_max_depth = (rand () & 1) + 5;
+  pp->ia_max_depth = (rand () & 1) + 5;
   /* Attach the CPU to one of the human player.  */
   {
     int human_players = 0;
     int i;
     for (i = 0; i < 4; ++i)
-      if (state->player[p].cpu & 2)
+      if (pp->cpu & 2)
 	++human_players;
     /* If there is no human players, attach to any player.  */
     if (human_players == 0)
       human_players = 4;
-    state->player[p].target = rand () % human_players;
+    pp->target = rand () % human_players;
   }
 
 /* AI won't be enabled on the first moves */
 #define ia_skip_firsts_moves 2
-  state->player[p].target |= (ia_skip_firsts_moves * 16);
+  pp->target |= (ia_skip_firsts_moves * 16);
 
-  state->player[p].d.e = 0;
-  state->player[p].turbo = 1;
-  state->player[p].turbo_level_delta = state->player[p].turbo_level = 1024;
-  state->player[p].vitp = state->player[p].v =
-    4369 * 3 / 2 + (opt.speed * 2 * 1092);
-  state->player[p].spec = 0;
-  state->player[p].delay = 0;
-  state->player[p].inversed_controls = 0;
-  state->player[p].speedup = 0;
-  state->player[p].rotozoom = 0;
-  state->player[p].waves = 0;
-  state->player[p].waves_begin = 0;
-  state->player[p].fire_trail = 0;
-  state->player[p].tunnel_inverse = 0;
-  state->player[p].next_way = state->player[p].old_old_way =
-    state->player[p].old_way = state->player[p].way;
+  pp->d.e = 0;
+  pp->turbo = 1;
+  pp->turbo_level_delta = pp->turbo_level = 1024;
+  pp->vitp = ipp->v = 4369 * 3 / 2 + (opt.speed * 2 * 1092);
+  pp->spec = 0;
+  pp->delay = 0;
+  pp->inversed_controls = 0;
+  pp->speedup = 0;
+  pp->rotozoom = 0;
+  pp->waves = 0;
+  pp->waves_begin = 0;
+  pp->fire_trail = 0;
+  pp->tunnel_inverse = 0;
+  pp->next_way = ipp->old_old_way = pp->old_way = pp->way;
 
   state_position_player (state, p);
 
-  start_dir = state->player[p].way;
+  start_dir = pp->way;
 
   state->square_way[start_idx] = DIR8_PAIR (start_dir, start_dir);
-  state->private->trail_offset[p] = 0;
-  for (m = state->private->trail_size[p]; m >= 0; m--) {
-    state->private->trail_pos[p][m] = start_idx;
-    state->private->trail_way[p][m] = DIR8_PAIR (start_dir, start_dir);
+  bits->trail_offset[p] = 0;
+  for (m = bits->trail_size[p]; m >= 0; m--) {
+    bits->trail_pos[p][m] = start_idx;
+    bits->trail_way[p][m] = DIR8_PAIR (start_dir, start_dir);
   }
 
   {
-    an_opponent_sig *s = state->private->opponent[p];
+    an_opponent_sig *s = bits->opponent[p];
     if (s && s->start_player)
-      state->private->opponent_data[p] =
-	s->start_player(state, p, state->private->opponent_data[p]);
+      bits->opponent_data[p] =
+	s->start_player(state, p, bits->opponent_data[p]);
   }
 }

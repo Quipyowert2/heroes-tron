@@ -134,24 +134,6 @@ load_level (char *filename, char cont)
 
   dmsg (D_FILE|D_LEVEL, "loading level: %s", filename);
 
-  if (!in_menu) {
-    if (two_players) {
-      state.player[state.col2plr[0]].cpu = 2;
-      state.player[state.col2plr[1]].cpu = 2;
-      state.player[state.col2plr[2]].cpu = 0;
-      state.player[state.col2plr[3]].cpu = 0;
-    } else {
-      state.player[state.col2plr[0]].cpu = 2;
-      state.player[state.col2plr[1]].cpu = 0;
-      state.player[state.col2plr[2]].cpu = 0;
-      state.player[state.col2plr[3]].cpu = 0;
-    }
-  }
-  if (in_demo) {
-    state.player[state.col2plr[0]].cpu = 0;
-    state.player[state.col2plr[1]].cpu = 0;
-  }
-
   clean_buffers ();
 
   err = lvl_load_file (filename, &lvl, true);
@@ -203,6 +185,7 @@ load_level (char *filename, char cont)
 	state.game_mode);
 
   state_init (&state, &lvl, cont, two_players, in_menu);
+
   return (0);
 }
 
@@ -451,8 +434,8 @@ play_menu (void)
     current_quest_level = saverec[u].level;
     copy_gameid (game_id, saverec[u].gid);
     for (t = 0; t < 4; t++) {
-      state.player[state.col2plr[t]].lifes = saverec[u].lifes[t];
-      state.player[state.col2plr[t]].score = saverec[u].points[t];
+      state.player[state.col2plr[t]]->lifes = saverec[u].lifes[t];
+      state.player[state.col2plr[t]]->score = saverec[u].points[t];
     }
     cont = 1;
   }
@@ -528,12 +511,13 @@ play_menu (void)
      entered his name for nothing.  */
   load_scores ();
   for (t = 0; t < 4; t++)
-    if (state.player[t].cpu == 2) {
-      if (insert_scores (gamemodeh, 0, game_id, state.player[t].score)) {
+    if (state.player[t]->cpu == 2) {
+      if (insert_scores (gamemodeh, 0, game_id, state.player[t]->score)) {
 	char player_name[PLAYER_NAME_SIZE + 1];
 	enter_your_name (state.plr2col[t] + 1, player_name);
 	load_scores_and_keep_locked ();
-	insert_scores (gamemodeh, player_name, game_id, state.player[t].score);
+	insert_scores (gamemodeh, player_name, game_id,
+		       state.player[t]->score);
 	write_scores_locked ();
       }
     }
@@ -555,28 +539,28 @@ output_screen (char n)
 
   if (state.game_mode == M_DEATHM)
     for (i = 0; i < 4; i++)
-      loginf[i] = state.player[state.col2plr[i]].lifes;
+      loginf[i] = state.player[state.col2plr[i]]->lifes;
   else if (state.game_mode == M_KILLEM)
     for (i = 0; i < 4; i++)
-      loginf[i] = state.player[state.col2plr[i]].lemmings_nbr;
+      loginf[i] = state.player[state.col2plr[i]]->lemmings_nbr;
   else if (state.game_mode >= M_TCASH)
     for (i = 0; i < 4; i++)
-      loginf[i] = state.player[state.col2plr[i]].cash;
+      loginf[i] = state.player[state.col2plr[i]]->cash;
 
   if (two_players == false) {
+    a_player *const p1 = state.player[state.col2plr[0]];
     compute_corner (0, n);
     draw_level (0);
-    if (state.player[state.col2plr[0]].waves) {
+    if (p1->waves) {
       wave_buffer ();
       corner[0] = render_buffer[0];
     }
-    if (state.player[state.col2plr[0]].rotozoom) {
+    if (p1->rotozoom) {
       rotozoom_buffer ();
       corner[0] = render_buffer[1] + xbuf;
     }
     if (opt.radar_map)
-      draw_radar_map (state.player[state.col2plr[0]].x2, state.player[state.col2plr[0]].y2,
-		      radar_current_pos);
+      draw_radar_map (p1->x2, p1->y2, radar_current_pos);
     if (opt.display_infos)
       draw_score (state.col2plr[0], 0, 5, 5, -radar_current_pos);
     if (state.game_mode != M_QUEST) {
@@ -600,27 +584,29 @@ output_screen (char n)
 			corner[0] + (183 + (radar_current_pos >> 1)) * xbuf +
 			246);
     }
-    if (state.player[state.col2plr[0]].spec != 0xde)
+    if (p1->spec != 0xde)
       show_txt_bonus (state.col2plr[0], corner[0] + 40 + 5 * xbuf);
   } else {
+    a_player *const p1 = state.player[state.col2plr[0]];
+    a_player *const p2 = state.player[state.col2plr[1]];
     compute_corner (0, n);
     compute_corner (1, n);
     draw_level (0);
     draw_level (1);
     if (state_level_exit_code (&state) == 0) {
-      if (state.player[state.col2plr[0]].waves) {
+      if (p1->waves) {
 	wave_half_buffer (0);
 	corner[0] = render_buffer[0];
       }
-      if (state.player[state.col2plr[0]].rotozoom) {
+      if (p1->rotozoom) {
 	rotozoom_half_buffer (0);
 	corner[0] = render_buffer[0] + xbuf - 180 + xbuf;
       }
-      if (state.player[state.col2plr[1]].waves) {
+      if (p2->waves) {
 	wave_half_buffer (1);
 	corner[1] = render_buffer[1];
       }
-      if (state.player[state.col2plr[1]].rotozoom) {
+      if (p2->rotozoom) {
 	rotozoom_half_buffer (1);
 	corner[1] = render_buffer[1] + xbuf - 180 + xbuf;
       }
@@ -649,9 +635,9 @@ output_screen (char n)
 						(radar_current_pos >> 1)) *
 			xbuf + 66);
     }
-    if (state.player[state.col2plr[0]].spec != 0xde)
+    if (p1->spec != 0xde)
       show_txt_bonus (state.col2plr[0], corner[0] + 1 + 185 * xbuf);
-    if (state.player[state.col2plr[1]].spec != 0xde)
+    if (p2->spec != 0xde)
       show_txt_bonus (state.col2plr[1], corner[1] + 2 + 185 * xbuf);
 
     src = corner[swapside] + 158;
@@ -1008,9 +994,10 @@ static void
 get_input_directions (void)
 {				/* for humans only */
   unsigned char j = (opt.ctrl_one == 1);
-
   char flag1 = 0;
   char flag2 = 0;
+  a_player *const p1 = state.player[state.col2plr[0]];
+  a_player *const p2 = state.player[state.col2plr[1]];
 
   if (keyboard_map[HK_Pause] && enable_blit)
     pause_menu ();
@@ -1018,28 +1005,28 @@ get_input_directions (void)
   if (opt.ctrl_one == 0) {
 
     if (keyboard_map[opt.player_keys[0][0]]) {
-      state.player[state.col2plr[0]].next_way = w_up;
+      p1->next_way = w_up;
       flag1 = 1;
     }
     if (keyboard_map[opt.player_keys[0][1]]) {
-      state.player[state.col2plr[0]].next_way = w_left;
+      p1->next_way = w_left;
       flag1 = 1;
     }
     if (keyboard_map[opt.player_keys[0][2]]) {
-      state.player[state.col2plr[0]].next_way = w_down;
+      p1->next_way = w_down;
       flag1 = 1;
     }
     if (keyboard_map[opt.player_keys[0][3]]) {
-      state.player[state.col2plr[0]].next_way = w_right;
+      p1->next_way = w_right;
       flag1 = 1;
     }
-    state.player[state.col2plr[0]].turbo = keyboard_map[opt.player_keys[0][4]] ? 2 : 1;
+    p1->turbo = keyboard_map[opt.player_keys[0][4]] ? 2 : 1;
     if (keyboard_map[opt.player_keys[0][5]]) {
-      if (state.player[state.col2plr[0]].turbo == 2) {
+      if (p1->turbo == 2) {
 	/* two buttons pushed */
-	state.player[state.col2plr[0]].turbo = 1;
+	p1->turbo = 1;
       } else
-	state.player[state.col2plr[0]].turbo = 0;
+	p1->turbo = 0;
     }
   } else {
     joystick_x[0] = 0;
@@ -1048,65 +1035,65 @@ get_input_directions (void)
     joystick_y[1] = 0;
     get_joystick_state ();
     if (is_joystick_up (0)) {
-      state.player[state.col2plr[0]].next_way = w_up;
+      p1->next_way = w_up;
       flag1 = 1;
     }
     if (is_joystick_left (0)) {
-      state.player[state.col2plr[0]].next_way = w_left;
+      p1->next_way = w_left;
       flag1 = 1;
     }
     if (is_joystick_down (0)) {
-      state.player[state.col2plr[0]].next_way = w_down;
+      p1->next_way = w_down;
       flag1 = 1;
     }
     if (is_joystick_right (0)) {
-      state.player[state.col2plr[0]].next_way = w_right;
+      p1->next_way = w_right;
       flag1 = 1;
     }
-    state.player[state.col2plr[0]].turbo = (is_joystick_button_a (0) ? 2 : 1);
+    p1->turbo = (is_joystick_button_a (0) ? 2 : 1);
     if (is_joystick_button_b (0)) {
-      if (state.player[state.col2plr[0]].turbo == 2) {
+      if (p1->turbo == 2) {
 	/* two buttons pushed */
-	state.player[state.col2plr[0]].turbo = 1;
+	p1->turbo = 1;
       } else
-	state.player[state.col2plr[0]].turbo = 0;
+	p1->turbo = 0;
     }
   }
 
-  if (state.player[state.col2plr[0]].inversed_controls != 0) {
+  if (p1->inversed_controls != 0) {
     if (flag1)
-      state.player[state.col2plr[0]].next_way ^= 2;
-    state.player[state.col2plr[0]].tunnel_inverse = 1;
+      p1->next_way ^= 2;
+    p1->tunnel_inverse = 1;
   } else
-    state.player[state.col2plr[0]].tunnel_inverse = 0;
-  if (((state.player[state.col2plr[0]].next_way ^ 2) == state.player[state.col2plr[0]].tunnel_way)
-      && (state.player[state.col2plr[0]].spec == t_tunnel))
-    state.player[state.col2plr[0]].next_way = state.player[state.col2plr[0]].tunnel_way;
+    p1->tunnel_inverse = 0;
+  if (((p1->next_way ^ 2) == p1->tunnel_way)
+      && (p1->spec == t_tunnel))
+    p1->next_way = p1->tunnel_way;
   if (two_players == true) {
     if (opt.ctrl_two == 0) {
       if (keyboard_map[opt.player_keys[1][0]]) {
-	state.player[state.col2plr[1]].next_way = w_up;
+	p2->next_way = w_up;
 	flag2 = 1;
       }
       if (keyboard_map[opt.player_keys[1][1]]) {
-	state.player[state.col2plr[1]].next_way = w_left;
+	p2->next_way = w_left;
 	flag2 = 1;
       }
       if (keyboard_map[opt.player_keys[1][2]]) {
-	state.player[state.col2plr[1]].next_way = w_down;
+	p2->next_way = w_down;
 	flag2 = 1;
       }
       if (keyboard_map[opt.player_keys[1][3]]) {
-	state.player[state.col2plr[1]].next_way = w_right;
+	p2->next_way = w_right;
 	flag2 = 1;
       }
-      state.player[state.col2plr[1]].turbo = keyboard_map[opt.player_keys[1][4]] ? 2 : 1;
+      p2->turbo = keyboard_map[opt.player_keys[1][4]] ? 2 : 1;
       if (keyboard_map[opt.player_keys[1][5]]) {
-	if (state.player[state.col2plr[1]].turbo == 2) {
+	if (p2->turbo == 2) {
 	  /* two buttons pushed */
-	  state.player[state.col2plr[1]].turbo = 1;
+	  p2->turbo = 1;
 	} else
-	  state.player[state.col2plr[1]].turbo = 0;
+	  p2->turbo = 0;
       }
     } else {
       if (!j) {
@@ -1115,42 +1102,42 @@ get_input_directions (void)
 	get_joystick_state ();
       }
       if (is_joystick_up (j)) {
-	state.player[state.col2plr[1]].next_way = w_up;
+	p2->next_way = w_up;
 	flag2 = 1;
       }
       if (is_joystick_left (j)) {
-	state.player[state.col2plr[1]].next_way = w_left;
+	p2->next_way = w_left;
 	flag2 = 1;
       }
       if (is_joystick_down (j)) {
-	state.player[state.col2plr[1]].next_way = w_down;
+	p2->next_way = w_down;
 	flag2 = 1;
       }
       if (is_joystick_right (j)) {
-	state.player[state.col2plr[1]].next_way = w_right;
+	p2->next_way = w_right;
 	flag2 = 1;
       }
-      state.player[state.col2plr[1]].turbo = (is_joystick_button_a (j) ? 2 : 1);
+      p2->turbo = (is_joystick_button_a (j) ? 2 : 1);
       if (is_joystick_button_b (j)) {
-	if (state.player[state.col2plr[1]].turbo == 2) {
+	if (p2->turbo == 2) {
 	  /* two buttons pushed */
-	  state.player[state.col2plr[1]].turbo = 1;
+	  p2->turbo = 1;
 	} else
-	  state.player[state.col2plr[1]].turbo = 0;
+	  p2->turbo = 0;
       }
     }
-    if (state.player[state.col2plr[1]].inversed_controls != 0) {
+    if (p2->inversed_controls != 0) {
       if (flag2)
-	state.player[state.col2plr[1]].next_way ^= 2;
-      state.player[state.col2plr[1]].tunnel_inverse = 1;
+	p2->next_way ^= 2;
+      p2->tunnel_inverse = 1;
     } else
-      state.player[state.col2plr[1]].tunnel_inverse = 0;
+      p2->tunnel_inverse = 0;
 
-/*   if ((state.player[state.col2plr[1]].spec==t_tunnel)) printf("ss:%d,nxss:%d,ssold:%d,ssold2:%d,sstun:%d.\n", */
-/*       state.player[state.col2plr[1]].way,state.player[state.col2plr[1]].next_way,state.player[state.col2plr[1]].old_way,state.player[state.col2plr[1]].old_old_way,state.player[state.col2plr[1]].tunnel_way); */
-    if (((state.player[state.col2plr[1]].next_way ^ 2) == state.player[state.col2plr[1]].tunnel_way)
-	&& (state.player[state.col2plr[1]].spec == t_tunnel))
-      state.player[state.col2plr[1]].next_way = state.player[state.col2plr[1]].tunnel_way;
+/*   if ((p2->spec==t_tunnel)) printf("ss:%d,nxss:%d,ssold:%d,ssold2:%d,sstun:%d.\n", */
+/*       p2->way,p2->next_way,p2->old_way,p2->old_old_way,p2->tunnel_way); */
+    if (((p2->next_way ^ 2) == p2->tunnel_way)
+	&& (p2->spec == t_tunnel))
+      p2->next_way = p2->tunnel_way;
   }
   if (opt.ctrl_one ^ opt.ctrl_two) {
     if (is_joystick_button_a (1) && enable_blit)
@@ -1307,7 +1294,7 @@ play_game (char cont)
   dmsg (D_SECTION, "game finished");
 
   if (exit_code >= 1 && exit_code <= 4)
-    state.player[exit_code - 1].wins++;
+    state.player[exit_code - 1]->wins++;
 
   radar_target_pos = 81;
   if (notbyebye) {
@@ -1317,7 +1304,7 @@ play_game (char cont)
     uninit_keyboard_map ();
     l = 0;
     if (exit_code != 15)
-      if (state.player[exit_code - 1].cpu == 2)
+      if (state.player[exit_code - 1]->cpu == 2)
 	event_sfx (63);
       else
 	event_sfx (64);
@@ -1453,9 +1440,9 @@ play_game (char cont)
 		saverec[l].name[pos - 1] = 0;
 		saverec[l].level = current_quest_level /*+1 */ ;
 		for (u = 0; u < 4; u++) {
-		  saverec[l].points[u] = state.player[state.col2plr[u]].score;
+		  saverec[l].points[u] = state.player[state.col2plr[u]]->score;
 		  copy_gameid (saverec[l].gid, game_id);
-		  saverec[l].lifes[u] = state.player[state.col2plr[u]].lifes;
+		  saverec[l].lifes[u] = state.player[state.col2plr[u]]->lifes;
 		}
 		saverec[l].used = 1;
 		editflag = 0;

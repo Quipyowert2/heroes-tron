@@ -46,7 +46,7 @@ grow_trail (a_level_state *state, int pl, int size)
   }
 
   if (bits->trail_size[pl] >= 55 && state->game_mode == M_QUEST) {
-    if (state->player[pl].cpu == 2)
+    if (bits->player[pl].cpu == 2)
       event_sfx (89);
     add_end_level_bonuses (state);
   }

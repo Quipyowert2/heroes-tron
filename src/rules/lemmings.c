@@ -151,7 +151,7 @@ state_init_lemmings (a_level_state *state)
       ptir->dead = 0;
       ptir++;
     }
-    state->player[i].lemmings_nbr = LEMMINGS_PER_PLAYERS;
+    state->player[i]->lemmings_nbr = LEMMINGS_PER_PLAYERS;
   }
   assert (ptir == state->private->lemmings_support + 4 * LEMMINGS_PER_PLAYERS);
   state->private->lemmings_move_offset = 0;

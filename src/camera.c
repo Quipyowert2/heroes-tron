@@ -148,56 +148,54 @@ compute_corner (int p, int n)
 void
 position_camera (void)
 {
-  int p;
+  const a_player *const p = state.player[state.col2plr[0]];
 
-  if (state.player[state.col2plr[0]].spec == t_tunnel && opt.inertia) {
-    p = lvl.square_move
-      [state.player[state.col2plr[0]].way]
-      [state.player[state.col2plr[0]].pos];
-    camera_x[0] = state.square_coord[p].x << 15;
-    camera_y[0] = state.square_coord[p].y << 15;
+  if (p->spec == t_tunnel && opt.inertia) {
+    int d = lvl.square_move[p->way][p->pos];
+    camera_x[0] = state.square_coord[d].x << 15;
+    camera_y[0] = state.square_coord[d].y << 15;
   } else {
-    camera_x[0] = state.player[state.col2plr[0]].x2 << 15;
-    camera_y[0] = state.player[state.col2plr[0]].y2 << 15;
+    camera_x[0] = p->x2 << 15;
+    camera_y[0] = p->y2 << 15;
   }
 
-  if (state.player[state.col2plr[0]].way == w_left)
-    camera_x[0] -= state.player[state.col2plr[0]].d.e >> 1;
-  if (state.player[state.col2plr[0]].way == w_up)
-    camera_y[0] -= state.player[state.col2plr[0]].d.e >> 1;
-  if (state.player[state.col2plr[0]].way == w_right)
-    camera_x[0] += state.player[state.col2plr[0]].d.e >> 1;
-  if (state.player[state.col2plr[0]].way == w_down)
-    camera_y[0] += state.player[state.col2plr[0]].d.e >> 1;
+  if (p->way == w_left)
+    camera_x[0] -= p->d.e >> 1;
+  if (p->way == w_up)
+    camera_y[0] -= p->d.e >> 1;
+  if (p->way == w_right)
+    camera_x[0] += p->d.e >> 1;
+  if (p->way == w_down)
+    camera_y[0] += p->d.e >> 1;
+
   if (two_players) {
-    if (state.player[state.col2plr[1]].spec == t_tunnel) {
-      p = lvl.square_move
-	[state.player[state.col2plr[1]].way]
-	[state.player[state.col2plr[1]].pos];
-      camera_x[1] = state.square_coord[p].x << 15;
-      camera_y[1] = state.square_coord[p].y << 15;
+    const a_player *const p2 = state.player[state.col2plr[1]];
+    if (p2->spec == t_tunnel) {
+      int d = lvl.square_move[p2->way][p2->pos];
+      camera_x[1] = state.square_coord[d].x << 15;
+      camera_y[1] = state.square_coord[d].y << 15;
     } else {
-      camera_x[1] = state.player[state.col2plr[1]].x2 << 15;
-      camera_y[1] = state.player[state.col2plr[1]].y2 << 15;
+      camera_x[1] = p2->x2 << 15;
+      camera_y[1] = p2->y2 << 15;
     }
-    if (state.player[state.col2plr[1]].way == w_left)
-      camera_x[1] -= state.player[state.col2plr[1]].d.e >> 1;
-    if (state.player[state.col2plr[1]].way == w_up)
-      camera_y[1] -= state.player[state.col2plr[1]].d.e >> 1;
-    if (state.player[state.col2plr[1]].way == w_right)
-      camera_x[1] += state.player[state.col2plr[1]].d.e >> 1;
-    if (state.player[state.col2plr[1]].way == w_down)
-      camera_y[1] += state.player[state.col2plr[1]].d.e >> 1;
+    if (p2->way == w_left)
+      camera_x[1] -= p2->d.e >> 1;
+    if (p2->way == w_up)
+      camera_y[1] -= p2->d.e >> 1;
+    if (p2->way == w_right)
+      camera_x[1] += p2->d.e >> 1;
+    if (p2->way == w_down)
+      camera_y[1] += p2->d.e >> 1;
   }
 }
 
 void
 init_camera (void)
 {
-  inert_x[0] = camera_x[0] = state.player[state.col2plr[0]].x2 << 15;
-  inert_y[0] = camera_y[0] = state.player[state.col2plr[0]].y2 << 15;
-  inert_x[1] = camera_x[1] = state.player[state.col2plr[1]].x2 << 15;
-  inert_y[1] = camera_y[1] = state.player[state.col2plr[1]].y2 << 15;
+  inert_x[0] = camera_x[0] = state.player[state.col2plr[0]]->x2 << 15;
+  inert_y[0] = camera_y[0] = state.player[state.col2plr[0]]->y2 << 15;
+  inert_x[1] = camera_x[1] = state.player[state.col2plr[1]]->x2 << 15;
+  inert_y[1] = camera_y[1] = state.player[state.col2plr[1]]->y2 << 15;
 }
 
 void

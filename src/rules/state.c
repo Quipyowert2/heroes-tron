@@ -66,6 +66,10 @@ state_init (a_level_state *state, const a_level *lvl, char cont,
 
   XCALLOC_VAR (state->private);
   bits = state->private;
+  state->player[0] = &bits->player[0];
+  state->player[1] = &bits->player[1];
+  state->player[2] = &bits->player[2];
+  state->player[3] = &bits->player[3];
 
   /* Clear these, so state_free knows if they need to be freed.  */
   state->square_object = 0;
@@ -87,9 +91,22 @@ state_init (a_level_state *state, const a_level *lvl, char cont,
   /* init of players  */
   if (!in_menu) {
     unsigned i;
+
+    if (two_players) {
+      state->player[state->col2plr[0]]->cpu = 2;
+      state->player[state->col2plr[1]]->cpu = 2;
+      state->player[state->col2plr[2]]->cpu = 0;
+      state->player[state->col2plr[3]]->cpu = 0;
+    } else {
+      state->player[state->col2plr[0]]->cpu = 2;
+      state->player[state->col2plr[1]]->cpu = 0;
+      state->player[state->col2plr[2]]->cpu = 0;
+      state->player[state->col2plr[3]]->cpu = 0;
+    }
+
     for (i = 0; i < 4; ++i) {
 
-      if ((state->player[i].cpu & 2) == 0) {
+      if ((bits->player[i].cpu & 2) == 0) {
 	bits->opponent[i] = opponent_get_random (state->game_mode);
 	bits->opponent_data[i] =
 	  bits->opponent[i]->initialize_player (state, i);
@@ -101,31 +118,31 @@ state_init (a_level_state *state, const a_level *lvl, char cont,
       /* trail_offset[i]=0; */
       if (state->game_mode == M_DEATHM) {
 	bits->trail_size[i] = 32;
-	state->player[i].lifes = 9;
+	bits->player[i].lifes = 9;
       } else
 	bits->trail_size[i] = 5;
       state_reinit_player (state, i);
       if (cont == 0) {
-	state->player[i].lifes = 9;
-	state->player[i].score = 0;
-	state->player[i].wins = 0;
+	bits->player[i].lifes = 9;
+	bits->player[i].score = 0;
+	bits->player[i].wins = 0;
       } else {
 	/* reinitialize dead computers: give them an empty score
 	   and decrease their total of wins */
-	if (state->player[i].cpu < 2 && state->player[i].lifes == 0)
+	if (bits->player[i].cpu < 2 && bits->player[i].lifes == 0)
 	  {
-	    state->player[i].lifes = 9;
-	    state->player[i].score = 0;
-	    if (state->player[i].wins > 0)
-	      --state->player[i].wins;
+	    bits->player[i].lifes = 9;
+	    bits->player[i].score = 0;
+	    if (bits->player[i].wins > 0)
+	      --bits->player[i].wins;
 	  }
       }
-      state->player[i].autopilot = 1;
-      state->player[i].score_delta = state->player[i].score << 2;
-      state->player[i].invincible = 0;
-      state->player[i].time = 3000;
-      state->player[i].cash = 0;
-      state->player[i].martians_nbr = 0;
+      bits->player[i].autopilot = 1;
+      bits->player[i].score_delta = bits->player[i].score << 2;
+      bits->player[i].invincible = 0;
+      bits->player[i].time = 3000;
+      bits->player[i].cash = 0;
+      bits->player[i].martians_nbr = 0;
     }
   } else {
     unsigned i;
@@ -145,9 +162,9 @@ state_init (a_level_state *state, const a_level *lvl, char cont,
   state_reinit_player (state, 3);
 
   if (!opt.autopilot_one)
-    state->player[state->col2plr[0]].autopilot = 0;
+    bits->player[state->col2plr[0]].autopilot = 0;
   if (two_players && !opt.autopilot_two)
-    state->player[state->col2plr[1]].autopilot = 0;
+    bits->player[state->col2plr[1]].autopilot = 0;
 
   if (state->game_mode == M_KILLEM)
     state_init_lemmings (state);

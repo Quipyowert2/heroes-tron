@@ -102,9 +102,9 @@ draw_trail_real (int c, a_dir8_pair s, a_pixel* dest, unsigned char fixe)
 
   if (fixe) {
     if (s & 1)
-      d = state.player[c].d.h.l / 5462;
+      d = state.player[c]->d.h.l / 5462;
     else
-      d = state.player[c].d.h.l / 6554;
+      d = state.player[c]->d.h.l / 6554;
   }
   spr = trails[s][d];
   draw_sprglenz_custom (spr, dest, glenz[c + 2]);
@@ -115,25 +115,25 @@ draw_vehicle_tail (int c, a_pixel* dest)
 {
   int d;
   const a_pixel *posit = 0;
-  int s = DIR8_PAIR(REVERSE_DIR(state.player[c].old_way),
-		    REVERSE_DIR(state.player[c].way));
+  const a_player *const p = state.player[c];
+  int s = DIR8_PAIR(REVERSE_DIR(p->old_way), REVERSE_DIR(p->way));
   const a_sprite *spr;
 
-  if (state.player[c].way & 1) {
-    d = state.player[c].d.h.l / 5462;
+  if (p->way & 1) {
+    d = p->d.h.l / 5462;
     spr = trails[s][12 - (d + 12) / 2];
   } else {
-    d = state.player[c].d.h.l / 6554;
+    d = p->d.h.l / 6554;
     spr = trails[s][10 - (d + 10) / 2];
   }
   draw_sprglenz_custom (spr, dest, glenz[c + 2]);
 
-  posit = vehicles_img.buffer + (c << 6) + (state.player[c].way << 4);
+  posit = vehicles_img.buffer + (c << 6) + (p->way << 4);
 
   if (invincible[c])
     posit += 10 * 320;
 
-  switch (state.player[c].way) {
+  switch (p->way) {
   case D_LEFT:
     copy_square_transp (posit + d, dest, (char) d, 0);
     break;
@@ -150,34 +150,35 @@ draw_vehicle_tail (int c, a_pixel* dest)
 }
 
 static void
-draw_vehicle_head (int c, a_pixel* dest)
+draw_vehicle_head (int c, a_pixel *dest)
 {
   int d;
   char b;
-  const a_pixel* posit;
+  const a_pixel *posit;
+  const a_player *const p = state.player[c];
 
-  if (state.player[c].spec == t_tunnel)
-    b = state.player[c].tunnel_way;
+  if (p->spec == t_tunnel)
+    b = p->tunnel_way;
   else
-    b = state.player[c].way;
+    b = p->way;
   posit = vehicles_img.buffer + (c << 6) + (b << 4);
   if (invincible[c])
     posit += 10 * 320;
 
   if (b == w_left) {
-    d = 12 - state.player[c].d.e / 5461;
+    d = 12 - p->d.e / 5461;
     copy_square_transp (posit, dest + d, (char) d, 0);
   }
   if (b == w_right) {
-    d = 12 - state.player[c].d.e / 5461;
+    d = 12 - p->d.e / 5461;
     copy_square_transp (posit + d, dest, (char) d, 0);
   }
   if (b == w_up) {
-    d = 10 - state.player[c].d.e / 6554;
+    d = 10 - p->d.e / 6554;
     copy_square_transp (posit, dest + d * xbuf, 0, (char) d);
   }
   if (b == w_down) {
-    d = 10 - state.player[c].d.e / 6554;
+    d = 10 - p->d.e / 6554;
     copy_square_transp (posit + d * 320, dest, 0, (char) d);
   }
 }
@@ -331,7 +332,7 @@ draw_level (int p)
   lemmings_anim_offset = (lemmings_move_offset * 64 / 65536) & 7 << 3;
   if (read_htimer (blink_htimer) & 1)
     for (bb = 3; bb >= 0; bb--)
-      invincible[bb] = (state.player[bb].invincible != 0);
+      invincible[bb] = (state.player[bb]->invincible != 0);
   else
     for (bb = 3; bb >= 0; bb--)
       invincible[bb] = 0;
@@ -720,6 +721,7 @@ draw_score (int c, int p,
   a_pixel *tmp = src + 22 + 2 * xbuf;
   a_pixel *tmp2 = src + 25 + 5 * xbuf + 53 * xbuf;
   a_pixel *dest = src + 2 + 2 * xbuf;
+  const a_player *const pp = state.player[c];
   int x, y, i;
   char score[32];
 
@@ -733,7 +735,7 @@ draw_score (int c, int p,
       *src = glenz[0][*src];
     src += xbuf - 33;
   }
-  sprintf (score, "%.6d", state.player[c].score_delta >> 2);
+  sprintf (score, "%.6d", pp->score_delta >> 2);
   for (i = 0; i < 6; i++) {
     src = IMGPOS (main_font_img, 72, (score[i] - '0') * 18);
     for (y = 9; y != 0; y--) {
@@ -746,7 +748,7 @@ draw_score (int c, int p,
     dest += xbuf;
   }
   src = IMGPOS (main_font_img, 50,
-		((state.player[c].lifes < 11) ? state.player[c].lifes - 1 : 10) * 10);
+		((pp->lifes < 11) ? pp->lifes - 1 : 10) * 10);
   for (y = 11; y != 0; y--) {
     for (x = 9; x != 0; x--, src++, tmp++)
       if (*src != 0)
@@ -765,7 +767,7 @@ draw_score (int c, int p,
     tmp += xbuf - 9;
     src += 311;
   }
-  x = state.player[c].turbo_level_delta * 41 / 1024;
+  x = pp->turbo_level_delta * 41 / 1024;
   tmp2 -= xbuf;
   src = IMGPOS (main_font_img, 71 + x, 193);
   for (y = x; y != 0; y--) {
@@ -776,7 +778,7 @@ draw_score (int c, int p,
     src -= 3 + 320;
   }
   if (state.game_mode >= M_TCASH) {
-    sprintf (score, "%.3d", state.player[c].time / 70);
+    sprintf (score, "%.3d", pp->time / 70);
     for (i = 0; i < 3; i++) {
       src = IMGPOS (main_font_img, 50, (score[i] - '0') * 10);
       for (y = 11; y != 0; y--) {
@@ -877,7 +879,7 @@ draw_logo_info (int c, int nbr, a_pixel* dest)
       tmp3 += xbuf - 9;
       src += 311;
     }
-    if (state.player[c].spec == 0xde)
+    if (state.player[c]->spec == 0xde)
       DRAW_SPRITE (red_cross[c], dest - 5 * xbuf + 20);
   }
 }

@@ -40,6 +40,16 @@ typedef struct an_explosion_info an_explosion_info;
 
 #define maxq 128
 struct a_level_state_bits {
+  /* Althought defined here, the "player" array is public.  The
+     a_level_state struct has for pointer, to each a_player struct
+     defined here.  This allows to extend the a_player struct by
+     appending new field, without breaking external modules accessing
+     them throught pointers.  */
+  a_player player[4];
+
+  /* iplayer record private data (from the state POV) about each player.  */
+  a_player_internal iplayer[4];
+
   a_square_index trail_pos[4][maxq];
   a_dir8_pair trail_way[4][maxq];
   unsigned trail_offset[4];

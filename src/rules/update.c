@@ -36,8 +36,10 @@ find_free_way (a_level_state *state, int c)
   int d = 0, n = 0, o[4] = { 0xff, 0xff, 0xff, 0xff }, e;
   int i, m;
   a_dir f;
+  a_player *const p = state->player[c];
+  a_level_state_bits *const bits = state->private;
 
-  m = state->player[c].x2 + state->player[c].y2 * lvl->square_width;
+  m = p->x2 + p->y2 * lvl->square_width;
   e = 1;
   for (i = 0; i < 4; i++) {
     a_square_index idx = lvl->square_move[i][m];
@@ -47,14 +49,14 @@ find_free_way (a_level_state *state, int c)
     /* Forbid turn back.  This is usually not needed because the
        square behind the vehicle is already occupied, but in some
        tunnel configurations this may not be the case. */
-    o[REVERSE_DIR (state->player[c].way)] = c;
+    o[REVERSE_DIR (p->way)] = c;
 
     if (o[i] != 0xff || idx == INVALID_INDEX)
       d |= e;
     e += e;
   }
 
-  f = state->player[c].next_way;
+  f = p->next_way;
 
   /* Since the auto pilot is deactivated in case a player runs into a
      fire trail, it's possible for a human player to do a one-eighty
@@ -63,8 +65,8 @@ find_free_way (a_level_state *state, int c)
      lane and you're too fast pressing the buttons.
 
      Explicitly ignore the new direction in this case.  */
-  if (f == REVERSE_DIR (state->player[c].way))
-    state->player[c].next_way = state->player[c].way;
+  if (f == REVERSE_DIR (p->way))
+    p->next_way = p->way;
 
   /* If the way is free the autopilot has nothing to do.  */
   if (!(d & (1 << f)))
@@ -74,7 +76,7 @@ find_free_way (a_level_state *state, int c)
      a wall or someone else.  Therefore we will want to find some
      other direction automatically.  */
 
-  if (state->player[c].cpu & 2) {
+  if (p->cpu & 2) {
     /* The autopilot for human players does not work against fire trails,
        that would be too easy :).
        If NEXT_WAY would lead to a fired square, return immediately,
@@ -83,28 +85,28 @@ find_free_way (a_level_state *state, int c)
     a_square_index idx = lvl->square_move[f][m];
     if (idx != INVALID_INDEX
 	&& state->square_explo_state[idx] <= EXPLOSION_IMMEDIATE
-	&& !state->player[c].invincible)
+	&& !p->invincible)
       return;
   }
 
-  e = o[state->player[c].next_way];
+  e = o[p->next_way];
 
   /* when a trail force someone to turn, the owner of this trail is credited */
-  if ((e & 3) != c && (!state->private->level_is_finished) && e != 0xff
-      && (state->player[e & 3].spec != 0xde))
-    state->player[e & 3].score += 5;
+  if ((e & 3) != c && (!bits->level_is_finished) && e != 0xff
+      && (bits->player[e & 3].spec != 0xde))
+    bits->player[e & 3].score += 5;
 
-  if (!(d & (1 << state->player[c].old_old_way))) {
-    state->player[c].next_way = state->player[c].old_old_way;
+  if (!(d & (1 << bits->iplayer[c].old_old_way))) {
+    p->next_way = bits->iplayer[c].old_old_way;
     return;
   }
 
-  if (!(d & (1 << state->player[c].old_way))) {
-    state->player[c].next_way = state->player[c].old_way;
+  if (!(d & (1 << p->old_way))) {
+    p->next_way = p->old_way;
     return;
   }
 
-  if (state->player[c].spec != T_ICE)
+  if (p->spec != T_ICE)
     for (i = 1; i != 16; i += i)
       if (!(d & i))
 	n++;
@@ -115,20 +117,19 @@ find_free_way (a_level_state *state, int c)
     for (i = 0; n != 0; i++, d >>= 1)
       if (!(d & 1))
 	n--;
-    state->player[c].next_way = (char) (i - 1);
+    p->next_way = (char) (i - 1);
 /*  if (w2d[i-1]&e) fatal_error("find_free_way() return nonsense !"); */
     assert (((1 << (i - 1)) & e) == 0);
   } else
-    state->player[c].spec = 0xff;
+    p->spec = 0xff;
 }
 
 
 static void
-opponent_action_prepare (const a_level_state *state,
-			 an_opponent_action *opp, int p)
+opponent_action_prepare (const a_player *p, an_opponent_action *opp)
 {
-  opp->dir = state->player[p].next_way;
-  switch (state->player[p].turbo) {
+  opp->dir = p->next_way;
+  switch (p->turbo) {
   case 0:
     opp->throttle = TH_BRAKE;
     break;
@@ -144,19 +145,18 @@ opponent_action_prepare (const a_level_state *state,
 }
 
 static void
-opponent_action_honor (a_level_state *state,
-		       const an_opponent_action *opp, int p)
+opponent_action_honor (a_player *p, const an_opponent_action *opp)
 {
-  state->player[p].next_way = opp->dir;
+  p->next_way = opp->dir;
   switch (opp->throttle) {
   case TH_BRAKE:
-    state->player[p].turbo = 0;
+    p->turbo = 0;
     break;
   case TH_NORMAL:
-    state->player[p].turbo = 1;
+    p->turbo = 1;
     break;
   case TH_SPEEDUP:
-    state->player[p].turbo = 2;
+    p->turbo = 2;
     break;
   }
 }
@@ -173,7 +173,10 @@ opponent_action_honor (a_level_state *state,
 void
 update_player (a_level_state *state, unsigned c)
 {
-  const a_level *lvl = state->level;
+  const a_level *const lvl = state->level;
+  a_level_state_bits *bits = state->private;
+  a_player *const p = state->player[c];
+  a_player_internal *const ip = &state->private->iplayer[c];
   a_square_index idx;
   a_tile_index d;
   int l;
@@ -182,141 +185,142 @@ update_player (a_level_state *state, unsigned c)
   int t;
   a_lemming *tmppti;
 
-  if ((state->player[c].score_delta >> 2) < state->player[c].score) {
-    state->player[c].score_delta++;
+  if ((p->score_delta >> 2) < p->score) {
+    ++p->score_delta;
     /* 1 life every 10.000 points */
-    if (state->player[c].score_delta % (10000 << 2) == 0)
+    if (p->score_delta % (10000 << 2) == 0)
       apply_bonus (state, c, 15);
   }
-/* if ((state->player[c].score_delta>>2)>state->player[c].score) state->player[c].score_delta--; */
-  if (state->player[c].turbo_level_delta < state->player[c].turbo_level) {
-    state->player[c].turbo_level_delta += 8;
-    if (state->player[c].turbo_level_delta > state->player[c].turbo_level)
-      state->player[c].turbo_level_delta = state->player[c].turbo_level;
-  } else if (state->player[c].turbo_level_delta > state->player[c].turbo_level) {
-    state->player[c].turbo_level_delta -= 8;
-    if (state->player[c].turbo_level_delta < state->player[c].turbo_level)
-      state->player[c].turbo_level_delta = state->player[c].turbo_level;
+
+/* if ((p->score_delta>>2)>p->score) p->score_delta--; */
+  if (p->turbo_level_delta < p->turbo_level) {
+    p->turbo_level_delta += 8;
+    if (p->turbo_level_delta > p->turbo_level)
+      p->turbo_level_delta = p->turbo_level;
+  } else if (p->turbo_level_delta > p->turbo_level) {
+    p->turbo_level_delta -= 8;
+    if (p->turbo_level_delta < p->turbo_level)
+      p->turbo_level_delta = p->turbo_level;
   }
 
-  if (state->player[c].invincible > 0)
-    state->player[c].invincible--;
+  if (p->invincible > 0)
+    p->invincible--;
   if (state->game_mode >= M_TCASH) {
-    if (state->player[c].time > 0) {
-      state->player[c].time--;
+    if (p->time > 0) {
+      p->time--;
 /* stop the game if the player is alone */
 /*       if ((!level_is_finished) && */
-/*           (state->player[(c+1)&3].spec==0xde) && */
-/*           (state->player[(c+2)&3].spec==0xde) && */
-/*           (state->player[(c+3)&3].spec==0xde)) { level_is_finished=c+1; return; } */
+/*           (bits->player[(c+1)&3].spec==0xde) && */
+/*           (bits->player[(c+2)&3].spec==0xde) && */
+/*           (bits->player[(c+3)&3].spec==0xde)) { level_is_finished=c+1; return; } */
     } else if (!state->private->level_is_finished) {
-      state->player[c].spec = 0xde;
+      p->spec = 0xde;
       erase_trail (state, c);
       /* stop the game if all human players are dead or
 	 if there is no more colors or dollars */
-      if ((!(((state->player[0].cpu & 2) && (state->player[0].time))
-	     || ((state->player[1].cpu & 2) && (state->player[1].time))
-	     || ((state->player[2].cpu & 2) && (state->player[2].time))
-	     || ((state->player[3].cpu & 2) && (state->player[3].time))))
+      if ((!(((bits->player[0].cpu & 2) && (bits->player[0].time))
+	     || ((bits->player[1].cpu & 2) && (bits->player[1].time))
+	     || ((bits->player[2].cpu & 2) && (bits->player[2].time))
+	     || ((bits->player[3].cpu & 2) && (bits->player[3].time))))
 	  || (state->private->objects_nbr == 0)) {
 	/* KLUGE: mark all players whose time is 0 as dead.  This is
 	   needed because many players can reach 0 simultaneously but
 	   this block is only run for the first player when this is
 	   discovered.  */
 	for (i = 0; i < 4; ++i)
-	  if (state->player[i].time == 0) {
-	    state->player[i].spec = 0xde;
+	  if (bits->player[i].time == 0) {
+	    bits->player[i].spec = 0xde;
 	    erase_trail (state, i);
 	  }
 	/* find out the richest player and set level_is_finished accordingly */
 	state->private->level_is_finished = 0;
 	for (i = 1; i < 4; i++)
-	  if (state->player[i].cash > state->player[state->private->level_is_finished].cash)
+	  if (bits->player[i].cash > bits->player[state->private->level_is_finished].cash)
 	    state->private->level_is_finished = i;
 	++state->private->level_is_finished;
       }
     }
   }
   update_player_bonus_vars (c);
-  d = (state->player[c].x2 >> 1) + (state->player[c].y2 >> 1) * lvl->tile_width;
-  if (state->player[c].rotozoom != 0)
-    state->player[c].rotozoom--;
-  if (state->player[c].waves != 0) {
-    state->player[c].waves--;
-    if (state->player[c].waves > 128 && state->player[c].waves_begin < 128)
-      state->player[c].waves_begin++;
-    if (state->player[c].waves < 128 && state->player[c].waves_begin > 0)
-      state->player[c].waves_begin--;
+  d = (p->x2 >> 1) + (p->y2 >> 1) * lvl->tile_width;
+  if (p->rotozoom != 0)
+    p->rotozoom--;
+  if (p->waves != 0) {
+    p->waves--;
+    if (p->waves > 128 && p->waves_begin < 128)
+      p->waves_begin++;
+    if (p->waves < 128 && p->waves_begin > 0)
+      p->waves_begin--;
   }
-  if (state->player[c].fire_trail)
-    --state->player[c].fire_trail;
+  if (p->fire_trail)
+    --p->fire_trail;
 
-  if (state->player[c].spec == 0xde)
+  if (p->spec == 0xde)
     return;
 
-  if (state->player[c].inversed_controls > 0) {
+  if (p->inversed_controls > 0) {
     char txt_tmp[128];
-    state->player[c].inversed_controls--;
-    sprintf (txt_tmp, _("INVERTED %d"), state->player[c].inversed_controls / 20 + 1);
+    p->inversed_controls--;
+    sprintf (txt_tmp, _("INVERTED %d"), p->inversed_controls / 20 + 1);
     set_txt_bonus (c, txt_tmp, 2);
   }
 
-  if (state->player[c].delay == 0) {
-    if (cpuon && state->player[c].target < 16) {
+  if (p->delay == 0) {
+    if (cpuon && p->target < 16) {
       an_opponent_sig *op = state->private->opponent[c];
       if (op && op->frame_update) {
 	an_opponent_action act;
-	opponent_action_prepare (state, &act, c);
+	opponent_action_prepare (state->player[c], &act);
 	op->frame_update (state, c, &act, state->private->opponent_data[c]);
-	opponent_action_honor (state, &act, c);
+	opponent_action_honor (state->player[c], &act);
       }
     }
 
-    if (state->player[c].turbo != 1 && state->player[c].turbo_level > 0
-	&& state->player[c].speedup == 0) {
-      state->player[c].vitt = (state->player[c].v + state->player[c].vi) * state->player[c].turbo;
-      state->player[c].turbo_level -= 2;
-    } else if (state->player[c].speedup > 0) {
-      state->player[c].vitt = (state->player[c].v + state->player[c].vi) << 1;
-      state->player[c].speedup--;
-    } else if (state->player[c].speedup < 0) {
-      state->player[c].vitt = (state->player[c].v + state->player[c].vi) >> 1;
-      state->player[c].speedup++;
+    if (p->turbo != 1 && p->turbo_level > 0
+	&& p->speedup == 0) {
+      ip->vitt = (ip->v + ip->vi) * p->turbo;
+      p->turbo_level -= 2;
+    } else if (p->speedup > 0) {
+      ip->vitt = (ip->v + ip->vi) << 1;
+      p->speedup--;
+    } else if (p->speedup < 0) {
+      ip->vitt = (ip->v + ip->vi) >> 1;
+      p->speedup++;
     } else
-      state->player[c].vitt = (state->player[c].v + state->player[c].vi);
-    if (state->player[c].vitp < state->player[c].vitt)
-      if (state->player[c].vitp + 512 < state->player[c].vitt)
-	state->player[c].vitp += 512;
+      ip->vitt = (ip->v + ip->vi);
+    if (p->vitp < ip->vitt)
+      if (p->vitp + 512 < ip->vitt)
+	p->vitp += 512;
       else
-	state->player[c].vitp = state->player[c].vitt;
-    else if (state->player[c].vitp > state->player[c].vitt) {
-      if (state->player[c].vitp - 512 > state->player[c].vitt)
-	state->player[c].vitp -= 512;
+	p->vitp = ip->vitt;
+    else if (p->vitp > ip->vitt) {
+      if (p->vitp - 512 > ip->vitt)
+	p->vitp -= 512;
       else
-	state->player[c].vitp = state->player[c].vitt;
+	p->vitp = ip->vitt;
     }
-    state->player[c].d.e += state->player[c].vitp;
+    p->d.e += p->vitp;
   } else {
     char txt_tmp[128];
-    state->player[c].delay--;
-    sprintf (txt_tmp, _("STOPPED %d"), state->player[c].delay / 20 + 1);
+    p->delay--;
+    sprintf (txt_tmp, _("STOPPED %d"), p->delay / 20 + 1);
     set_txt_bonus (c, txt_tmp, 2);
   }
 
 
-  if (state->player[c].d.h.h != 0 || state->player[c].delay == 1) {
+  if (p->d.h.h != 0 || p->delay == 1) {
 
 /**** handling of trails ****/
-    if (state->player[c].delay == 0) {
+    if (p->delay == 0) {
       int a;
-      l = state->player[c].x2 + state->player[c].y2 * lvl->square_width;
+      l = p->x2 + p->y2 * lvl->square_width;
       state->square_occupied[l] = SQOC_TRAIL(c);
       state->private->trail_offset[c] =
 	(state->private->trail_offset[c] - 1) & (maxq - 1);
       state->private->trail_pos[c][state->private->trail_offset[c]] = l;
       state->private->trail_way[c][state->private->trail_offset[c]] =
 	state->square_way[l] =
-	DIR8_PAIR (state->player[c].way, state->player[c].old_way);
+	DIR8_PAIR (p->way, p->old_way);
       a = (state->private->trail_offset[c] + state->private->trail_size[c]) & (maxq - 1);
       if (state->private->trail_pos[c][a]
 	  != state->private->trail_pos[c][(state->private->trail_offset[c]
@@ -336,7 +340,7 @@ update_player (a_level_state *state, unsigned c)
 
       /* If the player has fire_trail on, trigger explosions on
 	 the head and the tail of the trail.  */
-      if (state->player[c].fire_trail) {
+      if (p->fire_trail) {
 	trigger_explosion (state, state->private->trail_pos[c][a],
 			   EXPLOSION_IMMEDIATE);
 	trigger_explosion (state, state->private->trail_pos[c]
@@ -345,49 +349,49 @@ update_player (a_level_state *state, unsigned c)
       }
     }
 
-    d2 = state->player[c].y2 * lvl->square_width + state->player[c].x2;
-    if (state->player[c].delay == 0)
-      d2 = lvl->square_move[state->player[c].way][d2];
-    state->player[c].pos = d2;
-    state->player[c].x2 = state->square_coord[d2].x;
-    state->player[c].y2 = state->square_coord[d2].y;
-    state->player[c].d.h.h = 0;
+    d2 = p->y2 * lvl->square_width + p->x2;
+    if (p->delay == 0)
+      d2 = lvl->square_move[p->way][d2];
+    p->pos = d2;
+    p->x2 = state->square_coord[d2].x;
+    p->y2 = state->square_coord[d2].y;
+    p->d.h.h = 0;
 
-    if (state->player[c].spec == T_TUNNEL) {
-      state->player[c].way = state->player[c].tunnel_way;
-      state->player[c].old_way = state->player[c].way;
-      state->player[c].spec = 0;
+    if (p->spec == T_TUNNEL) {
+      p->way = p->tunnel_way;
+      p->old_way = p->way;
+      p->spec = 0;
     }
 
     if (cpuon) {
-      if (state->player[c].target < 16) {
+      if (p->target < 16) {
 	an_opponent_sig *op;
 	op = state->private->opponent[c];
 	if (op && op->square_update) {
 	  an_opponent_action acc;
-	  opponent_action_prepare (state, &acc, c);
+	  opponent_action_prepare (state->player[c], &acc);
 	  op->square_update (state, c, &acc, state->private->opponent_data[c]);
-	  opponent_action_honor (state, &acc, c);
+	  opponent_action_honor (state->player[c], &acc);
 	}
       } else
-	state->player[c].target -= 16;
+	p->target -= 16;
     }
     state->square_occupied[d2] = SQOC_VEHICLE_TAIL (c);
     if ((state->square_explo_state[d2] <= EXPLOSION_IMMEDIATE) &&
-	state->player[c].invincible == 0)
-      state->player[c].spec = 0xff;
+	p->invincible == 0)
+      p->spec = 0xff;
 
-    d = (state->player[c].x2 >> 1) +
-      (state->player[c].y2 >> 1) * lvl->tile_width;
+    d = (p->x2 >> 1) +
+      (p->y2 >> 1) * lvl->tile_width;
 
-    if (lvl->square_type[state->player[c].pos] == T_ICE)
-      state->player[c].spec = T_ICE;
-    if ((lvl->square_type[state->player[c].pos] == T_STOP
-	 && state->player[c].delay == 0)
-	|| state->player[c].notify_delay) {
-      state->player[c].notify_delay = 0;
-      state->player[c].delay = 100;
-      state->player[c].d.e = 0;
+    if (lvl->square_type[p->pos] == T_ICE)
+      p->spec = T_ICE;
+    if ((lvl->square_type[p->pos] == T_STOP
+	 && p->delay == 0)
+	|| p->notify_delay) {
+      p->notify_delay = 0;
+      p->delay = 100;
+      p->d.e = 0;
       return;
     }
 
@@ -400,20 +404,20 @@ update_player (a_level_state *state, unsigned c)
 	if ((tmppti->pos_tail == d2 && lemmings_move_offset < 38000)
 	    || (tmppti->pos_head == d2 && lemmings_move_offset > 28000)) {
 	  if (!state->private->level_is_finished) {
-	    state->player[c].score += 10;
-	    state->player[tmppti->color].lemmings_nbr--;
+	    p->score += 10;
+	    bits->player[tmppti->color].lemmings_nbr--;
 	  }
 	  tmppti->dead = (rand () & 15) + 1;
 	  if (rand () & 63) {
 	    tmppti->color = 0;
-	    if (state->player[c].cpu == 2)
+	    if (p->cpu == 2)
 	      event_sfx (90 + ((tmppti->dead - 1) >> 1));
 	  } else {
 	    tmppti->color = 1;
 	    if (!state->private->level_is_finished)
-	      state->player[c].score += 140;
-	    state->player[c].martians_nbr++;
-	    if (state->player[c].cpu == 2)
+	      p->score += 140;
+	    p->martians_nbr++;
+	    if (p->cpu == 2)
 	      event_sfx (98);
 	  }
 	  /* We will assign the dead lemming to the nearest square.  */
@@ -436,17 +440,17 @@ update_player (a_level_state *state, unsigned c)
 	}
       }
       for (i = 0; i < 4; i++)
-	if (state->player[(i + 1) & 3].lemmings_nbr == 0 &&
-	    state->player[(i + 2) & 3].lemmings_nbr == 0 &&
-	    state->player[(i + 3) & 3].lemmings_nbr == 0)
+	if (bits->player[(i + 1) & 3].lemmings_nbr == 0 &&
+	    bits->player[(i + 2) & 3].lemmings_nbr == 0 &&
+	    bits->player[(i + 3) & 3].lemmings_nbr == 0)
 	  state->private->level_is_finished = i + 1;
     }
     if (state->game_mode == M_COLOR) {
       t = state->square_object[d2];
       if ((signed char) t >= 0) {
 	if ((!state->private->level_is_finished)) {
-	  state->player[c].score += 2;
-	  if (state->player[c].cpu == 2) {
+	  p->score += 2;
+	  if (p->cpu == 2) {
 	    if (t == (signed char) c)
 	      event_sfx (100);
 	    else if (t <= 4)
@@ -460,35 +464,35 @@ update_player (a_level_state *state, unsigned c)
 	    else if (t == 24)
 	      event_sfx (105);
 	  }
-	  if ((t < 4) && (state->player[t].spec != 0xde))
-	    state->player[t].cash++;
+	  if ((t < 4) && (bits->player[t].spec != 0xde))
+	    bits->player[t].cash++;
 	  else if (t == 4) {
-	    if (state->player[(c + 1) & 3].spec != 0xde)
-	      state->player[(c + 1) & 3].cash++;
-	    if (state->player[(c + 2) & 3].spec != 0xde)
-	      state->player[(c + 2) & 3].cash++;
-	    if (state->player[(c + 3) & 3].spec != 0xde)
-	      state->player[(c + 3) & 3].cash++;
+	    if (bits->player[(c + 1) & 3].spec != 0xde)
+	      bits->player[(c + 1) & 3].cash++;
+	    if (bits->player[(c + 2) & 3].spec != 0xde)
+	      bits->player[(c + 2) & 3].cash++;
+	    if (bits->player[(c + 3) & 3].spec != 0xde)
+	      bits->player[(c + 3) & 3].cash++;
 	  } else if (t < 12) {
-	    if (state->player[t & 3].cash > 0)
-	      state->player[t & 3].cash--;
+	    if (bits->player[t & 3].cash > 0)
+	      bits->player[t & 3].cash--;
 	  } else if (t == 12) {
-	    if ((state->player[(c + 1) & 3].cash > 0)
-		&& (state->player[(c + 1) & 3].spec != 0xde))
-	      state->player[(c + 1) & 3].cash--;
-	    if ((state->player[(c + 2) & 3].cash > 0)
-		&& (state->player[(c + 2) & 3].spec != 0xde))
-	      state->player[(c + 2) & 3].cash--;
-	    if ((state->player[(c + 3) & 3].cash > 0)
-		&& (state->player[(c + 3) & 3].spec != 0xde))
-	      state->player[(c + 3) & 3].cash--;
+	    if ((bits->player[(c + 1) & 3].cash > 0)
+		&& (bits->player[(c + 1) & 3].spec != 0xde))
+	      bits->player[(c + 1) & 3].cash--;
+	    if ((bits->player[(c + 2) & 3].cash > 0)
+		&& (bits->player[(c + 2) & 3].spec != 0xde))
+	      bits->player[(c + 2) & 3].cash--;
+	    if ((bits->player[(c + 3) & 3].cash > 0)
+		&& (bits->player[(c + 3) & 3].spec != 0xde))
+	      bits->player[(c + 3) & 3].cash--;
 	  } else if (t == 16)
-	    state->player[c].time += 1000;
+	    p->time += 1000;
 	  else if (t == 24) {
-	    if (state->player[c].time > 333)
-	      state->player[c].time -= 333;
+	    if (p->time > 333)
+	      p->time -= 333;
 	    else
-	      state->player[c].time = 1;
+	      p->time = 1;
 	  }
 	}
 	state->square_object[d2] = SQOB_NOTHING;
@@ -501,15 +505,15 @@ update_player (a_level_state *state, unsigned c)
       t = state->square_object[d2];
       if ((signed char) t >= 0) {
 	if (!state->private->level_is_finished) {
-	  state->player[c].score += 2;
+	  p->score += 2;
 	  if (t == 0) {
-	    state->player[c].cash++;
-	    if (state->player[c].cpu == 2)
+	    p->cash++;
+	    if (p->cpu == 2)
 	      event_sfx (80);
 	  }
 	  if (t == 15) {
-	    state->player[c].time += 1000;
-	    if (state->player[c].cpu == 2)
+	    p->time += 1000;
+	    if (p->cpu == 2)
 	      event_sfx (81);
 	  }
 	}
@@ -521,9 +525,9 @@ update_player (a_level_state *state, unsigned c)
 
     if (state->game_mode == M_DEATHM) {
       for (i = 0; i < 4; i++)
-	if (state->player[(i + 1) & 3].lifes == 0
-	    && state->player[(i + 2) & 3].lifes == 0
-	    && state->player[(i + 3) & 3].lifes == 0)
+	if (bits->player[(i + 1) & 3].lifes == 0
+	    && bits->player[(i + 2) & 3].lifes == 0
+	    && bits->player[(i + 3) & 3].lifes == 0)
 	  state->private->level_is_finished = i + 1;
     }
     {
@@ -531,73 +535,73 @@ update_player (a_level_state *state, unsigned c)
       if (bonus && bonus != 0xff) {
 	rem_bonus (state, d);
 	if (!state->private->level_is_finished) {
-	  state->player[c].score += 10;
+	  p->score += 10;
 	  if (bonus & 128) {
-	    if (state->player[c].cpu == 2)
+	    if (p->cpu == 2)
 	      event_sfx (39 + (bonus & 127));
 	    for (i = 0; i < 4; i++)
-	      if ((c != i) && (state->player[i].spec != 0xde))
+	      if ((c != i) && (bits->player[i].spec != 0xde))
 		apply_bonus (state, i, (bonus & 127));
 	  } else
 	    apply_bonus (state, c, bonus);
 	}
-	if (state->player[c].notify_delay) {
-	  state->player[c].notify_delay = 0;
-	  state->player[c].delay = 100;
-	  state->player[c].d.e = 0;
+	if (p->notify_delay) {
+	  p->notify_delay = 0;
+	  p->delay = 100;
+	  p->d.e = 0;
 	  return;
 	}
       }
     }
-    state->player[c].old_old_way = state->player[c].old_way;
-    state->player[c].old_way = state->player[c].way;
+    ip->old_old_way = p->old_way;
+    p->old_way = p->way;
 
-    if (state->player[c].autopilot)
+    if (p->autopilot)
       find_free_way (state, c);
-    if ((!state->player[c].autopilot)
-	&& (state->player[c].next_way == (state->player[c].old_way ^ 2)))
-      state->player[c].next_way = state->player[c].old_way;
-    if (state->player[c].spec != T_ICE)
-      state->player[c].way = state->player[c].next_way;
+    if ((!p->autopilot)
+	&& (p->next_way == (p->old_way ^ 2)))
+      p->next_way = p->old_way;
+    if (p->spec != T_ICE)
+      p->way = p->next_way;
     else {
-      state->player[c].next_way = state->player[c].way;
-      state->player[c].spec = 0;
+      p->next_way = p->way;
+      p->spec = 0;
     }
 
-    idx = lvl->square_move[state->player[c].way][d2];
+    idx = lvl->square_move[p->way][d2];
     if (idx == INVALID_INDEX)
-      state->player[c].spec = 0xff;
+      p->spec = 0xff;
     else if (state->square_occupied[idx] != SQOC_VACANT)
-      state->player[c].spec = 0xff;
+      p->spec = 0xff;
 
-    if (state->player[c].spec == 0xff) {
+    if (p->spec == 0xff) {
       erase_trail (state, c);
       if (! state->private->level_is_finished) {
-	if (! state->player[c].invincible && state->game_mode != M_DEATHM)
+	if (! p->invincible && state->game_mode != M_DEATHM)
 	  shrink_trail (state, c, 5);
-	if (state->player[c].lifes == 1) {
-	  state->player[c].lifes = 0;
-	  state->player[c].spec = 0xde;
-	  if (!(((state->player[0].cpu & 2) && (state->player[0].lifes))
-		|| ((state->player[1].cpu & 2) && (state->player[1].lifes))
-		|| ((state->player[2].cpu & 2) && (state->player[2].lifes))
-		|| ((state->player[3].cpu & 2) && (state->player[3].lifes)))) {
+	if (p->lifes == 1) {
+	  p->lifes = 0;
+	  p->spec = 0xde;
+	  if (!(((bits->player[0].cpu & 2) && (bits->player[0].lifes))
+		|| ((bits->player[1].cpu & 2) && (bits->player[1].lifes))
+		|| ((bits->player[2].cpu & 2) && (bits->player[2].lifes))
+		|| ((bits->player[3].cpu & 2) && (bits->player[3].lifes)))) {
 	    state->private->level_is_finished = 15;
 	  }
-	  if (state->player[c].cpu == 2)
+	  if (p->cpu == 2)
 	    event_sfx (62);
 	  return;
 	}
       }
       state_reinit_player (state, c);
-      if (state->player[c].lifes != 0 && state->player[c].invincible == 0
-	  && (!state->private->level_is_finished)) state->player[c].lifes--;
+      if (p->lifes != 0 && p->invincible == 0
+	  && (!state->private->level_is_finished)) p->lifes--;
       if (!state->private->level_is_finished) {
-	if (state->player[c].lifes > 1) {
-	  if (state->player[c].cpu == 2)
+	if (p->lifes > 1) {
+	  if (p->cpu == 2)
 	    event_sfx (60);
 	} else {
-	  if (state->player[c].cpu == 2)
+	  if (p->cpu == 2)
 	    event_sfx (61);
 	}
 	{
@@ -605,57 +609,57 @@ update_player (a_level_state *state, unsigned c)
 	  /* TRANS: %d, the number of remaining lives, is always
 	     positive.  */
 	  sprintf (txt_tmp, ngettext("LAST LIFE", "%d LIVES LEFT",
-				     state->player[c].lifes),
-		   state->player[c].lifes);
+				     p->lifes),
+		   p->lifes);
 	  set_txt_bonus (c, txt_tmp, 150);
 	}
       }
-      state->player[c].invincible = 350;
+      p->invincible = 350;
       return;
     }
 
 /******************/
-    if (lvl->square_type[state->player[c].pos] == T_TUNNEL
-	&& lvl->square_direction[state->player[c].pos] == state->player[c].next_way) {
+    if (lvl->square_type[p->pos] == T_TUNNEL
+	&& lvl->square_direction[p->pos] == p->next_way) {
       a_dir dir;
       a_square_index dest;
-      state->player[c].spec = T_TUNNEL;
-      if ((state->player[c].cpu == 2) && (!state->private->level_is_finished))
+      p->spec = T_TUNNEL;
+      if ((p->cpu == 2) && (!state->private->level_is_finished))
 	event_sfx (69);
-      dest = lvl->square_move[state->player[c].next_way][state->player[c].pos];
+      dest = lvl->square_move[p->next_way][p->pos];
       if (lvl->square_type[dest] == T_TUNNEL)
 	dir = lvl->square_direction[dest] ^ 2;
       else
-	dir = lvl->square_direction[state->player[c].pos] ^ 2;
-      state->player[c].tunnel_way = dir;
-      state->player[c].next_way = state->player[c].tunnel_way;
-      if (state->player[c].tunnel_inverse)
-	state->player[c].next_way ^= 2;
+	dir = lvl->square_direction[p->pos] ^ 2;
+      p->tunnel_way = dir;
+      p->next_way = p->tunnel_way;
+      if (p->tunnel_inverse)
+	p->next_way ^= 2;
     }
 /*****************/
 
-    /*    if (state->player[c].spec!=t_tunnel*8) */
+    /*    if (p->spec!=t_tunnel*8) */
     {
-      if (lvl->square_type[state->player[c].pos] == T_SPEED) {
-	a_dir dir = lvl->square_direction[state->player[c].pos];
+      if (lvl->square_type[p->pos] == T_SPEED) {
+	a_dir dir = lvl->square_direction[p->pos];
 
-	if (state->player[c].way == dir)
-	  state->player[c].vi = state->player[c].v;
-	else if ((state->player[c].way ^ 2) == dir)
-	  state->player[c].vi = -(state->player[c].v >> 1);
+	if (p->way == dir)
+	  ip->vi = ip->v;
+	else if ((p->way ^ 2) == dir)
+	  ip->vi = -(ip->v >> 1);
 	else
-	  state->player[c].vi = 0;
+	  ip->vi = 0;
       } else
-	state->player[c].vi = 0;
+	ip->vi = 0;
 
-      if (lvl->square_type[state->player[c].pos] == T_DUST)
-	state->player[c].vi = -(state->player[c].v >> 1);
+      if (lvl->square_type[p->pos] == T_DUST)
+	ip->vi = -(ip->v >> 1);
       trigger_possible_explosion (state, d2);
     }
-    state->player[c].delay = 0;
+    p->delay = 0;
 
-    assert (lvl->square_move[state->player[c].way][d2] != INVALID_INDEX);
-    state->square_occupied[lvl->square_move[state->player[c].way][d2]] =
+    assert (lvl->square_move[p->way][d2] != INVALID_INDEX);
+    state->square_occupied[lvl->square_move[p->way][d2]] =
       SQOC_VEHICLE_HEAD (c);
   }
 }

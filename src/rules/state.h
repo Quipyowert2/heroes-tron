@@ -132,7 +132,7 @@ struct a_level_state {
   const a_level *level;
 
   /* Informations about each player.  */
-  a_player player[4];
+  a_player *player[4];
 
   /* State of each square.
      0xFF: free
