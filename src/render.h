@@ -29,7 +29,9 @@ extern char tutor;
 
 void draw_level (int p);
 void draw_radar_map (square_coord_t dx, square_coord_t dy, int radar_shift);
-void draw_score (int c, int p, unsigned int dest);
+void draw_score (int c, int p,
+		 int row, int col, int score_shift);
+
 void draw_logo_info (int c, int nbr, pixel_t* dest);
 
 #endif /* HEROES__RENDER__H */

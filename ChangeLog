@@ -1,5 +1,13 @@
 2001-08-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/render.c (draw_score): Change prototype, takes row, col
+	and score_shift.  Use score_shift instead of the global
+	radar_current_pos variable.  Use IMGPOS wherever possible.
+	* src/render.h (draw_score): Change protoype.
+	* src/heroes.c (output_screen): Adjust calls to draw_score.
+
+2001-08-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/render.c (draw_radar_frame): New function, eved out
 	from draw_radar_map.
 	(draw_radar_map): Call draw_radar_frame, don't use `dede', comment,

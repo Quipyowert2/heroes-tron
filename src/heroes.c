@@ -931,7 +931,7 @@ output_screen (char n)
       draw_radar_map (player[col2plr[0]].x2, player[col2plr[0]].y2,
 		      radar_current_pos);
     if (opt.display_infos)
-      draw_score (col2plr[0], 0, 5 + 5 * xbuf - radar_current_pos);
+      draw_score (col2plr[0], 0, 5, 5, -radar_current_pos);
     if (game_mode != M_QUEST) {
       if (radar_current_pos <= 70)
 	draw_logo_info (col2plr[0], loginf[0],
@@ -1025,11 +1025,11 @@ output_screen (char n)
 
     if (opt.display_infos) {
       if (swapside) {
-	draw_score (col2plr[0], 0, 122 + 5 * xbuf + radar_current_pos);
-	draw_score (col2plr[1], 1, 5 + 5 * xbuf - radar_current_pos);
+	draw_score (col2plr[0], 0, 5, 122, radar_current_pos);
+	draw_score (col2plr[1], 1, 5, 5, -radar_current_pos);
       } else {
-	draw_score (col2plr[0], 0, 5 + 5 * xbuf - radar_current_pos);
-	draw_score (col2plr[1], 1, 122 + 5 * xbuf + radar_current_pos);
+	draw_score (col2plr[0], 0, 5, 5, -radar_current_pos);
+	draw_score (col2plr[1], 1, 5, 122, radar_current_pos);
       }
     }
   }
