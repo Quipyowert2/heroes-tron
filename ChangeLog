@@ -1,5 +1,19 @@
 2001-12-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* tests/defs: Don't assume heroes has been built in $srcdir.
+
+	* Makefile.am (my-distcheck-nodisplay, my-distcheck-ggi):
+	Run `make check'.
+	(my-distcheck-allegro): New target.
+	(distcheck-hook): Depend upon my-distcheck-allegro.
+
+	* doc/heroes.texi (Libraries): Add an entry for Allegro.
+	(configure options): Document --with-allegro.
+	(Machines): Pretend that Heroes-Allegro works on Linux/i386.
+	* m4/h-allegro.m4: "unhide" the check for Allegro.
+
+2001-12-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Support Latin-1 characters in `help reader' and `big' fonts.
 
 	* src/rsc_files.gperf: Add big-font.

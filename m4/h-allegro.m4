@@ -10,10 +10,7 @@ AC_DEFUN([heroes_CHECK_ALLEGRO],
  test "${with_allegro-yes}" != yes &&
    test "${with_allegro_exec_prefix-yes}" = yes && with_allegro_exec_prefix="$with_allegro"
 
- ## Change -no into -yes (on the first line only) once Allegro support is
- ## good enough, so that Allegro is always checked for.  Presently we only
- ## want to check for it on explicit request.
- if test "${with_allegro-no}" != no; then
+ if test "${with_allegro-yes}" != no; then
   if test "${with_allegro-no}" != no; then
      user_selection_list_vkm="$user_selection_list_vkm allvkm"
   fi

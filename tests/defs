@@ -12,7 +12,7 @@ test -z "$VERBOSE" && exec > /dev/null 2>&1
 
 echo "== Running test $0"
 
-test -z "$HEROES" && HEROES="$srcdir/../src/heroes"
+test -z "$HEROES" && HEROES="../src/heroes"
 
 if test -z "$HEROES_SYSTEM_CONF"; then
   HEROES_SYSTEM_CONF="$srcdir/../src/etc/heroesrc"

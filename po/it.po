@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.9\n"
-"POT-Creation-Date: 2001-11-19 08:52+0100\n"
+"POT-Creation-Date: 2001-12-12 22:07+0100\n"
 "PO-Revision-Date: 2001-04-27 21:15+01:00\n"
 "Last-Translator: Alessandro Dotti <alessandro.dotti@libero.it>\n"
 "Language-Team: none <LL@li.org>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8-bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1\n"
 
-#: lib/error.c:128 lib/error.c:156
+#: lib/error.c:129 lib/error.c:157
 msgid "Unknown system error"
 msgstr "Errore di sistema sconosciuto"
 
@@ -321,78 +321,11 @@ msgstr "INVINCIBILE"
 msgid "EXTRA-LIFE!"
 msgstr "VITA EXTRA"
 
-#: src/debughash.c:97 src/debughash.gperf:45
-msgid "all messages"
-msgstr "tutti i messaggi"
-
-#: src/debughash.c:98 src/debughash.gperf:49
-msgid "files and directories handling"
-msgstr "gestione di file e directory"
-
-#: src/debughash.c:99 src/debughash.gperf:50
-msgid "levels handling"
-msgstr "gestione di file e directory"
-
-#: src/debughash.c:100 src/debughash.gperf:47
-msgid "system related messages"
-msgstr "messaggi di sistema"
-
-#: src/debughash.c:102 src/debughash.gperf:48
-msgid "filename resources handling"
-msgstr "gestione dei nomi dei file"
-
-#: src/debughash.c:103 src/debughash.gperf:56
-msgid "miscellaneous events"
-msgstr "eventi vari"
-
-#: src/debughash.c:104 src/debughash.gperf:58
-msgid "bonus"
-msgstr "bonus"
-
-#: src/debughash.c:105 src/debughash.gperf:51
-msgid "sound track events"
-msgstr "eventi sonori"
-
-#: src/debughash.c:106 src/debughash.gperf:46
-msgid "different parts of the game"
-msgstr "diverse fasi del gioco"
-
-#: src/debughash.c:107 src/debughash.gperf:54
-#, fuzzy
-msgid "joystick initialization and events"
-msgstr "inizializzazione del joystick"
-
-#: src/debughash.c:109 src/debughash.gperf:55
-msgid "timer handling"
-msgstr "gestione del timer"
-
-#: src/debughash.c:111 src/debughash.gperf:57
-msgid "palette fade events"
-msgstr "dissolvenza della paletta"
-
-#: src/debughash.c:113 src/debughash.gperf:52
-msgid "sound effects events"
-msgstr "event degli effetti sonori"
-
-#: src/debughash.c:115 src/debughash.gperf:53
-msgid "communication with the display driver"
-msgstr "comunicazion con il driver video"
-
-#: src/debughash.c:165 src/debughash.gperf:87
-#, c-format
-msgid "%s: no such channel, assuming you meant '%s'."
-msgstr "%s: canale inesistente, suppongo volessi dire '%s'."
-
-#: src/debughash.c:168 src/debughash.gperf:90
-#, c-format
-msgid "%s: no such channel (--list=debug will list all known channels)"
-msgstr "%s: canale inesistente (--list=debug elenca tutti i canali)"
-
 #: src/endscroll.c:113
 msgid "THE END"
 msgstr "FINE"
 
-#: src/fontdata.c:235
+#: src/fontdata.c:245
 #, c-format
 msgid "character '%c' is not drawable (in message '%s')"
 msgstr "il carattere '%c' non può essere disegnato (nel messaggio '%s')"
@@ -842,21 +775,21 @@ msgid_plural "%d LIVES LEFT"
 msgstr[0] "ULTIMA VITA"
 msgstr[1] "%d VITE RIMASTE"
 
-#: src/heroes.c:2819
+#: src/heroes.c:2817
 msgid "Error during level loading"
 msgstr "Errore durante il caricamento del livello"
 
-#: src/heroes.c:2855
+#: src/heroes.c:2853
 #, c-format
 msgid "-LEVEL %d-"
 msgstr "-LIVELLO %d-"
 
-#: src/heroes.c:2857
+#: src/heroes.c:2855
 #, c-format
 msgid "-ROUND %d/%d-"
 msgstr "-ROUND %d/%d-"
 
-#: src/heroes.c:3362
+#: src/heroes.c:3360
 msgid "error in sfx.cfg"
 msgstr "errore in sfx.cfg"
 
@@ -1460,45 +1393,45 @@ msgid "%d ROUND"
 msgid_plural "%d ROUNDS"
 msgstr[0] "%d ROUND"
 
-#: src/menus.c:2220
+#: src/menus.c:2221
 #, c-format
 msgid "PLAYER %d, YOU CAME IN THE TOP 10"
 msgstr "GIOCATORE %d, SEI ENTRATO NEI PRIMI 10"
 
-#: src/menus.c:2286
+#: src/menus.c:2288
 #, c-format
 msgid "PLAYER %d WON!"
 msgstr "VINCE IL GIOCAT. %d"
 
-#: src/menus.c:2292
+#: src/menus.c:2294
 msgid "EVERYONE LOST!"
 msgstr "TUTTI SCONFITTI!"
 
-#: src/menus.c:2294
+#: src/menus.c:2296
 msgid "YOU LOST!"
 msgstr "HAI PERSO!"
 
-#: src/menus.c:2373
+#: src/menus.c:2375
 #, c-format
 msgid "ROUND %d/%d"
 msgstr "ROUND %d/%d"
 
-#: src/musicfiles.c:165
+#: src/musicfiles.c:155
 #, c-format
 msgid "%s:%d: missing alias name"
 msgstr "%s:%d: manca l'alias"
 
-#: src/musicfiles.c:167
+#: src/musicfiles.c:157
 #, c-format
 msgid "%s:%d: missing file name"
 msgstr "%s:%d: manca il nome del file"
 
-#: src/musicfiles.c:169
+#: src/musicfiles.c:159
 #, c-format
 msgid "%s:%d: missing title"
 msgstr "%s:%d: manca il titolo"
 
-#: src/musicfiles.c:171
+#: src/musicfiles.c:161
 #, c-format
 msgid "%s:%d: missing author"
 msgstr "%s:%d: manca l'autore"
@@ -1520,35 +1453,35 @@ msgstr "Autori\n"
 msgid "Contributors\n"
 msgstr "Contributori\n"
 
-#: src/people.c:55
+#: src/people.c:56
 msgid "Translators\n"
 msgstr "Traduttori\n"
 
-#: src/people.c:58
+#: src/people.c:59 src/people.c:71
 msgid "German"
 msgstr "Tedesco"
 
-#: src/people.c:61
+#: src/people.c:62
 msgid "Dutch"
 msgstr "Olandese"
 
-#: src/people.c:64
+#: src/people.c:65
 msgid "Italian"
 msgstr "Italiano"
 
-#: src/people.c:67
+#: src/people.c:68
 msgid "French"
 msgstr "Francese"
 
-#: src/people.c:71
+#: src/people.c:75
 msgid "Packagers\n"
 msgstr "Pacchettizzatori\n"
 
-#: src/people.c:80
+#: src/people.c:84
 msgid "Porters\n"
 msgstr "Chi ha fatto il port\n"
 
-#: src/people.c:87
+#: src/people.c:91
 msgid "Other people we wish to thanks\n"
 msgstr "Altre persone che vorremmo ringraziare\n"
 
@@ -1647,6 +1580,73 @@ msgstr "%s:%d: parola chiave sconosciuta `%s'"
 msgid "%s:%d: unknown keyword `%s'"
 msgstr "%s:%d: parola chiave sconosciuta `%s'"
 
+#: src/debughash.gperf:45
+msgid "all messages"
+msgstr "tutti i messaggi"
+
+#: src/debughash.gperf:46
+msgid "different parts of the game"
+msgstr "diverse fasi del gioco"
+
+#: src/debughash.gperf:47
+msgid "system related messages"
+msgstr "messaggi di sistema"
+
+#: src/debughash.gperf:48
+msgid "filename resources handling"
+msgstr "gestione dei nomi dei file"
+
+#: src/debughash.gperf:49
+msgid "files and directories handling"
+msgstr "gestione di file e directory"
+
+#: src/debughash.gperf:50
+msgid "levels handling"
+msgstr "gestione di file e directory"
+
+#: src/debughash.gperf:51
+msgid "sound track events"
+msgstr "eventi sonori"
+
+#: src/debughash.gperf:52
+msgid "sound effects events"
+msgstr "event degli effetti sonori"
+
+#: src/debughash.gperf:53
+msgid "communication with the display driver"
+msgstr "comunicazion con il driver video"
+
+#: src/debughash.gperf:54
+#, fuzzy
+msgid "joystick initialization and events"
+msgstr "inizializzazione del joystick"
+
+#: src/debughash.gperf:55
+msgid "timer handling"
+msgstr "gestione del timer"
+
+#: src/debughash.gperf:56
+msgid "miscellaneous events"
+msgstr "eventi vari"
+
+#: src/debughash.gperf:57
+msgid "palette fade events"
+msgstr "dissolvenza della paletta"
+
+#: src/debughash.gperf:58
+msgid "bonus"
+msgstr "bonus"
+
+#: src/debughash.gperf:87
+#, c-format
+msgid "%s: no such channel, assuming you meant '%s'."
+msgstr "%s: canale inesistente, suppongo volessi dire '%s'."
+
+#: src/debughash.gperf:90
+#, c-format
+msgid "%s: no such channel (--list=debug will list all known channels)"
+msgstr "%s: canale inesistente (--list=debug elenca tutti i canali)"
+
 #: src/media/sfx.c:94
 #, c-format
 msgid ""
@@ -1714,7 +1714,7 @@ msgstr ""
 "Joystick non trovato (esegui con l'opzione `-J' per eliminare questo "
 "messaggio)."
 
-#: src/media/mikmod/strack.c:103
+#: src/media/mikmod/strack.c:104
 #, c-format
 msgid ""
 "Could not initialize sound, reason: %s\n"
@@ -1723,7 +1723,7 @@ msgstr ""
 "Impossibile inizializzare il sonoro, ragione: %s\n"
 "Disabilto l'output sonoro (usa -S per eliminare questo messaggio)."
 
-#: src/media/mikmod/strack.c:113
+#: src/media/mikmod/strack.c:114
 msgid ""
 "Could not initialize sound, reason: LibMikMod is not thread safe.\n"
 "Disabling sound output (use -S to suppress this message)."
@@ -1731,17 +1731,17 @@ msgstr ""
 "Impossibile inizilizzare il sonoro, ragione: LibMikMod non è tread safe.\n"
 "Disabilito l'uotput sonoro (usa -S per eliminare questo messaggio)."
 
-#: src/media/mikmod/strack.c:148 src/media/sdl_mixer/strack.c:133
+#: src/media/mikmod/strack.c:149 src/media/sdl_mixer/strack.c:133
 #, c-format
 msgid "Could not load %s, reason: %s"
 msgstr "Impossibile caricare %s, ragione: %s"
 
-#: src/media/mikmod/strack.c:213
+#: src/media/mikmod/strack.c:214
 #, c-format
 msgid "LibMikMod version %ld.%ld.%ld\n"
 msgstr "LibMikMod versione %ld.%ld.%ld\n"
 
-#: src/media/mikmod/strack.c:216
+#: src/media/mikmod/strack.c:217
 #, c-format
 msgid ""
 "\n"
@@ -1752,7 +1752,7 @@ msgstr ""
 "Driver disponibili:\n"
 "%s\n"
 
-#: src/media/mikmod/strack.c:232
+#: src/media/mikmod/strack.c:233
 #, c-format
 msgid ""
 "Argument '%s' out of bounds, must be between %d and %d.\n"
@@ -1761,7 +1761,7 @@ msgstr ""
 "Argomento '%s' fuori scala, deve essere fra %d e %d.\n"
 "Usa '%s --help' per ulteriori informazioni."
 
-#: src/media/sdl/video.c:97
+#: src/media/sdl/video.c:98
 #, c-format
 msgid "Failed to open visual: %s"
 msgstr "Impossibile aprire lo schermo: %s"

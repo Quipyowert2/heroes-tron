@@ -589,6 +589,7 @@ going to sell the game anymore I don't know how many levels there will be.
 @cindex  gii
 @cindex  libsdl
 @cindex  sdl
+@cindex  allegro
 @cindex  Simple DirectMedia Layer
 
 Heroes can be configured to use several libraries to handle display,
@@ -612,6 +613,10 @@ also provide support for joysticks.  Get it from
 @uref{http://www.libsdl.org/}.
 
 @item
+Allegro, a game programming library, can be used as a display, keyboard,
+and joystick driver.  @uref{http://alleg.sourceforge.net/}.
+
+@item
 LibMikMod is a sound library. You don't need it if you want to compile
 Heroes without sound support.  Get it from @uref{http://www.mikmod.org/}
 or from @uref{ftp://ftp.ibiblio.org/pub/linux/apps/sound/libs/}.  If you
@@ -626,14 +631,15 @@ Heroes without sound support.  Get it from
 
 @end itemize
 
-To summarize, install at least LibGGI or SDL to get video output and
-keyboard handling.  Install LibGII to get joystick support, unless you
-have a recent SDL.  And install LibMikMod (or SDL_mixer if you have SDL)
-you want sound output.
+To summarize, install at least LibGGI, SDL, or Allegro to get video
+output and keyboard handling.  Install LibGII to get joystick support,
+unless you use a recent SDL or Allegro.  And install LibMikMod (or
+SDL_mixer if you have SDL) if you want sound output.
 
 My personal preference goes to LibGGI/LibGII and LibMikMod which give
-you more control over the driver used.  On the other hand, SDL seems
-better at doing full screen display and is maintained actively.
+you more control over the drivers used.  On the other hand, SDL seems
+better at doing full screen display and is maintained actively.  Allegro
+is quite new on Unix.
 
 Heroes also supports memory debugging libraries, such as @samp{dmalloc} or
 @samp{efence}.  See the @samp{--enable-mem-debug} option in section
@@ -688,6 +694,12 @@ and configure Heroes accordingly.
 @cindex --with-ggi
 Link with LibGGI.  This is the default if LibGGI is installed.
 If you installed LibGGI in some non-standard place, you can
+specify the installation path as an argument
+
+@item --with-allegro[=DIR]
+@cindex --with-allegro
+Link with Allegro.  This is the default is neither LibGGI not SDL can be
+used.  If you installed Allegro in some non-standard place, you can
 specify the installation path as an argument
 
 @item --with-mikmod[=DIR]
@@ -824,11 +836,11 @@ override those paths with some enivronment variables (@pxref{Environment}).
 @cindex architecture
 
 Heroes has been reported to compile and run on the following
-architectures.  Since Heroes can use SDL or GGI as display driver,
-the following list shows the driver which was used.
+architectures.  Since Heroes can use SDL, GGI, or Allegro as display
+driver, the following list shows the driver which was used.
 
 @table @asis
-@item Linux/i386 (SDL or GGI)
+@item Linux/i386 (GGI, SDL, or Allegro)
 Should build out of the box.  Packages for some Linux distributions
 are available from the web pages.
 
@@ -1240,11 +1252,11 @@ be printed using the @samp{--list=debug} option).
 
 @table @samp
 @item SECTION
-The different parts of the game (introduction, 
+The different parts of the game (introduction,
 demonstration, menus, ...).
 
 @item SYSTEM
-Handling of environment variables, creation of 
+Handling of environment variables, creation of
 directories, initialization of libraries.
 
 @item RESOURCE

@@ -130,6 +130,9 @@ subset).
      revisions will also provide support for joysticks.  Get it from
      `http://www.libsdl.org/'.
 
+   * Allegro, a game programming library, can be used as a display,
+     keyboard, and joystick driver.  `http://alleg.sourceforge.net/'.
+
    * LibMikMod is a sound library. You don't need it if you want to
      compile Heroes without sound support.  Get it from
      `http://www.mikmod.org/' or from
@@ -143,14 +146,15 @@ subset).
      `http://www.devolution.com/~slouken/SDL/projects/SDL_mixer/'.
 
 
-   To summarize, install at least LibGGI or SDL to get video output and
-keyboard handling.  Install LibGII to get joystick support, unless you
-have a recent SDL.  And install LibMikMod (or SDL_mixer if you have SDL)
-you want sound output.
+   To summarize, install at least LibGGI, SDL, or Allegro to get video
+output and keyboard handling.  Install LibGII to get joystick support,
+unless you use a recent SDL or Allegro.  And install LibMikMod (or
+SDL_mixer if you have SDL) if you want sound output.
 
    My personal preference goes to LibGGI/LibGII and LibMikMod which give
-you more control over the driver used.  On the other hand, SDL seems
-better at doing full screen display and is maintained actively.
+you more control over the drivers used.  On the other hand, SDL seems
+better at doing full screen display and is maintained actively.  Allegro
+is quite new on Unix.
 
    Heroes also supports memory debugging libraries, such as `dmalloc' or
 `efence'.  See the `--enable-mem-debug' option in section *Note
@@ -194,6 +198,11 @@ to help it, or to fine tune special features of Heroes.
      Link with LibGGI.  This is the default if LibGGI is installed.  If
      you installed LibGGI in some non-standard place, you can specify
      the installation path as an argument
+
+`--with-allegro[=DIR]'
+     Link with Allegro.  This is the default is neither LibGGI not SDL
+     can be used.  If you installed Allegro in some non-standard place,
+     you can specify the installation path as an argument
 
 `--with-mikmod[=DIR]'
      Use LibMikMod four sound output.  This is the default if LibMikMod
@@ -297,10 +306,10 @@ Machines
 ========
 
    Heroes has been reported to compile and run on the following
-architectures.  Since Heroes can use SDL or GGI as display driver, the
-following list shows the driver which was used.
+architectures.  Since Heroes can use SDL, GGI, or Allegro as display
+driver, the following list shows the driver which was used.
 
-Linux/i386 (SDL or GGI)
+Linux/i386 (GGI, SDL, or Allegro)
      Should build out of the box.  Packages for some Linux distributions
      are available from the web pages.
 

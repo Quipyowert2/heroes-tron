@@ -70,8 +70,9 @@ src/config.h.in
 
 distcheck-hook: \
 	man-distcheck \
-	my-distcheck-ggi \
+	my-distcheck-allegro \
 	my-distcheck-sdl \
+	my-distcheck-ggi \
 	my-distcheck-nodisplay
 
 # Use this to make sure we don't run these programs when building
@@ -92,7 +93,19 @@ my-distcheck-ggi:
 	cd $(t) \
 	  && ../$(distdir)/configure --disable-nls --with-ggi --with-gii \
 			             --with-mikmod \
-	  && $(MAKE) AM_MAKEFLAGS='$(null_AM_MAKEFLAGS)'
+	  && $(MAKE) AM_MAKEFLAGS='$(null_AM_MAKEFLAGS)' \
+	  && $(MAKE) check
+	-rm -rf $(t)
+
+# build with Allegro and mikmod (VPATH build)
+my-distcheck-allegro:
+	-rm -rf $(t)
+	mkdir $(t)
+	cd $(t) \
+	  && ../$(distdir)/configure --disable-nls --with-allegro \
+			             --with-mikmod \
+	  && $(MAKE) AM_MAKEFLAGS='$(null_AM_MAKEFLAGS)' \
+	  && $(MAKE) check
 	-rm -rf $(t)
 
 # build without any library (VPATH build)
@@ -102,7 +115,8 @@ my-distcheck-nodisplay:
 	cd $(t) \
 	  && ../$(distdir)/configure --disable-nls --disable-display \
 				     --disable-joystick --disable-sound \
-	  && $(MAKE) AM_MAKEFLAGS='$(null_AM_MAKEFLAGS)'
+	  && $(MAKE) AM_MAKEFLAGS='$(null_AM_MAKEFLAGS)' \
+	  && $(MAKE) check
 	-rm -rf $(t)
 
 # build with libsdl and sdl_mixer (build in current directory, then
@@ -125,8 +139,6 @@ my-distcheck-sdl:
 	  && $(AMTAR) -zxf ../$(distdir).tar.gz
 	diff -ur $(t)/$(distdir) $(t)/$(distdir).new
 	-rm -rf $(t)
-
-distcleancheck: distclean
 
 man-distcheck:
 	cd man && $(MAKE) man-distcheck
