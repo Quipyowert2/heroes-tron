@@ -1,5 +1,12 @@
 2000-11-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/draw.c (JUSTIF_CALC, Id, draw_text, draw_text_clipped_left,
+	draw_text_clipped_right, draw_text_waving, draw_text_array): Remove.
+	* src/draw.h (draw_text, draw_text_clipped_left,
+	draw_text_clipped_right, draw_text_waving, draw_text_array): Remove.
+
+2000-11-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/heroes.c (scores_menu): Move to ...
 	* src/menus.c (scores_menu): ... here.
 

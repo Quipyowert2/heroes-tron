@@ -28,119 +28,6 @@
 #include "display.h"
 #include "draw.h"
 
-/* This really needs a rewrite */
-#define JUSTIF_CALC(FCT)						\
-  if (cent==0)                               /* flushed left  */	\
-	d=0;								\
-  else {								\
-	  for(;*src!=0;src++) {						\
-		i=(char)(FCT(*src)-font_first_ascii);			\
-		d+=font_width[i];					\
-	  }								\
-	  if (cent==1)                       /* centered      */	\
-		d=-(d>>1);						\
-	  else                               /* flushed right */	\
-		d=-d;							\
-  }									\
-  dest+=d;
-
-
-/* temporaly hack until all this get rewritten */
-#define Id(x) (x)
-
-void
-draw_text (const char *text, int posx, int posy, char cent)
-{
-  char j, c;
-  int i, k, l, d = -1;
-  unsigned char *dest = corner[0] + posx + posy * xbuf;
-  const unsigned char *src = text;
-
-  JUSTIF_CALC (Id);
-  for (; *text != 0; text++) {
-    i = (*text - font_first_ascii);
-    src =
-      main_font_img.buffer + font_pos + ((int) (i) % 14 * 22) +
-      ((int) (i) / 14) * 320 * font_height;
-    for (j = font_width[i]; j != 0; j--) {
-      for (k = 320 * (font_height - 1), l = xbuf * (font_height - 1); 
-	   k >= 0;) {
-	c = *(src + k);
-	k -= 320;
-	if (c != font_transp_color)
-	  *(dest + l) = c;
-	l -= xbuf;
-      }
-      dest++;
-      src++;
-    }
-  }
-}
-
-void
-draw_text_clipped_left (const char *text, int posx, int posy,
-			char cent)
-{
-  char j, c;
-  int i, k, l, d = -1;
-  unsigned char *dest = corner[0] + posx + posy * xbuf;
-  int clip = (int) (corner[0] + 0 + posy * xbuf);
-  const unsigned char *src = text;
-
-  JUSTIF_CALC (Id);
-  for (; *text != 0; text++) {
-    i = (*text - font_first_ascii);
-    src =
-      main_font_img.buffer + font_pos + ((int) (i) % 14 * 22) +
-      ((int) (i) / 14) * 320 * font_height;
-    for (j = font_width[i]; j != 0; j--) {
-      if (((int) dest) >= clip)
-	for (k = 320 * (font_height - 1), l = xbuf * (font_height - 1);
-	     k >= 0;) {
-	  c = *(src + k);
-	  k -= 320;
-	  if (c != font_transp_color)
-	    *(dest + l) = c;
-	  l -= xbuf;
-	}
-      dest++;
-      src++;
-    }
-  }
-}
-
-void
-draw_text_clipped_right (const char *text, int posx, int posy,
-			 char cent)
-{
-  char j, c;
-  int i, k, l, d = -1;
-  unsigned char *dest = corner[0] + posx + posy * xbuf;
-  int clip = (int) (corner[0] + 320 + posy * xbuf);
-  const unsigned char *src = text;
-
-  JUSTIF_CALC (Id);
-  for (; *text != 0; text++) {
-    i = (*text - font_first_ascii);
-    src =
-      main_font_img.buffer + font_pos + ((int) (i) % 14 * 22) +
-      ((int) (i) / 14) * 320 * font_height;
-    for (j = font_width[i]; j != 0; j--) {
-      if (((int) dest) < clip)
-	for (k = 320 * (font_height - 1), l = xbuf * (font_height - 1);
-	     k >= 0;) {
-	  c = *(src + k);
-	  k -= 320;
-	  if (c != font_transp_color)
-	    *(dest + l) = c;
-	  l -= xbuf;
-	}
-      dest++;
-      src++;
-    }
-  }
-}
-
 unsigned char text_waving_step = 0;
 static htimer_t text_waving_htimer = 0;
 
@@ -162,44 +49,6 @@ update_text_waving_step (void)
 {
   text_waving_step += read_htimer (text_waving_htimer);
 }
-
-void
-draw_text_waving (const char *text, int posx, int posy, char cent)
-{
-  char j, c;
-  int i, m, k, l, d = -1;
-  unsigned char *dest = corner[0] + posx + posy * xbuf;
-  const unsigned char *src = text;
-  unsigned char sinl = text_waving_step;
-
-  JUSTIF_CALC (Id);
-  for (; *text != 0; text++) {
-    i = (*text - font_first_ascii);
-    src =
-      main_font_img.buffer + font_pos + ((int) (i) % 14 * 22) +
-      ((int) (i) / 14) * 320 * font_height;
-    sinl += 2;
-    sinl &= 31;
-    m = ((signed char) minisinus[sinl]) * xbuf;
-    for (j = font_width[i]; j != 0; j--) {
-      for (k = 320 * (font_height - 1), l = xbuf * (font_height - 1) + m;
-	   k >= 0;) {
-	c = *(src + k);
-	k -= 320;
-	if (c != font_transp_color)
-	  *(dest + l) = c;
-	l -= xbuf;
-      }
-      dest++;
-      src++;
-    }
-  }
-}
-
-void (*draw_text_array[2]) (const char*, int, int, char) = {
-  &draw_text, 
-  &draw_text_waving
-};
 
 void
 draw_text_bonus (const char* text, int posx, int posy, int p)
@@ -239,7 +88,7 @@ deck_text_conv (char i)
 {
   if (i >= 'a' && i <= 'z')
     i -= 'a' - 'A' + ' ';
-  else if (i < ' ' || i > 'Z') 
+  else if (i < ' ' || i > 'Z')
     i = '*' - ' ';
   else
     i -= ' ';

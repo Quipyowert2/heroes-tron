@@ -21,15 +21,6 @@
 #ifndef HEROES__DRAW__H
 #define HEROES__DRAW__H
 
-void draw_text (const char *text, int posx, int posy, char cent);
-void draw_text_clipped_left (const char *text, int posx, int posy,
-			     char cent);
-void draw_text_clipped_right (const char *text, int posx, int posy,
-			      char cent);
-void draw_text_waving (const char *text, int posx, int posy,
-		       char cent);
-extern void (*draw_text_array[2]) (const char *, int, int, char);
-
 void draw_text_bonus (const char *text, int posx, int posy, int p);
 
 void draw_deck_text (const char *text, int posx, int posy,
