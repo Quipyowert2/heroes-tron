@@ -27,6 +27,5 @@ void draw_level (int p);
 void draw_radar_map (int dx, int dy);
 void draw_score (int c, int p, unsigned int dest);
 void draw_logo_info (int c, int nbr, pixel_t* dest);
-void display_buffer_moving (int x);
 
 #endif /* HEROES__RENDER__H */

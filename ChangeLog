@@ -1,5 +1,14 @@
 2001-01-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/render.c (display_buffer_moving): Remove.
+	* src/render.c (display_buffer_moving): Remove.
+	* src/scrtools.c (flush_display_moving): New function.
+	* src/scrtools.h (flush_display_moving): New function.
+	* src/heroes.c (play_game): Use flush_display_moving instead of
+	display_buffer_moving.
+
+2001-01-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/render.c (display_two_buffers_moving_and_clear,
 	display_two_buffers_moving): Remove.
 	* src/render.h (display_two_buffers_moving_and_clear,

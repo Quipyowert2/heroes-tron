@@ -3436,8 +3436,7 @@ play_game (char cont)
 	update_text_waving_step ();
 	if (two_players == false) {
 	  draw_end_level_info (0, l);
-	  vsynch ();
-	  display_buffer_moving (i);
+	  flush_display_moving (i);
 	} else {
 	  pixel_t *tmp;
 
@@ -3454,8 +3453,7 @@ play_game (char cont)
       }
       if (two_players == false) {
 	draw_end_level_info (0, l);
-	display_buffer_moving (40);
-	vsynch ();
+	flush_display_moving (40);
       } else {
 	pixel_t *tmp;
 	tmp = corner[0];
@@ -3510,8 +3508,7 @@ play_game (char cont)
 	update_text_waving_step ();
 	if (two_players == false) {
 	  draw_round_info (0);
-	  display_buffer_moving (i);
-	  vsynch ();
+	  flush_display_moving (i);
 	} else {
 	  pixel_t *tmp;
 	  tmp = corner[0];
@@ -3527,8 +3524,7 @@ play_game (char cont)
       }
       if (two_players == false) {
 	draw_round_info (0);
-	display_buffer_moving (40);
-	vsynch ();
+	flush_display_moving (40);
       } else {
 	pixel_t *tmp;
 	tmp = corner[0];

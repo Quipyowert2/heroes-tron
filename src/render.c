@@ -829,20 +829,3 @@ draw_logo_info (int c, int nbr, pixel_t* dest)
       DRAW_SPRITE (red_cross[c], dest - 5 * xbuf + 20);
   }
 }
-
-void
-display_buffer_moving (int x)
-{
-  const pixel_t* src = corner[0];
-  pixel_t *dest = screen;
-  int *desti;
-  int i, j;
-
-  for (i = 200; i > 0; i--, src += xbuf, dest += xbuf) {
-    fastmem4 (src + (x << 2), dest, 160 / 4 - x);
-    desti = ((int *) dest) + 40 - x;
-    for (j = (x << 1); j != 0; j--)
-      *desti++ = 0;
-    fastmem4 (src + 160, dest + 160 + (x << 2), 160 / 4 - x);
-  }
-}

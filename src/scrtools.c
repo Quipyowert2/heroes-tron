@@ -72,10 +72,27 @@ flush_display2 (const pixel_t *src1, const pixel_t *src2)
 }
 
 void
+flush_display_moving (int x)
+{
+  pixel_t *src = corner[0];
+  int *desti;
+  int i, j;
+
+  src += x << 2;
+  for (i = 200; i > 0; i--, src += xbuf) {
+    memmove (src + 160 + (x << 2), src + 160 - (x << 2), 160 - (x << 2));
+    desti = ((int *) src) + 40 - x;
+    for (j = x << 1; j != 0; j--)
+      *desti++ = 0;
+  }
+  flush_display (corner[0] + (x << 2));
+}
+
+void
 flush_display2_moving (int x)
 {
-  pixel_t* src1 = corner[swapside];
-  const pixel_t* src2 = corner[1 - swapside];
+  pixel_t *src1 = corner[swapside];
+  const pixel_t *src2 = corner[1 - swapside];
   int *desti;
   int i, j;
 
