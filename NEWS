@@ -1,3 +1,11 @@
+Heroes 0.16	November 18, 2001
+
+	* Bug fixes:
+	  - Explosions of dead players happens on the full trail (the
+	    last five squares used to not explode).
+	  - Check for the definition strlen() (prevented Heroes to
+	    compile on system lacking strndup()).
+
 Heroes 0.15	October 20, 2001
 
 	* Bug fix:
