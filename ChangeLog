@@ -1,3 +1,8 @@
+2002-03-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/rules/state.c: Don't include ai.h.
+	* src/rules/update.c: Likewise.
+
 2002-03-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.ac: Define AC_PROVIDE_AC_LIBTOOL_DLOPEN (kludge).

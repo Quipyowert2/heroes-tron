@@ -21,7 +21,6 @@
 
 #include "system.h"
 #include "statepriv.h"
-#include "ai.h"
 
 #include "bonus.h"		/* FIXME: Get rid of this.  */
 #include "explosions.h"		/* FIXME: Get rif of this.  */

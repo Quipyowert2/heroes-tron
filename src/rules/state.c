@@ -23,7 +23,6 @@
 #include "statepriv.h"
 
 #include "prefs.h"		/* FIXME: Get rid of this include. */
-#include "ai.h"
 #include "debugmsg.h"
 #include "opponents.h"
 
