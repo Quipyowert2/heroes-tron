@@ -32,6 +32,7 @@
 #include "config.h"
 #include "extras.h"
 #include "musicfiles.h"
+#include "rsc_files.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
@@ -109,7 +110,17 @@ read_userconf (const char* file, const char* argv0)
       add_extra_directory (argv[1]);
     } else if (!strcasecmp (argv[0], "soundconf:")) {
       argv[1] = strtok (0, "\n");
-      read_sound_config_file (argv[1]);      
+      read_sound_config_file (argv[1]);
+    } else if (!strcasecmp (argv[0], "setrsc:")){
+      /* get the resource name */
+      argv [1] = strtok (0, " \t\n");
+      if (argv[1] == 0) {
+	fprintf (stderr, "%s:%d: missing resource name\n", 
+		 filename, firstline);	
+	goto non_fatal_error;
+      }
+      argv[2] = strtok (0, "\n");
+      set_rsc_file (argv[1], argv[2]);
     } else {
       fprintf (stderr, "%s:%d: unknown keyword `%s'\n", 
 	       filename, firstline, argv[0]);

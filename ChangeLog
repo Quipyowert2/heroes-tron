@@ -1,5 +1,11 @@
 2000-08-02  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Allow overwriting a resource from a config.file.
+
+	* src/userconf.c (read_userconf): Handle "setrsc:".
+
+2000-08-02  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	From Mattias Engdegård <f91-men@nada.kth.se>.
 	First fixes needed to compile on Solaris.
 	
