@@ -93,11 +93,11 @@ _get_joystick_state (void)
 	if (0 == ev.val.first)
 	  joystick_x[0] = ev.val.value[0];
 	if (1 >= ev.val.first && 1 <= ev.val.first + ev.val.count)
-	  joystick_y[0] = ev.val.value[1];
+	  joystick_y[0] = ev.val.value[1 - ev.val.first];
 	if (2 >= ev.val.first && 2 <= ev.val.first + ev.val.count)
-	  joystick_x[0] = ev.val.value[0];
+	  joystick_x[1] = ev.val.value[2 - ev.val.first];
 	if (3 >= ev.val.first && 3 <= ev.val.first + ev.val.count)
-	  joystick_y[0] = ev.val.value[0];
+	  joystick_y[1] = ev.val.value[3 - ev.val.first];
       } else {
 	wmsg (_("unexpected event %d\n"), ev.any.type);
       }
