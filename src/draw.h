@@ -32,7 +32,7 @@ extern void (*draw_text_array[2]) (const char *, int, int, char);
 
 void draw_text_bonus (const char *text, int posx, int posy, int p);
 
-void draw_deck_text (const char *text, int posx, int posy, 
+void draw_deck_text (const char *text, int posx, int posy,
 		     char cent);
 
 void copy_rect_transp (const unsigned char *src, unsigned char *dest, int xt,

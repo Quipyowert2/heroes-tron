@@ -92,6 +92,117 @@ static sprite_t* jukebox_back = 0;
 static sprite_t* jukebox_forw = 0;
 static sprite_t* jukebox_quit = 0;
 
+/* the following definitions are used to compile text-centered menus,
+   that is, the main and the option menus */
+
+typedef void (*entry_func_t) (void);
+
+typedef struct {
+  const char *name;
+  entry_func_t func;
+} menu_entry_t;
+
+typedef struct {
+  sprite_t *title;
+  sprite_t **entries;
+  entry_func_t *funcs;
+  int lines;
+  int *hrules;
+  unsigned arrows_col;
+  unsigned first_row;
+} menu_t;
+
+static void game_menu (void);
+static void screen_menu (void);
+static void sound_menu (void);
+static void control_menu (void);
+static void keyboard_menu (void);
+static void extra_menu (void);
+
+menu_entry_t options_entries[] = {
+  { "GAME", game_menu },
+  { "SCREEN", screen_menu },
+  { "SOUND", sound_menu },
+  { "CONTROL", control_menu },
+  { "KEYS", keyboard_menu },
+  { "EXTRAS", extra_menu },
+  { "GO BACK", 0 },
+  { 0, 0 }
+};
+
+menu_t *option_menu_data;
+
+menu_entry_t main_entries[] = {
+  { "PLAY", 0 },
+  { "OPTIONS", 0},
+  { "INFOS", 0 },
+  { "CREDITS", 0 },
+  { "SCORES", 0 },
+  { "EDITOR", 0 },
+  { "GO BACK", 0 },
+  { 0, 0 }
+};
+
+menu_t *main_menu_data ;
+
+static menu_t *
+compile_menu (const char *name, const menu_entry_t* entries)
+{
+  int tlines;			/* number of text lines */
+  int row;			/* row on screen */
+  const menu_entry_t *pos;
+  int i;
+  unsigned max_width = 0;
+  NEW (menu_t, menu);
+
+  /* title */
+  menu->title = compile_menu_text (name, T_CENTERED|T_WAVING, 12, 159);
+
+  /* get the number of (text-)lines to draw */
+  tlines = 0;
+  for (pos = entries; pos->name; ++pos)
+    ++tlines;
+  menu->lines = tlines;
+
+  /* allocate space for entries, rules, and functions */
+  XMALLOC_ARRAY (menu->entries, tlines);
+  XMALLOC_ARRAY (menu->funcs, tlines);
+  XMALLOC_ARRAY (menu->hrules, tlines + 1);
+
+  /* compute the row for the first text to draw
+     (32 is the size reserved by the menu header) */
+  row = 32 + (200 - 32) / 2 - (tlines * 20) / 2;
+  menu->first_row = row;
+
+  /* compile the entry texts */
+  for (i = 0; i < tlines; ++i) {
+    unsigned width = compute_text_width (menu_font, entries[i].name, 0);
+    menu->entries[i] = compile_menu_text (entries[i].name,
+					  T_CENTERED, row, 159);
+    menu->funcs[i] = entries[i].func;
+    if (width > max_width)
+      max_width = width;
+    row += 20;
+    if (i + 1 != tlines)
+      menu->hrules[i] = row - 7;
+  }
+  menu->arrows_col = (160 - max_width/2) - 20;
+
+  return menu;
+}
+
+static void
+free_menu (menu_t *menu)
+{
+  int i;
+  i = menu->lines;
+  while (i)
+    free_sprite (menu->entries[--i]);
+  free (menu->entries);
+  free (menu->hrules);
+  free (menu);
+}
+
 void
 init_menus_sprites (void)
 {
@@ -252,6 +363,12 @@ init_menus_sprites (void)
   ed_x_size_txt = compile_menu_text (txti[180], T_FLUSHED_LEFT, 137, 8);
   ed_y_size_txt = compile_menu_text (txti[181], T_FLUSHED_LEFT, 158, 8);
   ed_edit_txt = compile_menu_text (txti[182], T_FLUSHED_LEFT, 186, 227);
+
+  /* options menu */
+  option_menu_data = compile_menu ("OPTIONS", options_entries);
+
+  /* main menu */
+  main_menu_data = compile_menu ("HEROES", main_entries);
 }
 
 void
@@ -306,6 +423,8 @@ uninit_menus_sprites (void)
   FREE_SPRITE0 (ed_x_size_txt);
   FREE_SPRITE0 (ed_y_size_txt);
   FREE_SPRITE0 (ed_edit_txt);
+  free_menu (option_menu_data);
+  free_menu (main_menu_data);
 }
 
 static void
@@ -395,6 +514,51 @@ background_menu (void)
 
   update_text_waving_step ();
   draw_level (0);
+}
+
+static void
+display_menu (menu_t *menu, int l)
+{
+  int line;
+  background_menu ();
+  draw_sprprogwav (menu->title, corner[0]);
+  for (line = 0; line < menu->lines; ++line)
+    draw_sprprogwav_if (l == line, menu->entries[line], corner[0]);
+  for (line = 0; line < menu->lines - 1; ++line)
+    hrule (menu->hrules[line]);
+  waving_arrows (l * 20 + menu->first_row - 5, menu->arrows_col);
+  aff_buffer ();
+  vsynch ();
+}
+
+static void
+exec_menu (menu_t *menu)
+{
+  int l = 0;
+  int k;
+
+  for (;;) {
+    entry_func_t to_call;
+
+    std_white_fadein (&tile_set_img.palette);
+    do {
+      display_menu (menu, l);
+      if (key_or_joy_ready ()) {
+	k = get_key_or_joy ();
+	k = move_updown (k, &l, menu->lines - 1);
+      } else
+	k = 0;
+    } while (k != HK_Enter);
+    to_call = menu->funcs[l];
+
+    if (to_call) {
+      event_sfx (2);
+      to_call ();
+    } else {
+      event_sfx (8);
+      break;
+    }
+  }
 }
 
 static void
@@ -849,6 +1013,9 @@ extra_menu (void)
      can be big (hmmm... really?) */
   sprite_t *levelnames[7] = { 0, 0, 0, 0, 0, 0, 0 };
 
+  if (extra_nbr <= 0)
+    return;
+
   std_white_fadein (&tile_set_img.palette);
   do {
     background_menu ();
@@ -984,55 +1151,7 @@ extra_menu (void)
 void
 option_menu (void)
 {
-  int l = 0;
-  int t;
-
-  do {
-    std_white_fadein (&tile_set_img.palette);
-    do {
-      background_menu ();
-      draw_text_waving (txti[129], 159, 12, 1);
-      draw_text_array[l == 0] (txti[130], 159, 55, 1);
-      draw_text_array[l == 1] (txti[131], 159, 75, 1);
-      draw_text_array[l == 2] (txti[132], 159, 95, 1);
-      draw_text_array[l == 3] (txti[133], 159, 115, 1);
-      draw_text_array[l == 4] (txti[134], 159, 135, 1);
-      draw_text_array[l == 5] (txti[136], 159, 155, 1);
-      draw_text_array[l == 6] (txti[94], 159, 175, 1);
-      hrule (68);
-      hrule (88);
-      hrule (108);
-      hrule (128);
-      hrule (148);
-      hrule (168);
-      waving_arrows (50 + l * 20, 70);
-      vsynch ();
-      aff_buffer ();
-      if (key_or_joy_ready ()) {
-	t = get_key_or_joy ();
-	t = move_updown (t, &l, 6);
-      } else
-	t = 0;
-    } while (t != HK_Enter);
-    if (l != 6) {
-      event_sfx (2);
-      if (l == 0)
-	game_menu ();
-      else if (l == 1)
-	screen_menu ();
-      else if (l == 2)
-	sound_menu ();
-      else if (l == 3)
-	control_menu ();
-      else if (l == 4)
-	keyboard_menu ();
-      else /* l == 5 */ {
-	if (extra_nbr > 0)
-	  extra_menu ();
-      }
-    }
-  } while (l != 6);
-  event_sfx (8);
+  exec_menu (option_menu_data);
 }
 
 void
@@ -1098,21 +1217,7 @@ draw_play_menu (int l)
 void
 draw_main_menu (int l)
 {
-  draw_text_waving (txti[150], 159, 12, 1);
-  draw_text_array[l == 0] (txti[151], 159, 55, 1);
-  draw_text_array[l == 1] (txti[152], 159, 75, 1);
-  draw_text_array[l == 2] (txti[153], 159, 95, 1);
-  draw_text_array[l == 3] (txti[154], 159, 115, 1);
-  draw_text_array[l == 4] (txti[155], 159, 135, 1);
-  draw_text_array[l == 5] (txti[157], 159, 155, 1);
-  draw_text_array[l == 6] (txti[158], 159, 175, 1);
-  hrule (68);
-  hrule (88);
-  hrule (108);
-  hrule (128);
-  hrule (148);
-  hrule (168);
-  waving_arrows (50 + l * 20, 75);
+  display_menu (main_menu_data, l);
 }
 
 char tile_sets_names[10][3] =
