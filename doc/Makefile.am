@@ -36,3 +36,5 @@ SUFFIXES = .html
 
 debugchn.texi: $(top_srcdir)/src/debugchn.def $(top_srcdir)/src/debugchn.tpl
 	$(AUTOGEN) -L $(top_srcdir)/src -o 'texi=$@' $<
+
+CLEANFILES = heroes.cps heroes.vrs

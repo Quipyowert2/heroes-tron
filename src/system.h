@@ -172,7 +172,7 @@ typedef SDLKey		keycode_t;
 #define KEYCODE_MAX	(SDLK_LAST-1)
 #define PREF_INPUT_GROUP "sdl"
 # else /* !HAVE_LIBSDL */
-typedef u32_t		keycode_t;
+typedef unsigned int	keycode_t;
 #define KEYCODE_MAX	U32_MAX
 #define PREF_INPUT_GROUP "none"
 # endif /* !HAVE_LIBSDL */

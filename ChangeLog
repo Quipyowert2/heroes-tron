@@ -1,5 +1,18 @@
 2001-04-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.in: Bump version number to 0.9a.
+	* Makefile.am (null_AM_MAKEFLAGS): Set AUTOGEN to false.
+	* src/Makefile.am (heroes_SOURCES): Add debugchn.def, debugchn.tpl,
+	prefs.def and prefs.tpl.
+	* lib/Makefile.am (noinst_HEADERS): Typo.
+	* doc/Makefile.am (CLEANFILES): New.
+	* src/system.h: Don't declare keycode_t as u32_t.
+
+	* doc/heroes.texi (Machines): Add BeOS.
+	Reported by Todd Allendorf <toddal@alumni.caltech.edu>.
+
+2001-04-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* m4/checkpkg.m4: Prepend new libraries, instead of appending them.
 	* m4/ftruncate.m4: Check for chsize and define HAVE_CHSIZE,
 	always link ftruncate.o if ftruncate() is missing.

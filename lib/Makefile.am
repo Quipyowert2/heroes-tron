@@ -30,7 +30,7 @@ strndup.c \
 w_dirent.c
 
 noinst_HEADERS= \
-basename.c \
+basename.h \
 error.h \
 fopenlock.h \
 fstrcmp.h \

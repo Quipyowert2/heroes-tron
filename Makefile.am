@@ -57,7 +57,8 @@ null_AM_MAKEFLAGS = \
   AUTOCONF=false \
   AUTOMAKE=false \
   AUTOHEADER=false \
-  MAKEINFO=false
+  MAKEINFO=false \
+  AUTOGEN=false
 
 t=./=test
 # build with libggi and mikmod (VPATH build)

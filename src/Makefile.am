@@ -34,7 +34,9 @@ bonus.h \
 bytesex.h \
 const.c \
 const.h \
+debugchn.def \
 debugchn.h \
+debugchn.tpl \
 debughash.c \
 debughash.h \
 debugmsg.c \
@@ -93,7 +95,9 @@ persona.h \
 pixelize.c \
 pixelize.h \
 prefs.c \
+prefs.def \
 prefs.h \
+prefs.tpl \
 readmake.c \
 readmake.h \
 relocate.c \

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.8c\n"
-"POT-Creation-Date: 2001-02-24 12:07+0100\n"
+"POT-Creation-Date: 2001-04-21 14:54+0200\n"
 "PO-Revision-Date: 2001-02-23 22:37+01:00\n"
 "Last-Translator: Jos Boersema <joshb@FIXME>\n"
 "Language-Team: none <LL@li.org>\n"
@@ -86,7 +86,7 @@ msgstr "%s: optie `-W %s' staat geen argumenten toe\n"
 msgid "memory exhausted"
 msgstr "geheugen uitgeput"
 
-#: src/argv.c:57
+#: src/argv.c:58
 #, c-format
 msgid ""
 "Copyright (C) %d  Alexandre Duret-Lutz, Romuald Genevois,\n"
@@ -95,7 +95,7 @@ msgstr ""
 "Copyright (C) %d  Alexandre Duret-Lutz, Romuald Genevois,\n"
 "Alexandre Liverneaux en Philippe Meisburger.\n"
 
-#: src/argv.c:60
+#: src/argv.c:61
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
@@ -104,10 +104,12 @@ msgstr ""
 "garantie; zelfs niet voor VERKOOPBAARHEID of GESCHIKTHEID VOOR EEN BEPAALD\n"
 "DOEL."
 
-#: src/argv.c:69
+#: src/argv.c:70
+#, fuzzy
 msgid ""
 "Use `-lWORD' or `--list=WORD' where WORD can be:\n"
 "  debug                 display all debugging channels\n"
+"  preferences           print the preferences settings\n"
 "  resources             print the resources list\n"
 "  sound-drivers         print the sound driver list\n"
 "  sound-tracks\t\tprint the sound track list"
@@ -118,7 +120,7 @@ msgstr ""
 "  sound-drivers         druk de geluidsdriver-lijst af\n"
 "  sound-tracks\t\tdruk de muzieknummers-lijst af"
 
-#: src/argv.c:101
+#: src/argv.c:108
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]...\n"
@@ -128,7 +130,7 @@ msgstr ""
 "\n"
 
 # Change "spel" to "game" and "spelen" to "games" to sound more 'popular'.
-#: src/argv.c:102
+#: src/argv.c:109
 msgid ""
 "Heroes is a game similar to the \"Tron\" and \"Nibbles\" games of yore\n"
 "but includes many graphical improvements and new game features.\n"
@@ -136,14 +138,14 @@ msgstr ""
 "Heroes is een spel dat op de \"Tron\" en \"Nibbles\" spelen van yore lijkt\n"
 "maar het heeft vele grafische verbeteringen en nieuwe spel onderdelen.\n"
 
-#: src/argv.c:105
+#: src/argv.c:112
 msgid ""
 "Mandatory arguments to long options are mandatory for short options too.\n"
 msgstr ""
 "Verplichte argumenten voor lange opties zijn ook verplicht voor korte "
 "opties.\n"
 
-#: src/argv.c:107
+#: src/argv.c:114
 msgid ""
 "General options:\n"
 "  -v, --version               display version number\n"
@@ -171,7 +173,7 @@ msgstr ""
 # Note: extra (new)line (nr 2), else exceeds 80 columns.
 # Note2: line 3 freely translated because else it would be longer than
 #        80 columns (reads as: "...for info about N)\n").
-#: src/argv.c:118
+#: src/argv.c:125
 msgid ""
 "Sound options:\n"
 "  -d, --driver=N[,OPTIONS]    use Nth driver for sound output "
@@ -193,7 +195,7 @@ msgstr ""
 "  -8, --8bits                 8bits geluid uitvoer\n"
 "  -i, --high-quality          hoge kwaliteit mixer\n"
 
-#: src/argv.c:127
+#: src/argv.c:134
 msgid ""
 "Display options:\n"
 "  -G, --gfx-options=OPTIONS   pass OPTIONS to the display driver\n"
@@ -218,7 +220,7 @@ msgstr ""
 #. waves is another effect where the screen is agitated like some
 #. jelly (this was also called the `mushroom effect' in game like
 #. Death Rally).
-#: src/argv.c:140
+#: src/argv.c:147
 #, fuzzy
 msgid ""
 "Miscellaneous options:\n"
@@ -241,7 +243,7 @@ msgstr ""
 "  -g, --go                    sla de intro over\n"
 "  -J, --no-joystick           zet joystick uit\n"
 
-#: src/argv.c:150
+#: src/argv.c:157
 msgid ""
 "These options can be set in your file ~/.heroes/heroesrc (which is read\n"
 "before parsing other command line options) using a line like the following:\n"
@@ -254,18 +256,18 @@ msgstr ""
 "zoals de volgende:\n"
 "  Options: -gs -d3,buffer=11,count=4\n"
 
-#: src/argv.c:155
+#: src/argv.c:162
 msgid ""
 "Visit http://heroes.sourceforge.net/ for news, documentation, and updates."
 msgstr ""
 "Bezoek http://heroes.sourceforg.net/ voor nieuws, documentatie, en\n"
 "bijwerkingen."
 
-#: src/argv.c:157
+#: src/argv.c:164
 msgid "Report bugs to <heroes-bugs@lists.sourceforge.net>."
 msgstr "Raporteer bugs aan <heroes-bugs@lists.sourceforge.net>."
 
-#: src/argv.c:261
+#: src/argv.c:269
 msgid "-n is an obsolete option, you should use --list=sound-drivers"
 msgstr "-n is een verouderde optie, u moet nu --list=sound-drivers gebruiken"
 
@@ -303,70 +305,70 @@ msgstr "ONSCHENDBAAR!"
 msgid "EXTRA-LIFE!"
 msgstr "EXTRA-LEVEN!"
 
-#: src/debughash.c:85 src/debughash.gperf:37
+#: src/debughash.c:93
 msgid "all messages"
 msgstr "alle berichten"
 
-#: src/debughash.c:86 src/debughash.gperf:41
+#: src/debughash.c:94
 msgid "files and directories handling"
 msgstr "bestanden en directories behandeling"
 
-#: src/debughash.c:87 src/debughash.gperf:42
+#: src/debughash.c:95
 msgid "levels handling"
 msgstr "levels behandeling"
 
-#: src/debughash.c:88 src/debughash.gperf:39
+#: src/debughash.c:96
 msgid "system related messages"
 msgstr "systeem gerelateerde berichten"
 
-#: src/debughash.c:90 src/debughash.gperf:40
+#: src/debughash.c:98
 msgid "filename resources handling"
 msgstr "bestandsnaam hulpbronnen behandeling"
 
-#: src/debughash.c:91 src/debughash.gperf:48
+#: src/debughash.c:99
 msgid "miscellaneous events"
 msgstr "diverse gebeurtenissen"
 
-#: src/debughash.c:92 src/debughash.gperf:50
+#: src/debughash.c:100
 msgid "bonus"
 msgstr "bonus"
 
-#: src/debughash.c:93 src/debughash.gperf:43
+#: src/debughash.c:101
 msgid "sound track events"
 msgstr "muziek-nummers gebeurtenissen"
 
-#: src/debughash.c:94 src/debughash.gperf:38
+#: src/debughash.c:102
 msgid "different parts of the game"
 msgstr "verschillende delen van het spel"
 
-#: src/debughash.c:95 src/debughash.gperf:46
+#: src/debughash.c:103
 msgid "joystick initialization"
 msgstr "joystick initialisatie"
 
 # anybody?
-#: src/debughash.c:97 src/debughash.gperf:47
+#: src/debughash.c:105
 #, fuzzy
 msgid "timer handling"
 msgstr "timer behandeling"
 
-#: src/debughash.c:99 src/debughash.gperf:49
+#: src/debughash.c:107
 msgid "palette fade events"
 msgstr "palet-vervaag gebeurtenissen"
 
-#: src/debughash.c:101 src/debughash.gperf:44
+#: src/debughash.c:109
 msgid "sound effects events"
 msgstr "geluidseffecten gebeurtenissen"
 
-#: src/debughash.c:103 src/debughash.gperf:45
+#: src/debughash.c:111
 msgid "communication with the display driver"
 msgstr "communicatie met de weergave driver"
 
-#: src/debughash.c:153 src/debughash.gperf:79
+#: src/debughash.c:161
 #, c-format
 msgid "%s: no such channel, assuming you meant '%s'."
 msgstr "%s: niet zo'n kanaal, neem aan dat u `%s' bedoeld."
 
-#: src/debughash.c:156 src/debughash.gperf:82
+#: src/debughash.c:164
 #, c-format
 msgid "%s: no such channel (--list=debug will list all known channels)"
 msgstr "%s: niet zo'n kanaal (--list=debug zal alle bekende kanalen geven)"
@@ -828,50 +830,46 @@ msgstr "Fout %d tijdens laden level"
 msgid "Error %d occured while loading level %s"
 msgstr "Fout %d trad op tijdens laden level %s"
 
-#: src/heroes.c:2111
+#: src/heroes.c:2116
 #, c-format
 msgid "INVERTED %d"
 msgstr "OMGEKEERD %d"
 
-#: src/heroes.c:2142
+#: src/heroes.c:2147
 #, c-format
 msgid "STOPPED %d"
 msgstr "GESTOPT %d"
 
 #. FIXME: handle plural
-#: src/heroes.c:2424
+#: src/heroes.c:2429
 #, c-format
 msgid "%d LIVES LEFT"
 msgstr "%d LEVENS OVER"
 
-#: src/heroes.c:2426
+#: src/heroes.c:2431
 msgid "LAST LIFE"
 msgstr "LAATSTE LEVEN"
 
-#: src/heroes.c:3135
+#: src/heroes.c:3140
 msgid "Error during level loading"
 msgstr "Fout tijdens level laden"
 
-#: src/heroes.c:3175
+#: src/heroes.c:3180
 #, c-format
 msgid "-LEVEL %d-"
 msgstr "-LEVEL %d-"
 
-#: src/heroes.c:3177
+#: src/heroes.c:3182
 #, c-format
 msgid "-ROUND %d/%d-"
 msgstr "-RONDE %d/%d-"
 
-#: src/heroes.c:3571
+#: src/heroes.c:3582
 #, c-format
 msgid "Cannot open %s."
 msgstr "Kan `%s' niet openen."
 
-#: src/heroes.c:3641
-msgid "HOME variable not found in environment, defaulting to `.'"
-msgstr "HOME variabele niet gevonden in omgeving, neem `.'"
-
-#: src/heroes.c:3701
+#: src/heroes.c:3696
 msgid "error in sfx.cfg"
 msgstr "fout in sfx.cfg"
 
@@ -1307,25 +1305,25 @@ msgstr "HOGERE SCORES"
 msgid "%d ROUNDS"
 msgstr "%d RONDES"
 
-#: src/menus.c:2233
+#: src/menus.c:2234
 #, c-format
 msgid "PLAYER %d, YOU CAME IN THE TOP 10"
 msgstr "SPELER %d, U STAAT IN DE TOP 10"
 
-#: src/menus.c:2302
+#: src/menus.c:2300
 #, c-format
 msgid "PLAYER %d WON!"
 msgstr "SPELER %d WINT!"
 
-#: src/menus.c:2308
+#: src/menus.c:2306
 msgid "EVERYONE LOST!"
 msgstr "IEDEREEN VERLIEST!"
 
-#: src/menus.c:2310
+#: src/menus.c:2308
 msgid "YOU LOST!"
 msgstr "U VERLIEST!"
 
-#: src/menus.c:2389
+#: src/menus.c:2387
 #, c-format
 msgid "ROUND %d/%d"
 msgstr "RONDE %d/%d"
@@ -1366,6 +1364,21 @@ msgstr "Kan `%s' niet openen"
 msgid "Unknown image flag '%c'."
 msgstr "Onbekende `image' vlag '%c'."
 
+#: src/relocate.c:69
+msgid "HOME variable not found in environment, defaulting to `.'"
+msgstr "HOME variabele niet gevonden in omgeving, neem `.'"
+
+#: src/relocate.c:119
+msgid ""
+"It looks like the game is not correctly installed.\n"
+"Maybe the data files has not been installed with the same configure options\n"
+"as the executable, or maybe the data files have been moved elsewhere.\n"
+"In the latter case it's probably enough to set the environment variable\n"
+"HEROES_PREFIX to the new location.  You may also want to set\n"
+"HEROES_DEBUG=system to see what files Heroes is looking after.\n"
+"If none of this helps, contact <heroes-bugs@lists.sourceforge.net>\n"
+msgstr ""
+
 #: src/rsc_files.c:32
 #, c-format
 msgid "%s: no such resource, possible misspelling of '%s'."
@@ -1376,15 +1389,36 @@ msgstr "%s: niet zo'n hulpbron, mogelijk foute gespelling voor `%s'."
 msgid "%s: no such resource."
 msgstr "%s: niet zo'n hulpbron."
 
-#: src/rsc_files.c:131
+#: src/rsc_files.c:150
 #, c-format
 msgid "%s: null resource"
 msgstr "%s: nul hulpbron"
 
-#: src/rsc_files.c:133
+#: src/rsc_files.c:152
 #, c-format
 msgid "%s: empty resource"
 msgstr "%s: lege hulpbron"
+
+# %s is a filename, right?
+#: src/savegame.c:77 src/scores.c:91
+#, fuzzy, c-format
+msgid "cannot write %s"
+msgstr "Kan `%s' niet openen"
+
+#: src/savegame.c:83 src/scores.c:97
+#, c-format
+msgid "%s: truncate error"
+msgstr ""
+
+#: src/savegame.c:113
+#, c-format
+msgid "%s:%d: parse error.  Clearing saved-games table."
+msgstr ""
+
+#: src/scores.c:135
+#, c-format
+msgid "%s:%d: parse error.  Clearing score table."
+msgstr ""
 
 # %s is taken to be an item
 #: src/sfx.c:148
