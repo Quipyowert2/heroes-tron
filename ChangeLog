@@ -1,3 +1,58 @@
+2001-01-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Make `screen' an xbuf*ybuf sized buffer, and adapt all code
+	accordingly.  Also prepare the display.c code to not always
+	works from `screen' (the idea is that since the render buffers
+	are also xbuf*ybuf we might avoid doing the copy to `screen'
+	to save some time).
+
+	* src/const.c (square_offset_320): Remove.
+	* src/const.h (square_offset_320): Remove.
+	(xbuf, ybuf, sbuf): Move to ...
+	* src/display.h (xbuf, ybuf, sbuf): ... here.
+	(vsynchro): Take the source as a parameter.
+	* src/display.c (stretch_twofold, stretch_twofold_even,
+	stretch_threefold, stretch_threefold_even, stretch_fourfold,
+	stretch_fourfold_even, erase_odd_lines, copy_screen,
+	copy_display): Arrange to take the source buffer as a
+	parameter (for a future optimization), and consider the
+	source as an xbuf wide buffer.
+	[HAVE_LIBGGI, HAVE_LIBSDL] (init_video): Always allocate
+	screen (this is	only temporary).
+	[HAVE_LIBSDL] (uninit_video): Always free screen.
+	[HAVE_LIBGGI, HAVE_LIBSDL] (vsynchro): Take the source buffer
+	as a new argument, and adjust the call to copy_display.
+	* src/const.c (scdec320): Rename as ...
+	(square_offser_320): ... this.
+	(partiel4, copy_tile, copy_tile_transp, copy_square_transp,
+	partiel2, frame, framept, draw_text, transpa, transpac, carre,
+	affgt, majd, affplan, majg, departfix, planfull, joueanim,
+	hmain): Adjust to consider screen as a xbuf-wide buffer, and
+	supply new the source argument to vsynchro().
+	* src/heroes.c (play_menu): Adjust to consider screen as
+	a xbuf-wide buffer
+	* src/intro.c (img2vram): Remove.
+	(copy_vehicle_1, copy_vehicle_2, compute_erase_data): Adjust
+	to work in xbuf-wide buffers.
+	(show_intro): Likewise.  Use copy_image_to_scr_area instead of
+	img2vram.
+	* src/pixelize.c (pixelize_1, pixelize_2_inline,
+	pixelize_4_inline, pixelize_8_inline, pixelize_16_inline,
+	pixelize_16_inline_2, pixelize_32_inline, pixelize_32_inline_2,
+	pixelize_32, pixelize_64_inline, pixelize_64_inline_2,
+	pixelize_64): Ajust to output in xbuf-wide buffers.
+	(pixelize): Cosmetic change.
+	* src/render.c (display_buffer_tmp1, display_buffer_moving,
+	display_two_ubffers, display_two_buffers_moving,
+	display_two_buffers_moving_and_clear): Ajust to output in
+	xbuf-wide buffers.
+	* src/scrtools.c (vsynch): Supply the source argument to vsynchro.
+	(backup_screen): Adjust to work from xbuf-wide buffer.
+	(add_buffer): Adjust to output in a xbuf-wide buffer.
+	* src/struct.h [__HEDIT__] (square_offset_320, square_offset,
+	d2w, w2d): Remove.
+	* src/visuals.c (flip_buffer): Cosmetic changes.
+
 2001-01-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/timer.c (reset_htimer) [!HAVE_GETTIMEOFDAY]: Typo from

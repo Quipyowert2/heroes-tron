@@ -1,23 +1,24 @@
-/*------------------------------------------------------------------------.
-| Copyright 1997, 1998, 2000  Alexandre Duret-Lutz <duret_g@epita.fr>     |
-|                                                                         |
-| This file is part of Heroes.                                            |
-|                                                                         |
-| Heroes is free software; you can redistribute it and/or modify it under |
-| the terms of the GNU General Public License as published by the Free    |
-| Software Foundation; either version 2 of the License, or (at your       |
-| option) any later version.                                              |
-|                                                                         |
-| Heroes is distributed in the hope that it will be useful, but WITHOUT   |
-| ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or   |
-| FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   |
-| for more details.                                                       |
-|                                                                         |
-| You should have received a copy of the GNU General Public License along |
-| with this program; if not, write to the Free Software Foundation, Inc., |
-| 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
-`------------------------------------------------------------------------*/
-
+/*------------------------------------------------------------------.
+| Copyright 1997, 1998, 2000, 2001  Alexandre Duret-Lutz            |
+|                                    <duret_g@epita.fr>             |
+|                                                                   |
+| This file is part of Heroes.                                      |
+|                                                                   |
+| Heroes is free software; you can redistribute it and/or modify it |
+| under the terms of the GNU General Public License as published by |
+| the Free Software Foundation; either version 2 of the License, or |
+| (at your option) any later version.                               |
+|                                                                   |
+| Heroes is distributed in the hope that it will be useful, but     |
+| WITHOUT ANY WARRANTY; without even the implied warranty of        |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU |
+| General Public License for more details.                          |
+|                                                                   |
+| You should have received a copy of the GNU General Public License |
+| along with this program; if not, write to the Free Software       |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA          |
+| 02111-1307 USA                                                    |
+`------------------------------------------------------------------*/
 
 #ifndef HEROES__STRUCTS__H
 #define HEROES__STRUCTS__H
@@ -53,13 +54,6 @@
 #define t_outway  8
 
 #ifdef __HEDIT__
-
-static int square_offset_320[4] = { 0, 12, 320 * 10, 320 * 10 + 12 };
-#ifndef __HEDLITE__
-static int square_offset[4] = { 0, 12, 384 * 10, 384 * 10 + 12 };
-static char d2w[9] = { 0, 0, 1, 1, 2, 2, 2, 2, 3 };
-static char w2d[4] = { d_up, d_right, d_down, d_left };
-#endif
 
 static const char *type_name[] =
   { "NONE", "STOP", "SPEED", "TUNNEL", "BOOM", "ANIM", "ICE", "DUST",

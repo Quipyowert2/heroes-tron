@@ -1,22 +1,24 @@
-/*------------------------------------------------------------------------.
-| Copyright 1997, 1998, 2000  Alexandre Duret-Lutz <duret_g@epita.fr>     |
-|                                                                         |
-| This file is part of Heroes.                                            |
-|                                                                         |
-| Heroes is free software; you can redistribute it and/or modify it under |
-| the terms of the GNU General Public License as published by the Free    |
-| Software Foundation; either version 2 of the License, or (at your       |
-| option) any later version.                                              |
-|                                                                         |
-| Heroes is distributed in the hope that it will be useful, but WITHOUT   |
-| ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or   |
-| FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   |
-| for more details.                                                       |
-|                                                                         |
-| You should have received a copy of the GNU General Public License along |
-| with this program; if not, write to the Free Software Foundation, Inc., |
-| 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
-`------------------------------------------------------------------------*/
+/*------------------------------------------------------------------.
+| Copyright 1997, 1998, 2000, 2001  Alexandre Duret-Lutz            |
+|                                    <duret_g@epita.fr>             |
+|                                                                   |
+| This file is part of Heroes.                                      |
+|                                                                   |
+| Heroes is free software; you can redistribute it and/or modify it |
+| under the terms of the GNU General Public License as published by |
+| the Free Software Foundation; either version 2 of the License, or |
+| (at your option) any later version.                               |
+|                                                                   |
+| Heroes is distributed in the hope that it will be useful, but     |
+| WITHOUT ANY WARRANTY; without even the implied warranty of        |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU |
+| General Public License for more details.                          |
+|                                                                   |
+| You should have received a copy of the GNU General Public License |
+| along with this program; if not, write to the Free Software       |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA          |
+| 02111-1307 USA                                                    |
+`------------------------------------------------------------------*/
 
 /* the intro animation */
 
@@ -50,12 +52,6 @@ htimer_t intro_global_htimer;
 
 
 static void
-img2vram (pcx_image_t * image)
-{
-  fastmem4 (image->buffer, screen, 64000 / 4);
-}
-
-static void
 copy_vehicle_1 (int x)
 {
   int y;
@@ -65,12 +61,12 @@ copy_vehicle_1 (int x)
   if (x < 248) {
     dx = x;
     for (y = 31; y >= 0; y--)
-      memcpy (screen + 58 * 320 + y * 320,
-	      intro_img.buffer + 58 * 320 + 306 - dx + y * 320, dx);
+      memcpy (screen + (58 + y) * xbuf,
+	      intro_img.buffer + (58 + y) * 320 + 306 - dx, dx);
   } else
     for (y = 31; y >= 0; y--)
-      memcpy (screen + 58 * 320 + x - 248 + y * 320,
-	      intro_img.buffer + 58 * 320 + 58 + y * 320, dx);
+      memcpy (screen + (58 + y) * xbuf + x - 248,
+	      intro_img.buffer + (58 + y) * 320 + 58, dx);
 }
 
 static void
@@ -83,12 +79,12 @@ copy_vehicle_2 (int x)
   if (x < 248) {
     dx = x;
     for (y = 31; y >= 0; y--)
-      memcpy (screen + 110 * 320 + y * 320,
-	      intro_img.buffer + 110 * 320 + 262 - dx + y * 320, dx);
+      memcpy (screen + (110 + y) * xbuf,
+	      intro_img.buffer + (110 + y) * 320 + 262 - dx, dx);
   } else
     for (y = 31; y >= 0; y--)
-      memcpy (screen + 110 * 320 + x - 248 + y * 320,
-	      intro_img.buffer + 110 * 320 + 14 + y * 320, dx);
+      memcpy (screen + (110 + y) * xbuf + x - 248,
+	      intro_img.buffer + (110 + y) * 320 + 14, dx);
 }
 
 static void
@@ -96,17 +92,20 @@ compute_erase_data (void)
 {
   pixel_t *dest = screen;
   pixel_t *src = intro_img.buffer;
-  int i;
+  int i, j;
   for (i = 320 * 200; i > 0; i--)
     color_nbr[*src++]++;
   erase_color_ptr[0] = erase_data;
   for (i = 1; i <= 255; i++)
     erase_color_ptr[i] = erase_color_ptr[i - 1] + color_nbr[i - 1];
   src = intro_img.buffer;
-  for (i = 320 * 200; i > 0; i--) {
-    *erase_color_ptr[*src]++ = dest;
-    src++;
-    dest++;
+  for (i = 200; i > 0; i--) {
+    for (j = 320; j > 0; j--) {
+      *erase_color_ptr[*src]++ = dest;
+      src++;
+      dest++;
+    }
+    dest += xbuf - 320;
   }
 }
 
@@ -166,8 +165,8 @@ show_intro (void)
   play_soundtrack ();
   memset (color_nbr, 0, 256 * sizeof(*color_nbr));
   set_color (255, 0, 0, 0);
-  memset (screen, 255, 32000);
-  memset (screen + 32000, 0, 32000);
+  memset (screen, 255, xbuf * 100);
+  memset (screen + xbuf * 100, 0, xbuf * 100);
   reset_htimer (intro_frame_htimer);
   reset_htimer (intro_global_htimer);
   for (i = 0; i <= 63; i += read_htimer (intro_frame_htimer)) {
@@ -185,7 +184,7 @@ show_intro (void)
     fade_pal.global[i] = pal.global[i] = ((i >= 384) ? 63 : 0);
 
   set_pal (pal.global, 0, 768);
-  img2vram (&intro_img);
+  copy_image_to_scr_area (&intro_img, screen);
   while (read_htimer (intro_global_htimer) < 2) {
     vsynch ();
     if (key_or_joy_ready ()) {
@@ -228,8 +227,8 @@ show_intro (void)
     }
   } while (fade_stat != F_FINISHED);
 
-  memset (screen, 255, 32000);
-  memset (screen + 32000, 0, 32000);
+  memset (screen, 255, xbuf * 100);
+  memset (screen + xbuf * 100, 0, xbuf * 100);
   set_pal (intro_img.palette.global, 0, 768);
 
   while (read_htimer (intro_global_htimer) < 14) {
@@ -256,7 +255,7 @@ show_intro (void)
 
   img_free (&intro_img);
   pcx_load_from_rsc ("intro-splash-img", &intro_img);
-  img2vram (&intro_img);
+  copy_image_to_scr_area (&intro_img, screen);
   intro_img.palette.indiv[254].r = 0;
   intro_img.palette.indiv[254].g = 0;
   intro_img.palette.indiv[254].b = 0;

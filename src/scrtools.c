@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------.
-| Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>                 |
+| Copyright 2000, 2001  Alexandre Duret-Lutz <duret_g@epita.fr>           |
 |                                                                         |
 | This file is part of Heroes.                                            |
 |                                                                         |
@@ -55,7 +55,7 @@ void
 vsynch (void)
 {
   run_fader ();
-  vsynchro ();
+  vsynchro (screen);
   update_htimers ();
 }
 
@@ -66,7 +66,7 @@ backup_screen (pixel_t *dest)
   const pixel_t *src = screen;
   for (row = 200; row; --row) {
     fastmem4 (src, dest, 320/4);
-    src += 320;
+    src += xbuf;
     dest += xbuf;
   }
 }
@@ -127,6 +127,6 @@ aff_buffer (void)
   for (row = 200; row; --row) {
     fastmem4 (src, dest, 320/4);
     src += xbuf;
-    dest += 320;
+    dest += xbuf;
   }
 }

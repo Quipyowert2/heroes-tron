@@ -39,13 +39,9 @@ pixel_t* screen_rv = 0;		/* A pointer to the screen buffer associated
 
 pixel_t* screen = 0;		/* A pointer to the screen buffer,
 				   used throughout the game
-				   (screen is always 320x200). */
+				   (screen is always xbuf*ybuf). */
 
-char screen_allocated = 0;	/* Whether screen has been mallocated */
-
-/* If no display stretching is needed and screen_rv is not a pointer
-   to hardware, then screen == screen_rv.  Otherwise, screen is a
-   separate mallocated buffer (screen_allocated==1) whose content is
+/* Otherwise, screen is a mallocated buffer  whose content is
    stretched or copied to screen_rv before blitting.  This is a kluge
    because when the blit is made accross different depths (common
    case: the game is drawn in 8bits and most display are 16 or 24 bits
@@ -60,10 +56,9 @@ char video_initialized = 0;	/* has the driver been initialized? */
 /* slow stretching routines */
 
 static void
-stretch_twofold (void)
+stretch_twofold (pixel_t *s)
 {
-  pixel_t* s = screen;
-  pixel_t* d = screen_rv;
+  pixel_t *d = screen_rv;
   int rows_left, columns_left;
 
   for (rows_left = 200; rows_left; --rows_left) {
@@ -82,15 +77,15 @@ stretch_twofold (void)
       s += 2;
       d += 4;
     }
-    d += 2 * scr_pitch - 640;
+    d += 2 * (scr_pitch - 320);
+    s += xbuf - 320;
   }
 }
 
 static void
-stretch_twofold_even (void)
+stretch_twofold_even (pixel_t *s)
 {
-  pixel_t* s = screen;
-  pixel_t* d = screen_rv;
+  pixel_t *d = screen_rv;
   int rows_left, columns_left;
 
   for (rows_left = 200; rows_left; --rows_left) {
@@ -99,15 +94,15 @@ stretch_twofold_even (void)
       ++s;
       d += 2;
     }
-    d += 2 * scr_pitch - 640;
+    d += 2 * (scr_pitch - 320);
+    s += xbuf - 320;
   }
 }
 
 static void
-stretch_threefold (void)
+stretch_threefold (pixel_t* s)
 {
-  pixel_t* s = screen;
-  pixel_t* d = screen_rv;
+  pixel_t *d = screen_rv;
   int rows_left, columns_left;
 
   for (rows_left = 200; rows_left; --rows_left) {
@@ -136,22 +131,22 @@ stretch_threefold (void)
       s += 2;
       d += 6;
     }
-    d += 3 * scr_pitch - 960;
+    d += 3 * (scr_pitch - 320);
+    s += xbuf - 320;
   }
 }
 
 static void
-stretch_threefold_even (void)
+stretch_threefold_even (pixel_t *s)
 {
-  pixel_t* s = screen;
-  pixel_t* d = screen_rv;
+  pixel_t *d = screen_rv;
   int rows_left, columns_left;
 
   for (rows_left = 200 / 2; rows_left; --rows_left) {
     for (columns_left = 320; columns_left; --columns_left) {
       pixel_t t1, t2;
       t1 = s[0];
-      t2 = s[320];
+      t2 = s[xbuf];
       d[0] = t1;
       d[0+960*4] = t2;
       d[1] = t1;
@@ -164,16 +159,15 @@ stretch_threefold_even (void)
       ++s;
       d += 3;
     }
-    d += 6 * scr_pitch - 960;
-    s += 320;
+    d += 3 * (2 * scr_pitch - 320);
+    s += 2 * xbuf - 320;
   }
 }
 
 static void
-stretch_fourfold (void)
+stretch_fourfold (pixel_t *s)
 {
-  pixel_t* s = screen;
-  pixel_t* d = screen_rv;
+  pixel_t *d = screen_rv;
   int rows_left, columns_left;
 
   for (rows_left = 200; rows_left; --rows_left) {
@@ -189,14 +183,14 @@ stretch_fourfold (void)
       ++d2;
     }
     d += 4 * scr_pitch;
+    s += xbuf - 320;
   }
 }
 
 static void
-stretch_fourfold_even (void)
+stretch_fourfold_even (pixel_t* s)
 {
-  pixel_t* s = screen;
-  pixel_t* d = screen_rv;
+  pixel_t *d = screen_rv;
   int rows_left, columns_left;
 
   for (rows_left = 200; rows_left; --rows_left) {
@@ -210,56 +204,54 @@ stretch_fourfold_even (void)
       ++d2;
     }
     d += 4 * scr_pitch;
+    s += xbuf - 320;
   }
 }
 
 static void
-erase_odd_lines (void)
+erase_odd_lines (pixel_t *s)
 {
-  pixel_t* s = screen+320;
   int i;
-  for (i = 100; i; --i, s += 640)
+  s += xbuf;
+  for (i = 100; i; --i, s += 2 * xbuf)
     memset (s, 0, 320);
 }
 
 static void
-copy_screen (void)
+copy_screen (pixel_t *s)
 {
-  pixel_t* s = screen;
-  pixel_t* d = screen_rv;
+  pixel_t *d = screen_rv;
   int i;
-  for (i = 200; i; --i, s += 320, d += scr_pitch)
+  for (i = 200; i; --i, s += xbuf, d += scr_pitch)
     fastmem4 (s, d, 320/4);
 }
 
-/* Copy the rendered display (screen) to the visual (screen_rv).  This
-   may require stretching, if the user asked for.  There may be
-   nothing to do (in the case where screen = screen_rv).  */
+/* Copy the rendered display (s) to the visual (screen_rv).  This
+   may require stretching, if the user asked for.  */
 static void
-copy_display (void)
+copy_display (pixel_t *s)
 {
   /* the result of stretching routines is written directly
      to the video memory */
   if (stretch == 2) {
     if (even_lines)
-      stretch_twofold_even ();
+      stretch_twofold_even (s);
     else
-      stretch_twofold ();
+      stretch_twofold (s);
   } else if (stretch == 3) {
     if (even_lines)
-      stretch_threefold_even ();
+      stretch_threefold_even (s);
     else
-      stretch_threefold ();
+      stretch_threefold (s);
   } else if (stretch == 4) {
     if (even_lines)
-      stretch_fourfold_even ();
+      stretch_fourfold_even (s);
     else
-      stretch_fourfold ();
+      stretch_fourfold (s);
   } else {			/* stretch == 1 */
     if (even_lines)
-      erase_odd_lines ();
-    if (screen_allocated)
-      copy_screen ();
+      erase_odd_lines (s);
+    copy_screen (s);
   }
 }
 
@@ -348,11 +340,7 @@ init_video (void)
 
   screen_rv = db->write;
 
-  if (stretch > 1) {
-    XMALLOC_ARRAY (screen, 320 * 200);
-    screen_allocated = 1;
-  } else
-    screen = screen_rv;
+  XMALLOC_ARRAY (screen, xbuf * ybuf);
 
   dmsg (D_VIDEO, "set display flags");
   ggiAddFlags (visu, GGIFLAG_ASYNC);
@@ -414,9 +402,9 @@ set_pal (const unsigned char *ptr, int p, int n)
 }
 
 void
-vsynchro (void)
+vsynchro (pixel_t *s)
 {
-  copy_display ();
+  copy_display (s);
   ggiCrossBlit (render_visu, 0, 0, scr_w, scr_h, visu,
 		(vid_mode.visible.x - scr_w)/2,
 		(vid_mode.visible.y - scr_h)/2);
@@ -487,14 +475,7 @@ init_video (void)
   else
     screen_rv = visu->pixels;
 
-  if (stretch > 1 || SDL_MUSTLOCK (visu)) {
-    /* If the game needs stretching or the visual needs locking, we
-       don't draw directly on it, we use a separate buffer and
-       then copy that buffer to the video memory. */
-    XMALLOC_ARRAY (screen, 320 * 200);
-    screen_allocated = 1;
-  } else
-    screen = screen_rv;
+  XMALLOC_ARRAY (screen, xbuf * ybuf);
 
   scr_pitch = visu->pitch;
 
@@ -518,11 +499,9 @@ init_video (void)
 void
 uninit_video (void)
 {
-  if (screen_allocated) {
-    dmsg (D_MISC, "free screen buffer");
-    XFREE0 (screen);
-    screen_allocated = 0;
-  }
+  dmsg (D_MISC, "free screen buffer");
+  XFREE0 (screen);
+
   if (SDL_initialized) {
     SDL_Quit ();
     SDL_initialized = 0;
@@ -556,13 +535,13 @@ set_pal (const unsigned char *ptr, int p, int n)
 }
 
 void
-vsynchro (void)
+vsynchro (pixel_t *s)
 {
   if (SDL_MUSTLOCK (visu))
     SDL_LockSurface (visu);
 
   screen_rv = visu->pixels;
-  copy_display ();
+  copy_display (s);
 
   if (SDL_MUSTLOCK (visu))
     SDL_UnlockSurface (visu);

@@ -1,22 +1,24 @@
-/*------------------------------------------------------------------------.
-| Copyright 1997, 1998, 2000  Alexandre Duret-Lutz <duret_g@epita.fr>     |
-|                                                                         |
-| This file is part of Heroes.                                            |
-|                                                                         |
-| Heroes is free software; you can redistribute it and/or modify it under |
-| the terms of the GNU General Public License as published by the Free    |
-| Software Foundation; either version 2 of the License, or (at your       |
-| option) any later version.                                              |
-|                                                                         |
-| Heroes is distributed in the hope that it will be useful, but WITHOUT   |
-| ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or   |
-| FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   |
-| for more details.                                                       |
-|                                                                         |
-| You should have received a copy of the GNU General Public License along |
-| with this program; if not, write to the Free Software Foundation, Inc., |
-| 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
-`------------------------------------------------------------------------*/
+/*------------------------------------------------------------------.
+| Copyright 1997, 1998, 2000, 2001  Alexandre Duret-Lutz            |
+|                                    <duret_g@epita.fr>             |
+|                                                                   |
+| This file is part of Heroes.                                      |
+|                                                                   |
+| Heroes is free software; you can redistribute it and/or modify it |
+| under the terms of the GNU General Public License as published by |
+| the Free Software Foundation; either version 2 of the License, or |
+| (at your option) any later version.                               |
+|                                                                   |
+| Heroes is distributed in the hope that it will be useful, but     |
+| WITHOUT ANY WARRANTY; without even the implied warranty of        |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU |
+| General Public License for more details.                          |
+|                                                                   |
+| You should have received a copy of the GNU General Public License |
+| along with this program; if not, write to the Free Software       |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA          |
+| 02111-1307 USA                                                    |
+`------------------------------------------------------------------*/
 
 /* Heroes constants */
 
@@ -49,7 +51,6 @@ pixel_t radar_wall_color[16] =
 int rounds_nbr_values[16] =
   { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20, 30, 50, 100 };
 
-int square_offset_320[4] = { 0, 12, 320 * 10, 320 * 10 + 12 };
 int square_offset[4] = { 0, 12, xbuf * 10, xbuf * 10 + 12 };
 
 char mode_name[5][12] = { N_("QUEST"), N_("DEATH MATCH"), N_("KILL'EM ALL"),

@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------.
-| Copyright 1996, 1997, 1998, 2000  Alexandre Duret-Lutz                  |
+| Copyright 1996, 1997, 1998, 2000, 2001  Alexandre Duret-Lutz            |
 |                                                  <duret_g@epita.fr>     |
 |                                                                         |
 | This file is part of Heroes.                                            |
@@ -46,7 +46,7 @@
 #include "userdir.h"
 #include "rsc_files.h"
 #include "debugmsg.h"
-
+#include "const.h"
 
 
 static pcx_image_t heditrsc, tile_set_img;
@@ -68,7 +68,7 @@ static char pcxnom[13];
 static char nombre[5];
 static FILE *ftmp;
 
-static int scdec320[4] = { 0, 12, 3200, 3212 };
+static int square_offset_320[4] = { 0, 12, 3200, 3212 };
 
 static int cote = 0;
 
@@ -103,11 +103,11 @@ partiel4 (int xs, int ys, int xd, int yd, int xc, int yc, pcx_image_t *source)
   int i = source->width;
   int j;
   pixel_t *src = (source->buffer) + (i * ys) + xs;
-  pixel_t *dest = screen + xc + yc * 320;
+  pixel_t *dest = screen + xc + yc * xbuf;
   for (j = yd; j > 0; j--) {
     fastmem4 (src, dest, xd >> 2);
     src += i;
-    dest += 320;
+    dest += xbuf;
   }
 }
 
@@ -120,7 +120,7 @@ copy_tile (int src_, pixel_t *dest)
   for (j = 20; j > 0; j--) {
     fastmem4 (src, dest, 24 >> 2);
     src += i;
-    dest += 320;
+    dest += xbuf;
   }
 }
 
@@ -151,7 +151,7 @@ copy_tile_transp (int src_, pixel_t *dest)
       dest++;
     }
     src += i - 24;
-    dest += 320 - 24;
+    dest += xbuf - 24;
   }
 }
 
@@ -185,7 +185,7 @@ copy_square_transp (pixel_t *src, pixel_t *dest)
       dest++;
     }
     src += 320 - 12;
-    dest += 320 - 12;
+    dest += xbuf - 12;
   }
 }
 
@@ -211,11 +211,11 @@ partiel2 (int xs, int ys, int xd, int yd, int xc, int yc, pcx_image_t *source)
   int i = source->width;
   int j;
   pixel_t *src = (source->buffer) + (i * ys) + xs;
-  pixel_t *dest = screen + xc + yc * 320;
+  pixel_t *dest = screen + xc + yc * xbuf;
   for (j = yd; j > 0; j--) {
     fastmem2 (src, dest, xd >> 1);
     src += i;
-    dest += 320;
+    dest += xbuf;
   }
 }
 
@@ -223,15 +223,15 @@ static void
 frame (int x, int y, int xd, int yd, pixel_t col)
 {
   int i;
-  pixel_t *dest = screen + y * 320 + x;
+  pixel_t *dest = screen + y * xbuf + x;
   for (i = xd; i > 0; i--) {
-    *(dest + yd * 320) = col;
+    dest[yd * xbuf] = col;
     *dest++ = col;
   };
   for (i = yd; i >= 0; i--) {
-    *(dest - xd) = col;
+    dest[-xd] = col;
     *dest = col;
-    dest += 320;
+    dest += xbuf;
   };
 }
 
@@ -239,20 +239,20 @@ static void
 framept (int x, int y, int xd, int yd, pixel_t col1, pixel_t col2)
 {
   int i;
-  pixel_t *dest = screen + y * 320 + x;
+  pixel_t *dest = screen + y * xbuf + x;
   for (i = (xd >> 1); i > 0; i--) {
-    *(dest + (yd - 1) * 320) = col1;
+    dest[(yd - 1) * xbuf] = col1;
     *dest++ = col2;
-    *(dest + (yd - 1) * 320) = col2;
+    dest[(yd - 1) * xbuf] = col2;
     *dest++ = col1;
   };
   xd--;
   dest--;
   for (i = (yd >> 1); i > 0; i--) {
-    *(dest - xd) = col2;
+    dest[-xd] = col2;
     *dest = col1;
     dest += 320;
-    *(dest - xd) = col1;
+    dest[-xd] = col1;
     *dest = col2;
     dest += 320;
   };
@@ -262,8 +262,8 @@ static void
 draw_text (const char *texte, int posx, int posy, pixel_t coul, char cent)
 {
   int i, j;
-  int k, d = -1;
-  pixel_t *dest = screen + posx + posy * 320;
+  int k1, k2, d = -1;
+  pixel_t *dest = screen + posx + posy * xbuf;
   pixel_t *src;
   const char *tmp = texte;
   for (; *tmp != 0; tmp++) {
@@ -281,9 +281,10 @@ draw_text (const char *texte, int posx, int posy, pixel_t coul, char cent)
     i = *texte - font_first_ascii;
     src = heditrsc.buffer + font_pos + ((int) (i) << 2);
     for (j = font_width[i]; j > 0; j--) {
-      for (k = 320 * (font_height - 1); k >= 0; k -= 320)
-	if (*(src + k) != font_transp_color)
-	  *(dest + k) = coul;
+      for (k1 = 320 * (font_height - 1), k2 = xbuf * (font_height - 1);
+	   k1 >= 0; k1 -= 320, k2 -= xbuf)
+	if (src[k1] != font_transp_color)
+	  dest[k2] = coul;
       dest++;
       src++;
     }
@@ -299,13 +300,13 @@ transpa (pixel_t *source, pixel_t *dest, int xt, int yt, char coul)
   for (y = yt; y > 0; y--) {
     for (x = xt; x > 0; x--)
       if (*source != coul)
-	(*dest++ = *source++);
+	*dest++ = *source++;
       else {
 	dest++;
 	source++;
       }
     source += 320 - xt;
-    dest += 320 - xt;
+    dest += xbuf - xt;
   };
 }
 
@@ -316,7 +317,7 @@ transpac (pixel_t *source, pixel_t *dest, int xt, int yt, char coul)
   for (y = yt; y > 0; y--) {
     for (x = xt; x > 0; x--)
       if (*source != coul)
-	(*dest++ = *source++);
+	*dest++ = *source++;
       else {
 	dest++;
 	source++;
@@ -329,7 +330,7 @@ transpac (pixel_t *source, pixel_t *dest, int xt, int yt, char coul)
 static void
 carre (int x, int y, pixel_t c)
 {
-  pixel_t *dest = screen + x + y * 320;
+  pixel_t *dest = screen + x + y * xbuf;
 
   if (c)
     c = 8;
@@ -339,17 +340,17 @@ carre (int x, int y, pixel_t c)
   dest[1] = 0;
   dest[2] = 0;
   dest[3] = 0;
-  dest += 320;
+  dest += xbuf;
   dest[0] = 0;
   dest[1] = c;
   dest[2] = c;
   dest[3] = 0;
-  dest += 320;
+  dest += xbuf;
   dest[0] = 0;
   dest[1] = c;
   dest[2] = c;
   dest[3] = 0;
-  dest += 320;
+  dest += xbuf;
   dest[0] = 0;
   dest[1] = 0;
   dest[2] = 0;
@@ -361,18 +362,14 @@ affgt (int t)
 {
   switch (level_map[t].type) {
   case t_speed:
-    transpa (heditrsc.buffer + 30 + 20 * 320 +
-	     level_map[t].info.param[0] * 12 + 1, screen + 294 + 88 * 320,
-	     10, 9, 71);
-    transpa (heditrsc.buffer + 30 + 20 * 320 +
-	     level_map[t].info.param[1] * 12 + 1, screen + 306 + 88 * 320,
-	     10, 9, 71);
-    transpa (heditrsc.buffer + 30 + 20 * 320 +
-	     level_map[t].info.param[2] * 12 + 1, screen + 294 + 99 * 320,
-	     10, 9, 71);
-    transpa (heditrsc.buffer + 30 + 20 * 320 +
-	     level_map[t].info.param[3] * 12 + 1, screen + 306 + 99 * 320,
-	     10, 9, 71);
+    transpa (IMGPOS (heditrsc, 20, 30 + level_map[t].info.param[0] * 12 + 1),
+	     screen + 294 + 88 * xbuf, 10, 9, 71);
+    transpa (IMGPOS (heditrsc, 20, 30 + level_map[t].info.param[1] * 12 + 1),
+	     screen + 306 + 88 * xbuf, 10, 9, 71);
+    transpa (IMGPOS (heditrsc, 20, 30 + level_map[t].info.param[2] * 12 + 1),
+	     screen + 294 + 99 * xbuf, 10, 9, 71);
+    transpa (IMGPOS (heditrsc, 20, 30 + level_map[t].info.param[3] * 12 + 1),
+	     screen + 306 + 99 * xbuf, 10, 9, 71);
     partiel4 (0, 112, 30, 27, 290, 112, &heditrsc);
 
     if ((level_map[t].info.param[4] >> 4) > 0) {
@@ -406,18 +403,18 @@ affgt (int t)
       partiel2 (0, 168, 30, 32, 290, 168, &heditrsc);
     break;
   case t_tunnel:
-    transpa (heditrsc.buffer + 30 + 20 * 320 +
-	     level_map[t].info.tunnel.direction * 12 + 1,
-	     screen + 294 + 88 * 320, 10, 9, 71);
-    transpa (heditrsc.buffer + 30 + 20 * 320 +
-	     level_map[t].info.tunnel.direction * 12 + 1,
-	     screen + 306 + 88 * 320, 10, 9, 71);
-    transpa (heditrsc.buffer + 30 + 20 * 320 +
-	     level_map[t].info.tunnel.direction * 12 + 1,
-	     screen + 294 + 99 * 320, 10, 9, 71);
-    transpa (heditrsc.buffer + 30 + 20 * 320 +
-	     level_map[t].info.tunnel.direction * 12 + 1,
-	     screen + 306 + 99 * 320, 10, 9, 71);
+    transpa (IMGPOS (heditrsc, 20,
+		     30 + level_map[t].info.tunnel.direction * 12 + 1),
+	     screen + 294 + 88 * xbuf, 10, 9, 71);
+    transpa (IMGPOS (heditrsc, 20,
+		     30 + level_map[t].info.tunnel.direction * 12 + 1),
+	     screen + 306 + 88 * xbuf, 10, 9, 71);
+    transpa (IMGPOS (heditrsc, 20,
+		     30 + level_map[t].info.tunnel.direction * 12 + 1),
+	     screen + 294 + 99 * xbuf, 10, 9, 71);
+    transpa (IMGPOS (heditrsc, 20,
+		     30 + level_map[t].info.tunnel.direction * 12 + 1),
+	     screen + 306 + 99 * xbuf, 10, 9, 71);
     partiel4 (120, 112, 30, 27, 290, 112, &heditrsc);
     sprintf (nombre, "%u", level_map[t].info.tunnel.output / hplaninfo.xt);
     draw_text (nombre, 307, 133, 8, 0);
@@ -555,7 +552,7 @@ majd (void)
   draw_text (nombre, 302, 64, 15, 2);
   sprintf (nombre, "%u", ydalles / 20);
   draw_text (nombre, 307, 64, 15, 0);
-  vsynchro ();
+  vsynchro (screen);
 }
 
 static void
@@ -577,8 +574,7 @@ affplan (int xloc, int yloc, char c)
 	    copy_square_transp (heditrsc.buffer + (16 + (n << 4)) * 320 +
 				256 + (hplaninfo.start_way[n] & 0xf0),
 				dest +
-				square_offset_320[hplaninfo.start_way[n] &
-						  0xf]);
+				square_offset[hplaninfo.start_way[n] & 0xf]);
 	if (level_map[i + m].sprite != 0)
 	  copy_tile_transp (level_map[i + m].sprite, dest);
       }
@@ -589,21 +585,22 @@ affplan (int xloc, int yloc, char c)
 	  for (n = 0; n < 4; n++)
 	    if (level_map[i + m].collision[n] == 0xf)
 	      copy_square_transp (heditrsc.buffer + 10 * 320 + 222 +
-				  scdec320[n], dest + square_offset_320[n]);
+				  square_offset_320[n],
+				  dest + square_offset[n]);
 	    else
 	      copy_square_transp (heditrsc.buffer + 10 * 320 + 30 +
 				  level_map[i + m].collision[n] * 12,
-				  dest + square_offset_320[n]);
+				  dest + square_offset[n]);
       }
       if (i + m == tempd)
 	framept (xx - 12, yy - 7, 24, 20, 8, 15);
       dest += 24;
       xx += 24;
     }
-    dest += 20 * 320 - 24 * (6 + c);
+    dest += 20 * xbuf - 24 * (6 + c);
     yy += 20;
   }
-  vsynchro ();
+  vsynchro (screen);
 }
 
 static unsigned int
@@ -675,7 +672,7 @@ majg (void)
     copy_tile (level_map
 	       [((xplan + xplandec / 24) & hplaninfo.xwrap) +
 		((yplan + yplandec / 20) & hplaninfo.ywrap) *
-		hplaninfo.xt].number, screen + 293 + 88 * 320);
+		hplaninfo.xt].number, screen + 293 + 88 * xbuf);
     affgt (curdallep ());
     partiel2 (0, 71, 30, 13, 290, 71, &heditrsc);
     if (level_map[curdallep ()].sprite != 0)
@@ -688,7 +685,7 @@ majg (void)
   draw_text (nombre, 302, 57, 8, 2);
   sprintf (nombre, "%u", ((yplan + yplandec / 20) & hplaninfo.ywrap));
   draw_text (nombre, 307, 57, 8, 0);
-  vsynchro ();
+  vsynchro (screen);
 }
 
 static void
@@ -702,37 +699,38 @@ departfix (void)
   copy_tile (level_map
 	     [((xplan + xplandec / 24) & hplaninfo.xwrap) +
 	      ((yplan + yplandec / 20) & hplaninfo.ywrap) *
-	      hplaninfo.xt].number, screen + 293 + 88 * 320);
+	      hplaninfo.xt].number, screen + 293 + 88 * xbuf);
 
   while (mouse12 () != 0);
   do {
-    transpa (heditrsc.buffer + 31 + 20 * 320, screen + 294 + 88 * 320, 10, 9,
+    transpa (heditrsc.buffer + 31 + 20 * 320, screen + 294 + 88 * xbuf, 10, 9,
 	     71);
     for (i = 0; i < 4; i++)
       if (hplaninfo.start[i] == d && (hplaninfo.start_way[i] & 0xf) == 0)
-	transpa (heditrsc.buffer + 31 + (hplaninfo.start_way[i] >> 4) * 12 +
-		 (29 + i * 9) * 320, screen + 294 + 88 * 320, 10, 9, 71);
-    transpa (heditrsc.buffer + 31 + 20 * 320, screen + 306 + 88 * 320, 10, 9,
-	     71);
+	transpa (IMGPOS (heditrsc, 29 + i * 9,
+			 31 + (hplaninfo.start_way[i] >> 4) * 12),
+		 screen + 294 + 88 * xbuf, 10, 9, 71);
+    transpa (IMGPOS (heditrsc, 20, 31), screen + 306 + 88 * xbuf, 10, 9, 71);
     for (i = 0; i < 4; i++)
       if (hplaninfo.start[i] == d && (hplaninfo.start_way[i] & 0xf) == 1)
-	transpa (heditrsc.buffer + 31 + (hplaninfo.start_way[i] >> 4) * 12 +
-		 (29 + i * 9) * 320, screen + 306 + 88 * 320, 10, 9, 71);
-    transpa (heditrsc.buffer + 31 + 20 * 320, screen + 294 + 99 * 320, 10, 9,
-	     71);
+	transpa (IMGPOS (heditrsc, 29 + i * 9,
+			 31 + (hplaninfo.start_way[i] >> 4) * 12),
+		 screen + 306 + 88 * xbuf, 10, 9, 71);
+    transpa (IMGPOS (heditrsc, 20, 31), screen + 294 + 99 * xbuf, 10, 9, 71);
     for (i = 0; i < 4; i++)
       if (hplaninfo.start[i] == d && (hplaninfo.start_way[i] & 0xf) == 2)
-	transpa (heditrsc.buffer + 31 + (hplaninfo.start_way[i] >> 4) * 12 +
-		 (29 + i * 9) * 320, screen + 294 + 99 * 320, 10, 9, 71);
-    transpa (heditrsc.buffer + 31 + 20 * 320, screen + 306 + 99 * 320, 10, 9,
-	     71);
+	transpa (IMGPOS (heditrsc, 29 + i * 9,
+			 31 + (hplaninfo.start_way[i] >> 4) * 12),
+		 screen + 294 + 99 * xbuf, 10, 9, 71);
+    transpa (IMGPOS (heditrsc, 20, 31), screen + 306 + 99 * xbuf, 10, 9, 71);
     for (i = 0; i < 4; i++)
       if (hplaninfo.start[i] == d && (hplaninfo.start_way[i] & 0xf) == 3)
-	transpa (heditrsc.buffer + 31 + (hplaninfo.start_way[i] >> 4) * 12 +
-		 (29 + i * 9) * 320, screen + 306 + 99 * 320, 10, 9, 71);
+	transpa (IMGPOS (heditrsc, 29 + i * 9,
+			 31 + (hplaninfo.start_way[i] >> 4) * 12),
+		 screen + 306 + 99 * xbuf, 10, 9, 71);
     partiel4 (90, 112, 30, 27, 290, 112, &heditrsc);
     partiel4 (96 + c * 5, 139, 4, 4, 296 + c * 5, 112, &heditrsc);
-    vsynchro ();
+    vsynchro (screen);
     while (mouse12 () == 0 && key_ready () == 0);
     if (mouse1 ()) {
       x = mouse_x ();
@@ -869,11 +867,12 @@ save_pcx (void)
 	  for (n = 0; n < 4; n++)
 	    if (level_map[i1 + j3].collision[n] == 0xf)
 	      copy_square_transp_pcx (heditrsc.buffer + 10 * 320 + 222 +
-				      scdec320[n], dest + sdec[n]);
+				      square_offset_320[n],
+				      dest + square_offset[n]);
 	    else
 	      copy_square_transp_pcx (heditrsc.buffer + 10 * 320 + 30 +
 				      level_map[i1 + j3].collision[n] * 12,
-				      dest + sdec[n]);
+				      dest + square_offset[n]);
       }
       dest += 24;
     }
@@ -892,7 +891,7 @@ planfull (void)
   int t;
   int x, y, xm = 128, ym = 100;
 
-  memset (screen, 0, 64000);
+  memset (screen, 0, xbuf * ybuf);
   if (xplan > (hplaninfo.xt - 13) && hplaninfo.xwrap == DONT_WRAP)
     xplan = hplaninfo.xt - 13;
   affplan (xplan, yplan, 7);
@@ -930,7 +929,7 @@ planfull (void)
     }
   } while (t != HK_Enter && t != HK_Space && t != HK_Escape &&
 	   mouse12 () == 0);
-  memset (screen, 0, 64000);
+  memset (screen, 0, xbuf * ybuf);
   partiel2 (0, 0, 30, 200, 290, 0, &heditrsc);
   draw_text (levelnomshort, 305, 29, 8, 1);
   sprintf (nombre, "%u", hplaninfo.xt);
@@ -1140,7 +1139,7 @@ joueanim (void)
   do {
     dest = screen;
     yy = 7;
-    vsynchro ();
+    vsynchro (screen);
     for (k = yplan, l = 10; l > 0; l--, k = ((k + 1) & hplaninfo.ywrap)) {
       m = k * hplaninfo.xt;
       xx = 12;
@@ -1174,8 +1173,8 @@ joueanim (void)
 		copy_square_transp (heditrsc.buffer + (16 + (n << 4)) * 320 +
 				    256 + (hplaninfo.start_way[n] & 0xf0),
 				    dest +
-				    square_offset_320[hplaninfo.start_way[n] &
-						      0xf]);
+				    square_offset[hplaninfo.start_way[n]
+						 & 0xf]);
 	    if (level_map[i + m].sprite != 0)
 	      copy_tile_transp (level_map[i + m].sprite, dest);
 	  }
@@ -1183,14 +1182,14 @@ joueanim (void)
 	    for (n = 0; n < 4; n++)
 	      copy_square_transp (heditrsc.buffer + 10 * 320 + 30 +
 				  level_map[i + m].collision[n] * 12,
-				  dest + square_offset_320[n]);
+				  dest + square_offset[n]);
 	  if (i + m == tempd)
 	    framept (xx - 12, yy - 7, 24, 20, 8, 15);
 	}
 	dest += 24;
 	xx += 24;
       }
-      dest += 20 * 320 - 24 * 6;
+      dest += 20 * xbuf - 24 * 6;
       yy += 20;
     }
     t++;
@@ -1819,7 +1818,7 @@ hmain (const char* lname, const char* tset_name,
   fclose (ftmp);
   /*************************************/
   outwayinit ();
-  memset (screen, 0, 64000);
+  memset (screen, 0, xbuf * ybuf);
   set_pal (tile_set_img.palette.global, 0, 256 * 3);
   partiel2 (0, 0, 30, 200, 290, 0, &heditrsc);
   strupr (levelnomshort);

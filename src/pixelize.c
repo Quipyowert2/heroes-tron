@@ -1,22 +1,24 @@
-/*------------------------------------------------------------------------.
-| Copyright 1997, 1998, 2000  Alexandre Duret-Lutz <duret_g@epita.fr>     |
-|                                                                         |
-| This file is part of Heroes.                                            |
-|                                                                         |
-| Heroes is free software; you can redistribute it and/or modify it under |
-| the terms of the GNU General Public License as published by the Free    |
-| Software Foundation; either version 2 of the License, or (at your       |
-| option) any later version.                                              |
-|                                                                         |
-| Heroes is distributed in the hope that it will be useful, but WITHOUT   |
-| ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or   |
-| FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   |
-| for more details.                                                       |
-|                                                                         |
-| You should have received a copy of the GNU General Public License along |
-| with this program; if not, write to the Free Software Foundation, Inc., |
-| 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
-`------------------------------------------------------------------------*/
+/*------------------------------------------------------------------.
+| Copyright 1997, 1998, 2000, 2001  Alexandre Duret-Lutz            |
+|                                    <duret_g@epita.fr>             |
+|                                                                   |
+| This file is part of Heroes.                                      |
+|                                                                   |
+| Heroes is free software; you can redistribute it and/or modify it |
+| under the terms of the GNU General Public License as published by |
+| the Free Software Foundation; either version 2 of the License, or |
+| (at your option) any later version.                               |
+|                                                                   |
+| Heroes is distributed in the hope that it will be useful, but     |
+| WITHOUT ANY WARRANTY; without even the implied warranty of        |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU |
+| General Public License for more details.                          |
+|                                                                   |
+| You should have received a copy of the GNU General Public License |
+| along with this program; if not, write to the Free Software       |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA          |
+| 02111-1307 USA                                                    |
+`------------------------------------------------------------------*/
 
 #include "system.h"
 #include "display.h"
@@ -31,7 +33,7 @@ pixelize_1 (pixel_t *dd, const pixel_t *ss)
   const pixel_t *src = ss;
   int i;
 
-  for (i = 200; i != 0; i--, src += xbuf, dest += 320)
+  for (i = 200; i != 0; i--, src += xbuf, dest += xbuf)
     fastmem4 (src, dest, 80);
 }
 
@@ -48,15 +50,15 @@ pixelize_2_inline (const pixel_t *s, pixel_t *d)
       d[2] = t2;
       d[1] = t1;
       d[3] = t2;
-      d[320 + 0] = t1;
-      d[320 + 2] = t2;
-      d[320 + 1] = t1;
-      d[320 + 3] = t2;
+      d[xbuf + 0] = t1;
+      d[xbuf + 2] = t2;
+      d[xbuf + 1] = t1;
+      d[xbuf + 3] = t2;
       s += 4;
       d += 4;
     }
     s += 2 * xbuf - 320;
-    d += 2 * 320 - 320;
+    d += 2 * xbuf - 320;
   }
 }
 
@@ -77,14 +79,14 @@ pixelize_4_inline (const pixel_t *s, int *d)
       int t;
       t = t1 | (t1 << 8) | (t1 << 16) | (t1 << 24);
       d[0] = t;
-      d[320 / 4] = t;
-      d[2 * 320 / 4] = t;
-      d[3 * 320 / 4] = t;
+      d[xbuf / 4] = t;
+      d[2 * xbuf / 4] = t;
+      d[3 * xbuf / 4] = t;
       s += 4;
       d += 1;
     }
     s += 4 * xbuf - 320;
-    d += (4 * 320 - 320) / 4;
+    d += (4 * xbuf - 320) / 4;
   }
 }
 
@@ -108,25 +110,25 @@ pixelize_8_inline (const pixel_t *s, int *d)
       t = t1 | (t1 << 8) | (t1 << 16) | (t1 << 24);
       d[0] = t;
       d[1] = t;
-      d[320 / 4] = t;
-      d[320 / 4 + 1] = t;
-      d[2 * 320 / 4] = t;
-      d[2 * 320 / 4 + 1] = t;
-      d[3 * 320 / 4] = t;
-      d[3 * 320 / 4 + 1] = t;
-      d[4 * 320 / 4] = t;
-      d[4 * 320 / 4 + 1] = t;
-      d[5 * 320 / 4] = t;
-      d[5 * 320 / 4 + 1] = t;
-      d[6 * 320 / 4] = t;
-      d[6 * 320 / 4 + 1] = t;
-      d[7 * 320 / 4] = t;
-      d[7 * 320 / 4 + 1] = t;
+      d[xbuf / 4] = t;
+      d[xbuf / 4 + 1] = t;
+      d[2 * xbuf / 4] = t;
+      d[2 * xbuf / 4 + 1] = t;
+      d[3 * xbuf / 4] = t;
+      d[3 * xbuf / 4 + 1] = t;
+      d[4 * xbuf / 4] = t;
+      d[4 * xbuf / 4 + 1] = t;
+      d[5 * xbuf / 4] = t;
+      d[5 * xbuf / 4 + 1] = t;
+      d[6 * xbuf / 4] = t;
+      d[6 * xbuf / 4 + 1] = t;
+      d[7 * xbuf / 4] = t;
+      d[7 * xbuf / 4 + 1] = t;
       s += 8;
       d += 2;
     }
     s += 8 * xbuf - 320;
-    d += (8 * 320 - 320) / 4;
+    d += (8 * xbuf - 320) / 4;
   }
 }
 
@@ -148,7 +150,7 @@ pixelize_16_inline (const pixel_t *s, int *d)
       pixel_t t1 = *s;
       int t;
       t = t1 | (t1 << 8) | (t1 << 16) | (t1 << 24);
-      for (o = 16 * 320 / 4; o >= 0; o -= 320 / 4) {
+      for (o = 16 * xbuf / 4; o >= 0; o -= xbuf / 4) {
 	d[o + 0] = t;
 	d[o + 1] = t;
 	d[o + 2] = t;
@@ -158,7 +160,7 @@ pixelize_16_inline (const pixel_t *s, int *d)
       d += 4;
     }
     s += 16 * xbuf - 320;
-    d += (16 * 320 - 320) / 4;
+    d += (16 * xbuf - 320) / 4;
   }
 }
 
@@ -170,7 +172,7 @@ pixel_16_inline_2 (const pixel_t *s, int *d)
     pixel_t t1 = *s;
     int t;
     t = t1 | (t1 << 8) | (t1 << 16) | (t1 << 24);
-    for (o = (200 % 16 - 1) * 320 / 4; o >= 0; o -= 320 / 4) {
+    for (o = (200 % 16 - 1) * xbuf / 4; o >= 0; o -= xbuf / 4) {
       d[o + 0] = t;
       d[o + 1] = t;
       d[o + 2] = t;
@@ -188,7 +190,7 @@ pixelize_16 (pixel_t *dd, const pixel_t *ss)
   const pixel_t *src = ss;
 
   pixelize_16_inline (src, dest);
-  pixel_16_inline_2 (src + xbuf * 192, dest + (320 * 192) / 4);
+  pixel_16_inline_2 (src + xbuf * 192, dest + (xbuf * 192) / 4);
 }
 
 static void
@@ -200,7 +202,7 @@ pixelize_32_inline (const pixel_t *s, int *d)
       pixel_t t1 = *s;
       int t;
       t = t1 | (t1 << 8) | (t1 << 16) | (t1 << 24);
-      for (o = 32 * 320 / 4; o >= 0; o -= 320 / 4) {
+      for (o = 32 * xbuf / 4; o >= 0; o -= xbuf / 4) {
 	d[o + 0] = t;
 	d[o + 1] = t;
 	d[o + 2] = t;
@@ -214,7 +216,7 @@ pixelize_32_inline (const pixel_t *s, int *d)
       d += 8;
     }
     s += 32 * xbuf - 320;
-    d += (32 * 320 - 320) / 4;
+    d += (32 * xbuf - 320) / 4;
   }
 }
 
@@ -226,7 +228,7 @@ pixel_32_inline_2 (const pixel_t *s, int *d)
     pixel_t t1 = *s;
     int t;
     t = t1 | (t1 << 8) | (t1 << 16) | (t1 << 24);
-    for (o = (200 % 32 - 1) * 320 / 4; o >= 0; o -= 320 / 4) {
+    for (o = (200 % 32 - 1) * xbuf / 4; o >= 0; o -= xbuf / 4) {
       d[o + 0] = t;
       d[o + 1] = t;
       d[o + 2] = t;
@@ -248,7 +250,7 @@ pixelize_32 (pixel_t *dd, const pixel_t *ss)
   const pixel_t *src = ss;
 
   pixelize_32_inline (src, dest);
-  pixel_32_inline_2 (src + xbuf * 192, dest + (320 * 192) / 4);
+  pixel_32_inline_2 (src + xbuf * 192, dest + (xbuf * 192) / 4);
 }
 
 static void
@@ -260,7 +262,7 @@ pixelize_64_inline (const pixel_t *s, int *d)
       pixel_t t1 = *s;
       int t;
       t = t1 | (t1 << 8) | (t1 << 16) | (t1 << 24);
-      for (o = 64 * 320 / 4; o >= 0; o -= 320 / 4) {
+      for (o = 64 * xbuf / 4; o >= 0; o -= xbuf / 4) {
 	d[o + 0] = t;
 	d[o + 1] = t;
 	d[o + 2] = t;
@@ -282,7 +284,7 @@ pixelize_64_inline (const pixel_t *s, int *d)
       d += 16;
     }
     s += 64 * xbuf - 320;
-    d += (64 * 320 - 320) / 4;
+    d += (64 * xbuf- 320) / 4;
   }
 }
 
@@ -294,7 +296,7 @@ pixel_64_inline_2 (const pixel_t *s, int *d)
     pixel_t t1 = *s;
     int t;
     t = t1 | (t1 << 8) | (t1 << 16) | (t1 << 24);
-    for (o = (200 % 64 - 1) * 320 / 4; o >= 0; o -= 320 / 4) {
+    for (o = (200 % 64 - 1) * xbuf / 4; o >= 0; o -= xbuf / 4) {
       d[o + 0] = t;
       d[o + 1] = t;
       d[o + 2] = t;
@@ -324,10 +326,16 @@ pixelize_64 (pixel_t *dest, const pixel_t *src)
   const pixel_t *s = src;
 
   pixelize_64_inline (s, d);
-  pixel_64_inline_2 (s + xbuf * 192, d + (320 * 192) / 4);
+  pixel_64_inline_2 (s + xbuf * 192, d + (xbuf * 192) / 4);
 }
 
 void (*pixelize[7]) (pixel_t *, const pixel_t *) =
 {
-  pixelize_1, pixelize_2, pixelize_4, pixelize_8, pixelize_16, pixelize_32,
-    pixelize_64};
+  pixelize_1,
+  pixelize_2,
+  pixelize_4,
+  pixelize_8,
+  pixelize_16,
+  pixelize_32,
+  pixelize_64
+};

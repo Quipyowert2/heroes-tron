@@ -1,22 +1,24 @@
-/*------------------------------------------------------------------------.
-| Copyright 1997, 1998, 2000  Alexandre Duret-Lutz <duret_g@epita.fr>     |
-|                                                                         |
-| This file is part of Heroes.                                            |
-|                                                                         |
-| Heroes is free software; you can redistribute it and/or modify it under |
-| the terms of the GNU General Public License as published by the Free    |
-| Software Foundation; either version 2 of the License, or (at your       |
-| option) any later version.                                              |
-|                                                                         |
-| Heroes is distributed in the hope that it will be useful, but WITHOUT   |
-| ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or   |
-| FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   |
-| for more details.                                                       |
-|                                                                         |
-| You should have received a copy of the GNU General Public License along |
-| with this program; if not, write to the Free Software Foundation, Inc., |
-| 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
-`------------------------------------------------------------------------*/
+/*------------------------------------------------------------------.
+| Copyright 1997, 1998, 2000, 2001  Alexandre Duret-Lutz            |
+|                                    <duret_g@epita.fr>             |
+|                                                                   |
+| This file is part of Heroes.                                      |
+|                                                                   |
+| Heroes is free software; you can redistribute it and/or modify it |
+| under the terms of the GNU General Public License as published by |
+| the Free Software Foundation; either version 2 of the License, or |
+| (at your option) any later version.                               |
+|                                                                   |
+| Heroes is distributed in the hope that it will be useful, but     |
+| WITHOUT ANY WARRANTY; without even the implied warranty of        |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU |
+| General Public License for more details.                          |
+|                                                                   |
+| You should have received a copy of the GNU General Public License |
+| along with this program; if not, write to the Free Software       |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA          |
+| 02111-1307 USA                                                    |
+`------------------------------------------------------------------*/
 
 #include "system.h"
 #include "display.h"
@@ -835,7 +837,7 @@ display_buffer_tmp1 (void)
   pixel_t* dest = screen;
   int i;
 
-  for (i = 200; i > 0; i--, src += xbuf, dest += 320)
+  for (i = 200; i > 0; i--, src += xbuf, dest += xbuf)
     fastmem4 (src, dest, 320 / 4);
 }
 
@@ -847,7 +849,7 @@ display_buffer_moving (int x)
   int *desti;
   int i, j;
 
-  for (i = 200; i > 0; i--, src += xbuf, dest += 320) {
+  for (i = 200; i > 0; i--, src += xbuf, dest += xbuf) {
     fastmem4 (src + (x << 2), dest, 160 / 4 - x);
     desti = ((int *) dest) + 40 - x;
     for (j = (x << 1); j != 0; j--)
@@ -863,7 +865,7 @@ display_two_buffers (void)
   pixel_t *dest = screen;
   int i;
 
-  for (i = 200; i > 0; i--, src1 += xbuf, src2 += xbuf, dest += 320) {
+  for (i = 200; i > 0; i--, src1 += xbuf, src2 += xbuf, dest += xbuf) {
     fastmem4 (src1, dest, 160 / 4);
     fastmem4 (src2, dest + 160, 160 / 4);
   }
@@ -877,7 +879,7 @@ display_two_buffers_moving (int x)
   pixel_t *dest = screen;
   int i;
 
-  for (i = 200; i > 0; i--, src1 += xbuf, src2 += xbuf, dest += 320) {
+  for (i = 200; i > 0; i--, src1 += xbuf, src2 += xbuf, dest += xbuf) {
     fastmem4 (src1 + (x << 2), dest, 160 / 4 - x);
     fastmem4 (src2, dest + 160 + (x << 2), 160 / 4 - x);
   }
@@ -893,7 +895,7 @@ display_two_buffers_moving_and_clear (int x)
   int *desti;
   int i, j;
 
-  for (i = 200; i > 0; i--, src1 += xbuf, src2 += xbuf, dest += 320) {
+  for (i = 200; i > 0; i--, src1 += xbuf, src2 += xbuf, dest += xbuf) {
     fastmem4 (src1 + (x << 2), dest, 160 / 4 - x);
     desti = ((int *) dest) + 40 - x;
     for (j = (x << 1); j != 0; j--)
