@@ -41,7 +41,7 @@ enum debug_lvl { D_SECTION = 1,
 extern enum debug_lvl debug_level;
 
 #ifndef DEBUG
-# define dmsg(...) while (0)
+# define dmsg while (0) while
 #else
 # if defined (__STDC__) && __STDC__
 void dmsg (enum debug_lvl dlvl, char* msg, ...);
