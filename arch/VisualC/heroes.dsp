@@ -135,14 +135,6 @@ SOURCE=..\src\display.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\draw.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\src\draw.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\src\endian.h
 # End Source File
 # Begin Source File
@@ -260,6 +252,14 @@ SOURCE=..\src\intro.c
 # Begin Source File
 
 SOURCE=..\src\intro.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\items.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\items.h
 # End Source File
 # Begin Source File
 
@@ -395,6 +395,14 @@ SOURCE=..\src\sound.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\src\sprglenz.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\sprglenz.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\src\sprite.h
 # End Source File
 # Begin Source File
@@ -403,11 +411,11 @@ SOURCE=..\src\sprite.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\sprrle.h
+SOURCE=..\src\spropaque.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\src\sprrle.c
+SOURCE=..\src\spropaque.c
 # End Source File
 # Begin Source File
 
@@ -427,6 +435,14 @@ SOURCE=..\src\sprprogwav.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\src\sprrle.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\sprrle.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\src\sprshade.h
 # End Source File
 # Begin Source File
@@ -440,6 +456,14 @@ SOURCE=..\src\sprtext.h
 # Begin Source File
 
 SOURCE=..\src\sprtext.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\sprunish.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\sprunish.c
 # End Source File
 # Begin Source File
 
@@ -563,6 +587,14 @@ SOURCE=..\lib\hash.h
 # Begin Source File
 
 SOURCE=..\lib\hash.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\malloc.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\remalloc.c
 # End Source File
 # Begin Source File
 
