@@ -26,6 +26,8 @@ AM_INIT_AUTOMAKE([heroes], [0.8a])
 
 AC_COPYRIGHT([Copyright 2000  Alexandre Duret-Lutz])
 
+heroes_CHECK_OBSOLETE_OPTIONS
+
 AC_CANONICAL_HOST
 AC_DEFINE_UNQUOTED([HOST],["$host"],[The canonical host])
 
