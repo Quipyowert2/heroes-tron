@@ -1,3 +1,22 @@
+2001-02-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Use the same animated background as in the "endscroll" in
+	pase_menu and quit_yes_no, since it is no longer possible the
+	shade the screen.
+
+	* src/endscroll.c (background_img, render_background): Rename as ...
+	(dummy_background_img, dummy_moving_background_render): ... this,
+	and export.
+	(copy_background): Adjust accordingly.
+	(end_scroll): Split into ...
+	(dummy_moving_background_init, dummy_backgournd_uninit,
+	end_scroll): ... these.
+	* src/endscroll.h (dummy_backgournd_img,
+	dummy_moving_background_init, dummy_backgournd_uninit,
+	dummy_moving_background_render): New.
+	* src/menus.c (pause_menu, quit_yes_no): Use
+	dummy_moving_background_render.
+
 2001-01-31  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Remove obsolete code (that was already commented out).

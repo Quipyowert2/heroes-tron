@@ -3733,9 +3733,11 @@ main (int argc, char *argv[])
   compute_lut ();
 
   init_menus_sprites ();
+  dummy_moving_background_init ();
   update_htimers ();
   main_menu ();
 
+  dummy_moving_background_uninit ();
   uninit_menus_sprites ();
   uninit_fader ();
   uninit_text_waving_step ();

@@ -37,7 +37,7 @@
 #define YBUF 324
 static pixel_t *scroll_buffer;
 
-static pcx_image_t background_img;
+pcx_image_t dummy_background_img;
 
 /* This is an approximation of sin, using a Lagrange polynomial.
    Just to try. */
@@ -55,7 +55,7 @@ copy_background (void)
 {
   int i;
   pixel_t *dest = scroll_buffer;
-  const pixel_t *src = background_img.buffer;
+  const pixel_t *src = dummy_background_img.buffer;
 
   for (i = 108; i != 0; i--) {
     fastmem4 (src, dest, 128 / 4);
@@ -81,8 +81,8 @@ draw_background (int x, int y)
 
 }
 
-static void
-render_background (void)
+void
+dummy_moving_background_render (void)
 {
   static int frame = 0;
   draw_background ((XBUF / 2) - 160 + ls (2 * frame / 3),
@@ -91,25 +91,34 @@ render_background (void)
 }
 
 void
+dummy_moving_background_init (void)
+{
+  XMALLOC_ARRAY (scroll_buffer, XBUF * YBUF);
+
+  pcx_load_from_rsc ("end-scroller-bg-img", &dummy_background_img);
+  copy_background ();
+  img_free (&dummy_background_img); /* only free the buffer, not the palette */
+}
+
+void
+dummy_moving_background_uninit (void)
+{
+  free (scroll_buffer);
+}
+
+void
 end_scroll (void)
 {
   sprite_t *theend;
-  XMALLOC_ARRAY (scroll_buffer, XBUF * YBUF);
+  theend = compile_menu_text (_("THE END"), T_CENTERED | T_WAVING, 95, 159);
   corner[0] = render_buffer[0] + 10 * xbuf;
 
-  pcx_load_from_rsc ("end-scroller-bg-img", &background_img);
-  copy_background ();
-  img_free (&background_img); /* only free the buffer, not the palette */
-  theend = compile_menu_text (_("THE END"), T_CENTERED | T_WAVING, 95, 159);
-
-  std_white_fadein (&background_img.palette);
+  std_white_fadein (&dummy_background_img.palette);
   do {
-    render_background ();
+    dummy_moving_background_render ();
     DRAW_SPRITE (theend, corner[0]);
     flush_display (corner[0]);
   } while (!key_or_joy_ready ());
   get_key ();
-
   free_sprite (theend);
-  free (scroll_buffer);
 }

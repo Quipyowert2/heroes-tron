@@ -55,6 +55,7 @@
 #include "scores.h"
 #include "helptext.h"
 #include "readmake.h"
+#include "endscroll.h"
 
 static htimer_t lemming_htimer;
 static sprite_t* left_arrow = 0;
@@ -2072,19 +2073,14 @@ pause_menu (void)
   halve_volume ();
   event_sfx (58);
 
-  /* FIXME: find a mean to backup the screen (now that
-     screen is not used anymore...) */
-  /* backup_screen (render_buffer[0]); */
-  shade_scr_area (render_buffer[0], render_buffer[1]);
   corner[0] = render_buffer[0];
 
   uninit_keyboard_map ();
+  std_white_fadein (&dummy_background_img.palette);
   do {
-    copy_scr_area (render_buffer[1], corner[0]);
+    dummy_moving_background_render ();
     update_text_waving_step ();
-
     DRAW_SPRITE (pause_menu_txt, corner[0]);
-
     jukebox_draw (l);
   } while (jukebox_keys (&l));
 
@@ -2099,6 +2095,7 @@ pause_menu (void)
 
   free_htimer (pause_htimer);
   dmsg (D_SECTION, "exit pause menu");
+  set_pal (tile_set_img.palette.global, 0, 768);
 }
 
 char
@@ -2112,10 +2109,6 @@ quit_yes_no (void)
 
   pause_htimer = new_htimer (T_GLOBAL, 1);
 
-  /* FIXME: find a mean to backup the screen (now that
-     screen is not used anymore...) */
-  /* backup_screen (render_buffer[0]); */
-  shade_scr_area (render_buffer[0], render_buffer[1]);
   corner[0] = render_buffer[0];
 
   if (opt.ctrl_one || opt.ctrl_two)
@@ -2127,8 +2120,9 @@ quit_yes_no (void)
   uninit_keyboard_map ();
   halve_volume ();
   event_sfx (85);
+  std_white_fadein (&dummy_background_img.palette);
   do {
-    copy_scr_area (render_buffer[1], corner[0]);
+    dummy_moving_background_render ();
     update_text_waving_step ();
 
     DRAW_SPRITE (quitgame_menu_txt, corner[0]);
@@ -2160,6 +2154,7 @@ quit_yes_no (void)
   reset_htimer (background_htimer);
   free_htimer (pause_htimer);
   dmsg (D_SECTION, "exit quit menu");
+  set_pal (tile_set_img.palette.global, 0, 768);
   return l;
 }
 

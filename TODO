@@ -5,9 +5,6 @@ please send a note to <heroes-discuss@lists.sourceforge.net>.
 Before 0.9
 ----------
 
-  backup_screen (called in pause_menu and quit_yes_no_menu)
-  need a replacement.
-
   hedlite.c should be cleaned.
 
 
