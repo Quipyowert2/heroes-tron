@@ -29,5 +29,6 @@ void vsynch (void);
 void backup_screen (pixel_t *dest);
 void shade_scr_area (const pixel_t *src, pixel_t *dest);
 void copy_scr_area (const pixel_t *src, pixel_t *dest);
+void clear_scr_area (pixel_t *dest);
 
 #endif /* HEROES__SCRTOOLS__H */

@@ -62,6 +62,7 @@
 #include "scrtools.h"
 #include "fontdata.h"
 #include "bonus.h"
+#include "sprtext.h"
 
 char tile_set_name[128];
 char glenz_name[128];
@@ -3480,6 +3481,7 @@ play_game (char cont)
   char editflag = 0;
   static char tmpname[20];
   char bufstr[32];
+  sprite_t *levelname;
 
   dmsg (D_SECTION, "-- play game --");
 
@@ -3534,19 +3536,17 @@ play_game (char cont)
     sprintf (bufstr, txti[66], rounds_nbr_values[opt.gamerounds] - rounds + 1,
 	     rounds_nbr_values[opt.gamerounds]);
 
+  levelname = compile_menu_text (bufstr, T_CENTERED, 99, 159);
+
   if (two_players == 0) {
     int pendulum_pos;
     pendulum_init ();
     n = 0;
     do {
-      pixel_t* tmp;
       pendulum_pos = pendulum_update (n);
       flip_buffer (pendulum_pos);
 
-      tmp = corner[0];
-      corner[0] = render_buffer[1];
-      draw_text (bufstr, 159, 99, 1);
-      corner[0] = tmp;
+      DRAW_SPRITE (levelname, render_buffer[1]);
 
       vsynch ();
       display_buffer_tmp1 ();
@@ -3556,25 +3556,22 @@ play_game (char cont)
     } while (elapsed_time < 3000);
   }
   if (two_players) {
-    pixel_t *tmp;
     int buffer_pos = 39;
 
-    memset (screen, 0, 64000);
-    tmp = corner[0];
-    corner[0] = screen;
-    draw_text_320 (bufstr, 159, 99, 1);
-    corner[0] = tmp;
+    corner[0] = render_buffer[0];
+    clear_scr_area (corner[0]);
+    DRAW_SPRITE (levelname, corner[0]);
+    aff_buffer ();
+    vsynch ();
 
     sleep (1);
+    update_htimers ();
+    reset_htimer (update_htimer);
 
     n = 1;
     do {
-      corner[0] = corner[swapside];
-      draw_text (bufstr, 159 + (buffer_pos << 2), 99, 1);
-      corner[0] = tmp;
-      corner[0] = corner[1 - swapside];
-      draw_text (bufstr, 159 - (buffer_pos << 2) - 160, 99, 1);
-      corner[0] = tmp;
+      DRAW_SPRITE (levelname, corner[swapside] + (buffer_pos << 2));
+      DRAW_SPRITE (levelname, corner[1 - swapside] - (buffer_pos << 2) - 160);
       vsynch ();
       display_two_buffers_moving (buffer_pos);
       output_screen ((char) n);
@@ -3587,6 +3584,8 @@ play_game (char cont)
 
   }
   event_sfx (141);
+
+  free_sprite (levelname);
 
 /* * * * * * * * * * * * * * *\
 * MAIN LOOP during the games *

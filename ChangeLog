@@ -1,5 +1,14 @@
 2000-11-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/heroes.c (play_game): Do not call draw_text_320 to
+	display the level name, use the sprtext routines instead.
+	Bugfix: reset update_htimer after the sleep, the we see the
+	moving buffers.
+	* src/scrtools.c (clear_src_area): New.
+	* src/scrtools.h (clear_src_area): New.
+
+2000-11-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Cleanup quit_yes_no.
 
 	* src/heroes.c (quit_yes_no): Move to ...

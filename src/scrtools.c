@@ -95,3 +95,13 @@ copy_scr_area (const pixel_t *src, pixel_t *dest)
     dest += xbuf;
   }
 }
+
+void
+clear_scr_area (pixel_t *dest)
+{
+  unsigned row;
+  for (row = 200; row; --row) {
+    memset (dest, 0, 320);
+    dest += xbuf;
+  }
+}
