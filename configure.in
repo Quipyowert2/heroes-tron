@@ -341,6 +341,13 @@ malloc_lib='electric fence'; LIBS="-lefence $LIBS"])
   fi
 fi
 
+# ==============================================
+# Now that we have all the libraries, check that
+# compiled programs are still runnable.
+# ==============================================
+
+adl_RUN_CHECK
+
 # ========================
 # Checks for header files.
 # ========================

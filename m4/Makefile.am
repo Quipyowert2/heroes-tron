@@ -28,4 +28,5 @@ ac_func_mkdir.m4 \
 gccwarn.m4 \
 generic-config.m4 \
 malloc.m4 \
-realloc.m4
+realloc.m4 \
+runcheck.m4
