@@ -1,5 +1,11 @@
 2001-04-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Ahem... output debug messages on stdout, as said in HACKING.
+
+	* src/debugmsg.c (dmsg): s/stderr/stdout/.
+
+2001-04-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* lib/isdir.c: New file.
 	* lib/isdir.h: New file.
 	* lib/Makefile.am (noinst_HEADERS): Add isdir.h.

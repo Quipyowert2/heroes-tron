@@ -44,20 +44,20 @@ dmsg (dlvl, msg, va_alist)
 #ifdef VA_START
     va_list args;
 #endif
-    fprintf (stderr, "%s: ", program_name);
+    fprintf (stdout, "%s: ", program_name);
 #ifdef VA_START
     VA_START (args, msg);
 # if HAVE_VPRINTF
-    vfprintf (stderr, msg, args);
+    vfprintf (stdout, msg, args);
 # else
-    _doprnt (msg, args, stderr);
+    _doprnt (msg, args, stdout);
 # endif /* HAVE_VPRINTF */
     va_end (args);
 #else
-    fprintf (stderr, msg, va_alist);
+    fprintf (stdout, msg, va_alist);
 #endif /* VA_START */
-    putc ('\n', stderr);
-    fflush (stderr);
+    putc ('\n', stdout);
+    fflush (stdout);
   }
 }
 
