@@ -1,3 +1,9 @@
+2001-04-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* m4/normpath.m4: New file.
+	* m4/relpaths.m4: New file.
+	* m4/stdrelpaths.m4: New file.
+
 2001-03-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.in: Check for uid_t, gid_t, getegid, setegid, and setregid.
