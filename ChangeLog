@@ -1,5 +1,12 @@
 2000-11-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/visuals.c (horizontal_zoom_wave): handle the case where
+	newsize is not a multiple of four and additionnal pixels needs to
+	be drawn.  This suppress an ungly vertical wave that appeared at
+	the bottom right of the screen with the waving effect.
+
+2000-11-22  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/render.c (draw_vehicle_tail, draw_vehicle_tail): Adjust
 	divisor so that `d' can never be 12.  This fix a bug reported by
 	Jean Delvare (the patch two entries below also tried to address

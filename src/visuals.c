@@ -158,6 +158,9 @@ horizontal_zoom_wave (pixel_t *src, pixel_t *dest, int oldsize, int newsize)
 {
   unsigned long int x = 0;
   unsigned long int deltax = 4 * (((1 + oldsize) << 16) / newsize);
+  unsigned long int rest = newsize & 3;
+
+  /* treat pixel by group of four to go faster */
   dest -= 4;
   newsize /= 4;
   do {
@@ -170,7 +173,14 @@ horizontal_zoom_wave (pixel_t *src, pixel_t *dest, int oldsize, int newsize)
     dest[2] = s[2];
     dest[3] = s[3];
   } while (--newsize);
-
+  /* treat the remaining pixels individualy */
+  dest += 4;
+  deltax /= 4;
+  while (rest--) {
+    pixel_t *s = src + (x >> 16);
+    *dest++ = *s;
+    x += deltax;
+  }
 }
 
 static void
