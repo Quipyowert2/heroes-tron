@@ -1,5 +1,14 @@
 2000-11-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/heroes.c (enter_your_name): Move ...
+	* src/menus.c (enter_your_name): ... here.  Adapt to use the new
+	text drawing functions.
+	(enter_your_name_txt): New.
+	(init_menus_sprites, uninit_menus_sprites): Handle enter_your_name_txt.
+	* src/menus.h (enter_your_name_txt): Export.
+
+2000-11-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Kludgy bug fix: for some unknown reason, read_timer
 	can return negative values.  This is not expected and
 	leads to very large (MAX_INT wide) loops in the code.

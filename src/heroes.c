@@ -1084,64 +1084,6 @@ load_random_level (char cont)
 }
 
 static void
-enter_your_name (char c, char* name)
-{
-  keycode_t t = 0;
-  int pos = 0;
-  char l;
-  char head[256];
-  htimer_t pixelize_timer = new_htimer (T_GLOBAL, HZ (7));
-
-  memset (name, 0, PLAYER_NAME_SIZE + 1);
-
-  std_white_fadein (&tile_set_img.palette);
-  event_sfx (73);
-  do {
-    background_menu ();
-    sprintf (head, txti[35], c);
-    draw_text_waving (head, 159, 20, 1);
-    draw_text (txti[36], 159, 40, 1);
-    draw_text (txti[37], 159, 70, 1);
-    draw_text (name, 159, 120, 1);
-    copy_rect_transp (main_font_img.buffer + 61 * 320,
-		      corner[0] + 112 * xbuf + 100, 120, 3);
-    copy_rect_transp (main_font_img.buffer + 61 * 320,
-		      corner[0] + 135 * xbuf + 100, 120, 3);
-
-    vsynch ();
-    {
-      long p = read_htimer (pixelize_timer);
-      if (p <= 6)
-	pixelize[6 - p] (screen, corner[0]);
-      else
-	aff_buffer ();
-    }
-    if (key_ready ()) {
-      t = get_key ();
-      l = t & 255;
-      if (l >= 'a' && l <= 'z')
-	l -= 'a' - 'A';
-      if (pos < PLAYER_NAME_SIZE)
-	if ((l > 20 && l <= 95) || (l == 20 && pos != 0)) {
-	  name[pos] = l;
-	  pos++;
-	  name[pos] = 0;
-	  event_sfx (70);
-	}
-      if ((t == HK_BackSpace || t == HK_Delete) && (pos > 0)) {
-	pos--;
-	name[pos] = 0;
-	event_sfx (71);
-      }
-    }
-  } while (t != HK_Escape && t != HK_Enter);
-  event_sfx (72);
-  if (pos == 0 || t == HK_Escape)
-    memset (name, 0, PLAYER_NAME_SIZE);
-  free_htimer (pixelize_timer);
-}
-
-static void
 play_menu (void)
 {
   char cont;

@@ -49,6 +49,7 @@
 #include "debugmsg.h"
 #include "timer.h"
 #include "joystick.h"
+#include "pixelize.h"
 
 static sprite_t* left_arrow = 0;
 static sprite_t* right_arrow = 0;
@@ -99,6 +100,7 @@ static sprite_t* gamemode_txt[5] = { 0, 0, 0, 0, 0 };
 static sprite_t* load_select_txt = 0;
 static sprite_t* save_select_txt = 0;
 sprite_t* saverec_name[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+static sprite_t* enter_your_name_txt = 0;
 
 static sprite_t* jukebox_frame = 0;
 static sprite_t* jukebox_back = 0;
@@ -415,6 +417,15 @@ init_menus_sprites (void)
 				       T_CENTERED|T_WAVING, 10, 159);
   load_select_txt = compile_menu_text (txti[186],
 				       T_CENTERED|T_WAVING, 10, 159);
+
+  /* enter your name */
+  /* FIXME: rewrite when a paragraph formating function exists */
+  new_sprprog ();
+  add_sprprog0 (compile_menu_text (txti[36],
+				   T_CENTERED, 40, 159));
+  add_sprprog0 (compile_menu_text (txti[37],
+				   T_CENTERED, 70, 159));
+  enter_your_name_txt = end_sprprog ();
 }
 
 void
@@ -496,6 +507,7 @@ uninit_menus_sprites (void)
     for (i = 0; i < 10; ++i)
       FREE_SPRITE0 (saverec_name[i]);
   }
+  FREE_SPRITE0 (enter_your_name_txt);
 }
 
 static void
@@ -1959,4 +1971,68 @@ quit_yes_no (void)
   free_htimer (pause_htimer);
   dmsg (D_SECTION, "exit quit menu");
   return l;
+}
+
+void
+enter_your_name (char c, char* name)
+{
+  keycode_t t = 0;
+  int pos = 0;
+  char l;
+  char head[256];
+  htimer_t pixelize_timer = new_htimer (T_GLOBAL, HZ (7));
+  sprite_t *player_number;
+  sprite_t *player_name = 0;
+
+  sprintf (head, txti[35], c);
+  player_number = compile_menu_text (head, T_CENTERED, 20, 159);
+
+  memset (name, 0, PLAYER_NAME_SIZE + 1);
+
+  std_white_fadein (&tile_set_img.palette);
+  event_sfx (73);
+  do {
+    background_menu ();
+    DRAW_SPRITE (player_number, corner[0]);
+    DRAW_SPRITE (enter_your_name_txt, corner[0]);
+    if (!player_name)
+      player_name = compile_menu_text (name, T_CENTERED, 120, 159);
+    DRAW_SPRITE (player_name, corner[0]);
+    hrule (112);
+    hrule (135);
+    vsynch ();
+    {
+      long p = read_htimer (pixelize_timer);
+      if (p <= 6)
+	pixelize[6 - p] (screen, corner[0]);
+      else
+	aff_buffer ();
+    }
+    if (key_ready ()) {
+      t = get_key ();
+      l = t & 255;
+      if (l >= 'a' && l <= 'z')
+	l -= 'a' - 'A';
+      if (pos < PLAYER_NAME_SIZE)
+	if ((l > 20 && l <= 95) || (l == 20 && pos != 0)) {
+	  name[pos] = l;
+	  pos++;
+	  name[pos] = 0;
+	  event_sfx (70);
+	  FREE_SPRITE0 (player_name); /* force recompilation */
+	}
+      if ((t == HK_BackSpace || t == HK_Delete) && (pos > 0)) {
+	pos--;
+	name[pos] = 0;
+	event_sfx (71);
+	FREE_SPRITE0 (player_name); /* force recompilation */
+      }
+    }
+  } while (t != HK_Escape && t != HK_Enter);
+  event_sfx (72);
+  if (pos == 0 || t == HK_Escape)
+    memset (name, 0, PLAYER_NAME_SIZE);
+  free_htimer (pixelize_timer);
+  FREE_SPRITE0 (player_number);
+  FREE_SPRITE0 (player_name);
 }
