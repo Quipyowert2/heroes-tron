@@ -2885,16 +2885,20 @@ main_menu (void)
 	  event_sfx (131);
 	  std_white_fadein (&tile_set_img.palette);
 	  pixelize_timer = new_htimer (T_GLOBAL, HZ (7));
-	  do {
-	    background_menu ();
-	    draw_main_menu (l);
-	    vsynch ();
-	    pixelize_pos = read_htimer (pixelize_timer);
-	    if (pixelize_pos <= 6)
-	      pixelize[6 - pixelize_pos] (screen, corner[0]);
-	    else
-	      aff_buffer ();
-	  } while (pixelize_pos < 6);
+	  {
+	    pixel_t *pixbuf;
+	    XMALLOC_ARRAY (pixbuf, xbuf * 200);
+	    do {
+	      background_menu ();
+	      draw_main_menu (l);
+	      pixelize_pos = read_htimer (pixelize_timer);
+	      if (pixelize_pos > 6)
+		pixelize_pos = 6;
+	      pixelize[6 - pixelize_pos] (pixbuf, corner[0]);
+	      flush_display (pixbuf);
+	    } while (pixelize_pos < 6);
+	    free (pixbuf);
+	  }
 	  free_htimer (pixelize_timer);
 	}
 
@@ -2926,22 +2930,24 @@ main_menu (void)
 
   /* pixelize and fade-out, before exit */
   {
-    htimer_t pixelize_timer = new_htimer (T_GLOBAL, HZ (7));
+    htimer_t pixelize_timer;
     long pixelize_pos;
     fader_status_t fade_stat;
-
+    pixel_t *pixbuf;
+    XMALLOC_ARRAY (pixbuf, 200 * xbuf);
+    pixelize_timer = new_htimer (T_GLOBAL, HZ (7));
     std_black_fadeout (&tile_set_img.palette);
     fader_status_flagback (&fade_stat);
     do {
-
       background_menu ();
       draw_quit_menu (0);
-      vsynch ();
       pixelize_pos = read_htimer (pixelize_timer);
       if (pixelize_pos > 6)
 	pixelize_pos = 6;
-      pixelize[pixelize_pos] (screen, corner[0]);
+      pixelize[pixelize_pos] (pixbuf, corner[0]);
+      flush_display (pixbuf);
     } while (fade_stat != F_FINISHED);
+    free (pixbuf);
     free_htimer (pixelize_timer);
   }
 }

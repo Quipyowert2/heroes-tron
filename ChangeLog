@@ -1,5 +1,13 @@
 2001-01-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Get rid of `screen' in heroes.c and menus.c.
+
+	* src/heroes.c (main_menu): Rewrite the two pixelize blocks
+	using a local `pixbuf' buffer instead of using screen.
+	* src/menus.c (enter_your_name): Likewise.
+
+2001-01-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Get rid of `screen' in hedlite.c.
 
 	* src/hedlite.c (hedit_buffer): New variable.

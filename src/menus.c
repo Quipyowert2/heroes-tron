@@ -2171,6 +2171,9 @@ enter_your_name (char c, char* name)
   htimer_t pixelize_timer = new_htimer (T_GLOBAL, HZ (7));
   sprite_t *player_number;
   sprite_t *player_name = 0;
+  pixel_t *pixbuf;
+
+  XMALLOC_ARRAY (pixbuf, 200 * xbuf);
 
   sprintf (head, _("PLAYER %d, YOU CAME IN THE TOP 10"), c);
   player_number = compile_menu_para (head, T_CENTERED, 20, 159, 310);
@@ -2188,13 +2191,14 @@ enter_your_name (char c, char* name)
     DRAW_SPRITE (player_name, corner[0]);
     hrule (112);
     hrule (135);
-    flush_display (corner[0]);
     {
       long p = read_htimer (pixelize_timer);
-      if (p <= 6)
-	pixelize[6 - p] (screen, corner[0]);
-      else
-	aff_buffer ();
+      if (p <= 6) {
+	pixelize[6 - p] (pixbuf, corner[0]);
+	flush_display (pixbuf);
+      } else {
+	flush_display (corner[0]);
+      }
     }
     if (key_ready ()) {
       t = get_key ();
@@ -2220,6 +2224,7 @@ enter_your_name (char c, char* name)
   event_sfx (72);
   if (pos == 0 || t == HK_Escape)
     memset (name, 0, PLAYER_NAME_SIZE);
+  free (pixbuf);
   free_htimer (pixelize_timer);
   FREE_SPRITE0 (player_number);
   FREE_SPRITE0 (player_name);
