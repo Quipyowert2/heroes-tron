@@ -47,9 +47,6 @@ CONFIGURE="$TOPSRC_DIR/configure"
 BUILDDIR="$PWD/=build"
 DESTDIR="$PWD/=inst"
 
-# command to strip binaries
-STRIPPROG="$BUILDNAME-strip"
-
 cross_conf ()
 {
   mkdir -p $BUILDDIR
@@ -64,9 +61,10 @@ cross_build ()
 cross_install ()
 {
   mkdir -p $DESTDIR
-  (cd $BUILDDIR && make DESTDIR="$DESTDIR" install)
-  $STRIPPROG $DESTDIR/$PREFIX/bin/heroes.exe
-  $STRIPPROG $DESTDIR/$PREFIX/bin/heroeslvl.exe
+  # Using install-strip like this in a cross-compiling setup will
+  # only work if Heroes has been packaged with Automake 1.5d or
+  # later.
+  (cd $BUILDDIR && make DESTDIR="$DESTDIR" install-strip)
   cp dest-readme-lib $DESTDIR/$PREFIX/doc/README-LIB
   cp dest-readme-txt $DESTDIR/$PREFIX/README.TXT
   cp dest-run-bat $DESTDIR/$PREFIX/run.bat

@@ -1,5 +1,10 @@
 2002-01-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* arch/mingw32/cross.sh (cross_install): Use make install-strip.
+	(STRIPPROG): Remove.
+
+2002-01-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* misc/copytile.c (copy_tile4): New function.
 	(main): Call it.
 	* src/sprshade.c (draw_sprshade): Remove FIXME about memcpy being
