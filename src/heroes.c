@@ -579,8 +579,11 @@ unload_level (void)
 extern void
 compute_corner (int p, int n)
 {
-  int x, y;
-  int d1, d2, d3;
+  s32_t x, y;
+  s32_t d1, d2, d3;
+
+  s32_t tw = (s32_t)(lvl.tile_width << 16);
+  s32_t th = (s32_t)(lvl.tile_height << 16);
 
   if (opt.inertia) {
     /* when the framerate is too low, don't do inerta */
@@ -593,15 +596,15 @@ compute_corner (int p, int n)
     else {
       d1 = camera_x[p] - inert_x[p];
       d3 = abs (d1);
-      d2 = (lvl.tile_width << 16) - d3;
+      d2 = tw - d3;
       if (d3 <= d2)
 	inert_x[p] = camera_x[p] = inert_x[p] + n * (d1) / 16;
       else if (d1 <= 0)
 	inert_x[p] = camera_x[p] =
-	  inert_x[p] + n * d2 / 16 - (lvl.tile_width << 16);
+	  inert_x[p] + n * d2 / 16 - tw;
       else
 	inert_x[p] = camera_x[p] =
-	  inert_x[p] - n * d2 / 16 + (lvl.tile_width << 16);
+	  inert_x[p] - n * d2 / 16 + tw;
     }
     if (lvl.tile_height_wrap == DONT_WRAP)
       inert_y[p] = camera_y[p] =
@@ -609,15 +612,15 @@ compute_corner (int p, int n)
     else {
       d1 = camera_y[p] - inert_y[p];
       d3 = abs (d1);
-      d2 = (lvl.tile_height << 16) - d3;
+      d2 = th - d3;
       if (d3 <= d2)
 	inert_y[p] = camera_y[p] = inert_y[p] + n * (d1) / 16;
       else if (d1 <= 0)
 	inert_y[p] = camera_y[p] =
-	  inert_y[p] + n * d2 / 16 - (lvl.tile_height << 16);
+	  inert_y[p] + n * d2 / 16 - th;
       else
 	inert_y[p] = camera_y[p] =
-	  inert_y[p] - n * d2 / 16 + (lvl.tile_height << 16);
+	  inert_y[p] - n * d2 / 16 + th;
     }
   }
 
@@ -630,8 +633,8 @@ compute_corner (int p, int n)
     if (x < 0) {
       x = 0;
       camera_stop_x[p] = 1;
-    } else if (x > (int)(lvl.tile_width << 16) - camera_center_x) {
-      x = (lvl.tile_width << 16) - camera_center_x;
+    } else if (x > tw - camera_center_x) {
+      x = tw - camera_center_x;
       camera_stop_x[p] = 1;
     }
   }
@@ -639,8 +642,8 @@ compute_corner (int p, int n)
     if (y < 0) {
       y = 0;
       camera_stop_y[p] = 1;
-    } else if (y > (int)(lvl.tile_height << 16) - 655360) {
-      y = (lvl.tile_height << 16) - 655360;
+    } else if (y > th - 655360) {
+      y = th - 655360;
       camera_stop_y[p] = 1;
     }
   }
@@ -2359,8 +2362,8 @@ update_all (char plr)
 
   if (player[col2plr[0]].spec == t_tunnel && opt.inertia) {
     p = lvl.square_move[player[col2plr[0]].way][player[col2plr[0]].pos];
-    camera_x[0] = square_coord[p].x;
-    camera_y[0] = square_coord[p].y;
+    camera_x[0] = square_coord[p].x << 15;
+    camera_y[0] = square_coord[p].y << 15;
   } else {
     camera_x[0] = player[col2plr[0]].x2 << 15;
     camera_y[0] = player[col2plr[0]].y2 << 15;

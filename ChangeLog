@@ -1,5 +1,11 @@
 2001-07-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/heroes.c (compute_corner): Compute and cast tw and th
+	once for all.
+	(update_all): Fix camera position computation (typo from 2001-07-13).
+
+2001-07-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Rewrite the way explosions are handled.  There used to be two
 	distinct explosion types: those from T_BOOM squares and those
 	triggered by player death.  Both where handled separately and in
