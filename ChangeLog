@@ -1,3 +1,9 @@
+2002-02-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/Makefile.am (INCLUDES): Rename as ...
+	(AM_CPPFLAGS): ... this.
+	* lib/Makefile.am: Likewise.
+
 2002-02-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* Makefile.am (EXTRA_DIST): Add misc/ltdlaux.patch.

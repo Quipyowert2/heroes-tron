@@ -17,12 +17,12 @@
 #
 
 # path for config.h and system.h
-INCLUDES = -I.. -I$(srcdir) -I../intl -I$(top_srcdir)/src
+AM_CPPFLAGS = -I.. -I$(srcdir) -I../intl -I$(top_srcdir)/src
 
-noinst_LIBRARIES= libheroes.a
+noinst_LIBRARIES = libheroes.a
 
 # These files are always compiled
-libheroes_a_SOURCES= \
+libheroes_a_SOURCES = \
   basename.c \
   basename.h \
   cast.c \

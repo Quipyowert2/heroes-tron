@@ -32,9 +32,7 @@ AUTOMAKE_OPTIONS = subdir-objects
 
 bin_PROGRAMS = heroes heroeslvl
 
-INCLUDES = -I$(top_srcdir)/lib -I../lib -I../intl -I$(srcdir)/lvl -I$(srcdir)/media -I$(srcdir)/rules -I$(srcdir)/sys -I.. -I.
-
-EXTRA_DIST = rsc_files.gperf debughash.gperf
+AM_CPPFLAGS = -I$(top_srcdir)/lib -I../lib -I../intl -I$(srcdir)/lvl -I$(srcdir)/media -I$(srcdir)/rules -I$(srcdir)/sys -I.. -I.
 
 AM_CFLAGS = $(MORE_WARNINGS_CFLAGS)
 
@@ -185,6 +183,8 @@ debughash.gperf \
 prefs.c \
 prefs.h \
 rsc_files_hash.c
+
+EXTRA_DIST = rsc_files.gperf debughash.gperf
 
 if HAVE_GPERF
 rsc_files_hash.c: rsc_files.gperf
