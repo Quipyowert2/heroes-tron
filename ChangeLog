@@ -1,3 +1,8 @@
+2002-03-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/etc/heroesrc: Try to read soundfiles from
+	$(data-dir)/hqmod/sound.conf too.
+
 2002-03-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/lvl/en_head.c (encode_level_header): Clear unused bytes
