@@ -25,10 +25,6 @@
  * goes.
  */
 
-#define __HEDIT__
-#define __HEDITver__ "1.5"
-#define __HEDLITE__
-
 #include "system.h"
 
 #include "display.h"
@@ -49,20 +45,29 @@
 #include "const.h"
 
 
-static pcx_image_t heditrsc, tile_set_img;
+static pcx_image_t heditrsc;
+static pcx_image_t tile_set_img;
 
-unsigned short int xdalles = 0, ydalles = 0, xdallesdec = 0;
-unsigned short int xplan = 0, yplan = 0;
+unsigned short int xdalles = 0;
+unsigned short int ydalles = 0;
+unsigned short int xdallesdec = 0;
+unsigned short int xplan = 0;
+unsigned short int yplan = 0;
 unsigned int tempd = DONT_WRAP;
-unsigned int xplandec = 0, yplandec = 0;
-unsigned sprhide = 0, afftests = 0;
+unsigned int xplandec = 0;
+unsigned int yplandec = 0;
+unsigned int sprhide = 0;
+unsigned int afftests = 0;
 
-static unsigned char notestmouse = 0;
-static level_header_t hplaninfo = { 0, 0, -1, -1,
-  {0, 0, 0, 0}, {0, 0, 0, 0}, "", "", ""
+static level_header_t hplaninfo = {
+  0, 0, -1, -1,
+  {0, 0, 0, 0},
+  {0, 0, 0, 0},
+  "", "", ""
 };
-static char* tile_set_name;
-static char* dallepie;
+
+static char *tile_set_name;
+static char *dallepie;
 static char levelnomshort[13];
 static char pcxnom[13];
 static char nombre[5];
@@ -73,8 +78,6 @@ static int square_offset_320[4] = { 0, 12, 3200, 3212 };
 static int cote = 0;
 
 static pixel_t *hedit_buffer;
-
-/****************************/
 
 static tile_t *level_map;
 static tile_info_t *ddef;	/* tiles definitions */
@@ -91,7 +94,37 @@ static void stop_mod (int, int, int);
 
 void (*fnptr[type_nbr]) (int, int, int) = {
   &fn0, &stop_mod, &speed_mod, &tunnel_mod, &stop_mod,
-  &anim_mod, &stop_mod, &stop_mod, &fn0};
+  &anim_mod, &stop_mod, &stop_mod, &fn0
+};
+
+static const char *type_name[] = {
+  "NONE", "STOP", "SPEED", "TUNNEL",
+  "BOOM", "ANIM", "ICE", "DUST", "OUTWAY"
+};
+
+static char spd_test[9][12] = {
+  {2, 2, 4, 4, 4, 4, 4, 4, 4, 4, 8, 8},
+  {2, 2, 2, 4, 4, 4, 4, 4, 4, 8, 8, 8},
+  {2, 2, 2, 2, 4, 4, 4, 4, 8, 8, 8, 8},
+  {2, 2, 2, 2, 2, 4, 4, 8, 8, 8, 8, 8},
+  {2, 2, 2, 2, 2, 2, 8, 8, 8, 8, 8, 8},
+  {2, 2, 2, 2, 2, 1, 1, 8, 8, 8, 8, 8},
+  {2, 2, 2, 2, 1, 1, 1, 1, 8, 8, 8, 8},
+  {2, 2, 2, 1, 1, 1, 1, 1, 1, 8, 8, 8},
+  {2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 8, 8}
+};
+
+static char dir_test[9][12] = {
+  {1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3},
+  {1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3},
+  {1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3},
+  {1, 1, 1, 1, 1, 2, 2, 3, 3, 3, 3, 3},
+  {1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3},
+  {1, 1, 1, 1, 1, 0, 0, 3, 3, 3, 3, 3},
+  {1, 1, 1, 1, 0, 0, 0, 0, 3, 3, 3, 3},
+  {1, 1, 1, 0, 0, 0, 0, 0, 0, 3, 3, 3},
+  {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3}
+};
 
 static void
 fatalog (const char *ptr)
@@ -391,12 +424,6 @@ affgt (int t)
     carre (297 + 12, 91 + 10, level_map[t].info.param[3]);
     partiel4 (0, 112, 30, 27, 290, 112, &heditrsc);
   case t_outway:
-    /* partiel2(30,168,30,32,290,168,&heditrsc);
-    ultoa(level_map[t].info.param[4]&0xf,&nombre,10);
-    draw_text(&nombre,311,193,8,1);
-    if (level_map[t].info.param[4]&0xf>1) {
-    ultoa(1+(level_map[t].info.param[4]>>4),&nombre,10);
-    draw_text(&nombre,311,179,8,1); } */
     if ((level_map[t].info.param[4] >> 4) > 0) {
       partiel2 (60, 168, 30, 32, 290, 168, &heditrsc);
       sprintf (nombre, "%u", level_map[t].info.param[4] & 0xf);
@@ -1168,7 +1195,7 @@ joueanim (void)
 	       ((level_map[i + m].info.param[4] >> 4) * 2));
 	    if (tmp >
 		((unsigned int) level_map[i + m].
-		 info.param[4] >> 4) /*+1 */ )tmp =
+		 info.param[4] >> 4))tmp =
 		((level_map[i + m].info.param[4] >> 4) * 2) - tmp;
 	    copy_tile (level_map[i + m].number + 24 * tmp, dest);
 	  }
@@ -1329,8 +1356,6 @@ gestclav (int i, int mod)
 	gestclav (HK_Up, HK_MOD_Shift);
     }
     break;
-/*     case 0x0f09: cote^=1;majd();majg(); */
-/*                  break; */
   case HK_Enter:
     if (mod & HK_MOD_Ctrl) {
       joueanim ();
@@ -1339,45 +1364,17 @@ gestclav (int i, int mod)
     }
     break;
   case HK_Space:
-    /* if (((*etatclav)&3)==0) */
-    /* { */
     j = curdallep ();
     level_map[j].number =
       xdalles + xdallesdec + ydalles * (tile_set_img.width);
     level_map[j].type = ddef[curdalled ()].type;
     level_map[j].info = ddef[curdalled ()].info;
-    /*
-       level_map[j].collision[0]&=(c_left|c_up);
-       level_map[j].collision[1]&=(c_right|c_up);
-       level_map[j].collision[2]&=(c_left|c_down);
-       level_map[j].collision[3]&=(c_right|c_down);
-       level_map[j].collision[0]|=ddef[curdalled()].collision[0];
-       level_map[j].collision[1]|=ddef[curdalled()].collision[1];
-       level_map[j].collision[2]|=ddef[curdalled()].collision[2];
-       level_map[j].collision[3]|=ddef[curdalled()].collision[3];
-       if (curdallepg>0)
-       { if (ddef[curdalled()].collision[0]&c_left) level_map[curdallepg(j)].collision[1]|=c_right;
-       if (ddef[curdalled()].collision[2]&c_left) level_map[curdallepg(j)].collision[3]|=c_right;}
-       if (curdalleph>0)
-       { if (ddef[curdalled()].collision[0]&c_up) level_map[curdalleph(j)].collision[2]|=c_down;
-       if (ddef[curdalled()].collision[1]&c_up) level_map[curdalleph(j)].collision[3]|=c_down;}
-       if (curdallepd>0)
-       { if (ddef[curdalled()].collision[1]&c_right) level_map[curdallepd(j)].collision[0]|=c_left;
-       if (ddef[curdalled()].collision[3]&c_right) level_map[curdallepd(j)].collision[2]|=c_left;}
-       if (curdallepb>0)
-       { if (ddef[curdalled()].collision[2]&c_down) level_map[curdallepb(j)].collision[0]|=c_up;
-       if (ddef[curdalled()].collision[3]&c_down) level_map[curdallepb(j)].collision[1]|=c_up;}
-       } else
-       if (tempd!=0xfffffff)
-       level_map[curdallep()]=level_map[tempd];
-     */
     gestclav (HK_i, HK_MOD_None);
     gestclav (HK_O, HK_MOD_None);
     majg ();
     break;
-  case HK_i:			/* I */
-  case HK_I:			/* if (i==0x1769) fprintf(hlog,"\t[i] used\n"); */
-    /* else          fprintf(hlog,"\t[I] used\n"); */
+  case HK_i:
+  case HK_I:
     for (j = hplaninfo.xt * hplaninfo.yt - 1; j >= 0; j--) {
       level_map[j].collision[0] = 0;
       level_map[j].collision[1] = 0;
@@ -1385,10 +1382,9 @@ gestclav (int i, int mod)
       level_map[j].collision[3] = 0;
     }
     for (j = hplaninfo.xt * hplaninfo.yt - 1; j >= 0; j--) {
-      k =
-	((level_map[j].number % tile_set_img.width) / 24) +
-	(level_map[j].number / (tile_set_img.width * 20)) *
-	(tile_set_img.width / 24);
+      k = (((level_map[j].number % tile_set_img.width) / 24) +
+	   (level_map[j].number / (tile_set_img.width * 20)) *
+	   (tile_set_img.width / 24));
       level_map[j].type = ddef[k].type;
       if (level_map[j].type != t_tunnel) {
 	if (level_map[j].type == t_anim || i == 0x1749)
@@ -1434,10 +1430,7 @@ gestclav (int i, int mod)
 	  level_map[curdallepb (j)].collision[1] |= c_up;
       }
     }
-/*                  majg(); */
-    break;
-  case 006: /* ^F */
-    gestclav (HK_f, HK_MOD_Ctrl);
+    majg();
     break;
   case HK_f:
   case HK_F:
@@ -1466,7 +1459,7 @@ gestclav (int i, int mod)
     afftests ^= 1;
     majg ();
     break;
-  case HK_s:			/* S */
+  case HK_s:
   case HK_S:
     if (level_map[curdallep ()].sprite == 0)
 
@@ -1476,13 +1469,13 @@ gestclav (int i, int mod)
       level_map[curdallep ()].sprite = 0;
     majg ();
     break;
-  case HK_d:			/* D */
+  case HK_d:
   case HK_D:
     t = level_map[curdallep ()].type;
     if (t != t_boom && t != t_anim && t != t_outway)
       departfix ();
     break;
-  case HK_t:			/* T */
+  case HK_t:
   case HK_T:
     if (tempd == curdallep ())
       tempd = DONT_WRAP;
@@ -1490,11 +1483,12 @@ gestclav (int i, int mod)
       tempd = curdallep ();
     majg ();
     break;
-  case HK_o:			/* O */
-  case HK_O:			/* fprintf(hlog,"\t[O] used\n"); */
-    outwayflag ();		/* majg(); */
+  case HK_o:
+  case HK_O:
+    outwayflag ();
+    majg();
     break;
-  case HK_p:			/* P */
+  case HK_p:
   case HK_P:
     save_pcx ();
     majg ();
@@ -1525,10 +1519,6 @@ gestclav (int i, int mod)
     goto handle_numbers;
   case HK_8:
     i = 8;
-    /*    goto handle_numbers;
-       case HK_9:
-       i = 9;
-     */
   handle_numbers:
     level_map[curdallep ()].type = i;
     level_map[curdallep ()].info.tunnel.output = 0;
@@ -1553,14 +1543,8 @@ gestsrs1 (void)
       if (x > 305)
 	gestclav (HK_Right, HK_MOD_Ctrl);
       else
-	gestclav (HK_Left, HK_MOD_Ctrl);	/* CtrlLeft */
+	gestclav (HK_Left, HK_MOD_Ctrl);
     }
-/*            if (y>=71 && y<=84)
-                                              { level_map[i].type=menutype(level_map[i].type);
-                                                level_map[curdallep()].info.tunnel.output=0;
-                                                level_map[curdallep()].info.param[4]=0;
-                                                majg(); majd(); }
-*/
     if (y >= 86 && y <= 137) {
       (*fnptr[level_map[i].type]) (i, x, y);
       majg ();
@@ -1638,7 +1622,6 @@ gestsrs2 (void)
       else
 	gestclav (HK_Home, HK_MOD_Ctrl);
     }
-/*            if (y>=86 && y<=108) gestclav(0x2e63); */
   }
   if (x < 144) {
     xplandec = (x / 24) * 24;
@@ -1694,9 +1677,6 @@ free_levels_output_dir (void)
   XFREE0 (levels_output_dir);
 }
 
-/****************************************************************************/
-/****************************************************************************/
-/****************************************************************************/
 int
 hmain (const char* lname, const char* tset_name,
        u32_t xsize, u32_t ysize, u32_t xwrap, u32_t ywrap)
@@ -1719,7 +1699,6 @@ hmain (const char* lname, const char* tset_name,
   yplandec = 0;
   sprhide = 0;
   afftests = 0;
-  notestmouse = 0;
 
   strcpy (levelnomshort, lname);
   strlwr (levelnomshort);
@@ -1775,13 +1754,12 @@ hmain (const char* lname, const char* tset_name,
   pcx_load_from_rsc ("editor-img", &heditrsc);
   pcx_load (tile_set_name, &tile_set_img);
 
-  /*********** tiles info init  ***********/
+  /* read the tileset definition */
   XCALLOC_ARRAY (ddef, (tile_set_img.width / 24) * 10);
-
   if (!((ftmp = fopen (dallepie, "rb")) == NULL))
     fread (ddef, sizeof (tile_info_t), (tile_set_img.width / 24) * 10, ftmp);
   fclose (ftmp);
-  /*************************************/
+
   outwayinit ();
   XCALLOC_ARRAY (hedit_buffer, xbuf * 200);
   set_pal (tile_set_img.palette.global, 0, 256 * 3);
@@ -1815,7 +1793,6 @@ hmain (const char* lname, const char* tset_name,
 	  gestsrs3 ();
 	}
 	while (mouse12 () != 0);
-	notestmouse = 0;
       }
     } while (k != HK_Escape);
   }
