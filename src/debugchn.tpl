@@ -119,8 +119,7 @@ print_debug_channels (void)
     }
   }
 }
-[~ == texi ~][~ (dne "@c " "@c\t\t\t\t") ~]
-
+[~ == texi ~][~ (import-head "DEBUGCHN") ~]
 @table @samp[~ FOR channel '' ~]
 @item [~ (string-upcase! (get "name")) ~]
 [~ ? doc (get "doc") (string-append (string-capitalize (get "descr")) ".") ~]
@@ -128,4 +127,4 @@ print_debug_channels (void)
 @item ALL
 All of the above.
 @end table
-[~ ESAC ~]
+[~ (import-tail "DEBUGCHN") ~][~ ESAC ~]

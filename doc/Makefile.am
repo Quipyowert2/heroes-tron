@@ -17,10 +17,7 @@
 
 
 info_TEXINFOS = heroes.texi
-heroes_TEXINFOS = debugchn.texi people.texi
-EXTRA_DIST = heroes.html
-
-MAINTAINERCLEANFILES = debugchn.texi people.texi
+EXTRA_DIST = doc.scm heroes.html
 
 if MAKE_HTML
 hdir = @htmldir@
@@ -33,10 +30,9 @@ SUFFIXES = .html
 	@cd $(srcdir) && rm -f $@ $@-[0-9] $@-[0-9][0-9]
 	cd $(srcdir) && $(MAKEINFO) --html --no-split `echo $< | sed 's,.*/,,'`
 
-debugchn.texi: $(top_srcdir)/src/debugchn.def $(top_srcdir)/src/debugchn.tpl
-	$(AUTOGEN) -L $(top_srcdir)/src -o 'texi=$@' $(top_srcdir)/src/debugchn.def
+AUTOGEN_OPTS = -L $(top_srcdir)/src -S $(srcdir)/doc.scm
 
-people.texi: $(top_srcdir)/src/people.def $(top_srcdir)/src/people.tpl
-	$(AUTOGEN) -L $(top_srcdir)/src -o 'texi=$@' $(top_srcdir)/src/people.def
-
-CLEANFILES = heroes.cps heroes.vrs
+heroes.texi: $(top_srcdir)/src/debugchn.def $(top_srcdir)/src/debugchn.tpl $(srcdir)/doc.scm $(top_srcdir)/src/people.def $(top_srcdir)/src/people.tpl
+	SOURCE_TEXI=heroes.texi $(AUTOGEN) $(AUTOGEN_OPTS) -o 'texi=tmp1.texi' $(top_srcdir)/src/debugchn.def
+	SOURCE_TEXI=tmp1.texi $(AUTOGEN) $(AUTOGEN_OPTS) -o 'texi=tmp2.texi' --writable $(top_srcdir)/src/people.def
+	mv tmp2.texi heroes.texi

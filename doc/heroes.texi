@@ -23,6 +23,7 @@
 @c                                 (save-buffer))'
 
 @include version.texi
+@synindex vr cp
 
 @c register Heroes in the info directory
 @dircategory Games
@@ -156,7 +157,7 @@ Level editor
 
 @samp{heroeslvl}
 
-* Invoking heroeslvl::          heroeslvl launch-time option
+* Invoking heroeslvl::          heroeslvl launch-time options
 
 @end detailmenu
 @end menu
@@ -418,7 +419,85 @@ personal touch here and there.
 
 Heroes would not be what it is presently without the following people.
 
-@include people.texi
+@c START == PEOPLE == DO NOT CHANGE THIS COMMENT
+@c The following text, up to `END == PEOPLE ==',
+@c is AutoGen'ed from ../src/people.def and people.
+@unnumberedsubsec Authors
+@itemize @bullet
+@item
+@email{duret_g@@epita.fr,Alexandre Duret-Lutz}
+
+Wrote the original source code, ported it to GNU/Linux
+and created a few levels.
+
+@item
+@email{rgenevois@@besancon.net,Romual Genevois}
+
+Had the idea of that game, designed most of it,
+drew the graphics, created most of the levels.
+
+@item
+@email{alex.livernaux@@wanadoo.fr,Alexandre Liverneaux}
+
+Composed the soundtracks.
+
+@item
+@email{philmeis@@mail.dotcom.fr,Philippe Meisburger}
+
+Composed the soundtracks and created some levels.
+
+@end itemize
+
+@unnumberedsubsec Contributors
+@itemize @bullet
+@item
+@email{octplane@@via.ecp.fr,Pierre Baillet}
+
+Support for non-8bits depth video mode with LibGGI.
+
+@item
+@email{uh1763@@bingo-ev.de,Uwe Hermann}
+
+Clean-ups and portability fixes.
+
+@end itemize
+
+@unnumberedsubsec Translators
+@itemize @bullet
+@item
+@email{beckers@@st-oneline.de,Hermann J. Beackers} (German)
+@item
+@email{joshb@@xs4all.nl,Jos Boersema} (Dutch)
+@item
+@email{alessandro.dotti@@libero.it,Alessandro Dotti} (Italian)
+@item
+@email{duret_g@@epita.fr,Alexandre Duret-Lutz} (French)
+@end itemize
+
+@unnumberedsubsec Packagers
+@itemize @bullet
+@item
+@email{Daniel_Burrows@@brown.edu,Daniel Burrows} (Debian GNU/Linux)
+@item
+@email{delvare@@ensicaen.ismra.fr,Jean Delvare} (RPM & Slackware Linux)
+@item
+@email{eloli@@hotmail.com,Eugenia Loli-Queru} (BeOS)
+@item
+@email{pixel@@mandrakesoft.com,Pascal Rigaux} (Linux-Mandrake)
+@item
+@email{sobomax@@FreeBSD.org,Maxim Sobolev} (FreeBSD)
+@end itemize
+
+@unnumberedsubsec Porters
+@itemize @bullet
+@item
+@email{S.Denis@@darkworks.com,St@'ephane Denis} (Win/Visual C)
+@item
+@email{f91-men@@nada.kth.se,Mattias Engdeg@aa{}rd} (Solaris)
+@item
+@email{sobomax@@FreeBSD.org,Maxim Sobolev} (FreeBSD)
+@end itemize
+@c END == PEOPLE == DO NOT CHANGE THIS COMMENT
 
 More people are listed in the file @file{THANKS} at the top level
 of the Heroes tarball.
@@ -1140,7 +1219,56 @@ is the default), this variable specify the kind of debug messages that
 should be printed out.  Possible values are the following (they can
 be printed using the @samp{--list=debug} option).
 
-@include debugchn.texi
+@c START == DEBUGCHN == DO NOT CHANGE THIS COMMENT
+@c The following text, up to `END == DEBUGCHN ==',
+@c is AutoGen'ed from ../src/debugchn.def and debugchn.
+
+@table @samp
+@item SECTION
+The different parts of the game (introduction,
+demonstration, menus, ...).
+
+@item SYSTEM
+Handling of environment variables, creation of
+directories, initialization of libraries.
+
+@item RESOURCE
+Filename Resources Handling.
+
+@item FILE
+Files And Directories Handling.
+
+@item LEVEL
+Levels Handling.
+
+@item SOUND_TRACK
+Sound Track Events.
+
+@item SOUND_EFFECT
+Sound Effects Events.
+
+@item VIDEO
+Events related to the display interface.
+
+@item JOYSTICK
+Joystick Initialization And Events.
+
+@item TIMER
+Timer Handling.
+
+@item MISC
+Miscellaneous Events.
+
+@item FADER
+Palette Fade Events.
+
+@item BONUS
+Bonus handling.
+
+@item ALL
+All of the above.
+@end table
+@c END == DEBUGCHN == DO NOT CHANGE THIS COMMENT
 
 Multiple values can be separated by @samp{:}, and a value is negated if
 prefixed by @samp{-}.  For example the following command line sets
@@ -1733,7 +1861,7 @@ Heroes level files.  This is of almost no interest to the usual Heroes
 player, but can sometime be helpful to find bugs in levels.
 
 @menu
-* Invoking heroeslvl::          heroeslvl launch-time option
+* Invoking heroeslvl::          heroeslvl launch-time options
 @end menu
 
 @c ======================================================================
@@ -1825,7 +1953,6 @@ Note that filenames are only displayed if requested by @samp{-pf}.
 @chapter Index
 @cindex index
 
-@synindex vr cp
 @printindex cp
 
 @contents

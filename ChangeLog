@@ -1,3 +1,16 @@
+2001-11-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* doc/doc.scm: New file (define import-head and import-tail).
+	* doc/Makefile.am (EXTRA_DIST): Add doc.scm.
+	(heroes_TEXINFOS, CLEANFILES, debugchn.texi, people.texi): Remove.
+	(heroes.texi): Build from debugchn.tpl, people.tpl, and heroes.texi
+	itself.
+	* doc/heroes.texi: Merge vr and cp at the beginning (it has no effect
+	on dvi output otherwise).  Add START and END markers for
+	debugchn.texi and people.texi output.
+	* src/debugchn.tpl, src/people.tpl: Call import-head and import-tail
+	for texi output.
+
 2001-11-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* lib/error.c, lib/getopt.c, lib/hash.c, m4/strerror_r.m4: Update

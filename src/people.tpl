@@ -82,8 +82,7 @@ send a note to <heroes-bugs@lists.sourceforge.net>.
         ELSE ~][~ (sprintf "%-38s  %s\n" (get "name") (get "email")) ~][~
         ENDIF ~][~
       ENDFOR person ~][~
-    == texi ~]
-@unnumberedsubsec Authors
+    == texi ~][~ (import-head "PEOPLE") ~]@unnumberedsubsec Authors
 @itemize @bullet
 [~    FOR person ~][~
         IF author ~]@item
@@ -138,7 +137,8 @@ send a note to <heroes-bugs@lists.sourceforge.net>.
           ENDIF ~] ([~ (port-texi) ~])
 [~      ENDIF ~][~
       ENDFOR person ~]@end itemize
-[~  == c ~][~ (dne "** " "/*\t\t\t\t") ~]
+[~ (import-tail "PEOPLE") ~][~
+  == c ~][~ (dne "** " "/*\t\t\t\t") ~]
 */
 /*
 [~ (gpl "Heroes" "** ") ~]
