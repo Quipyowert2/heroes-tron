@@ -145,6 +145,7 @@ void state_set_player_color (a_level_state *state,
 			     unsigned player, unsigned color);
 
 void update_lemmings (a_level_state *state, const a_level *lvl);
+int state_lemmings_move_offset (a_level_state *state);
 
 void update_player (a_level_state *state, const a_level *lvl, unsigned c);
 

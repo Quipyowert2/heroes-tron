@@ -1,5 +1,21 @@
 2002-02-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/const.c (lemmings_anim_offset, lemmings_move_offset): Move ...
+	* src/render.c (lemmings_anim_offset, lemmings_move_offset): ... here.
+	(draw_level): Update lemmings_move_offset by calling
+	state_lemmings_move_offset.
+	* src/const.h (lemmings_anim_offset, lemmings_move_offset): Delete.
+	* src/heroes.c (update_all): Simplify the call to update_lemmings,
+	move all the guarding code ...
+	* src/rules/lemmings (update_lemmings): ... here.
+	(state_lemmings_move_offset): New function.
+	* src/rules/statepriv (a_level_state_bits): Add the
+	lemmings_move_offset member.
+	* src/rules/update.c (update_player): Call state_lemmings_move_offset
+	when lemmings_move_offset is needed.
+
+2002-02-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* m4/h-mikmod.m4 (heroes_CHECK_MIKMOD): Complete LIBMIKMOD_LIBS
 	with the output of libmikmod-config --ldadd, required to build
 	Heroes since libmikmod 3.1.10.

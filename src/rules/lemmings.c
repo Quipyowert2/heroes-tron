@@ -22,8 +22,6 @@
 #include "system.h"
 #include "statepriv.h"
 
-#include "const.h"		/* FIXME: Get rid of this.  */
-
 static void
 find_lemming_direction (a_level_state *state, const a_level *lvl,
 			a_lemming *lem)
@@ -157,18 +155,32 @@ state_init_lemmings (a_level_state *state, const a_level *lvl)
     state->player[i].lemmings_nbr = lemmings_per_players;
   }
   assert (ptir == state->private->lemmings_support + 4 * lemmings_per_players);
-  lemmings_move_offset = 0;
+  state->private->lemmings_move_offset = 0;
 }
 
 void
 update_lemmings (a_level_state *state, const a_level *lvl)
 {
-  int j;
-  a_lemming *lem;
-  lem = state->private->lemmings_support;
-  lemmings_move_offset &= 0xffff;
-  for (j = lemmings_total; j != 0; j--, lem++)
-    if (lem->dead == 0) {
-      find_lemming_direction (state, lvl, lem);
-    }
+  a_level_state_bits *bits = state->private;
+
+  bits->lemmings_move_offset += 1024;
+
+  /* Update lemmings directions each time they get to another square.  */
+  if (bits->lemmings_move_offset >= 0xffff) {
+    int j;
+    a_lemming *lem;
+
+    lem = bits->lemmings_support;
+    state->private->lemmings_move_offset &= 0xffff;
+    for (j = lemmings_total; j != 0; j--, lem++)
+      if (lem->dead == 0) {
+	find_lemming_direction (state, lvl, lem);
+      }
+  }
+}
+
+int
+state_lemmings_move_offset (a_level_state *state)
+{
+  return state->private->lemmings_move_offset;
 }

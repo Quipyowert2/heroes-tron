@@ -45,6 +45,9 @@ static bool invincible[4];	/* When a cell is true, the corresponding
 				   pariodically when the player is
 				   invincible (blinking). */
 
+int lemmings_move_offset;
+int lemmings_anim_offset;
+
 /* The copy_tile function below looks a bit strange.  It tries to copy
    the tile using two registers.  Some benchmarking shows this is a
    good compromise.  Use misc/copytile.c if you want to make some
@@ -336,6 +339,7 @@ draw_level (int p)
   int camera_stop_y[2];
 
   clock_anim = clocks[read_htimer (clock_htimer) & 7];
+  lemmings_move_offset = state_lemmings_move_offset (&state);
   lemmings_anim_offset = (lemmings_move_offset * 64 / 65536) & 7 << 3;
   if (read_htimer (blink_htimer) & 1)
     for (bb = 3; bb >= 0; bb--)

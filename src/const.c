@@ -63,9 +63,6 @@ a_level lvl;
 a_level_state state;
 
 a_gameid game_id;
-int lemmings_anim_offset;
-int lemmings_move_offset;
-
 char demo_ready = 0;
 
 char

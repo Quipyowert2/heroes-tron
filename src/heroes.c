@@ -711,11 +711,8 @@ update_all (char plr)
       else if (radar_current_pos > radar_target_pos)
 	radar_current_pos--;
     }
-    if (state.game_mode == M_KILLEM) {
-      lemmings_move_offset += 1024;
-      if (lemmings_move_offset >= 65536)
-	update_lemmings (&state, &lvl);
-    }
+    if (state.game_mode == M_KILLEM)
+      update_lemmings (&state, &lvl);
     n++;
   }
 

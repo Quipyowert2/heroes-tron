@@ -361,6 +361,7 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
     if (state->game_mode == M_KILLEM) {
       tmppti = state->private->square_lemmings_list[d2];
       if (tmppti) {
+	int lemmings_move_offset = state_lemmings_move_offset (state);
 	assert (tmppti >= state->private->lemmings_support
 		&& tmppti < state->private->lemmings_support + lemmings_total);
 	if ((tmppti->pos_tail == d2 && lemmings_move_offset < 38000)

@@ -60,6 +60,7 @@ struct a_level_state_bits {
   a_lemming **square_dead_lemmings_list;
   a_lemming lemmings_support[lemmings_total];
   int objects_nbr;
+  int lemmings_move_offset;
 
   int level_is_finished;
 

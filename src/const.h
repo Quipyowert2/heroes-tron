@@ -60,7 +60,4 @@ extern a_level_state state;
 
 extern a_gameid game_id;
 
-extern int lemmings_anim_offset;
-extern int lemmings_move_offset;
-
 #endif /* HEROES__CONST__H */
