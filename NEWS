@@ -1,3 +1,14 @@
+Heroes 0.14	September 22, 2001
+
+	* Most files are now shipped under the terms of 'GPL version 2'.
+	* New option to heroes:
+	  --list=levels: list level files.
+	* Bug fixes:
+	  - Check for SDL_mixer in configure (lost in 0.13).
+	  - Allow to fall back to LibMikMod if SDL_mixer is not available
+	    and to GII if SDL does not support Joystick (lost in 0.12e).
+	  - Don't exit with an error code on operations like --version.
+
 Heroes 0.13	September 19, 2001
 
 	* Bug fixes:
