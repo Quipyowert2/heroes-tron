@@ -1,5 +1,10 @@
 2001-05-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/pcx.c (delta): Remove.
+	(pcx_load): Remove call to delta, and do some cosmetic cleanups.
+
+2001-05-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Get rid of new gcc-3.0 warnings.
 
 	* src/const.c (draw_glenz_box): Remove `operation possibly undefined

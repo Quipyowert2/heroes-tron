@@ -37,15 +37,6 @@ img_free (pcx_image_t *image)
   free (image->buffer);
 }
 
-static void
-delta (pcx_image_t *image)
-{
-  int i;
-  pixel_t *src = image->buffer + image->width;
-  for (i = image->size - image->width; i != 0; --i, ++src)
-    *src = *src + src[-image->width];
-}
-
 char
 pcx_load (const char *file, pcx_image_t *image)
 {
@@ -72,8 +63,8 @@ pcx_load (const char *file, pcx_image_t *image)
   image->header.bytes_per_lines = BSWAP16 (image->header.bytes_per_lines);
   image->header.palette_kind = BSWAP16 (image->header.palette_kind);
 
-  image->width = (image->header.width - image->header.x + 1);
-  image->height = (image->header.height - image->header.y + 1);
+  image->width = image->header.width - image->header.x + 1;
+  image->height = image->header.height - image->header.y + 1;
   image->size = image->width * image->height;
 
   dmsg (D_FILE, "size=(%d,%d) rle=%d",
@@ -82,31 +73,29 @@ pcx_load (const char *file, pcx_image_t *image)
   img_init (image);
 
   compteur = 0;
-  if (image->header.rle)
+  if (image->header.rle) {
     while (compteur < image->size) {
-      data = (unsigned char) getc (fptr);
+      data = (u8_t) getc (fptr);
       if ((data & 192) == 192) {
 	nbrbytes = data & 63;
-	data = (unsigned char) getc (fptr);
+	data = (u8_t) getc (fptr);
 	while (nbrbytes--)
 	  image->buffer[compteur++] = data;
-      } else
+      } else {
 	image->buffer[compteur++] = data;
-  } else
+      }
+    }
+  } else {
     fread (image->buffer, image->size, 1, fptr);
-  if (image->header.rle == 2)
-    delta (image);
+  }
+  data = (u8_t) getc (fptr);	/* data==0Ch expected */
 
-
-  data = (unsigned char) getc (fptr);	/* data==0Ch expected */
-
-  fread (&(image->palette), 768, 1, fptr);
+  fread (image->palette.global, 768, 1, fptr);
   for (i = 0; i < 256 * 3; i++)
-    image->palette.global[i] =
-      (unsigned char) (image->palette.global[i] >> 2);
+    image->palette.global[i] >>= 2;
 
   fclose (fptr);
-  return (0);
+  return 0;
 }
 
 char
