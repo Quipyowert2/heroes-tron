@@ -622,13 +622,18 @@ To be filled.
 
 @samp{configure} will do its best to find the libraries and functions
 needed by the game.  Still, you may give several options to
-@samp{configure} help it, or to configure special features of Heroes.
+@samp{configure} to help it, or to fine tune special features of Heroes.
 
 @table @samp
+@item --enable-html-doc[=DIR]
+@cindex --enable-html-doc[=DIR]
+Build and install html documentation in directory @samp{DIR}.
+If @samp{DIR} is not given, install in @file{$datadir/heroes/doc}.
+
 @item --disable-sound
 @cindex --disable-sound
-Do not link with LibMikMod, thus compiling Heroes without sound support.
-Sound support is enabled by default, unless LibMikMod is not found.
+Turn off sound support. Sound is enabled by default,
+unless no sound engine is found).
 
 @item --disable-joystick
 @cindex --disable-joystick
@@ -646,58 +651,78 @@ specify the installation path as an argument.  For example:
 @samp{configure} will then look for @file{/home/adl/usr/bin/sdl-config}
 and configure Heroes accordingly.
 
-@item --with-GGI[=DIR]
-@cindex --with-GGI
+@item --with-ggi[=DIR]
+@cindex --with-ggi
 Link with LibGGI.  This is the default if LibGGI is installed.
 If you installed LibGGI in some non-standard place, you can
 specify the installation path as an argument
 
-@item --with-libmikmod[=DIR]
-@cindex --with-libmikmod
-Link with LibMikMod.  This is the default if LibMikMod is installed
-and LibGGI have been selected.  You may specify where LibMikMod is
-installed using the optional argument.
+@item --with-mikmod[=DIR]
+@cindex --with-mikmod
+Use LibMikMod four sound output.  This is the default if LibMikMod is
+installed and LibGGI have been selected.  You may specify where
+LibMikMod is installed using the optional argument.
 
-@item --with-sdl_mixer[=DIR]
-@cindex --with-sdl_mixer[=DIR]
-Link with SDL_mixer (note the underscore in the option name).
-This is the default if SDL_mixer is installed
-and SDL has been selected.  You may specify where SDL_mixer is
-installed using the optional argument.  Using this option
-implies @samp{--with-sdl}.
+@item --with-sdl-mixer[=DIR]
+@cindex --with-sdl-mixer[=DIR]
+Use SDL_mixer for sound output.  This is the default if SDL_mixer is
+installed and SDL has been selected.  You may specify where SDL_mixer is
+installed using the optional argument.  Using this option implies
+@samp{--with-sdl}.
 
-@item --enable-debug
-@cindex --enable-debug
-Turn on debugging options: compile and link with debugging symbols,
-enable assertions, and debug code.  This is disabled by default because
-it slows down the code and produces a bigger binary.  This also turns off
-optimization options and imply @samp{--enable-warnings}.
+@item --disable-heroes-debug
+@cindex --disable-heroes-debug
+@cindex HEROES_DEBUG
+Turn off tracing support.  See the description of the @samp{HEROES_DEBUG}
+variable (@pxref{Environment}).  This is enabled by default to facilitate
+bug reporting.  Using this options should reduce the size of the
+resulting binary, and speed up the game by an indiscernible amount.
+
+@end table
+
+The following options are for developing purpose.  The default
+configuration should be suitable for end users (i.e. players) but people
+attempting to hack the code may want debugging symbols or compiler
+warning.
+
+@table @samp
+@item --disable-debug
+@cindex --disable-debug
+Turn on debugging options: compile with debugging symbols and debugging
+code.  This is disabled by default because it produce bigger binaries.
+
+@item --disable-optimization
+@cindex --disable-optimization
+Turn off compiler optimizations options.  This can ease debugging.
 
 @item --enable-warnings
 @cindex --enable-warnings
 Try to turn on a large bunch of compiler warnings.
 
-@item --disable-heroes-debug
-@cindex --disable-heroes-debug
-Turn off tracing support.  See the description of the @samp{HEROES_DEBUG}
-variable (@pxref{Environment}).  This is enabled by default to facilitate
-bug reporting.
+@item --enable-assert
+@cindex --enable-assert
+Turn on some assertions squattered over the source code.
+This can slow down things a bit.
+
+@item --with-dmalloc
+@cindex --with-dmalloc
+@cindex dmalloc
+Link with Dmalloc, a @samp{malloc()} debugger.
+
+@item --with-efence
+@cindex --with-efence
+@cindex efence
+Link with Electric Fence, a @samp{malloc()} debugger.
 
 @item --enable-mem-debug
 @cindex --enable-mem-debug
-Turn on support for malloc debugging libraries such as electric fence or
-dmalloc (dmalloc will be preferred if both libraries are installed).
-This is disabled by default.
+Check for Dmalloc, or Electric Fence.  Use the first library found.
 
 @item --enable-gprof
 @cindex --enable-gprof
+@cindex gprof
 Enable profiling support with @samp{gcc}, you need @samp{gprof} to
 inspect the file resulting from a run of Heroes.
-
-@item --enable-html-doc[=DIR]
-@cindex --enable-html-doc[=DIR]
-Build and install html documentation in directory @samp{DIR}.
-If @samp{DIR} is not given, install in @file{$datadir/heroes/doc}.
 
 @end table
 

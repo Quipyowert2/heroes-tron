@@ -164,12 +164,15 @@ configure options for Heroes
 
    `configure' will do its best to find the libraries and functions
 needed by the game.  Still, you may give several options to `configure'
-help it, or to configure special features of Heroes.
+to help it, or to fine tune special features of Heroes.
+
+`--enable-html-doc[=DIR]'
+     Build and install html documentation in directory `DIR'.  If `DIR'
+     is not given, install in `$datadir/heroes/doc'.
 
 `--disable-sound'
-     Do not link with LibMikMod, thus compiling Heroes without sound
-     support.  Sound support is enabled by default, unless LibMikMod is
-     not found.
+     Turn off sound support. Sound is enabled by default, unless no
+     sound engine is found).
 
 `--disable-joystick'
      Do not include joystick support in the game.  Joystick support is
@@ -185,48 +188,61 @@ help it, or to configure special features of Heroes.
      `configure' will then look for `/home/adl/usr/bin/sdl-config' and
      configure Heroes accordingly.
 
-`--with-GGI[=DIR]'
+`--with-ggi[=DIR]'
      Link with LibGGI.  This is the default if LibGGI is installed.  If
      you installed LibGGI in some non-standard place, you can specify
      the installation path as an argument
 
-`--with-libmikmod[=DIR]'
-     Link with LibMikMod.  This is the default if LibMikMod is installed
-     and LibGGI have been selected.  You may specify where LibMikMod is
-     installed using the optional argument.
+`--with-mikmod[=DIR]'
+     Use LibMikMod four sound output.  This is the default if LibMikMod
+     is installed and LibGGI have been selected.  You may specify where
+     LibMikMod is installed using the optional argument.
 
-`--with-sdl_mixer[=DIR]'
-     Link with SDL_mixer (note the underscore in the option name).
-     This is the default if SDL_mixer is installed and SDL has been
-     selected.  You may specify where SDL_mixer is installed using the
-     optional argument.  Using this option implies `--with-sdl'.
-
-`--enable-debug'
-     Turn on debugging options: compile and link with debugging symbols,
-     enable assertions, and debug code.  This is disabled by default
-     because it slows down the code and produces a bigger binary.  This
-     also turns off optimization options and imply `--enable-warnings'.
-
-`--enable-warnings'
-     Try to turn on a large bunch of compiler warnings.
+`--with-sdl-mixer[=DIR]'
+     Use SDL_mixer for sound output.  This is the default if SDL_mixer
+     is installed and SDL has been selected.  You may specify where
+     SDL_mixer is installed using the optional argument.  Using this
+     option implies `--with-sdl'.
 
 `--disable-heroes-debug'
      Turn off tracing support.  See the description of the
      `HEROES_DEBUG' variable (*note Environment::).  This is enabled by
-     default to facilitate bug reporting.
+     default to facilitate bug reporting.  Using this options should
+     reduce the size of the resulting binary, and speed up the game by
+     an indiscernible amount.
+
+   The following options are for developing purpose.  The default
+configuration should be suitable for end users (i.e. players) but people
+attempting to hack the code may want debugging symbols or compiler
+warning.
+
+`--disable-debug'
+     Turn on debugging options: compile with debugging symbols and
+     debugging code.  This is disabled by default because it produce
+     bigger binaries.
+
+`--disable-optimization'
+     Turn off compiler optimizations options.  This can ease debugging.
+
+`--enable-warnings'
+     Try to turn on a large bunch of compiler warnings.
+
+`--enable-assert'
+     Turn on some assertions squattered over the source code.  This can
+     slow down things a bit.
+
+`--with-dmalloc'
+     Link with Dmalloc, a `malloc()' debugger.
+
+`--with-efence'
+     Link with Electric Fence, a `malloc()' debugger.
 
 `--enable-mem-debug'
-     Turn on support for malloc debugging libraries such as electric
-     fence or dmalloc (dmalloc will be preferred if both libraries are
-     installed).  This is disabled by default.
+     Check for Dmalloc, or Electric Fence.  Use the first library found.
 
 `--enable-gprof'
      Enable profiling support with `gcc', you need `gprof' to inspect
      the file resulting from a run of Heroes.
-
-`--enable-html-doc[=DIR]'
-     Build and install html documentation in directory `DIR'.  If `DIR'
-     is not given, install in `$datadir/heroes/doc'.
 
 Machines
 ========
