@@ -382,7 +382,7 @@ one from Zsh (the Z shell).
 @menu
 * Hooking functions::
 * Defining and running a hook::
-* core hooks::
+* Core hooks::
 @end menu
 
 @node Hooking functions, Defining and running a hook, Hooks, Hooks
@@ -471,7 +471,7 @@ The returned value is the @var{callback_data} passed to
 @end deftypefun
 
 
-@node Defining and running a hook, core hooks, Hooking functions, Hooks
+@node Defining and running a hook, Core hooks, Hooking functions, Hooks
 @subsubheading Definining and running a hook
 
 @cindex defining hooks
@@ -527,7 +527,7 @@ are called.
 
 @end deftypefun
 
-@node core hooks,  , Defining and running a hook, Hooks
+@node Core hooks,  , Defining and running a hook, Hooks
 @subsubheading Core hooks
 
 @table @code
@@ -574,9 +574,10 @@ positions, explosion states, etc.
 
 @menu
 * Bonuses::
+* Explosions::
 @end menu
 
-@node Bonuses,  , a_level_state, a_level_state
+@node Bonuses, Explosions, a_level_state, a_level_state
 @subsubsection Bonuses
 @cindex bonuses, definitions
 @tindex a_bonus
@@ -647,15 +648,75 @@ a_bonus b = B_RANDOM | B_YELLOW;
 
 Finally, here are a few convenient macros to inspect bonus values.
 @vtable @code
-@item BONUS_P(b)
+@item BONUS_P(@var{b})
 Check whether @var{b} is a bonus.
 Return 0 if @var{b} is @code{B_NOT_HERE} or @code{B_NOTHING}, 1 otherwise.
-@item BONUS_TYPE(b)
+@item BONUS_TYPE(@var{b})
 Assuming @var{b} is a bonus, return its type, color excluded.
 For instance @code{BONUS_TYPE(B_RANDOM | B_YELLOW)} is @code{B_RANDOM}.
-@item BONUS_YELLOW_P(b)
+@item BONUS_YELLOW_P(@var{b})
 Return 1 iff @var{b} is a yellow bonus.
 @end vtable
+
+@node Explosions,  , Bonuses, a_level_state
+@subsubsection Explosions
+@cindex explosions, definitions
+
+The @code{a_level_state} structure's @code{square_explo_state} attribute
+records the explosion state for each tile.  Each tile has an explosion
+state, even the tiles which are not @code{T_BOOM}, because vehicles can
+explode anywhere.
+
+@code{square_explo_state} is an array of elements of type
+@code{an_explosion}, indexed by square numbers.  @code{an_explosion} is
+an integer that indicate the @strong{age} of an explosion (in some
+secret time unit).  Here are some constant values that you can compare
+an explosion against, in decreasing order:
+
+@vtable @code
+@item EXPLOSION_UNTRIGGERED
+The square is inactive
+@item EXPLOSION_TRIGGERED
+The explosive square have just been triggered.
+@item EXPLOSION_IMMEDIATE
+The square have just exploded.
+@end vtable
+
+Rembember these values are time points in the lifespan of an explosive
+square, testing for equality is not very useful (except for
+@code{EXPLOSION_UNTRIGGERED}).  When an explosion is triggered, it
+starts with value @code{EXPLOSION_TRIGGERED} and decrease towards 0;
+explosing when it hits @code{EXPLOSION_IMMEDIATE}.  Some explosions
+start at @code{EXPLOSION_IMMEDIATE} directly (i.e. they explode without
+delay); for instance this is the case when players die and thir trail
+explode.
+
+Here is a squeleton you can use to test the three states of an explosion:
+
+@example
+an_explosion e = ...
+
+if (e == EXPLOSION_UNTRIGGERED) @{
+  /* The square is inactive.  */
+@} else if (e <= EXPLOSION_TRIGGERED && e > EXPLOSION_IMMEDIATE) @{
+  /* The square is triggered and will explode in some delay.  */
+@} else if (e <= EXPLOSION_IMMEDIATE) @{
+  /* The square is exploding.  */
+@}
+@end example
+
+We also have a couple of helper macros that can query some information
+directly off a @code{a_level_state} struct (passed by pointer as
+@var{state_ptr}):
+
+@vtable @code
+@item EXPLOSION_SQUARE_TRIGGERED_P(@var{state_ptr}, @var{idx})
+Return 1 if the square at index @var{idx} is triggered, 0 otherwise.
+@item EXPLOSION_SQUARE_TRIGGERABLE_P(@var{state_ptr}, @var{idx})
+Return 1 if the square at index @var{idx} is triggerable, 0 otherwise.
+A square is @dfn{triggerable} if has type @code{T_BOOM} and is untriggered.
+@end vtable
+
 
 @c ======================================================================
 @node System functions,  , Heroes data, API

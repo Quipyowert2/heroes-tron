@@ -1,5 +1,10 @@
 2002-05-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* doc/heroes-api.texi (Explosions): New node.
+	* src/rules/state.h: Remove fixed fixme.
+
+2002-05-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/rules/bonuses.h: New file.
 	* src/rules/Makefile.inc (rules_libhrules_a_SOURCES): Add it.
 	* src/plugins/Makefile.inc (PLUGIN_H_INPUTS): Add it.

@@ -191,8 +191,7 @@ struct a_level_state {
      the level; all explosions have the same effect on the players. */
   LVL_STATE_MUTABLE a_u8 *square_explo_type;
 
-  /* For each tile, the number of the bonus present, if any.
-     FIXME: Document bonus values.  */
+  /* For each tile, the number of the bonus present, if any.  */
   LVL_STATE_MUTABLE a_bonus8 *tile_bonus;
 
   /* For each square occupied by a lemming, this holds a pointer to
