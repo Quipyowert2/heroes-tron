@@ -19,10 +19,7 @@
 | 02111-1307 USA                                                    |
 `------------------------------------------------------------------*/
 
-#include "system.h"
-#include "state.h"
-#include "hooks.h"
-#include "opponents.h"
+#include "plugin.h"
 
 char ia_max_depth;
 char ia_cur_depth;

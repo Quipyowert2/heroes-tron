@@ -51,5 +51,7 @@ libheroes_a_SOURCES = \
   xstrduplwr.c \
   xstrduplwr.h
 
+pkginclude_HEADERS = xalloc.h
+
 # Additional files to compile, when functions are missing.
 libheroes_a_LIBADD = @LIBOBJS@ @ALLOCA@

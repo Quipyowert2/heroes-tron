@@ -27,4 +27,5 @@ tools/genm4mam.sh \
 tools/genpotfiles.sh \
 tools/pubhex.awk \
 tools/readme.sed \
+tools/scandefs.pl \
 tools/upgettext.sh

@@ -41,6 +41,11 @@ BEGIN {
   print "| several source files.  Change these files instead.         |";
   print "`-----------------------------------------------------------*/";
   print;
+  print "#ifndef HEROES__PLUGIN__H";
+  print "#define HEROES__PLUGIN__H";
+  print;
+  print "#include \"pconf.h\"";
+  print;
 }
 
 /END PUBLIC/ {
@@ -58,4 +63,8 @@ BEGIN {
   print "******************************************************************";
   print "*** extracted from", FILENAME;
   print "**/";
+}
+
+END {
+  print "#endif /* HEROES__PLUGIN__H */";
 }

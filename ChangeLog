@@ -1,5 +1,18 @@
 2002-03-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* tools/scandefs.pl: New file.
+	* tools/Makefile.in (EXTRA_DIST): Add it.
+	* lib/Makefile.am (pkginclude_HEADERS): Add xalloc.h.
+	* src/system.h: Add PUBLIC markers.
+	* src/plugins/Makefile.inc (BUILT_SOURCES): Add pconf.h.
+	(PLUGIN_H_INPUTS): Add system.h.
+	(EXTRA_SCRIPTS, PERL, SCANDEFS_PL): New variables.
+	(plugins/extraconf.sh, plugins/pcong.h): New rules
+	* src/plugins/stdai.c: Include plugin.h.
+	* tools/pubhex.awk: Include pconf.h.
+
+2002-03-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Use a local array to mark inspected squares.  This way this
 	plug-in does not have to *write* in the level state any longer.
 

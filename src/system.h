@@ -39,6 +39,8 @@
 
 #include "config.h"
 
+/** -- BEGIN PUBLIC -- */
+
 #include <stdio.h>
 #include <sys/types.h>
 
@@ -123,6 +125,8 @@
 # include <sys/mman.h>
 #endif
 
+/** -- END PUBLIC -- **/
+
 #if HAVE_GETOPT_H && HAVE_GETOPT_LONG
 # include <getopt.h>
 #else
@@ -154,6 +158,19 @@
 # endif
 #endif
 
+#if HAVE_WINDOWS_H
+# include <windows.h>
+# if ! HAVE_READDIR
+   /* should be included after io.h */
+#  include "w_dirent.h"
+# endif
+# if ! HAVE_SLEEP
+#  define sleep(x) (Sleep ((x) * 1000))
+# endif
+#endif
+
+/** -- BEGIN PUBLIC -- **/
+
 /* Take care of NLS matters.  */
 
 #if HAVE_LOCALE_H
@@ -175,17 +192,6 @@
 # define ngettext(msg1, msg2, n) ((n) == 1 ? (msg1) : (msg2))
 #endif
 #define N_(Text) Text
-
-#if HAVE_WINDOWS_H
-# include <windows.h>
-# if ! HAVE_READDIR
-   /* should be included after io.h */
-#  include "w_dirent.h"
-# endif
-# if ! HAVE_SLEEP
-#  define sleep(x) (Sleep ((x) * 1000))
-# endif
-#endif
 
 /* boolean type */
 
@@ -425,7 +431,7 @@ char *stpcpy (const char *s1, const char *s2);
 # define S_IRWUGO (S_IRUGO | S_IWUGO)
 #endif
 
-/* ===== The following ctype definition are stolen from textutils ===== */
+/* ===== The following ctype definitions are stolen from textutils ===== */
 
 /* Jim Meyering writes:
 
@@ -559,5 +565,7 @@ char *stpcpy (const char *s1, const char *s2);
 #ifndef INT_TO_PTR
 # define INT_TO_PTR(P, TYPE) ((P) + ((TYPE) *) 0)
 #endif
+
+/** -- END PUBLIC -- **/
 
 #endif /* HEROES__SYSTEM__H */
