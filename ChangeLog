@@ -1,3 +1,13 @@
+2002-01-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Test that saved levels are identical to loaded levels.
+
+	* tests/Makefile.am (lvlsave_LDADD, lvlsave_SOURCES,
+	EXTRA_PROGRAMS, INCLUDES, AM_CFLAGS): New variables.
+	(TESTS): Add lvlsave.test.
+	* tests/lvlsave.test, tests/lvlsave.c: New files.
+	* tests/defs: Set HEROESLVL.  Handle VERBOSE=x.
+
 2002-01-20  Ingo van Lil  <inguin@gmx.de>
 
 	Teach liblvl how to save a level.

@@ -15,5 +15,25 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
+INCLUDES = \
+  -I$(top_srcdir)/lib -I../lib \
+  -I../intl \
+  -I$(top_srcdir)/src \
+  -I$(top_srcdir)/src/lvl \
+  -I$(top_srcdir)/src/media \
+  -I$(top_srcdir)/src/sys \
+  -I.. \
+  -I.
+
+AM_CFLAGS = $(MORE_WARNINGS_CFLAGS)
+
 EXTRA_DIST = defs $(TESTS)
-TESTS = demo.test intro.test
+TESTS = demo.test intro.test lvlsave.test
+
+EXTRA_PROGRAMS = lvlsave
+
+lvlsave.test : lvlsave
+lvlsave_SOURCES = lvlsave.c
+lvlsave_LDADD = \
+  $(top_builddir)/src/lvl/libhlvl.a \
+  $(top_builddir)/lib/libheroes.a
