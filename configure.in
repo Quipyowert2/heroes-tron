@@ -19,14 +19,14 @@ dnl
 
 AC_PREREQ(2.49a)
 
-AC_INIT([src/heroes.c])
+AC_INIT([Heroes], [0.6d], [heroes-bugs@lists.sourceforge.net])
 AC_CONFIG_AUX_DIR(tools)
+AC_CONFIG_SRCDIR([src/heroes.c])
+AM_INIT_AUTOMAKE([heroes], [0.6d])
 
 AC_COPYRIGHT([Copyright 2000  Alexandre Duret-Lutz])
 
 AC_CANONICAL_HOST
-
-AM_INIT_AUTOMAKE([heroes], [0.6d])
 AC_DEFINE_UNQUOTED([HOST],["$host"],[The canonical host])
 
 # ==================
