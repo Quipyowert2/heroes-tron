@@ -24,7 +24,6 @@
 #include "ai.h"
 
 #include "bonus.h"		/* FIXME: Get rid of this.  */
-#include "const.h"		/* FIXME: Get rif of this.  */
 #include "explosions.h"		/* FIXME: Get rif of this.  */
 #include "sfx.h"		/* FIXME: Get rif of this.  */
 #include "argv.h"		/* FIXME: Get rif of this.  */
@@ -105,7 +104,7 @@ find_free_way (a_level_state *state, const a_level *lvl, int c)
     return;
   }
 
-  if (state->player[c].spec != t_ice)
+  if (state->player[c].spec != T_ICE)
     for (i = 1; i != 16; i += i)
       if (!(d & i))
 	n++;
@@ -308,7 +307,7 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
     state->player[c].y2 = state->square_coord[d2].y;
     state->player[c].d.h.h = 0;
 
-    if (state->player[c].spec == t_tunnel) {
+    if (state->player[c].spec == T_TUNNEL) {
       state->player[c].way = state->player[c].tunnel_way;
       state->player[c].old_way = state->player[c].way;
       state->player[c].spec = 0;
@@ -348,7 +347,7 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
       (state->player[c].y2 >> 1) * lvl->tile_width;
 
     if (lvl->square_type[state->player[c].pos] == T_ICE)
-      state->player[c].spec = t_ice;
+      state->player[c].spec = T_ICE;
     if ((lvl->square_type[state->player[c].pos] == T_STOP
 	 && state->player[c].delay == 0)
 	|| state->player[c].notify_delay) {
@@ -524,7 +523,7 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
     if ((!state->player[c].autopilot)
 	&& (state->player[c].next_way == (state->player[c].old_way ^ 2)))
       state->player[c].next_way = state->player[c].old_way;
-    if (state->player[c].spec != t_ice)
+    if (state->player[c].spec != T_ICE)
       state->player[c].way = state->player[c].next_way;
     else {
       state->player[c].next_way = state->player[c].way;
@@ -586,7 +585,7 @@ update_player (a_level_state *state, const a_level *lvl, unsigned c)
 	&& lvl->square_direction[state->player[c].pos] == state->player[c].next_way) {
       a_dir dir;
       a_square_index dest;
-      state->player[c].spec = t_tunnel;
+      state->player[c].spec = T_TUNNEL;
       if ((state->player[c].cpu == 2) && (!state->private->level_is_finished))
 	event_sfx (69);
       dest = lvl->square_move[state->player[c].next_way][state->player[c].pos];
