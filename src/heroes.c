@@ -928,7 +928,8 @@ output_screen (char n)
       corner[0] = render_buffer[1] + xbuf;
     }
     if (opt.radar_map)
-      draw_radar_map (player[col2plr[0]].x2, player[col2plr[0]].y2);
+      draw_radar_map (player[col2plr[0]].x2, player[col2plr[0]].y2,
+		      radar_current_pos);
     if (opt.display_infos)
       draw_score (col2plr[0], 0, 5 + 5 * xbuf - radar_current_pos);
     if (game_mode != M_QUEST) {

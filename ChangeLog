@@ -1,5 +1,16 @@
 2001-08-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/render.c (draw_radar_frame): New function, eved out
+	from draw_radar_map.
+	(draw_radar_map): Call draw_radar_frame, don't use `dede', comment,
+	fix drawing of full-wrapped levels (typo introduced on 2001-07-14).
+	Take the radar_shift parameter instead of using the global
+	radar_current_pos.
+	* src/render.h (draw_radar_map): Adjust prototype.
+	* src/heroes.c (output_screen): Supply new argument to draw_radar_map.
+
+2001-08-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/levellst.c (cmp_levels): New function.
 	(read_level_list): Sort the levels.
 

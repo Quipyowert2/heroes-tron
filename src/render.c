@@ -620,59 +620,85 @@ static const pixel_t radar_wall_color[16] = {
   91, 93, 93, 95
 };
 
-void
-draw_radar_map (int dx, int dy)
+static void
+draw_radar_frame (pixel_t *dest)
 {
-  pixel_t *src = corner[0] + 5 * xbuf + 239 + radar_current_pos;
-  int x, y, tdx, tdy, tdym, dede = 50 * (radar_current_pos > 60);
+  unsigned int y;
+
+  /* Top horizontal line. */
+  memset (dest, 15, 75);
+  dest += xbuf;
+  /* Left and right lines.  */
+  for (y = 40; y != 0; --y) {
+    *dest = 15;
+    dest[74] = 15;
+    dest += xbuf;
+  }
+  /* Bottom line.  */
+  memset (dest, 15, 75);
+}
+
+void
+draw_radar_map (square_coord_t dx, square_coord_t dy, int radar_shift)
+{
+  pixel_t *src = corner[0] + 5 * xbuf + 239 + radar_shift;
+  unsigned int x, y, tdym;
+  square_coord_t tdx, tdy;
   signed char tmp;
   long blink = read_htimer (blink_htimer) & 2;
 
-  if (radar_current_pos >= 81)
+  /* If the radar is completly off the screen,
+     don't bother drawing anything.  */
+  if (radar_shift >= 81)
     return;
-  for (x = 75 - dede; x != 0; x--)
-    *src++ = 15;
-  src += xbuf - 75 + dede;
 
-  for (y = 40; y != 0; y--) {
-    *src = 15;
-    src[74 - dede] = 15;
-    src += xbuf;
-  }
-  for (x = 75 - dede; x != 0; x--)
-    *src++ = 15;
+  draw_radar_frame (src);
+  src += xbuf + 1;
 
-  src = corner[0] + 6 * xbuf + 240 + radar_current_pos;
+  /* Now, draw the radar body.  */
   tdy = dy - 20;
-  for (y = 40; y != 0; y--) {
-    tdy &= lvl.tile_width_wrap;
-    if (tdy >= 0 && (tdy >> 1) < (int)lvl.tile_height) {
+  for (y = 40; y; --y) {
+    tdy &= lvl.square_height_wrap;
+    if (tdy < lvl.square_height) {
       tdym = tdy * lvl.square_width;
       tdx = dx - 36;
-      for (x = 73 - dede; x != 0; x--) {
+      for (x = 73; x; --x) {
 	tdx &= lvl.square_width_wrap;
-	if (tdx >= 0 && (tdx >> 1) < (int)lvl.tile_width) {
+	if (tdx < lvl.square_width) {
 	  tmp = tile_bonus[square_tile[tdx + tdym]];
+	  /* If there is a bonus on this square ... */
 	  if (tmp != 0 && tmp != -1) {
+	    /* ... draw it, possibly blinking.  */
 	    if ((tmp & 127) == 1 && blink)
 	      *src = 31;
 	    else
 	      *src = 27;
-	  } else if ((tmp = square_occupied[tdx + tdym]) != -1)
-	    *src = radar_trail_color[tmp];
-	  else if ((tmp = lvl.square_walls_out[tdx + tdym]) != 0)	/* square_radar_wall */
-	    *src = radar_wall_color[tmp];
-	  else
-	    *src = glenz[0][*src];
-	} else
+	  } else {
+	    /* Otherwise, maybe there is someone?  */
+	    if ((tmp = square_occupied[tdx + tdym]) != -1)
+	      *src = radar_trail_color[tmp];
+	    /* or just a wall?  */
+	    else if ((tmp = lvl.square_walls_out[tdx + tdym]) != 0)
+	      *src = radar_wall_color[tmp];
+	    /* or nothing interesting.  */
+	    else
+	      *src = glenz[0][*src];
+	  }
+	} else {
+	  /* The square is out of the level (because the level
+	     is not width-wrapped).  */
 	  *src = glenz[0][*src];
+	}
 	src++;
 	tdx++;
       }
-    } else
-      for (x = 73 - dede; x != 0; --x, ++src)
+    } else {
+      /* The square is out of the level (because the level is
+	 not height-wrapped).  */
+      for (x = 73; x; --x, ++src)
 	*src = glenz[0][*src];
-    src += xbuf - 73 + dede;
+    }
+    src += xbuf - 73;
     tdy++;
   }
 }
