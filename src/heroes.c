@@ -3719,6 +3719,10 @@ main (int argc, char *argv[])
   dmsg_init (argv[0]);
   dmsg (D_SECTION,"initialization");
 
+  setlocale (LC_ALL, "");
+  bindtextdomain (PACKAGE, LOCALEDIR);
+  textdomain (PACKAGE);
+
   {
     char* data_dir;
     dmsg (D_SYSTEM,"looking for HEROES_DATA_DIR or HEROES_DATADIR...");

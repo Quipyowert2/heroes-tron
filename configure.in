@@ -444,8 +444,7 @@ AC_C_BIGENDIAN_CROSS
 # Internationalization.
 # =====================
 
-ALL_LINGUAS=""
-
+ALL_LINGUAS="fr"
 AM_GNU_GETTEXT
 
 # =============================================================

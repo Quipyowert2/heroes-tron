@@ -1,5 +1,16 @@
 2000-12-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.in (ALL_LINGUAS): Add fr.
+	* m4/libintl.m4 (AM_WITH_NLS): When using AC_CONFIG_AUX_DIR,
+	prefix $(top_srcdir) to the value of MKINSTALLDIRS so that it
+	can be used in subdirectories.
+	* po/fr.po: New file.
+	* src/Makefile.am (INCLUDES): Add -I..
+	(localdatadir,localedir,DEFS): NEW.
+	* src/heroes.c (main): Handle NLS stuffs.
+
+2000-12-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Gettextize the package.
 
 	* HACKING: Update.

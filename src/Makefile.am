@@ -21,8 +21,12 @@ SUBDIRS = etc
 
 bin_PROGRAMS = heroes
 
-INCLUDES = -I$(top_srcdir)/lib -I../intl
+INCLUDES = -I$(top_srcdir)/lib -I../intl -I..
 LDADD = @INTLLIBS@ ../lib/libheroes.a
+
+localdatadir = $(prefix)/@DATADIRNAME@
+localedir = $(datadir)/locale
+DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 
 EXTRA_DIST = rsc_files.gperf debughash.gperf
 

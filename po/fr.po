@@ -1,0 +1,890 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Heroes 0.8a\n"
+"POT-Creation-Date: 2000-12-23 23:47+0100\n"
+"PO-Revision-Date: 2000-12-25 13:58+01:00\n"
+"Last-Translator: Alexandre Duret-Lutz <duret_g@epita.fr>\n"
+"Language-Team: none <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8-bit\n"
+
+#: lib/error.c:117
+msgid "Unknown system error"
+msgstr "Erreur système inconnue"
+
+#: lib/getopt.c:686
+#, c-format
+msgid "%s: option `%s' is ambiguous\n"
+msgstr "%s: l'option `%s' est ambiguë\n"
+
+#: lib/getopt.c:711
+#, c-format
+msgid "%s: option `--%s' doesn't allow an argument\n"
+msgstr "%s: l'option `--%s' ne requiert pas de paramètre.\n"
+
+#: lib/getopt.c:716
+#, c-format
+msgid "%s: option `%c%s' doesn't allow an argument\n"
+msgstr "%s: l'option `%c%s' ne requiert pas un paramètre.\n"
+
+#: lib/getopt.c:734 lib/getopt.c:907
+#, c-format
+msgid "%s: option `%s' requires an argument\n"
+msgstr "%s: l'option `%s' requiert un paramètre.\n"
+
+#. --option
+#: lib/getopt.c:763
+#, c-format
+msgid "%s: unrecognized option `--%s'\n"
+msgstr "%s: option non reconnue `--%s'\n"
+
+#. +option or -option
+#: lib/getopt.c:767
+#, c-format
+msgid "%s: unrecognized option `%c%s'\n"
+msgstr "%s: option non reconnue `%c%s'\n"
+
+#. 1003.2 specifies the format of this message.
+#: lib/getopt.c:793
+#, c-format
+msgid "%s: illegal option -- %c\n"
+msgstr "%s: option illégale --%c\n"
+
+#: lib/getopt.c:796
+#, c-format
+msgid "%s: invalid option -- %c\n"
+msgstr "%s: option invalide --%c\n"
+
+#. 1003.2 specifies the format of this message.
+#: lib/getopt.c:826 lib/getopt.c:956
+#, c-format
+msgid "%s: option requires an argument -- %c\n"
+msgstr "%s: l'option requiert un paramètre --%c\n"
+
+#: lib/getopt.c:873
+#, c-format
+msgid "%s: option `-W %s' is ambiguous\n"
+msgstr "%s: l'option `-W %s' est ambiguë\n"
+
+#: lib/getopt.c:891
+#, c-format
+msgid "%s: option `-W %s' doesn't allow an argument\n"
+msgstr "%s: l'option `-W %s' ne requiert pas de paramètre.\n"
+
+#. If XALLOC_FAIL_FUNC is NULL, or does return, display this message
+#. before exiting when memory is exhausted.  Goes through gettext.
+#: lib/xmalloc.c:66
+msgid "memory exhausted"
+msgstr "Mémoire épuisée"
+
+#: src/bonus.c:323 src/bonus.c:328
+#, c-format
+msgid "SIZE IS %d"
+msgstr "TAILLE %d"
+
+#: src/bonus.c:333
+msgid "SPEEDED UP"
+msgstr "ACCELERATION"
+
+#: src/bonus.c:337
+msgid "SPEEDED DOWN"
+msgstr "RALENTISSEMENT"
+
+#: src/bonus.c:344
+#, c-format
+msgid "GET %dPTS"
+msgstr "%d POINTS"
+
+#: src/bonus.c:360
+msgid "GET TURBO+"
+msgstr "TURBO+"
+
+#: src/bonus.c:367
+msgid "GET TURBO-"
+msgstr "TURBO-"
+
+#: src/bonus.c:375
+msgid "INVINCIBLE!"
+msgstr "INVINCIBLE !"
+
+#: src/bonus.c:387
+msgid "EXTRA-LIFE!"
+msgstr "NOUVELLE VIE"
+
+#: src/const.c:55
+msgid "QUEST"
+msgstr "QUETE"
+
+#: src/const.c:55
+msgid "DEATH MATCH"
+msgstr "COMBAT A MORT"
+
+#: src/const.c:55
+msgid "KILL'EM ALL"
+msgstr "TUE LES TOUS"
+
+#: src/const.c:56
+msgid "TIME CA$H"
+msgstr "TEMPS & ARGENT"
+
+#: src/const.c:56
+msgid "COLORS"
+msgstr "COULEURS"
+
+#. only free the buffer, not the palette
+#: src/endscroll.c:101
+msgid "THE END"
+msgstr "FIN"
+
+#: src/helptext.c:25
+msgid ""
+"\n"
+"%{img C 444 0 40 320}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"%{head 1}CONTROL & BOARD\n"
+"\n"
+"%{img C 357 55 80 205}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"%{img CG 486 0 140 320}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+msgstr ""
+"\n"
+"%{img C 444 0 40 320}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"%{head 1}CONTROLE & INDICATEURS\n"
+"\n"
+"%{img C 357 55 80 205}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"%{img CG 486 0 140 320}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+
+#: src/helptext.c:56
+msgid ""
+"\n"
+"\n"
+"\n"
+"%{head 2}BONUS\n"
+"\n"
+"%{img L 60 0 20 22}Affects the player that gets the item\n"
+"%{img L 60 22 20 22}Affects all players except the one who gets the bonus\n"
+"\n"
+"%{img L 0 0 20 22}%{>}%{img L 0 22 20 22}%{>>>}Trail +1\n"
+"%{img L 0 44 20 22}%{>}%{img L 0 66 20 22}%{>>>}Trail -1\n"
+"%{img L 0 88 20 22}%{>}%{img L 0 110 20 22}%{>>>}Speed Up\n"
+"%{img L 0 132 20 22}%{>}%{img L 0 154 20 22}%{>>>}Speed Down\n"
+"%{img L 0 176 20 22}%{>}%{img L 0 198 20 22}%{>>>}Random Bonus\n"
+"%{img L 0 220 20 22}%{>}%{img L 0 242 20 22}%{>>>}Points\n"
+"%{img L 20 0 20 22}%{>}%{img L 20 22 20 22}%{>>>}Stop\n"
+"%{img L 20 44 20 22}%{>}%{img L 20 66 20 22}%{>>>}Inverted controls\n"
+"%{img L 20 88 20 22}%{>}%{img L 20 110 20 22}%{>>>}Power +\n"
+"%{img L 20 132 20 22}%{>}%{img L 20 154 20 22}%{>>>}Power -\n"
+"%{img L 20 176 20 22}%{>}%{img L 20 198 20 22}%{>>>}End of Level\n"
+"%{img L 20 220 20 22}%{>}%{img L 20 242 20 22}%{>>>}Invulnerability\n"
+"%{img L 20 264 20 22}%{>}%{img L 20 286 20 22}%{>>>}Rotozoom\n"
+"%{img L 40 0 20 22}%{>}%{img L 40 22 20 22}%{>>>}Extra Life\n"
+"%{img L 40 44 20 22}%{>}%{img L 40 66 20 22}%{>>>}Wavy visions\n"
+"\n"
+msgstr ""
+"\n"
+"\n"
+"\n"
+"%{head 2}BONUS\n"
+"\n"
+"%{img L 60 0 20 22}Concerne tous les joueurs qui prennent le bonus\n"
+"%{img L 60 22 20 22}Concerne tous les joueurs a l'exception de celui qui prend le bonus.\n"
+"\n"
+"%{img L 0 0 20 22}%{>}%{img L 0 22 20 22}%{>>>}Trainee +1\n"
+"%{img L 0 44 20 22}%{>}%{img L 0 66 20 22}%{>>>}Trainee -1\n"
+"%{img L 0 88 20 22}%{>}%{img L 0 110 20 22}%{>>>}Acceleration\n"
+"%{img L 0 132 20 22}%{>}%{img L 0 154 20 22}%{>>>}Ralentissement\n"
+"%{img L 0 176 20 22}%{>}%{img L 0 198 20 22}%{>>>}Bonus Aleatoire\n"
+"%{img L 0 220 20 22}%{>}%{img L 0 242 20 22}%{>>>}Points\n"
+"%{img L 20 0 20 22}%{>}%{img L 20 22 20 22}%{>>>}Stop\n"
+"%{img L 20 44 20 22}%{>}%{img L 20 66 20 22}%{>>>}Commandes inversees\n"
+"%{img L 20 88 20 22}%{>}%{img L 20 110 20 22}%{>>>}Puissance supplementaire\n"
+"%{img L 20 132 20 22}%{>}%{img L 20 154 20 22}%{>>>}Perte de puissance\n"
+"%{img L 20 176 20 22}%{>}%{img L 20 198 20 22}%{>>>}Fin de niveau\n"
+"%{img L 20 220 20 22}%{>}%{img L 20 242 20 22}%{>>>}Invulnerabilite\n"
+"%{img L 20 264 20 22}%{>}%{img L 20 286 20 22}%{>>>}Rotation\n"
+"%{img L 40 0 20 22}%{>}%{img L 40 22 20 22}%{>>>}Vie supplementaire\n"
+"%{img L 40 44 20 22}%{>}%{img L 40 66 20 22}%{>>>}Vision ondulee\n"
+"\n"
+
+#: src/helptext.c:83
+msgid ""
+"%{head 3}GAME MODES\n"
+"\n"
+"%{>>}%yQUEST\n"
+"\n"
+"%{>>>}The %yQUEST%w mode allows you to play all 100 levels HEROES offers "
+"you.  Your aim is to collect a given number (10) of Trail+1 bonuses and then "
+"to get the End-of-Level bonus that will send you to next level.\n"
+"%{>>>}%{img L 20 176 20 22}End-of-Level\n"
+"%{img R 0 0 20 22}%{flushright}Trail+1\n"
+"%{>>>}Trail+1 has the effect of growing your trail.  There are two way to "
+"get it smaller: take a Trail-1 or lose a life.  The End-of-Level bonus first "
+"appears when someone's trail reach 10 units.\n"
+"\n"
+"%{>>}%yDEATH MATCH\n"
+"\n"
+"%{>>>}The %yDEATH MATCH%w mode allows you to face the other players in a "
+"fight to death.  The aim of the game is to be the last player still alive.  "
+"For this, feel free to use any stratagems you want.  Nothing is forbidden.\n"
+"\n"
+"%{img BLVr 130 9 30 57}%{>>}%yKILL THEM ALL\n"
+"\n"
+"%{>>>}The %yKILL THEM ALL%w mode has only one rule: You have to overwhelm "
+"all the people of your competitors.  It was said \"There can be only one\", "
+"make sure it is yours!\n"
+"\n"
+"%{img LG 131 70 20 100}\n"
+"%{img LG 151 70 20 80}They are among us, find them !\n"
+"\n"
+"%{>>}%yCOLOR\n"
+"\n"
+"%{>>>}The %yCOLOR%w mode is very simple. You have a certain amount of time "
+"to get a maximum of gems of your color.  Beware, if you go over your "
+"competitor's gems, it's your competitor's gem account that you will "
+"increase.  Be also sure not to get crossed gems because you'll lose "
+"collected gems.  Grey ones gives gems to all players except the one that "
+"goes over it.  The Clocks give you extra time.\n"
+"\n"
+"%{>>}%yTIME CA$H\n"
+"\n"
+"%{>>>}The aim of %yTIME CA$H%w mode is to collect a randomly definied amount "
+"of money.  The first player that gets it will win.\n"
+"\n"
+msgstr ""
+"%{head 3}MODES DE JEU\n"
+"\n"
+"%{>>}%yQUETE\n"
+"\n"
+"%{>>>}Dans le mode %yQUETE%w vous jouerez les 100 niveaux d'HEROES. Dans chaque niveau, le but est de collecter 10 bonus \"Trainee +1\" puis un bonus \"Fin de niveau\" pour passer au niveau suivant.\n"
+"%{>>>}%{img L 20 176 20 22}Fin de niveau\n"
+"%{img R 0 0 20 22}%{flushright}Trainee+1\n"
+"%{>>>}\"Trainee+1\" aggrandit la queue de votre vehicule. Il n'y a que deux facon de la rendre plus petite: prendre un bonus \"Trainee-1\" ou perdre une vie. Les bonus de type \"Fin de niveau\" apparaissent des que l'un des joueurs a une trainee de dix unitees.\n"
+"\n"
+"%{>>}%yCOMBAT A MORT\n"
+"\n"
+"%{>>>}Le mode %yCOMBAT A MORT%w vous met face a face avec les autres joueurs dans une lute a mort. Le but est de survivre, biensur ! Le dernier joueur en vie gagne.\n"
+"\n"
+"%{img BLVr 130 9 30 57}%{>>}%yTUE LES TOUS\n"
+"\n"
+"%{>>>}Le mode %yTUE LES TOUS%w est peuple de petits lemmings aux couleurs de joueurs. Votre objectif est d'ecraser ceux des autres, et de proteger les votres. S'il ne peut en rester qu'un, faites en sorte que ce soit le votre.\n"
+"\n"
+"%{img LG 131 70 20 100}\n"
+"%{img LG 151 70 20 80}Ils sont parmi nous, trouvez-les !\n"
+"\n"
+"%{>>}%yCOLEURS\n"
+"\n"
+"%{>>>}Le mode %yCOULEUR%w est tres simple. De nombreux cristaux colores sont rependus sur la surface du jeu et vous disposez d'un temps limite pour collecter le maximum de cristaux de votre couleur. Mais attention : chaque joueur a un compteur de cristaux, et prendre les cristaux des autres joueurs augmente leur compteur !  Les cristaux bares d'une crois rouge diminuent la valeur du compteur du joueur correspondant.  Les cristaux gris concernent tous les joueurs a l'exception de celui qui les prend.  Les petites montres vous donnent du temps supplementaire.\n"
+"\n"
+"%{>>}%yTEMPS & ARGENT\n"
+"\n"
+"%{>>>}Le but du mode %yTEMPS & ARGENT%w it de ramasser le maximum de dollards en un temps limite.\n"
+"\n"
+
+#: src/helptext.c:129
+msgid ""
+"%{head 4}GAME OPTIONS\n"
+"\n"
+"%{img L 293 165 20 134}\n"
+"%{>>}%gCOLOR SELECT\n"
+"\n"
+"%{>>>}This option allows you to choose the color of your vehicle between "
+"%pPINK%w, %yYELLOW%w, %bBLUE%w and %gGREEN%w.\n"
+"\n"
+"%{img L 335 165 20 32}\n"
+"%{>>}%gGAME SPEED\n"
+"\n"
+"%{>>>}The %gGAME SPEED%w option allows you to select the initial speed of "
+"the shuttles.  The 3 available speeds are: NORMAL, EXPERT, HEROES.\n"
+"\n"
+"%{img L 314 264 20 32}\n"
+"%{>>}%gROUNDS\n"
+"\n"
+"%{>>>}The %gROUNDS%w option allows you to select the number of rounds in the "
+"tournament modes: DEATH MATCH, KILL'EM ALL, COLOR and TIME CA$H.  These "
+"values range from 1 to 100 rounds.\n"
+"\n"
+"%{img L 293 0 20 33}%{img L 293 132 20 33}\n"
+"%{>>}%gRADAR & INFORMATION\n"
+"\n"
+"%{>>>}You can disable the %gRADAR%w and the %gINFORMATIONS%w for better "
+"visibility.\n"
+"\n"
+"%{img L 314 231 20 32}\n"
+"%{>>}%gLIGHTING\n"
+"\n"
+"%{>>>}The %gLIGHTING%w option is here to tune the luminosity of your "
+"screen.\n"
+"\n"
+"%{img L 314 0 20 32}\n"
+"%{>>}%gINERTIA\n"
+"\n"
+"%{>>>}The %gINERTIA%w switch enables or disables the scrolling inertia.\n"
+"\n"
+"%{img L 293 99 20 32}\n"
+"%{>>}%gAUTOPILOT\n"
+"\n"
+"%{>>>}If you are mad, you can try to play without %gAUTOPILOT%w, rest in "
+"peace...\n"
+"\n"
+msgstr ""
+"%{head 4}OPTIONS DU JEU\n"
+"\n"
+"%{img L 293 165 20 134}\n"
+"%{>>}%gCHOIX DE COULEUR\n"
+"\n"
+"%{>>>}Cette option permet de choisir la couleur de votre vehicule parmi %pROSE%w, %yJAUNE%w, %bBLEU%w and %gVERT%w.\n"
+"\n"
+"%{img L 335 165 20 32}\n"
+"%{>>}%gVITESSE DU JEU\n"
+"\n"
+"%{>>>}L'option %gVITESSE DU JEU%w vous permet de regler la vitesse initiale de vos vehicules.  Les 3 vitesses sont: NORMAL, EXPERT, HEROES.\n"
+"\n"
+"%{img L 314 264 20 32}\n"
+"%{>>}%gMANCHES\n"
+"\n"
+"%{>>>}Choisissez le nombre de %gMANCHES%w des parties jouees dans l'un des modes tournois (c'est-a-dire COMBAT A MORT, TUE LE TOUS, COULEUR ou TEMPS & ARGENT). Les valeurs varient de 1 a 100 manches.\n"
+"\n"
+"%{img L 293 0 20 33}%{img L 293 132 20 33}\n"
+"%{>>}%gRADAR & INFORMATIONS\n"
+"\n"
+"%{>>>}Le radar et les informations supplementaires comme les compteurs peuvent-etre desactives pour une meilleure visibilite.\n"
+"\n"
+"%{img L 314 231 20 32}\n"
+"%{>>}%gECLAIRAGE\n"
+"\n"
+"%{>>>}L'option %gECLAIRAGE%w permet de regler la luminosite de l'affichage.\n"
+"\n"
+"%{img L 314 0 20 32}\n"
+"%{>>}%gINERTIE\n"
+"\n"
+"%{>>>}L'option %gINERTIE%w active ou desactive l'inertie de la camera.\n"
+"\n"
+"%{img L 293 99 20 32}\n"
+"%{>>}%gAUTOPILOTE\n"
+"\n"
+"%{>>>}Les casse-cou pourront essayer de jouer sans l'option %gAUTOPILOT%w, reposez en paix...\n"
+"\n"
+
+#: src/helptext.c:175
+msgid ""
+"%{head 1}CONTACT\n"
+"\n"
+"%{center}home page:\n"
+"%{img BCVr 183 124 30 41}\n"
+"%{center}http://www.realtech.scene.org/heroes/\n"
+"\n"
+"%{center}send bug reports to:\n"
+"%{img BCVr 183 124 30 41}\n"
+"%{center}heroes-bugs@lists.sourceforge.net\n"
+"\n"
+msgstr ""
+"%{head 1}CONTACT\n"
+"\n"
+"%{center}page web:\n"
+"%{img BCVr 183 124 30 41}\n"
+"%{center}http://heroes.sourceforge.net/\n"
+"\n"
+"%{center}rapporter tout bug a:\n"
+"%{img BCVr 183 124 30 41}\n"
+"%{center}heroes-bugs@lists.sourceforge.net\n"
+"\n"
+
+#: src/helptext.c:188
+msgid ""
+"%{img C 175 0 10 119}\n"
+"%{img L 96 200 40 50}%{img R 96 200 40 50} We take care of today's "
+"environmental and ecological issues and did our best to use only recycled "
+"bytes in this program.\n"
+"%{img C 175 0 10 119}\n"
+"\n"
+"\n"
+"%{img CG 145 150 40 120}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"%{img C 220 3 60 130}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"%{center}Copyright 1997, 1998, 2000  Alexandre Duret-Lutz, Romuald Genevois, "
+"Alexandre Liverneaux and Philippe Meisburger.\n"
+"\n"
+msgstr ""
+"%{img C 175 0 10 119}\n"
+"%{img L 96 200 40 50}%{img R 96 200 40 50} Nous sommes conscient des problemes ecologique do notre epoque a avons pris soin de n'utiliser que des octets recycles dans ce programme.\n"
+"%{img C 175 0 10 119}\n"
+"\n"
+"\n"
+"%{img CG 145 150 40 120}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"%{img C 220 3 60 130}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"%{center}Copyright 1997, 1998, 2000  Alexandre Duret-Lutz, Romuald Genevois, Alexandre Liverneaux and Philippe Meisburger.\n"
+"\n"
+
+#: src/heroes.c:2198
+#, c-format
+msgid "INVERTED %d"
+msgstr "INVERSE %d"
+
+#: src/heroes.c:2229
+#, c-format
+msgid "STOPPED %d"
+msgstr "ARRETE %d"
+
+#. FIXME: handle plural
+#: src/heroes.c:2511
+#, c-format
+msgid "%d LIVES LEFT"
+msgstr "RESTE %d VIES"
+
+#: src/heroes.c:2513
+msgid "LAST LIFE"
+msgstr "DERNIERE VIE"
+
+#: src/heroes.c:3265
+#, c-format
+msgid "-LEVEL %d-"
+msgstr "-NIVEAU %d-"
+
+#: src/heroes.c:3267
+#, c-format
+msgid "-ROUND %d/%d-"
+msgstr "-MANCHE %d/%d-"
+
+#: src/menus.c:167
+msgid "GAME"
+msgstr "JEU"
+
+#: src/menus.c:168
+msgid "SCREEN"
+msgstr "AFFICHAGE"
+
+#: src/menus.c:169
+msgid "SOUND"
+msgstr "SON"
+
+#: src/menus.c:170
+msgid "CONTROL"
+msgstr "CONTROLE"
+
+#: src/menus.c:171
+msgid "KEYS"
+msgstr "TOUCHES"
+
+#: src/menus.c:172
+msgid "EXTRAS"
+msgstr "EXTRAS"
+
+#: src/menus.c:173 src/menus.c:350 src/menus.c:360 src/menus.c:374
+#: src/menus.c:386 src/menus.c:396 src/menus.c:419 src/menus.c:524
+msgid "GO BACK"
+msgstr "RETOUR"
+
+#. play menu
+#: src/menus.c:180 src/menus.c:518
+msgid "PLAY"
+msgstr "JOUER"
+
+#. options menu
+#: src/menus.c:181 src/menus.c:500
+msgid "OPTIONS"
+msgstr "OPTIONS"
+
+#: src/menus.c:182 src/menus.c:371
+msgid "INFOS"
+msgstr "INFOS"
+
+#: src/menus.c:183 src/menus.c:436
+msgid "CREDITS"
+msgstr "CREDITS"
+
+#: src/menus.c:184
+msgid "SCORES"
+msgstr "SCORES"
+
+#. editor first menu
+#: src/menus.c:185 src/menus.c:510
+msgid "EDITOR"
+msgstr "EDITEUR"
+
+#: src/menus.c:186
+msgid "QUIT"
+msgstr "QUITTER"
+
+#: src/menus.c:340
+msgid "CONTROL OPTIONS"
+msgstr "CONTROLE"
+
+#. 1st player
+#: src/menus.c:342 src/menus.c:381 src/menus.c:398
+msgid "PLAYER 1"
+msgstr "JOUEUR 1"
+
+#: src/menus.c:344 src/menus.c:348
+msgid "AUTO PILOT"
+msgstr "AUTO PILOTE"
+
+#. 2nd player
+#: src/menus.c:346 src/menus.c:382 src/menus.c:406
+msgid "PLAYER 2"
+msgstr "JOUEUR 2"
+
+#: src/menus.c:356
+msgid "SOUND OPTIONS"
+msgstr "OPTIONS SONORES"
+
+#: src/menus.c:358
+msgid "MUSIC"
+msgstr "MUSIQUE"
+
+#: src/menus.c:359
+msgid "SFX"
+msgstr "BRUITAGES"
+
+#: src/menus.c:363
+msgid "MUSIC VOL"
+msgstr "VOL. MUS."
+
+#: src/menus.c:364
+msgid "SFX VOL"
+msgstr "VOL. BRUIT."
+
+#: src/menus.c:368
+msgid "SCREEN OPTIONS"
+msgstr "AFFICHAGE"
+
+#: src/menus.c:370
+msgid "GLENZ TRAIL"
+msgstr "RADAR"
+
+#: src/menus.c:372
+msgid "LIGHTING"
+msgstr "ECLAIRAGE"
+
+#: src/menus.c:373
+msgid "INERTIA"
+msgstr "INERTIE"
+
+#: src/menus.c:379
+msgid "GAME OPTIONS"
+msgstr "OPTIONS DE JEU"
+
+#: src/menus.c:383
+msgid "PLAYER 3"
+msgstr "JOUEUR 3"
+
+#: src/menus.c:384
+msgid "PLAYER 4"
+msgstr "JOUEUR 4"
+
+#: src/menus.c:385
+msgid "SPEED"
+msgstr "VITESSE"
+
+#: src/menus.c:394
+msgid "KEYBOARD DEFS"
+msgstr "CONFIG CLAVIER"
+
+#: src/menus.c:399 src/menus.c:407
+msgid "UP"
+msgstr "HAUT"
+
+#: src/menus.c:400 src/menus.c:408
+msgid "LEFT"
+msgstr "GAUCHE"
+
+#: src/menus.c:401 src/menus.c:409
+msgid "DOWN"
+msgstr "BAS"
+
+#: src/menus.c:402 src/menus.c:410
+msgid "RIGHT"
+msgstr "DROITE"
+
+#: src/menus.c:403 src/menus.c:411
+msgid "TURBO"
+msgstr "TURBO"
+
+#: src/menus.c:404 src/menus.c:412
+msgid "STOP"
+msgstr "STOP"
+
+#: src/menus.c:417
+msgid "EXTRAS LEVELS"
+msgstr "NIVEAUX EXTRAS"
+
+#: src/menus.c:421
+msgid "ORIGINAL LEVELS"
+msgstr "NIVEAUX ORIGINAUX"
+
+#: src/menus.c:423
+msgid "ORIGINAL+EXTRAS"
+msgstr "ORIGINAUX+EXTRAS"
+
+#: src/menus.c:425
+msgid "EXTRAS ONLY"
+msgstr "EXTRAS UNIQUEMENT"
+
+#: src/menus.c:427
+msgid "EXTRAS: NONE"
+msgstr "EXTRAS: AUCUN"
+
+#: src/menus.c:429
+msgid "EXTRAS: ALL"
+msgstr "EXTRAS: TOUS"
+
+#: src/menus.c:431
+msgid "EXTRAS: SELECT"
+msgstr "EXTRAS: CHOIX"
+
+#: src/menus.c:438
+msgid "GFX AND IDEA:"
+msgstr "GRAPH & IDEE:"
+
+#: src/menus.c:441
+msgid "MUSIC:"
+msgstr "MUSIQUE:"
+
+#: src/menus.c:446
+msgid "CODE:"
+msgstr "CODE:"
+
+#: src/menus.c:450
+msgid "PLEASE READ THE LIST OF OTHER CONTRIBUTORS IN THE FILE 'THANKS'"
+msgstr "LES AUTRES CONTRIBUTEURS SONT LISTES DANS LE FICHIER 'THANKS'"
+
+#. pause menu
+#: src/menus.c:476
+msgid "PAUSE"
+msgstr "PAUSE"
+
+#. quit y/n menus
+#: src/menus.c:480
+msgid "QUIT THIS GAME?"
+msgstr "QUITTER LA PARTIE ?"
+
+#: src/menus.c:482
+msgid "REALLY QUIT?"
+msgstr "QUITTER LE JEU ?"
+
+#: src/menus.c:484
+msgid "NO"
+msgstr "NON"
+
+#: src/menus.c:485
+msgid "YES"
+msgstr "OUI"
+
+#. editor menu
+#: src/menus.c:488
+msgid "EXISTING LEVEL"
+msgstr "NIVEAU EXISTANT"
+
+#: src/menus.c:490 src/menus.c:512
+msgid "NEW LEVEL"
+msgstr "NOUVEAU NIVEAU"
+
+#: src/menus.c:492
+msgid "NAME"
+msgstr "NOM"
+
+#: src/menus.c:493
+msgid "X-WRAP"
+msgstr "BOUCLE-X"
+
+#: src/menus.c:494
+msgid "Y-WRAP"
+msgstr "BOUCLE-Y"
+
+#: src/menus.c:495
+msgid "X-SIZE"
+msgstr "LARGEUR"
+
+#: src/menus.c:496
+msgid "Y-SIZE"
+msgstr "HAUTEUR"
+
+#: src/menus.c:497
+msgid "EDIT"
+msgstr "EDIT"
+
+#. main menu
+#: src/menus.c:503
+msgid "HEROES"
+msgstr "HEROES"
+
+#. editor selector
+#: src/menus.c:506
+msgid "SELECT A LEVEL"
+msgstr "CHOISSEZ UN NIVEAU"
+
+#: src/menus.c:514
+msgid "LOAD LEVEL"
+msgstr "CHARGER"
+
+#: src/menus.c:520
+msgid "ONE PLAYER"
+msgstr "UN JOUEUR"
+
+#: src/menus.c:522
+msgid "TWO PLAYER"
+msgstr "DEUX JOUEURS"
+
+#: src/menus.c:526
+msgid "LOAD..."
+msgstr "CHARGER..."
+
+#. saved game selection
+#: src/menus.c:535
+msgid "CHOSE A SAVE SLOT"
+msgstr "CHOISISSEZ UN EMPLACEMENT"
+
+#: src/menus.c:537
+msgid "CHOSE A LOAD SLOT"
+msgstr "CHOISSISSEZ UN EMPLACEMENT"
+
+#. enter your name
+#: src/menus.c:541
+msgid "ENTER YOUR NAME:"
+msgstr "ENTREZ VOTRE NOM"
+
+#. end level info
+#: src/menus.c:545
+msgid "SIZE  PTS  LIVES"
+msgstr "TAILLE PTS VIES"
+
+#: src/menus.c:547
+msgid "PTS  LIVES"
+msgstr "POINTS VIES"
+
+#: src/menus.c:549
+msgid " MEN  PTS  LIVES"
+msgstr "LEMS  PTS  VIES"
+
+#: src/menus.c:551
+msgid "CA$H  PTS  LIVES"
+msgstr "SOUS  PTS  VIES"
+
+#: src/menus.c:553
+msgid "COLORS  PTS  LIVES"
+msgstr "COULEURS PTS  VIES"
+
+#: src/menus.c:555
+msgid "NEXT LEVEL"
+msgstr "NIVEAU SUIVANT"
+
+#: src/menus.c:557
+msgid "SAVE..."
+msgstr "SAUVER..."
+
+#: src/menus.c:559
+msgid "PRESS RETURN"
+msgstr "FRAPPEZ ENTREE"
+
+#: src/menus.c:568
+msgid "WINS  PTS  LIVES"
+msgstr "GAINS PTS  VIES"
+
+#. higher scores
+#: src/menus.c:579
+msgid "HIGHER SCORES"
+msgstr "MEILLEURS SCORES"
+
+#. FIXME: handle plural
+#: src/menus.c:1197
+#, c-format
+msgid "%d ROUNDS"
+msgstr "%d MANCHES"
+
+#: src/menus.c:2180
+#, c-format
+msgid "PLAYER %d, YOU CAME IN THE TOP 10"
+msgstr "JOUEUR %d, VOUS FIGUREZ PARMI LES 10 MEILLEURS"
+
+#: src/menus.c:2247
+#, c-format
+msgid "PLAYER %d WON!"
+msgstr "LE JOUEUR %d GAGNE !"
+
+#: src/menus.c:2253
+msgid "EVERYONE LOST!"
+msgstr "TOUT LE MONDE PERD"
+
+#: src/menus.c:2255
+msgid "YOU LOST!"
+msgstr "VOUS AVEZ PERDU !"
+
+#: src/menus.c:2334
+#, c-format
+msgid "ROUND %d/%d"
+msgstr "MANCHE %d/%d"
