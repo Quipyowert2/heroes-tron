@@ -21,6 +21,6 @@ EXTRA_DIST = \
 autogen.sh \
 cvsboot.sh \
 fetish-sync.sh \
-gemm4mam.sh \
+genm4mam.sh \
 genpotfiles.sh \
 readme.sed

@@ -5,7 +5,7 @@ please send a note to <heroes-discuss@lists.sourceforge.net>.
 Before 0.9
 ----------
 
-  Use gettext.
+  Update the ./configure option descriptions.
 
   Blitting `corner[0]' to `screen', and then blitting `screen' to the
   video memory is somewhat expensive.  Better blitting directly from
@@ -13,12 +13,12 @@ Before 0.9
 
   hedlite.c should be cleaned and use a xbuf-wide buffer.
 
-  Bug: HAVE_LIBGGI/HAVE_PKG_ggi, HAVE_LIBGII/HAVE_PKG_gii, 
+  Bug: HAVE_LIBGGI/HAVE_PKG_ggi, HAVE_LIBGII/HAVE_PKG_gii,
   HAVE_LIBSDL_MIXER/HAVE_PKG_sdl_mixer, should not be six variables
   but only three.  Their usage in the code is inconsistent and can
   cause problems with some configuration (I once got HAVE_LIBMIKMOD = 1,
   HAVE_LIBSDL_MIXER = 1, and HAVE_PKG_sdl_mixer = 0; this cause system.h
-  to choke because all the code use HAVE_LIBSDL_MIXER where 
+  to choke because all the code use HAVE_LIBSDL_MIXER where
   HAVE_PKG_sdl_mixer should be used).
 
 

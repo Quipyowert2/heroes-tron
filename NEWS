@@ -1,3 +1,23 @@
+Heroes 0.8a	Juanary 1, 2001
+
+        * Internationalization of menus and text output.
+	* French translations included.
+	* Bug fixes:
+	  - compilation for targets not using gettimeofday (e.g. mingw32)
+	    was broken since 0.7a
+	  - cross-compile build was broken since 0.7a
+	* configure has been shaked a lot:
+	  - many checks moved into separate files in m5/
+	  - New options:
+	     --disable-nls,             --enable-assert,
+             --enable-warnings,         --disable-optimizations,
+             --with-dmalloc,            --with-efence,
+	     --with-included-gettext,   --with-catgets
+	   - Renamed options:
+	     --with*-GGI* => --with*-ggi*
+	     --with*-GII* => --with*-gii*
+	     --with*-sdl_mixer* => --with*-sdl-mixer*
+
 Heroes 0.8	December 20, 2000
 
 	* Bug fixes:
