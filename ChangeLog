@@ -1,5 +1,37 @@
 2000-09-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Add wmsg and emsg, for warning and error messages.  Use them.
+	
+	* src/errors.c (fatal_error): Delete.
+	(wmsg,emsg): New.
+	* src/errors.h: Likewise.
+	* src/heroes.c (load_level_from_number, init_buffers,
+	load_random_wrapped_level, load_random_level, play_game,
+	read_level_list, main): Use emsg instead of fatal_error.
+	* src/pcx.c (img_init,pcx_load,pcx_load_from_rsc): Likewise.
+	* src/hedlite.c (fatalog): Likewise.
+	* src/sfx.c (load_sfx_mode): Likewise.
+	* src/txts.c (read_txti_cfg): Likewise.
+	* src/display.c (init_video): Use emsg instead of *printf.
+	(init_video): Likewise.
+	* src/joystick.c [HAVE_PKG_GII] (_get_joystick_state): Use wmsg 
+	instead of fprintf.
+	* src/joystick.c (joyinit): Use wmsg instead of puts.
+	* src/musicfiles.c (read_sound_config_file): Use wmsg instead of
+	fprintf.
+	* src/rsc_files.c (set_rsc_file,get_rsc_file): Likewise.
+	* src/sfx.c (read_sfx_conf): Likewise.
+	* src/sound.c [HAVE_LIBMIKMOD] (init_sound_engine,
+	load_soundtrack, get_int): Likewise.
+	[HAVE_LIBSDL_MIXER] (init_sound_engine, load_soundtrack,
+	print_drivers_list, decode_sound_options): Likewise.
+	[] (print_drivers_list): Likewise.
+	* src/userconf.c (read_userconf): Likewise.
+	* src/userdir.c (exists_dir): Likewise.
+	(setup_userdir): Likewise.
+
+2000-09-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Introduce fader to handle palette fadings automatically.
 
 	* src/fader.h: New.

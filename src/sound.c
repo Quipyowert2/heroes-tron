@@ -24,6 +24,7 @@
 #include "argv.h"
 #include "musicfiles.h"
 #include "debugmsg.h"
+#include "errors.h"
 
 char sound_initialized = 0;
 char sound_track_loaded = 0;
@@ -100,9 +101,9 @@ init_sound_engine (void)
   if (driver_options)
     dmsg (D_SOUND_TRACK, "MikMod user options: %s", driver_options);
   if (MikMod_Init (driver_options?driver_options:"")) {
-    fprintf (stderr, "Could not initialize sound, reason: %s\n"
-	     "Disabling sound output (use -S to suppress this message).\n",
-	     MikMod_strerror (MikMod_errno));
+    wmsg ("Could not initialize sound, reason: %s\n"
+	  "Disabling sound output (use -S to suppress this message).\n",
+	  MikMod_strerror (MikMod_errno));
     nosfx = nosound = 1;
     MikMod_Exit ();
     return 0;
@@ -110,9 +111,9 @@ init_sound_engine (void)
 
   dmsg (D_SOUND_TRACK,"initialize MikMod thread");
   if (MikMod_InitThreads () != 1) {
-    fprintf (stderr, "Could not initialize sound, reason: "
-	     "LibMikMod is not thread safe.\n"
-	     "Disabling sound output (use -S to suppress this message).\n");
+    wmsg ("Could not initialize sound, reason: "
+	  "LibMikMod is not thread safe.\n"
+	  "Disabling sound output (use -S to suppress this message).\n");
     nosfx = nosound = 1;
     MikMod_Exit ();
     return 0;
@@ -145,8 +146,8 @@ load_soundtrack (char *ptr)
   dmsg (D_FILE|D_SOUND_TRACK,"loading sound track: %s", ptr);
   module = Player_Load (ptr, 16, 0);
   if (!module) {
-    fprintf (stderr, "Could not load %s, reason: %s\n", ptr,
-	     MikMod_strerror (MikMod_errno));
+    wmsg ("Could not load %s, reason: %s\n", ptr,
+	  MikMod_strerror (MikMod_errno));
   } else
     sound_track_loaded = 1;
 }
@@ -226,10 +227,9 @@ get_int (char *arg, int *value, int min, int max, char* argv0)
   if (end && (!*end) && (t >= min) && (t <= max))
     *value = t;
   else
-    fprintf(stderr, 
-	    "Argument '%s' out of bounds, must be between %d and %d.\n"
-	    "Use '%s --help' for more information.\n",
-	    arg?arg:"(not given)", min, max, argv0);
+    wmsg ("Argument '%s' out of bounds, must be between %d and %d.\n"
+	  "Use '%s --help' for more information.\n",
+	  arg?arg:"(not given)", min, max, argv0);
 }
 
 void 
@@ -341,9 +341,9 @@ init_sound_engine (void)
 	audio_buffers);
   if (Mix_OpenAudio (audio_rate, audio_format, audio_channels, audio_buffers) 
       < 0) {
-    fprintf(stderr, "Couldn't open audio: %s\n"
-	    "Disabling sound output (use -S to suppress this message).\n",
-	    SDL_GetError());
+    wmsg ("Couldn't open audio: %s\n"
+	  "Disabling sound output (use -S to suppress this message).\n",
+	  SDL_GetError());
     nosfx = nosound = 1;
   } else {
     Mix_QuerySpec(&audio_rate, &audio_format, &audio_channels);
@@ -379,8 +379,8 @@ load_soundtrack (char *ptr)
   dmsg (D_SOUND_TRACK|D_FILE,"loading sound-track: %s", ptr);
   music = Mix_LoadMUS(ptr);
   if (!music) {
-    fprintf (stderr, "Could not load %s, reason: %s\n", ptr,
-	     SDL_GetError ());
+    wmsg ("Could not load %s, reason: %s\n", ptr,
+	  SDL_GetError ());
   } else
     sound_track_loaded = 1;
 }
@@ -418,8 +418,8 @@ play_soundtrack (void)
 void
 print_drivers_list (void)
 {
-  printf ("Heroes has been compiled with SDL_mixer,"
-	  " there is no driver list available.\n");
+  wmsg ("Heroes has been compiled with SDL_mixer,"
+	" there is no driver list available.\n");
 }
 
 void
@@ -434,16 +434,16 @@ decode_sound_options (char* optarg, char* argv0)
 	if (optarg)
 	  audio_rate = atol (optarg);
 	else 
-	  fprintf (stderr, "%s: missing parameter for 'freq'", argv0);
+	  wmsg ("%s: missing parameter for 'freq'", argv0);
       } else if (!strcasecmp (optarg, "buffers")) {
 	optarg = strtok (0, " \t:=,;");
 	if (optarg)
 	  audio_buffers = atol (optarg);
 	else 
-	  fprintf (stderr, "%s: missing parameter for 'buffers'\n", argv0);
+	  wmsg ("%s: missing parameter for `buffers'", argv0);
       } else
-	  fprintf (stderr, "%s: recognized sound options"
-		   "are freq=nnn and buffers=nnn\n", argv0);
+	wmsg ("%s: recognized sound options"
+	      "are freq=nnn and buffers=nnn", argv0);
       optarg = strtok (0, " \t:=,;");      
     }
     free (buf);
@@ -515,7 +515,7 @@ play_soundtrack (void)
 void
 print_drivers_list (void)
 {
-  printf ("Heroes has been compiled without sound support.\n");
+  wmsg ("Heroes has been compiled without sound support.\n");
 }
 
 void

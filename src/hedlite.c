@@ -93,7 +93,7 @@ void (*fnptr[type_nbr]) (int, int, int) = {
 static void
 fatalog (char *ptr)
 {
-  fatal_error (ptr);
+  emsg (ptr);
 }
 
 static void

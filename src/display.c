@@ -24,6 +24,7 @@
 #include "argv.h"
 #include "debugmsg.h"
 #include "fastmem.h"
+#include "errors.h"
 
 unsigned char *screen_rv = 0;	/* A pointer to the screen buffer associated
 				   to the render visual. */
@@ -250,17 +251,13 @@ init_video (void)
   dmsg (D_VIDEO, "open main visual (%s)",
 	display_params ? display_params : "null"); 
   visu = ggiOpen (display_params);
-  if (!visu) {
-    fprintf (stderr, "Failed to open visual.\n");
-    exit (EXIT_FAILURE);
-  }
+  if (!visu)
+    emsg ("Failed to open visual.");
 
   dmsg (D_VIDEO, "open display-memory visual");  
   render_visu = ggiOpen ("display-memory", NULL);
-  if (!render_visu) {
-    fprintf (stderr, "Failed to open an internal `display-memory' visual.\n");
-    exit (EXIT_FAILURE);
-  }
+  if (!render_visu)
+    emsg ("Failed to open an internal `display-memory' visual.");
 
   scr_w = 320 * stretch;
   scr_h = 200 * stretch;
@@ -288,8 +285,7 @@ init_video (void)
 	(ggiCheckGraphMode (visu, GGI_AUTO, GGI_AUTO, scr_w, scr_h, GT_8BIT,
 			    &vid_mode) &&
 	 ggiSetMode (visu, &vid_mode))) {
-      fprintf (stderr, "Couldn't setup a correct display.\n");
-      exit (EXIT_FAILURE);
+      emsg ("Couldn't setup a correct display.");
     }
   }
   dmsg (D_VIDEO, "video mode is %dx%dx%d", 
@@ -297,10 +293,9 @@ init_video (void)
   
   dmsg (D_VIDEO, "ask for a direct-buffer");
   db = ggiDBGetBuffer (render_visu, 0);
-  if (!db || !(db->type & GGI_DB_SIMPLE_PLB)) {
-    fprintf (stderr, "Can't get correct direct-buffer.\n");
-    exit (EXIT_FAILURE);
-  }
+  if (!db || !(db->type & GGI_DB_SIMPLE_PLB))
+    emsg ("Can't get correct direct-buffer.\n");
+
   screen_rv = db->write;
 
   if (stretch > 1) {
@@ -439,10 +434,8 @@ init_video (void)
   dmsg (D_VIDEO, "set video mode");
   visu = SDL_SetVideoMode (scr_w, scr_h, 8, visu_options);
   /* FIXME: the Linux/m68k binary is crashing in the vicinity */
-  if (!visu) {
-    fprintf (stderr, "Failed to open visual: %s\n", SDL_GetError());
-    exit (EXIT_FAILURE);
-  }
+  if (!visu)
+    emsg ("Failed to open visual: %s\n", SDL_GetError());
 
   video_initialized = 1;
 

@@ -21,6 +21,7 @@
 #include "common.h"
 #include "userdir.h"
 #include "debugmsg.h"
+#include "errors.h"
 
 #define DIR_NAME ".heroes"
 
@@ -35,12 +36,11 @@ exists_dir (char* dir)
   if (err) {
     if (errno == ENOENT) 
       return 0;
-    fprintf(stderr,"%d\n",err);
     perror (dir);
     return -1;
   }
   if (!S_ISDIR(s.st_mode)) {
-    fprintf (stderr, "%s is not a directory.\n", dir);
+    wmsg ("%s is not a directory.\n", dir);
     return -1;
   }
   return 1;
@@ -56,14 +56,14 @@ setup_userdir (void)
   dmsg (D_SECTION,"user directory setup");
 
   if (!home) {
-    fprintf (stderr, "No $HOME found in environment, using `.'\n");
+    wmsg ("No $HOME found in environment, using `.'");
     home = ".";
   }
   if (userdir)
     free (userdir);
   userdir = malloc (strlen (home) + 1 + sizeof (DIR_NAME) + 1);
   if (!userdir) {
-    fprintf (stderr, "Not enough memory.\n");
+    wmsg ("Not enough memory.");
     return 1;
   }
   sprintf(userdir, "%s/" DIR_NAME, home);
@@ -78,7 +78,7 @@ setup_userdir (void)
 	perror ("while creating ~/" DIR_NAME);
 	return 1;
       } else {
-	fprintf(stderr, "directory %s/ created.\n", userdir);      
+	wmsg ("directory %s/ created.", userdir);      
       }
     } else {
       dmsg (D_SYSTEM, "directory %s/ already exists", userdir);

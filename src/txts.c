@@ -59,7 +59,7 @@ read_txti_cfg (void)
 
   dmsg (D_SECTION|D_FILE, "parsing text configuration file: %s ...", t);
   if ((fconf = fopen (t, "rt")) == NULL)
-    fatal_error ("Can't read text configuration file.\n");
+    emsg ("Can't open %s", t);
   free (t);
   while (fgets (tmpptr, 256, fconf) != NULL) {
     c = toupper (tmp[0]);

@@ -30,7 +30,7 @@ img_init (image_ * image)
 {
   image->buffer = malloc (image->size);
   if (image->buffer == NULL)
-    fatal_error ("[PCX] Not enough memory.");
+    emsg ("[PCX] Not enough memory.");
 }
 
 void
@@ -60,12 +60,7 @@ pcx_load (const char *file, image_ * image)
   dmsg (D_FILE, "opening image file: %s", file);
 
   if ((fptr = fopen (file, "rb")) == NULL) {
-    puts (file);
-#ifndef __HEDIT__
-    fatal_error ("Unable to open this PCX\n");
-#else
-    fatalog ("Unable to open this PCX\n");
-#endif
+    emsg ("Cannot open %d\n", file);
   }
   fread (&(image->header), sizeof (header_), 1, fptr);
 
@@ -123,7 +118,7 @@ pcx_load_from_rsc (const char *rsc, image_ * image)
   char error;
 
   if (res == 0) 
-    fatal_error ("Empty resource.\n");
+    emsg ("Empty resource (%s)", rsc);
   error = pcx_load (res, image);
   free (res);
   return error;

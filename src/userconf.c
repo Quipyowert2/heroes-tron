@@ -29,6 +29,7 @@
 #include "musicfiles.h"
 #include "rsc_files.h"
 #include "debugmsg.h"
+#include "errors.h"
 
 int 
 read_userconf (const char* file, const char* argv0)
@@ -91,8 +92,7 @@ read_userconf (const char* file, const char* argv0)
       /* get the variable name */
       argv [1] = strtok (0, " \t\n");
       if (argv[1] == 0) {
-	fprintf (stderr, "%s:%d: missing variable name\n", 
-		 filename, firstline);	
+	wmsg ("%s:%d: missing variable name\n", filename, firstline);	
 	goto non_fatal_error;
       }
       argv[2] = strtok (0, "\n");
@@ -111,15 +111,13 @@ read_userconf (const char* file, const char* argv0)
       /* get the resource name */
       argv [1] = strtok (0, " \t\n");
       if (argv[1] == 0) {
-	fprintf (stderr, "%s:%d: missing resource name\n", 
-		 filename, firstline);	
+	wmsg ("%s:%d: missing resource name\n", filename, firstline);
 	goto non_fatal_error;
       }
       argv[2] = strtok (0, "\n");
       set_rsc_file (argv[1], argv[2]);
     } else {
-      fprintf (stderr, "%s:%d: unknown keyword `%s'\n", 
-	       filename, firstline, argv[0]);
+      wmsg ("%s:%d: unknown keyword `%s'\n", filename, firstline, argv[0]);
       if (!file)
 	free (filename);
       return 1;

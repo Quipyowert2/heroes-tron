@@ -9,13 +9,9 @@ Before 0.7
 
   Try to fix the initialization crash on Linux/m68k
 
-  all printf and fprintf should be replaced by call to warning (or such)
-  function (to be written), so that they can be disabled (or redefined)
-  on systems such as Windows or MacOS.
-
   a few memory leaks can be removed (see BUGS).
 
-  an option should allow to disable these warnings.
+  an option should allow to disable warnings from wmsg (and emsg?)
 
   the default installation path on BeOS should not be /usr/local (?)
 

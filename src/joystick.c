@@ -21,6 +21,7 @@
 #include "common.h"
 #include "joystick.h"
 #include "debugmsg.h"
+#include "errors.h"
 
 int joystick_x[2] = { 0, 0 };	/* coord. X */
 int joystick_y[2] = { 0, 0 };	/*        Y */
@@ -96,7 +97,7 @@ _get_joystick_state (void)
 	if (3 >= ev.val.first && 3 <= ev.val.first + ev.val.count)
 	  joystick_y[0] = ev.val.value[0];
       } else {
-	printf ("unexpected event %d\n", ev.any.type);
+	wmsg ("unexpected event %d\n", ev.any.type);
       }
     }    
   }
@@ -109,7 +110,7 @@ joyinit (void)
   giiInit ();
   joystick = giiOpen ("linux-joy",NULL);
   if (!joystick) {
-    puts ("No joystick found (run with `-J' to suppress this message).");
+    wmsg ("No joystick found (run with `-J' to suppress this message).");
     joystick_detected = 0;
   } else
     joystick_detected = 1;

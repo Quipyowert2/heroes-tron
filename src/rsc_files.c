@@ -30,7 +30,7 @@ set_rsc_file (const char* rsc_name, const char* file_name)
   struct rsc_file* res = in_rsc_set (rsc_name, strlen(rsc_name));
   
   if (res == 0) {
-    fprintf (stderr, "%s: no such resource.\n", rsc_name);
+    wmsg ("%s: no such resource.\n", rsc_name);
     return 1;
   }
   dmsg (D_RESOURCE, "set resource $(%s)=%s", rsc_name, file_name);
@@ -95,7 +95,7 @@ get_rsc_file (const char* rsc_name)
   struct rsc_file* res = in_rsc_set (rsc_name, strlen(rsc_name));
 
   if (res == 0) {
-    fprintf (stderr, "%s: no such resource.\n", rsc_name);
+    wmsg ("%s: no such resource.", rsc_name);
     return 0;
   }
   if (res->expanded)		/* prevent infinite recursion */
@@ -115,6 +115,6 @@ get_non_null_rsc_file (const char* rsc_name)
 {
   char* tmp = get_rsc_file (rsc_name);
   if (tmp == 0)
-    fatal_error ("Fatal.\n");
+    emsg ("Null resource (%s)", rsc_name);
   return tmp;
 }

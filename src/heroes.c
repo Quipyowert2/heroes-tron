@@ -131,7 +131,7 @@ init_buffers (void)
   render_buffer[0] = malloc (xbuf * ybuf);
   render_buffer[1] = malloc (xbuf * ybuf);
   if ((render_buffer[0]) == NULL || (render_buffer[1]) == NULL)
-    fatal_error ("init_buffer(): mem error");
+    emsg ("init_buffer(): mem error");
 }
 
 static void
@@ -1297,8 +1297,7 @@ load_level_from_number (int nbr, char cont)
   }
   e = load_level ((char *) tmp, cont);
   if (e != 0) {
-    sprintf (tmp, "Error %d during loading level\n", e);
-    fatal_error ((char *) tmp);
+    emsg ("Error %d during loading level", e);
   }
 }
 
@@ -1385,8 +1384,7 @@ load_random_wrapped_level (char c, char cont)
   }
   e = load_level ((char *) tmp, cont);
   if (e != 0) {
-    sprintf (tmp, "Error %d during loading level\n", e);
-    fatal_error ((char *) tmp);
+    emsg ("Error %d during loading level", e);
   }
 }
 
@@ -1410,8 +1408,7 @@ load_random_level (char cont)
   }
   e = load_level ((char *) tmp, cont);
   if (e != 0) {
-    sprintf (tmp, "Error %d during loading level\n", e);
-    fatal_error ((char *) tmp);
+    emsg (tmp, "Error %d during loading level", e);
   }
 
 }
@@ -4167,7 +4164,7 @@ play_game (char cont)
     char* t = get_non_null_rsc_file ("levels-dir");
     strappend (t, level_name);
     if (load_level (level_name, cont))
-      fatal_error ("Error during loading level");
+      emsg ("Error during level loading");
     free (t);
   } else if (game_mode == M_QUEST /*&& questmode==0 */ )
     load_level_from_number (current_quest_level++, cont);
@@ -4613,9 +4610,8 @@ read_level_list (void)
 
   dmsg (D_FILE|D_SECTION, "read level list: %s ...", t);
   if ((f = fopen (t, "rt")) == NULL) {
-    fprintf (stderr, "Could not open %s.\n", t);
     dperror ("fopen");
-    fatal_error ("Giving up.\n");
+    emsg ("Could not open %s.", t);
   }
   free (t);
   while (!feof (f)) {
@@ -4750,7 +4746,7 @@ main (int argc, char *argv[])
     load_save_records ();
 
   if (read_sfx_conf ())
-    fatal_error ("error in sfx.cfg\n");
+    emsg ("error in sfx.cfg");
   
   if (joyoff) {
     joystick_detected = 0;

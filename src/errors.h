@@ -22,7 +22,24 @@
 #ifndef HEROES__ERRORS__H
 #define HEROES__ERRORS__H
 
-void fatal_error (const char* message);
+/* warning messages */
+
+#ifdef VA_START
+void wmsg (const char* msg, ...);
+#else
+void wmsg (void);
+#endif
+
+/* error messages */
+
+#ifdef VA_START
+void emsg (const char* msg, ...);
+#else
+void emsg (void);
+#endif
+
+/* exit heroes, closing libraries */
+
 void exit_heroes (int code);
 
 #endif  /* HEROES__ERRORS__H */

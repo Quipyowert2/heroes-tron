@@ -23,10 +23,64 @@
 #include "display.h"
 #include "sound.h"
 
-void
-fatal_error (const char* message)
+extern const char* progname;	/* defined in debugmsg.c */
+
+#if defined VA_START
+void 
+wmsg (const char* msg, ...)
+#else
+void 
+wmsg (msg, va_alist)
+     const char* msg;
+     va_dcl;
+#endif
 {
-  fprintf (stderr, message);
+#ifdef VA_START
+  va_list args;
+#endif
+  fprintf (stderr, "%s: ", progname);
+#ifdef VA_START
+  VA_START (args, msg);
+# if HAVE_VPRINTF
+  vfprintf (stderr, msg, args);
+# else
+  _doprnt (msg, args, stderr);
+# endif /* HAVE_VPRINTF */
+  va_end (args);
+#else
+  fprintf (stderr, msg, va_alist);
+#endif /* VA_START */
+  putc ('\n', stderr);
+  fflush (stderr);
+}
+
+#if defined VA_START
+void 
+emsg (const char* msg, ...)
+#else
+void 
+emsg (msg, va_alist)
+     const char* msg;
+     va_dcl;
+#endif
+{
+#ifdef VA_START
+  va_list args;
+#endif
+  fprintf (stderr, "%s: ", progname);
+#ifdef VA_START
+  VA_START (args, msg);
+# if HAVE_VPRINTF
+  vfprintf (stderr, msg, args);
+# else
+  _doprnt (msg, args, stderr);
+# endif /* HAVE_VPRINTF */
+  va_end (args);
+#else
+  fprintf (stderr, msg, va_alist);
+#endif /* VA_START */
+  putc ('\n', stderr);
+  fflush (stderr);
   exit_heroes (33);
 }
 

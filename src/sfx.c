@@ -20,10 +20,10 @@
 
 #include "common.h"
 #include "sfx.h"
+#include "errors.h"
 
 #if defined HAVE_LIBMIKMOD || defined HAVE_LIBSDL_MIXER
 
-#include "errors.h"
 #include "options.h"
 #include "misc.h"
 #include "argv.h"
@@ -143,8 +143,8 @@ read_sfx_conf (void)
     if ((*conf == 0) || (fconf = fopen (conf, "rt")) == NULL) {
       if (fconf == NULL)
 	dperror ("fopen");
-      fprintf(stderr, "Cannot open %s, disabling sound-effects\n"
-	      "(run with -X to supress this message).\n", conf);
+      wmsg ("Cannot open %s, disabling sound-effects\n"
+	    "(run with -X to supress this message).", conf);
       nosfx = 1;
       free (conf);
       return 0;
@@ -310,8 +310,7 @@ load_sfx_mode (signed char mode)
     if (sfx_loaded[i]) {
       dmsg (D_FILE|D_SOUND_EFFECT,"loading sound effect: %s", sfx_names[i]);
       if (!(sfx_handles[i] = _load_sfx (sfx_names[i]))) {
-	fprintf(stderr,"%s: ",sfx_names[i]);
-	fatal_error ("Unable to load that sample.\n");
+	emsg ("Unable to load sample %s", sfx_names[i]);
       }
     }
 }
