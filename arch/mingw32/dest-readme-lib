@@ -6,8 +6,8 @@ The man page and info file have been replaced by an html page in
 the doc/ directory.
 
 Heroes has been configured with the following options:
---host=i586-mingw32msvc --prefix=/heroes --program-suffix=.exe
---enable-html-doc=/heroes/doc --with-sdl
+--host=i586-mingw32msvc --prefix=/heroes --enable-html-doc=/heroes/doc
+--with-sdl
 
 SDL and SDL_mixer have been configured with:
 --host=i586-mingw32msvc --target=i586-mingw32msvc --build=i586-linux

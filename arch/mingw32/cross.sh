@@ -34,7 +34,7 @@ SDLPREFIX="/usr/local/$BUILDNAME"
 
 # configuration options
 CONFIGURE_OPTS="--host=$BUILDNAME --enable-html-doc=$PREFIX/doc \
---prefix=$PREFIX --program-suffix=.exe --with-sdl=$SDLPREFIX"
+--prefix=$PREFIX --with-sdl=$SDLPREFIX"
 
 # top level directory
 TOPSRC_DIR=`cd ../..; pwd`
@@ -66,6 +66,7 @@ cross_install ()
   mkdir -p $DESTDIR
   (cd $BUILDDIR && make DESTDIR="$DESTDIR" install)
   $STRIPPROG $DESTDIR/$PREFIX/bin/heroes.exe
+  $STRIPPROG $DESTDIR/$PREFIX/bin/heroeslvl.exe
   cp dest-readme-lib $DESTDIR/$PREFIX/doc/README-LIB
   cp dest-readme-txt $DESTDIR/$PREFIX/README.TXT
   cp dest-run-bat $DESTDIR/$PREFIX/run.bat

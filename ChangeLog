@@ -1,5 +1,12 @@
 2001-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* arch/mingw32/cross.sh (CONFIGURE_OPTS): Remove --program-suffix,
+	not needed.
+	(cross_install): Strip heroeslvl.exe.
+	* arch/mingw32/dest-readme-lib: Update.
+
+2001-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* m4/libalt.m4 (adl_LIBALT_OK): Support options in the 6th argument.
 	(adl_LIBALT_EITHER): Defaut to prepend the library flags, handle
 	the APPEND option.
