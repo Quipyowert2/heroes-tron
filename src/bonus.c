@@ -93,6 +93,9 @@ init_bonuses (void)
       bonus_rle[1][bonus][frame] =
 	compile_sprrle (IMGPOS (bonus_b_img, bonus * 20, frame * 24),
 			0, 20, 24, bonus_b_img.width, xbuf);
+
+  img_free (&bonus_b_img);
+  img_free (&bonus_a_img);
 }
 
 void
@@ -102,8 +105,6 @@ uninit_bonuses (void)
   int frame;
 
   img_free (&bonus_font_img);
-  img_free (&bonus_b_img);
-  img_free (&bonus_a_img);
   free_htimer (bonus_anim_htimer);
 
   for (bonus = 0; bonus < N_BONUSES; ++bonus)

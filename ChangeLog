@@ -1,5 +1,11 @@
 2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/bonus.c (init_bonuses): Free bonus_b_img and bonus_a_img
+	once the sprite have been generated.
+	(uninit_bonuses): Don't free bonus_b_img and bonus_a_img anymore.
+
+2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* m4/ac_adl_gcc_optim.m4: Don't erase CFLAGS, append to it.
 
 2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
