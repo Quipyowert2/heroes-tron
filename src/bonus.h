@@ -51,7 +51,7 @@ extern void uninit_bonuses_level (void);
 
 extern void spread_bonuses (void);
 
-extern void set_txt_bonus (int pl, char *txt, int tempo);
+extern void set_txt_bonus (int pl, const char *txt, int tempo);
 extern void show_txt_bonus (int pl, pixel_t *dest);
 
 extern void add_end_level_bonuses (void);

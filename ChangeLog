@@ -1,5 +1,11 @@
 2000-12-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/bonus.h (set_txt_bonus): Set constness of txt to suppress
+	warnings.
+	* src/bonus.c (set_txt_bonus): Likewise.
+
+2000-12-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Use a paragraph formating function in the CREDITS
 	and ENTER YOUR NAME menus.
 

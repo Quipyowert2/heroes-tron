@@ -271,7 +271,7 @@ spread_bonuses (void)
 }
 
 void
-set_txt_bonus (int pl, char *txt, int tempo)
+set_txt_bonus (int pl, const char *txt, int tempo)
 {
   FREE_SPRITE0 (txt_bonus[pl]);
   txt_bonus[pl] = compile_bonus_text (txt, T_FLUSHED_LEFT | T_WAVING, 0, 0);
