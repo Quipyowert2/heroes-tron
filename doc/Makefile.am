@@ -22,8 +22,8 @@ info_TEXINFOS = heroes.texi
 
 CLEANFILES = heroes.html
 
-if MAKE_HTML
 htmldir = @htmldir@
+if MAKE_HTML
 html_DATA = heroes.html
 endif
 

@@ -108,6 +108,12 @@ visuals.h
 BUILT_SOURCES = keysdef-inc.h rsc_files_hash.c
 CLEANFILES = keysdef-inc.h
 
+# This explicit dependency is needed, otherwise automake 1.4a
+# dependecies won't bootstrap: dependencies are generated as a side
+# effect of compilation, but keysdef.c can't be compiled if
+# keysdef-inc.h has not been built.
+keysdef.c: keysdef-inc.h
+
 # keysdef-inc depends on config.h in order to be regenerated each time
 # config.h change (in case the game is reconfigured with another display
 # engine).

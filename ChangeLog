@@ -1,5 +1,13 @@
 2000-09-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	automake 1.4a compatibility.
+
+	* doc/Makefile.am (htmldir): Move out of MAKE_HTML conditional.
+	* src/Makefile.am (keysdef.c): New (explicit dependency).
+	* depcomp: New.
+	
+2000-09-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/keyb.c (get_key): Typo.
 
 2000-09-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
