@@ -73,6 +73,7 @@ static char pcxnom[13];
 static char nombre[5];
 static FILE *ftmp;
 
+static int square_offset[4] = { 0, 12, xbuf * 10, xbuf * 10 + 12 };
 static int square_offset_320[4] = { 0, 12, 3200, 3212 };
 
 static int cote = 0;

@@ -332,7 +332,6 @@ static char
 load_level (char *filename, char cont)
 {
   unsigned int i, j, k, k2, l, m;
-  int *ptr;
   lemming_t *ptir;
   int err;
 
@@ -418,18 +417,18 @@ load_level (char *filename, char cont)
   if (init_bonuses_level ())
     return 15;
 
-  XMALLOC_ARRAY (square2tile, lvl.square_count);
+  XMALLOC_ARRAY (square_tile, lvl.square_count);
   k = 0;
   for (i = 0, l = 0; i < lvl.tile_height; i++, l += lvl.square_width * 2) {
     for (j = 0, k2 = l; j < lvl.tile_width; j++, k2 += 2, k++) {
-      square2tile[k2] = k;
-      square2tile[k2 + 1] = k;
-      square2tile[lvl.square_width + k2] = k;
-      square2tile[lvl.square_width + k2 + 1] = k;
+      square_tile[k2] = k;
+      square_tile[k2 + 1] = k;
+      square_tile[lvl.square_width + k2] = k;
+      square_tile[lvl.square_width + k2 + 1] = k;
     }
   }
 
-  XCALLOC_ARRAY (square_offset2coord, lvl.square_count * 2);
+  XCALLOC_ARRAY (square_coord, lvl.square_count);
 
   if (game_mode == M_KILLEM) {
     XCALLOC_ARRAY (square_lemmings_list, lvl.square_count);
@@ -465,12 +464,11 @@ load_level (char *filename, char cont)
       }
   }
 
-  /* init square_offset2coord, map associating coordinates to offsets */
-  ptr = (int *) square_offset2coord;
+  /* Init square_coord, map offsets to coordinates.   */
   for (j = 0; j < lvl.square_height; j++)
     for (i = 0; i < lvl.square_width; i++) {
-      *ptr++ = i;
-      *ptr++ = j;
+      square_coord[SQR_COORDS_TO_INDEX (&lvl, j, i)].y = j;
+      square_coord[SQR_COORDS_TO_INDEX (&lvl, j, i)].x = i;
     }
   /* init of players  */
   if (!in_menu)
@@ -601,8 +599,8 @@ unload_level (void)
   }
   free (square_explosion_type);
   free (square_way);
-  free (square2tile);
-  free (square_offset2coord);
+  free (square_tile);
+  free (square_coord);
   if (game_mode == M_KILLEM && !in_menu) {
     free (square_lemmings_list);
     free (square_dead_lemmings_list);
@@ -1267,8 +1265,8 @@ static unsigned int
 ia_eval_dist (int pos)
 {
   square_coord_t curx, cury, distx, disty;
-  curx = square_offset2coord[pos << 1];
-  cury = square_offset2coord[(pos << 1) + 1];
+  curx = square_coord[pos].x;
+  cury = square_coord[pos].y;
   if (ia_wrap_left) {
     if (curx <= ia_wrap_x)
       distx = curx + lvl.square_width - ia_target_x;
@@ -1548,7 +1546,7 @@ ia_eval_dir_bonus (square_index_t pos)
   if (ia_cur_depth != 0) {
     int tmp2 = 0;
     int mindist = 0;
-    int d = square2tile[pos];
+    int d = square_tile[pos];
     square_index_t idx;
     int tmp;
     square_occupied[pos] = 128;
@@ -1570,7 +1568,7 @@ ia_eval_dir_bonus (square_index_t pos)
     mindist += tmp2 * (5 + ia_cur_depth) /* /ia_max_depth */ ;
 
     if (tmp2)
-      tile_bonus_cpu[square2tile[pos]] = 0;
+      tile_bonus_cpu[square_tile[pos]] = 0;
     square_occupied[pos] = 0xff;
     ia_cur_depth++;
     return mindist;
@@ -1844,7 +1842,7 @@ find_free_way (int c)
 	n--;
     player[c].next_way = (char) (i - 1);
 /*  if (w2d[i-1]&e) fatal_error("find_free_way() return nonsense !"); */
-    assert ((w2d[i - 1] & e) == 0);
+    assert (((1 << (i - 1)) & e) == 0);
   } else
     player[c].spec = 0xff;
 }
@@ -1863,7 +1861,7 @@ update_player (int c)
   square_index_t idx;
   tile_index_t d;
   int l, i;
-  unsigned int d2;
+  square_index_t d2;
   int t;
   lemming_t *tmppti;
 
@@ -2003,8 +2001,8 @@ update_player (int c)
     if (player[c].delay == 0)
       d2 = lvl.square_move[player[c].way][d2];
     player[c].pos = d2;
-    player[c].x2 = square_offset2coord[d2 << 1];
-    player[c].y2 = square_offset2coord[(d2 << 1) + 1];
+    player[c].x2 = square_coord[d2].x;
+    player[c].y2 = square_coord[d2].y;
     player[c].d.h.h = 0;
 
     if (player[c].spec == t_tunnel) {
@@ -2379,7 +2377,7 @@ update_lemmings (void)
 	    if (!(d & 1))
 	      n--;
 	  pti->way = i - 1;
-	  assert ((w2d[i - 1] & e) == 0);
+	  assert (((1 << (i - 1)) & e) == 0);
 	  pti->pos2 = lvl.square_move[pti->way][pti->pos1];
 	  assert (pti->pos2 != INVALID_INDEX);
 	} else
@@ -2425,8 +2423,8 @@ update_all (char plr)
 
   if (player[col2plr[0]].spec == t_tunnel && opt.inertia) {
     p = lvl.square_move[player[col2plr[0]].way][player[col2plr[0]].pos];
-    camera_x[0] = square_offset2coord[p << 1] << 15;
-    camera_y[0] = square_offset2coord[(p << 1) + 1] << 15;
+    camera_x[0] = square_coord[p].x;
+    camera_y[0] = square_coord[p].y;
   } else {
     camera_x[0] = player[col2plr[0]].x2 << 15;
     camera_y[0] = player[col2plr[0]].y2 << 15;
@@ -2443,8 +2441,8 @@ update_all (char plr)
   if (two_players) {
     if (player[col2plr[1]].spec == t_tunnel) {
       p = lvl.square_move[player[col2plr[1]].way][player[col2plr[1]].pos];
-      camera_x[1] = square_offset2coord[p << 1] << 15;
-      camera_y[1] = square_offset2coord[(p << 1) + 1] << 15;
+      camera_x[1] = square_coord[p].x << 15;
+      camera_y[1] = square_coord[p].y << 15;
     } else {
       camera_x[1] = player[col2plr[1]].x2 << 15;
       camera_y[1] = player[col2plr[1]].y2 << 15;

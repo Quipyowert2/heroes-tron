@@ -1,3 +1,18 @@
+2001-07-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/const.h (d2w, w2d, square_offset): Delete.
+	(square2tile, square_offset2coord): Rename as ...
+	(square_tile, square_coord): ... these.
+	* src/const.c (d2w, w2d): Remove.
+	(square2tile, square_offset2coord): Rename as ...
+	(square_tile, square_coord): ... these.
+	(square_offset): Move to ...
+	* src/hedlite.c (square_offset): ... here.
+	* src/heroes.c (load_level, unload_level, ia_eval_dist,
+	update_player, update_all): Adapt to new names.
+	(find_free_way, update_lemmings): Don't use w2d.
+	* src/render.c (draw_radar_map): Adapt to new names.
+
 2001-07-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Use the new level loading library to load levels in the game (not

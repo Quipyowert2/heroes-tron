@@ -41,12 +41,6 @@ int rounds_nbr_values[16] = {
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20, 30, 50, 100
 };
 
-int square_offset[4] = { 0, 12, xbuf * 10, xbuf * 10 + 12 };
-
-/* mapping way <-> direction */
-int d2w[9] = { 0, 0, 1, 1, 2, 2, 2, 2, 3 };
-int w2d[4] = { d_up, d_right, d_down, d_left };
-
 char in_menu = 1;
 char in_demo = 0;
 /* int error; */
@@ -103,8 +97,8 @@ int *explo_list_pos_x;
 int *explo_list_pos_y;
 int explo_nbr;
 unsigned char *square_explosion_type;
-int *square2tile;
-int *square_offset2coord;
+tile_index_t *square_tile;
+square_coord_pair_t *square_coord;
 signed char *square_object;
 lemming_t **square_lemmings_list;
 lemming_t **square_dead_lemmings_list;

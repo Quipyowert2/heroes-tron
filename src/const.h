@@ -59,11 +59,6 @@ extern char in_demo;
 
 extern char demo_ready;
 
-extern int square_offset[4];
-
-extern int d2w[9];
-extern int w2d[4];
-
 extern pixel_t glenz[8][256];
 void draw_glenz_box (pixel_t *dest, int c, int xt, int yt);
 
@@ -98,8 +93,8 @@ extern int *explo_list_pos_x;
 extern int *explo_list_pos_y;
 extern int explo_nbr;
 extern unsigned char *square_explosion_type;
-extern int *square2tile;
-extern int *square_offset2coord;
+extern tile_index_t *square_tile;
+extern square_coord_pair_t *square_coord;
 extern signed char *square_object;
 #define lemmings_per_players 50
 #define lemmings_total (lemmings_per_players*4)

@@ -678,7 +678,7 @@ draw_radar_map (int dx, int dy)
       for (x = 73 - dede; x != 0; x--) {
 	tdx &= lvl.square_width_wrap;
 	if (tdx >= 0 && (tdx >> 1) < (int)lvl.tile_width) {
-	  tmp = tile_bonus[square2tile[tdx + tdym]];
+	  tmp = tile_bonus[square_tile[tdx + tdym]];
 	  if (tmp != 0 && tmp != -1) {
 	    if ((tmp & 127) == 1 && blink)
 	      *src = 31;
