@@ -21,7 +21,6 @@
 #include "system.h"
 #include "lvl_priv.h"
 #include "access.h"
-#include "xstrduplwr.h"
 
 void
 encode_level_header (a_u8 *data, const a_level *lvl)
