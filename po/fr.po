@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.9a\n"
-"POT-Creation-Date: 2001-04-30 08:46+0200\n"
+"POT-Creation-Date: 2001-04-30 09:27+0200\n"
 "PO-Revision-Date: 2001-04-30 08:50+02:00\n"
 "Last-Translator: Alexandre Duret-Lutz <duret_g@epita.fr>\n"
 "Language-Team: none <LL@li.org>\n"
@@ -821,44 +821,44 @@ msgstr "Erreur %d pendant le chargement du niveau"
 msgid "Error %d occured while loading level %s"
 msgstr "L'erreur %d est survenue pendant le chargement du niveau %s"
 
-#: src/heroes.c:2117
+#: src/heroes.c:2120
 #, c-format
 msgid "INVERTED %d"
 msgstr "INVERSE %d"
 
-#: src/heroes.c:2148
+#: src/heroes.c:2151
 #, c-format
 msgid "STOPPED %d"
 msgstr "ARRETE %d"
 
 #. TRANS: %d, the number of remaining lives, is always
 #. positive.
-#: src/heroes.c:2435
+#: src/heroes.c:2438
 msgid "LAST LIFE"
 msgid_plural "%d LIVES LEFT"
 msgstr[0] "DERNIERE VIE"
 msgstr[1] "RESTE %d VIES"
 
-#: src/heroes.c:3142
+#: src/heroes.c:3145
 msgid "Error during level loading"
 msgstr "Erreur pendant le chargement du niveau"
 
-#: src/heroes.c:3182
+#: src/heroes.c:3185
 #, c-format
 msgid "-LEVEL %d-"
 msgstr "-NIVEAU %d-"
 
-#: src/heroes.c:3184
+#: src/heroes.c:3187
 #, c-format
 msgid "-ROUND %d/%d-"
 msgstr "-MANCHE %d/%d-"
 
-#: src/heroes.c:3584
+#: src/heroes.c:3582
 #, c-format
 msgid "Cannot open %s."
 msgstr "Impossible d'ouvrir %s."
 
-#: src/heroes.c:3699
+#: src/heroes.c:3697
 msgid "error in sfx.cfg"
 msgstr "erreur dans sfx.cfg"
 
