@@ -34,5 +34,6 @@ extern size_t level_list_size;
 int select_file_lvl (const struct dirent *d);
 int read_level_list (void);
 void free_level_list (void);
+void print_level_list (void);
 
 #endif /* HEROES__LEVELLST__H */

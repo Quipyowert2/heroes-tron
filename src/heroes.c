@@ -3298,6 +3298,10 @@ heroes_main (int argc, char *argv[])
   srand (time (0));
 
   read_level_list ();
+  if (showlevels) {
+    print_level_list ();
+    exit (0);
+  }
 
   browse_extra_directories ();
   if (reinitopt)

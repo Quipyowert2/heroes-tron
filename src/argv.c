@@ -51,6 +51,7 @@ int stretch = 1;
 bool nosound = false;
 bool even_lines = false;
 bool showprefs = false;
+bool showlevels = false;
 
 static void
 version (void)
@@ -70,18 +71,28 @@ static bool
 list (char *word)
 {
   if (!word) {
-    puts (_("\
-Use `-lWORD' or `--list=WORD' where WORD can be:\n\
-  debug                 display all debugging channels\n\
-  preferences           print the preferences settings\n\
-  resources             print the resources list\n\
-  sound-drivers         print the sound driver list\n\
-  sound-tracks		print the sound track list"));
+    puts (_("Use `-lWORD' or `--list=WORD' where WORD can be:"));
+    printf ("  debug                 %s\n",
+	    _("display all debugging channels"));
+    printf ("  levels                %s\n",
+	    _("list all level files"));
+    printf ("  preferences           %s\n",
+	    _("print the preferences settings"));
+    printf ("  resources             %s\n",
+	    _("print the resources list"));
+    printf ("  sound-drivers         %s\n",
+	    _("print the sound driver list"));
+    printf ("  sound-tracks          %s\n",
+	    _("print the sound track list"));
     return true;
   }
   if (!strcasecmp (word,"resources") ||
       !strcasecmp (word,"rsc")) {
     print_rsc_files ();
+  } else if (!strcasecmp (word,"levels") ||
+	     !strcasecmp (word,"lvl")) {
+    showlevels = true;
+    return false;
   } else if (!strcasecmp (word,"sound-drivers") ||
 	     !strcasecmp (word,"sd")) {
     print_drivers_list ();

@@ -883,12 +883,15 @@ values as @samp{HEROES_DEBUG} (@pxref{Environment}).
 @cindex -lWORD
 @cindex --list=WORD
 
-Show various internal information.  @samp{WORD} can be @samp{debug} or
-@samp{preferences}, @samp{sound-drivers}, @samp{resources} or
-@samp{sound-tracks}.
+Show various internal information.  @samp{WORD} can be @samp{debug},
+@samp{levels}, @samp{preferences}, @samp{resources},
+@samp{sound-drivers}, or @samp{sound-tracks}.
 
 @samp{--list=debug} will list the available debugging channel, to be used
 with @samp{--verbose} or @samp{HEROES_DEBUG} (@pxref{Environment}).
+
+@samp{--list=levels} displays the list of installed levels (only the
+game levels, not the extra levels).
 
 @samp{--list=sound-drivers} is used to print LibMikMod's drivers list.
 The expected output is something like this:

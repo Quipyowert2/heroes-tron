@@ -128,3 +128,12 @@ free_level_list (void)
   level_list_max = 0;
   level_list_size = 0;
 }
+
+void
+print_level_list (void)
+{
+  unsigned int i;
+  for (i = 0; i < level_list_size; ++i)
+    printf ("%3d. %s%s\n", i + 1, level_list[i].name,
+	    level_list[i].wrapped ? " (fully wrapped)" : "");
+}

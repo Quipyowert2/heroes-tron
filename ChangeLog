@@ -1,5 +1,15 @@
 2001-09-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/levellst.c (print_level_list): New function.
+	* src/levellst.h (print_level_list): New function.
+	* src/heroes.c (heroes_main): Call print_level_list().
+	* src/argv.h (showlevels): New variable.
+	* src/argv.c (showlevels): New variable.
+	(list): Handle --list=levels.
+	* doc/heroes.texi (Invoking heroes): Document --list=levels.
+
+2001-09-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/argv.c (print_help): Take a 'status' argument and use it as
 	exit value.
 	(parse_argv): Return -1 instead of 1 when the game must quit but not

@@ -46,5 +46,6 @@ extern int stretch;
 extern bool nosound;
 extern bool even_lines;
 extern bool showprefs;
+extern bool showlevels;
 
 #endif /* HEROES__ARGV__H */
