@@ -329,10 +329,12 @@ Win32/MinGW32 (SDL)
      is in the subdirectory `arch/mingw32'.
 
 Win32/VisualC (SDL)
-     See the files in the `arch/VisualC' subdirectory.  These are
-     out-of-date (they have not been updated since version 0.7) and will
-     probably be removed in a future version of Heroes; but you can use
-     them as a start to compile Heroes with MSVC.
+     See the files in the `arch/VisualC' subdirectory of the Heroes CVS
+     tree.  We used to distribute these files along with the rest of the
+     sources, but stopped because they are now completely out-of-date
+     (they have not been updated since version 0.7).  However you can
+     use them as a start point if you think about compiling Heroes with
+     MSVC.
 
 Digital Unix (GGI)
      Should build out of the box.
@@ -340,7 +342,27 @@ Digital Unix (GGI)
 NetBSD (SDL)
      I had to tweak SDL 1.1.6 to get it working, and also force Heroes'
      configure to use the result of `sdl-config --static-libs' instead
-     of `sdl-config --libs'.
+     of `sdl-config --libs'.  Both issue should be fixed today (need to
+     check).
+
+OpenBSD 2.9 (GGI & SDL)
+     It looks like some configure hints need to be given when using
+     either libs.
+
+     A build of Heroes configured with GGI will apperently complete
+     successfully, however the resulting binary fails to load, with the
+     dynamic loader complaining about a missing symbol from libpthread.
+     So you'd rather configure Heroes with
+          ./configure --with-ggi=/usr/local LDFLAGS=-pthread
+     Then Heroes appears to work fine.
+
+     If you prefer to use SDL, things are different. I had to configure
+     Heroes with
+          ./configure --with-sdl=/usr/local LDFLAGS=-L/usr/X11R6/lib X11BASE=/usr/X11R6
+     Unfortunately, the resulting binary froze when initializing SDL (in
+     `SDL_init()').  Please send us a not if you are luckier.  FIXME:
+     Look how other packages using SDL are built, I'm probably missing
+     something.
 
 IRIX 6.5 (SDL)
      Heroes 0.7 has been reported to compile and run with SDL 1.1.3 and

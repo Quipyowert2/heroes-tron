@@ -1,3 +1,13 @@
+Heroes 0.12f	August 26, 2001
+
+	* Document heroeslvl.
+	* heroeslvl is internationalized.
+	* Preliminary support for Allegro (not functional yet).
+	* Bug fixes:
+	  - Reintroduce support from SDL_main, lost in 0.12e).
+	  - Cleanup configury changes from 0.12e.
+	  - Thinko in lemmings handling (since 0.12a).
+
 Heroes 0.12e	August 22, 2001
 
 	* Interfaces with media libraries (SDL/GGI/GII/MikMod/SDL_mixer)

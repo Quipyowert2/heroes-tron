@@ -1,5 +1,9 @@
 2001-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.ac: Bump version to 0.12f.
+
+2001-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* arch/mingw32/cross.sh (CONFIGURE_OPTS): Remove --program-suffix,
 	not needed.
 	(cross_install): Strip heroeslvl.exe.
