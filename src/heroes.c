@@ -1305,7 +1305,9 @@ play_game (char cont)
 	notbyebye = quit_yes_no ();
     if (keyboard_map[HK_Escape] && enable_blit)
       notbyebye = quit_yes_no ();
-  } while (notbyebye && (exit_code = state_level_exit_code (&state)) == 0);
+
+    exit_code = state_level_exit_code (&state);
+  } while (exit_code == 0 && notbyebye);
 
   dmsg (D_SECTION, "game finished");
 
