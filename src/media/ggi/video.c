@@ -28,7 +28,7 @@
 /* LibGGI driver for Heroes.
 
    Heroes is a 320x200x8bit game so we try to use such a video mode.
-   That's not always possible, so we negociate the closest video mode
+   That's not always possible, so we negotiate the closest video mode
    available.
 
    When the opened video mode is not 8bit depth, another intermediate
@@ -98,7 +98,7 @@ setup_320x200x8_display (void)
     dmsg (D_VIDEO, "skipped 320x200x8/2 mode negociation");
     return false;
   }
-  dmsg (D_VIDEO, "negociate 320x200x8/2 mode");
+  dmsg (D_VIDEO, "negotiate 320x200x8/2 mode");
   vid_mode.frames = 2;
   vid_mode.visible.x = scr_w;
   vid_mode.visible.y = scr_h;
@@ -114,7 +114,7 @@ setup_320x200x8_display (void)
 static bool
 setup_320x200xB_display (void)
 {
-  dmsg (D_VIDEO, "negociate any 320x200xB/2 mode");
+  dmsg (D_VIDEO, "negotiate any 320x200xB/2 mode");
   vid_mode.frames = 2;
   vid_mode.visible.x = scr_w;
   vid_mode.visible.y = scr_h;
@@ -130,7 +130,7 @@ setup_320x200xB_display (void)
 static bool
 setup_WWWxHHHxB_display (void)
 {
-  dmsg (D_VIDEO, "negociate any mode");
+  dmsg (D_VIDEO, "negotiate any (2-frame) mode");
   vid_mode.frames = 2;
   vid_mode.visible.x = scr_w;
   vid_mode.visible.y = scr_h;
@@ -138,8 +138,9 @@ setup_WWWxHHHxB_display (void)
   vid_mode.dpp.x = vid_mode.dpp.y = GGI_AUTO;
   vid_mode.graphtype = GT_8BIT;
 
-  ggiCheckMode (visu, &vid_mode);
-  return ggiSetMode (visu, &vid_mode) == 0;
+  if (ggiCheckMode (visu, &vid_mode) == 0)
+    return ggiSetMode (visu, &vid_mode) == 0;
+  return false;
 }
 
 static void
@@ -207,7 +208,7 @@ init_video_low (int stretch, int *pitch)
 	vid_mode.visible.x, vid_mode.visible.y,
 	GT_DEPTH (vid_mode.graphtype), vid_mode.frames);
   if (vid_mode.virt.x < 320 || vid_mode.virt.y < 200)
-    emsg (_("negociated video mode is too small (width=%d, height=%d)"),
+    emsg (_("negotiated video mode is too small (width=%d, height=%d)"),
 	  vid_mode.virt.x, vid_mode.virt.y);
   if (GT_DEPTH (vid_mode.graphtype) == 8) {
     /* no intermediate buffer required */

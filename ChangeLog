@@ -1,3 +1,10 @@
+2002-03-11  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/media/ggi/video.c: s/negociate/negotiate/.
+	(setup_WWWxHHHxB_display): Don't call ggiSetMode unless
+	ggiCheckMode succeeded.
+	From Brian S. Julin <bri@tull.umassp.edu>.
+
 2002-03-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/rules/state.c: Don't include ai.h.

@@ -153,6 +153,12 @@ person = {
 };
 
 person = {
+  name    = "Brian S. Julin";
+  email   = bri@tull.umassp.edu;
+  bugs;
+};
+
+person = {
   name    = "Jesper Kjolsrud";
   email   = jeppe@dneg.com;
   thanks  = "Reported the Heroes runs on IRIX out of the box.";
