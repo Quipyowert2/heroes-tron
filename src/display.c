@@ -316,7 +316,7 @@ setup_WWWxHHHxB_display (void)
   vid_mode.visible.y = scr_h;
   vid_mode.virt.x = vid_mode.virt.y = GGI_AUTO;
   vid_mode.dpp.x = vid_mode.dpp.y = GGI_AUTO;
-  vid_mode.graphtype = GGI_AUTO;
+  vid_mode.graphtype = GT_8BIT;
 
   ggiCheckMode (visu, &vid_mode);
   return ggiSetMode (visu, &vid_mode) == 0;

@@ -1,5 +1,10 @@
 2001-02-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/display.c [HAVE_LIBGGI] (setup_WWWxHHHxB_display): Ask for
+	GT_8BIT if possible.
+
+2001-02-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* lib/xmalloc.c: Update from fileutils-4.0.39.
 
 2001-02-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
