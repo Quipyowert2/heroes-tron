@@ -384,8 +384,9 @@ install all of them but just a subset).
 @item
 LibMikMod is the only sound engine supported. You don't need it if you
 want to compile Heroes without sound support.  Get it from
-@uref{http://mikmod.darkorb.net/}.  You may want to compile LibMikMod
-without Alsa support (@pxref{Troubleshooting}).
+@uref{http://mikmod.darkorb.net/}.  If you install LibMikMod from
+sources you may want to compile LibMikMod without Alsa support
+(@pxref{Troubleshooting}).
 
 @item
 LibGGI (General Graphic Interface) can be used as a display and keyboard
@@ -862,8 +863,9 @@ UNIX architectures.  The Linux kernel contain free code from the
 commercial OSS (See @uref{http://www.linux.org.uk/OSS/,this page} for
 details).} interface.
 
-As a more extreme solution, you may want to compile LibMikMod without Alsa
-support so that it never crash for any application.
+As a more general solution, you may want to compile LibMikMod without Alsa
+support (@samp{./configure --disable-alsa}) so that it never crash 
+for any application.
 
 @node    Index,  , Running, Top
 @comment node-name,     next,           previous, up

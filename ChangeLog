@@ -1,3 +1,9 @@
+2000-07-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* doc/heroes.texi (Libraries): Reword LibMikMod description.
+	(Troubleshooting): Reword a paragraph in subsection `SegFault when
+	using Alsa drivers.
+
 2000-07-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/menus.c (extra_menu,editor_selector): Translate some
