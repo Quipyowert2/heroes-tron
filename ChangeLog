@@ -1,3 +1,11 @@
+2000-12-31  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/Makefile.am (localdatadir): Delete
+	(localedir): Redefine and comment.
+	* m4/h-display.m4: Don't imbricate tests for SDL and GGI.
+	* m4/h-ggi.m4: Move the AM_CONDITIONAL at the end.
+	* m4/h-sdl.m4: Likewise.
+
 2000-12-30  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* configure.in: Call heroes_CHECK_OPSOLETE_OPTIONS.

@@ -14,8 +14,9 @@ AC_DEFUN([heroes_CHECK_GGI],
 
    GGI_KEYBOARD_H="$ac_cv_header_path_ggi_keyboard_h"
    AC_SUBST([GGI_KEYBOARD_H])
-   AM_CONDITIONAL(GGI, [test "x${with_ggi}" != xno])
    $1
  ifelse([$2],,,[else
    $2])
- fi])
+ fi
+ AM_CONDITIONAL(GGI, [test "x${with_ggi}" != xno])
+])

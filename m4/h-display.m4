@@ -18,13 +18,15 @@ AC_DEFUN([heroes_CHECK_DISPLAY_LIB],
  [heroes_CHECK_SDL_PRELIM
   heroes_CHECK_DISPLAY_LIB_PRELIM
   display_lib='<disabled>'
-  heroes_CHECK_GGI([with_sdl=no; display_lib=LibGGI],
-  [heroes_CHECK_SDL([with_ggi=no; display_lib="SDL dnl
+  heroes_CHECK_GGI([with_sdl=no; display_lib=LibGGI])
+  heroes_CHECK_SDL([with_ggi=no; display_lib="SDL dnl
 $sdl_config_major_version.dnl
 $sdl_config_minor_version.dnl
-$sdl_config_micro_version"],
-   [AC_MSG_ERROR([Heroes cannot compile without a graphic library.
+$sdl_config_micro_version"])
+  if test "$with_sdl:$with_ggi" = "no:no"; then
+   AC_MSG_ERROR([Heroes cannot compile without a graphic library.
 
 Heroes requires either GGI or SDL to be installed on your system.
 See the README file for pointers towards those libraries.
-])])])])
+])
+  fi])

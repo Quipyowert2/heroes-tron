@@ -27,8 +27,9 @@ AC_HELP_STRING([--without-sdl],[disables SDL usage completely])])
  SDL_KEYSYM_H="$ac_cv_header_path_SDL_keysym_h"
  AC_SUBST([SDL_KEYSYM_H])
  AC_CHECK_FUNCS([SDL_EnableKeyRepeat])
- AM_CONDITIONAL(SDL, [test "x${with_sdl}" != xno])
  $1
  ifelse([$2],,,[else
    $2])
- fi])
+ fi
+ AM_CONDITIONAL(SDL, [test "x${with_sdl}" != xno])
+])
