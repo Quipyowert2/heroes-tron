@@ -22,6 +22,9 @@
 ## configure time) will be built.  Practically, the requested libraries
 ## are simply listed in heroes_DEPENDENCIES.
 
+EXTRA_DIST += \
+  media/README
+
 EXTRA_LIBRARIES += \
   media/libhmcommon.a \
   media/libhggivkm.a \

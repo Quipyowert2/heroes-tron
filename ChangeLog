@@ -1,3 +1,12 @@
+2001-09-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/media/README: New file.
+	* src/sys/README: New file.
+	* src/lvl/README: New file.
+	* src/lvl/Makefile.inc (EXTRA_DIST): Add lvl/README.
+	* src/sys/Makefile.inc (EXTRA_DIST): Add sys/README.
+	* src/media/Makefile.inc (EXTRA_DIST): Add media/README.
+
 2001-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* NEWS: Typo.

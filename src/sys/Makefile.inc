@@ -28,6 +28,7 @@ EXTRA_LIBRARIES += \
   sys/libhallm.a
 
 EXTRA_DIST += \
+  sys/README \
   sys/main.h
 
 sys_libhstdm_a_SOURCES = \

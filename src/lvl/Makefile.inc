@@ -20,12 +20,15 @@
 noinst_LIBRARIES= lvl/libhlvl.a
 
 lvl_libhlvl_a_SOURCES= \
-lvl/de_body.c \
-lvl/de_head.c \
-lvl/free.c \
-lvl/in_body.c \
-lvl/load.c \
-lvl/loadmac.h \
-lvl/lvl.h \
-lvl/lvl_priv.h \
-lvl/privacc.c
+  lvl/de_body.c \
+  lvl/de_head.c \
+  lvl/free.c \
+  lvl/in_body.c \
+  lvl/load.c \
+  lvl/loadmac.h \
+  lvl/lvl.h \
+  lvl/lvl_priv.h \
+  lvl/privacc.c
+
+EXTRA_DIST += \
+  lvl/README
