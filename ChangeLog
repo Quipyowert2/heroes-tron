@@ -1,5 +1,9 @@
 2002-03-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* tools/ltmain.sh: Add.  Missing from a previous commit.
+
+2002-03-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* configure.ac: Document the AC_PROVIDE_AC_LIBOOL_DL_OPEN definition
 	better.
 	* src/Makefile.am (heroes_DEPENDENCIES): Add $(LIBLTDL).
