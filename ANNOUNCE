@@ -1,4 +1,4 @@
-I am pleased to announce the release of Heroes 0.8.
+I am pleased to announce the release of Heroes 0.9.
 
 Heroes is similar to the "Tron" and "Nibbles" games of yore, but
 includes many graphical improvements and new game features.
@@ -18,18 +18,20 @@ You are invited to visit the following links:
   screenshots:  http://heroes.sourceforge.net/screenshots.html
   download:     http://heroes.sourceforge.net/download.html
 
-(Note: this is a source code release, the `download' page also list
-binary packages but they might not be up to date yet.)
+Note: this is a source code release, the `download' page also lists
+binary packages which might not be up-to-date yet.
 
 NEWS in this version include:
-  - fixes for critical bug in heroes (segfault and stalls during the game)
-  - help reader rewritten
-  - --quadruple option
+  - internationalization (Dutch and French messages included;
+    feel free to submit those for your own language)
+  - improved display rendering (especially with GGI)
+  - revamped `configure'
 See the NEWS file for details, there have been a lot of changes not
 worth to list here.
 
 HELP!  Heroes development is open to anyone and we welcome any
 contribution.  In the hypothetical case you would like to spend some
 time on the source code and don't know what to do, please, ask the
-mailing list: there is presently some tasks that are needed and do
-not require to understand the full source tree at first.
+mailing list: there is presently some (non-boring) tasks that are
+needed and for which understanding the full source tree is not a
+prerequisite.

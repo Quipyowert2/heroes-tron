@@ -2,18 +2,24 @@ Tasks for Heroes.  If you think something is missing here,
 please send a note to <heroes-discuss@lists.sourceforge.net>.
 
 
-Before 0.9
-----------
-
-  hedlite.c should be cleaned.
-
 Before 0.10
 -----------
 
+  Create a convenience library to load levels.  This is will
+  make any change to the level format more easy.  It has to be
+  used in heroes when loading the level for playing or editing.
+
+  Load the level in a way that doesn't require ATTRIBUTE_PACKED
+  structures.  ATTRIBUTE_PACKED is evil.
+
   Use makeheaders (provided I can get in touch with its maintainer).
+
+  hedlite.c should be cleaned.
 
 Before 1.0.0
 ------------
+
+  The code is VERY UGLY and needs to be cleaned up.
 
   If possible, Get rid of GETWORD, SETWORD and Cie, see src/endian.h.
 
@@ -25,8 +31,6 @@ Before 1.0.0
 
   Check every place were filenames are used, use buffer allocated dynamically.
 
-  The code is VERY UGLY and needs to be cleaned up.
-
   Split heroes.c
 
   Split hedlite.c
@@ -35,7 +39,8 @@ Before 1.0.0
 
   Think of the case were two heroes processes access a global score file.
 
-  Save games/options/scores files in text format.
+  Save games/options/scores files in text format.  By the same time,
+  save SDL and GII keybindings separately.
 
   Use {u,s}{8,16,32}_t types where it's important.
 
