@@ -1,3 +1,10 @@
+2000-08-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Fix typos reported by Benjamin Preidecker <bpreidecker@gmx.de>.
+
+	* src/txt_cfg/heroes.hlp: Typo.
+	* src/txt_cfg/txti.cfg: Typo.
+
 2000-08-02  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Allow overwriting a resource from a config.file.
