@@ -1,5 +1,9 @@
 2002-03-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* configure.ac: Show the plug-ins install path.
+
+2002-03-13  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* tools/ltmain.sh: Add.  Missing from a previous commit.
 
 2002-03-13  Alexandre Duret-Lutz  <duret_g@epita.fr>

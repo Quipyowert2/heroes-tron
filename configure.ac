@@ -234,7 +234,9 @@ AC_OUTPUT
 
 eval bindir="$bindir"
 eval bindir="$bindir"
-eval datadir="$datadir"
+eval pkgdatadir="$pkgdatadir"
+eval pkglibdir="$pkglibdir"
+eval pkglibdir="$pkglibdir"
 eval mandir="$mandir"
 eval infodir="$infodir"
 eval htmldir="$htmldir"
@@ -251,7 +253,8 @@ Heroes version           : $VERSION
 host                     : $host
 
 binary install path      : $bindir
-data install path        : ${datadir}/heroes
+data install path        : $pkgdatadir
+plug-ins install path    : $pkglibdir
 manual page install path : $mandir
 info manual install path : $infodir
 html doc install path    : $htmldir
