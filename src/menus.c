@@ -1211,7 +1211,7 @@ editor_selector (void)
 {
   int l = 0;
   int i = 0, t, j;
-  if (extra_nbr == 1) {
+  if (extra_user_nbr == 1) {
     event_sfx (116);
     strcpy (tmp1, extra_list[0].level_name);
 
@@ -1233,7 +1233,7 @@ editor_selector (void)
     copy_rect_transp (main_font_img.buffer + 61 * 320,
 		      corner[0] + (187) * xbuf + 100, 120, 3);
     for (i = -5; i <= 5; i++)
-      if ((i + l) >= 0 && (i + l) < extra_nbr) {
+      if ((i + l) >= 0 && (i + l) < extra_user_nbr) {
 	strcpy (tmp1, extra_list[i + l].level_name);
 	draw_text_array[i == 0] (tmp1, 159, 105 + i * 13, 1);
       }
@@ -1257,10 +1257,10 @@ editor_selector (void)
 	if (l > 0)
 	  l--;
 	else
-	  l = extra_nbr - 1;
+	  l = extra_user_nbr - 1;
       }
       if (t == HK_Down) {
-	if (l < (extra_nbr - 1))
+	if (l < (extra_user_nbr - 1))
 	  l++;
 	else
 	  l = 0;
@@ -1268,11 +1268,11 @@ editor_selector (void)
       if (t == HK_Home)
 	l = 0;
       if (t == HK_End)
-	l = extra_nbr - 1;
+	l = extra_user_nbr - 1;
       if (t == HK_PageUp)
 	l = (l > 10) ? (l - 10) : 0;
       if (t == HK_PageDown)
-	l = (l < (extra_nbr - 11)) ? (l + 10) : (extra_nbr - 1);
+	l = (l < (extra_user_nbr - 11)) ? (l + 10) : (extra_user_nbr - 1);
     } else
       t = 0;
   } while (t != HK_Enter && t != HK_Escape);
@@ -1573,7 +1573,7 @@ editor_menu (void)
 
     hmain (7, tmp1, tile_sets_names[tiles], tmp2, tmp2 + 2, tmp2 + 4,
 	   tmp2 + 6);
-    /* met … jour la table des extras */
+    /* update extra-levels list */
     free_extra_list ();
     browse_extra_directories ();
   }
@@ -1585,7 +1585,7 @@ editor_first_menu (void)
 {
   char l = 0;
   int t, j;
-  if (extra_nbr == 0) {
+  if (extra_user_nbr == 0) {
     editor_menu ();
     return;
   }

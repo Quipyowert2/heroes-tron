@@ -38,16 +38,21 @@
 
 typedef struct {
   filename_t	filename;
-  char		is_in_user_dir;
+  char		is_in_user_dir;	/* Is this extra level a user level?
+				 (user levels come from the ~/.heroes/level/
+				 directory */
 } extradir_info_t;
 
 NEW_LIST (extradir, extradir_info_t*);
 
 extradir_list_t edir;
 
-extra_level_t *extra_list = 0;
-char *extra_selected_list = 0;
-int extra_nbr = 0;
+int extra_nbr = 0;		/* The total number of extra levels */
+int extra_user_nbr = 0;		/* The number of user levels from */
+
+extra_level_t *extra_list = 0;	/* The list of extra-levels, the user's
+				   extra-levels are at the beginning */
+char *extra_selected_list = 0;	/* For each level: 1 if selected, 0 if not */
 
 /* select only *.lvl files */
 static int
@@ -58,11 +63,16 @@ select_file (const struct dirent *d)
 	  && d->d_name[l - 2] == 'v' && d->d_name[l - 1] == 'l');
 }
 
-/* compatr two filenames */
+/* compare two extra-levels for sorting,
+   we want to sort user's levels first, and then alphabeticaly */
 static int
-cmp_filenames (const extra_level_t* l, const extra_level_t* r)
+cmp_extralevels (const extra_level_t* l, const extra_level_t* r)
 {
-  return strcasecmp (l->level_name, r->level_name);
+  int d = r->is_in_user_dir - l->is_in_user_dir;
+
+  if (d != 0)
+    return d;
+  return strcasecmp(l->level_name, r->level_name);
 }
 
 static void
@@ -83,6 +93,8 @@ browse_extra_directory (const char* directory, char is_in_user_dir)
 
   old_nbr = extra_nbr;
   extra_nbr += extra_nbr_here;
+  if (is_in_user_dir)
+    extra_user_nbr += extra_nbr_here;
   /* realloc the list and the selection array */
   extra_selected_list = realloc (extra_selected_list, extra_nbr);
   memset (extra_selected_list, 0, extra_nbr);
@@ -116,7 +128,7 @@ browse_extra_directories (void)
 
   /* sort the files list */
   qsort (extra_list, extra_nbr, sizeof(*extra_list),
-	 (int (*)(const void*,const void*))cmp_filenames);
+	 (int (*)(const void*,const void*))cmp_extralevels);
 }
 
 void 
@@ -155,6 +167,7 @@ free_extra_list (void)
     free (extra_list[i].level_name);
   }
   extra_nbr = 0;
+  extra_user_nbr = 0;
   free (extra_list);
   extra_list = 0;
   free (extra_selected_list);

@@ -1,5 +1,19 @@
 2000-07-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Display only user's levels in editor menus.
+
+	* src/extras.c (extra_user_nbr): New.
+	(cmp_filenames): Rename to ...
+	(cmp_extralevels): ... this.  Sort the user-levels first.
+	(browse_extra_directory): Update extra_user_nbr.  Adapt to 
+	call cmp_extralevels.
+	(free_extra_list): Reset extra_user_nbr.
+	* src/extras.h (extra_user_nbr): New.
+	* src/menus.c (editor_selector,editor_menu,
+	editor_first_menu): Use extra_user_nbr instead of extra_nbr.
+
+2000-07-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/Makefile.am (CLEANFILES): Remove keysdef-inc.h.
 	(keysdef-inc.h): Depends on config.h.
 
