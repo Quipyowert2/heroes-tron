@@ -329,9 +329,8 @@ msgid "timer handling"
 msgstr "Zeitgeber-Behandlung"
 
 #: src/debughash.c:111 src/debughash.gperf:59
-#, fuzzy
 msgid "hooks handling"
-msgstr "Levelbehandlung"
+msgstr "Hook-behandlung"
 
 #: src/debughash.c:112 src/debughash.gperf:58
 msgid "bonus"
@@ -1642,7 +1641,6 @@ msgid "cannot setup a correct display."
 msgstr "Kann keine korrekte Anzeige einrichten."
 
 #: src/media/ggi/video.c:211
-#, fuzzy, c-format
 msgid "negotiated video mode is too small (width=%d, height=%d)"
 msgstr "Videomodus ist zu klein (Breite=%d, Hoehe=%d)"
 
