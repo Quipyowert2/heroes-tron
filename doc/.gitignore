@@ -2,7 +2,7 @@ Makefile
 Makefile.in
 version.texi
 stamp-vti
-heroes.info
+heroes.info*
 heroes.log
 heroes.dvi
 heroes.aux
