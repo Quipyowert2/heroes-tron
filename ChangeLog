@@ -1,5 +1,11 @@
 2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/gfx_reader.h (show_help, graphic_reader): Don't cast a
+	pointer to an int.  Heroes seems to run fine on
+	alphaev56-dec-osf4.0d, now.  Great!
+
+2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/visuals.c (horizontal_zoom_wave, horizontal_zoom_flip):
 	Simplify.  Supress GETWORD calls.  As a side effect, suppress
 	run-time alignment warnings on alphaev56-dec-osf4.0d.

@@ -236,7 +236,7 @@ show_help (void)
 	    || *src == 157 || *src == 158 || *src == 159) {
 	  imgalign = (*src) - 137;
 	  src++;
-	  imgsrc = (u8_t *)GETWORD(src);
+	  imgsrc = help_pics_img.buffer + GETWORD(src);
 	  src += 4;
 	  imgxsize = GETHALFWORD(src);
 	  src += 2;
@@ -442,7 +442,7 @@ graphic_reader (void)
       tmp2[j] = 0;
       i++;
       adresse =
-	(int) help_pics_img.buffer + atol ((char *) &tmp1) +
+	atol ((char *) &tmp1) +
 	atol ((char *) &tmp2) * 320;
       for (j = 0; *(txtptr + i) != ')'; j++, i++)
 	tmp1[j] = *(txtptr + i);
