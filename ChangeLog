@@ -1,3 +1,37 @@
+2000-10-08  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Add support for RLEncoded sprites.
+
+	* src/rleprog.h: New file.
+	* src/rleprog.c: New file.
+	* src/Makefile.am (heroes_SOURCES): Add src/rleprog.h and 
+	src/rleprog.c.
+	* arch/VisualC/heroes.dsp: Likewise.
+
+	Use this new feature to draw the arrows and checked boxes.
+	
+	* src/menus.h (left_arrow,right_arrow): New.
+	(init_menus_sprites,uninit_menus_sprites): New.
+	* src/menus.c (left_arrow,right_arrow,checked_box): New.
+	(init_menus_sprites,uninit_menus_sprites,arrows,chkbox): New.
+	(control_menu,keyboard_menu,sound_menu,screen_menu,game_menu,
+	extra_menu,option_menu,draw_quit_menu,draw_play_menu,draw_main_menu,
+	editor_selector,editor_first_menu): Adapt to use arrows and chkbox.
+	(draw_saved_games_info): Adapt to use left_arrow
+	and right_arrow.
+	* src/heroes.c (draw_end_level_info): Likewise.
+	(main): Call init_menus_sprites and uninit_menus_sprites.
+
+	Misc.
+	
+	* src/sound.c (decode_sound_options): Typo.
+	* src/pcx.h (IMGPOS): New macro.
+	(pcx_header_t,color_rvb_t,palette_t,pcx_image_t): Use u8_t and u16_t.
+	* src/pcx.c (delta,pcx_load): Adapt to use pixel_t and u8_t.
+	* src/const.h (corner,render_buffer): Use type pixel_t.
+	* src/const.c (corner,render_buffer): Likewise.
+	* configure.in: Remove -Wconversion and explain why.
+
 2000-10-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/scrtools.c: New file.

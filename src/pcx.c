@@ -43,7 +43,7 @@ static void
 delta (pcx_image_t * image)
 {
   int i;
-  char *src = image->buffer + image->width;
+  pixel_t *src = image->buffer + image->width;
   for (i = image->size - image->width; i != 0; i--)
     (*src++) = (char) ((*src) + (*(src - image->width)));
 }
@@ -55,7 +55,7 @@ pcx_load (const char *file, pcx_image_t * image)
   FILE *fptr;
 
   int nbrbytes, i;
-  unsigned char data;
+  u8_t data;
 
   dmsg (D_FILE, "opening image file: %s", file);
 

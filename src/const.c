@@ -126,20 +126,21 @@ char kbjoy[6] = { 0, 0, 0, 0, 0, 0 };
 char kbjoyold[6] = { 0, 0, 0, 0, 0, 0 };
 palette_t temppal;
 
-unsigned long int camera_x[2];		/* virgule fixe 16b,16b */
-unsigned long int camera_y[2];		/* idem */
-unsigned long int corner_x[2];		/* en pixels */
-unsigned long int corner_y[2];		/* idem */
-char *(corner[2]);                      /* addresse absolue */
-unsigned long int corner_dx[2];		/* coordonées de dalle */
-unsigned long int corner_dy[2];		/* idem */
+unsigned long int camera_x[2];
+unsigned long int camera_y[2];
+unsigned long int corner_x[2];
+unsigned long int corner_y[2];
+pixel_t *(corner[2]);
+
+unsigned long int corner_dx[2];
+unsigned long int corner_dy[2];
 unsigned long int inert_x[2], inert_y[2];
-unsigned int nbr_tiles_cols = 15;	/* nbr de colonnes de tile_set_img à afficher */
-unsigned int nbr_tiles_rows = 11;	/* ... lignes ... */
+unsigned int nbr_tiles_cols = 15;
+unsigned int nbr_tiles_rows = 11;
 char camera_stop_x[2];
 char camera_stop_y[2];
 
-char *(render_buffer[2]);		/* BUFFERS DE RENDU 384*260 */
+pixel_t *(render_buffer[2]);		/* 384*260 */
 
 unsigned char glenz[8][256];		/* lignes de glenz */
 

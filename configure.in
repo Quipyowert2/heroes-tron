@@ -416,11 +416,12 @@ if test -n "$auto_cflags"; then
     if test -n "$GCC"; then
       CFLAGS="$CFLAGS -Wall -pedantic -W -Wtraditional -Wshadow \
 -Wpointer-arith -Wcast-qual -Wcast-align -Wwrite-strings \
--Wconversion -Waggregate-return -Wstrict-prototypes \
--Wmissing-prototypes -Wmissing-declarations -Wnested-externs \
--Winline -ggdb"
+-Waggregate-return -Wstrict-prototypes -Wmissing-prototypes \
+-Wmissing-declarations -Wnested-externs -Winline -ggdb"
       # -ansi is not used since it prevents declaration of functions
       #        like strdup, and because it makes warning in system headers.
+      # -Wconversion is not used either because it warn call to functions
+      #        that take a char (or anything not sizeof(int)) as argument.
     else
       CFLAGS="$CFLAGS -g"
     fi

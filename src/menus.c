@@ -42,6 +42,50 @@
 #include "endian.h"
 #include "fader.h"
 #include "scrtools.h"
+#include "rleprog.h"
+
+rleprog_t* left_arrow = 0;
+rleprog_t* right_arrow = 0;
+rleprog_t* checked_box[2] = {0, 0};
+
+void
+init_menus_sprites (void)
+{
+  left_arrow = compile_rleprog (IMGPOS (main_font_img, 50, 134), 0,
+				20, 13, main_font_img.width, xbuf);
+  right_arrow = compile_rleprog (IMGPOS (main_font_img, 50, 121), 0,
+				 20, 13, main_font_img.width, xbuf);
+  checked_box[0] = compile_rleprog (IMGPOS (main_font_img, 50, 218), 0,
+				    14, 21, main_font_img.width, xbuf);
+  checked_box[1] = compile_rleprog (IMGPOS (main_font_img, 50, 239), 0,
+				    14, 21, main_font_img.width, xbuf);
+}
+
+void
+uninit_menus_sprites (void)
+{
+  free_rleprog (left_arrow);
+  left_arrow = 0;
+  free_rleprog (right_arrow);
+  right_arrow = 0;
+  free_rleprog (checked_box[0]);
+  checked_box[0] = 0;
+  free_rleprog (checked_box[1]);
+  checked_box[1] = 0;
+}
+
+static void
+arrows (unsigned int row, unsigned int col)
+{
+  exec_rleprog (left_arrow, corner[0] + row * xbuf + col);
+  exec_rleprog (right_arrow, corner[0] + row * xbuf + 320 - col - 13);
+}
+
+static void
+chkbox (unsigned int row, unsigned int col, int checked)
+{
+  exec_rleprog (checked_box[checked], corner[0] + row * xbuf + col);
+}
 
 void
 background_menu (void)
@@ -79,21 +123,9 @@ control_menu (void)
 		 corner[0] + 107 * xbuf + 20, 32, 18);
     copy_rect_4 (icons_img.buffer + (11 + 19 * opt.autopilot_two) * 320 + 144,
 		 corner[0] + 140 * xbuf + 20, 32, 18);
-    copy_rect_transp (main_font_img.buffer + 134 + 50 * 320,
-		      corner[0] + (35 + l * 35 - 2 * (l == 1) +
-				   2 * (l == 2
-					|| l == 4)) * xbuf + 1, 13, 20);
-    copy_rect_transp (main_font_img.buffer + 121 + 50 * 320,
-		      corner[0] + (35 + l * 35 - 2 * (l == 1) +
-				   2 * (l == 2
-					|| l == 4)) * xbuf + 320 - 1 - 13, 13,
-		      20);
-    copy_rect_transp (main_font_img.buffer + 218 + 50 * 320 +
-		      opt.autopilot_one * 21, corner[0] + 69 * xbuf + 260, 21,
-		      14);
-    copy_rect_transp (main_font_img.buffer + 218 + 50 * 320 +
-		      opt.autopilot_two * 21, corner[0] + 141 * xbuf + 260,
-		      21, 14);
+    arrows (35 + l * 35 - 2 * (l == 1) + 2 * (l == 2 || l == 4), 1);
+    chkbox (69, 260, opt.autopilot_one);
+    chkbox (141, 260, opt.autopilot_two);
     copy_rect_transp (main_font_img.buffer + 61 * 320,
 		      corner[0] + 95 * xbuf + 100, 120, 3);
     draw_text_waving (txti[90], 159, 5, 1);
@@ -181,14 +213,8 @@ keyboard_menu (void)
   do {
     background_menu ();
 
-    /* copy_rect_transp(main_font_img.buffer+61*320,corner[0]+99*xbuf+100,120,3); */
-    copy_rect_transp (main_font_img.buffer + 134 + 50 * 320,
-		      corner[0] + (11 * l + 33 + 15 * (l >= 6) +
-				   4 * (l == 12)) * xbuf + 1, 13, 20);
-    copy_rect_transp (main_font_img.buffer + 121 + 50 * 320,
-		      corner[0] + (11 * l + 33 + 15 * (l >= 6) +
-				   4 * (l == 12)) * xbuf + 320 - 1 - 13, 13,
-		      20);
+    arrows (11 * l + 33 + 15 * (l >= 6) + 4 * (l == 12), 1);
+
     draw_text_waving (txti[95], 159, 5, 1);
     draw_text (txti[96], 159, 25, 1);
     draw_text (txti[97], 25, 38, 0);
@@ -337,15 +363,9 @@ sound_menu (void)
 		 corner[0] + 35 * xbuf + 20, 32, 18);
     copy_rect_4 (icons_img.buffer + 182 * 320 + 252,
 		 corner[0] + 105 * xbuf + 20, 32, 18);
-    copy_rect_transp (main_font_img.buffer + 134 + 50 * 320,
-		      corner[0] + (35 + l * 35) * xbuf + 1, 13, 20);
-    copy_rect_transp (main_font_img.buffer + 121 + 50 * 320,
-		      corner[0] + (35 + l * 35) * xbuf + 320 - 1 - 13, 13,
-		      20);
-    copy_rect_transp (main_font_img.buffer + 218 + 50 * 320 + opt.music * 21,
-		      corner[0] + 36 * xbuf + 260, 21, 14);
-    copy_rect_transp (main_font_img.buffer + 218 + 50 * 320 + opt.sfx * 21,
-		      corner[0] + 106 * xbuf + 260, 21, 14);
+    arrows (35 + l * 35, 1);
+    chkbox (36, 260, opt.music);
+    chkbox (106, 260, opt.sfx);
     if (opt.music) {
       copy_rect_4 (icons_img.buffer +
 		   (68 + 19 * (opt.music_volume / 2)) * 320 + 36,
@@ -469,7 +489,6 @@ screen_menu (void)
   do {
     background_menu ();
 
-    /* copy_rect_4(icons_img.buffer+(11+19*opt.screen_size )*320    ,corner[0]+ 25*xbuf+20,32,18); */
     copy_rect_4 (icons_img.buffer + (11 + 19 * opt.radar_map) * 320 + 36,
 		 corner[0] + 30 * xbuf + 20, 32, 18);
     copy_rect_4 (icons_img.buffer + (11 + 19 * opt.use_glenz) * 320 + 108,
@@ -480,29 +499,20 @@ screen_menu (void)
 		 corner[0] + 117 * xbuf + 20, 32, 18);
     copy_rect_4 (icons_img.buffer + (68 + 19 * opt.inertia) * 320 + 108,
 		 corner[0] + 146 * xbuf + 20, 32, 18);
-    copy_rect_transp (main_font_img.buffer + 134 + 50 * 320,
-		      corner[0] + (1 + l * 29) * xbuf + 1, 13, 20);
-    copy_rect_transp (main_font_img.buffer + 121 + 50 * 320,
-		      corner[0] + (1 + l * 29) * xbuf + 320 - 1 - 13, 13, 20);
 
-    /* copy_rect_transp(main_font_img.buffer+181+53*320,corner[0]+30*xbuf+251,37,10); */
-    /* copy_rect_transp(main_font_img.buffer+173+51*320,corner[0]+28*xbuf+254+7*(3-opt.screen_size),8,14); */
-    copy_rect_transp (main_font_img.buffer + 218 + 50 * 320 +
-		      opt.radar_map * 21, corner[0] + 31 * xbuf + 260, 21,
-		      14);
-    copy_rect_transp (main_font_img.buffer + 218 + 50 * 320 +
-		      opt.use_glenz * 21, corner[0] + 60 * xbuf + 260, 21,
-		      14);
-    copy_rect_transp (main_font_img.buffer + 218 + 50 * 320 +
-		      opt.display_infos * 21, corner[0] + 89 * xbuf + 260, 21,
-		      14);
+    arrows (1 + l * 29, 1);
+    chkbox (31, 260, opt.radar_map);
+    chkbox (60, 260, opt.use_glenz);
+    chkbox (89, 260, opt.display_infos);
+
     copy_rect_transp (main_font_img.buffer + 181 + 53 * 320,
 		      corner[0] + 122 * xbuf + 251, 37, 10);
     copy_rect_transp (main_font_img.buffer + 173 + 51 * 320,
 		      corner[0] + 120 * xbuf + 253 + 4 * (6 - opt.luminance),
 		      8, 14);
-    copy_rect_transp (main_font_img.buffer + 218 + 50 * 320 +
-		      opt.inertia * 21, corner[0] + 147 * xbuf + 260, 21, 14);
+    
+    chkbox (147, 260, opt.inertia);
+
     draw_text_waving (txti[109], 159, 5, 1);
 
     /* draw_text("SIZE",56,29,0); */
@@ -630,18 +640,12 @@ game_menu (void)
 		      corner[0] + 128 * xbuf + 255 + 5 * opt.speed * 2, 8,
 		      14);
 
-/*   copy_rect_transp(main_font_img.buffer+218+50*320+opt.ghosts*21,corner[0]+133*xbuf+260,21,14); */
     copy_rect_transp (main_font_img.buffer + 181 + 53 * 320,
 		      corner[0] + 154 /*161 */  * xbuf + 251, 37, 10);
     copy_rect_transp (main_font_img.buffer + 173 + 51 * 320,
 		      corner[0] + 152 /*159 */  * xbuf + 254 +
 		      (3 * opt.gamerounds) / 2, 8, 14);
-    copy_rect_transp (main_font_img.buffer + 134 + 50 * 320,
-		      corner[0] + (29 + l * 24 + 24 * (l > 2)) * xbuf + 1, 13,
-		      20);
-    copy_rect_transp (main_font_img.buffer + 121 + 50 * 320,
-		      corner[0] + (29 + l * 24 + 24 * (l > 2)) * xbuf + 320 -
-		      1 - 13, 13, 20);
+    arrows (29 + l * 24 + 24 * (l > 2), 1);
     draw_text_waving (txti[115], 159, 5, 1);
     draw_text (txti[116], 56, 33, 0);
     draw_text (txti[117], 56, 57, 0);
@@ -782,19 +786,10 @@ extra_menu (void)
 	if ((i + ll) >= 0 && (i + ll) < extra_nbr) {
 	  strcpy (tmp1, extra_list[i + ll].level_name);
 	  draw_text_array[i == 0] (tmp1, 200, 118 + i * 13, 2);
-	  copy_rect_transp (main_font_img.buffer + 218 + 50 * 320 +
-			    extra_selected_list[i + ll] * 21,
-			    corner[0] + 115 * xbuf + i * xbuf * 13 + 210, 21,
-			    14);
+	  chkbox (115 + i * 13, 210, extra_selected_list[i + ll]);
 	}
     }
-    copy_rect_transp (main_font_img.buffer + 134 + 50 * 320,
-		      corner[0] + (30 + l * 22 + 40 * (l == 2) +
-				   78 * (l == 3)) * xbuf + 1, 13, 20);
-    copy_rect_transp (main_font_img.buffer + 121 + 50 * 320,
-		      corner[0] + (30 + l * 22 + 40 * (l == 2) +
-				   78 * (l == 3)) * xbuf + 320 - 1 - 13, 13,
-		      20);
+    arrows (30 + l * 22 + 40 * (l == 2) + 78 * (l == 3), 1);
     vsynch ();
     aff_buffer ();
     if (key_or_joy_ready ()) {
@@ -906,11 +901,7 @@ option_menu (void)
 			corner[0] + (148 /*+j */ ) * xbuf + 100, 120, 3);
       copy_rect_transp (main_font_img.buffer + 61 * 320,
 			corner[0] + (168 /*+j */ ) * xbuf + 100, 120, 3);
-      copy_rect_transp (main_font_img.buffer + 134 + 50 * 320,
-			corner[0] + j + (50 + l * 20) * xbuf + 70, 13, 20);
-      copy_rect_transp (main_font_img.buffer + 121 + 50 * 320,
-			corner[0] - j + (50 + l * 20) * xbuf + 320 - 70 - 13,
-			13, 20);
+      arrows (50 + l * 20, 70 + j);
       vsynch ();
       aff_buffer ();
       if (key_or_joy_ready ()) {
@@ -966,11 +957,7 @@ draw_quit_menu (char l)
   draw_text_waving (txti[140], 159, 75, 1);
   draw_text_array[l == 0] (txti[141], 159, 95, 1);
   draw_text_array[l == 1] (txti[142], 159, 110, 1);
-  copy_rect_transp (main_font_img.buffer + 134 + 50 * 320,
-		    corner[0] + j + (91 + l * 15) * xbuf + 90, 13, 20);
-  copy_rect_transp (main_font_img.buffer + 121 + 50 * 320,
-		    corner[0] - j + (91 + l * 15) * xbuf + 320 - 90 - 13, 13,
-		    20);
+  arrows (91 + l * 15, 90 + j);
 }
 
 char
@@ -1041,18 +1028,8 @@ draw_play_menu (char l)
   copy_rect_transp (main_font_img.buffer + 61 * 320,
 		    corner[0] + 177 * xbuf + 100, 120, 3);
   draw_text_array[l == 7] (txti[94], 159, 187, 1);
-  copy_rect_transp (main_font_img.buffer + 134 + 50 * 320,
-		    corner[0] + j + (41 + l * 16 + 5 * (l > 1) -
-				     15 * (l == 0) + 13 * (l ==
-							   6) + 23 * (l ==
-								      7)) *
-		    xbuf + 30, 13, 20);
-  copy_rect_transp (main_font_img.buffer + 121 + 50 * 320,
-		    corner[0] - j + (41 + l * 16 + 5 * (l > 1) -
-				     15 * (l == 0) + 13 * (l ==
-							   6) + 23 * (l ==
-								      7)) *
-		    xbuf + 320 - 30 - 13, 13, 20);
+  arrows (41 + l * 16 + 5 * (l > 1) - 15 * (l == 0) + 
+	  13 * (l == 6) + 23 * (l == 7), 30 + j);
 }
 
 void
@@ -1080,11 +1057,7 @@ draw_main_menu (char l)
 		    corner[0] + 148 * xbuf + 100, 120, 3);
   copy_rect_transp (main_font_img.buffer + 61 * 320,
 		    corner[0] + 168 * xbuf + 100, 120, 3);
-  copy_rect_transp (main_font_img.buffer + 134 + 50 * 320,
-		    corner[0] + j + (50 + l * 20) * xbuf + 75, 13, 20);
-  copy_rect_transp (main_font_img.buffer + 121 + 50 * 320,
-		    corner[0] - j + (50 + l * 20) * xbuf + 320 - 75 - 13, 13,
-		    20);
+  arrows (50 + l * 20, 75 + j);
 }
 
 char tile_sets_names[10][3] =
@@ -1129,10 +1102,7 @@ editor_selector (void)
 	strcpy (tmp1, extra_list[i + l].level_name);
 	draw_text_array[i == 0] (tmp1, 159, 105 + i * 13, 1);
       }
-    copy_rect_transp (main_font_img.buffer + 134 + 50 * 320,
-		      corner[0] + j + 101 * xbuf + 60, 13, 20);
-    copy_rect_transp (main_font_img.buffer + 121 + 50 * 320,
-		      corner[0] - j + 101 * xbuf + 320 - 60 - 13, 13, 20);
+    arrows (101, 60 + j);
     vsynch ();
     aff_buffer ();
     if (key_or_joy_ready ()) {
@@ -1470,11 +1440,7 @@ editor_first_menu (void)
     draw_text_waving (txti[171], 159, 10, 1);
     draw_text_array[l == 0] (txti[172], 159, 85, 1);
     draw_text_array[l == 1] (txti[173], 159, 105, 1);
-    copy_rect_transp (main_font_img.buffer + 134 + 50 * 320,
-		      corner[0] + j + (81 + l * 20) * xbuf + 50, 13, 20);
-    copy_rect_transp (main_font_img.buffer + 121 + 50 * 320,
-		      corner[0] - j + (81 + l * 20) * xbuf + 320 - 50 - 13,
-		      13, 20);
+    arrows (81 + l * 20, 50 + j);
     vsynch ();
     aff_buffer ();
     if (key_or_joy_ready ()) {
@@ -1532,9 +1498,8 @@ draw_saved_games_info (int decal, char l, char h)
   }
   for (i = 0; i < 10; i++)
     draw_text (saverec[i].name, 159 + decal, 40 + i * 14, 1);
-  copy_rect_transp (main_font_img.buffer + 134 + 50 * 320,
-		    corner[0] + decal + (35 + l * 14) * xbuf + 1, 13, 20);
-  copy_rect_transp (main_font_img.buffer + 121 + 50 * 320,
-		    corner[0] + decal + (35 + l * 14) * xbuf + 320 - 1 - 13,
-		    13, 20);
+
+  exec_rleprog (left_arrow, corner[0] + decal + (35 + l * 14) * xbuf + 1);
+  exec_rleprog (right_arrow, 
+		corner[0] + decal + (35 + l * 14) * xbuf + 320 - 1 - 13);
 }

@@ -323,6 +323,14 @@ SOURCE=..\src\render.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\src\rleprog.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\rleprog.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\src\rsc_files.c
 # End Source File
 # Begin Source File

@@ -519,7 +519,7 @@ print_drivers_list (void)
 }
 
 void
-decode_sound_options (char* optarg ATTRIBUTE_UNUSED), 
+decode_sound_options (char* optarg ATTRIBUTE_UNUSED, 
 		      char* argv0 ATTRIBUTE_UNUSED)
 {
 }

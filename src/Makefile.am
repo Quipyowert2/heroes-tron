@@ -83,6 +83,8 @@ pixelize.c \
 pixelize.h \
 render.c \
 render.h \
+rleprog.c \
+rleprog.h \
 rsc_files.c \
 rsc_files.h \
 rsc_files_hash.c \

@@ -4074,12 +4074,12 @@ draw_end_level_info (int decal, char l)
     j = minisinus[read_htimer (waving_htimer) & 31];
     draw_text_array[l == 0] (txti[58], 159 + decal, 150, 1);
     draw_text_array[l == 1] (txti[59], 159 + decal, 170, 1);
-    copy_rect_transp (main_font_img.buffer + 134 + 50 * 320,
-		      corner[0] + decal + (145 + l * 20) * xbuf + 45 + j, 13,
-		      20);
-    copy_rect_transp (main_font_img.buffer + 121 + 50 * 320,
-		      corner[0] + decal + (145 + l * 20) * xbuf + 320 - 45 -
-		      13 - j, 13, 20);
+
+    exec_rleprog (left_arrow, 
+		  corner[0] + decal + (145 + l * 20) * xbuf + 45 + j);
+    exec_rleprog (right_arrow, 
+		  corner[0] + decal + (145 + l * 20) * xbuf 
+		  + 320 - 45 - 13 - j);
   } else {
     draw_text (txti[60], 159 + decal, 160, 1);
   }
@@ -4824,9 +4824,11 @@ main (int argc, char *argv[])
     minisinus[i] = ceil (sin (i * 2.0 * 3.141592653 / 32.0) * 1.7);
   compute_lut ();
 
+  init_menus_sprites ();
   update_htimers ();
   main_menu ();
 
+  uninit_menus_sprites ();
   uninit_fader ();
   uninit_text_waving_step ();
   free_htimer (demo_trigger_htimer);

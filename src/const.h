@@ -46,20 +46,21 @@ extern int bonus_points[2][17];	/* interet (pour le cpu) */
 
 extern int rounds_nbr_values[16];
 
-extern unsigned long int camera_x[2];	/* virgule fixe 16b,16b */
+extern unsigned long int camera_x[2];	/* fixed point 16b,16b */
 extern unsigned long int camera_y[2];	/* idem */
-extern unsigned long int corner_x[2];	/* en pixels */
+extern unsigned long int corner_x[2];	/* in pixels */
 extern unsigned long int corner_y[2];	/* idem */
-extern char *(corner[2]);	        /* addresse absolue */
-extern unsigned long int corner_dx[2];	/* coordonées de dalle */
+extern pixel_t *(corner[2]);	        /* topleft of the camera vision */
+
+extern unsigned long int corner_dx[2];	/* coordinate of the first tile */
 extern unsigned long int corner_dy[2];	/* idem */
 extern unsigned long int inert_x[2], inert_y[2];
-extern unsigned int nbr_tiles_cols;	/* nbr de colonnes de tile_set_img à afficher */
-extern unsigned int nbr_tiles_rows;	/*     ... lignes ... */
+extern unsigned int nbr_tiles_cols;	/* # of tiles columns to display */
+extern unsigned int nbr_tiles_rows;	/*        ... rows ... */
 extern char camera_stop_x[2];
 extern char camera_stop_y[2];
 
-extern char *(render_buffer[2]);	/* BUFFER DE RENDU 384*260 */
+extern pixel_t *(render_buffer[2]);	/* 384*260 */
 
 char key_or_joy_ready (void);
 int get_key_or_joy (void);

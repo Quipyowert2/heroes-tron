@@ -21,14 +21,16 @@
 #ifndef HEROES__MENUS__H
 #define HEROES__MENUS__H
 
+#include "rleprog.h"
+
+extern rleprog_t* left_arrow;
+extern rleprog_t* right_arrow;
+void init_menus_sprites (void);	/* initialize the RLE-programs above */
+void uninit_menus_sprites (void);
+
+
 void background_menu (void);
-/*
-void control_menu(void);
-void keyboard_menu(void);
-void sound_menu(void);
-void screen_menu(void);
-void game_menu(void);
-*/
+
 void option_menu (void);
 char quit_menu (void);
 void draw_play_menu (char l);
