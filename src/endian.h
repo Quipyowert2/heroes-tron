@@ -51,10 +51,24 @@ BSWAP32(unsigned long int x)
 
 #endif /* ! linux */
 
+/* unaligned access: these only work if p is (unsigned char *) */
+#define GETWORD(p) ((p)[0] << 24 | (p)[1] << 16 | (p)[2] << 8 | (p)[3])
+#define SETWORD(p, x) ((p)[0] = (x) >> 24, (p)[1] = (x) >> 16,	\
+		       (p)[2] = (x) >> 8, (p)[3] = (x))
+#define GETHALFWORD(p) ((p)[0] << 8 | (p)[1])
+#define SETHALFWORD(p, x) ((p)[0] = (x) >> 8, (p)[1] = (x))
+
 #else /* ! BIGENDIAN */
 
 #define BSWAP16(x) (x)
 #define BSWAP32(x) (x)
+
+/* unaligned access: these only work if p is (unsigned char *) */
+#define GETWORD(p) ((p)[0] | (p)[1] << 8 | (p)[2] << 16 | (p)[3] << 24)
+#define SETWORD(p, x) ((p)[0] = (x), (p)[1] = (x) >> 8,		\
+		       (p)[2] = (x) >> 16, (p)[3] = (x) >> 24)
+#define GETHALFWORD(p) ((p)[0] | (p)[1] << 8)
+#define SETHALFWORD(p, x) ((p)[0] = (x), (p)[1] = (x) >> 8)
 
 #endif /* ! BIGENDIAN */
 

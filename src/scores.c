@@ -89,9 +89,9 @@ check_scores (void)
 {
   unsigned long int crc = 0xa8c4d602;
   unsigned int i;
-  char *src = (char *) highs;
+  unsigned char *src = (unsigned char *) highs;
   for (i = 0; i < (5 * 10 * sizeof (top_score) - 4); i += 3, src += 3)
-    crc ^= *(int *) src;
+    crc ^= GETWORD(src);
   return (crc);
 }
 

@@ -25,6 +25,7 @@
 #include "display.h"
 #include "fastmem.h"
 #include "visuals.h"
+#include "endian.h"
 #include "timer.h"
 #include "heroes.h"
 
@@ -171,7 +172,7 @@ horizontal_zoom_wave (char *src, char *dest, int oldsize, int newsize)
       newsize--;
     } while (((int) dest) & 3);
   ad = (int *) (src + (x >> 16));
-  tmp = *ad;
+  tmp = GETWORD((unsigned char *)ad);
   adest = (int *) dest;		/* adest utilisé dans cette boucle seulement
 				   pour que Watcom le garde dans un registre */
   do {
@@ -180,7 +181,7 @@ horizontal_zoom_wave (char *src, char *dest, int oldsize, int newsize)
     x += deltax * 4;
     ad = (int *) (src + (x >> 16));
     newsize -= 4;
-    tmp = *ad;
+    tmp = GETWORD((unsigned char *)ad);
   } while (newsize > 0);
 /*
      if (newsize!=0) {
@@ -212,7 +213,7 @@ horizontal_zoom_flip (char *src, char *dest, int oldsize, int newsize)
       newsize--;
     } while (((int) dest) & 1);
   ad = (short int *) (src + (x >> 16));
-  tmp = *ad;
+  tmp = GETWORD((unsigned char *)ad);
   adest = (short int *) dest;	/* adest utilisé dans cette boucle seulement
 				   pour que Watcom le garde dans un registre */
   do {
@@ -221,7 +222,7 @@ horizontal_zoom_flip (char *src, char *dest, int oldsize, int newsize)
     x += deltax * 2;
     ad = (short int *) (src + (x >> 16));
     newsize -= 2;
-    tmp = *ad;
+    tmp = GETWORD((unsigned char *)ad);
   } while (newsize > 0);
 }
 
@@ -232,8 +233,11 @@ vertical_zoom_wave (char *src, char *dest, int oldsize, int newsize)
     ((1 + oldsize) << 16) / (newsize), tmp1, tmp2;
   newsize--;
   do {
-    tmp1 = *(int *) (src + ((y >> 16) * 3 << 7));
-    tmp2 = *(int *) (src + (((y + deltay) >> 16) * 3 << 7));
+    unsigned char *p;
+    p = src + ((y >> 16) * 3 << 7);
+    tmp1 = GETWORD(p);
+    p = src + (((y + deltay) >> 16) * 3 << 7);
+    tmp2 = GETWORD(p);
     y += deltay << 1;
     *(int *) dest = tmp1;
     *(int *) (dest + xbuf) = tmp2;
@@ -241,7 +245,9 @@ vertical_zoom_wave (char *src, char *dest, int oldsize, int newsize)
     newsize -= 2;
   } while (newsize > 0);
   if (newsize == 0) {
-    tmp1 = *(int *) (src + ((y >> 16) * 3 << 7));
+    unsigned char *p;
+    p = src + ((y >> 16) * 3 << 7);
+    tmp1 = GETWORD(p);
     *(int *) dest = tmp1;
   }
 }

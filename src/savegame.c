@@ -99,9 +99,9 @@ check_save_records (void)
 {
   unsigned long int crc = 0xa8c4d602;
   unsigned int i;
-  char *src = (char *) saverec;
+  unsigned char *src = (unsigned char *) saverec;
   for (i = 0; i < (10 * sizeof (saved_game) - 4); i += 3, src += 3)
-    crc ^= *(int *) src;
+    crc ^= GETWORD(src);
   return (crc);
 }
 

@@ -34,6 +34,7 @@
 #include "config.h"
 #include "rsc_files.h"
 #include "debugmsg.h"
+#include "endian.h"
 
 static int nbr_lines;
 static unsigned char *txtptr;
@@ -241,9 +242,9 @@ show_help (void)
 	    || *src == 157 || *src == 158 || *src == 159) {
 	  imgalign = (*src) - 137;
 	  src++;
-	  imgsrc = *((char **) src);
+	  imgsrc = (char *)GETWORD(src);
 	  src += 4;
-	  imgxsize = *((short int *) src);
+	  imgxsize = GETHALFWORD(src);
 	  src += 2;
 	  src += *src;
 	  if (glenz == -1) {
@@ -462,9 +463,12 @@ graphic_reader ()
       for (j = 0; *(txtptr + i) != ')'; j++, i++)
 	tmp1[j] = *(txtptr + i);
       tmp1[j] = 0;
-      *((long int *) (txtptr + oldi)) = adresse;
+      SETWORD((unsigned char *)(txtptr + oldi), adresse);
       oldi += 4;
-      *((short int *) (txtptr + oldi)) = (short int) atol ((char *) &tmp1);
+      {
+	  unsigned short s = atol ((char *) &tmp1);
+	  SETHALFWORD((unsigned char *)(txtptr + oldi), s);
+      }
       oldi += 2;
       *(txtptr + oldi) = i - oldi;
     }

@@ -1323,7 +1323,7 @@ jukebox_menu (void)
 static void
 load_level_from_number (int nbr, char cont)
 {
-  char tmp[64];
+  char tmp[1024];
   char e;
 
   dmsg (D_SECTION, "load level #%d", nbr);
@@ -1343,7 +1343,7 @@ load_level_from_number (int nbr, char cont)
 /*
 static void loadlvlpasrandq2(int nbr,char cont)
 {
-  char tmp[64];char e;
+  char tmp[1024];char e;
   strcat(strcpy((char*)tmp,nivdir),levellstq2[nbr]);
   e=load_level((char*)tmp,cont);
   if (e!=0) {
@@ -1408,7 +1408,7 @@ static void
 load_random_wrapped_level (char c, char cont)
 {
   int t;
-  char tmp[64];
+  char tmp[1024];
   char e;
 
   dmsg (D_SECTION, "load random wrapped level");
@@ -1432,7 +1432,7 @@ static void
 load_random_level (char cont)
 {
   int t;
-  char tmp[64];
+  char tmp[1024];
   char e;
   t = random_level ();
 //  t=1;

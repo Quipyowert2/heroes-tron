@@ -1,3 +1,24 @@
+2000-08-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	From Mattias Engdegård <f91-men@nada.kth.se>.
+
+	Cure the bus errors on sparc (results from unaligned memory
+	access).
+
+	* src/endian.h [WORDS_BIGENDIAN,!WORDS_BIGENDIAN]
+	(SETWORD,GETWORD,SETHALFWORD,GETHALFWORD): New macro.
+	* src/gfx_reader.h (show_help): Use these macros.
+	* src/savegame.c (check_save_records): Likewise.
+	* src/scores.c (check_scores): Likewise.
+	* src/visuals.c (horizontal_zoom_wave, horizontal_zoom_flip,
+	vertical_zoom_wave): Likewise.
+
+	Support larger file names.
+
+	* src/heroes.c (load_level_from_number,loadlvlpasrandq2,
+	load_random_wrapped_level,load_random_level): Widen the filename
+	temporaly buffer.
+
 2000-08-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/intro.c (play_intro): Set a black palette in ONE call,
