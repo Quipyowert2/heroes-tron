@@ -26,6 +26,8 @@
 #include "fastmem.h"
 #include <string.h>
 #include "visuals.h"
+#include "timer.h"
+#include "heroes.h"
 
 int rotosinus[256];
 int rotocosinus[256];
@@ -484,15 +486,20 @@ corner_buffer_end (int i)
   }
 }
 
-extern void
-corner_buffer (int t2)
+extern int
+corner_buffer (void)
 {
+  int t2 = read_timer (corner_timer);
+
   if (t2 < 200)
     corner_buffer_begin (t2);
   else if (t2 < 320)
     corner_buffer_middle (t2);
-  else
+  else if (t2 < 520)
     corner_buffer_end (t2);
+  else 
+    return 1;
+  return 0;
 }
 
 extern void

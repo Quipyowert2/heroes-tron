@@ -42,7 +42,7 @@ void draw_text_waving (const unsigned char *texte, int posx, int posy,
 		       char cent);
 void draw_text_320 (const unsigned char *texte, int posx, int posy,
 		    char cent);
-void affvga320sin (const unsigned char *texte, int posx, int posy, char cent);
+void draw_text_waving_320 (const unsigned char *texte, int posx, int posy, char cent);
 
 extern void (*draw_text_array[2]) (const unsigned char *, int, int, char);
 extern void (*draw_text_array_320[2]) (const unsigned char *, int, int, char);
@@ -75,5 +75,9 @@ void draw_demo_stick (unsigned char *dest);
 void aff_buffer (void);
 void copy_rect_transp_shadow (const unsigned char *src, unsigned char *dest,
 			      int xt, int yt);
+
+void init_text_waving_step (void);
+void uninit_text_waving_step (void);
+void update_text_waving_step (void);
 
 #endif

@@ -27,7 +27,6 @@ extern int rotocosinus[256];
 extern int rotosinus2[256];
 extern int rotocosinus2[256];
 extern signed char moyensinus[512];
-//extern  char minideform[256];
 extern int mulxbuf[200];
 extern int angle;
 extern char *srcroto;
@@ -36,8 +35,8 @@ void rotozoom_buffer (void);	/* rotozoom */
 void rotozoom_half_buffer (int c);
 void wave_buffer (void);	/* mushroom */
 void wave_half_buffer (int c);
-void flip_buffer (int p2);	/* renversement */
-void corner_buffer (int t2);	/* corner_buffer de page */
+void flip_buffer (int p2);	/* flipping the screen horizontaly */
+int corner_buffer (void);	/* "removing" the screen from the corner */
 
 void compute_lut (void);	/* init tables sin/cos */
 

@@ -22,9 +22,21 @@
 #ifndef __HEROES_H_plx__
 #define __HEROES_H_plx__
 
+#include "timer.h"
+
+extern timer_t clock_timer;
+extern timer_t blink_timer;
+extern timer_t bonus_anim_timer;
+extern timer_t tiles_anim_timer;
+extern timer_t corner_timer;
+extern timer_t fading_timer;
+extern timer_t waving_timer;
+extern timer_t background_timer ;
+extern timer_t corner_timer ;
+extern timer_t demo_trigger_timer;
+extern long event_time;
+
 void compute_corner (int p, int n);
-//void set_volume(void);
-//void draw_level(char p);
 void play_demo (void);
 
 #endif

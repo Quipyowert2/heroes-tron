@@ -29,6 +29,8 @@
 #include "draw.h"
 #include "render.h"
 #include "argv.h"
+#include "timer.h"
+#include "heroes.h"
 
 char tutor = 0;
 
@@ -531,18 +533,19 @@ draw_level (int p)
   signed char sinl;
   unsigned char *dest = render_buffer[p] + sbuf;
   unsigned char *dest2;
+  long anim_frame;
 
-  clock_anim_offset =
-    main_font_img.buffer + 81 * 320 + 52 + ((frame_cur >> 3) & 7) * 10;
+  clock_anim_offset = main_font_img.buffer + 81 * 320 + 52 + 
+    (read_timer (clock_timer) & 7) * 10;
   lemmings_anim_offset = (lemmings_move_offset * 64 / 65536) & 7 << 3;
-  if (frame_old & 8)
+  if (read_timer (blink_timer) & 1)
     for (bb = 3; bb >= 0; bb--)
       invincible[bb] = (player[bb].invincible != 0);
   else
     for (bb = 3; bb >= 0; bb--)
       invincible[bb] = 0;
 
-  bonus_anim_offset = (frame_cur >> 1) & 15;
+  bonus_anim_offset = read_timer (bonus_anim_timer) & 15;
   if (bonus_anim_offset > 8)
     bonus_anim_offset = 16 - bonus_anim_offset;
   bonus_anim_offset *= 24;
@@ -557,6 +560,8 @@ draw_level (int p)
   else
     camera_stop_x[p] = 0;
 /******************** Affichage des tile_set_img ***********************/
+
+  anim_frame = read_timer (tiles_anim_timer);
 
   for (k = corner_dy[p], l = 11 - camera_stop_y[p]; l > 0; l--, k++) {
     k = k & map_info.ywrap;
@@ -574,13 +579,13 @@ draw_level (int p)
 	    copy_tile ((char *)
 		       (level_map[i + m].number +
 			24 *
-			((frame_old / (level_map[i + m].info.anim.speed + 1))
+			((anim_frame / (level_map[i + m].info.anim.speed + 1))
 			 % (level_map[i + m].info.anim.frame_nbr + 1))), dest,
 		       tile_set_img.width);
 	  else {
 	    tmp2 = level_map[i + m].info.param[4] >> 4;
 	    tmp =
-	      ((frame_old / ((level_map[i + m].info.param[4] & 15) + 1)) %
+	      ((anim_frame / ((level_map[i + m].info.param[4] & 15) + 1)) %
 	       (tmp2 << 1));
 	    if (tmp > tmp2)
 	      tmp = (tmp2 << 1) - tmp;
@@ -764,7 +769,7 @@ draw_level (int p)
 
 /*********** Affichage des explosions des morts, s'il y en a.*****************/
 
-  if ((unsigned) (frame_old - last_explo) < (nfrexplo1 - 1) * 8 - 1) {
+  if ((unsigned) (event_time - last_explo) < (nfrexplo1 - 1) * 8 - 1) {
     dest = render_buffer[p] + sbuf - 12 - 11 * xbuf - 20 * xbuf - 12;
     for (k = corner_dy[p] * 2 - 2, l = 0;
 	 l != 4 + (11 - camera_stop_y[p]) * 2; l++, k++) {
@@ -776,7 +781,7 @@ draw_level (int p)
 	     j++, i++) {
 	  i &= map_info_2xwrap;
 	  if (((unsigned) i) < map_info_2xt) {
-	    ib = frame_old - square_dead_explosion[m + i];
+	    ib = event_time - square_dead_explosion[m + i];
 	    if (ib < (nfrexplo1 - 1) * 8 - 1) {
 	      ib++;
 	      if (square_explosion_type[m + i] == 1)
@@ -799,7 +804,7 @@ draw_level (int p)
 /****************************** tutorial... *********************************/
 
   if (tutor) {
-    sinl = (signed char) minisinus[(frame_old + 2) & 31];
+    sinl = (signed char) minisinus[read_timer (waving_timer) & 31];
     dest = render_buffer[p] + sbuf - (7 + sinl) * xbuf + 15 + sinl - 48;
     if (trail_size[col2plr[p]] < 55)
       for (k = corner_dy[p] - 0, l = 1 + 11 - camera_stop_y[p]; l > 0;
@@ -852,6 +857,7 @@ draw_radar_map (int dx, int dy)
   unsigned char *src = corner[0] + 5 * xbuf + 239 + radar_current_pos;
   int x, y, tdx, tdy, tdym, dede = 50 * (radar_current_pos > 60);
   signed char tmp;
+  long blink = read_timer (blink_timer) & 2;
 
   if (radar_current_pos >= 81)
     return;
@@ -886,7 +892,7 @@ draw_radar_map (int dx, int dy)
 	if (tdx >= 0 && (tdx >> 1) < (int)map_info.xt) {
 	  tmp = tile_bonus[square2tile[tdx + tdym]];
 	  if (tmp != 0 && tmp != -1) {
-	    if ((tmp & 127) == 1 && (frame_cur & 16))
+	    if ((tmp & 127) == 1 && blink)
 	      *src = 31;
 	    else
 	      *src = 27;

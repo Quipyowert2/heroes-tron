@@ -55,23 +55,28 @@ void
 background_menu (void)
 {
   static long int TTT = 0;
-  for (; frame_old < frame_cur; frame_old++) {
-    TTT++;
+  long fade_step;
+
+  TTT += read_timer (background_timer);
+  fade_step = read_timer (fading_timer);
+
+  for (; fade_step; --fade_step) {
     if (p > 0)
       p--;
     if (p2 < 0)
       p2++;
-
     else if (p2 > 0)
       p2--;
   }
-  camera_x[0] = 65536 * 24 * cos (TTT / (111.0 /**1.2*/ ));
-  camera_y[0] = 65536 * 24 * sin (TTT / (175.0 /**1.2*/ ));
-  *(((short int *) &camera_x[0]) + 1) &= (short int) map_info.xwrap;
-  *(((short int *) &camera_y[0]) + 1) &= (short int) map_info.ywrap;
+  camera_x[0] = 65536 * 24 * cos (TTT / 111.0);
+  camera_y[0] = 65536 * 24 * sin (TTT / 175.0);
+  camera_x[0] &= (map_info.xwrap << 16) | (0xffff);
+  camera_y[0] &= (map_info.ywrap << 16) | (0xffff);
   inert_x[0] = camera_x[0];
   inert_y[0] = camera_y[0];
   compute_corner (0, 1);
+
+  update_text_waving_step ();
   draw_level (0);
 };
 
@@ -939,7 +944,7 @@ void
 demo_info (void)
 {
   int j, t;
-  j = minisinus[frame_cur & 31];
+  j = minisinus[read_timer (waving_timer) & 31];
   event_sfx (132);
   memset (pal.global, 63, 768);
   p = 64;
@@ -979,7 +984,7 @@ option_menu (void)
 
     do {
       background_menu ();
-      j = minisinus[frame_cur & 31];
+      j = minisinus[read_timer (waving_timer) & 31];
       draw_text_waving (txti[129], 159, 12, 1);
       draw_text_array[l == 0] (txti[130], 159, 55, 1);
       draw_text_array[l == 1] (txti[131], 159, 75, 1);
@@ -1063,7 +1068,7 @@ void
 draw_quit_menu (char l)
 {
   int j;
-  j = minisinus[frame_cur & 31];
+  j = minisinus[read_timer (waving_timer) & 31];
   draw_text_waving (txti[140], 159, 75, 1);
   draw_text_array[l == 0] (txti[141], 159, 95, 1);
   draw_text_array[l == 1] (txti[142], 159, 110, 1);
@@ -1124,7 +1129,7 @@ draw_play_menu (char l)
 {
   int j;
   background_menu ();
-  j = minisinus[frame_cur & 31];
+  j = minisinus[read_timer (waving_timer) & 31];
   draw_text_waving (txti[145], 159, 4, 1);
   copy_rect_transp (main_font_img.buffer + 61 * 320,
 		    corner[0] + 21 * xbuf + 100, 120, 3);
@@ -1167,7 +1172,7 @@ void
 draw_main_menu (char l)
 {
   int j;
-  j = minisinus[frame_cur & 31];
+  j = minisinus[read_timer (waving_timer) & 31];
   draw_text_waving (txti[150], 159, 12, 1);
   draw_text_array[l == 0] (txti[151], 159, 55, 1);
   draw_text_array[l == 1] (txti[152], 159, 75, 1);
@@ -1229,7 +1234,7 @@ editor_selector (void)
 
   do {
     background_menu ();
-    j = minisinus[frame_cur & 31];
+    j = minisinus[read_timer (waving_timer) & 31];
     draw_text_waving (txti[170], 159, 10, 1);
     copy_rect_transp (main_font_img.buffer + 61 * 320,
 		      corner[0] + (30) * xbuf + 100, 120, 3);
@@ -1330,7 +1335,7 @@ editor_menu (void)
   corner[0] = render_buffer[0];
 
   do {
-    j = minisinus[frame_cur & 31];
+    j = minisinus[read_timer (waving_timer) & 31];
     memcpy (corner[0], frmenu.buffer, 64000);
     copy_rect_transp_320 (main_font_img.buffer + 218 + 50 * 320 +
 			  (xwrap != -1) * 21, corner[0] + 82 * 320 + 170, 21,
@@ -1372,10 +1377,10 @@ editor_menu (void)
 			    corner[0] + 299 + 186 * 320, 10, 10);
     }
     if (flaglock)
-      affvga320sin (txti[174], 159, 7, 1);
+      draw_text_waving_320 (txti[174], 159, 7, 1);
 
     else
-      affvga320sin (txti[175], 159, 7, 1);
+      draw_text_waving_320 (txti[175], 159, 7, 1);
 
 //        draw_text_array_320[l==0](txti[176],8,33,0);
     draw_text_320 ((char *) titres[tiles], 138, 33, 1);
@@ -1580,7 +1585,8 @@ editor_menu (void)
     free_extra_list ();
     browse_extra_directories ();
   }
-  frame_old = frame_cur;
+  reset_timer (background_timer);
+  reset_timer (fading_timer);
 }
 
 void
@@ -1597,7 +1603,7 @@ editor_first_menu (void)
 
   do {
     background_menu ();
-    j = minisinus[frame_cur & 31];
+    j = minisinus[read_timer (waving_timer) & 31];
     draw_text_waving (txti[171], 159, 10, 1);
     draw_text_array[l == 0] (txti[172], 159, 85, 1);
     draw_text_array[l == 1] (txti[173], 159, 105, 1);

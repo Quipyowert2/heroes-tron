@@ -18,108 +18,95 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-
+#include <stdlib.h>
 #include "config.h"
-
-#if HAVE_SYS_TIME_H
-# include <sys/time.h>
-#else
-# include <time.h>
-#endif
-
 #include "timer.h"
 #include "display.h"
+#ifdef HAVE_DMALLOC
+#include <dmalloc.h>
+#endif
 
-/*
- * Under DOS, there was a counter upgraded 70 times per second
- * (320x200 is 70Hz) used determinate when to draw the screen, 
- * and alse used as a time unit for the game.  Speeds, animations
- * and other speeds are givent as 'per ticks' values.
- *
- * Here we have to fake such a timer.
- */
+struct timeval current_time;
 
-unsigned int frame_timer;
-struct timeval start_time;
-static long usec_frame_lenght;
-static long frames_per_second;
+void
+reset_timer (timer_t timer)
+{
+  timer->orig_time = current_time;
+}
+
+void
+reset_timer_with_offset (timer_t timer, long sec, long usec)
+{
+  reset_timer (timer);
+
+  timer->orig_time.tv_usec -= usec;
+  timer->orig_time.tv_sec -= sec;
+  if (timer->orig_time.tv_usec < 0) {
+    timer->orig_time.tv_usec += SEC;
+    ++timer->orig_time.tv_sec;
+  }
+}
+
+timer_t
+new_timer (enum timer_kind kind, long slice_duration)
+{
+  timer_t result;
+  result = malloc (sizeof (timer_s));
+  result->kind = kind;
+  result->slice_duration = slice_duration;
+  reset_timer (result);
+  return result;
+}
+
+void
+free_timer (timer_t timer)
+{
+  free (timer);
+}
+
+void
+update_timers (void)
+{
+  gettimeofday (&current_time, 0);
+}
 
 void
 init_timer (void)
 {
-  /* 70 FPS */
-  frames_per_second = 70;
-  usec_frame_lenght = 1000000 / frames_per_second;
-
-  /* init the timer */
-  frame_timer = 0;
-  gettimeofday (&start_time, 0);
+  update_timers ();
 }
 
-void
-uninit_timer (void)
+long
+read_timer (timer_t timer)
 {
-}
+  long s, u, d, res;
 
-unsigned int
-read_and_reset_timer (void)
-{
-  unsigned int tmp = update_timer ();
-  init_timer ();
-  return tmp;
-}
+  s = current_time.tv_sec - timer->orig_time.tv_sec;
+  u = current_time.tv_usec - timer->orig_time.tv_usec;
+  d = timer->slice_duration;
 
-unsigned int
-read_and_set_timer_with_value (int value)
-{
-  unsigned int tmp = update_timer ();
-  long usec, sec;
+ blocking_loop:
+  /* The following formula computes `(s*SEC+u)/d', trying to not
+     overflow (obviously `s*SEC+u' is likely to be too big) */
+  res = (s*(SEC/d)) + ((s*(SEC%d))/d) + ((((s*(SEC%d))%d)+u)/d);
 
-  gettimeofday (&start_time, 0);
-  usec = start_time.tv_usec - (value * usec_frame_lenght) % 1000000;
-  sec = start_time.tv_sec - (value * usec_frame_lenght) / 1000000;
-  if (usec < 0) {
-    usec += 1000000;
-    ++sec;
+  if (timer->kind & T_LOCAL) {
+    reset_timer (timer);
+    /* account for the time remaining from the last unfinished slice */
+    timer->orig_time.tv_usec -= (((s*(SEC%d))%d)+u)%d;
+    while (timer->orig_time.tv_usec < 0) {
+      timer->orig_time.tv_usec += SEC;
+      ++timer->orig_time.tv_sec;
+    }
   }
-  start_time.tv_usec = usec;
-  start_time.tv_sec = sec;
-  update_timer ();
-  return tmp;
-}
 
-unsigned int
-read_and_reset_timer_non_zero (void)
-{
-  unsigned int tmp = read_and_reset_timer ();
-  return (tmp ? tmp : 1);
-}
-
-unsigned int
-update_timer (void)
-{
-  struct timeval cur;
-
-  gettimeofday (&cur, 0);
-  frame_timer = ((cur.tv_sec - start_time.tv_sec) * frames_per_second +
-		 (cur.tv_usec - start_time.tv_usec) / usec_frame_lenght);
-  return frame_timer;
-}
-
-/*
- * block until a least one tick elasped
- */
-unsigned int
-update_timer_block (unsigned int old)
-{
-  unsigned int cur;
-  cur = update_timer ();
-  while (cur == old) {
-    // Grrr... Linux time slices are about 1/100 sec, which mean
-    // we can't sleep less. :-(
-    //    usleep (4000);
-    // So what ?  Should we waste CPU time like this ?
-    cur = update_timer ();
+  if ((res == 0) && (timer->kind & T_BLOCKING)) {
+    struct timeval present_time;
+    gettimeofday (&present_time, 0);
+    s = present_time.tv_sec - timer->orig_time.tv_sec;
+    u = present_time.tv_usec - timer->orig_time.tv_usec;
+    goto blocking_loop;
   }
-  return cur;
+  return res;
 }
+

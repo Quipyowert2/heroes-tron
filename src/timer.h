@@ -22,13 +22,39 @@
 #ifndef __TIMER_H__
 #define __TIMER_H__
 
-extern unsigned int frame_timer;
+#include "config.h"
+
+#if HAVE_SYS_TIME_H
+# include <sys/time.h>
+#else
+# include <time.h>
+#endif
+
+#define SEC 1000000
+#define HZ(x)   (SEC/(x))
+
+/* global timer return durations between the reset of the timer and
+   the current time, local timer return durations between two
+   successive reads.  Blocking timers will wait until they can
+   return on non null number of slices on read_timer. */
+enum timer_kind { T_GLOBAL = 0, 
+		  T_LOCAL = 1,
+		  T_BLOCKING = 2};
+
+typedef struct {
+  struct timeval orig_time;
+  enum timer_kind kind;
+  long slice_duration;		/* duration of a slice in microseconds */
+} timer_s;
+
+typedef timer_s* timer_t;
+
+timer_t new_timer (enum timer_kind kind, long slice_duration);
+void free_timer (timer_t timer);
+void reset_timer (timer_t timer);
+void reset_timer_with_offset (timer_t timer, long sec, long usec); 
+long read_timer (timer_t timer); /* return elapsed time in slices */
+void update_timers (void);
 void init_timer (void);
-void uninit_timer (void);
-unsigned int read_and_reset_timer (void);
-unsigned int read_and_set_timer_with_value (int value);
-unsigned int read_and_reset_timer_non_zero (void);
-unsigned int update_timer (void);
-unsigned int update_timer_block (unsigned int old);
 
 #endif

@@ -49,10 +49,6 @@ extern int bonus_points[2][17];	//interet (pour le cpu)
 
 extern int rounds_nbr_values[16];
 
-extern int frame_cur;
-extern int frame_old;
-//extern unsigned int sync;
-
 extern signed char p;
 extern signed int p2;
 
@@ -85,7 +81,6 @@ extern char in_menu;
 extern char in_demo;
 
 extern char demo_ready;
-extern char demo_done;
 
 extern int square_offset_320[4];
 extern int square_offset[4];

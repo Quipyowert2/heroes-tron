@@ -33,6 +33,7 @@
 #include "display.h"
 #include "const.h"
 #include "timer.h"
+#include "heroes.h"
 
 // Def. des 15 sprites de l'explosion1, à l'envers (14->0).
 #define nfrexplo1 15
@@ -122,9 +123,6 @@ char in_menu = 1;
 char in_demo = 0;
 //int error;
 char in_jokebox;
-
-int frame_cur;
-int frame_old;
 
 signed char p;
 signed int p2;
@@ -235,7 +233,7 @@ void
 vsynch (void)
 {
   vsynchro ();
-  frame_cur = update_timer_block (frame_cur);
+  update_timers ();
 }
 
 void
@@ -250,34 +248,27 @@ pal2pal (palette_ * src, palette_ * dest, char step)
 }
 
 char demo_ready = 0;
-char demo_done = 0;
 
 char
 key_or_joy_ready (void)
 {
   int i;
-#define sleeping (70*60)
-  static int lastframe = sleeping;
+  int ct = read_timer (demo_trigger_timer);
 
-  if (demo_done) {
-    lastframe = sleeping;
-    demo_done = 0;
-  }
   if ((in_jokebox == 0)) {
-    lastframe--;
-    if (lastframe < 70 * 30)
+    if (ct >= 30)
       demo_ready = 1;
     else
       demo_ready = 0;
-    if (lastframe == 0) {
+    if (ct >= 60) {
       if (in_menu)
 	event_sfx (118 + (rand () & 1));
-      lastframe = sleeping;
+      reset_timer (demo_trigger_timer);
     }
   }
 
   if (key_ready ()) {
-    lastframe = sleeping;
+    reset_timer (demo_trigger_timer);
     return (1);
   }
   if ((joystick_detected & 1) && (opt.ctrl_one == 1 || opt.ctrl_two == 1)) {
@@ -296,7 +287,7 @@ key_or_joy_ready (void)
 	|| (kbjoy[3] && !kbjoyold[3])
 	|| (kbjoy[4] && !kbjoyold[4])
 	|| (kbjoy[5] && !kbjoyold[5])) {
-      lastframe = sleeping;
+      reset_timer (demo_trigger_timer);
       return (1);
     }
   }

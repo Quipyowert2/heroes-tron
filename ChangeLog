@@ -1,3 +1,92 @@
+2000-08-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Introduce new timer code in order to handle multiple (and non
+	proportionnal) speeds, and to not depends on the display refresh
+	rate.  This is a rather important change that will probably
+	introduce bugs.
+
+	* src/timer.c: New timer code. 
+	* src/timer.h: New timer code. 
+	* src/const.h (frame_cur,frame_old,demo_done): Remove.
+	* src/const.c (frame_cur,frame_old,demo_done): Remove.
+	(vsynch): Call update_timers.
+	(key_or_joy_ready): Use demo_trigger_timer.
+	* src/draw.c (text_waving_step,text_waving_timer): New.
+	(init_text_waving_step,uninit_text_waving_step,
+	update_text_waving_step): New.
+	(draw_text_waving,draw_text_bonus): Use text_waving_step (fix
+	endian bug).
+	(affvga320sin): Rename to ...
+	(draw_text_waving_320): ... this.  Use text_waving_step (fix 
+	endian bug).
+	(draw_text_array_320): Adapt to use draw_text_waving_320.
+	* src/draw.h (init_text_waving_step,uninit_text_waving_step,
+	update_text_waving_step): New.
+	(affvga320sin): Rename to ...
+	(draw_text_waving_320): ... this.
+	* gfx_reader.h [!__HEROES__]: Remove all that unused code.
+	(draw_text_help) [SDF]: Define and use read_timer.
+	* src/heroes.c (soundtrack_time): Remove (replaced by 
+	sound_track_timer).
+	(DEMO_DURATION): Set to 90 secs.
+	(blink_timer,clock_timer,bonus_anim_timer,
+	tiles_anim_timer,corner_timer,event_timer,
+	event_time,fading_timer,update_timer,
+	waving_timer,background_timer,sound_track_timer,
+	demo_trigger_timer): New.
+	(add_random_bonus,add_bonus,erase_trail,
+	update_bonus): Adapt to use even_time.
+	(load_level): Comment out timer code (what's the purpose?).
+	(jukebox_menu): Setup and use lemming_timer.  Use waving_timer, 
+	and sound_track_timer.
+	(play_menu): Reset sound_track_timer.
+	(update_all): Use update_timer.
+	(play_demo): Setup and use demo_timer.  Reset clock_timer, 
+	bonus_anim_timer, tiles_anim_timer, blink_timer, and update_timer 
+	before running the game.  Update event_time from event_timer.
+	Reset background_timer and fading_timer on exit.
+	(load_demo): Reset sound_track_timer and demo_trigger_timer on exit.
+	(main_menu): Reset sound_track_timer, background_timer, fading_timer, 
+	demo_trigger_timer and event_timer.  Update event_time.	 Adapt to
+	use the above timers.  Adapt to new calling convention of
+	corner_buffer.
+	(pause): Rename to ...
+	(pause_menu): ... this because of name conflict from unistd.h.
+	Adapt to use sound_track_timer.  Call update_text_waving_step.
+	(quit_yes_no): Adapt to use waving_timer.  Call 
+	update_text_waving_step.  Reset background_timer and fading_timer.
+	(get_input_directions):  Adapt to call pause_menu instead of pause.
+	(draw_end_level_info):  Adapt to use waving_timer.
+	(play_game):  Reset sound_track_timer, event_timer, 
+	clock_timer, bonus_anim_timer, tiles_anim_timer, 
+	blink_timer and update_timer.  Make an explicit call to sleep
+	rather than a loop over vsynch.  Update event_time from event_timer
+	and call update_text_waving_step on each iteration of the game loop.
+	(main): Initialize and free clock_timer, blink_timer, event_timer,
+	waving_timer, corner_timer, fading_timer, update_timer,
+	background_timer, sound_track_timer, bonus_anim_timer,
+	tiles_anim_timer and demo_trigger_timer.  Call
+	init_text_waving_step and uninit_text_waving_step.
+	* src/heroes.h (clock_timer,blink_timer,bonus_anim_timer,
+	tiles_anim_timer,corner_timer,fading_timer,waving_timer,
+	background_timer): New.
+	* src/intro.c (intro_frame_timer, intro_global_timer): New.
+	(show_intro,play_intro): Adapt to use the above two timers.
+	* src/menus.c (background_menu): Adapt to use background_timer
+	and fading_timer.  Fix the way how camera_x and camera_y are
+	wrapped (fix endian bug).  Call update_text_waving_step.
+	(demo_info,option_menu,draw_quit_menu,draw_play_menu,
+	draw_main_menu,editor_selector,editor_menu,
+	editor_first_menu): Use waving_timer.  Rename calls to 
+	affvga320sin as calls to draw_text_waving_320.
+	(editor_menu): Reset background_timer and fading_timer on exit.
+	* src/render.c (draw_level): Adapt to use clock_timer,
+	blink_timer, bonus_anim_timer, tiles_anim_timer, waving_timer and
+	event_time.
+	* src/visuals.c (corner_buffer): Adapt to use corner_timer.  Return
+	1 if the effect is finished.
+	* src/visuals.h (corner_buffer): Return int.
+	
 2000-08-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	From Maxim Sobolev <sobomax@FreeBSD.org>.

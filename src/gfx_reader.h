@@ -21,6 +21,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include "timer.h"
 #include "keys_heroes.h"
 #include "pcx.h"
 #include "font_help.h"
@@ -31,28 +32,16 @@
 
 static int nbr_lines;
 static unsigned char *txtptr;
-//static char  *txtpos;
 static unsigned char **strptr;
 static image_ font_help_img, help_pics_img;
 
-#ifndef __HEROES__
-
-#define xbuf 320
-static char *bufhelp2;
-//#define bufhelp (bufhelp2-10*320)
-#define bufhelp bufhelp2
-
-#else
-
 #ifdef SDF
-// Scroll De Fin
+// end scroller
 #undef xbuf
 #define xbuf 320
 #define bufhelp (page+10*320)
 #else
 #define bufhelp corner[0]
-#endif
-
 #endif
 
 static void
@@ -72,7 +61,6 @@ copy_rect_transp_help (char *src, int dest, int xt)
   }
 }
 
-#ifdef __HEROES__
 static void
 copy_rect_transp_help_with_glenz (unsigned char *src, int dest, int xt)
 {
@@ -107,27 +95,19 @@ copy_rect_transp_help_with_glenz (unsigned char *src, int dest, int xt)
     dest2 += xbuf - xt;
   }
 }
-#endif
 
 static void
 copy_rect_transp_help_full_glenz (unsigned char *src, int dest, int xt, int c)
 {
   int j, k;
   unsigned char *dest2 = dest + bufhelp + 5 * xbuf;
-#ifdef __HEROES__
   unsigned char *glenzline;
   glenzline = glenz[c];
-#endif
 
   for (j = 10; j != 0; j--) {
     for (k = xt; k != 0; k--) {
-#ifdef __HEROES__
       if (*src != 0)
 	*dest2 = glenzline[(int) *dest2];
-#else
-      if (*src != 0)
-	*dest2 = 2;
-#endif
       src++;
       dest2++;
     }
@@ -143,11 +123,10 @@ draw_text_help (unsigned char *texte, int posx, int posy, char cent,
   static const int colorhelp[6] = { 255, 111, 127, 143, 159, 16 };
   int i, j, c, color;
   signed int k, l, d = -1, nbrspc = 0, spclrg = 0;
-  unsigned char *dest = /*corner[0] */ bufhelp + posx + posy * xbuf;
+  unsigned char *dest = bufhelp + posx + posy * xbuf;
   unsigned char *src = texte;
   for (; *src != 0; src++)
     if (*src < 128) {
-//   if (*src>='a' && *src<='z') *src-=32;
       i = (*src - ' ');
       if (i == 0 && largeur != 0)
 	nbrspc++;
@@ -213,34 +192,31 @@ show_help (void)
   int imgxsize;
   int ligne, nextligne = 2, curligne = 20, ldec;
   int t;
+#ifdef SDF
+  int slices;
+  timer_t reader_timer;
+#endif
 
-#ifdef __HEROES__
 #ifndef SDF
   memset (pal.global, 63, 768);
 #else
-  frame_cur = frame_old;
+  reader_timer = new_timer (T_LOCAL, HZ (70));
 #endif
   p = 64;
-#endif
 
   do {
-#ifndef __HEROES__
-    memset (bufhelp, 0, 320 * 200);
-#else
 #ifndef SDF
     background_menu ();
 #define scroll_speed 8
 #else
 #define scroll_speed 64
-    fr = frame_cur - frame_old;
-    frame_cur = frame_old;
-    render_background (fr);
-    while (fr) {
+    slices = read_timer (reader_timer);
+    render_background (slices);
+    while (slices) {
       if ((nextligne * 10 == curligne) && (nextligne + 20 < nbr_lines))
 	++nextligne;
-      --fr;
+      --slices;
     }
-#endif
 #endif
     if (curligne < nextligne * 10)
       curligne += 1 + (nextligne * 10 - curligne) / scroll_speed;
@@ -282,22 +258,6 @@ show_help (void)
 				     ((minx + maxx - imgxsize) >> 1),
 				     imgxsize);
 	    } else if (imgalign == 20) {
-#ifndef __HEROES__
-	      copy_rect_transp_help (imgsrc,
-				     (i * 10 - ldec) * xbuf + 5 + minx,
-				     imgxsize);
-	      minx += imgxsize;
-	    } else if (imgalign == 22) {
-	      copy_rect_transp_help (imgsrc,
-				     (i * 10 - ldec) * xbuf + 6 + maxx -
-				     imgxsize, imgxsize);
-	      maxx -= imgxsize;
-	    } else if (imgalign == 21) {
-	      copy_rect_transp_help (imgsrc,
-				     (i * 10 - ldec) * xbuf + 5 +
-				     ((minx + maxx - imgxsize) >> 1),
-				     imgxsize);
-#else
 	      copy_rect_transp_help_with_glenz (imgsrc,
 						(i * 10 - ldec) * xbuf + 5 +
 						minx, imgxsize);
@@ -312,7 +272,6 @@ show_help (void)
 						(i * 10 - ldec) * xbuf + 5 +
 						((minx + maxx - imgxsize) >>
 						 1), imgxsize);
-#endif
 	    }
 	  } else {
 	    if (imgalign == 0 || imgalign == 20) {
@@ -377,12 +336,6 @@ show_help (void)
 
       draw_text_help (src, 5 + posx, (i * 10 - ldec) + 5, justify, justify2);
     }
-#ifndef __HEROES__
-    vsynchro ();
-    _fmemcpy (screen, bufhelp, 320 * 200);
-    if (key_ready ()) {
-      t = get_key ();
-#else
 #ifndef SDF
     pal2pal (&tile_set_img.palette, &pal, p);
     vsynch ();
@@ -392,7 +345,7 @@ show_help (void)
 #else
     vsynch ();
     if (p < 64) {
-      p += fr;
+      p += read_timer (reader_timer);
       if (p > 64)
 	p = 64;
       set_pal_fade (p);
@@ -403,7 +356,6 @@ show_help (void)
       p--;
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
-#endif
       switch (t) {
       case HK_Down:
 	if (nextligne + 20 < nbr_lines)
@@ -432,11 +384,12 @@ show_help (void)
 	nextligne = 1;
 	break;
       }
-//#ifdef __HEROES__
-    } else
-      t = 0;
-//#endif
+     } else
+       t = 0;
   } while (t != HK_Escape);
+#ifdef SDF
+  free_timer (reader_timer);
+#endif
 }
 
 
@@ -453,9 +406,6 @@ graphic_reader ()
 
   pcx_load_from_rsc ("help-font", &font_help_img);
   pcx_load_from_rsc ("help-pictures-img", &help_pics_img);
-#ifndef __HEROES__
-  bufhelp2 = malloc (320 * 220);
-#endif
   {
 #ifndef SDF
     char *t = get_non_null_rsc_file ("help-txt");
@@ -510,24 +460,9 @@ graphic_reader ()
       oldi += 2;
       *(txtptr + oldi) = i - oldi;
     }
-#ifndef __HEROES__
-  set_pal (&font_help_img.palette.global, 0, 768);
-#endif
   show_help ();
   img_free (&font_help_img);
   img_free (&help_pics_img);
   free (txtptr);
-#ifndef __HEROES__
-  free (bufhelp);
-#endif
   free (strptr);
 }
-
-#ifndef __HEROES__
-main ()
-{
-  modevga (G320x200x256);
-  graphic_reader ();
-  modevga (TEXT);
-}
-#endif

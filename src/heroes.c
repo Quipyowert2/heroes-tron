@@ -29,6 +29,8 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
+#include <unistd.h>
+
 #include "display.h"
 #include "pcx.h"
 #include "keyb.h"
@@ -59,7 +61,6 @@
 #include "endscroll.h"
 
 #include "heroes.h"
-#include "timer.h"
 #include "userdir.h"
 #include "userconf.h"
 #include "musicfiles.h"
@@ -69,7 +70,6 @@
 
 #define __HEROES__
 
-//#include "font_menu.h"
 #include "structs.h"
 #include "const.h"
 #ifdef HAVE_DMALLOC
@@ -81,14 +81,12 @@ char glenz_name[128];
 
 char *level_list;
 #define levellstchunk 13
-//char levellstq2[][13];
 char *levelinf;
 int *level_full_list;
 int level_full_list_size = 0;
 int rounds = 1;
 
 int level_list_nbr = 0;
-//int levelnbrq2=0;
 
 int current_quest_level;
 
@@ -97,9 +95,7 @@ char soundtrack_list[11][9] = { "MENU", "HEROES01", "HEROES02", "HEROES03",
   "HEROES08", "HEROES09", "HEROES10"
 };
 
-//unsigned autochannels[6]={0,1,2,3,4,5};
 signed char soundtrack_current_nbr = 0;
-int soundtrack_time;
 
 int level_is_finished;
 
@@ -114,9 +110,8 @@ int ia_target_x;
 int ia_targer_y;
 int ia_wrap_x, ia_wrap_y;
 char ia_wrap_left, ia_wrap_right;
-//unsigned int tmp;
 
-#define DEMO_DURATION 5000
+#define DEMO_DURATION 90
 
 char enable_blit;
 
@@ -126,11 +121,23 @@ int bonus_proba_sum = 0;
 char mouse_found = 1;
 /***********************/
 
-//char odbg=0;
-
 char txt_tmp[20];
 char txt_bonus[4][20];
 int txt_bonus_tempo[4];
+
+timer_t blink_timer;
+timer_t clock_timer;
+timer_t bonus_anim_timer;
+timer_t tiles_anim_timer;
+timer_t corner_timer;
+timer_t event_timer;
+long event_time;		/* updated from event_timer on each frame */
+timer_t fading_timer;
+timer_t update_timer;
+timer_t waving_timer;
+timer_t background_timer;
+timer_t sound_track_timer;
+timer_t demo_trigger_timer;
 
 #include "gfx_reader.h"
 
@@ -187,7 +194,7 @@ add_random_bonus (int i)
 
   tile_bonus[d] = (unsigned char) (b + 1);
   bonus_ptr[i] = (unsigned char *) tile_bonus + d;
-  bonus_time[i] = frame_cur + (rand () % 511) - 256;
+  bonus_time[i] = event_time + (rand () % 511) - 256;
 }
 
 static void
@@ -201,7 +208,7 @@ add_bonus (int i, unsigned char b)
 
   tile_bonus[d] = b;
   bonus_ptr[i] = (char *) tile_bonus + d;
-  bonus_time[i] = frame_cur + (rand () % 511) - 256;
+  bonus_time[i] = event_time + (rand () % 511) - 256;
 }
 
 static void
@@ -897,9 +904,9 @@ load_level (char *nomlvl, char cont)
   }
 /* * * * * * * * * * * * * * * * * * */
   level_is_finished = 0;
-  read_and_set_timer_with_value (1000);
-  update_timer ();
-  frame_old = frame_cur = frame_timer;
+
+  //  reset_timer_with_offset (0, HZ(70)*1000); /* what it is intended for? */
+  //  update_timer ();
   if (!in_menu)
     for (i = bonus_real_nbr - 1; i >= 0; i--)
       add_random_bonus (i);
@@ -1148,7 +1155,7 @@ jukebox_menu (void)
   int t, t2, dp;
   signed char sinl;
   char l = 0;
-  int lemfram = frame_old;
+  timer_t lemming_timer = new_timer (T_GLOBAL, HZ (18));
 
   in_jokebox = 1;
   memset (pal.global, 63, 768);
@@ -1157,7 +1164,7 @@ jukebox_menu (void)
     do {
       background_menu ();
 
-      sinl = (signed char) minisinus[(frame_old + 2) & 31];
+      sinl = minisinus[read_timer (waving_timer) & 31];
       draw_glenz_box (corner[0] + (42 + sinl) * xbuf + 234, 2, 86, 6);
       draw_glenz_box (corner[0] + (62 + sinl) * xbuf + 244, 3, 76, 6);
       draw_glenz_box (corner[0] + (74 + sinl) * xbuf + 194, 4, 126, 6);
@@ -1181,8 +1188,9 @@ jukebox_menu (void)
       copy_rect_transp (main_font_img.buffer + 61 * 320,
 			corner[0] + (171) * xbuf + 100, 120, 3);
 
-      t = (frame_cur - soundtrack_time) / 70;
-      dp = ((frame_cur - soundtrack_time) / 35) & 1;
+      dp = read_timer (sound_track_timer);
+      t = dp/2;
+      dp &= 1;
       if (t > 5999)
 	t = 5999;
       copy_rect_transp (jukebox_img.buffer, corner[0] + 180 * xbuf + 8, 306,
@@ -1216,12 +1224,14 @@ jukebox_menu (void)
       copy_rect_2 (jukebox_img.buffer + 19 * 320 + 227 + (t / 10) * 6,
 		   corner[0] + 186 * xbuf + 8 + 227, 6, 5);
 
-      copy_rect_transp (main_font_img.buffer + 81 * 320 + 132 +
-			6 * ((frame_old / 4) & 7),
-			corner[0] + (190) * xbuf +
-			((frame_old - lemfram) / 8) - 6, 6, 10);
-      if (((frame_old - lemfram) / 8) >= 332)
-	lemfram = frame_old;
+      {
+	int lempos = read_timer (lemming_timer);
+	copy_rect_transp (main_font_img.buffer +
+			  81 * 320 + 132 + 6 * (lempos & 7),
+			  corner[0] + (190) * xbuf + (lempos / 2) - 6, 6, 10);
+	if ((lempos / 2) >= 332)
+	  reset_timer (lemming_timer);
+      }
 
       pal2pal (&tile_set_img.palette, &pal, p);
       vsynch ();
@@ -1265,7 +1275,7 @@ jukebox_menu (void)
 	unload_soundtrack ();
 	load_soundtrack_from_alias (soundtrack_list[soundtrack_current_nbr]);
 	play_soundtrack ();
-	soundtrack_time = frame_cur;
+	reset_timer (sound_track_timer);
       }
     }
   } while (t != HK_Escape);
@@ -1273,6 +1283,7 @@ jukebox_menu (void)
   p = 64;
   memset (pal.global, 63, 768);
   in_jokebox = 0;
+  free_timer (lemming_timer);
 }
 
 static void
@@ -1669,8 +1680,7 @@ play_menu (void)
   load_sfx_mode (-1);
 
   play_soundtrack ();
-  frame_old = frame_cur;
-  soundtrack_time = frame_cur;
+  reset_timer (sound_track_timer);
   for (t = 0; t < 4; t++)
     if (player[t].cpu == 2) {
       mag = find_magic (game_magic);
@@ -1997,12 +2007,13 @@ static void
 erase_trail (int c)
 {
   int i;
+
   for (i = map_info.xt * map_info.yt * 4 - 1; i >= 0; i--)
     if ((square_occupied[i] & 3) == c && square_occupied[i] < 16) {
       square_occupied[i] = 0xff;
-      square_dead_explosion[i] = frame_old;
+      square_dead_explosion[i] = event_time;
     }
-  last_explo = frame_old;
+  last_explo = event_time;
 }
 
 /****************/
@@ -3178,7 +3189,7 @@ update_lemmings (void)
 static void
 update_bonus (void)
 {
-  if (bonus_time[next_bonus_to_update] + 25 * 70 <= frame_cur) {
+  if (bonus_time[next_bonus_to_update] + 25 * 70 <= event_time) {
     *bonus_ptr[next_bonus_to_update] = 0;
     add_random_bonus (next_bonus_to_update);
   }
@@ -3191,10 +3202,11 @@ update_bonus (void)
 static int
 update_all (char plr)
 {
-  int n;
+  int n = 0;
   int p;
-  n = 0;
-  for (; frame_old < frame_cur; frame_old++) {
+  long frames = read_timer (update_timer);
+
+  for (; frames; --frames) {
     if (plr) {
       update_player (0);
       update_player (1);
@@ -3214,6 +3226,8 @@ update_all (char plr)
     }
     n++;
   }
+
+  /* FIXME: shoudn't this be in the loop above? */
   if (player[col2plr[0]].spec == t_tunnel && opt.inertia) {
     p = square_wrap[(player[col2plr[0]].pos << 2) + player[col2plr[0]].way];
     camera_x[0] = square_offset2coord[p << 1] << 15;
@@ -3257,9 +3271,9 @@ update_all (char plr)
 void
 play_demo (void)
 {
-  int n, i;
+  int n, i, fade = -1;
   char notbyebye = 1;
-  int startdemo;
+  timer_t demo_timer = new_timer (T_GLOBAL, HZ (1));
 
   in_menu = 0;
   tutor = 0;
@@ -3269,7 +3283,6 @@ play_demo (void)
   set_pal_with_luminance (&tile_set_img.palette);
   radar_current_pos = 81;
   radar_target_pos = 0;
-  startdemo = frame_old = frame_cur;
 // .... game .... //
   if (two_players) {
     nbr_tiles_cols = 8;
@@ -3286,6 +3299,12 @@ play_demo (void)
   txt_bonus_tempo[3] = 0;
   n = 1;
 
+  reset_timer_with_offset (event_timer, 4, 0);
+  reset_timer (clock_timer);
+  reset_timer (bonus_anim_timer);
+  reset_timer (tiles_anim_timer);
+  reset_timer (blink_timer);
+  reset_timer (update_timer);
   output_screen ((char) n);	/* update corner[] */
 //   corner[0]=render_buffer[0];
 //   corner[1]=render_buffer[1];
@@ -3322,18 +3341,24 @@ play_demo (void)
 * MAIN LOOP in demos  *
 \* * * * * * * * * * */
   do {
-
+    event_time = read_timer (event_timer);
+    update_text_waving_step ();
     if (enable_blit) {
-      if ((frame_cur - startdemo) >= (DEMO_DURATION - 64)) {
-	i = 64 + (frame_cur - startdemo) - DEMO_DURATION;
-	if (i > 64)
-	  i = 64;
-	pal2pal (&tile_set_img.palette, &pal, i);
+      long duration = read_timer (demo_timer);
+      if (duration >= (DEMO_DURATION - 1))
+	fade = 0;
+      else {
+	reset_timer (fading_timer);
+	vsynch ();
+      }
+      if (fade >= 0) {
+	fade += read_timer (fading_timer);
+	if (fade > 64)
+	  fade = 64;
+	pal2pal (&tile_set_img.palette, &pal, fade);
 	vsynch ();
 	set_pal_with_luminance ((palette_rvb *) temppal.global);
-      } else
-	vsynch ();
-
+      }
       if (two_players == 0) {
 	aff_buffer ();
       } else {
@@ -3357,15 +3382,18 @@ play_demo (void)
       notbyebye = 0;
 
     if (!(notbyebye && level_is_finished == 0))
-      if ((frame_cur - startdemo) < (DEMO_DURATION - 64))
-	startdemo = frame_cur + 64 - DEMO_DURATION;
-  } while (((frame_cur - startdemo) <= DEMO_DURATION));
+      if (fade == -1)
+	fade = 0;
+  } while (fade < 64);
 
+  free_timer (demo_timer);
   uninit_keyboard_map ();
   unload_level ();
   nbr_tiles_cols = 15;
   camera_center_x = 873813;
   in_menu = 1;
+  reset_timer (background_timer);
+  reset_timer (fading_timer);
 }
 
 static void
@@ -3405,7 +3433,8 @@ load_demo (void)
   load_sfx_mode (-1);
 
   play_soundtrack ();
-  soundtrack_time = frame_cur;
+  reset_timer (sound_track_timer);
+  reset_timer (demo_trigger_timer);
 }
 
 static void
@@ -3522,25 +3551,26 @@ static void
 main_menu (void)
 {
   static char l = 0;
-  int t, t2;
+  int t;
   char flag = 0;
 
   load_random_wrapped_level (1, 0);
   load_sfx_mode (-1);
 
   play_soundtrack ();
-  frame_old = frame_cur;
-  soundtrack_time = frame_cur;
+  reset_timer (sound_track_timer);
+  reset_timer (background_timer);
+  reset_timer (fading_timer);
+  reset_timer (demo_trigger_timer);
+  reset_timer_with_offset (event_timer, 4, 0);
+  event_time = read_timer (event_timer); 
   do {
-    assert (trailimg.buffer[192 * 5 + 4] != 0);
-// if (odbg) debugsavepcx(&trailimg);
     p = 64;
     memset (pal.global, 63, 768);
     do {
       background_menu ();
       draw_main_menu (l);
       vsynch ();
-//   if (p>=0) set_pal((char *)&temppal.global,0,768);
       if (p >= 0)
 	set_pal_with_luminance ((palette_rvb *) temppal.global);
       aff_buffer ();
@@ -3574,26 +3604,24 @@ main_menu (void)
 	if (devparm && (t == HK_s || t == HK_S))
 	  end_scroll ();
 	if (t == HK_d || t == HK_D || demo_ready) {
-	  t = frame_cur;
 	  event_sfx (130);
-	  do {
-	    t2 = (frame_cur - t) * 3;
+	  reset_timer (corner_timer);
+	  for (;;) {
 	    background_menu ();
 	    draw_main_menu (l);
-	    corner_buffer (t2);
+	    if (corner_buffer ())
+	      break;
 	    vsynch ();
-//             if (p>=0) set_pal((char *)&temppal.global,0,768);
+
 	    if (p >= 0)
 	      set_pal_with_luminance ((palette_rvb *) temppal.global);
 	    aff_buffer ();
 	    if (p == 0)
 	      p--;
-	  } while (t2 < 520);
+	  };
 	  load_demo ();
 	  p = 64;
 	  demo_ready = 0;
-	  demo_done = 1;
-	  frame_old = frame_cur;
 	  event_sfx (131);
 	  p = 64;
 	  memset (pal.global, 0, 768);
@@ -3615,8 +3643,7 @@ main_menu (void)
 	t = 0;
     } while (t != HK_Enter);
     event_sfx (10 + l);
-    assert (trailimg.buffer[192 * 5 + 4] != 0);
-//  if (odbg) debugsavepcx(&trailimg);
+
     if (l == 0)
       play_menu ();
     if (l == 1) {
@@ -3624,16 +3651,11 @@ main_menu (void)
       write_options ();
     }
     if (l == 2) {
-/*          modevga(TEXT);
-	  spawnl(P_WAIT,"READER.EXE",NULL);
-	  modevga(G320x200x256);
-	  frame_old=frame_cur;
-*/
       graphic_reader ();
       event_sfx (8);
     }
     if (l == 3)
-      jukebox_menu ();		//creditsmenu();
+      jukebox_menu ();
     if (l == 4)
       scores_menu ();
     if (l == 5) {
@@ -3667,13 +3689,15 @@ main_menu (void)
 
 
 static void
-pause (void)
+pause_menu (void)
 {
   int i;
   char l = 0;
   int t, t2, dp;
   unsigned char *src = render_buffer[0];
-//        unsigned j;
+
+  /* FIXME: timers will continue running as the game is stopped */
+
   halve_volume ();
   event_sfx (58);
   fastmem4 ((char *) screen, src, 64000 / 4);
@@ -3688,11 +3712,14 @@ pause (void)
   keyboard_map[HK_Pause] = 0;
   //      kbdfilflag=0;
   do {
+    update_text_waving_step ();
     fastmem4 ((char *) corner[0] + 20 * 320, (char *) corner[0],
 	      20 * 320 / 4);
-    affvga320sin ("PAUSE", 159, 5, 1);
-    t = (frame_cur - soundtrack_time) / 70;
-    dp = ((frame_cur - soundtrack_time) / 35) & 1;
+    draw_text_waving_320 ("PAUSE", 159, 5, 1);
+
+    dp = read_timer (sound_track_timer);
+    t = dp/2;
+    dp &= 1;
     if (t > 5999)
       t = 5999;
     copy_rect_transp_320 (jukebox_img.buffer, corner[0] + 180 * 320 + 8, 306,
@@ -3766,7 +3793,7 @@ pause (void)
 	  load_soundtrack_from_alias (soundtrack_list
 				      [soundtrack_current_nbr]);
 	  play_soundtrack ();
-	  soundtrack_time = frame_cur;
+	  reset_timer (sound_track_timer);
 	}
       }
       if (t == HK_Pause)
@@ -3775,7 +3802,6 @@ pause (void)
   } while (t != HK_Escape);
 
   init_keyboard_map ();
-  frame_old = frame_cur;
   set_volume ();
   enable_blit = 0;
   event_sfx (59);
@@ -3791,6 +3817,8 @@ quit_yes_no (void)
   unsigned char *src = render_buffer[1];
   int t;
 
+  /* FIXME: timers will continue running as the game is stopped */
+
   fastmem4 ((char *) screen, src, 64000 / 4);
   for (i = 64000; i != 0; i--)
     *src++ = glenz[1][*src];
@@ -3805,11 +3833,12 @@ quit_yes_no (void)
   halve_volume ();
   event_sfx (85);
   do {
+    update_text_waving_step ();
     fastmem4 ((char *) render_buffer[1], corner[0], 64000 / 4);
-    affvga320sin (txti[40], 159, 75, 1);
+    draw_text_waving_320 (txti[40], 159, 75, 1);
     draw_text_array_320[l == 0] (txti[41], 159, 95, 1);
     draw_text_array_320[l == 1] (txti[42], 159, 110, 1);
-    j = minisinus[frame_cur & 31];
+    j = minisinus[read_timer (waving_timer) & 31];
     copy_rect_transp_320 (main_font_img.buffer + 134 + 50 * 320,
 			  corner[0] + j + (91 + 15 * l) * 320 + 90, 13, 20);
     copy_rect_transp_320 (main_font_img.buffer + 121 + 50 * 320,
@@ -3832,13 +3861,14 @@ quit_yes_no (void)
       }
     }
   } while (t != HK_Enter);
-  frame_old = frame_cur;
   set_volume ();
   enable_blit = 0;
   if (l == 1)
     event_sfx (88);
   else
     event_sfx (87);
+  reset_timer (background_timer);
+  reset_timer (fading_timer);
   return (1 - l);
 }
 
@@ -3851,7 +3881,7 @@ get_input_directions (void)
   char flag2 = 0;
 
   if (keyboard_map[HK_Pause] && enable_blit)
-    pause ();
+    pause_menu ();
 
   if (opt.ctrl_one == 0) {
 
@@ -4006,6 +4036,7 @@ static void
 draw_end_level_info (int decal, char l)
 {
   int i, j;
+
   if (level_is_finished != 15) {
     sprintf (tmp1, txti[50], plr2col[level_is_finished - 1] + 1);
     draw_glenz_box (corner[0] + decal + 22 * xbuf, level_is_finished + 1, 320,
@@ -4030,7 +4061,7 @@ draw_end_level_info (int decal, char l)
   else if (game_mode == M_COLOR)
     draw_text (txti[57], 170 + decal, 50, 1);
   if ((level_is_finished != 15) && (game_mode == M_QUEST)) {
-    j = minisinus[frame_cur & 31];
+    j = minisinus[read_timer (waving_timer) & 31];
     draw_text_array[l == 0] (txti[58], 159 + decal, 150, 1);
     draw_text_array[l == 1] (txti[59], 159 + decal, 170, 1);
     copy_rect_transp (main_font_img.buffer + 134 + 50 * 320,
@@ -4132,11 +4163,10 @@ play_game (char cont)
 
 
   play_soundtrack ();
+  reset_timer (sound_track_timer);
   set_pal_with_luminance (&tile_set_img.palette);
   radar_current_pos = 81;
   radar_target_pos = 0;
-  frame_old = frame_cur;
-  soundtrack_time = frame_cur;
 
 // . ... game ... . //
   if (two_players) {
@@ -4154,9 +4184,14 @@ play_game (char cont)
   txt_bonus_tempo[3] = 0;
   n = 1;
 
-  output_screen ((char) n);	/* maj corner[] */
-//   corner[0]=render_buffer[0];
-//   corner[1]=render_buffer[1];
+  reset_timer_with_offset (event_timer, 4, 0);
+  reset_timer (clock_timer);
+  reset_timer (bonus_anim_timer);
+  reset_timer (tiles_anim_timer);
+  reset_timer (blink_timer);
+  reset_timer (update_timer);
+
+  output_screen ((char) n);	/* update corner[] */
   process_input_events ();
 
   if (game_mode == M_QUEST)
@@ -4193,9 +4228,9 @@ play_game (char cont)
     draw_text_320 (bufstr, 159, 99, 1);
     corner[0] = (char *) tmp;
     p2 = 39;
-    for (i = 55; i > 0; i--)
-      vsynch ();
-    frame_old = frame_cur;
+
+    sleep (1);
+
     n = 1;
     do {
       corner[0] = corner[swapside];
@@ -4220,8 +4255,10 @@ play_game (char cont)
 /* * * * * * * * * * * * * * *\
 * MAIN LOOP during the games *
 \* * * * * * * * * * * * * * */
-//   n=1;
+
   do {
+    event_time = read_timer (event_timer);
+    update_text_waving_step ();
     if (enable_blit) {
       if (two_players == 0) {
 	vsynch ();
@@ -4695,6 +4732,19 @@ main (int argc, char *argv[])
   init_video ();
 
   init_timer ();
+  clock_timer = new_timer (T_GLOBAL, HZ (10));
+  blink_timer = new_timer (T_GLOBAL, HZ (6));
+  event_timer = new_timer (T_GLOBAL, HZ (70));
+  waving_timer = new_timer (T_GLOBAL, HZ (70));
+  corner_timer = new_timer (T_GLOBAL, HZ (280));
+  fading_timer = new_timer (T_LOCAL, HZ (70));
+  update_timer = new_timer (T_LOCAL, HZ (70));
+  background_timer = new_timer (T_LOCAL, HZ (70));    
+  sound_track_timer = new_timer (T_GLOBAL, HZ (2));
+  bonus_anim_timer = new_timer (T_GLOBAL, HZ (35));
+  tiles_anim_timer = new_timer (T_GLOBAL, HZ (70));
+  demo_trigger_timer = new_timer (T_GLOBAL, HZ (1));
+  init_text_waving_step ();
 
   if (!directmenu) {
     play_intro ();
@@ -4722,10 +4772,22 @@ main (int argc, char *argv[])
   for (i = 0; i != 32; i++)
     minisinus[i] = ceil (sin (i * 2.0 * 3.141592653 / 32.0) * 1.7);
   compute_lut ();
-// if (odbg) debugsavepcx(&trailimg);
 
   main_menu ();
-  uninit_timer ();
+
+  uninit_text_waving_step ();
+  free_timer (demo_trigger_timer);
+  free_timer (sound_track_timer);
+  free_timer (tiles_anim_timer);
+  free_timer (bonus_anim_timer);
+  free_timer (background_timer);
+  free_timer (update_timer);
+  free_timer (waving_timer);
+  free_timer (fading_timer);
+  free_timer (event_timer);
+  free_timer (corner_timer);
+  free_timer (clock_timer);
+  free_timer (blink_timer);
 
   img_free (&font_deck_img);
   img_free (&jukebox_img);

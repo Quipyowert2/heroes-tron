@@ -21,6 +21,7 @@
 
 #include <ctype.h>
 #include "const.h"
+#include "timer.h"
 #include "fastmem.h"
 #include "font_menu.h"
 #include "font_deck.h"
@@ -137,6 +138,28 @@ draw_text_clipped_right (const unsigned char *texte, int posx, int posy,
   }
 }
 
+unsigned char text_waving_step = 0;
+timer_t text_waving_timer = 0;
+
+void
+init_text_waving_step (void)
+{
+  text_waving_timer = new_timer (T_LOCAL, HZ (70));
+  text_waving_step = 0;
+}
+
+void
+uninit_text_waving_step (void)
+{
+  free_timer (text_waving_timer);
+}
+
+void
+update_text_waving_step (void)
+{
+  text_waving_step += read_timer (text_waving_timer);
+}
+
 void
 draw_text_waving (const unsigned char *texte, int posx, int posy, char cent)
 {
@@ -144,7 +167,7 @@ draw_text_waving (const unsigned char *texte, int posx, int posy, char cent)
   int i, m, k, l, d = -1;
   unsigned char *dest = corner[0] + posx + posy * xbuf;
   const unsigned char *src = texte;
-  unsigned char sinl = *(char *) &frame_old;
+  unsigned char sinl = text_waving_step;
 
   JUSTIF_CALC (/**/);
   for (; *texte != 0; texte++) {
@@ -199,13 +222,13 @@ draw_text_320 (const unsigned char *texte, int posx, int posy, char cent)
 }
 
 void
-affvga320sin (const unsigned char *texte, int posx, int posy, char cent)
+draw_text_waving_320 (const unsigned char *texte, int posx, int posy, char cent)
 {
   char j, c;
   int i, m, k, l, d = -1;
   unsigned char *dest = corner[0] + posx + posy * 320;
   const unsigned char *src = texte;
-  unsigned char sinl = *(char *) &frame_cur;
+  unsigned char sinl = text_waving_step;
 
   JUSTIF_CALC (toupper);
   for (; *texte != 0; texte++) {
@@ -238,7 +261,7 @@ void (*draw_text_array[2]) (const unsigned char *, int, int, char) = {
 
 void (*draw_text_array_320[2]) (const unsigned char *, int, int, char) = {
   &draw_text_320, 
-  &affvga320sin
+  &draw_text_waving_320
 };
 
 void
@@ -248,7 +271,7 @@ draw_text_bonus (const unsigned char *texte, int posx, int posy, int p)
   int i, k, l, m;
   unsigned char *dest = corner[p] + posx + posy * xbuf;
   const unsigned char *src = texte;
-  unsigned char sinl = *(char *) &frame_old;
+  unsigned char sinl = text_waving_step;
 
   for (; *texte != 0; texte++) {
     i = (*texte - 32);
