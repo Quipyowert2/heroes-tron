@@ -1,5 +1,17 @@
 2001-08-02  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Fix issues observed on OpenBSD 2.9.
+
+	* configure.ac: Check for setgid.
+	* src/system.h (setgid, setgid): Define if needed.
+	(seteuid, setegid): Define using setreuid and setregid if possible.
+	* src/persona.c (sys_persona, user_persona): Test whether
+	_POSIX_SAVED_IDS is *defined*, not its actual value.
+	(user_persona_definitively): Use setuid and setgid instead of
+	setreuid and setregid, the latter are obsolete.
+
+2001-08-02  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Reestablish MinGW32 support.
 
 	* lib/stpcpy.c: New file, from fileutils 4.1.

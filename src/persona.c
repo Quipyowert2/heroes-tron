@@ -61,7 +61,7 @@ void
 user_persona (void)
 {
   dmsg (D_SYSTEM, "switching to the user persona");
-#if _POSIX_SAVED_IDS && HAVE_SETEGID
+#if HAVE_SETEGID && defined _POSIX_SAVED_IDS
   seteuid (user_uid);
   setegid (user_gid);
 #else
@@ -76,11 +76,11 @@ user_persona_definitively (void)
 {
   if (! keep_suid) {
     dmsg (D_SYSTEM, "switching to the user's USER persona definitively");
-    setreuid (user_uid, user_uid);
+    setuid (user_uid);
   }
   if (! keep_sgid) {
     dmsg (D_SYSTEM, "switching to the user's GROUP persona definitively");
-    setregid (user_gid, user_gid);
+    setgid (user_gid);
   }
   print_persona ();
 }
@@ -89,7 +89,7 @@ void
 sys_persona (void)
 {
   dmsg (D_SYSTEM, "switching to the system persona");
-#if _POSIX_SAVED_IDS && HAVE_SETEGID
+#if HAVE_SETEGID && defined _POSIX_SAVED_IDS
   seteuid (sys_uid);
   setegid (sys_gid);
 #else

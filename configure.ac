@@ -124,7 +124,7 @@ AC_CHECK_TYPES([ssize_t])
 # =============================
 
 AC_CHECK_DECLS([malloc, realloc, calloc, free, memrchr, stpcpy, strcasecmp])
-AC_CHECK_FUNCS([gettimeofday memcpy sleep getegid setegid setregid])
+AC_CHECK_FUNCS([gettimeofday memcpy sleep getegid setgid setegid setregid])
 
 adl_FUNC_READDIR
 

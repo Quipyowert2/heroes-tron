@@ -452,15 +452,31 @@ char *stpcpy (const char *s1, const char *s2);
 
 /* ===== end of ctype definitions ===== */
 
+#if ! HAVE_SETGID
+# if HAVE_SETREGID
+#  define setuid(X) setreuid(X,X)
+#  define setgid(X) setregid(X,X)
+# else
+#  define setuid(X)
+#  define setgid(X)
+# endif
+#endif
 
 #if ! HAVE_SETEGID
-# define seteuid(x)
-# define setegid(x)
+# if HAVE_SETREGID
+#  define seteuid(X) setreuid(-1,X)
+#  define setegid(X) setregid(-1,X)
+# else
+#  define seteuid(x)
+#  define setegid(x)
+# endif
 #endif
+
 #if ! HAVE_SETREGID
 # define setreuid(x,y)
 # define setregid(x,y)
 #endif
+
 #if ! HAVE_GETEGID
 # define geteuid() 0
 # define getuid()  0
