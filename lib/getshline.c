@@ -54,7 +54,7 @@ static int
 getshstr (int * firstline, int * lastline,
 	  char ** lineptr, size_t * n,
 	  FILE * stream,
-	  char terminator, int terminator_quote, int commentor,
+	  int terminator, int terminator_quote, int commentor,
 	  size_t offset)
 {
   int nchars_avail;		/* Allocated but unused chars in *LINEPTR.  */

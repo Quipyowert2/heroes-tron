@@ -1,5 +1,10 @@
 2000-10-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* lib/getshline.c (getshstr): Change terminator type to suppress
+	warnings.
+
+2000-10-07  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/errors.c (emsg): Bug fix: exit the game even if
 	error messages are disabled.
 
