@@ -208,7 +208,7 @@ tile sets) plus a level editor.
 
 Heroes source code originates from an original MS-DOS game but has been
 heavily modified to enhance the portability and some new features have
-been added.  MS-DOS support has been lost my the meantime.  The original
+been added.  MS-DOS support has been lost by the meantime.  The original
 MS-DOS version can still be found on the Internet but is unmaintained and
 should be considered obsolete.
 @c The original MS-DOS source code is not available and will never be.
