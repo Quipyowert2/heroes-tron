@@ -273,8 +273,8 @@ A public CVS server is also accessible.  See@*
 
 @subsection What to download?
 
-Heroes is distributed as four packages with independent version
-numbering and release schedule.  Be sure to get them four:
+Heroes is distributed as five packages with independent version
+numbering and release schedule.
 
 @table @samp
 @item heroes
@@ -283,12 +283,19 @@ The source code, info file, and man page.
 @item heroes-data
 The level data (level maps, sprites, etc.)
 
-@item heroes-sound-track
-The scores for the game (.xm files).
+@item heroes-sound-tracks
+Sound tracks for the game (.xm files).
 
 @item heroes-sound-effects
 The sound effects for the game (.wav files).
+
+@item heroes-hq-sound-tracks
+High quality sound tracks (.xm files), they will replace some
+sound-tracks from @samp{heroes-sound-track}.
+
 @end table
+
+The two first packages are required, the others are optional.
 
 The game has been so split because the data and sound files are big
 and don't evolve as often as the code does.  It would therefore be unfair
