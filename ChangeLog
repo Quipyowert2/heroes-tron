@@ -1,5 +1,9 @@
 2000-07-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/heroes.texi: Add two missing node descriptions.
+	
+2000-07-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Point people to the heroes-discuss mailing list and other
 	SourceForge services.
 	

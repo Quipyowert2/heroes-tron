@@ -151,7 +151,7 @@ is incomplete, the main missing feature is the level editor.
 
 @menu
 * Getting Heroes::              Where to download Heroes from.
-* Mailing list::                
+* Mailing list::                The @samp{heroes-discuss} mailing-list.
 * Bug Reporting::               Sending bugs, suggestions, contributions.
 * Authors::                     Who made Heroes.
 * Contributors::                Contributed to Heroes.
@@ -534,7 +534,7 @@ you specify this option they will be saved in
 
 @menu
 * Options::                     Heroes options.
-* heroesrc::                    
+* heroesrc::                    Heroes configuration file.
 * Game::                        Game rules.
 * Troubleshooting::             Common problems.
 @end menu
