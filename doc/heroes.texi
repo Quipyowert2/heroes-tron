@@ -460,6 +460,11 @@ Support for non-8bits depth video mode with LibGGI.
 
 Clean-ups and portability fixes.
 
+@item
+@email{inguin@@gmx.de,Ingo van Lil}
+
+Latin-1 characters in fonts.
+
 @end itemize
 
 @unnumberedsubsec Translators
@@ -472,6 +477,8 @@ Clean-ups and portability fixes.
 @email{alessandro.dotti@@libero.it,Alessandro Dotti} (Italian)
 @item
 @email{duret_g@@epita.fr,Alexandre Duret-Lutz} (French)
+@item
+@email{inguin@@gmx.de,Ingo van Lil} (German)
 @end itemize
 
 @unnumberedsubsec Packagers

@@ -1,3 +1,8 @@
+2001-12-11  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* po/de.po: Update.
+	From Ingo van Lil <inguin@gmx.de>.
+
 2001-12-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Joystick support for Allegro.  (Untested yet, I have no joystick

@@ -211,3 +211,10 @@ person = {
   email   = oak@welho.com;
   bugs;
 };
+
+person = {
+  name    = "Ingo van Lil";
+  email   = inguin@gmx.de;
+  i18n    = German;
+  contrib = "Latin-1 characters in fonts.";
+};

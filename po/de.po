@@ -4,19 +4,19 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Heroes 0.9\n"
+"Project-Id-Version: Heroes 0.17\n"
 "POT-Creation-Date: 2001-11-19 08:52+0100\n"
-"PO-Revision-Date: 2001-03-18 18:27GMT\n"
-"Last-Translator: Hermann J. Beckers <beckers@st-oneline.de>\n"
+"PO-Revision-Date: 2001-12-08 18:27GMT\n"
+"Last-Translator: Ingo van Lil <inguin@gmx.de>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 0.8\n"
+"X-Generator: vim 5.6\n"
 
 #: lib/error.c:128 lib/error.c:156
 msgid "Unknown system error"
-msgstr "unbekannter Systemfehler"
+msgstr "Unbekannter Systemfehler"
 
 #: lib/getopt.c:694
 #, c-format
@@ -42,30 +42,30 @@ msgstr "%s: Die Option `%s' erfordert ein Argument.\n"
 #: lib/getopt.c:771
 #, c-format
 msgid "%s: unrecognized option `--%s'\n"
-msgstr "%s: Unbekannte Option `--%s'\n"
+msgstr "%s: Unbekannte Option: `--%s'\n"
 
 #. +option or -option
 #: lib/getopt.c:775
 #, c-format
 msgid "%s: unrecognized option `%c%s'\n"
-msgstr "%s: Option nicht erkannt `%c%s'\n"
+msgstr "%s: Unbekannte Option: `%c%s'\n"
 
 #. 1003.2 specifies the format of this message.
 #: lib/getopt.c:801
 #, c-format
 msgid "%s: illegal option -- %c\n"
-msgstr "%s: Ungueltige Option --%c\n"
+msgstr "%s: Ungültige Option: --%c\n"
 
 #: lib/getopt.c:804
 #, c-format
 msgid "%s: invalid option -- %c\n"
-msgstr "%s: Ungueltige Option --%c\n"
+msgstr "%s: Ungültige Option --%c\n"
 
 #. 1003.2 specifies the format of this message.
 #: lib/getopt.c:834 lib/getopt.c:964
 #, c-format
 msgid "%s: option requires an argument -- %c\n"
-msgstr "%s: Die Option erfordert ein Argument --%c\n"
+msgstr "%s: Die Option erfordert ein Argument: --%c\n"
 
 #: lib/getopt.c:881
 #, c-format
@@ -81,7 +81,7 @@ msgstr "%s: Die Option `-W %s' darf kein Argument haben.\n"
 #. before exiting when memory is exhausted.  Goes through gettext.
 #: lib/xmalloc.c:66
 msgid "memory exhausted"
-msgstr "Kein Speicher verfuegbar"
+msgstr "Kein Speicher verfügbar"
 
 #: src/argv.c:60
 #, c-format
@@ -90,7 +90,7 @@ msgid ""
 "Alexandre Liverneaux and Philippe Meisburger.\n"
 msgstr ""
 "Copyright (C) %d  Alexandre Duret-Lutz, Romuald Genevois,\n"
-"Alexandre Liverneaux et Philippe Meisburger.\n"
+"Alexandre Liverneaux und Philippe Meisburger.\n"
 
 #: src/argv.c:63 src/heroeslvl.c:64
 msgid ""
@@ -102,39 +102,36 @@ msgstr ""
 
 #: src/argv.c:74
 msgid "Use `-lWORD' or `--list=WORD' where WORD can be:"
-msgstr ""
+msgstr "Verwende `-lWORT' oder `--list=WORT', mit WORT ersetzt durch:"
 
 #: src/argv.c:76
 msgid "display all debugging channels"
-msgstr ""
+msgstr "verfügbare Debug-Kanäle"
 
 #: src/argv.c:78
-#, fuzzy
 msgid "list all level files"
-msgstr "%s: fehlerhafte Ebenen-Datei"
+msgstr "Liste aller Level-Dateien"
 
 #: src/argv.c:80
 msgid "print the preferences settings"
-msgstr ""
+msgstr "Zeige Programmeinstellungen"
 
 #: src/argv.c:82
-#, fuzzy
 msgid "print the resources list"
-msgstr "Datei-Ressourcen-Bearbeitung"
+msgstr "Liste der verwendeten Datenfiles"
 
 #: src/argv.c:84
 msgid "print the sound driver list"
-msgstr ""
+msgstr "verfügbare Soundtreiber"
 
 #: src/argv.c:86
-#, fuzzy
 msgid "print the sound track list"
-msgstr "Klang-Ereignisse"
+msgstr "Liste aller Musikstücke"
 
 #: src/argv.c:145 src/heroeslvl.c:74
 #, c-format
 msgid "Try '%s --help' for more information.\n"
-msgstr ""
+msgstr "Rufe '%s --help' auf, um mehr Informationen zu bekommen.\n"
 
 #: src/argv.c:150
 #, c-format
@@ -142,7 +139,7 @@ msgid ""
 "Usage: %s [OPTIONS]...\n"
 "\n"
 msgstr ""
-"Aufruf: %s [OPTIONEN...\n"
+"Aufruf: %s [OPTIONEN]...\n"
 "\n"
 
 #: src/argv.c:151
@@ -150,15 +147,15 @@ msgid ""
 "Heroes is a game similar to the \"Tron\" and \"Nibbles\" games of yore\n"
 "but includes many graphical improvements and new game features.\n"
 msgstr ""
-"Heroes ist ein Spiel aehnlich \"Tron\" und \"Nibbles\" aus vergangenen "
-"Zeiten\n"
-"enthaelt aber viele grafische Verbesserungen und neue Spielvarianten.\n"
+"Heroes ist ein Spiel, ähnlich \"Tron\" und \"Nibbles\" aus vergangenen "
+"Zeiten,\n"
+"enthält aber viele grafische Verbesserungen und neue Spielvarianten.\n"
 
 #: src/argv.c:154 src/heroeslvl.c:81
 msgid ""
 "Mandatory arguments to long options are mandatory for short options too.\n"
 msgstr ""
-"Erforderliche Argumente fuer lange Optionen sind auch fuer kurze Optionen "
+"Erforderliche Argumente für lange Optionen sind auch für kurze Optionen "
 "erforderlich.\n"
 
 #: src/argv.c:156
@@ -175,14 +172,14 @@ msgid ""
 "                                'sound-tracks'\n"
 msgstr ""
 "Allgemeine Optionen:\n"
-"  -v, --version           Version anzeigen\n"
-"  -h, --help              diese Hilfe\n"
+"  -v, --version           Versionsnummer anzeigen\n"
+"  -h, --help              dieser Hilfetext\n"
 "  -q, --quiet             keine Warnungen anzeigen\n"
 "  -Q, --really-quiet      auch keine Fehlermeldungen anzeigen\n"
-"  -v, --verbose=Kanaele    de/aktiviere DEBUG-Kanaele\n"
-"                            (siehe --list=debug fuer verfuegbare Kanaele)\n"
-"  -l, --list=WORT         zeige interne Informationen, fuer WORT\n"
-"                          kann 'debug', 'resources', 'sond-drivers'\n"
+"  -v, --verbose=Kanäle    de/aktiviere DEBUG-Kanäle\n"
+"                            (siehe --list=debug fuer verfügbare Kanäle)\n"
+"  -l, --list=WORT         zeige interne Informationen, für WORT\n"
+"                          kann 'debug', 'resources', 'sound-drivers'\n"
 "                          oder 'sound-tracks' eingesetzt werden.\n"
 
 #: src/argv.c:167
@@ -198,14 +195,14 @@ msgid ""
 "  -i, --high-quality          high quality mixer\n"
 msgstr ""
 "Sound-Optionen:\n"
-"  -d, --driver=N[,OPTIONEN]   benutze Nten Treiber fuer Sound (0:automatisch "
-"erkennen)\n"
-"                                (s. --list=sound-drivers fuer moegliche N)\n"
-"  -S, --no-sound              Klaenge deaktivieren\n"
+"  -d, --driver=N[,OPTIONEN]   benutze Nten Treiber für Sound "
+"                                (0: automatische Erkennung)\n"
+"                                (s. --list=sound-drivers für mögliche N)\n"
+"  -S, --no-sound              Klänge und Musik deaktivieren\n"
 "  -X, --no-sfx                Klangeffekte deaktivieren\n"
 "  -m, --mono                  keine Stereo-Ausgabe\n"
-"  -8, --8bits                 8-Bit-KLang-Ausgabe\n"
-"  -i, --high-quality          Hoch-Qualitaets-Mixer\n"
+"  -8, --8bits                 8-Bit-Klang-Ausgabe\n"
+"  -i, --high-quality          Mixen in hoher Qualität\n"
 
 #: src/argv.c:176
 msgid ""
@@ -218,12 +215,12 @@ msgid ""
 "  -e, --even-lines            display only even-lines\n"
 msgstr ""
 "Anzeige-Optionen:\n"
-"  -G, --gfx-options=OPTIONEN  OPTIONEN an den Bildschirmtreiber uebergeben\n"
+"  -G, --gfx-options=OPTIONEN  OPTIONEN an den Bildschirmtreiber übergeben\n"
 "  -F, --full-screen           Vollbild-Modus\n"
-"  -2, --double                Anzeige 2fach strecken\n"
-"  -3, --triple                Anzeige 3fach strecken\n"
-"  -4, --quadruple             Anzeige 4fach strecken\n"
-"  -e, --even-lines            nur gradzahlige Linien anzeigen\n"
+"  -2, --double                Anzeige doppelt strecken\n"
+"  -3, --triple                Anzeige dreifach strecken\n"
+"  -4, --quadruple             Anzeige vierfach strecken\n"
+"  -e, --even-lines            nur geradzahlige Linien anzeigen\n"
 
 #. TRANS: rotozoom is a graphical effect used in the demo of yore
 #. where the screen rotate and zoom (actually it doesn't zoom in Heroes);
@@ -243,14 +240,14 @@ msgid ""
 "  -J, --no-joystick           disable joystick handling\n"
 msgstr ""
 "Sonstige Optionen:\n"
-"      --cpu-off            Computerspieler deaktivieren\n"
-"      --default-scores     Standard-Highscore-Datei erstellen\n"
-"      --default-options    Standard-Optionen-Datei erstellen\n"
-"      --default-saves      Standard-Sicherungs-Datei erstellen\n"
+"      --cpu-off            Computergegner deaktivieren\n"
+"      --default-scores     Standard-Highscore-Datei wiederherstellen\n"
+"      --default-options    Standard-Options-Datei wiederherstellen\n"
+"      --default-saves      Standard-Sicherungs-Datei wiederherstellen\n"
 "  -s, --swap-sides         Seitentausch im 2-Spieler-Modus\n"
 "      --no-double-fx       Kombination von Roto-Zoom und Wellen "
 "deaktivieren\n"
-"  -g, --go                 Einleitung ueberspringen\n"
+"  -g, --go                 Einleitung überspringen\n"
 "  -J, --no-joystick        Joystick deaktivieren\n"
 
 #: src/argv.c:199
@@ -260,7 +257,7 @@ msgid ""
 "\n"
 "  Options: -gs -d3,buffer=11,count=4\n"
 msgstr ""
-"Diese Optionen koennen in der Datei ~/.heroes/heroesrc wie folgt\n"
+"Diese Optionen können in der Datei ~/.heroes/heroesrc wie folgt\n"
 "gesetzt werden:\n"
 "  Options: -gs -d3,buffer=11,count=4\n"
 "(Diese Datei wird vor den Befehlszeilenoptionen ausgewertet)\n"
@@ -269,7 +266,7 @@ msgstr ""
 msgid ""
 "Visit http://heroes.sourceforge.net/ for news, documentation, and updates."
 msgstr ""
-"Besuche http://heroes.sourceforge.net/ fuer Informationen, Dokumentation \n"
+"Besuche http://heroes.sourceforge.net/ für Informationen, Dokumentation \n"
 "und Aktualisierungen."
 
 #: src/argv.c:206 src/heroeslvl.c:102
@@ -283,24 +280,24 @@ msgstr "-n ist eine veraltete Option, benutze besser --list=sound-drivers"
 #: src/bonus.c:324 src/bonus.c:329
 #, c-format
 msgid "SIZE IS %d"
-msgstr "Groeße %d"
+msgstr "LAENGE: %d"
 
 #: src/bonus.c:334
 msgid "SPEEDED UP"
-msgstr "beschleunigt"
+msgstr "BESCHLEUNIGT"
 
 #: src/bonus.c:338
 msgid "SPEEDED DOWN"
-msgstr "verlangsamt"
+msgstr "VERLANGSAMT"
 
 #: src/bonus.c:345
 #, c-format
 msgid "GET %dPTS"
-msgstr "%d Punkte"
+msgstr "%d PUNKTE"
 
 #: src/bonus.c:350
 msgid "FIRE TRAIL!"
-msgstr ""
+msgstr "FEUERSPUR!"
 
 #: src/bonus.c:364
 msgid "GET TURBO+"
@@ -328,7 +325,7 @@ msgstr "Datei- und Verzeichnisbehandlung"
 
 #: src/debughash.c:99 src/debughash.gperf:50
 msgid "levels handling"
-msgstr "Ebenenbearbeitung"
+msgstr "Levelbehandlung"
 
 #: src/debughash.c:100 src/debughash.gperf:47
 msgid "system related messages"
@@ -336,7 +333,7 @@ msgstr "Systembezogene Meldungen"
 
 #: src/debughash.c:102 src/debughash.gperf:48
 msgid "filename resources handling"
-msgstr "Datei-Ressourcen-Bearbeitung"
+msgstr "Dateinamen-Behandlung"
 
 #: src/debughash.c:103 src/debughash.gperf:56
 msgid "miscellaneous events"
@@ -344,28 +341,27 @@ msgstr "sonstige Ereignisse"
 
 #: src/debughash.c:104 src/debughash.gperf:58
 msgid "bonus"
-msgstr "Bonus"
+msgstr "Bonus-Ereignisse"
 
 #: src/debughash.c:105 src/debughash.gperf:51
 msgid "sound track events"
-msgstr "Klang-Ereignisse"
+msgstr "Musik-Ereignisse"
 
 #: src/debughash.c:106 src/debughash.gperf:46
 msgid "different parts of the game"
 msgstr "verschiedene Teile des Spieles"
 
 #: src/debughash.c:107 src/debughash.gperf:54
-#, fuzzy
 msgid "joystick initialization and events"
-msgstr "Joystick-Initialisierung"
+msgstr "Joystick-Initialisierung und -Ereignisse"
 
 #: src/debughash.c:109 src/debughash.gperf:55
 msgid "timer handling"
-msgstr "Zeitgeber-Bearbeitung"
+msgstr "Zeitgeber-Behandlung"
 
 #: src/debughash.c:111 src/debughash.gperf:57
 msgid "palette fade events"
-msgstr "Paletten-Ereignisse"
+msgstr "Palettenblende-Effekte"
 
 #: src/debughash.c:113 src/debughash.gperf:52
 msgid "sound effects events"
@@ -383,16 +379,16 @@ msgstr "%s: Kein solcher Kanal, ich vermute, Du meinst '%s'."
 #: src/debughash.c:168 src/debughash.gperf:90
 #, c-format
 msgid "%s: no such channel (--list=debug will list all known channels)"
-msgstr "%s: Kein solcher Kanal (--list=debug zeigt alle bekannten Kanaele an)"
+msgstr "%s: Kein solcher Kanal (--list=debug listet alle verfügbaren Kanäle)"
 
 #: src/endscroll.c:113
 msgid "THE END"
-msgstr "Das Ende (this is finish)"
+msgstr "ENDE"
 
 #: src/fontdata.c:235
 #, c-format
 msgid "character '%c' is not drawable (in message '%s')"
-msgstr "Zeichen '%c' (in Meldung '%s') kann nicht gezeichnet werden"
+msgstr "Zeichen '%c' (in Meldung '%s') kann nicht dargestellt werden"
 
 #: src/hedlite.c:1622
 #, c-format
@@ -402,7 +398,7 @@ msgstr "Kann Verzeicnis '%s' nicht anlegen."
 #: src/hedlite.c:1679 src/hedlite.c:1686
 #, c-format
 msgid "%s: invalid level file"
-msgstr "%s: fehlerhafte Ebenen-Datei"
+msgstr "%s: fehlerhafte Level-Datei"
 
 #: src/helptext.c:24
 msgid ""
@@ -451,9 +447,51 @@ msgid ""
 "\n"
 "\n"
 msgstr ""
+"\n"
+"%{img C 444 0 40 320}\n"
+"\n"
+"\n"
+"\n"
+"%{center}%pBenutze die Pfeiltasten zum Weiterlesen.\n"
+"\n"
+"%{head 1}STEUERUNG UND SPIELPLAN\n"
+"\n"
+"%{img BC 357 55 80 205}\n"
+"%{textat cL -9 -81}%yPAUSE\n"
+"%{textat cR -9 97}%ySPIEL BEENDEN\n"
+"%{textat cR 26 -62}%ySTEUERUNG\n"
+"%{textat cL 30 74}%ySTOP\n"
+"%{textat cL 52 68}%yTURBO\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"%{img BCG 486 0 140 320}\n"
+"%{textat cR -7 -82}%yPUNKTE\n"
+"%{textat cR 1 8}%yMELDUNGEN\n"
+"%{textat cL 16 29}%yHEROES\n"
+"%{textat cL 33 29}%yWAENDE\n"
+"%{textat cL 55 29}%yBONUS\n"
+"%{textat cL 29 -102}%yLEBEN\n"
+"%{textat cL 51 -109}%yTURBO-ENERGIE\n"
+"%{textat cL 72 -104}%yZEIT\n"
+"%{textat cR 96 40}%ySPIELER-FARBEN\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
 
 #: src/helptext.c:71
-#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -486,25 +524,25 @@ msgstr ""
 "\n"
 "%{head 2}BONUS\n"
 "\n"
-"%{img L 60 0 20 22}Wirkt auf den Spieler, der das Teil bekommt\n"
-"%{img L 60 22 20 22}Wirkt auf alle Spieler ausser den, der den Bonus "
-"bekommt\n"
+"%{img L 60 0 20 22}Wirkt auf den Spieler, der den Bonus einsammelt\n"
+"%{img L 60 22 20 22}Wirkt auf alle Spieler ausser dem, der es sammelt\n"
 "\n"
-"%{img L 0 0 20 22}%{>}%{img L 0 22 20 22}%{>>>}Spur +1\n"
-"%{img L 0 44 20 22}%{>}%{img L 0 66 20 22}%{>>>}Spur -1\n"
+"%{img L 0 0 20 22}%{>}%{img L 0 22 20 22}%{>>>}Laenge +1\n"
+"%{img L 0 44 20 22}%{>}%{img L 0 66 20 22}%{>>>}Laenge -1\n"
 "%{img L 0 88 20 22}%{>}%{img L 0 110 20 22}%{>>>}Schneller\n"
-"%{img L 0 132 20 22}%{>}%{img L 0 154 20 22}%{>>>}langsam\n"
+"%{img L 0 132 20 22}%{>}%{img L 0 154 20 22}%{>>>}Langsamer\n"
 "%{img L 0 176 20 22}%{>}%{img L 0 198 20 22}%{>>>}Zufalls-Bonus\n"
 "%{img L 0 220 20 22}%{>}%{img L 0 242 20 22}%{>>>}Punkte\n"
+"%{img L 0 264 20 22}%{>}%{img L 0 286 20 22}%{>>>}Feuer-Spur\n"
 "%{img L 20 0 20 22}%{>}%{img L 20 22 20 22}%{>>>}Stop\n"
 "%{img L 20 44 20 22}%{>}%{img L 20 66 20 22}%{>>>}Invertierte Steuerung\n"
-"%{img L 20 88 20 22}%{>}%{img L 20 110 20 22}%{>>>}Staerke +\n"
-"%{img L 20 132 20 22}%{>}%{img L 20 154 20 22}%{>>>}Staerke -\n"
+"%{img L 20 88 20 22}%{>}%{img L 20 110 20 22}%{>>>}Energie +\n"
+"%{img L 20 132 20 22}%{>}%{img L 20 154 20 22}%{>>>}Energie -\n"
 "%{img L 20 176 20 22}%{>}%{img L 20 198 20 22}%{>>>}Level-Ende\n"
-"%{img L 20 220 20 22}%{>}%{img L 20 242 20 22}%{>>>}Unverletzbarkeit\n"
+"%{img L 20 220 20 22}%{>}%{img L 20 242 20 22}%{>>>}Unbesiegbarkeit\n"
 "%{img L 20 264 20 22}%{>}%{img L 20 286 20 22}%{>>>}Rotozoom\n"
 "%{img L 40 0 20 22}%{>}%{img L 40 22 20 22}%{>>>}Extra-Leben\n"
-"%{img L 40 44 20 22}%{>}%{img L 40 66 20 22}%{>>>}Wavy visions\n"
+"%{img L 40 44 20 22}%{>}%{img L 40 66 20 22}%{>>>}Welleneffekt\n"
 "\n"
 
 #: src/helptext.c:99
@@ -557,26 +595,28 @@ msgstr ""
 "%{>>}%yQUEST\n"
 "\n"
 "%{>>>}Der %yQUEST%w-Modus erlaubt Dir, alle 100 von HEROES angebotenen Level "
-"zu spielen.Du musst eine bestimmte Anzahl (10) von Trail+1 Bonuspunkten und "
-"dann den End-of-Level-Bonus erreichen, der Dich zum naechsten Level bringt.\n"
-"%{>>>}%{img L 20 176 20 22}End-of-Level\n"
-"%{img R 0 0 20 22}%{flushright}Trail+1\n"
-"%{>>>}Trail+1 verlaengert Deine Spur. Zum Verkleinern gibt es 2 "
-"Moeglichkeiten: nimm einen Trail-1 oder verliere 1 Leben.  Der End-of-Level-"
-"Bonus erscheint erst, wenn irgendeine Spur 10 Einheiten erreicht.\n"
+"zu spielen. Du musst eine bestimmte Anzahl (10) von Laenge+1 Bonusobjekten "
+"und dann den Level-Ende-Bonus erreichen, der Dich zum naechsten Level "
+"bringt.\n"
+"%{>>>}%{img L 20 176 20 22}Level-Ende\n"
+"%{img R 0 0 20 22}%{flushright}Laenge+1\n"
+"%{>>>}Laenge+1 verlaengert Deine Spur. Zum Verkleinern gibt es zwei "
+"Moeglichkeiten: nimm einen Trail-1 oder verliere 1 Leben. Der Level-Ende-"
+"Bonus erscheint erst, wenn ein Spieler eine Spurlaenge von zehn Einheiten "
+"erreicht.\n"
 "\n"
 "%{>>}%yDEATH MATCH\n"
 "\n"
-"%{>>>}Der %yDEATH MATCH%w-Modus erlaubt Dir, die anderen Spieler in einem "
-"Kampf bis zum Tod zu stellen. Ziel ist es, der letzte lebenden Spieler zu "
-"sein.  Du kannst jede Strategie anwenden, die Du moechtest.  Nichts ist "
-"verboten.\n"
+"%{>>>}Der %yDEATH MATCH%w-Modus erlaubt Dir, Dich anderen Spielern in einem "
+"Kampf auf Leben und Tod zu stellen. Ziel ist es, der letzte ueberlebende "
+"Spieler zu sein. Dabei kannst Du jede beliebige Strategie anwenden, nichts "
+"ist verboten.\n"
 "\n"
 "%{img BLVr 130 9 30 57}%{>>}%yKILL THEM ALL\n"
 "\n"
-"%{>>>}Der %yKILL THEM ALL%w-Modus hat nur eine Regel: Du musst alle "
-"Wettbewerberueberwaeltigen. Es wurde gesagt: \"Es kann nur einen geben\", "
-"stelle sicher, das Du es bist!\n"
+"%{>>>}Der %yKILL THEM ALL%w-Modus hat nur eine einzige Regel: Du musst alle "
+"Leute Deiner Gegener erledigen. Einst wurde gesagt: \"Es kann nur einen "
+"geben\". Stelle sicher, dass er Dir gehoert!\n"
 "\n"
 "%{img LG 131 70 20 100}\n"
 "%{img LG 151 70 20 80}Sie sind unter uns, finde sie!\n"
@@ -584,11 +624,11 @@ msgstr ""
 "%{>>}%yCOLOR\n"
 "\n"
 "%{>>>}Der %yCOLOR%w-Modus ist sehr einfach. Du hast eine bestimmte Zeit, um "
-"moeglichst viele Perlen Deiner Farbe zu sammeln.  Vorsicht: Wenn Du ueber "
-"Perlen der Mitbewerber kommst,wird deren Konto durch Dich erhoeht.  Sei "
-"vorsichtig, keine gekreuzten Perlen zu treffen, weil Dusonst die gesammelten "
-"Perlen verlierst. Graue erhoehen den Stand bei allen Spielern ausser bei "
-"dem, der sie trifft. Uhren erhoehen die verfuegbare Zeit.\n"
+"moeglichst viele Perlen Deiner Farbe zu sammeln. Vorsicht: Wenn Du Perlen "
+"Deiner Gegner einsammelst, werden sie deren Konto gutgeschrieben. Sei "
+"vorsichtig, keine durchgestrichenen Perlen zu sammeln, denn sonst verlierst "
+"Du bereits gesammelte Perlen. Graue erhoehen den Stand aller Spieler, ausser "
+"desjenigen, der sie sammelt. Uhren geben Dir ein wenig mehr Zeit.\n"
 "\n"
 "%{>>}%yTIME CA$H\n"
 "\n"
@@ -597,7 +637,6 @@ msgstr ""
 "\n"
 
 #: src/helptext.c:145
-#, fuzzy
 msgid ""
 "%{head 4}GAME OPTIONS\n"
 "\n"
@@ -649,45 +688,47 @@ msgstr ""
 "%{img L 293 165 20 134}\n"
 "%{>>}%gFARBAUSWAHL\n"
 "\n"
-"%{>>>}Diese Option erlaubt Dir, die Farbe deines Vehikels zu waehlen aus: %"
-"pPINK%w, %gGELB%w, %bBLAU%w and %gGRUEN%w.\n"
+"%{>>>}Diese Option erlaubt Dir, die Farbe deines Vehikels zu waehlen aus: "
+"%pVIOLETT%w, %yGELB%w, %bBLAU%w und %gGRUEN%w.\n"
 "\n"
 "%{img L 335 165 20 32}\n"
 "%{>>}%gSPIELGESCHWINDIGKEIT\n"
 "\n"
-"%{>>>}Die %gGeschwindigkeits-%wOption erlaubt es, die Anfangsgeschwindigkeit "
-"zu setzen. Die 3 verfuegbaren Geschwindigkeiten sind: NORMAL, EXPERT, "
-"HEROES.\n"
+"%{>>>}Die %gGESCHWINDIGKEIT%ws-Option erlaubt es, die Anfangs- "
+"geschwindigkeit festzulegen. Die drei verfuegbaren Geschwindigkeiten "
+"sind: NORMAL, EXPERTEN und HEROES.\n"
 "\n"
 "%{img L 314 264 20 32}\n"
 "%{>>}%gRUNDEN\n"
 "\n"
-"%{>>>}Die %gRUNDEN%w-Option setzt die Anzahl Durchgaenge fuer die Spielmodi: "
-"DEATH MATCH, KILL'EM ALL, COLOR and TIME CA$H. Zulaessige Werte gehen von 1 "
-"bis 100.\n"
+"%{>>>}Die %gRUNDEN%w-Option setzt die Anzahl der Durchgaenge fuer die "
+" Spielmodi DEATH MATCH, KILL'EM ALL, COLOR und TIME CA$H. Zulaessig sind "
+"Werte zwischen 1 und 100.\n"
 "\n"
 "%{img L 293 0 20 33}%{img L 293 132 20 33}\n"
 "%{>>}%gRADAR & INFORMATION\n"
 "\n"
-"%{>>>}Fuer mehr UEbersichtlichkeit koennen %gRADAR%w und %gINFORMATIONS%w "
-"deaktiviert werden.\n"
+"%{>>>}Fuer mehr Uebersichtlichkeit koennen %gRADAR%w- und %gINFORMATION%ws- "
+"Fenster deaktiviert werden.\n"
 "\n"
 "%{img L 314 231 20 32}\n"
-"%{>>}%gBELEUCHTUNG\n"
+"%{>>}%gHELLIGKEIT\n"
 "\n"
-"%{>>>}Mit der %gBELEUCHTUNGs%w-Option Kann die Helligkeit des Bildschirm "
-"geregelt werden.\n"
+"%{>>>}Mit der %gHELLIGKEIT%ws-Option kann die Leuchtstaerke der "
+"Bildschirmanzeige geregelt werden.\n"
 "\n"
 "%{img L 314 0 20 32}\n"
-"%{>>}%gINERTIA\n"
+"%{>>}%gTRAEGHEIT\n"
 "\n"
-"%{>>>}The %gINERTIA%w switch enables or disables the scrolling inertia.\n"
+"%{>>>}Die %gTRAEGHEIT%ws-Option schaltet den Traegheitseffekt beim "
+"Rollen der Anzeige ein oder aus.\n"
 "\n"
 "%{img L 293 99 20 32}\n"
 "%{>>}%gAUTOPILOT\n"
 "\n"
-"%{>>>}Wenn Du verrueckt bist, kann Du versuchen ohne %gAUTOPILOT%w zu "
-"spielen! (Ruhe sanft...)\n"
+"%{>>>}Wenn Du verrueckt bist, kannst Du versuchen, ohne %gAUTOPILOT%w zu "
+"spielen! Ruhe in Frieden... Achtung: Der Autopilot schuetzt nicht vor "
+"Feuer-Spuren.\n"
 "\n"
 
 #: src/helptext.c:191
@@ -703,9 +744,9 @@ msgid ""
 "%{center}heroes-bugs@lists.sourceforge.net\n"
 "\n"
 msgstr ""
-"%{head 1}CONTACT\n"
+"%{head 1}Kontaktadressen\n"
 "\n"
-"%{center}Web-Seite :\n"
+"%{center}Webseite :\n"
 "%{img BCVr 183 124 30 41}\n"
 "%{center}http://heroes.sourceforge.net/\n"
 "\n"
@@ -745,9 +786,9 @@ msgid ""
 "\n"
 msgstr ""
 "%{img C 175 0 10 119}\n"
-"%{img L 96 200 40 50}%{img R 96 200 40 50} Nous sommes conscient des "
-"problemes ecologique do notre epoque a avons pris soin de n'utiliser que des "
-"octets recycles dans ce programme.\n"
+"%{img L 96 200 40 50}%{img R 96 200 40 50} Im Interesse unserer Umwelt "
+"sind wir stets bemueht, nur recyclete Bytes bei der Erstellung dieses "
+"Programmes zu verwenden.\n"
 "%{img C 175 0 10 119}\n"
 "\n"
 "\n"
@@ -769,34 +810,35 @@ msgstr ""
 "\n"
 "\n"
 "%{center}Copyright 1997, 1998, 2000  Alexandre Duret-Lutz, Romuald Genevois, "
-"Alexandre Liverneaux and Philippe Meisburger.\n"
+"Alexandre Liverneaux und Philippe Meisburger.\n"
 "\n"
 
 #: src/heroes.c:675 src/heroes.c:761
 #, c-format
 msgid "Cannot load level %s (error %d)"
-msgstr ""
+msgstr "Kann Level %s nicht laden (Fehler %d)"
 
 #: src/heroes.c:1915
 #, c-format
 msgid "INVERTED %d"
-msgstr "invertiert %d"
+msgstr "INVERTIERT %d"
 
 #: src/heroes.c:1946
 #, c-format
 msgid "STOPPED %d"
-msgstr "gestoppt %d"
+msgstr "GESTOPPT %d"
 
 #. TRANS: %d, the number of remaining lives, is always
 #. positive.
 #: src/heroes.c:2243
 msgid "LAST LIFE"
 msgid_plural "%d LIVES LEFT"
-msgstr[0] "Letztes Leben"
+msgstr[0] "LETZTES LEBEN"
+msgstr[1] "NOCH %d LEBEN"
 
 #: src/heroes.c:2819
 msgid "Error during level loading"
-msgstr "Fehler beim Level-Laden"
+msgstr "Fehler beim Laden des Levels"
 
 #: src/heroes.c:2855
 #, c-format
@@ -806,7 +848,7 @@ msgstr "-LEVEL %d-"
 #: src/heroes.c:2857
 #, c-format
 msgid "-ROUND %d/%d-"
-msgstr "-Runde %d/%d-"
+msgstr "-RUNDE %d/%d-"
 
 #: src/heroes.c:3362
 msgid "error in sfx.cfg"
@@ -818,25 +860,25 @@ msgid "Copyright (C) %d  Alexandre Duret-Lutz.\n"
 msgstr ""
 
 #: src/heroeslvl.c:79
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS]... levels\n"
 "\n"
 msgstr ""
-"Aufruf: %s [OPTIONEN...\n"
+"Aufruf: %s [OPTIONEN]... Level\n"
 "\n"
 
 #: src/heroeslvl.c:80
 msgid "Heroeslvl is a tool used to inspect Heroes' level files.\n"
-msgstr ""
+msgstr "Heroeslvl ist ein Tool, um Heroes-Leveldateien zu betrachten.\n"
 
 #: src/heroeslvl.c:83
 msgid "  -v, --version               display version number"
-msgstr ""
+msgstr "  -v, --version               Versionsnummer anzeigen"
 
 #: src/heroeslvl.c:85
 msgid "  -h, --help                  display this help"
-msgstr ""
+msgstr "  -h, --help                  dieser Hilfetext"
 
 #: src/heroeslvl.c:87
 msgid ""
@@ -844,132 +886,135 @@ msgid ""
 "be\n"
 "                                one or more of these characters:"
 msgstr ""
+"  -p, --print=WAS             anzuzeigende Information auswählen. WAS "
+"sollte\n"
+"                              eines oder mehrere dieser Zeichen enthalten: "
 
 #: src/heroeslvl.c:90
 msgid "d   print square directions"
-msgstr ""
+msgstr "d   Feldrichtungen"
 
 #: src/heroeslvl.c:91
 msgid "f   print filename"
-msgstr ""
+msgstr "f   Dateiname"
 
 #: src/heroeslvl.c:92
 msgid "h   print header"
-msgstr ""
+msgstr "h   Kopfzeilen"
 
 #: src/heroeslvl.c:93
 msgid "i   print tile details"
-msgstr ""
+msgstr "i   Feld-Details"
 
 #: src/heroeslvl.c:94
 msgid "t   print square type map"
-msgstr ""
+msgstr "t   Karte der Feldtypen"
 
 #: src/heroeslvl.c:95
 msgid "T   print type keys"
-msgstr ""
+msgstr "T   Legende für Feldtypenkarte"
 
 #: src/heroeslvl.c:96
 msgid "w   print square wall map"
-msgstr ""
+msgstr "w   Karte der Wandtypen"
 
 #: src/heroeslvl.c:97
 msgid "@   print tunnels"
-msgstr ""
+msgstr "@   Liste aller Tunnels"
 
 #: src/heroeslvl.c:98
 msgid "  -i, --indent                indent everything but the filename"
-msgstr ""
+msgstr "  -i, --indent                alles außer Dateiname einrücken"
 
 #: src/heroeslvl.c:101
 msgid "When no options are given, the default is -ipfh."
-msgstr ""
+msgstr "Ohne Angabe von Optionen wird standardmäßig -ipfh verwendet."
 
 #: src/heroeslvl.c:201
 #, c-format
 msgid "%sheight:\t%d tiles\t(%d squares)\n"
-msgstr ""
+msgstr "%sHöhe:\t%d Blöcke\t(%d Felder)\n"
 
 #: src/heroeslvl.c:203
 #, c-format
 msgid "%swidth:\t%d tiles\t(%d squares)\n"
-msgstr ""
+msgstr "%sBreite:\t%d Blöcke\t(%d Felder)\n"
 
 #: src/heroeslvl.c:206
 #, c-format
 msgid "%sY-wrap:\tno\n"
-msgstr ""
+msgstr "%sY-Umlauf:\tnein\n"
 
 #: src/heroeslvl.c:208
 #, c-format
 msgid "%sY-wrap:\t%d tiles\t(%d squares)\n"
-msgstr ""
+msgstr "%sY-Umlauf:\t%d Blöcke\t(%d Felder)\n"
 
 #: src/heroeslvl.c:211
 #, c-format
 msgid "%sX-wrap:\tno\n"
-msgstr ""
+msgstr "%sX-Umlauf:\tnein\n"
 
 #: src/heroeslvl.c:213
 #, c-format
 msgid "%sX-wrap:\t%d tiles\t(%d squares)\n"
-msgstr ""
+msgstr "%sX-Umlauf:\t%d Blöcke\t(%d Felder)\n"
 
 #: src/heroeslvl.c:215
-#, fuzzy, c-format
+#, c-format
 msgid "%ssound track alias:\t%s\n"
-msgstr "Klang-Ereignisse"
+msgstr "%sHintergrundmusik:\t%s\n"
 
 #: src/heroeslvl.c:217
 #, c-format
 msgid "%stile map basename:\t%s\n"
-msgstr ""
+msgstr "%sFeldtypen-Datei:\t%s\n"
 
 #: src/heroeslvl.c:219
 #, c-format
 msgid "%sstarting squares and directions (y x dir):\n"
-msgstr ""
+msgstr "%sStartfelder und -richtungen (y, x, Richtung):\n"
 
 #: src/heroeslvl.c:261
 msgid "none"
-msgstr ""
+msgstr "normal"
 
 #: src/heroeslvl.c:262
 msgid "stop"
-msgstr ""
+msgstr "Stop"
 
 #: src/heroeslvl.c:263
 msgid "speed"
-msgstr ""
+msgstr "Tempo"
 
 #: src/heroeslvl.c:264
 msgid "tunnel"
-msgstr ""
+msgstr "Tunnel"
 
 #: src/heroeslvl.c:265
 msgid "boom"
-msgstr ""
+msgstr "explosiv"
 
 #: src/heroeslvl.c:266
 msgid "anim"
-msgstr ""
+msgstr "animiert"
 
 #: src/heroeslvl.c:267
 msgid "ice"
-msgstr ""
+msgstr "Eis"
 
 #: src/heroeslvl.c:268
 msgid "dust"
-msgstr ""
+msgstr "Staub"
 
 #: src/heroeslvl.c:269
 msgid "outway"
-msgstr ""
+msgstr "außerhalb"
 
 #: src/heroeslvl.c:389
 #, c-format
 msgid "%sTunnels:\n"
-msgstr ""
+msgstr "%sTunnel:\n"
 
 #. TRANS: This is the header of an array (output by heroeslvl -p@),
 #. so the position of these words is important.
@@ -979,25 +1024,25 @@ msgstr ""
 #: src/heroeslvl.c:395
 #, c-format
 msgid "%s  NBR  SRCIDX   Y   X  DIR      DESTIDX\n"
-msgstr ""
+msgstr "%s  NR   START    Y   X  RICHTUNG ZIEL\n"
 
 #. TRANS: `still' is used to describe tiles which are not animated.
 #: src/heroeslvl.c:426
 msgid "still"
-msgstr ""
+msgstr "Standbild"
 
 #. TRANS: `loop' is for animated tiles where frames are displayed
 #. from 1 to n, and then again from 1 to n, etc.
 #: src/heroeslvl.c:430
 msgid "loop"
-msgstr ""
+msgstr "Schleife"
 
 #. TRANS: `pingpong' is for tiles animated in loop where frame
 #. displayed from 1 to n, then from n to 1, and then again from 1
 #. to n, etc.
 #: src/heroeslvl.c:435
 msgid "pingpong"
-msgstr ""
+msgstr "Pingpong"
 
 #. TRANS: This is the header of an array (output by heroeslvl -pi) so
 #. the position of these word is important.
@@ -1010,27 +1055,26 @@ msgstr ""
 #: src/heroeslvl.c:453
 #, c-format
 msgid "%sTILE  Y  X    TYPE      SPRITE    OVERLAY  ANIM-TYPE FRM DEL\n"
-msgstr ""
+msgstr "%sBLOCK Y  X    TYP       SPRITE    OVERLAY  ANIMATION ANZ VERZ\n"
 
 #: src/heroeslvl.c:503
-#, fuzzy, c-format
+#, c-format
 msgid "cannot load %s"
-msgstr "Kann %s nicht oeffnen"
+msgstr "Kann %s nicht öffnen"
 
 #: src/heroeslvl.c:507
 #, c-format
 msgid "File:\t%s\n"
-msgstr ""
+msgstr "Datei:\t%s\n"
 
 #: src/heroeslvl.c:539
-#, fuzzy
 msgid "Missing filename."
-msgstr "%s:%d: fehlender Dateiname"
+msgstr "fehlender Dateiname."
 
 #: src/levellst.c:53
-#, fuzzy, c-format
+#, c-format
 msgid "cannot open directory %s"
-msgstr "Kann Verzeicnis '%s' nicht anlegen."
+msgstr "Kann Verzeicnis '%s' nicht öffnen."
 
 #. TRANS: in QUEST mode, the player goes throught all the levels, but
 #. have to search for specific powerups in order to jump to the next
@@ -1070,7 +1114,7 @@ msgstr "SPIEL"
 
 #: src/menus.c:193
 msgid "SCREEN"
-msgstr "BILDSCHIRM"
+msgstr "ANZEIGE"
 
 #: src/menus.c:194
 msgid "SOUND"
@@ -1137,7 +1181,7 @@ msgstr "LADE LEVEL"
 
 #: src/menus.c:375
 msgid "CONTROL OPTIONS"
-msgstr "STEUERUNGS-OPTIONEN"
+msgstr "STEUERUNG"
 
 #. 1st player
 #: src/menus.c:377 src/menus.c:416 src/menus.c:433
@@ -1163,15 +1207,15 @@ msgstr "MUSIK"
 
 #: src/menus.c:394
 msgid "SFX"
-msgstr "SFX"
+msgstr "EFFEKTE"
 
 #: src/menus.c:398
 msgid "MUSIC VOL"
-msgstr "VOL. MUS."
+msgstr "LAUTST."
 
 #: src/menus.c:399
 msgid "SFX VOL"
-msgstr "VOL. SFX."
+msgstr "LAUTST."
 
 #: src/menus.c:403
 msgid "SCREEN OPTIONS"
@@ -1183,11 +1227,11 @@ msgstr "RADAR"
 
 #: src/menus.c:407
 msgid "LIGHTING"
-msgstr "BELEUCHTUNG"
+msgstr "HELLIGKEIT"
 
 #: src/menus.c:408
 msgid "INERTIA"
-msgstr "INERTIA"
+msgstr "TRAEGHEIT"
 
 #: src/menus.c:414
 msgid "GAME OPTIONS"
@@ -1207,7 +1251,7 @@ msgstr "GESCHW."
 
 #: src/menus.c:429
 msgid "KEYBOARD DEFS"
-msgstr "TASTEN-DEF."
+msgstr "TASTENBELEGUNG"
 
 #: src/menus.c:434 src/menus.c:442
 msgid "UP"
@@ -1269,7 +1313,7 @@ msgstr "PAUSE"
 #. quit y/n menus
 #: src/menus.c:495
 msgid "QUIT THIS GAME?"
-msgstr "DIESES SPIEL BEENDEN ?"
+msgstr "SPIEL BEENDEN?"
 
 #: src/menus.c:497
 msgid "REALLY QUIT?"
@@ -1300,23 +1344,23 @@ msgstr "NAME"
 #. new level.
 #: src/menus.c:515
 msgid "X-WRAP"
-msgstr "X-WRAP"
+msgstr "X-UMLAUF"
 
 #. TRANS: Y-WRAP is a check box used to specified whether a level
 #. must be wrapped vertically or not.
 #: src/menus.c:518
 msgid "Y-WRAP"
-msgstr "Y-WRAP"
+msgstr "Y-UMLAUF"
 
 #. TRANS: width of the level
 #: src/menus.c:520
 msgid "X-SIZE"
-msgstr "X-GROESSE"
+msgstr "BREITE"
 
 #. TRANS: height of the level
 #: src/menus.c:522
 msgid "Y-SIZE"
-msgstr "Y-GROESSE"
+msgstr "HOEHE"
 
 #: src/menus.c:523
 msgid "EDIT"
@@ -1347,11 +1391,11 @@ msgstr "LADE..."
 #. saved game selection
 #: src/menus.c:556
 msgid "CHOOSE A SAVE SLOT"
-msgstr "SICHERUNGS-SLOT WAEHLEN"
+msgstr "SICHERUNGS-PLATZ WAEHLEN"
 
 #: src/menus.c:558
 msgid "CHOOSE A LOAD SLOT"
-msgstr "LADE-SLOT WAEHLEN"
+msgstr "LADE-PLATZ WAEHLEN"
 
 #. enter your name
 #: src/menus.c:562
@@ -1363,25 +1407,25 @@ msgstr "NAME EINGEBEN:"
 #. number of PoinTS
 #: src/menus.c:568
 msgid "SIZE  PTS  LIVES"
-msgstr "GROESSE PKT. LEBEN"
+msgstr "LAENGE PKT LEBEN"
 
 #: src/menus.c:570
 msgid "PTS  LIVES"
-msgstr "PUNKTE  LEBEN"
+msgstr "PKT  LEBEN"
 
 #. TRANS: this is for KILL'EM ALL mode, and MEN is the number
 #. of lemmings killed by one player
 #: src/menus.c:574
 msgid " MEN  PTS  LIVES"
-msgstr " LEM. PKT. LEBEN"
+msgstr " LEM  PKT  LEBEN"
 
 #: src/menus.c:576
 msgid "CA$H  PTS  LIVES"
-msgstr "GELD  PKT.  LEBEN"
+msgstr "GELD  PKT  LEBEN"
 
 #: src/menus.c:578
 msgid "COLORS  PTS  LIVES"
-msgstr "FARBEN  PKT.  LEBEN"
+msgstr "FARBEN  PKT  LEBEN"
 
 #: src/menus.c:583
 msgid "NEXT LEVEL"
@@ -1395,22 +1439,23 @@ msgstr "SPEICHERN..."
 
 #: src/menus.c:593
 msgid "PRESS RETURN"
-msgstr "RETURN DRUECKEN"
+msgstr "DRUECKE ENTER"
 
 #: src/menus.c:602
 msgid "WINS  PTS  LIVES"
-msgstr "GEW.  PKT.  LEBEN"
+msgstr "SIEGE PKT  LEBEN"
 
 #. higher scores
 #: src/menus.c:613
 msgid "HIGHER SCORES"
-msgstr "HOEH. TREFFER"
+msgstr "DIE CHAMPIONS"
 
 #: src/menus.c:1231
-#, fuzzy, c-format
+#, c-format
 msgid "%d ROUND"
 msgid_plural "%d ROUNDS"
-msgstr[0] "%d RUNDEN"
+msgstr[0] "%d RUNDE"
+msgstr[1] "%d RUNDEN"
 
 #: src/menus.c:2220
 #, c-format
@@ -1424,7 +1469,7 @@ msgstr "SPIELER %d GEWANN!"
 
 #: src/menus.c:2292
 msgid "EVERYONE LOST!"
-msgstr "JEDER HAT VERLOREN!"
+msgstr "ALLE HABEN VERLOREN!"
 
 #: src/menus.c:2294
 msgid "YOU LOST!"
@@ -1458,60 +1503,60 @@ msgstr "%s:%d: Autor fehlt"
 #: src/pcx.c:53
 #, c-format
 msgid "Cannot open %s"
-msgstr "Kann %s nicht oeffnen"
+msgstr "Kann %s nicht öffnen"
 
 #: src/people.c:39
 msgid "%{center}You owe this game to the following people"
-msgstr ""
+msgstr "%{center}Dieses Spiel verdankst Du folgenden Leuten"
 
 #: src/people.c:41
 msgid "Authors\n"
-msgstr ""
+msgstr "Autoren\n"
 
 #: src/people.c:49
 msgid "Contributors\n"
-msgstr ""
+msgstr "Beitragende\n"
 
 #: src/people.c:55
 msgid "Translators\n"
-msgstr ""
+msgstr "Uebersetzer\n"
 
 #: src/people.c:58
 msgid "German"
-msgstr ""
+msgstr "Deutsch"
 
 #: src/people.c:61
 msgid "Dutch"
-msgstr ""
+msgstr "Niederlaendisch"
 
 #: src/people.c:64
 msgid "Italian"
-msgstr ""
+msgstr "Italienisch"
 
 #: src/people.c:67
 msgid "French"
-msgstr ""
+msgstr "Franzoesisch"
 
 #: src/people.c:71
 msgid "Packagers\n"
-msgstr ""
+msgstr "Programmpakete\n"
 
 #: src/people.c:80
 msgid "Porters\n"
-msgstr ""
+msgstr "Portierungen\n"
 
 #: src/people.c:87
 msgid "Other people we wish to thanks\n"
-msgstr ""
+msgstr "Weitere Personen, denen Dank gebuehrt\n"
 
 #: src/readmake.c:137
 #, c-format
 msgid "Unknown option '%c' for command '%s'."
-msgstr ""
+msgstr "Unbekannte Option '%c' fuer Kommando '%s'."
 
 #: src/relocate.c:70
 msgid "HOME variable not found in environment, defaulting to `.'"
-msgstr "Variable HOME nicht gesetzt, Fehlwert '.'."
+msgstr "Variable HOME nicht gesetzt, Standardwert `.'."
 
 #: src/relocate.c:182
 msgid ""
@@ -1524,6 +1569,15 @@ msgid ""
 "HEROES_DEBUG=system to see what files Heroes is looking after.\n"
 "If none of this helps, contact <heroes-bugs@lists.sourceforge.net>\n"
 msgstr ""
+"Anscheinend wurde das Spiel nicht korrekt installiert.\n"
+"Eventuell wurden die Datenfiles nicht mit den selben configure-Optionen\n"
+"wie die Programmdateien installiert, oder sie wurden an eine andere\n"
+"Stelle verschoben.\n"
+"Im letzteren Fall ist es wahrscheinlich ausreichend, die Umgebungsvariable\n"
+"HEROES_PREFIX auf die neue Position zu setzen. Eine weitere Möglichkeit\n"
+"ist es, HEROES_DEBUG=system zu setzen, um zu sehen, an welcher Stelle"
+"Heroes danach sucht.\n"
+"Wenn alles nicht hilft, kontaktiere <heroes-bugs@lists.sourceforge.net>\n"
 
 #: src/rsc_files.c:31
 #, c-format
@@ -1546,24 +1600,24 @@ msgid "%s: empty resource"
 msgstr "%s: Ressource leer"
 
 #: src/savegame.c:90 src/scores.c:103
-#, fuzzy, c-format
+#, c-format
 msgid "cannot write %s"
-msgstr "Kann %s nicht oeffnen"
+msgstr "Kann %s nicht öffnen"
 
 #: src/savegame.c:95 src/scores.c:107
 #, c-format
 msgid "%s: truncate error"
-msgstr ""
+msgstr "%s: Fehler beim Abschneiden"
 
 #: src/savegame.c:126
 #, c-format
 msgid "%s:%d: parse error.  Clearing saved-games table."
-msgstr ""
+msgstr "%s:%s: Parser-Fehler.  Lösche Savegame-Tabelle."
 
 #: src/scores.c:150
 #, c-format
 msgid "%s:%d: parse error.  Clearing score table."
-msgstr ""
+msgstr "%s:%s: Parser-Fehler.  Lösche Highscore-Tabelle."
 
 #: src/userconf.c:82 src/userconf.c:109
 #, c-format
@@ -1578,17 +1632,17 @@ msgstr "%s:%d: Ressourcen-Name fehlt"
 #: src/userconf.c:125 src/userconf.c:139
 #, c-format
 msgid "%s:%d: %s: can only be used from the system configuration file"
-msgstr ""
+msgstr "%s:%d: %s: Kann nur in globaler Config-Datei verwendet werden."
 
 #: src/userconf.c:134 src/userconf.c:148
-#, fuzzy, c-format
+#, c-format
 msgid "%s:%d: %s: unknown value: %s"
-msgstr "%s:%d: unbekanntes Schluesselwort `%s'"
+msgstr "%s:%d: %s: unbekannter Wert: `%s'"
 
 #: src/userconf.c:152
 #, c-format
 msgid "%s:%d: unknown keyword `%s'"
-msgstr "%s:%d: unbekanntes Schluesselwort `%s'"
+msgstr "%s:%d: unbekanntes Schlüsselwort `%s'"
 
 #: src/media/sfx.c:94
 #, c-format
@@ -1596,8 +1650,8 @@ msgid ""
 "Cannot open %s, disabling sound-effects\n"
 "(run with -X to supress this message)."
 msgstr ""
-"Kann %s nicht oeffnen, Soundeffekt deaktiviert.\n"
-"(-X unterdrueckt diese Meldung)."
+"Kann %s nicht öffnen, Sound deaktiviert.\n"
+"(-X unterdrückt diese Meldung)."
 
 #: src/media/sfx.c:260
 #, c-format
@@ -1606,18 +1660,18 @@ msgstr "Kann Sample %s nicht laden"
 
 #: src/media/dummy/strack.c:75
 msgid "Heroes has been compiled without sound support."
-msgstr "Heroes wurde ohne Sound-Unterstuetzung kompiliert."
+msgstr "Heroes wurde ohne Sound-Unterstützung compiliert."
 
 #. FIXME: ask to send a bug report with a trace
 #: src/media/ggi/video.c:154
 msgid "failed to get any direct buffer for this visual"
-msgstr "Konnte Direkt-Puffer fuer diese Farbeinstellung nicht bekommen"
+msgstr "Konnte keinen Direkt-Puffer fuer dieses Visual bekommen"
 
 #. TRANS: a `visual' is associated by LibGGI to a display.  You can
 #. actually call it a `display', this makes no big difference.
 #: src/media/ggi/video.c:176
 msgid "failed to open visual."
-msgstr "Konnte diese Farbeinstellung nicht oeffnen"
+msgstr "Konnte Visual nicht öffnen"
 
 #: src/media/ggi/video.c:184
 msgid "cannot setup a correct display."
@@ -1632,7 +1686,7 @@ msgstr "Videomodus ist zu klein (Breite=%d, Hoehe=%d)"
 #. make no sense to translate.
 #: src/media/ggi/video.c:204
 msgid "Failed to open an internal `display-memory' visual."
-msgstr "Konnte interne 'Anzeigespeicher'-Farbeinstellung nicht oeffnen."
+msgstr "Konnte keine interne `Anzeigespeicher'-Visual öffnen."
 
 #: src/media/ggi/video.c:206
 msgid "Failed to set 320x200x8 mode on display-memory"
@@ -1653,7 +1707,7 @@ msgstr "unerwartetes Ereignis %d\n"
 
 #: src/media/gii/joystick.c:109 src/media/sdl/joystick.c:50
 msgid "No joystick found (run with `-J' to suppress this message)."
-msgstr "Kein Joystick gefunden (-J unterdrueckt diese Meldung)"
+msgstr "Kein Joystick gefunden (-J unterdrückt diese Meldung)"
 
 #: src/media/mikmod/strack.c:103
 #, c-format
@@ -1662,7 +1716,7 @@ msgid ""
 "Disabling sound output (use -S to suppress this message)."
 msgstr ""
 "Kann Sound nicht initialisieren, Grund: %s\n"
-"Sound deaktiviert (-S unterdrueckt diese Meldung)."
+"Sound deaktiviert (-S unterdrückt diese Meldung)."
 
 #: src/media/mikmod/strack.c:113
 msgid ""
@@ -1670,7 +1724,7 @@ msgid ""
 "Disabling sound output (use -S to suppress this message)."
 msgstr ""
 "Kann Sound nicht initialisieren, Grund: LibMikMod ist nicht thread-sicher.\n"
-"Sound ist deaktiviert (-S unterdrueckt diese Meldung)."
+"Sound ist deaktiviert (-S unterdrückt diese Meldung)."
 
 #: src/media/mikmod/strack.c:148 src/media/sdl_mixer/strack.c:133
 #, c-format
@@ -1690,7 +1744,7 @@ msgid ""
 "%s\n"
 msgstr ""
 "\n"
-"Verfuegbare Treiber:\n"
+"Verfügbare Treiber:\n"
 "%s\n"
 
 #: src/media/mikmod/strack.c:232
@@ -1699,13 +1753,13 @@ msgid ""
 "Argument '%s' out of bounds, must be between %d and %d.\n"
 "Use '%s --help' for more information."
 msgstr ""
-"Argument '%s': Bereichsueberschreitung, muß zwischen %d und %d liegen.\n"
-"Benutze '%s --help' fuer weitere Informationen."
+"Argument '%s': Bereichsüberschreitung, muß zwischen %d und %d liegen.\n"
+"Benutze '%s --help' für weitere Informationen."
 
 #: src/media/sdl/video.c:97
 #, c-format
 msgid "Failed to open visual: %s"
-msgstr "Konnte Farbeinstellung: %s nicht oeffnen"
+msgstr "Konnte Visual %s nicht öffnen"
 
 #: src/media/sdl_mixer/strack.c:95
 #, c-format
@@ -1713,30 +1767,29 @@ msgid ""
 "Couldn't open audio: %s\n"
 "Disabling sound output (use -S to suppress this message)."
 msgstr ""
-"Konnte Audio nicht oeffnen: %s\n"
-"Sound ist deaktiviert (-S unterdrueckt diese Meldung)."
+"Konnte Audio nicht öffnen: %s\n"
+"Sound ist deaktiviert (-S unterdrückt diese Meldung)."
 
 #: src/media/sdl_mixer/strack.c:171
 msgid ""
 "Heroes has been compiled with SDL_mixer, there is no driver list available."
 msgstr ""
-"Heroes wurde mit SDL_mixer kompiliert, es ist keine Treiber-\n"
-"Liste verfuegbar."
+"Heroes wurde mit SDL_mixer compiliert, keine Treiberliste verfügbar."
 
 #: src/media/sdl_mixer/strack.c:187
 #, c-format
 msgid "%s: missing parameter for 'freq'"
-msgstr "%s: fehlender Parameter fuer 'freq'"
+msgstr "%s: fehlender Parameter für 'freq'"
 
 #: src/media/sdl_mixer/strack.c:193
 #, c-format
 msgid "%s: missing parameter for `buffers'"
-msgstr "%s: fehlender Parameter fuer `buffers'"
+msgstr "%s: fehlender Parameter für `buffers'"
 
 #: src/media/sdl_mixer/strack.c:195
 #, c-format
 msgid "%s: recognized sound options are freq=nnn and buffers=nnn"
-msgstr "%s: zulaessige Klangoptionen sind freq=nnn und buffers=nnn"
+msgstr "%s: zulässige Klangoptionen sind freq=nnn und buffers=nnn"
 
 #, fuzzy
 #~ msgid ""
