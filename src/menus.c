@@ -43,10 +43,12 @@
 #include "fader.h"
 #include "scrtools.h"
 #include "rleprog.h"
+#include "rletext.h"
 
 rleprog_t* left_arrow = 0;
 rleprog_t* right_arrow = 0;
 rleprog_t* checked_box[2] = {0, 0};
+rleprog_t* control_menu_text = 0;
 
 void
 init_menus_sprites (void)
@@ -59,6 +61,17 @@ init_menus_sprites (void)
 				    14, 21, main_font_img.width, xbuf);
   checked_box[1] = compile_rleprog (IMGPOS (main_font_img, 50, 239), 0,
 				    14, 21, main_font_img.width, xbuf);
+
+  /* control menu */
+  control_menu_txt = compile_menu_text (txti[91], T_FLUSHED_LEFT, 39, 56);
+  concat_rleprog (control_menu_txt, 
+		  compile_menu_text (txti[92], T_FLUSHED_LEFT, 72, 56));
+  concat_rleprog (control_menu_txt, 
+		  compile_menu_text (txti[93], T_FLUSHED_LEFT, 111, 56));
+  concat_rleprog (control_menu_txt, 
+		  compile_menu_text (txti[92], T_FLUSHED_LEFT, 144, 56));
+  concat_rleprog (control_menu_txt, 
+		  compile_menu_text (txti[94], T_FLUSHED_LEFT, 182, 56));
 }
 
 void
@@ -72,6 +85,9 @@ uninit_menus_sprites (void)
   checked_box[0] = 0;
   free_rleprog (checked_box[1]);
   checked_box[1] = 0;
+
+  free_rleprog (control_menu_txt);
+  control_menu_txt = 0;
 }
 
 static void
@@ -111,7 +127,7 @@ control_menu (void)
 {
   char l = 0;
   int t;
-
+  
   std_white_fadein (&tile_set_img.palette);
   do {
     background_menu ();
@@ -129,11 +145,7 @@ control_menu (void)
     copy_rect_transp (main_font_img.buffer + 61 * 320,
 		      corner[0] + 95 * xbuf + 100, 120, 3);
     draw_text_waving (txti[90], 159, 5, 1);
-    draw_text (txti[91], 56, 39, 0);
-    draw_text (txti[92], 56, 72, 0);
-    draw_text (txti[93], 56, 111, 0);
-    draw_text (txti[92], 56, 144, 0);
-    draw_text (txti[94], 56, 182, 0);
+    exec_rleprog (control_menu_txt, corner[0]);
     vsynch ();
     aff_buffer ();
     if (key_or_joy_ready ()) {

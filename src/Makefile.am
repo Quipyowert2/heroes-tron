@@ -52,6 +52,8 @@ font.h \
 font_deck.h \
 font_help.h \
 font_menu.h \
+fontdata.h \
+fontdata.c \
 generic_list.h \
 gfx_reader.h \
 hedlite.c \
@@ -85,6 +87,8 @@ render.c \
 render.h \
 rleprog.c \
 rleprog.h \
+rletext.c \
+rletext.h \
 rsc_files.c \
 rsc_files.h \
 rsc_files_hash.c \

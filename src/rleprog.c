@@ -112,17 +112,42 @@ compile_rleprog (const pixel_t* src, pixel_t transp_color,
   prog->line_skip = dest_width - block_width;
   prog->next_prog = 0;
   prog->dest_offset = 0;
+  prog->latest_known = 0;
   
   assert (pc < prog->code + code_size);
 
   return prog;
 }
 
-void free_rleprog (rleprog_t* prog)
+void
+free_rleprog (rleprog_t* prog)
 {
   while (prog) {
     rleprog_t* next = prog->next_prog;
     free (prog);
     prog = next;
   }
+}
+
+rleprog_t* 
+concat_rleprog (rleprog_t* head, rleprog_t* tail)
+{
+  rleprog_t* pos = head;
+  
+  if (!head)
+    return tail;
+
+  /* use latest_known to reach the end more quickly */
+  while (pos->latest_known && pos != pos->latest_known)
+    pos = pos->latest_known;
+
+  while (pos->next_prog)
+    pos = pos->next_prog;
+
+  pos->next_prog = tail;
+  
+  /* update latest_known for next uses */
+  head->latest_known = tail->latest_known ? tail->latest_known : tail;
+  
+  return head;
 }

@@ -59,6 +59,7 @@
 #include "structs.h"
 #include "const.h"
 #include "scrtools.h"
+#include "fontdata.h"
 
 char tile_set_name[128];
 char glenz_name[128];
@@ -4795,6 +4796,9 @@ main (int argc, char *argv[])
   pcx_load_from_rsc ("bonus-font", &bonus_font_img);
   pcx_load_from_rsc ("jukebox-img", &jukebox_img);
   pcx_load_from_rsc ("jukebox-font", &font_deck_img);
+
+  init_fonts ();
+
   for (i = nfrexplo1 - 1; i >= 0; i--) {
     fst_explo_list[i] += (int) vehicles_img.buffer;
     snd_explo_list[i] += (int) vehicles_img.buffer;
@@ -4813,6 +4817,9 @@ main (int argc, char *argv[])
   uninit_menus_sprites ();
   uninit_fader ();
   uninit_text_waving_step ();
+
+  uninit_fonts ();
+
   free_htimer (demo_trigger_htimer);
   free_htimer (sound_track_htimer);
   free_htimer (tiles_anim_htimer);
@@ -4824,7 +4831,7 @@ main (int argc, char *argv[])
   free_htimer (corner_htimer);
   free_htimer (clock_htimer);
   free_htimer (blink_htimer);
-
+  
   img_free (&font_deck_img);
   img_free (&jukebox_img);
   img_free (&bonus_font_img);

@@ -51,7 +51,12 @@ struct rleprog_s {
      RLE-program in a chain, but we don't wont to output all blocs on
      the same places. */
   unsigned int	dest_offset;
-    
+
+  /* latest program known in the chain, may not be the
+     _actual_ latest (you still have to follow the next_prog pointer
+     after this one); but if non null it can move you near the end
+     of the chain rather quickly. */
+  rleprog_t*	latest_known;
 };
 
 /* Execute an RLE-program, output the result to dest. */
@@ -66,5 +71,9 @@ rleprog_t* compile_rleprog (const pixel_t* src, pixel_t transp_color,
 
 /* Free an RLE-program, or a chain of. */
 void free_rleprog (rleprog_t* prog);
+
+
+/* concat two RLE-programs */
+rleprog_t* concat_rleprog (rleprog_t* head, rleprog_t* tail);
 
 #endif /* HEROES__RLEPROG__H */
