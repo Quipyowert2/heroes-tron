@@ -19,6 +19,7 @@
 
 EXTRA_DIST = \
 ac_adl_find_header.m4 \
+ac_adl_gcc_optim.m4 \
 ac_adl_pkg_generic.m4 \
 ac_c_bigendian_cross.m4 \
 ac_caolan_check_package.m4 \

@@ -236,7 +236,7 @@ int strcasecmp (const char *s1, const char *s2);
 #endif
 
 #ifndef __attribute__
-# if __GNUC__ < 2 || (__GNUC__ == 2 && __GNUC_MINOR__ < 8) || __STRICT_ANSI__
+# if __GNUC__ < 2 || (__GNUC__ == 2 && __GNUC_MINOR__ < 7) || __STRICT_ANSI__
 #  define __attribute__(x)
 # endif
 #endif

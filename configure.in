@@ -413,6 +413,8 @@ if test "x${enable_debug}" != xyes && test -n "$GCC"; then
   CFLAGS="$CFLAGS -DNDEBUG"
 fi
 
+dnl This needs to be moved in a macro.
+dnl ----------------------------------
 if test -n "$auto_cflags"; then
   if test "x${enable_debug}" = xyes; then
     if test -n "$GCC"; then
@@ -431,11 +433,7 @@ if test -n "$auto_cflags"; then
       CFLAGS="$CFLAGS -g"
     fi
   else
-    if test -n "$GCC"; then
-      CFLAGS="$CFLAGS -ffast-math -fstrict-aliasing -fomit-frame-pointer -O3"
-    else
-      CFLAGS="$CFLAGS -O"
-    fi
+    ADL_GCC_WARNINGS
   fi
   if test "x${enable_gprof}" = xyes; then
     if test -n "$GCC"; then
@@ -450,9 +448,9 @@ if test -n "$auto_ldflags"; then
     *yes*:aix*|*yes*:hpux*|*yes*:netbsd*)
       ;;  # "ld -g" is not valid on these systems
     *yes*:*)
-      LDFLAGS=-g ;;
+      LDFLAGS="$LDFLAGS -g" ;;
     *)
-      LDFLAGS=-s ;;
+      LDFLAGS="$LDFLAGS -s" ;;
   esac
 fi
 

@@ -17,7 +17,7 @@ AC_CACHE_CHECK([where $1 is located], ac_adl_Header,
 # The backslash substitution is to persuade cygwin to cough up
 # slashes rather than doubled backslashes in the path.
 echo "#include <$1>" > nametmp.c
-afh_file_list="`$CPP $2 nametmp.c |
+afh_file_list="`$CPP $2 nametmp.c 2> /dev/null |
 sed -n 's/^#[ 	].*\"\(.*\)\"/\1/p' |
 sed 's/\\\\\\\\/\//g' |
 $AWK '{ if (\@S|@1 ~ \"$1\") files[[\@S|@1]] = \@S|@1 } 

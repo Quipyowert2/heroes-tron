@@ -1,3 +1,20 @@
+2000-10-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Old GCCs do not recognize -fstrict-aliasing, test this
+	at configure-time.
+	
+	* m4/ac_adl_gcc_optim.m4: New file.
+	* m4/Makefile.am (EXTRA_DIST): Add it.
+	* configure.in: Used it.
+
+	Misc errors.
+
+	* m4/ac_adl_find_header.m4: Redirect possible complain
+	of the compiler to /dev/null.
+	* configure.in: Don't overwrite LDFLAGS with -g or -s, just append
+	the option.
+	* src/common.h: Use __attribute__ for gcc 2.7.x too.
+
 2000-10-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Fix problems observed on Solaris.
