@@ -120,6 +120,7 @@ static sprite_t* jukebox_back = 0;
 static sprite_t* jukebox_forw = 0;
 static sprite_t* jukebox_quit = 0;
 static sprite_t* vehicles_spr[4] = { 0, 0, 0, 0 };
+static sprite_t* lemming[8] = { 0, 0, 0, 0, 0, 0, 0 };
 
 /* the following definitions are used to compile text-centered menus,
    that is, the main and the option menus */
@@ -372,6 +373,12 @@ init_menus_sprites (void)
 				 9, 12, jukebox_img.width, xbuf);
   jukebox_quit = compile_sprrle (IMGPOS (jukebox_img, 19, 24), 0,
 				 9, 16, jukebox_img.width, xbuf);
+  {
+    int i;
+    for (i = 0; i < 8; ++i)
+      lemming[i] = compile_sprrle (IMGPOS (main_font_img, 81, 132 + 6 * i), 0,
+				   10, 6, main_font_img.width, xbuf);
+  }
 
   /* pause menu */
   pause_menu_txt = compile_menu_text ("PAUSE", T_CENTERED|T_WAVING, 5, 159);
@@ -526,6 +533,11 @@ uninit_menus_sprites (void)
   FREE_SPRITE0 (jukebox_forw);
   FREE_SPRITE0 (jukebox_back);
   FREE_SPRITE0 (jukebox_quit);
+  {
+    int i;
+    for (i = 0; i < 8; ++i)
+      FREE_SPRITE0 (lemming[i]);
+  }
   FREE_SPRITE0 (pause_menu_txt);
   FREE_SPRITE0 (quitgame_menu_txt);
   FREE_SPRITE0 (quitheroes_menu_txt);
@@ -1879,9 +1891,8 @@ jukebox_draw (int pos)
 
   {
     int lempos = read_htimer (lemming_htimer);
-    copy_rect_transp (main_font_img.buffer +
-		      81 * 320 + 132 + 6 * (lempos & 7),
-		      corner[0] + (190) * xbuf + (lempos / 2) - 6, 6, 10);
+    DRAW_SPRITE (lemming[lempos & 7],
+		 corner[0] + 190 * xbuf + (lempos / 2) - 6);
     if ((lempos / 2) >= 332)
       reset_htimer (lemming_htimer);
   }

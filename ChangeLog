@@ -1,5 +1,13 @@
 2000-11-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/draw.c (copy_rect_transp): Remove.
+	* src/draw.h (copy_rect_transp): Remove.
+	* src/menus.c (lemming): New.
+	(init_menus_sprites, uninit_menus_sprites): Handle lemming.
+	(jukebox_draw): Use lemming.
+
+2000-11-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/menus.c (vehicles_spr): New.
 	(init_menus_sprites, uninit_menus_sprites): Handle vehicles_spr.
 	(draw_end_level_info, draw_round_info): Use it.

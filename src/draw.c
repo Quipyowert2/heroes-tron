@@ -26,23 +26,6 @@
 #include "draw.h"
 
 void
-copy_rect_transp (const unsigned char *src, unsigned char *dest, int xt,
-		  int yt)
-{
-  int j, k;
-  for (j = yt; j != 0; j--) {
-    for (k = xt; k != 0; k--) {
-      if (*src != 0)
-	*dest = *src;
-      src++;
-      dest++;
-    }
-    src += 320 - xt;
-    dest += xbuf - xt;
-  }
-}
-
-void
 copy_rect_transp_8 (const unsigned char *src, unsigned char *dest, int xt,
 		    int yt, char coul)
 {
