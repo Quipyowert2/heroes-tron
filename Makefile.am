@@ -25,6 +25,7 @@ ACLOCAL_AMFLAGS = -I m4
 # is not smart enough to handle this :o)).
 EXTRA_DIST = ANNOUNCE AUTHORS BUGS ChangeLog.00 ChangeLog.01 \
 GNUmakefile HACKING THANKS \
+misc/copytile.c \
 misc/heroes-1.xpm \
 misc/heroes-2.xpm \
 misc/heroes-3.xpm \

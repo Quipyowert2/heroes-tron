@@ -45,7 +45,10 @@ static bool invincible[4];	/* When a cell is true, the corresponding
 				   pariodically when the player is
 				   invincible (blinking). */
 
-
+/* The copy_tile function below looks a bit strange.  It tries to copy
+   the tile using two registers.  Some benchmarking shows this is a
+   good compromise.  Use misc/copytile.c if you want to make some
+   experiments.  */
 static void
 copy_tile (const a_pixel* src, a_pixel* dest, int tx)
 {
@@ -53,8 +56,8 @@ copy_tile (const a_pixel* src, a_pixel* dest, int tx)
   a_u32 *d = (a_u32 *) dest;
   a_u32 t1, t2;
   int y;
-  for (y = 20; y; --y) {	/* FIXME: Is this really faster than a */
-    t1 = s[0];			/* straight copy?  Need a benchmark  */
+  for (y = 20; y; --y) {
+    t1 = s[0];
     t2 = s[3];
     d[0] = t1;
     d[3] = t2;
