@@ -55,6 +55,7 @@ int mono = 0;
 int bits8 = 0;
 int hqmix = 0;
 int stretch = 1;
+int nosound = 0;
 
 static void
 version ()
@@ -73,29 +74,33 @@ print_help (char* argv0)
 {
   printf ("Usage: %s [OPTIONS]...\n\n",argv0);
   puts ("Heroes is a game like nibbles but different.\n\n"
-	"  -v, --version\t\t"	    "    display version\n"
+	"  -v, --version\t\t"	    "    display version number\n"
 	"  -h, --help\t\t"	    "    display this help\n"
-	"      --cpu-off\t\t"	    "    disable computer opponents\n"
-	"      --default-scores\t"  "    restore default scores file\n"
-	"      --default-options\t" "    restore default options file\n"
-	"      --default-saves\t"   "    restore default saves file\n"
-	"  -m, --mono\t\t"          "    non-stereo output\n"
-	"  -8, --8bits\t\t"	    "    8bits sound output\n"
-	"  -q, --high-quality\t"    "    high quality mixer\n"
-	"  -X, --no-sfx\t\t"        "    disable sound-effects\n"
-	"  -s, --swap-sides\t"      "    swap sides in two player mode\n"
-	"      --no-double-fx\t"    
-                           "    disable superposition of rotozoom and waves\n"
-	"  -g, --go\t\t"            "    skip the introduction\n"
-	"  -J, --no-joystick\t"     "    disable joystick handling\n"
+	"\nSound options:\n"
 	"  -n, --drivers-info\t"    "    print the sound drivers list\n"
 	"  -d, --driver=N[,OPTIONS]" 
 	                       "  use Nth driver for output (0: autodetect)\n"
+	"  -S, --no-sound\t\t"      "    disable sound\n"
+	"  -X, --no-sfx\t\t"        "    disable sound-effects\n"
+	"  -m, --mono\t\t"          "    non-stereo output\n"
+	"  -8, --8bits\t\t"	    "    8bits sound output\n"
+	"  -q, --high-quality\t"    "    high quality mixer\n"
+	"\nDisplay options:\n"	
 	"  -G, --gfx-options=OPTIONS" 
                                     " options to give to the display driver\n"
 	"  -F, --full-screen\t"     "    full screen mode\n"
 	"  -2, --double\t\t"        "    stretch the display twofold\n"
 	"  -3, --triple\t\t"        "    stretch the display threefold\n"
+	"\nMiscellaneous options:\n"
+	"      --cpu-off\t\t"	    "    disable computer opponents\n"
+	"      --default-scores\t"  "    restore default scores file\n"
+	"      --default-options\t" "    restore default options file\n"
+	"      --default-saves\t"   "    restore default saves file\n"
+	"  -s, --swap-sides\t"      "    swap sides in two player mode\n"
+	"      --no-double-fx\t"    
+                           "    disable superposition of rotozoom and waves\n"
+	"  -g, --go\t\t"            "    skip the introduction\n"
+	"  -J, --no-joystick\t"     "    disable joystick handling\n"
 	"\n"
 	"These options can be set in your file ~/.heroes/heroesrc (which is "
         "read\nbefore parsing other command line options) using a line like "
@@ -126,6 +131,7 @@ const struct option long_options[] = {
   {"go",		0, 0,		'g'},
   {"drivers-info",	0, 0,		'n'},
   {"driver",		0, 0,		'd'},
+  {"no-sound",		0, 0,		'S'},
   {"gfx-options",	1, 0,		'G'},
   {"full-screen",	1, 0,		'F'},
   {"double",		1, 0,		'2'},
@@ -144,7 +150,7 @@ parse_argv (int argc, char **argv)
   for (;;) {
     int option_index = 0;
 
-    c = getopt_long (argc, argv, "vhm8qsXl:gnd:G:JF23", 
+    c = getopt_long (argc, argv, "vhm8qsXl:gnd:G:JF23S", 
 		     long_options, &option_index);
 
     /* Detect the end of the options. */
@@ -204,6 +210,9 @@ parse_argv (int argc, char **argv)
       break;
     case 'q':
       hqmix = 1;
+      break;
+    case 'S':
+      nosound = 1;
       break;
     case '?':
       /* getopt_long already printed an error message. */

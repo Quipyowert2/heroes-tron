@@ -57,7 +57,7 @@ static int max_sfx = 0;
 #include <mikmod.h>
 static struct SAMPLE **sfx_handles;
 
-static struct SAMPLE
+static struct SAMPLE*
 _load_sfx (char* file)
 {
   struct SAMPLE* tmp;
@@ -316,8 +316,8 @@ load_sfx_mode (signed char mode)
   for (i = 1; i < max_sfx; i++)
     if (sfx_loaded[i]) {
       if (!(sfx_handles[i] = _load_sfx (sfx_names[i]))) {
-	fprintf(stderr,"%s :",sfx_names[i]);
-	fatal_error ("Unable to load that sample.");
+	fprintf(stderr,"%s: ",sfx_names[i]);
+	fatal_error ("Unable to load that sample.\n");
       }
     }
 }

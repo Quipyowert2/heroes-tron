@@ -75,6 +75,11 @@ halve_volume (void)
 int
 init_sound_engine (void)
 {
+  if (nosound) {
+    nosfx = 1;
+    return 0;
+  }
+
   /* register all the drivers */
   MikMod_RegisterAllDrivers ();
 
@@ -92,14 +97,21 @@ init_sound_engine (void)
   if (hqmix)
     md_mode |= DMODE_HQMIXER;
   if (MikMod_Init (driver_options?driver_options:"")) {
-    fprintf (stderr, "Could not initialize sound, reason: %s\n",
+    fprintf (stderr, "Could not initialize sound, reason: %s\n"
+	     "Disabling sound output (use -S to suppress this message).\n",
 	     MikMod_strerror (MikMod_errno));
-    return 1;
+    nosfx = nosound = 1;
+    MikMod_Exit ();
+    return 0;
   }
 
   if (MikMod_InitThreads () != 1) {
-    fprintf (stderr, "Could not initialize sound, reason: LibMikMod is not thread safe.\n");
-    return 1;
+    fprintf (stderr, "Could not initialize sound, reason: "
+	     "LibMikMod is not thread safe.\n"
+	     "Disabling sound output (use -S to suppress this message).\n");
+    nosfx = nosound = 1;
+    MikMod_Exit ();
+    return 0;
   }
 
   pthread_mutex_init (&playing, 0);
@@ -111,12 +123,15 @@ init_sound_engine (void)
 void
 uninit_sound_engine (void)
 {
-  MikMod_Exit ();
+  if (!nosound)
+    MikMod_Exit ();
 }
 
 void
 load_soundtrack (char *ptr)
-{  
+{
+  if (nosound)
+    return;
   module = Player_Load (ptr, 16, 0);
   if (!module) {
     fprintf (stderr, "Could not load %s, reason: %s\n", ptr,
@@ -127,6 +142,8 @@ load_soundtrack (char *ptr)
 void
 unload_soundtrack (void)
 {
+  if (nosound)
+    return;
   if (!module)
     return;
   pthread_mutex_unlock (&playing);
@@ -154,6 +171,8 @@ update_thread (void *arg __attribute__ ((unused)))
 void
 play_soundtrack (void)
 {
+  if (nosound)
+    return;
   if (!module)
     return;
   pthread_mutex_lock (&playing);
@@ -221,16 +240,18 @@ decode_sound_options (char* optarg, char* argv0)
 void 
 load_soundtrack_from_alias (char* alias)
 {
-  sound_track_t* st = get_sound_track_from_alias (alias);
-
-  if (st) {
-    load_soundtrack (st->filename);
-    soundtrack_title = st->title;
-    soundtrack_author = st->author;
-  } else {
-    module = 0;
-    soundtrack_title = 0;
-    soundtrack_author = 0;
+  if (!nosound) {
+    sound_track_t* st = get_sound_track_from_alias (alias);
+    
+    if (st) {
+      load_soundtrack (st->filename);
+      soundtrack_title = st->title;
+      soundtrack_author = st->author;
+    } else {
+      module = 0;
+      soundtrack_title = 0;
+      soundtrack_author = 0;
+    }
   }
 }
 
@@ -265,6 +286,11 @@ extern void init_SDL (void);
 int
 init_sound_engine (void)
 {
+  if (nosound) {
+    nosfx = 1;
+    return 0;
+  }
+
   audio_rate = (hqmix ? 44100 : 22050);
   audio_format = (bits8 ? AUDIO_S8 : AUDIO_S16);
   audio_channels = (mono ? 1 : 2);
@@ -276,8 +302,10 @@ init_sound_engine (void)
   /* Open the audio device */
   if (Mix_OpenAudio (audio_rate, audio_format, audio_channels, audio_buffers) 
       < 0) {
-    fprintf(stderr, "Couldn't open audio: %s\n", SDL_GetError());
-    exit (2);
+    fprintf(stderr, "Couldn't open audio: %s\n"
+	    "Disabling sound output (use -S to suppress this message).\n",
+	    SDL_GetError());
+    nosfx = nosound = 1;
   } else {
     Mix_QuerySpec(&audio_rate, &audio_format, &audio_channels);
     printf("Opened audio at %d Hz %d bit %s, %d bytes audio buffer\n", 
@@ -287,21 +315,21 @@ init_sound_engine (void)
 	   audio_buffers );
   }
 
-  /* Set the external music player, if any */
-  Mix_SetMusicCMD (getenv ("MUSIC_CMD"));
-
   return 0;
 }
 
 void
 uninit_sound_engine (void)
 {
-  Mix_CloseAudio ();
+  if (!nosound)
+    Mix_CloseAudio ();
 }
 
 void
 load_soundtrack (char *ptr)
 {
+  if (nosound)
+    return;
   music = Mix_LoadMUS(ptr);
   if (!music) {
     fprintf (stderr, "Could not load %s, reason: %s\n", ptr,
@@ -312,6 +340,8 @@ load_soundtrack (char *ptr)
 void
 unload_soundtrack (void)
 {
+  if (nosound)
+    return;
   if (music) {
     Mix_FreeMusic (music);
     music = NULL;
@@ -321,6 +351,8 @@ unload_soundtrack (void)
 void
 play_soundtrack (void)
 {
+  if (nosound)
+    return;
   if (music)
     Mix_PlayMusic(music, -1);
 }
@@ -341,16 +373,18 @@ decode_sound_options (char* optarg __attribute__ ((unused)),
 void 
 load_soundtrack_from_alias (char* alias)
 {
-  sound_track_t* st = get_sound_track_from_alias (alias);
-
-  if (st) {
-    load_soundtrack (st->filename);
-    soundtrack_title = st->title;
-    soundtrack_author = st->author;
-  } else {
-    music = 0;
-    soundtrack_title = 0;
-    soundtrack_author = 0;
+  if (!nosound) {
+    sound_track_t* st = get_sound_track_from_alias (alias);
+    
+    if (st) {
+      load_soundtrack (st->filename);
+      soundtrack_title = st->title;
+      soundtrack_author = st->author;
+    } else {
+      music = 0;
+      soundtrack_title = 0;
+      soundtrack_author = 0;
+    }
   }
 }
 

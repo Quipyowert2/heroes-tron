@@ -1,5 +1,25 @@
 2000-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Add -S/--no-sound option, and switch to no-sound automaticaly if the
+	sound-engine can't initialize.
+
+	* doc/heroes.texi: Document --no-sound and --no-sfx (was missing),
+	and reoder the option list.
+	* src/argv.h (nosound): New.
+	* src/argv.c (nosound): New.
+	(print_help): Add -S and --no-sound, reorder option list.
+	(long_options): Add --no-sound.
+	(parse_argv): Handle -S.
+	* src/sound.c [HAVE_LIBMIKMOD,HAVE_LIBSDL_MIXER]
+	(init_sound_engine, uninit_sound_engine, load_soundtrack,
+	unload_soundtrack, play_soundtrack, load_soundtrack_from_alias):
+	Handle nosound.
+
+	* src/sfx.c [HAVE_MIKMOD] (_load_sfx): Fix return type.
+	(load_sfx_mode): Cosmetic change of the error message.
+
+2000-08-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	SFX support for SDL_mixer
 
 	* src/sfx.c: Move functions around, and setup support

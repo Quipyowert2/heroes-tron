@@ -39,3 +39,4 @@ extern int mono;
 extern int bits8;
 extern int hqmix;
 extern int stretch;
+extern int nosound;

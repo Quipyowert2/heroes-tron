@@ -657,75 +657,7 @@ Display Heroes version number and copyright informations.
 @cindex --help
 Print an help message about these run-time options.
 
-@item --cpu-off
-@cindex --cpu-off
-Disable computer opponents driving.  The opponents are still there
-(there will always be four players) but they are no more driven: they
-turn when they hit wall.  You won't want to use this options, it is here
-for historical reason: when the game was started in 1996 this used to
-suppress some overhead on slow machines.
-
-@item --default-scores
-@itemx --default-options
-@itemx --default-saves
-@cindex --default-scores
-@cindex --default-options
-@cindex --default-saves
-Don't read the corresponding file, but use default value instead.
-The files will be saved at the end of the game anyway, so you can
-use these options to revert the default value of the given file.  
-Another way to do this is simply to delete the file, it will be
-created the next time Heroes run.
-
-@item -m
-@itemx --mono
-@cindex -m
-@cindex --mono
-Output sound in mono.  This has no effect if the game is compiled
-without sound support.
-
-@item -8
-@itemx --8bits
-@cindex -8
-@cindex --8bits
-Output sound in 8bits, rather than 16.  You will need this option if you
-have an old sound card that can't play 16bits samples.
-
-@item -q
-@itemx --high-quality
-@cindex -a
-@cindex --high-quality
-Use the high quality software mixer.  This mixer is somewhat more
-expensive, but you can expect a better sound quality.
-
-@item -s
-@itemx --swap-sides
-@cindex -s
-@cindex --swap-sides
-Swap sides when playing in two players mode.  The default is to have
-player one on the right and player two on the left, because the default
-key bindings use the arrows for player one and left letters keys for
-player tow.
-
-@item --no-double-fx
-@cindex --no-double-fx
-Disable superposition of rotozoom and waves.  This is also a prehistoric
-option.  These two visual effects lead to a small overhead that one may
-not want to combine on a slow host.
-
-@item -g
-@itemx --go
-@cindex -g
-@cindex --go
-Skip the game introduction, start right on the main menu.
-
-@item -J
-@itemx --no-joystick
-@cindex -J
-@cindex --no-joystick
-Disable joystick handling.  Most of the time you will use this because
-you don't have a joystick and are annoyed by the warning message output
-when heroes start.
+@comment sound options:
 
 @item -n
 @itemx --drivers-info
@@ -757,6 +689,39 @@ Specify the driver to use. @samp{N} is the number of the driver taken
 from the output of @samp{heroes -n}. Use @samp{0} for auto-detection.
 Additional options can be given to the driver, see LibMikMod's
 @file{README} file.
+
+@item -S
+@itemx --no-sound
+Disable sound output completly (both sound tracks and soundeffects).
+
+@item -X
+@itemx --no-sfx
+Disable sound effects only.
+
+@item -m
+@itemx --mono
+@cindex -m
+@cindex --mono
+Output sound in one single channel.  This has no effect if the game is
+compiled without sound support, of course.
+
+@item -8
+@itemx --8bits
+@cindex -8
+@cindex --8bits
+Output sound in 8bits, rather than 16.  You will need this option if you
+have an old sound card that can't play 16bits samples.
+
+@item -q
+@itemx --high-quality
+@cindex -a
+@cindex --high-quality
+When compiled with MikMod, use the high quality software mixer.  This
+mixer is somewhat more expensive, but you can expect a better sound
+quality.  When compiled with SDL_mixer, output sound in 44kHz instead
+of 22kHz.
+
+@comment display options
 
 @item -G OPTIONS
 @itemx --gfx-options=OPTIONS
@@ -799,6 +764,57 @@ Stretch the game twofold before blitting to screen.  This is slow.
 @cindex --triple
 @cindex stretching
 Stretch the game threefold before blitting to screen.  This is even slower.
+
+@comment miscellaneous options
+
+@item --cpu-off
+@cindex --cpu-off
+Disable computer opponents driving.  The opponents are still there
+(there will always be four players) but they are no more driven: they
+turn when they hit wall.  You won't want to use this options, it is here
+for historical reason: when the game was started in 1996 this used to
+suppress some overhead on slow machines.
+
+@item --default-scores
+@itemx --default-options
+@itemx --default-saves
+@cindex --default-scores
+@cindex --default-options
+@cindex --default-saves
+Don't read the corresponding file, but use default value instead.
+The files will be saved at the end of the game anyway, so you can
+use these options to revert the default value of the given file.  
+Another way to do this is simply to delete the file, it will be
+created the next time Heroes run.
+
+@item -s
+@itemx --swap-sides
+@cindex -s
+@cindex --swap-sides
+Swap sides when playing in two players mode.  The default is to have
+player one on the right and player two on the left, because the default
+key bindings use the arrows for player one and left letters keys for
+player tow.
+
+@item --no-double-fx
+@cindex --no-double-fx
+Disable superposition of rotozoom and waves.  This is also a prehistoric
+option.  These two visual effects lead to a small overhead that one may
+not want to combine on a slow host.
+
+@item -g
+@itemx --go
+@cindex -g
+@cindex --go
+Skip the game introduction, start right on the main menu.
+
+@item -J
+@itemx --no-joystick
+@cindex -J
+@cindex --no-joystick
+Disable joystick handling.  Most of the time you will use this because
+you don't have a joystick and are annoyed by the warning message output
+when heroes start.
 
 @end table
 
