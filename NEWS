@@ -16,6 +16,8 @@ Heroes 0.5	July 22, 2000
 	* Bugs fixed:
 	  - configure went wrong on joystick tests when GGI was not
 	    available and SDL didn't have joystick support.
+	  - `make distclean' did not remove all generated files.
+	  - VPATH build did not work.
 	  - --gfx-options used to segfault.
 	* Minor improvements:
 	  - Allow <PAUSE> to continue paused games.
@@ -40,7 +42,7 @@ Heroes 0.3	June 24, 2000
 	  or electric fence.
 
 Heroes 0.2	June 3, 2000
-       
+
 	* Support for non-8bits video mode (thanks to Pierre Baillet).
 	* Sound effects now works.
 	* Options, scores, and saved games are now written in
@@ -53,7 +55,7 @@ Heroes 0.2	June 3, 2000
 	  - a buffer overflow in pixelize
           - backspace and delete didn't work in console
 	  - the `orange vertical line' when playing a two players game
-       
+
 Heroes 0.1	May 25, 2000
 
 	* First release under linux.

@@ -22,6 +22,6 @@ man_MANS = heroes.6
 EXTRA_DIST = $(man_MANS)
 
 if HAVE_HELP2MAN
-heroes.6 : ../src/argv.o
+heroes.6 : $(srcdir)/../src/argv.c
 	@HELP2MAN@ -n game -s6 ../src/heroes | sed -e 's/ FSF//' > $@
 endif

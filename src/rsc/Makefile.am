@@ -19,6 +19,6 @@
 # $Id: Makefile.am 1.1 Wed, 10 May 2000 18:33:22 +0200 pollux $
 
 xdir = @rscdir@
-x_DATA = $(wildcard *.pcx) $(wildcard *.glz) $(wildcard *.pie)
+x_DATA = $(subst $(srcdir)/,,$(wildcard $(srcdir)/*.pcx) $(wildcard $(srcdir)/*.glz) $(wildcard $(srcdir)/*.pie))
 
 EXTRA_DIST = $(x_DATA)

@@ -19,6 +19,6 @@
 # $Id: Makefile.am 1.1 Sat, 03 Jun 2000 18:26:08 +0200 pollux $
 
 xdir = @sfxdir@
-x_DATA = $(wildcard *.wav) sfx.cfg
+x_DATA = $(subst $(srcdir)/,,$(wildcard $(srcdir)/*.wav)) sfx.cfg
 
 EXTRA_DIST = $(x_DATA)

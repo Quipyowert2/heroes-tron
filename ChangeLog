@@ -1,5 +1,30 @@
 2000-07-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Support for VPATH builds.
+	
+	* src/etc/Makefile.am (heroesrc): Don't use broken `$<' variable,
+	adapt for VPATH builds.
+	* man/Makefile.am (heroes.6): Depends on argv.c rather than argv.o.
+	* src/extralvl/Makefile.am (x_DATA): Adapt for VPATH builds.
+	* src/hedit/Makefile.am (x_DATA): Likewise.
+	* src/level/Makefile.am (x_DATA): Likewise.
+	* src/rsc/Makefile.am (x_DATA): Likewise.
+	* src/sfx/Makefile.am (x_DATA): Likewise.
+	* src/sprites/Makefile.am (x_DATA): Likewise.
+	* src/mod/Makefile.am (x_DATA,EXTRA_DIST): Likewise.
+	(sound.conf): Don't use broken `$<' variable, adapt for VPATH builds.
+	* NEWS: Update.
+
+	Fix a bug introduced by a previous patch (`make distclean'
+	produced an error when configured with sound support).
+	
+	* configure.in: Define the NOSOUND consitional.
+	* src/Makefile.am (DIST_SUBDIRS): New.
+	(DISTCLEANFILES): Define only if NOSOUND (otherwise mod/Makefile
+	and sfx/Makefile would be removed before being called).
+
+2000-07-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* NEWS: Update.
 	* TODO: Update.
 	* README: Update.

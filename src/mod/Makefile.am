@@ -19,10 +19,10 @@
 # $Id: Makefile.am 1.1 Sat, 13 May 2000 10:51:14 +0200 pollux $
 
 xdir = @moddir@
-x_DATA = $(wildcard *.xm) sound.conf
+x_DATA = $(subst $(srcdir)/,,$(wildcard $(srcdir)/*.xm)) sound.conf
 
-EXTRA_DIST = $(wildcard *.xm) sound.conf.in
+EXTRA_DIST = $(subst $(srcdir)/,,$(wildcard $(srcdir)/*.xm)) sound.conf.in
 CLEANFILES = sound.conf
 
 sound.conf: sound.conf.in ../config.h
-	sed -e "s:%%moddir%%:$(moddir):" < $< > $@
+	sed -e "s:%%moddir%%:$(moddir):" < $(srcdir)/sound.conf.in > $@

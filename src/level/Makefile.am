@@ -19,6 +19,6 @@
 # $Id: Makefile.am 1.1 Wed, 10 May 2000 18:33:22 +0200 pollux $
 
 xdir = @nivdir@
-x_DATA = $(wildcard *.lvl) level.lst
+x_DATA = $(subst $(srcdir)/,,$(wildcard $(srcdir)/*.lvl)) level.lst
 
 EXTRA_DIST = $(x_DATA)

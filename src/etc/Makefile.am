@@ -25,4 +25,4 @@ EXTRA_DIST = heroesrc.in
 CLEANFILES = heroesrc
 
 heroesrc: heroesrc.in ../config.h
-	sed -e "s:%%moddir%%:$(moddir):" < $< > $@
+	sed -e "s:%%moddir%%:$(moddir):" < $(srcdir)/heroesrc.in > $@

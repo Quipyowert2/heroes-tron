@@ -19,6 +19,6 @@
 # $Id: Makefile.am 1.4 Mon, 22 May 2000 09:53:50 +0200 pollux $
 
 xdir = @heddir@
-x_DATA = $(wildcard *.pcx)
+x_DATA = $(subst $(srcdir)/,,$(wildcard $(srcdir)/*.pcx))
 
 EXTRA_DIST = $(x_DATA)

@@ -297,6 +297,7 @@ $libmikmod_config_micro_version"
 ]AC_DEFINE(HAVE_LIBMIKMOD,1,[Define if you have the LibMikMod library]))
 fi
 AC_SUBST(musicdir)
+AM_CONDITIONAL(NOSOUND, test ${musicdir}x = x)
 
 dnl ==================
 dnl Check for dmalloc.
