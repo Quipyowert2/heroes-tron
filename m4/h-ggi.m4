@@ -15,5 +15,8 @@ AC_DEFUN([heroes_CHECK_GGI],
  ifelse([$2],,,[else
    $2])
  fi
+])
+
+AC_DEFUN([heroes_CHECK_GGI_POST],[
  AM_CONDITIONAL(GGI, [test "x${with_ggi}" != xno])
 ])

@@ -94,7 +94,7 @@
 #define HK_T		GIIUC_T
 #define HK_Up		GIIK_Up
 
-#endif /* HAVE_LIBGGI */
+#else /* !HAVE_LIBGGI */
 
 #ifdef HAVE_LIBSDL
 
@@ -164,6 +164,79 @@
 #define HK_T		'T'
 #define HK_Up		SDLK_UP
 
-#endif /* HAVE_LIBSDL */
+#else /* !HAVE_LIBSDL */
+
+enum {
+  HK_MOD_None,
+  HK_MOD_Shift,
+  HK_MOD_Ctrl,
+  HK_MOD_Alt,
+  HK_MOD_Meta
+};
+
+enum {
+  HK_0,
+  HK_1,
+  HK_2,
+  HK_3,
+  HK_4,
+  HK_5,
+  HK_6,
+  HK_7,
+  HK_8,
+  HK_9,
+  HK_10,
+  HK_BackSpace,
+  HK_CtrlL,
+  HK_CtrlR,
+  HK_D,
+  HK_d,
+  HK_E,
+  HK_Delete,
+  HK_Down,
+  HK_End,
+  HK_Enter,
+  HK_Escape,
+  HK_F,
+  HK_f,
+  HK_F1,
+  HK_F2,
+  HK_F3,
+  HK_F4,
+  HK_F5,
+  HK_F6,
+  HK_F7,
+  HK_F8,
+  HK_F9,
+  HK_F10,
+  HK_F11,
+  HK_F12,
+  HK_Home,
+  HK_i,
+  HK_I,
+  HK_Left,
+  HK_NIL,
+  HK_o,
+  HK_O,
+  HK_p,
+  HK_P,
+  HK_PageDown,
+  HK_PageUp,
+  HK_Pause,
+  HK_PrintScreen,
+  HK_Right,
+  HK_S,
+  HK_s,
+  HK_ShiftL,
+  HK_ShiftR,
+  HK_Space,
+  HK_SysRq,
+  HK_t,
+  HK_T,
+  HK_Up
+};
+
+#endif /* !HAVE_LIBSDL */
+#endif /* !HAVE_LIBGGI */
 
 #endif /* HEROES__KEYS_HEROES__H */

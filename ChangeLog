@@ -1,3 +1,29 @@
+2001-02-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Support for --disable-display.
+
+	* doc/heroes.texi (configure options): Document --disable-display.
+	* m4/h-ggi.m4 (heroes_CHECK_GGI_POST): New.
+	* m4/h-display.m4: Handle --disable-display. Call
+	heroes_CHECK_GGI_POST.
+	* m4/h-sound.m4: sound_lib default to <disabled>.
+	* src/Makefile.am (CLEANFILES): Remove keysdef-inc.h.
+	(DISTCLEANFILES): Add keysdef-inc.h.
+	(keysdef-inc.h): Don't depend upon $(CONFIG_HEADER); create
+	keysdef-inc.h when neither GGI nor SDL are used.
+	* src/display.h [!HAVE_LIBSDL && !HAVE_LIBGGI] (set_display_params,
+	set_full_screen_mode, init_video, uninit_video, set_color,
+	vsynchro, vsynchro2, set_pal): Define new empty macros.
+	* src/keyb.c [!HAVE_LIBSDL && !HAVE_LIBGGI] (update_mouse_state):
+	Define new empty macro.
+	(uninit_keyboard_map): Define only once.
+	* src/keyb.h [!HAVE_LIBSDL && !HAVE_LIBGGI] (process_input_events,
+	get_key, key_ready, init_mouse, mouse_show, mouse_hide): Define
+	new empty macros.
+	* src/keys_heroes.h [!HAVE_LIBSDL && !HAVE_LIBGGI]: Define keys.
+	* src/keysdef.c: Suppress RCS Id.
+	* src/system.h  [!HAVE_LIBSDL && !HAVE_LIBGGI] (keycode_t): Define.
+
 2001-02-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* NEWS: s/Dutsh/Dutch/

@@ -159,15 +159,18 @@
 #if HAVE_LIBGGI && HAVE_LIBSDL
 # error "HAVE_LIBGGI and HAVE_LIBSDL can't be defined both"
 #endif
+
 #if HAVE_LIBGGI
 # include <ggi/ggi.h>
 typedef uint32		keycode_t;
-#endif
-#if HAVE_LIBSDL
-# include <SDL.h>
+#else /* !HAVE_LIBGGI */
+# if HAVE_LIBSDL
+#  include <SDL.h>
 typedef SDLKey		keycode_t;
-#endif
-
+# else /* !HAVE_LIBSDL */
+typedef unsigned int	keycode_t;
+# endif /* !HAVE_LIBSDL */
+#endif /* !HAVE_LIBGGI */
 /* joystick library */
 
 #if JOYSTICK_SUPPORT

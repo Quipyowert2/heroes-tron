@@ -24,10 +24,11 @@ fi])
 AC_DEFUN([heroes_CHECK_SOUND_LIB],
 [AC_ARG_ENABLE([sound],
                [AC_HELP_STRING([--disable-sound],[turn off sound support])])
+ sound_lib="<disabled>"
  if test "${enable_sound-yes}" != no; then
    heroes_CHECK_SDL_MIXER([sound_lib="SDL_mixer"; with_mikmod=no],
 	                  [heroes_CHECK_MIKMOD([sound_lib="LibMikMod dnl
 $libmikmod_config_major_version.dnl
 $libmikmod_config_minor_version.dnl
-$libmikmod_config_micro_version"],[sound_lib="<disabled>"])])
+$libmikmod_config_micro_version"])])
  fi])

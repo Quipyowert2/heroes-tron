@@ -33,6 +33,8 @@
 
 typedef u8_t pixel_t;
 
+#if HAVE_LIBSDL || HAVE_LIBGGI
+
 void set_display_params (const char* str);
 void set_full_screen_mode (void);
 
@@ -47,5 +49,18 @@ void vsynchro (const pixel_t *s);
    in two player mode). */
 void vsynchro2 (const pixel_t *s1, const pixel_t *s2);
 void set_pal (const unsigned char *ptr, int p, int n);
+
+#else /* !HAVE_LIBSDL && !HAVE_LIBGGI */
+
+# define set_display_params(str)
+# define set_full_screen_mode()
+# define init_video()
+# define uninit_video()
+# define set_color(c,r,g,b)
+# define vsynchro(s)		(void*)0
+# define vsynchro2(s1,s2)	(void*)0
+# define set_pal(ptr,p,n)
+
+#endif /* !HAVE_LIBSDL && !HAVE_LIBGGI */
 
 #endif /* HEROES__DISPLAY__H */

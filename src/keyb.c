@@ -35,7 +35,11 @@ static char mouse_button_middle = 0;
 unsigned int keyboard_modifiers;
 unsigned char keyboard_map[KEY_MAX + 1];
 
+#if HAVE_LIBGGI || HAVE_LIBSDL
 void update_mouse_state (void);
+#else
+# define update_mouse_state()
+#endif
 
 void
 init_keyboard_map (void)
@@ -45,6 +49,11 @@ init_keyboard_map (void)
   for (i = KEY_MAX; i >= 0; i--)
     keyboard_map[i] = 0;
   keyboard_modifiers = 0;
+}
+
+void
+uninit_keyboard_map (void)
+{
 }
 
 int
@@ -90,7 +99,7 @@ mouse12 (void)
   return mouse_button_left || mouse_button_right || mouse_button_middle;
 }
 
-#ifdef HAVE_LIBGGI
+#if HAVE_LIBGGI
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -214,11 +223,6 @@ update_mouse_state (void)
 }
 
 
-void
-uninit_keyboard_map (void)
-{
-}
-
 keycode_t
 get_key (void)
 {
@@ -238,7 +242,7 @@ key_ready (void)
 }
 
 #endif /* HAVE_LIBGGI */
-#ifdef HAVE_LIBSDL
+#if HAVE_LIBSDL
 
 #include <assert.h>
 #include <SDL.h>
@@ -341,11 +345,6 @@ process_input_events (void)
     }
   }
   keyboard_modifiers = SDL_GetModState ();
-}
-
-void
-uninit_keyboard_map (void)
-{
 }
 
 keycode_t

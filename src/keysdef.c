@@ -18,8 +18,6 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-/* $Id: keysdef.c 1.4 Tue, 04 Jul 2000 20:55:53 +0200 adl $ */
-
 #include "system.h"
 #include "keysdef.h"
 

@@ -31,5 +31,8 @@ AC_HELP_STRING([--without-sdl],[disables SDL usage completely])])
  ifelse([$2],,,[else
    $2])
  fi
+])
+
+AC_DEFUN([heroes_CHECK_SDL_POST],[
  AM_CONDITIONAL(SDL, [test "x${with_sdl}" != xno])
 ])

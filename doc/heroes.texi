@@ -751,6 +751,13 @@ Check for @samp{mtrace()}, Dmalloc, or Electric Fence.  Use the first found.
 Enable profiling support with @samp{gcc}, you need @samp{gprof} to
 inspect the file resulting from a run of Heroes.
 
+@item --disable-display
+@cindex --disable-display
+This disable all screen output, making the game rather unplayable.
+This suppress decencies over third party libraries like GGI or SDL,
+therefore you may find it useful with some debugging tools like
+checkergcc.
+
 @end table
 
 @c ======================================================================

@@ -29,6 +29,15 @@ extern unsigned int keyboard_modifiers;
 
 void init_keyboard_map (void);
 void uninit_keyboard_map (void);
+int mouse_x (void);
+int mouse_y (void);
+char mouse1 (void);
+char mouse2 (void);
+char mouse3 (void);
+char mouse12 (void);
+
+#if HAVE_LIBGGI || HAVE_LIBSDL
+
 void process_input_events (void);
 keycode_t get_key (void);
 int key_ready (void);
@@ -36,15 +45,17 @@ int key_ready (void);
 int init_mouse (void);
 void mouse_show (void);
 void mouse_hide (void);
-int mouse_x (void);
-int mouse_y (void);
-char mouse1 (void);
-char mouse2 (void);
-char mouse3 (void);
-char mouse12 (void);
-/*
-char mouse123 (void);
-void set_mouse_pos (int, int);
-*/
+
+#else /* !HAVE_LIBSDL && !HAVE_LIBGGI */
+
+# define process_input_events()
+# define get_key() 0
+# define key_ready() 0
+
+# define init_mouse() 0
+# define mouse_show()
+# define mouse_hide()
+
+#endif /* !HAVE_LIBSDL && !HAVE_LIBGGI */
 
 #endif /* HEROES__KEYB__H */
