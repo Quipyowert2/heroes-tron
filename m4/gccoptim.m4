@@ -26,5 +26,8 @@ EOF
   rm -f conftest*
   CFLAGS="$cf_save_CFLAGS $ac_cv_prog_gcc_opt_flags"])
 else
-  CFLAGS="$CFLAGS -O"
+  case $enable_optimizations in
+    no) ;;
+    *) CFLAGS="$CFLAGS $enable_optimizations" ;;
+  esac
 fi])

@@ -6,6 +6,6 @@ AC_DEFUN([adl_ENABLE_DEVEL],
    enable_debug=${enable_debug-yes}
    enable_warnings=${enable_warnings-yes}
    enable_assert=${enable_assert-yes}
-   enable_optimizations=${enable_optimizations-no}
+   enable_optimizations=${enable_optimizations--O}
  fi
 ])

@@ -748,6 +748,8 @@ the debugging code includes some checks on the translated messages.
 @item --disable-optimizations
 @cindex --disable-optimizations
 Turn off compiler optimizations options.  This can ease debugging.
+If you want to supply your own optimizations options, use
+something like @samp{--enable-optimizations='-O3 -march=pentium'}.
 
 @item --enable-warnings
 @cindex --enable-warnings
