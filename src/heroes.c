@@ -3667,6 +3667,11 @@ main (int argc, char *argv[])
     }
   }
 
+  /* Reopen the score and save file, because the user
+     might have changed them from his configuration file.  */
+  reinit_scores_if_needed ();
+  reinit_save_records_if_needed ();
+
   freeze_sound_track_list ();
 
   dmsg (D_SYSTEM, "parsing command line");

@@ -38,6 +38,7 @@ typedef struct
 extern saved_game saverec[10];
 
 void init_save_records (void);
+void reinit_save_records_if_needed (void);
 void clear_save_records (void);
 void write_save_records (void);
 void write_save_records_locked (void);

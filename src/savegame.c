@@ -51,6 +51,18 @@ init_save_records (void)
 }
 
 void
+reinit_save_records_if_needed (void)
+{
+  char *newname = get_non_null_rsc_file ("saved-games-file");
+  if (strcmp (newname, name)) {
+    free_save_records ();
+    init_save_records ();
+  }
+  free (newname);
+}
+
+
+void
 clear_save_records (void)
 {
   memset (saverec, 0, 10 * sizeof (saved_game));
@@ -184,8 +196,10 @@ load_save_records (void)
 {
   load_save_records_seek ("rt");
   load_save_records_read ();
-  dmsg (D_FILE | D_SYSTEM, "unlocking %s", name);
-  file_unlock (fsave);
+  if (fsave) {
+    dmsg (D_FILE | D_SYSTEM, "unlocking %s", name);
+    file_unlock (fsave);
+  }
 }
 
 void

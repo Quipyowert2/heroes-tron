@@ -36,6 +36,7 @@ typedef struct
 extern top_score highs[5][10];
 
 void init_scores (void);
+void reinit_scores_if_needed (void);
 void sort_scores (void);
 void clear_scores (void);
 void write_scores (void);

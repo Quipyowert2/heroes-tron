@@ -48,6 +48,17 @@ init_scores (void)
   user_persona ();
 }
 
+void
+reinit_scores_if_needed (void)
+{
+  char *newname = get_non_null_rsc_file ("score-file");
+  if (strcmp (newname, name)) {
+    free_scores ();
+    init_scores ();
+  }
+  free (newname);
+}
+
 static int
 cmp_scores (const void *r1, const void *r2)
 {
@@ -182,8 +193,10 @@ load_scores (void)
 {
   load_scores_seek ("rt");
   load_scores_read ();
-  dmsg (D_FILE | D_SYSTEM, "unlocking %s", name);
-  file_unlock (fscores);
+  if (fscores) {
+    dmsg (D_FILE | D_SYSTEM, "unlocking %s", name);
+    file_unlock (fscores);
+  }
 }
 
 void

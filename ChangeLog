@@ -1,5 +1,18 @@
 2001-05-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Allow the user to use other score or save files.
+
+	* src/savegame.c (reinit_save_records_if_needed): New.
+	* src/savegame.h (reinit_save_records_if_needed): New.
+	* src/scores.c (reinit_scores_if_needed): New.
+	* src/scores.h (reinit_scores_if_needed): New.
+	* src/heroes.c (main): Call them.
+
+	* src/scores.c (load_scores): Don't unlock the file if it's not open.
+	* src/savegame.c (load_save_records): Likewise.
+
+2001-05-20  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Change the way global file access and file locking is done.
 	Before this patch whenever an update of a global file was requested
 	the game had to
