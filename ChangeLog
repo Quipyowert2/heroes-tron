@@ -1,3 +1,11 @@
+2000-07-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* doc/heroes.texi (Overview): Rewords the description of the game
+	using Daniel Burrow's input.
+	* README: Likewise.
+	* doc/heroes.texi (Contributors): Update.
+	* THANKS: Update.
+	
 2000-07-26  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Add mouse support with SDL 1.0.x.

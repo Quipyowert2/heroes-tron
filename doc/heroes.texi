@@ -170,22 +170,24 @@ General Public Licenses that accompany it.
 Heroes is a game inspired from Nibbles (or Tron), but with a lot of
 enhancements.
 
-In a Nibbles-like game, you drive a kind of snake whose tail grows
-when you eat certain bonuses.  You can't cross your tail, so the more you
-grow the more difficult the game is.  The aim is to get ten of these bonuses.
+Heroes is similar to the "Tron" and "Nibbles" games of yore, but
+includes many graphical improvements and new game features.
 
-Heroes features several game mode that are variations over these rules.
-Quest is the classical Nibbles, in Death Match you start with very long
-tails a must kill your opponents, in Kill'em All you must run over
-lemmings moving on the ground, in Color or Time Cash you must collect
-money or pyramids of color.
+In it, you must maneuver a small vehicle around a world and
+collect powerups while avoiding obstacles, your opponents' trails, and even
+your own trail.
 
-Heroes can be played by one or two players. It features 12 original
-soundtracks, 94 levels (in 10 different tilesets) plus a level
-editor. 
+Several modes of play are available. Quest is the classical Nibbles, in
+Death Match you start with very long tails a must kill your opponents,
+in Kill'em All you must run over lemmings moving on the ground, in Color
+or Time Cash you must collect money or pyramids of color.
+
+It features 12 original soundtracks, 94 levels (in 10 different
+tilesets) plus a level editor.  There are five game modes like Quest
+(the classical nibbles), or Kill'em all (run over lemmings).
 
 Heroes was a DOS game and this is the Linux port.  Presently, the port
-is incomplete, the main missing feature is the level editor.
+is complete, but it needs cleaning.
 
 @menu
 * Getting Heroes::              Where to download Heroes from.
@@ -349,6 +351,11 @@ and created a few levels.
 Pierre Baillet @email{octplane@@via.ecp.fr}
 
 Contributed support for non-8bits depth video mode with LibGGI.
+
+@item
+Daniel Burrow @email{Daniel_Burrows@@brown.edu}
+
+Is the Debian maintainer of Heroes.
 
 @item
 Jean Delvare @email{delvare@@ensicaen.ismra.fr}

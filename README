@@ -1,16 +1,17 @@
 In short
 ========
 
-   This is a port of Heroes for Linux. Heroes was a DOS game, like nibbles
-but with many enhancements. It can be played by one or two players. It
+   This is a port of Heroes for Linux.  Heroes is similar to the "Tron" and
+"Nibbles" games of yore, but includes many graphical improvements and new
+game features.  In it, you must maneuver a small vehicle around a world and
+collect powerups while avoiding obstacles, your opponents' trails, and even
+your own trail. Several modes of play are available, including
+"get-all-the-bonuses", deathmatch, and "squish-the-pedestrians".  It
 features 12 original soundtracks, 94 levels (in 10 different tilesets) plus
-a level editor. There are five game modes like Quest (the classical
+a level editor.  There are five game modes like Quest (the classical
 nibbles), or Kill'em all (run over lemmings).
 
-   Presently the port is not complete, but the game is playable.  The main
-missing feature is the level editor.  Some other features as the audio CD
-player (which was extern to the game) and the installation from floppy have
-been totally removed.
+   Presently the port is complete, needs cleaning.
 
    Anybody is encouraged to contribute.
 
