@@ -290,7 +290,7 @@ update_player (a_level_state *state, unsigned c)
       else
 	state->player[c].vitp = state->player[c].vitt;
     else if (state->player[c].vitp > state->player[c].vitt) {
-      if (state->player[c].vitp + 512 > state->player[c].vitt)
+      if (state->player[c].vitp - 512 > state->player[c].vitt)
 	state->player[c].vitp -= 512;
       else
 	state->player[c].vitp = state->player[c].vitt;
