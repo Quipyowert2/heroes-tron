@@ -42,5 +42,6 @@ void write_save_records (void);
 void load_save_records (void);
 void load_save_records_and_keep_locked (void);
 void free_save_records (void);
+void write_save_one_record (int rec);
 
 #endif /* HEROES__SAVEGAME__H */

@@ -1,5 +1,11 @@
 2001-04-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/savegame.c (write_save_one_record): New function.
+	* src/savegame.h (write_save_one_record): Likewise.
+	* src/heroes.c (play_game): Use it.
+
+2001-04-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/scores.c (insert_scores): New function.
 	* src/scores.h (insert_scores): Likewise.
 	* src/heroes.c (play_menu): Use it.

@@ -215,3 +215,12 @@ free_save_records (void)
     free (name);
   name = 0;
 }
+
+void
+write_save_one_record (int rec)
+{
+  saved_game save = saverec[rec];
+  load_save_records_and_keep_locked ();
+  saverec[rec] = save;
+  write_save_records ();
+}

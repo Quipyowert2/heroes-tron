@@ -3331,12 +3331,7 @@ play_game (char cont)
       }
       if (l == 1 && (t == HK_Enter || flag == 0) && game_mode == M_QUEST) {
 	event_sfx (67);
-	/* FIXME: The whole process here need to be rethought, keeping
-	   in mind that several process can access this save file.  Presently
-	   the file is locked until the menu exits, this is bad because
-	   other processes will block until the user eventually exits
-	   the menu.  */
-	load_save_records_and_keep_locked ();
+	load_save_records ();
 	t = 0;
 	l = 0;
 	editflag = 0;
@@ -3369,11 +3364,12 @@ play_game (char cont)
 		((l > 0) ? (l--) : (l = 9));
 		event_sfx (120);
 	      }
-	      if (t == 0x0e7f) { /* FIXME: choose a keysym to use */
+	      if (t == HK_BackSpace || t == HK_Delete) {
 		saverec[l].used = 0;
 		saverec[l].name[0] = 0;
 		event_sfx (128);
 		FREE_SPRITE0 (saverec_name[l]); /* force recompilation */
+		write_save_one_record (l);
 	      }
 	      if (t == HK_Enter) {
 		editflag = 1;
@@ -3418,7 +3414,6 @@ play_game (char cont)
 	      } else if (t == HK_Enter) {
 		saverec[l].name[pos - 1] = 0;
 		saverec[l].level = current_quest_level /*+1 */ ;
-/*                saverec[l].questmode=questmode; */
 		for (u = 0; u < 4; u++) {
 		  saverec[l].points[u] = player[col2plr[u]].score;
 		  copy_gameid (saverec[l].gid, game_id);
@@ -3427,6 +3422,7 @@ play_game (char cont)
 		saverec[l].used = 1;
 		editflag = 0;
 		event_sfx (124);
+		write_save_one_record (l);
 		FREE_SPRITE0 (saverec_name[l]); /* force recompilation */
 	      }
 	    }
@@ -3434,7 +3430,6 @@ play_game (char cont)
 	} while ((t != HK_Escape && t != HK_Enter) || editflag != 0);
 	/* while (keyboard_map[HK_Escape]) process_input_events (); */
 	l = 1;
-	write_save_records ();
       } else if (t == HK_Escape) {
 	if (joystick_detected & 1)
 	  do
