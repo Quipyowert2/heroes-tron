@@ -19,11 +19,12 @@
 
 noinst_LIBRARIES= libheroes.a
 
-EXTRA_DIST = strcasecmp.c
+EXTRA_DIST = strcasecmp.c w_dirent.c
 
 noinst_HEADERS= \
 getopt.h \
-getshline.h
+getshline.h \
+w_dirent.h
 
 # path for config.h
 INCLUDES = -I../src

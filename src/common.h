@@ -110,6 +110,9 @@
 
 #if HAVE_WINDOWS_H
 # include <windows.h>
+# ifndef HAVE_READDIR
+#  include "w_dirent.h"
+# endif
 #endif
 
 /* display-keyboard-mouse library */
