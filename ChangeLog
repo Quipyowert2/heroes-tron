@@ -1,3 +1,19 @@
+2001-07-29  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	``heroeslvl'' should not be linked with SDL or GGI as ``heroes''.
+	So let's change configure to not add those libraries to LIBS,
+	CFLAGS, etc.  Use per-target LDFLAGS and LDADD instead.
+
+	* m4/checkpkg.m4: Set and AC_SUBST() UP[]_LDFLAGS, UP[]_CFLAGS,
+	and UP[]_LIBS.
+	* m4/h-joystick.m4: Add $SDL_LIBS to $LIBS before testing.
+	* m4/h-sdl.m4: Check for SDL_EnableKeyRepeat in the call to
+	AC_adl_PKG_GENERIC.
+	* m4/pkgeneric.m4: Revert LIBS and CFLAGS.
+	* src/Makefile.am (CFLAGS, heroes_LDFLAGS): New.
+	(heroes_LADADD): Update.
+	* lib/Makefile.am (CFLAGS): New.
+
 2001-07-27  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/heroes.c (main): Call read_sfx_conf after init_sound_engine ().

@@ -20,6 +20,8 @@ AC_DEFUN([AC_adl_PKG_GENERIC],[
   fi
   if $jolly_good; then
     ifelse([$4],,,[$4])
+    LIBS=$OLD_LIBS
+    CFLAGS=$OLD_CFLAGS
   else
     LIBS=$OLD_LIBS
     CFLAGS=$OLD_CFLAGS

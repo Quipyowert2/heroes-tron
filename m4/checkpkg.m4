@@ -53,28 +53,33 @@ if test "${with_[]DOWN}" != no ; then
         OLD_CPPFLAGS=$CPPFLAGS
 
         if test "${DOWN[]_libdir}" ; then
-                LDFLAGS="$LDFLAGS -L${DOWN[]_libdir}"
+		UP[]_LDFLAGS="-L${DOWN[]_libdir}"
+                LDFLAGS="$LDFLAGS ${UP[]_LDFLAGS}"
         fi
         if test "${DOWN[]_include}" ; then
-                CPPFLAGS="$CPPFLAGS -I${DOWN[]_include}"
-                CFLAGS="$CFLAGS -I${DOWN[]_include}"
+		UP[]_CFLAGS="-I${DOWN[]_include}"
+                CPPFLAGS="$CPPFLAGS ${UP[]_CFLAGS}"
+                CFLAGS="$CFLAGS ${UP[]_CFLAGS}"
         fi
 
 	no_good=no
 	dnl pass a third argument to AC_CHECK_LIB to
 	dnl prevent HAVE_LIB$3 to be defined.
-        AC_CHECK_LIB([$3],[$2],[LIBS="-l$3 $LIBS"],[no_good=yes])
+        AC_CHECK_LIB([$3],[$2],[:],[no_good=yes])
         AC_CHECK_HEADER([$4],,[no_good=yes])
+ 	LIBS=$OLD_LIBS
+ 	LDFLAGS=$OLD_LDFLAGS
+ 	CPPFLAGS=$OLD_CPPFLAGS
+ 	CFLAGS=$OLD_CFLAGS
         if test "$no_good" = yes; then
 dnl     broken
                 ifelse([$6], , , [$6])
-
-                LIBS=$OLD_LIBS
-                LDFLAGS=$OLD_LDFLAGS
-                CPPFLAGS=$OLD_CPPFLAGS
-                CFLAGS=$OLD_CFLAGS
+		UP[]_LDFLAGS=""
+		UP[]_CFLAGS=""
+		UP[]_LIBS=""
         else
 dnl     fixed
+		UP[]_LIBS="-l$3"
                 ifelse([$5], , , [$5])
 
                 AC_DEFINE(HAVE_LIB[]UP, 1,
@@ -82,6 +87,10 @@ dnl     fixed
         fi
 
 fi
+
+  AC_SUBST(UP[]_CFLAGS)
+  AC_SUBST(UP[]_LIBS)
+  AC_SUBST(UP[]_LDALL)
 
   popdef([UP])
   popdef([DOWN])

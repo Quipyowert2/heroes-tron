@@ -19,6 +19,8 @@
 
 noinst_LIBRARIES= libheroes.a
 
+CFLAGS = @CFLAGS@ @GGI_CFLAGS@ @GII_CFLAGS@ @LIBMIKMOD_CFLAGS@ @SDL_CFLAGS@ @SDL_MIXER_CFLAGS@
+
 EXTRA_DIST= \
 ftruncate.c \
 getopt.c \

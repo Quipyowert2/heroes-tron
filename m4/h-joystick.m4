@@ -9,11 +9,14 @@ if test "${enable_joystick-yes}" = yes; then
 
   sdl_joystick=no
   if test "${with_sdl-yes}" != no && test "${with_gii-no}" = no;  then
+    OLIBS="$LIBS"
+    LIBS="$LIBS $SDL_LIBS"
     AC_CHECK_FUNCS([SDL_JoystickOpen],[
 sdl_joystick=yes
 joystick_lib="SDL dnl
 $sdl_config_major_version.$sdl_config_minor_version.$sdl_config_micro_version"
 ])
+    LIBS="$OLIBS"
   fi
 
   # -- check for LibGII (another way to get joystick support)

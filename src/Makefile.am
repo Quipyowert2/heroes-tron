@@ -25,10 +25,15 @@ INCLUDES = -I$(top_srcdir)/lib -I../lib -I../intl -I$(srcdir)/lvl -I.. -I.
 
 EXTRA_DIST = rsc_files.gperf debughash.gperf
 
+# We use a global CFLAGS, rather than a per-target CFLAGS because otherwise
+# Automake has to generate a compile rule for *each* object.
+CFLAGS = @CFLAGS@ @GGI_CFLAGS@ @GII_CFLAGS@ @LIBMIKMOD_CFLAGS@ @SDL_CFLAGS@ @SDL_MIXER_CFLAGS@
+
 heroeslvl_LDADD = lvl/libhlvl.a ../lib/libheroes.a
 heroeslvl_SOURCES = heroeslvl.c
 
-heroes_LDADD = lvl/libhlvl.a ../lib/libheroes.a @INTLLIBS@
+heroes_LDADD = lvl/libhlvl.a ../lib/libheroes.a @INTLLIBS@  @GGI_LIBS@ @GII_LIBS@ @LIBMIKMOD_LIBS@ @SDL_LIBS@ @SDL_MIXER_LIBS@
+heroes_LDFLAGS = @GGI_LIBS@ @GII_LIBS@ @SDL_MIXER_LIBS@
 heroes_SOURCES = \
 argv.c \
 argv.h \
