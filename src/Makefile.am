@@ -49,6 +49,8 @@ generic_list.h \
 gfx_reader.h \
 hedlite.c \
 hedlite.h \
+hendian.c \
+hendian.h \
 heroes.c \
 heroes.h \
 intro.c \

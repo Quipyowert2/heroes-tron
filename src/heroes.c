@@ -64,6 +64,7 @@
 #include "userconf.h"
 #include "musicfiles.h"
 #include "endian.h"
+#include "hendian.h"
 
 #define __HEROES__
 
@@ -453,14 +454,7 @@ load_level (char *nomlvl, char cont)
     return (2);
 
   /* convert map_info to local endianess */
-  map_info.xt = BSWAP32 (map_info.xt);
-  map_info.yt = BSWAP32 (map_info.yt);
-  map_info.xwrap = BSWAP32 (map_info.xwrap);
-  map_info.ywrap = BSWAP32 (map_info.ywrap);
-  map_info.start[0] = BSWAP32 (map_info.start[0]);
-  map_info.start[1] = BSWAP32 (map_info.start[1]);
-  map_info.start[2] = BSWAP32 (map_info.start[2]);
-  map_info.start[3] = BSWAP32 (map_info.start[3]);
+  bswap_level_header (&map_info);
 
   level_map = (tile_t *) malloc (map_info.xt * map_info.yt * sizeof (tile_t));
   if (level_map == NULL)
@@ -470,13 +464,7 @@ load_level (char *nomlvl, char cont)
     return (4);
 
   /* convert level_map to local endianess */
-  for (i = map_info.xt * map_info.yt - 1; i >= 0; i--) {
-    level_map[i].number = BSWAP32 (level_map[i].number);
-    level_map[i].sprite = BSWAP16 (level_map[i].sprite);
-    if (level_map[i].type == t_tunnel)
-      level_map[i].info.tunnel.output = 
-	BSWAP32 (level_map[i].info.tunnel.output);
-  }
+  bswap_level_tiles (&map_info, level_map);
 
   fclose (ftmp);
   strlwr (map_info.tile_set_name);

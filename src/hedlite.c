@@ -43,6 +43,7 @@
 #include "misc.h"
 #include "hedlite.h"
 #include "config.h"
+#include "hendian.h"
 #ifdef HAVE_DMALLOC
 #include <dmalloc.h>
 #endif
@@ -941,12 +942,13 @@ save_pcx (void)
   headpcx.version = 5;
   headpcx.rle = 1;
   headpcx.bits_per_pixels = 8;
-  headpcx.x = headpcx.y = 0;
-  headpcx.width = (hplaninfo.xt * 24) - 1;
-  headpcx.height = (hplaninfo.yt * 20) - 1;
-  headpcx.bytes_per_lines = headpcx.widthdpi = hplaninfo.xt * 24;
-  headpcx.heightdpi = hplaninfo.yt * 20;
-  headpcx.palette_kind = headpcx.nbrplanes = 1;
+  headpcx.x = headpcx.y = BSWAP16 (0);
+  headpcx.palette_kind = BSWAP16 (1);
+  headpcx.width = BSWAP16 ((hplaninfo.xt * 24) - 1);
+  headpcx.height = BSWAP16 ((hplaninfo.yt * 20) - 1);
+  headpcx.bytes_per_lines = headpcx.widthdpi = BSWAP16 (hplaninfo.xt * 24);
+  headpcx.heightdpi = BSWAP16 (hplaninfo.yt * 20);
+  headpcx.nbrplanes = 1;
   if ((fpcx = fopen (pcxnom, "wb")) == NULL)
     return;
   fwrite ((char *) &headpcx, 1, sizeof (header_), fpcx);
@@ -2357,6 +2359,9 @@ hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2,
     if (!((ftmp = fopen (levelnom, "rb")) == NULL)) {
       if (fread (&hplaninfo, sizeof (level_header_t), 1, ftmp) != 1)
 	fatalog ("Invalid level file.");
+      /* convert hplaninfo to local endianess */
+      bswap_level_header (&hplaninfo);
+      
       if ((level_map = malloc (hplaninfo.xt * hplaninfo.yt * sizeof (tile_t)))
 	  == NULL) fatalog ("Not enough memory to allocate for level info");
       if (fread
@@ -2364,6 +2369,8 @@ hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2,
 	   ftmp) != (hplaninfo.xt * hplaninfo.yt))
 	fatalog ("Invalid level file.");
       fclose (ftmp);
+      /* convert level_map to local endianess */
+      bswap_level_tiles (&hplaninfo, level_map);
     } else {
       if ((level_map = malloc (hplaninfo.xt * hplaninfo.yt * sizeof (tile_t)))
 	  == NULL) fatalog ("Not enough memory to allocate for level info");
@@ -2531,7 +2538,11 @@ hmain (int argc __attribute__ ((unused)), char *argv1, char *argv2,
 #endif 
     {
       if (!((ftmp = fopen (levelnom, "wb")) == NULL)) {
+	/* convert hplaninfo to disk endianess */
+	bswap_level_header (&hplaninfo);
 	fwrite (&hplaninfo, sizeof (level_header_t), 1, ftmp);
+	/* convert level_map to file endianess */
+	bswap_level_tiles (&hplaninfo, level_map);
 	fwrite (level_map, sizeof (tile_t), hplaninfo.xt * hplaninfo.yt,
 		ftmp);
 	fclose (ftmp);

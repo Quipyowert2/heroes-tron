@@ -1,5 +1,19 @@
 2000-07-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Factorize endian-swaping of level infos into hendian.{h,c} and
+	patch the leveleditor to swap read and saved files.
+	
+	* src/Makefile.am (heroes_SOURCES): Add hendian.c and hendian.h.
+	* src/hedlite.c (save_pcx): BSWAP* header attributes.
+	(hmain): Call bswap_level_header and bswap_level_tiles after
+	reading and before writting.
+	* src/heroes.c (load_level): Replace explicit calls to BSWAP* by
+	calls to bswap_level_header and bswap_level_tiles.
+	* src/hendian.h: New file.
+	* src/hendian.c: New file.
+	
+2000-07-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/heroes.texi: Add two missing node descriptions.
 	
 2000-07-14  Alexandre Duret-Lutz  <duret_g@epita.fr>
