@@ -798,8 +798,7 @@ draw_logo_info (int c, int nbr, pixel_t* dest)
       src += 311;
     }
     if (nbr == 0)
-      copy_rect_transp_red (main_font_img.buffer + 320 * 119 + (c << 6),
-			    dest - 5 * xbuf + 10, 40, 22);
+      DRAW_SPRITE (red_cross[c], dest - 5 * xbuf + 20);
   } else {
     src -= 5;
     dest -= 5;
@@ -844,9 +843,8 @@ draw_logo_info (int c, int nbr, pixel_t* dest)
       tmp3 += xbuf - 9;
       src += 311;
     }
-    if (player[ /*plr2col[ */ c /*] */ ].spec == 0xde)
-      copy_rect_transp_red (main_font_img.buffer + 320 * 119 + (c << 6),
-			    dest - 5 * xbuf + 20, 40, 22);
+    if (player[c].spec == 0xde)
+      DRAW_SPRITE (red_cross[c], dest - 5 * xbuf + 20);
   }
 }
 

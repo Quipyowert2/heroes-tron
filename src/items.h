@@ -36,6 +36,7 @@ extern sprite_t *clocks[NBR_CLOCK_FRAMES];
 extern sprite_t *pyramids[NBR_PYRAMIDS];
 extern sprite_t *catch_this;
 extern sprite_t *trails[16][12];
+extern sprite_t *red_cross[4];
 
 void init_items (void);
 void uninit_items (void);

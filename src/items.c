@@ -30,6 +30,7 @@ sprite_t *clocks[NBR_CLOCK_FRAMES];
 sprite_t *pyramids[NBR_PYRAMIDS];
 sprite_t *catch_this = 0;
 sprite_t *trails[16][12];
+sprite_t *red_cross[4] = { 0, 0, 0, 0 };
 
 int trail_row[16] = {
   110, 0, -1, 30, 100, 20, 70, -1, -1, 10, 80, 40, 90, -1, 60, 50 };
@@ -69,6 +70,10 @@ init_items (void)
 					 0, glenz[0],
 					 10, 12, trailimg.width, xbuf);
   }
+  for (i = 0; i < 4; ++i)
+    red_cross[i] = compile_sprglenz (IMGPOS (main_font_img, 119, i << 6),
+				     0, glenz[6],
+				     22, 40, main_font_img.width, xbuf);
 }
 
 void
@@ -87,4 +92,6 @@ uninit_items (void)
     for (j = 0 ; j < 12; ++j)
       FREE_SPRITE0 (trails[i][j]);
   }
+  for (i = 0; i < 4; ++i)
+    FREE_SPRITE0 (red_cross[i]);
 }

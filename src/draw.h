@@ -21,8 +21,6 @@
 #ifndef HEROES__DRAW__H
 #define HEROES__DRAW__H
 
-void copy_rect_transp_red (const unsigned char *src, unsigned char *dest,
-			   int xt, int yt);
 void copy_rect_4 (const unsigned char *src, unsigned char *dest, int xt,
 		  int yt);
 void copy_rect_2 (const unsigned char *src, unsigned char *dest, int xt,

@@ -26,35 +26,6 @@
 #include "draw.h"
 
 void
-copy_rect_transp_red (const unsigned char *src, unsigned char *dest, int xt,
-		      int yt)
-{
-  int j, k;
-
-  if (opt.use_glenz)
-    for (j = yt; j != 0; j--) {
-      for (k = xt; k != 0; k--) {
-	if (*src != 0)
-	  *dest = glenz[6][*dest];
-	src++;
-	dest++;
-      }
-      src += 320 - xt;
-      dest += xbuf - xt;
-  } else
-    for (j = yt; j != 0; j--) {
-      for (k = xt; k != 0; k--) {
-	if (*src != 0)
-	  *dest = NOGLENZRED;
-	src++;
-	dest++;
-      }
-      src += 320 - xt;
-      dest += xbuf - xt;
-    }
-}
-
-void
 copy_rect_4 (const unsigned char *src, unsigned char *dest, int xt, int yt)
 {
   int j;

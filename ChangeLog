@@ -1,5 +1,14 @@
 2000-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/render.c (draw_logo_info): Adapt to use red_cross.
+	* src/draw.c (copy_rect_transp_red): Remove.
+	* src/draw.h (copy_rect_transp_red): Remove.
+	* src/items.c (red_cross): New.
+	(init_items, uninit_items): Handle red_cross.
+	* src/items.h (red_cross): New.
+
+2000-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/system.h (INT_TO_PTR): Fix.
 	* src/render.c (copy_tile): Fix constness.
 	(draw_trail_real): Remove useless local variable.
