@@ -36,6 +36,7 @@ fstrcmp.h \
 gnugetopt.h \
 getshline.h \
 hash.h \
+isdir.h \
 w_dirent.h \
 xalloc.h
 
@@ -49,6 +50,7 @@ fopenlock.c \
 fstrcmp.c \
 getshline.c \
 hash.c \
+isdir.c \
 xmalloc.c \
 xstrdup.c
 

@@ -1,4 +1,15 @@
-2001-04-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+2001-04-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* lib/isdir.c: New file.
+	* lib/isdir.h: New file.
+	* lib/Makefile.am (noinst_HEADERS): Add isdir.h.
+	(libheroes_a_SOURCES): Add isdir.c.
+	* tools/fetish-sync.sh: Add lib/isdir.c
+	* HACKING: Add lib/isdir.c.
+	* src/relocate.c (check_installation): New.
+	(relocate_data): Call check_installation.
+
+2001-04-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Compute make $(data-dir) and $(locale-dir) relative to $(prefix),
 	and handle HEROES_PREFIX to override $(prefix).  The next

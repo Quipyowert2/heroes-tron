@@ -200,6 +200,7 @@ Avoid any change to these files, if possible.
  lib/error.h	   (from glibc)
  lib/hash.c        (from fetish)
  lib/hash.h        (from fetish)
+ lib/isdir.c       (from fetish)
  lib/malloc.c      (from fetish)
  lib/realloc.h     (from fetish)
  lib/realloc.h     (from fetish)

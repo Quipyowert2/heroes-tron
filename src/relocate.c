@@ -22,6 +22,9 @@
 #include "system.h"
 #include "relocate.h"
 #include "debugmsg.h"
+#include "errors.h"
+#include "isdir.h"
+#include "rsc_files.h"
 
 static void
 check_localedir_env (void)
@@ -83,6 +86,20 @@ check_prefix_env (void)
   }
 }
 
+/* Check whether the installation looks correct.  */
+static bool
+check_installation (void)
+{
+  char *dir = get_non_null_rsc_file ("levels-dir");
+  bool ok = isdir (dir);
+  dmsg (D_SYSTEM,
+	ok ? "directory %s found": "%s absent or not a directory",
+	dir);
+  free (dir);
+  return ok;
+}
+
+
 bool
 relocate_data (void)
 {
@@ -91,8 +108,23 @@ relocate_data (void)
   check_datadir_env ();
   check_localedir_env ();
   check_homedir_env ();
-  if (! check_prefix_env ()) {
-    /* FIXME: check if we need to guess our location.  */
+  if (!check_prefix_env ()) {
+    if (!check_installation ()) {
+      /* BACKWARD_RELATIVE_BINDIR is in case the binary has been
+	 run from the current directory.  */
+      dmsg (D_SYSTEM, "default prefix looks wrong, trying '%s'",
+	    BACKWARD_RELATIVE_BINDIR);
+      set_rsc_file ("prefix", BACKWARD_RELATIVE_BINDIR, false);
+      if (!check_installation ())
+	emsg (_("\
+It looks like the game is not correctly installed.\n\
+Maybe the data files has not been installed with the same configure options\n\
+as the executable, or maybe the data files have been moved elsewhere.\n\
+In the latter case it's probably enough to set the environment variable\n\
+HEROES_PREFIX to the new location.  You may also want to set\n\
+HEROES_DEBUG=system to see what files Heroes is looking after.\n\
+If none of this helps, contact <heroes-bugs@lists.sourceforge.net>\n"));
+    }
   }
   return false;
 }

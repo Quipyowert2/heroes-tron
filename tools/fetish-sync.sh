@@ -57,6 +57,7 @@ lib/getopt1.c
 lib/getopt.h:lib/gnugetopt.h
 lib/hash.c
 lib/hash.h
+lib/isdir.c
 lib/malloc.c
 lib/realloc.c
 lib/strcasecmp.c
