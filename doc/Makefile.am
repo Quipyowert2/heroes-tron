@@ -19,3 +19,16 @@
 # $Id: Makefile.am 1.1 Sun, 02 Jul 2000 21:05:23 +0200 adl $
 
 info_TEXINFOS = heroes.texi
+
+CLEANFILES = heroes.html
+
+if MAKE_HTML
+htmldir = @htmldir@
+html_DATA = heroes.html
+endif
+
+SUFFIXES = .html
+
+.texi.html:
+	@cd $(srcdir) && rm -f $@ $@-[0-9] $@-[0-9][0-9]
+	cd $(srcdir) && $(MAKEINFO) --html `echo $< | sed 's,.*/,,'`

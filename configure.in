@@ -27,6 +27,8 @@ AC_DEFINE_UNQUOTED(HOST,"$host",[The canonical host])
 # Supported options.
 # ==================
 
+AC_ARG_ENABLE(html-doc,
+[  --enable-html-doc[=DIR] Build and install html documentation])
 AC_ARG_ENABLE(sound,
 [  --disable-sound         Turn off sound support])
 AC_ARG_ENABLE(debug,
@@ -528,6 +530,23 @@ AC_SUBST(etcdir)
 
 AC_DEFINE_DIR(datadir  ,data_dir,  data directory)
 
+# ===================
+# HTML documentation. 
+# ===================
+
+# disabled by default
+if test "${enable_html_doc-no}" != xno; then
+  if test "x$enable_html_doc" = xyes; then
+    htmldir="$data_dir/doc"
+  else
+    htmldir="$enable_html_doc"
+  fi
+  AC_SUBST(htmldir)
+  AM_CONDITIONAL(MAKE_HTML, test "${enable_html_doc-no}" != no)
+else
+  htmldir='<disabled>'
+fi
+
 # ============
 # Output files
 # ============
@@ -552,6 +571,7 @@ eval bindir=$bindir
 eval datadir=$datadir
 eval mandir=$mandir
 eval infodir=$infodir
+eval htmldir=$htmldir
 
 echo "
 Heroes configuration
@@ -570,4 +590,5 @@ linker flags             : $LDFLAGS $LIBS
 binary install path      : $bindir
 data install path        : ${datadir}/heroes
 manual page install path : $mandir
-info manual install path : $infodir"
+info manual install path : $infodir
+html doc install path    : $htmldir"

@@ -613,6 +613,11 @@ Turn on support for malloc debugging libraries such as electric fence or
 dmalloc (dmalloc will be preferred if both libraries are installed).
 This is disables by default.
 
+@item --enable-html-doc[=DIR]
+@cindex --enable-html-doc[=DIR]
+Build and install html documentation in directory @samp{DIR}.
+If @samp{DIR} is not given, install in @file{$datadir/heroes/doc}.
+
 @item --disable-user-config
 @cindex --disable-user-config
 Don't use a per-user configuration file, but a system wide file instead.
