@@ -1,14 +1,14 @@
 # Nederlandse berichten voor `Heroes`
 # Copyright (C) 2001 Free Software Foundation, Inc.
 # Jos Boersema <joshb@sourceforge.net>, 2001.
-#	When in doubt the translations-list from nl.linux.org was consulted.
+#       When in doubt the translations-list from nl.linux.org was consulted.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.8c\n"
 "POT-Creation-Date: 2001-02-08 19:25+0100\n"
-"PO-Revision-Date: 2001-02-08 20:13+01:00\n"
-"Last-Translator: Jos Boersema <joshb@sourceforge.net>\n"
+"PO-Revision-Date: 2001-02-12 19:40+01:00\n"
+"Last-Translator: Jos Boersema <joshb@FIXME>\n"
 "Language-Team: none <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -182,6 +182,7 @@ msgid ""
 "  -8, --8bits                 8bits sound output\n"
 "  -i, --high-quality          high quality mixer\n"
 msgstr ""
+"Geluid opties:\n"
 "  -d, --driver=N[,OPTIES]     gebruik Nde driver voor geluid uitvoer\n"
 "                                (0:vind-automatisch)\n"
 "                                (zie --list=sound-drivers voor info over N)\n"
@@ -235,7 +236,7 @@ msgstr ""
 "      --default-options       herstel standaard opties bestand\n"
 "      --default-saves         herstel standaard bewaar bestand\n"
 "  -s, --swap-sides            wissel van helft in twee speler modus\n"
-"      --no-double-fx          zet draai-inzoemen en golven uit\n"
+"      --no-double-fx          zet draai-inzoemen met golven uit\n"
 "  -g, --go                    sla de intro over\n"
 "  -J, --no-joystick           zet joystick uit\n"
 
@@ -246,7 +247,7 @@ msgid ""
 "\n"
 "  Options: -gs -d3,buffer=11,count=4\n"
 msgstr ""
-"Deze opties kunnen gezet worden in je bestand ~/.heroes/heroesrc (dat "
+"Deze opties kunnen gezet worden in uw ~/.heroes/heroesrc bestand (dat "
 "gelezen\n"
 "wordt voordat andere opdrachtregel opties worden verwerkt) met een regel "
 "zoals de volgende:\n"
@@ -265,7 +266,7 @@ msgstr "Raporteer bugs aan <heroes-bugs@lists.sourceforge.net>."
 
 #: src/argv.c:261
 msgid "-n is an obsolete option, you should use --list=sound-drivers"
-msgstr "-n is een verouderde optie, je moet nu --list=sound-drivers gebruiken"
+msgstr "-n is een verouderde optie, u moet nu --list=sound-drivers gebruiken"
 
 #: src/bonus.c:323 src/bonus.c:328
 #, c-format
@@ -317,16 +318,13 @@ msgstr "TOCHT"
 msgid "DEATH MATCH"
 msgstr "DOODS STRIJD"
 
-# Technically it's more "VERMOORD ZE ALLEMAAL", but that's a bit dry in Dutch
-# I think...; "jaag ze hun graf in" translates as "hunt them down into their
-#   graves", but its word-of-say (?) so not really translatable.
 #. TRANS: in KILL'EM ALL mode there are lemmings moving on the ground
 #. and the player must run over them all.  You may want to translate
 #. `kill' as `run over', `squash', `mash' or something among those
 #. lines.
 #: src/const.c:67
 msgid "KILL'EM ALL"
-msgstr "JAAG ZE HUN GRAF IN"
+msgstr "VERTRAPPEN DAT ONGEDIERTE"
 
 # Technically should be "TIJD CONTANT-GELD" but that sound like nothing in
 # Dutch.
@@ -388,15 +386,15 @@ msgstr "joystick initialisatie"
 #: src/debughash.c:97 src/debughash.gperf:47
 #, fuzzy
 msgid "timer handling"
-msgstr "wekker behandeling"
+msgstr "timer behandeling"
 
 #: src/debughash.c:99 src/debughash.gperf:49
 msgid "palette fade events"
-msgstr "palet vervaag gebeurtenissen"
+msgstr "palet-vervaag gebeurtenissen"
 
 #: src/debughash.c:101 src/debughash.gperf:44
 msgid "sound effects events"
-msgstr "geluid-effecten gebeurtenissen"
+msgstr "geluidseffecten gebeurtenissen"
 
 #: src/debughash.c:103 src/debughash.gperf:45
 msgid "communication with the display driver"
@@ -405,28 +403,26 @@ msgstr "communicatie met de weergave driver"
 #: src/debughash.c:153 src/debughash.gperf:79
 #, c-format
 msgid "%s: no such channel, assuming you meant '%s'."
-msgstr "%s: niet zo'n kanaal, neem aan je bedoeld `%s'."
+msgstr "%s: niet zo'n kanaal, neem aan dat u `%s' bedoeld."
 
 #: src/debughash.c:156 src/debughash.gperf:82
 #, c-format
 msgid "%s: no such channel (--list=debug will list all known channels)"
 msgstr "%s: niet zo'n kanaal (--list=debug zal alle bekende kanalen geven)"
 
-# What's a `visual' ??
 #. TRANS: a `visual' is associated by LibGGI to a display.  You can
 #. actually call it a `display', this makes no big difference.
 #: src/display.c:281
 #, fuzzy
 msgid "Failed to open visual."
-msgstr "Openen van `visual' mislukt."
+msgstr "Openen van scherm mislukt."
 
-# What's a `visual' ??
 #. TRANS: `display-memory' is the name of a LibGGI driver and
 #. make no sense to translate.
 #: src/display.c:288
 #, fuzzy
 msgid "Failed to open an internal `display-memory' visual."
-msgstr "Openen van intern `weergave-geheugen' voor `visual' mislukt."
+msgstr "Openen van intern scherm-geheugen voor scherm mislukt."
 
 #: src/display.c:316
 msgid "Couldn't setup a correct display."
@@ -439,7 +435,7 @@ msgstr "Kan geen correcte directe-buffer krijgen."
 #: src/display.c:463
 #, c-format
 msgid "Failed to open visual: %s"
-msgstr "Openen van `visual' mislukt: %s"
+msgstr "Openen van scherm mislukt: %s"
 
 #: src/endscroll.c:113
 msgid "THE END"
@@ -448,7 +444,7 @@ msgstr "EINDE"
 #: src/fontdata.c:236
 #, c-format
 msgid "character '%c' is not drawable (in message '%s')"
-msgstr ""
+msgstr "karakter `%c' is niet afdrukbaar (in bericht `%s')"
 
 #: src/hedlite.c:1648
 #, c-format
@@ -458,7 +454,7 @@ msgstr "Kan directorie `%s' niet maken."
 #: src/hedlite.c:1705 src/hedlite.c:1712
 #, c-format
 msgid "%s: invalid level file"
-msgstr ""
+msgstr "%s: ongeldig level bestand"
 
 #: src/helptext.c:25
 msgid ""
@@ -580,9 +576,6 @@ msgstr ""
 "%{img L 40 44 20 22}%{>}%{img L 40 66 20 22}%{>>>}Golvende uitzichten\n"
 "\n"
 
-# At "kill 'em all" (`jaag ze hun graf in') you talk about controling
-# multiple subjects, controlled by one oponent?
-# "TIME CA$H" -> `TIJD IS GELD'
 # FIXME: there is an English typo in `TIME CA$H' line ("..the the..")
 #: src/helptext.c:85
 msgid ""
@@ -633,7 +626,7 @@ msgstr ""
 "\n"
 "%{>>}%yTOCHT\n"
 "\n"
-"%{>>>}De %yTOCHT%w modus laat je alle 100 levels spelen die HEROES biedt Je "
+"%{>>>}De %yTOCHT%w modus laat je alle 100 levels spelen die HEROES biedt. Je "
 "doel is om een gegeven aantal (10) Spoor+1 bonussen te verzamelen en dan  de "
 "Einde-van-Level bonus die je naar het volgende level zal sturen.\n"
 "%{>>>}%{img L 20 176 20 22}Einde-van-level\n"
@@ -648,9 +641,10 @@ msgstr ""
 "in de dood. Het doel van het spel is om de laatste overlevende te zijn. Voel "
 "je vrij om wat dan ook te doen. Niets is verboden.\n"
 "\n"
-"%{img BLVr 130 9 30 57}%{>>}%yJAAG ZE HUN GRAF IN\n"
+"%{img BLVr 130 9 30 57}%{>>}%yVERTRAPPEN DAT ONGEDIERTE\n"
 "\n"
-"%{>>>}De %yJAAG ZE HUN GRAF IN%w modus heeft 1 regel: overspoel alle mensen "
+"%{>>>}De %yVERTRAPPEN DAT ONGEDIERTE%w modus heeft 1 regel: overspoel alle "
+"mensen "
 "van je tegenstanders. Zoals werd gezegd \"Er kan maar er maar 1 bestaan\", "
 "zorg ervoor dat het de jouwe zijn!\n"
 "\n"
@@ -738,7 +732,8 @@ msgstr ""
 "%{>>}%gRONDES\n"
 "\n"
 "%{>>>}De %gRONDES%w optie laat je toe het aantal rondes te kiezen in de "
-"toernooi modussen: DOODS STRIJD, JAAG ZE HUN GRAF IN, KLEUR en TIJD IS GELD. "
+"toernooi modussen: DOODS STRIJD, VERTRAPPEN DAT ONGEDIERTE, KLEUR en TIJD "
+"IS GELD. "
 "De waardes gaan van 1 tot 100 rondes.\n"
 "\n"
 "%{img L 293 0 20 33}%{img L 293 132 20 33}\n"
@@ -954,8 +949,6 @@ msgstr "SPEEL"
 msgid "OPTIONS"
 msgstr "OPTIES"
 
-# "infos" as in "informations": `info'
-# or to be 'upper-class': `inlichtingen'
 #: src/menus.c:185 src/menus.c:374
 msgid "INFOS"
 msgstr "INFO"
@@ -1108,13 +1101,12 @@ msgstr "EXTRAS: ALLES"
 msgid "EXTRAS: SELECT"
 msgstr "EXTRAS: KIES"
 
-# what does "gfx" (and "idea") mean?
 #. TRANS: GFX stands for `graphics' (i.e. artwork, pictures),
 #. and IDEA is just `idea' :)
 #: src/menus.c:443
 #, fuzzy
 msgid "GFX AND IDEA:"
-msgstr "GFX EN IDEA:"
+msgstr "GRAPHISCH EN IDEE:"
 
 #: src/menus.c:446
 msgid "MUSIC:"
@@ -1128,7 +1120,7 @@ msgstr "CODE:"
 #: src/menus.c:455
 msgid "PLEASE READ THE LIST OF OTHER CONTRIBUTORS IN THE FILE 'THANKS'"
 msgstr ""
-"LEES ALSTUBLIEFT DE LIJST VAN ANDERE `SCHENKERS' IN HET 'THANKS'  BESTAND"
+"LEES ALSTUBLIEFT DE LIJST VAN ANDERE `SCHENKERS' IN HET 'THANKS' BESTAND"
 
 #. pause menu
 #: src/menus.c:481
@@ -1165,7 +1157,6 @@ msgstr "NIEUW LEVEL"
 msgid "NAME"
 msgstr "NAAM"
 
-# hmmm...
 #. TRANS: in wrapped levels are unbounded level, e.g. whenever the
 #. player reach the left border it continue its way from the right border
 #. (except that the player doesn't even know there are borders, because
@@ -1202,7 +1193,7 @@ msgstr "BEWERKEN"
 #. main menu
 #: src/menus.c:519
 msgid "HEROES"
-msgstr "HELDEN"
+msgstr "HEROES"
 
 #. editor selector
 #: src/menus.c:522
@@ -1225,6 +1216,7 @@ msgstr "TWEE SPELERS"
 msgid "LOAD..."
 msgstr "LADEN..."
 
+# FIXME: shouldn't that be "choOse a save slot"?
 #. saved game selection
 #: src/menus.c:551
 msgid "CHOSE A SAVE SLOT"
@@ -1234,8 +1226,6 @@ msgstr "KIES EEN BEWAAR POSITIE"
 msgid "CHOSE A LOAD SLOT"
 msgstr "KIES EEN LAAD POSITIE"
 
-# vous/tu problem: here: `tu'. (let me know what you want so I can re-edit
-# everything)
 #. enter your name
 #: src/menus.c:557
 msgid "ENTER YOUR NAME:"
@@ -1263,7 +1253,7 @@ msgstr " MAN  PNT  LEVEN"
 
 #: src/menus.c:571
 msgid "CA$H  PTS  LIVES"
-msgstr "CA$H  PNT  LEVEN"
+msgstr "GELD  PNT  LEVEN"
 
 #: src/menus.c:573
 msgid "COLORS  PTS  LIVES"
@@ -1273,7 +1263,6 @@ msgstr "KLEUR   PNT  LEVEN"
 msgid "NEXT LEVEL"
 msgstr "VOLGENDE LEVEL"
 
-# "the act of saving" would be `bewaren...'
 #. TRANS: this is a button that introduce the user to another
 #. menu.  This is NOT displayed during saving.
 #: src/menus.c:579
@@ -1315,7 +1304,7 @@ msgstr "IEDEREEN VERLIEST!"
 
 #: src/menus.c:2271
 msgid "YOU LOST!"
-msgstr "JIJ VERLIEST!"
+msgstr "U VERLIEST!"
 
 #: src/menus.c:2350
 #, c-format
@@ -1356,7 +1345,7 @@ msgstr "Kan `%s' niet openen"
 #: src/readmake.c:225
 #, fuzzy, c-format
 msgid "Unknown image flag '%c'."
-msgstr "Onbekende beeld vlag '%c'."
+msgstr "Onbekende `image' vlag '%c'."
 
 #: src/rsc_files.c:32
 #, c-format

@@ -1,3 +1,9 @@
+2001-02-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	From Jos Boersema <joshb@sourceforge.net>.
+
+	* po/nl.po: Update.
+
 2001-02-11  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/scrtools.c (set_pal_with_luminance): Perform gamma correction,
