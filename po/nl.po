@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.8c\n"
-"POT-Creation-Date: 2001-07-16 10:02+0200\n"
+"POT-Creation-Date: 2001-07-23 19:16+0200\n"
 "PO-Revision-Date: 2001-02-23 22:37+01:00\n"
 "Last-Translator: Jos Boersema <joshb@FIXME>\n"
 "Language-Team: none <LL@li.org>\n"
@@ -423,7 +423,7 @@ msgstr ""
 msgid "Failed to open visual: %s"
 msgstr "Openen van scherm mislukt: %s"
 
-#: src/endscroll.c:113
+#: src/endscroll.c:114
 msgid "THE END"
 msgstr "EINDE"
 
@@ -811,53 +811,43 @@ msgstr ""
 "Alexandre Liverneaux en Philippe Meisburger.\n"
 "\n"
 
-#: src/heroes.c:673
+#: src/heroes.c:586 src/heroes.c:674
 #, c-format
-msgid "Error %d during loading level"
-msgstr "Fout %d tijdens laden level"
+msgid "Cannot load level %s (error %d)"
+msgstr ""
 
-#: src/heroes.c:761 src/heroes.c:785
-#, c-format
-msgid "Error %d occured while loading level %s"
-msgstr "Fout %d trad op tijdens laden level %s"
-
-#: src/heroes.c:1926
+#: src/heroes.c:1815
 #, c-format
 msgid "INVERTED %d"
 msgstr "OMGEKEERD %d"
 
-#: src/heroes.c:1957
+#: src/heroes.c:1846
 #, c-format
 msgid "STOPPED %d"
 msgstr "GESTOPT %d"
 
 #. TRANS: %d, the number of remaining lives, is always
 #. positive.
-#: src/heroes.c:2249
+#: src/heroes.c:2138
 msgid "LAST LIFE"
 msgid_plural "%d LIVES LEFT"
 msgstr[0] "LAATSTE LEVEN"
 
-#: src/heroes.c:2903
+#: src/heroes.c:2752
 msgid "Error during level loading"
 msgstr "Fout tijdens level laden"
 
-#: src/heroes.c:2943
+#: src/heroes.c:2789
 #, c-format
 msgid "-LEVEL %d-"
 msgstr "-LEVEL %d-"
 
-#: src/heroes.c:2945
+#: src/heroes.c:2791
 #, c-format
 msgid "-ROUND %d/%d-"
 msgstr "-RONDE %d/%d-"
 
-#: src/heroes.c:3340
-#, c-format
-msgid "Cannot open %s."
-msgstr "Kan `%s' niet openen."
-
-#: src/heroes.c:3465
+#: src/heroes.c:3266
 msgid "error in sfx.cfg"
 msgstr "fout in sfx.cfg"
 
@@ -877,13 +867,13 @@ msgstr ""
 #. TRANS: in QUEST mode, the player goes throught all the levels, but
 #. have to search for specific powerups in order to jump to the next
 #. level.  Hence this is a `quest' for those powerups.
-#: src/menus.c:147
+#: src/menus.c:148
 #, fuzzy
 msgid "QUEST"
 msgstr "TOCHT"
 
 #. TRANS: in DEATH MATCH mode, the user has to kill all other players.
-#: src/menus.c:149
+#: src/menus.c:150
 msgid "DEATH MATCH"
 msgstr "DOODS STRIJD"
 
@@ -891,7 +881,7 @@ msgstr "DOODS STRIJD"
 #. and the player must run over them all.  You may want to translate
 #. `kill' as `run over', `squash', `mash' or something among those
 #. lines.
-#: src/menus.c:154
+#: src/menus.c:155
 msgid "KILL'EM ALL"
 msgstr "VERTRAPPEN DAT ONGEDIERTE"
 
@@ -900,247 +890,247 @@ msgstr "VERTRAPPEN DAT ONGEDIERTE"
 # "tijd is geld" translates to "time is money"
 #. TRANS: in TIME CA$H mode, the player must collect dollars with
 #. restricted time.
-#: src/menus.c:157
+#: src/menus.c:158
 #, fuzzy
 msgid "TIME CA$H"
 msgstr "TIJD IS GELD"
 
 #. TRANS: in COLOR mode, the player must collect some colored gems
 #. with restricted time.
-#: src/menus.c:160
+#: src/menus.c:161
 msgid "COLORS"
 msgstr "KLEUREN"
 
-#: src/menus.c:193
+#: src/menus.c:194
 msgid "GAME"
 msgstr "SPEL"
 
-#: src/menus.c:194
+#: src/menus.c:195
 msgid "SCREEN"
 msgstr "SCHERM"
 
-#: src/menus.c:195
+#: src/menus.c:196
 msgid "SOUND"
 msgstr "GELUID"
 
-#: src/menus.c:196
+#: src/menus.c:197
 msgid "CONTROL"
 msgstr "CONTROLE"
 
 # "keys" as in "keyboard-keys": `toetsen'
-#: src/menus.c:197
+#: src/menus.c:198
 msgid "KEYS"
 msgstr "TOETSEN"
 
-#: src/menus.c:198
+#: src/menus.c:199
 msgid "EXTRAS"
 msgstr "EXTRAS"
 
-#: src/menus.c:199 src/menus.c:223 src/menus.c:386 src/menus.c:396
-#: src/menus.c:410 src/menus.c:422 src/menus.c:432 src/menus.c:455
-#: src/menus.c:546
+#: src/menus.c:200 src/menus.c:224 src/menus.c:387 src/menus.c:397
+#: src/menus.c:411 src/menus.c:423 src/menus.c:433 src/menus.c:456
+#: src/menus.c:547
 msgid "GO BACK"
 msgstr "GA TERUG"
 
 #. play menu
-#: src/menus.c:206 src/menus.c:540
+#: src/menus.c:207 src/menus.c:541
 msgid "PLAY"
 msgstr "SPEEL"
 
 #. options menu
-#: src/menus.c:207 src/menus.c:527
+#: src/menus.c:208 src/menus.c:528
 msgid "OPTIONS"
 msgstr "OPTIES"
 
-#: src/menus.c:208 src/menus.c:407
+#: src/menus.c:209 src/menus.c:408
 msgid "INFOS"
 msgstr "INFO"
 
 # "credits" doens't really exist in Dutch (?), used "THANKS"
-#: src/menus.c:209
+#: src/menus.c:210
 #, fuzzy
 msgid "CREDITS"
 msgstr "DANK"
 
-#: src/menus.c:210
+#: src/menus.c:211
 msgid "SCORES"
 msgstr "SCORES"
 
 # `editor' would do fine too though
 #. editor first menu
-#: src/menus.c:211 src/menus.c:537
+#: src/menus.c:212 src/menus.c:538
 msgid "EDITOR"
 msgstr "TEXTVERWERKER"
 
-#: src/menus.c:212
+#: src/menus.c:213
 msgid "QUIT"
 msgstr "STOP"
 
 #. TRANS: Create a new level.
-#: src/menus.c:220 src/menus.c:504
+#: src/menus.c:221 src/menus.c:505
 msgid "NEW LEVEL"
 msgstr "NIEUW LEVEL"
 
 #. TRANS: Load an existing level for edition.
-#: src/menus.c:222
+#: src/menus.c:223
 msgid "LOAD LEVEL"
 msgstr "LAAD LEVEL"
 
-#: src/menus.c:376
+#: src/menus.c:377
 msgid "CONTROL OPTIONS"
 msgstr "CONTROLE OPTIES"
 
 #. 1st player
-#: src/menus.c:378 src/menus.c:417 src/menus.c:434
+#: src/menus.c:379 src/menus.c:418 src/menus.c:435
 msgid "PLAYER 1"
 msgstr "SPELER 1"
 
-#: src/menus.c:380 src/menus.c:384
+#: src/menus.c:381 src/menus.c:385
 msgid "AUTO PILOT"
 msgstr "AUTOMATISCHE PILOOT"
 
 #. 2nd player
-#: src/menus.c:382 src/menus.c:418 src/menus.c:442
+#: src/menus.c:383 src/menus.c:419 src/menus.c:443
 msgid "PLAYER 2"
 msgstr "SPELER 2"
 
-#: src/menus.c:392
+#: src/menus.c:393
 msgid "SOUND OPTIONS"
 msgstr "GELUID OPTIES"
 
-#: src/menus.c:394
+#: src/menus.c:395
 msgid "MUSIC"
 msgstr "MUZIEK"
 
 # if length is no problem: use GELUIDSEFFECTEN
 # if it is: GEL.EFF., or SFX (not shure if that is understandable)
-#: src/menus.c:395
+#: src/menus.c:396
 msgid "SFX"
 msgstr "GELUIDSEFF."
 
-#: src/menus.c:399
+#: src/menus.c:400
 msgid "MUSIC VOL"
 msgstr "MUZIEK VOL"
 
-#: src/menus.c:400
+#: src/menus.c:401
 msgid "SFX VOL"
 msgstr "GELUIDSEFF. VOL"
 
-#: src/menus.c:404
+#: src/menus.c:405
 msgid "SCREEN OPTIONS"
 msgstr "SCHERM OPTIES"
 
-#: src/menus.c:406
+#: src/menus.c:407
 msgid "RADAR"
 msgstr "RADAR"
 
-#: src/menus.c:408
+#: src/menus.c:409
 msgid "LIGHTING"
 msgstr "VERLICHTING"
 
-#: src/menus.c:409
+#: src/menus.c:410
 msgid "INERTIA"
 msgstr "TRAAGHEID"
 
-#: src/menus.c:415
+#: src/menus.c:416
 msgid "GAME OPTIONS"
 msgstr "SPEL OPTIES"
 
-#: src/menus.c:419
+#: src/menus.c:420
 msgid "PLAYER 3"
 msgstr "SPELER 3"
 
-#: src/menus.c:420
+#: src/menus.c:421
 msgid "PLAYER 4"
 msgstr "SPELER 4"
 
-#: src/menus.c:421
+#: src/menus.c:422
 msgid "SPEED"
 msgstr "SNELHEID"
 
-#: src/menus.c:430
+#: src/menus.c:431
 msgid "KEYBOARD DEFS"
 msgstr "TOETSENBORD DEF."
 
-#: src/menus.c:435 src/menus.c:443
+#: src/menus.c:436 src/menus.c:444
 msgid "UP"
 msgstr "OMHOOG"
 
-#: src/menus.c:436 src/menus.c:444
+#: src/menus.c:437 src/menus.c:445
 msgid "LEFT"
 msgstr "LINKS"
 
-#: src/menus.c:437 src/menus.c:445
+#: src/menus.c:438 src/menus.c:446
 msgid "DOWN"
 msgstr "OMLAAG"
 
-#: src/menus.c:438 src/menus.c:446
+#: src/menus.c:439 src/menus.c:447
 msgid "RIGHT"
 msgstr "RECHTS"
 
-#: src/menus.c:439 src/menus.c:447
+#: src/menus.c:440 src/menus.c:448
 msgid "TURBO"
 msgstr "TURBO"
 
-#: src/menus.c:440 src/menus.c:448
+#: src/menus.c:441 src/menus.c:449
 msgid "STOP"
 msgstr "STOP"
 
-#: src/menus.c:453
+#: src/menus.c:454
 msgid "EXTRAS LEVELS"
 msgstr "EXTRA LEVELS"
 
-#: src/menus.c:457
+#: src/menus.c:458
 msgid "ORIGINAL LEVELS"
 msgstr "ORIGINELE LEVELS"
 
-#: src/menus.c:459
+#: src/menus.c:460
 msgid "ORIGINAL+EXTRAS"
 msgstr "ORIGINEEL+EXTRAS"
 
-#: src/menus.c:461
+#: src/menus.c:462
 msgid "EXTRAS ONLY"
 msgstr "ALLEEN EXTRAS"
 
-#: src/menus.c:463
+#: src/menus.c:464
 msgid "EXTRAS: NONE"
 msgstr "EXTRAS: GEEN"
 
-#: src/menus.c:465
+#: src/menus.c:466
 msgid "EXTRAS: ALL"
 msgstr "EXTRAS: ALLES"
 
-#: src/menus.c:467
+#: src/menus.c:468
 msgid "EXTRAS: SELECT"
 msgstr "EXTRAS: KIES"
 
 #. pause menu
-#: src/menus.c:492
+#: src/menus.c:493
 msgid "PAUSE"
 msgstr "PAUZE"
 
 #. quit y/n menus
-#: src/menus.c:496
+#: src/menus.c:497
 msgid "QUIT THIS GAME?"
 msgstr "STOP DIT SPEL?"
 
-#: src/menus.c:498
+#: src/menus.c:499
 msgid "REALLY QUIT?"
 msgstr "ECHT STOPPEN?"
 
-#: src/menus.c:500
+#: src/menus.c:501
 msgid "NO"
 msgstr "NEE"
 
-#: src/menus.c:501
+#: src/menus.c:502
 msgid "YES"
 msgstr "JA"
 
-#: src/menus.c:506
+#: src/menus.c:507
 msgid "EXISTING LEVEL"
 msgstr "BESTAAND LEVEL"
 
-#: src/menus.c:508
+#: src/menus.c:509
 msgid "NAME"
 msgstr "NAAM"
 
@@ -1151,80 +1141,80 @@ msgstr "NAAM"
 #. bounds that you cannot cross.  X-WRAP is a check box used to specified
 #. whether a level must be wrapped horizontally or not when creating a
 #. new level.
-#: src/menus.c:516
+#: src/menus.c:517
 #, fuzzy
 msgid "X-WRAP"
 msgstr "X-OMVOUWEN"
 
 #. TRANS: Y-WRAP is a check box used to specified whether a level
 #. must be wrapped vertically or not.
-#: src/menus.c:519
+#: src/menus.c:520
 #, fuzzy
 msgid "Y-WRAP"
 msgstr "Y-OMVOUWEN"
 
 #. TRANS: width of the level
-#: src/menus.c:521
+#: src/menus.c:522
 msgid "X-SIZE"
 msgstr "X-GROOTTE"
 
 #. TRANS: height of the level
-#: src/menus.c:523
+#: src/menus.c:524
 msgid "Y-SIZE"
 msgstr "Y-GROOTTE"
 
-#: src/menus.c:524
+#: src/menus.c:525
 msgid "EDIT"
 msgstr "BEWERKEN"
 
 #. main menu
-#: src/menus.c:530
+#: src/menus.c:531
 msgid "HEROES"
 msgstr "HEROES"
 
 #. editor selector
-#: src/menus.c:533
+#: src/menus.c:534
 msgid "SELECT A LEVEL"
 msgstr "KIES EEN LEVEL"
 
-#: src/menus.c:542
+#: src/menus.c:543
 msgid "ONE PLAYER"
 msgstr "1 SPELER"
 
-#: src/menus.c:544
+#: src/menus.c:545
 #, fuzzy
 msgid "TWO PLAYERS"
 msgstr "TWEE SPELERS"
 
-#: src/menus.c:548
+#: src/menus.c:549
 msgid "LOAD..."
 msgstr "LADEN..."
 
 # FIXME: shouldn't that be "choOse a save slot"?
 #. saved game selection
-#: src/menus.c:557
+#: src/menus.c:558
 #, fuzzy
 msgid "CHOOSE A SAVE SLOT"
 msgstr "KIES EEN BEWAAR POSITIE"
 
-#: src/menus.c:559
+#: src/menus.c:560
 #, fuzzy
 msgid "CHOOSE A LOAD SLOT"
 msgstr "KIES EEN LAAD POSITIE"
 
 #. enter your name
-#: src/menus.c:563
+#: src/menus.c:564
 msgid "ENTER YOUR NAME:"
 msgstr "GEEF UW NAAM:"
 
 #. end level info
 #. TRANS: SIZE is the size of the player trail, PTS the
 #. number of PoinTS
-#: src/menus.c:569
+#: src/menus.c:570
 msgid "SIZE  PTS  LIVES"
 msgstr "GROOTTE PUNTEN LEVENS"
 
-#: src/menus.c:571
+#: src/menus.c:572
 msgid "PTS  LIVES"
 msgstr "PUNTEN LEVENS"
 
@@ -1232,67 +1222,67 @@ msgstr "PUNTEN LEVENS"
 # "lives" translates to plural: `levens', cut `s' leaves "life"
 #. TRANS: this is for KILL'EM ALL mode, and MEN is the number
 #. of lemmings killed by one player
-#: src/menus.c:575
+#: src/menus.c:576
 #, fuzzy
 msgid " MEN  PTS  LIVES"
 msgstr " MAN  PNT  LEVEN"
 
-#: src/menus.c:577
+#: src/menus.c:578
 msgid "CA$H  PTS  LIVES"
 msgstr "GELD  PNT  LEVEN"
 
-#: src/menus.c:579
+#: src/menus.c:580
 msgid "COLORS  PTS  LIVES"
 msgstr "KLEUR   PNT  LEVEN"
 
-#: src/menus.c:584
+#: src/menus.c:585
 msgid "NEXT LEVEL"
 msgstr "VOLGENDE LEVEL"
 
 #. TRANS: this is a menu entry that introduce the user to another
 #. menu.  This is NOT displayed DURING saving.
-#: src/menus.c:589
+#: src/menus.c:590
 msgid "SAVE..."
 msgstr "BEWAAR..."
 
-#: src/menus.c:594
+#: src/menus.c:595
 msgid "PRESS RETURN"
 msgstr "DRUK OP ENTER"
 
-#: src/menus.c:603
+#: src/menus.c:604
 msgid "WINS  PTS  LIVES"
 msgstr "WINS  PNT  LEVEN"
 
 #. higher scores
-#: src/menus.c:614
+#: src/menus.c:615
 msgid "HIGHER SCORES"
 msgstr "HOGERE SCORES"
 
-#: src/menus.c:1245
+#: src/menus.c:1241
 #, fuzzy, c-format
 msgid "%d ROUND"
 msgid_plural "%d ROUNDS"
 msgstr[0] "%d RONDES"
 
-#: src/menus.c:2241
+#: src/menus.c:2237
 #, c-format
 msgid "PLAYER %d, YOU CAME IN THE TOP 10"
 msgstr "SPELER %d, U STAAT IN DE TOP 10"
 
-#: src/menus.c:2307
+#: src/menus.c:2303
 #, c-format
 msgid "PLAYER %d WON!"
 msgstr "SPELER %d WINT!"
 
-#: src/menus.c:2313
+#: src/menus.c:2309
 msgid "EVERYONE LOST!"
 msgstr "IEDEREEN VERLIEST!"
 
-#: src/menus.c:2315
+#: src/menus.c:2311
 msgid "YOU LOST!"
 msgstr "U VERLIEST!"
 
-#: src/menus.c:2394
+#: src/menus.c:2390
 #, c-format
 msgid "ROUND %d/%d"
 msgstr "RONDE %d/%d"
@@ -1542,6 +1532,15 @@ msgstr "%s:%d: missende hulpbron naam"
 #, c-format
 msgid "%s:%d: unknown keyword `%s'"
 msgstr "%s:%d: onbekend sleutelwoord `%s'"
+
+#~ msgid "Error %d during loading level"
+#~ msgstr "Fout %d tijdens laden level"
+
+#~ msgid "Error %d occured while loading level %s"
+#~ msgstr "Fout %d trad op tijdens laden level %s"
+
+#~ msgid "Cannot open %s."
+#~ msgstr "Kan `%s' niet openen."
 
 #~ msgid ""
 #~ "\n"

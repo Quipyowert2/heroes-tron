@@ -1,3 +1,15 @@
+Heroes 0.12b	July 24, 2001
+
+	* heroes:
+	  - Compute the list of levels on startup; level.lst is not
+            used anymore.
+	* heroeslvl:
+	  - Don't load the body of the level if only the header is needed.
+	  - Add option -pi to display tile details.
+	* common:
+	  - Free level structures once they are no longuer needed.
+	  - Load the levels with mmap if possible.
+
 Heroes 0.12a	July 16, 2001
 
 	* A new utility, heroeslvl, can load levels and dump various

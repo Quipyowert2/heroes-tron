@@ -32,7 +32,7 @@ SUFFIXES = .html
 
 .texi.html:
 	@cd $(srcdir) && rm -f $@ $@-[0-9] $@-[0-9][0-9]
-	cd $(srcdir) && $(MAKEINFO) --html `echo $< | sed 's,.*/,,'`
+	cd $(srcdir) && $(MAKEINFO) --html --no-split `echo $< | sed 's,.*/,,'`
 
 debugchn.texi: $(top_srcdir)/src/debugchn.def $(top_srcdir)/src/debugchn.tpl
 	$(AUTOGEN) -L $(top_srcdir)/src -o 'texi=$@' $(top_srcdir)/src/debugchn.def

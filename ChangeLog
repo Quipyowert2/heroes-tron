@@ -1,3 +1,10 @@
+2001-07-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.ac: Bump to 0.12b.
+	* NEWS: Update for 0.12b.
+	* doc/Makfile.am (.texi.html): Add --no-split, newer versions of
+	makeinfo need this.
+
 2001-07-23  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* doc/heroes.texi (Invoking): More documentation for -G and -F.
