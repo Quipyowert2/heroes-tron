@@ -160,7 +160,7 @@ init_menus_sprites (void)
 		  compile_menu_text (txti[102], T_FLUSHED_LEFT, 93, 25));
   /* 2nd player */
   concat_rleprog (keyboard_menu_txt,
-		  compile_menu_text (txti[96], T_CENTERED, 108, 159));
+		  compile_menu_text (txti[103], T_CENTERED, 108, 159));
   concat_rleprog (keyboard_menu_txt,
 		  compile_menu_text (txti[97], T_FLUSHED_LEFT, 121, 25));
   concat_rleprog (keyboard_menu_txt,
@@ -276,6 +276,41 @@ hrule (unsigned int row)
   exec_rleprog (horizontal_rule, corner [0] + row * xbuf + 100);
 }
 
+static keycode_t
+move_updown (keycode_t key, int *pos, int latest_pos)
+{
+  switch (key) {
+
+  case HK_Up:
+    if (*pos > 0)
+      --*pos;
+    else
+      *pos = latest_pos;	/* wrap */
+    break;
+
+  case HK_Down:
+    if (*pos < latest_pos)
+      ++*pos;
+    else
+      *pos = 0;			/* wrap */
+    break;
+
+  case HK_Escape:
+    if (*pos != latest_pos)	/* On first escape, */
+      *pos = latest_pos;	/* go to the latest line; */
+    else			/* on doubled espace, */
+      key = HK_Enter;		/* arrange to escape the menu. */
+    break;
+
+  default:
+    return key;			/* Unknown key, return it. */
+  }
+
+  /* The key has been handled.  Tell it to the user. */
+  event_sfx (1);
+  return key;
+}
+
 void
 background_menu (void)
 {
@@ -298,7 +333,7 @@ background_menu (void)
 static void
 control_menu (void)
 {
-  char l = 0;
+  int l = 0;
   keycode_t t;
   
   std_white_fadein (&tile_set_img.palette);
@@ -321,26 +356,7 @@ control_menu (void)
     aff_buffer ();
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
-      if (t == HK_Up || t == HK_Down || t == HK_Escape)
-	event_sfx (1);
-      if (t == HK_Up) {
-	if (l > 0)
-	  l--;
-	else
-	  l = 4;
-      }
-      if (t == HK_Down) {
-	if (l < 4)
-	  l++;
-	else
-	  l = 0;
-      }
-      if (t == HK_Escape) {
-	if (l != 4)
-	  l = 4;
-	else
-	  t = HK_Enter;
-      }
+      t = move_updown (t, &l, 4);
       if (t == HK_Right || t == HK_Left || t == HK_Enter) {
 	if (l == 0)
 	  opt.ctrl_one ^= 1;
@@ -420,26 +436,7 @@ keyboard_menu (void)
     if (testing == 0) {
       if (key_or_joy_ready ()) {
 	t = get_key_or_joy ();
-	if (t == HK_Up || t == HK_Down || t == HK_Escape)
-	  event_sfx (1);
-	if (t == HK_Up) {
-	  if (l > 0)
-	    l--;
-	  else
-	    l = 12;
-	}
-	if (t == HK_Down) {
-	  if (l < 12)
-	    l++;
-	  else
-	    l = 0;
-	}
-	if (t == HK_Escape) {
-	  if (l != 12)
-	    l = 12;
-	  else
-	    t = HK_Enter;
-	}
+	t = move_updown (t, &l, 12);
 	if (t == HK_Enter && l != 12) {
 	  testing = 1;
 	  event_sfx (6);
@@ -507,7 +504,7 @@ keyboard_menu (void)
 static void
 sound_menu (void)
 {
-  char l = 0;
+  int l = 0;
   keycode_t t;
 
   std_white_fadein (&tile_set_img.palette);
@@ -538,34 +535,13 @@ sound_menu (void)
     aff_buffer ();
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
-      if (t == HK_Up || t == HK_Down || t == HK_Escape)
-	event_sfx (1);
-      if (t == HK_Up) {
-	if (l > 0)
-	  l--;
-	else
-	  l = 4;
-	if (!opt.music && l == 1)
-	  l = 0;
-	if (!opt.sfx && l == 3)
-	  l = 2;
-      }
-      if (t == HK_Down) {
-	if (l < 4)
-	  l++;
-	else
-	  l = 0;
-	if (!opt.music && l == 1)
-	  l = 2;
-	if (!opt.sfx && l == 3)
-	  l = 4;
-      }
-      if (t == HK_Escape) {
-	if (l != 4)
-	  l = 4;
-	else
-	  t = HK_Enter;
-      }
+      t = move_updown (t, &l, 4);
+      /* If music or sfx are disabled, we can't be on position 1 or 3.
+	 Therefore we call move_updown again to make a second step
+	 in the same direction. */
+      if ((!opt.music && l == 1) || (!opt.sfx && l == 3))
+	t = move_updown (t, &l, 4);
+      
       if (t == HK_Right || t == HK_Left || t == HK_Enter) {
 	if (l != 4) {
 	  if (l & 1)
@@ -622,7 +598,7 @@ sound_menu (void)
 static void
 screen_menu (void)
 {
-  char l = 1;
+  int l = 0;
   keycode_t t;
 
   std_white_fadein (&tile_set_img.palette);
@@ -640,7 +616,7 @@ screen_menu (void)
     copy_rect_4 (icons_img.buffer + (68 + 19 * opt.inertia) * 320 + 108,
 		 corner[0] + 146 * xbuf + 20, 32, 18);
 
-    arrows (1 + l * 29, 1);
+    arrows (30 + l * 29, 1);
     chkbox (31, 260, opt.radar_map);
     chkbox (60, 260, opt.use_glenz);
     chkbox (89, 260, opt.display_infos);
@@ -653,95 +629,39 @@ screen_menu (void)
     aff_buffer ();
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
-      if (t == HK_Up || t == HK_Down || t == HK_Escape)
-	event_sfx (1);
-      if (t == HK_Up) {
-	if (l > /* 0 */ 1)
-	  l--;
-	else
-	  l = 6;
-      }
-      if (t == HK_Down) {
-	if (l < 6)
-	  l++;
-	else
-	  l = /* 0 */ 1;
-      }
-      if (t == HK_Escape) {
-	if (l != 6)
-	  l = 6;
-	else
-	  t = HK_Enter;
-      }
+      t = move_updown (t, &l, 5);
       if (t == HK_Right || t == HK_Left || t == HK_Enter)
-	if (l < 6) {
-	  if (l == 4)
+	if (l < 5) {
+	  if (l == 0)
+	    opt.radar_map ^= 1;
+	  else if (l == 1)
+	    opt.use_glenz ^= 1;
+	  else if (l == 2)
+	    opt.display_infos ^= 1;
+	  else if (l == 3) {
+	    if (t == HK_Right && opt.luminance > 0)
+	      --opt.luminance;
+	    else if (t == HK_Left && opt.luminance < 6)
+	      ++opt.luminance;
+	    set_pal_with_luminance (&tile_set_img.palette);
+	  } else if (l == 4)
+	    opt.inertia ^= 1;
+
+	  if (l == 3)
 	    event_sfx (4);
 	  else
 	    event_sfx (3);
 	}
-      if (t == HK_Right) {
-
-       /* if (l==0 && opt.screen_size>0) opt.screen_size--; */
-	if (l == 1)
-	  opt.radar_map ^= 1;
-	if (l == 2)
-	  opt.use_glenz ^= 1;
-	if (l == 3)
-	  opt.display_infos ^= 1;
-	if (l == 4 && opt.luminance > 0) {
-	  opt.luminance--;
-	  set_pal_with_luminance (&tile_set_img.palette);
-	}
-	if (l == 5)
-	  opt.inertia ^= 1;
-      }
-      if (t == HK_Left) {
-
-/*     if (l==0 && opt.screen_size<3) opt.screen_size++; */
-	if (l == 1)
-	  opt.radar_map ^= 1;
-	if (l == 2)
-	  opt.use_glenz ^= 1;
-	if (l == 3)
-	  opt.display_infos ^= 1;
-	if (l == 4 && opt.luminance < 6) {
-	  opt.luminance++;
-	  set_pal_with_luminance (&tile_set_img.palette);
-	}
-	if (l == 5)
-	  opt.inertia ^= 1;
-      }
-      if (t == HK_Enter) {
-
-/*     if (l==0) if (opt.screen_size<3) opt.screen_size++; else opt.screen_size=0; */
-	if (l == 1)
-	  opt.radar_map ^= 1;
-	if (l == 2)
-	  opt.use_glenz ^= 1;
-	if (l == 3)
-	  opt.display_infos ^= 1;
-	if (l == 4) {
-	  if (opt.luminance > 0)
-	    opt.luminance--;
-	  else
-	    opt.luminance = 6;
-	}
-	if (l == 4)
-	  set_pal_with_luminance (&tile_set_img.palette);
-	if (l == 5)
-	  opt.inertia ^= 1;
-      }
     } else
       t = 0;
-  } while (t != HK_Enter || l != 6);
+  } while (t != HK_Enter || l != 5);
   event_sfx (8);
 }
 
 static void
 game_menu (void)
 {
-  char l = 0, tmp;
+  int l = 0, tmp;
   keycode_t t;
 
   std_white_fadein (&tile_set_img.palette);
@@ -777,26 +697,7 @@ game_menu (void)
     aff_buffer ();
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
-      if (t == HK_Up || t == HK_Down || t == HK_Escape)
-	event_sfx (1);
-      if (t == HK_Up) {
-	if (l > 0)
-	  l--;
-	else
-	  l = 5;
-      }
-      if (t == HK_Down) {
-	if (l < 5)
-	  l++;
-	else
-	  l = 0;
-      }
-      if (t == HK_Escape) {
-	if (l != 5)
-	  l = 5;
-	else
-	  t = HK_Enter;
-      }
+      t = move_updown (t, &l, 5);
       if (t == HK_Right || t == HK_Left || t == HK_Enter)
 	if (l != 6) {
 	  if ((l == 3) || (l == 4))
@@ -875,7 +776,7 @@ game_menu (void)
 static void
 extra_menu (void)
 {
-  char l = 0;
+  int l = 0;
   int t, i, ll = 0;
   /* We store only the RLE-prog for the displayed level names, as the list
      can be big (hmmm... really?) */
@@ -1019,7 +920,7 @@ extra_menu (void)
 void
 option_menu (void)
 {
-  char l = 0;
+  int l = 0;
   int t;
   
   do {
@@ -1045,62 +946,44 @@ option_menu (void)
       aff_buffer ();
       if (key_or_joy_ready ()) {
 	t = get_key_or_joy ();
-	if (t == HK_Up || t == HK_Down || t == HK_Escape)
-	  event_sfx (1);
-	if (t == HK_Up) {
-	  if (l > 0)
-	    l--;
-	  else
-	    l = 6;
-	}
-	if (t == HK_Down) {
-	  if (l < 6)
-	    l++;
-	  else
-	    l = 0;
-	}
-	if (t == HK_Escape) {
-	  if (l != 6)
-	    l = 6;
-	  else
-	    t = HK_Enter;
-	}
+	t = move_updown (t, &l, 6);
       } else
 	t = 0;
     } while (t != HK_Enter);
-    if (l != 6)
+    if (l != 6) {
       event_sfx (2);
-    if (l == 0)
-      game_menu ();
-    if (l == 1)
-      screen_menu ();
-    if (l == 2)
-      sound_menu ();
-    if (l == 3)
-      control_menu ();
-    if (l == 4)
-      keyboard_menu ();
-    if (l == 5) {
-      if (extra_nbr > 0)
-	extra_menu ();
+      if (l == 0)
+	game_menu ();
+      else if (l == 1)
+	screen_menu ();
+      else if (l == 2)
+	sound_menu ();
+      else if (l == 3)
+	control_menu ();
+      else if (l == 4)
+	keyboard_menu ();
+      else /* l == 5 */ {
+	if (extra_nbr > 0)
+	  extra_menu ();
+      }
     }
   } while (l != 6);
   event_sfx (8);
 }
 
 void
-draw_quit_menu (char l)
+draw_quit_menu (int l)
 {
   draw_text_waving (txti[140], 159, 75, 1);
-  draw_text_array[l == 0] (txti[141], 159, 95, 1);
-  draw_text_array[l == 1] (txti[142], 159, 110, 1);
+  draw_text_array[l == 0] (txti[142], 159, 95, 1);
+  draw_text_array[l == 1] (txti[141], 159, 110, 1);
   waving_arrows (91 + l * 15, 90);
 }
 
 char
 quit_menu (void)
 {
-  char l = 0;
+  int l = 0;
   keycode_t t;
   
   std_white_fadein (&tile_set_img.palette);
@@ -1111,24 +994,11 @@ quit_menu (void)
     aff_buffer ();
     if (key_or_joy_ready ()) {
       t = get_key_or_joy ();
-      if (t == HK_Up || t == HK_Down || t == HK_Escape)
-	event_sfx (1);
-      if (t == HK_Up) {
-	if (l > 0)
-	  l = 0;
-	else
-	  l = 1;
-      }
-      if (t == HK_Down) {
-	if (l < 5)
-	  l = 1;
-	else
-	  l = 0;
-      }
+      t = move_updown (t, &l, 1);
     } else
       t = 0;
-  } while (t != HK_Enter && t != HK_Escape);
-  if (t == HK_Escape || l == 0) {
+  } while (t != HK_Enter);
+  if (l == 1) {
     event_sfx (77);
     return (0);
   } else {
@@ -1137,7 +1007,7 @@ quit_menu (void)
   }
 }
 void
-draw_play_menu (char l)
+draw_play_menu (int l)
 {
   background_menu ();
   draw_text_waving (txti[145], 159, 4, 1);
@@ -1162,7 +1032,7 @@ draw_play_menu (char l)
 }
 
 void
-draw_main_menu (char l)
+draw_main_menu (int l)
 {
   draw_text_waving (txti[150], 159, 12, 1);
   draw_text_array[l == 0] (txti[151], 159, 55, 1);
@@ -1536,7 +1406,7 @@ editor_menu (void)
 void
 editor_first_menu (void)
 {
-  char l = 0;
+  int l = 0;
   int t;
   if (extra_user_nbr == 0) {
     editor_menu ();
@@ -1584,7 +1454,7 @@ editor_first_menu (void)
 }
 
 void
-draw_saved_games_info (int decal, char l, char h)
+draw_saved_games_info (int decal, int l, char h)
 {
   int i;
   char c;

@@ -1,5 +1,24 @@
 2000-10-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Factor the handling of vertical movements in menus.
+	Reverse responses in the quit menu.
+
+	* src/menus.c (move_updown): New.
+	(control_menu, keyboard_menu, sound_menu, screen_menu, game_menu,
+	option_menu, quit_menu): Adapt to use move_updown.
+	(screen_menu): Reorganize key handling.
+	(draw_quit_menu): Reverse the proposition order.
+	(background_menu, sound_menu, screen_menu, game_menu, extra_menu,
+	option_menu, draw_quit_menu, quit_menu, draw_play_menu, draw_main_menu,
+	editor_first_menu, draw_saved_games_info): Change type of l from 
+	char to int.
+	(init_menus_sprites): Typo.
+	* src/menus.h (draw_play_menu,draw_quit_menu,
+	draw_saved_games_info): Likewise.
+	* src/heroes.c (main_menu): Adapt to new order of draw_quit_menu.
+
+2000-10-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Regroup waving arrows logic into one function.
 
 	* src/menus.c (waving_arrows): New.

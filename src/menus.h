@@ -33,12 +33,12 @@ void background_menu (void);
 
 void option_menu (void);
 char quit_menu (void);
-void draw_play_menu (char l);
+void draw_play_menu (int l);
 
-void draw_main_menu (char l);
-void draw_quit_menu (char l);
+void draw_main_menu (int l);
+void draw_quit_menu (int l);
 void editor_first_menu (void);
 
-void draw_saved_games_info (int decal, char l, char h);
+void draw_saved_games_info (int decal, int l, char h);
 
 #endif /* HEROES__MENUS__H */

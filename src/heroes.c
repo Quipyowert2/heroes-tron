@@ -3647,7 +3647,7 @@ main_menu (void)
     do {
       
       background_menu ();
-      draw_quit_menu (1);
+      draw_quit_menu (0);
       vsynch ();
       pixelize_pos = read_htimer (pixelize_timer);
       if (pixelize_pos > 6)
