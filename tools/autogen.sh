@@ -35,6 +35,31 @@ saferun ()
   $@ || die "*** Error '${1+\"$@\"}' exited with bad status."
 }
 
+generate ()
+{
+  test -f configure.ac || test -f configure.in ||
+    die "Cannot find configure.in in current directory (`pwd`."
+
+  if test -f Makefile.am; then
+    # use the same aclocal flags as in Makefile.am, if specified
+    aclocalflags=`sed -n -e '/ACLOCAL_AMFLAGS/{s/.*=\(.*\)$/\1/
+p
+}' Makefile.am`
+  fi
+
+  # generate aclocal.m4
+  saferun aclocal $aclocalflags ${moreverb}
+
+  # generate src/config.h.in
+  saferun autoheader ${moreverb}
+
+  # generate configure
+  saferun autoconf ${moreverb}
+
+  # generate **/Makefile.in and add mssing files
+  saferun automake --add-missing ${moreverb}
+}
+
 while test $# -gt 0 ; do
   case "${1}" in
     -h | --h*)
@@ -53,24 +78,11 @@ while test $# -gt 0 ; do
   esac
 done
 
-test -f configure.ac || test -f configure.in ||
-  die "Cannot find configure.in in current directory."
-
-if test -f Makefile.am; then
-  # use the same aclocal flags as in Makefile.am, if specified
-  aclocalflags=`sed -n -e '/ACLOCAL_AMFLAGS/{s/.*=\(.*\)$/\1/
-p
-}' Makefile.am`
-fi
-
-# generate aclocal.m4
-saferun aclocal $aclocalflags ${moreverb}
-
-# generate src/config.h.in
-saferun autoheader ${moreverb}
-
-# generate configure
-saferun autoconf ${moreverb}
-
-# generate **/Makefile.in and add mssing files
-saferun automake --add-missing ${moreverb}
+targets=`find . \( -name 'configure.ac' -o -name 'configure.in' \) -print`
+test -n "$targets" || die "Cannot find any configure.in or configure.ac."
+set $targets
+for i; do
+  dir=`expr "x$i" : 'x\(.*\)/[^/]*' \| '.' : '.'`
+  test $# -gt 1 && echo "=== configuring '$dir' ==="
+  (cd $dir && generate)
+done
