@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------.
-| Copyright 1997, 1998, 2000  Alexandre Duret-Lutz <duret_g@epita.fr>     |
+| Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>                 |
 |                                                                         |
 | This file is part of Heroes.                                            |
 |                                                                         |
@@ -18,26 +18,29 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-#ifndef HEROES__MENUS__H
-#define HEROES__MENUS__H
+#ifndef HEROES__SPRTEXT__H
+#define HEROES__SPRTEXT__H
 
 #include "sprite.h"
-
-void init_menus_sprites (void);
-void uninit_menus_sprites (void);
-void waving_arrows (unsigned int row, unsigned int col);
+#include "fontdata.h"
 
 
-void background_menu (void);
+/* Don't change the order of the four first options.  The code rely
+   on these values (for instance we must have
+   T_FLUSHED_RIGHT | T_FLUSHED_LEFT == T_JUSTIFIED). */
+enum text_option { T_CENTERED = 0,
+		   T_FLUSHED_LEFT = 1,
+		   T_FLUSHED_RIGHT = 2,
+		   T_JUSTIFIED = 3,
+		   T_WAVING = 4};
 
-void option_menu (void);
-char quit_menu (void);
-void draw_play_menu (int l);
+sprite_t *compile_sprtext (const fontdata_t *font, const char *text,
+			   enum text_option topt, unsigned int maxwidth,
+			   int offset);
 
-void draw_main_menu (int l);
-void draw_quit_menu (int l);
-void editor_first_menu (void);
+/* short-hand functions */
 
-void draw_saved_games_info (int decal, int l, char h);
+sprite_t *compile_menu_text (const char *text, enum text_option topt,
+			     int row, int col);
 
-#endif /* HEROES__MENUS__H */
+#endif /* HEROES__SPRTEXT__H */

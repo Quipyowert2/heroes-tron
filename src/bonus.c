@@ -28,6 +28,7 @@
 #include "txts.h"
 #include "argv.h"
 #include "debugmsg.h"
+#include "sprrle.h"
 
 /* density of bonuses in different modes */
 
@@ -55,7 +56,7 @@ static pcx_image_t bonus_a_img, bonus_b_img;
 
 #define N_BONUSES 16
 #define N_BONUS_FRAMES 13
-rleprog_t *bonus_rle[2][N_BONUSES][N_BONUS_FRAMES];
+sprite_t *bonus_rle[2][N_BONUSES][N_BONUS_FRAMES];
 
 unsigned char *tile_bonus;
 unsigned char *tile_bonus_cpu;
@@ -85,13 +86,13 @@ init_bonuses (void)
   for (bonus = 0; bonus < N_BONUSES; ++bonus)
     for (frame = 0; frame < N_BONUS_FRAMES; ++frame)
       bonus_rle[0][bonus][frame] =
-	compile_rleprog (IMGPOS (bonus_a_img, bonus * 20, frame * 24),
-			 0, 20, 24, bonus_a_img.width, xbuf);
+	compile_sprrle (IMGPOS (bonus_a_img, bonus * 20, frame * 24),
+			0, 20, 24, bonus_a_img.width, xbuf);
   for (bonus = 0; bonus < N_BONUSES; ++bonus)
     for (frame = 0; frame < N_BONUS_FRAMES; ++frame)
       bonus_rle[1][bonus][frame] =
-	compile_rleprog (IMGPOS (bonus_b_img, bonus * 20, frame * 24),
-			 0, 20, 24, bonus_b_img.width, xbuf);
+	compile_sprrle (IMGPOS (bonus_b_img, bonus * 20, frame * 24),
+			0, 20, 24, bonus_b_img.width, xbuf);
 }
 
 void
@@ -107,8 +108,8 @@ uninit_bonuses (void)
 
   for (bonus = 0; bonus < N_BONUSES; ++bonus)
     for (frame = 0; frame < N_BONUS_FRAMES; ++frame) {
-      free_rleprog (bonus_rle[0][bonus][frame]);
-      free_rleprog (bonus_rle[1][bonus][frame]);
+      free_sprite (bonus_rle[0][bonus][frame]);
+      free_sprite (bonus_rle[1][bonus][frame]);
     }
 }
 

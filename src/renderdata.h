@@ -27,7 +27,7 @@
 
 #include "display.h"
 #include "pcx.h"
-#include "rleprog.h"
+#include "sprite.h"
 
 /* data for background tiles */
 
@@ -46,8 +46,8 @@ extern bg_data_t *bg_data;
    in the same struct because they are drawn in the same loop */
 
 typedef struct {
-  rleprog_t *sprite;		/* sprite to superpose if non nil */
-  rleprog_t **bonus;		/* bonus line, if non nil */
+  sprite_t *sprite;		/* sprite to superpose if non nil */
+  sprite_t **bonus;		/* bonus line, if non nil */
   char big_dollar;		/* 1 if a big dollar must be drawn */
 } fg_data_t;
 

@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------.
-| Copyright 1997, 1998, 2000  Alexandre Duret-Lutz <duret_g@epita.fr>     |
+| Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>                 |
 |                                                                         |
 | This file is part of Heroes.                                            |
 |                                                                         |
@@ -18,26 +18,22 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-#ifndef HEROES__MENUS__H
-#define HEROES__MENUS__H
+#ifndef HEROES__SPRRLE__H
+#define HEROES__SPRRLE__H
+
+/*---------------------.
+| standard rle-sprites |
+`---------------------*/
 
 #include "sprite.h"
 
-void init_menus_sprites (void);
-void uninit_menus_sprites (void);
-void waving_arrows (unsigned int row, unsigned int col);
+void draw_sprrle (const sprite_t* sprite, pixel_t* dest);
 
+sprite_t* compile_sprrle (const pixel_t* src, pixel_t transp_color,
+			  unsigned int block_height,
+			  unsigned int block_width,
+			  unsigned int src_width, unsigned int dest_width);
 
-void background_menu (void);
+void free_sprrle (sprite_t* sprite);
 
-void option_menu (void);
-char quit_menu (void);
-void draw_play_menu (int l);
-
-void draw_main_menu (int l);
-void draw_quit_menu (int l);
-void editor_first_menu (void);
-
-void draw_saved_games_info (int decal, int l, char h);
-
-#endif /* HEROES__MENUS__H */
+#endif /* HEROES__SPRRLE__H */

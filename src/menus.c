@@ -42,143 +42,119 @@
 #include "endian.h"
 #include "fader.h"
 #include "scrtools.h"
-#include "rleprog.h"
-#include "rletext.h"
+#include "sprrle.h"
+#include "sprtext.h"
+#include "sprprogwav.h"
 
-rleprog_t* left_arrow = 0;
-rleprog_t* right_arrow = 0;
-rleprog_t* checked_box[2] = {0, 0};
-rleprog_t* cursor_bg = 0;
-rleprog_t* cursor_fg = 0;
-rleprog_t* horizontal_rule = 0;
+static sprite_t* left_arrow = 0;
+static sprite_t* right_arrow = 0;
+static sprite_t* checked_box[2] = {0, 0};
+static sprite_t* cursor_bg = 0;
+static sprite_t* cursor_fg = 0;
+static sprite_t* horizontal_rule = 0;
 
-rleprog_t* control_menu_txt = 0;
-rleprog_t* sound_menu_txt = 0;
-rleprog_t* music_vol_txt = 0;
-rleprog_t* sfx_vol_txt = 0;
-rleprog_t* screen_menu_txt = 0;
-rleprog_t* game_menu_txt = 0;
-rleprog_t* game_rounds_txt = 0;
-rleprog_t* keyboard_menu_txt = 0;
-rleprog_t* keyboard_keys_txt[12] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-rleprog_t* extra_menu_txt = 0;
-rleprog_t* extra_modes_txt[3] = { 0, 0, 0 };
-rleprog_t* extra_combine_txt[3] = { 0, 0, 0 };
+static sprite_t* control_menu_txt = 0;
+static sprite_t* sound_menu_txt = 0;
+static sprite_t* music_vol_txt = 0;
+static sprite_t* sfx_vol_txt = 0;
+static sprite_t* screen_menu_txt = 0;
+static sprite_t* game_menu_txt = 0;
+static sprite_t* game_rounds_txt = 0;
+static sprite_t* keyboard_menu_txt = 0;
+static sprite_t* keyboard_keys_txt[12] = {
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+static sprite_t* extra_menu_txt = 0;
+static sprite_t* extra_modes_txt[3] = { 0, 0, 0 };
+static sprite_t* extra_combine_txt[3] = { 0, 0, 0 };
 
 void
 init_menus_sprites (void)
 {
-  left_arrow = compile_rleprog (IMGPOS (main_font_img, 50, 134), 0,
+  left_arrow = compile_sprrle (IMGPOS (main_font_img, 50, 134), 0,
+			       20, 13, main_font_img.width, xbuf);
+  right_arrow = compile_sprrle (IMGPOS (main_font_img, 50, 121), 0,
 				20, 13, main_font_img.width, xbuf);
-  right_arrow = compile_rleprog (IMGPOS (main_font_img, 50, 121), 0,
-				 20, 13, main_font_img.width, xbuf);
-  checked_box[0] = compile_rleprog (IMGPOS (main_font_img, 50, 218), 0,
-				    14, 21, main_font_img.width, xbuf);
-  checked_box[1] = compile_rleprog (IMGPOS (main_font_img, 50, 239), 0,
-				    14, 21, main_font_img.width, xbuf);
-  cursor_bg = compile_rleprog (IMGPOS (main_font_img, 53, 181), 0,
-			       10, 37, main_font_img.width, xbuf);
-  cursor_fg = compile_rleprog (IMGPOS (main_font_img, 51, 174), 0,
-			       14, 7, main_font_img.width, xbuf);
-  horizontal_rule = compile_rleprog (IMGPOS (main_font_img, 61, 0), 0,
-				     3, 120, main_font_img.width, xbuf);
+  checked_box[0] = compile_sprrle (IMGPOS (main_font_img, 50, 218), 0,
+				   14, 21, main_font_img.width, xbuf);
+  checked_box[1] = compile_sprrle (IMGPOS (main_font_img, 50, 239), 0,
+				   14, 21, main_font_img.width, xbuf);
+  cursor_bg = compile_sprrle (IMGPOS (main_font_img, 53, 181), 0,
+			      10, 37, main_font_img.width, xbuf);
+  cursor_fg = compile_sprrle (IMGPOS (main_font_img, 51, 174), 0,
+			      14, 7, main_font_img.width, xbuf);
+  horizontal_rule = compile_sprrle (IMGPOS (main_font_img, 61, 0), 0,
+				    3, 120, main_font_img.width, xbuf);
 
   /* control menu */
-  control_menu_txt = compile_menu_text (txti[90], T_CENTERED|T_WAVING, 5, 159);
-  concat_rleprog (control_menu_txt,
-		  compile_menu_text (txti[91], T_FLUSHED_LEFT, 39, 56));
-  concat_rleprog (control_menu_txt,
-		  compile_menu_text (txti[92], T_FLUSHED_LEFT, 72, 56));
-  concat_rleprog (control_menu_txt,
-		  compile_menu_text (txti[93], T_FLUSHED_LEFT, 111, 56));
-  concat_rleprog (control_menu_txt,
-		  compile_menu_text (txti[92], T_FLUSHED_LEFT, 144, 56));
-  concat_rleprog (control_menu_txt,
-		  compile_menu_text (txti[94], T_FLUSHED_LEFT, 182, 56));
+  new_sprprog ();
+  add_sprprog0 (compile_menu_text (txti[90], T_CENTERED|T_WAVING, 5, 159));
+  add_sprprog0 (compile_menu_text (txti[91], T_FLUSHED_LEFT, 39, 56));
+  add_sprprog0 (compile_menu_text (txti[92], T_FLUSHED_LEFT, 72, 56));
+  add_sprprog0 (compile_menu_text (txti[93], T_FLUSHED_LEFT, 111, 56));
+  add_sprprog0 (compile_menu_text (txti[92], T_FLUSHED_LEFT, 144, 56));
+  add_sprprog0 (compile_menu_text (txti[94], T_FLUSHED_LEFT, 182, 56));
+  control_menu_txt = end_sprprog ();
 
   /* sound menu */
-  sound_menu_txt = compile_menu_text (txti[104], T_CENTERED|T_WAVING, 5, 159);
-  concat_rleprog (sound_menu_txt,
-		  compile_menu_text (txti[107], T_FLUSHED_LEFT, 39, 56));
-  concat_rleprog (sound_menu_txt,
-		  compile_menu_text (txti[108], T_FLUSHED_LEFT, 109, 56));
-  concat_rleprog (sound_menu_txt,
-		  compile_menu_text (txti[94], T_FLUSHED_LEFT, 179, 56));
+  new_sprprog ();
+  add_sprprog0 (compile_menu_text (txti[104], T_CENTERED|T_WAVING, 5, 159));
+  add_sprprog0 (compile_menu_text (txti[107], T_FLUSHED_LEFT, 39, 56));
+  add_sprprog0 (compile_menu_text (txti[108], T_FLUSHED_LEFT, 109, 56));
+  add_sprprog0 (compile_menu_text (txti[94], T_FLUSHED_LEFT, 179, 56));
+  sound_menu_txt = end_sprprog ();
 
   music_vol_txt = compile_menu_text (txti[105], T_FLUSHED_LEFT, 74, 56);
   sfx_vol_txt = compile_menu_text (txti[106], T_FLUSHED_LEFT, 144, 56);
 
   /* screen menu */
-  screen_menu_txt = compile_menu_text (txti[109], T_CENTERED|T_WAVING, 5, 159);
-  concat_rleprog (screen_menu_txt,
-		  compile_menu_text (txti[110], T_FLUSHED_LEFT, 34, 56));
-  concat_rleprog (screen_menu_txt,
-		  compile_menu_text (txti[111], T_FLUSHED_LEFT, 63, 56));
-  concat_rleprog (screen_menu_txt,
-		  compile_menu_text (txti[112], T_FLUSHED_LEFT, 92, 56));
-  concat_rleprog (screen_menu_txt,
-		  compile_menu_text (txti[113], T_FLUSHED_LEFT, 121, 56));
-  concat_rleprog (screen_menu_txt,
-		  compile_menu_text (txti[114], T_FLUSHED_LEFT, 150, 56));
-  concat_rleprog (screen_menu_txt,
-		  compile_menu_text (txti[94], T_FLUSHED_LEFT, 179, 56));
+  new_sprprog ();
+  add_sprprog0 (compile_menu_text (txti[109], T_CENTERED|T_WAVING, 5, 159));
+  add_sprprog0 (compile_menu_text (txti[110], T_FLUSHED_LEFT, 34, 56));
+  add_sprprog0 (compile_menu_text (txti[111], T_FLUSHED_LEFT, 63, 56));
+  add_sprprog0 (compile_menu_text (txti[112], T_FLUSHED_LEFT, 92, 56));
+  add_sprprog0 (compile_menu_text (txti[113], T_FLUSHED_LEFT, 121, 56));
+  add_sprprog0 (compile_menu_text (txti[114], T_FLUSHED_LEFT, 150, 56));
+  add_sprprog0 (compile_menu_text (txti[94], T_FLUSHED_LEFT, 179, 56));
+  screen_menu_txt = end_sprprog ();
 
   /* game menu */
-  game_menu_txt = compile_menu_text (txti[115], T_CENTERED|T_WAVING, 5, 159);
-  concat_rleprog (game_menu_txt,
-		  compile_menu_text (txti[116], T_FLUSHED_LEFT, 33, 56));
-  concat_rleprog (game_menu_txt,
-		  compile_menu_text (txti[117], T_FLUSHED_LEFT, 57, 56));
-  concat_rleprog (game_menu_txt,
-		  compile_menu_text (txti[118], T_FLUSHED_LEFT, 81, 56));
-  concat_rleprog (game_menu_txt,
-		  compile_menu_text (txti[119], T_FLUSHED_LEFT, 105, 56));
-  concat_rleprog (game_menu_txt,
-		  compile_menu_text (txti[120], T_FLUSHED_LEFT, 129, 56));
-  concat_rleprog (game_menu_txt,
-		  compile_menu_text (txti[94], T_FLUSHED_LEFT, 177, 56));
+  new_sprprog ();
+  add_sprprog0 (compile_menu_text (txti[115], T_CENTERED|T_WAVING, 5, 159));
+  add_sprprog0 (compile_menu_text (txti[116], T_FLUSHED_LEFT, 33, 56));
+  add_sprprog0 (compile_menu_text (txti[117], T_FLUSHED_LEFT, 57, 56));
+  add_sprprog0 (compile_menu_text (txti[118], T_FLUSHED_LEFT, 81, 56));
+  add_sprprog0 (compile_menu_text (txti[119], T_FLUSHED_LEFT, 105, 56));
+  add_sprprog0 (compile_menu_text (txti[120], T_FLUSHED_LEFT, 129, 56));
+  add_sprprog0 (compile_menu_text (txti[94], T_FLUSHED_LEFT, 177, 56));
+  game_menu_txt = end_sprprog ();
 
   /* keyboard menu */
-  keyboard_menu_txt =
-    compile_menu_text (txti[95], T_CENTERED|T_WAVING, 5, 159);
-  concat_rleprog (keyboard_menu_txt,
-		  compile_menu_text (txti[94], T_CENTERED, 188, 159));
+  new_sprprog ();
+  add_sprprog0 (compile_menu_text (txti[95], T_CENTERED|T_WAVING, 5, 159));
+  add_sprprog0 (compile_menu_text (txti[94], T_CENTERED, 188, 159));
   /* 1st player */
-  concat_rleprog (keyboard_menu_txt,
-		  compile_menu_text (txti[96], T_CENTERED, 25, 159));
-  concat_rleprog (keyboard_menu_txt,
-		  compile_menu_text (txti[97], T_FLUSHED_LEFT, 38, 25));
-  concat_rleprog (keyboard_menu_txt,
-		  compile_menu_text (txti[98], T_FLUSHED_LEFT, 60, 25));
-  concat_rleprog (keyboard_menu_txt,
-		  compile_menu_text (txti[99], T_FLUSHED_LEFT, 49, 25));
-  concat_rleprog (keyboard_menu_txt,
-		  compile_menu_text (txti[100], T_FLUSHED_LEFT, 71, 25));
-  concat_rleprog (keyboard_menu_txt,
-		  compile_menu_text (txti[101], T_FLUSHED_LEFT, 82, 25));
-  concat_rleprog (keyboard_menu_txt,
-		  compile_menu_text (txti[102], T_FLUSHED_LEFT, 93, 25));
+  add_sprprog0 (compile_menu_text (txti[96], T_CENTERED, 25, 159));
+  add_sprprog0 (compile_menu_text (txti[97], T_FLUSHED_LEFT, 38, 25));
+  add_sprprog0 (compile_menu_text (txti[98], T_FLUSHED_LEFT, 60, 25));
+  add_sprprog0 (compile_menu_text (txti[99], T_FLUSHED_LEFT, 49, 25));
+  add_sprprog0 (compile_menu_text (txti[100], T_FLUSHED_LEFT, 71, 25));
+  add_sprprog0 (compile_menu_text (txti[101], T_FLUSHED_LEFT, 82, 25));
+  add_sprprog0 (compile_menu_text (txti[102], T_FLUSHED_LEFT, 93, 25));
   /* 2nd player */
-  concat_rleprog (keyboard_menu_txt,
-		  compile_menu_text (txti[103], T_CENTERED, 108, 159));
-  concat_rleprog (keyboard_menu_txt,
-		  compile_menu_text (txti[97], T_FLUSHED_LEFT, 121, 25));
-  concat_rleprog (keyboard_menu_txt,
-		  compile_menu_text (txti[98], T_FLUSHED_LEFT, 143, 25));
-  concat_rleprog (keyboard_menu_txt,
-		  compile_menu_text (txti[99], T_FLUSHED_LEFT, 132, 25));
-  concat_rleprog (keyboard_menu_txt,
-		  compile_menu_text (txti[100], T_FLUSHED_LEFT, 154, 25));
-  concat_rleprog (keyboard_menu_txt,
-		  compile_menu_text (txti[101], T_FLUSHED_LEFT, 165, 25));
-  concat_rleprog (keyboard_menu_txt,
-		  compile_menu_text (txti[102], T_FLUSHED_LEFT, 176, 25));
+  add_sprprog0 (compile_menu_text (txti[103], T_CENTERED, 108, 159));
+  add_sprprog0 (compile_menu_text (txti[97], T_FLUSHED_LEFT, 121, 25));
+  add_sprprog0 (compile_menu_text (txti[98], T_FLUSHED_LEFT, 143, 25));
+  add_sprprog0 (compile_menu_text (txti[99], T_FLUSHED_LEFT, 132, 25));
+  add_sprprog0 (compile_menu_text (txti[100], T_FLUSHED_LEFT, 154, 25));
+  add_sprprog0 (compile_menu_text (txti[101], T_FLUSHED_LEFT, 165, 25));
+  add_sprprog0 (compile_menu_text (txti[102], T_FLUSHED_LEFT, 176, 25));
+  keyboard_menu_txt = end_sprprog ();
 
   /* extra menu */
-
-  extra_menu_txt = compile_menu_text (txti[125], T_CENTERED|T_WAVING, 5, 169);
-  concat_rleprog (extra_menu_txt,
-		  compile_menu_text (txti[94], T_FLUSHED_LEFT, 180, 20));
+  new_sprprog ();
+  add_sprprog0 (compile_menu_text (txti[125], T_CENTERED|T_WAVING, 5, 169));
+  add_sprprog0 (compile_menu_text (txti[94], T_FLUSHED_LEFT, 180, 20));
+  extra_menu_txt = end_sprprog ();
   extra_modes_txt[0] = compile_menu_text (txti[122], T_FLUSHED_LEFT, 35, 20);
   extra_modes_txt[1] = compile_menu_text (txti[123], T_FLUSHED_LEFT, 35, 20);
   extra_modes_txt[2] = compile_menu_text (txti[124], T_FLUSHED_LEFT, 35, 20);
@@ -190,53 +166,33 @@ init_menus_sprites (void)
 void
 uninit_menus_sprites (void)
 {
-  free_rleprog (left_arrow);
-  left_arrow = 0;
-  free_rleprog (right_arrow);
-  right_arrow = 0;
-  free_rleprog (checked_box[0]);
-  checked_box[0] = 0;
-  free_rleprog (checked_box[1]);
-  checked_box[1] = 0;
-  free_rleprog (cursor_bg);
-  cursor_bg = 0;
-  free_rleprog (cursor_fg);
-  cursor_fg = 0;
-  free_rleprog (horizontal_rule);
-  horizontal_rule = 0;
+  FREE_SPRITE0 (left_arrow);
+  FREE_SPRITE0 (right_arrow);
+  FREE_SPRITE0 (checked_box[0]);
+  FREE_SPRITE0 (checked_box[1]);
+  FREE_SPRITE0 (cursor_bg);
+  FREE_SPRITE0 (cursor_fg);
+  FREE_SPRITE0 (horizontal_rule);
 
-  free_rleprog (control_menu_txt);
-  control_menu_txt = 0;
-  free_rleprog (sound_menu_txt);
-  sound_menu_txt = 0;
-  free_rleprog (music_vol_txt);
-  music_vol_txt = 0;
-  free_rleprog (sfx_vol_txt);
-  sfx_vol_txt = 0;
-  free_rleprog (game_menu_txt);
-  game_menu_txt = 0;
-  free_rleprog (game_rounds_txt);
-  game_rounds_txt = 0;
-  free_rleprog (screen_menu_txt);
-  screen_menu_txt = 0;
-  free_rleprog (keyboard_menu_txt);
-  keyboard_menu_txt = 0;
+  FREE_SPRITE0 (control_menu_txt);
+  FREE_SPRITE0 (sound_menu_txt);
+  FREE_SPRITE0 (music_vol_txt);
+  FREE_SPRITE0 (sfx_vol_txt);
+  FREE_SPRITE0 (game_menu_txt);
+  FREE_SPRITE0 (game_rounds_txt);
+  FREE_SPRITE0 (screen_menu_txt);
+  FREE_SPRITE0 (keyboard_menu_txt);
   {
     int i;
-    for (i = 11; i >= 0; --i) {
-      free_rleprog (keyboard_keys_txt[i]);
-      keyboard_keys_txt[i] = 0;
-    }
+    for (i = 11; i >= 0; --i)
+      FREE_SPRITE0 (keyboard_keys_txt[i]);
   }
-  free_rleprog (extra_menu_txt);
-  extra_menu_txt = 0;
+  FREE_SPRITE0 (extra_menu_txt);
   {
     int i;
     for (i = 2; i >= 0; --i) {
-      free_rleprog (extra_combine_txt[i]);
-      extra_combine_txt[i] = 0;
-      free_rleprog (extra_modes_txt[i]);
-      extra_modes_txt[i] = 0;
+      FREE_SPRITE0 (extra_combine_txt[i]);
+      FREE_SPRITE0 (extra_modes_txt[i]);
     }
   }
 }
@@ -244,36 +200,36 @@ uninit_menus_sprites (void)
 static void
 arrows (unsigned int row, unsigned int col)
 {
-  exec_rleprog (left_arrow, corner[0] + row * xbuf + col);
-  exec_rleprog (right_arrow, corner[0] + row * xbuf + 320 - col - 13);
+  DRAW_SPRITE (left_arrow, corner[0] + row * xbuf + col);
+  DRAW_SPRITE (right_arrow, corner[0] + row * xbuf + 320 - col - 13);
 }
 
-static void
+void
 waving_arrows (unsigned int row, unsigned int col)
 {
   col += minisinus[read_htimer (waving_htimer) & 31];
-  exec_rleprog (left_arrow, corner[0] + row * xbuf + col);
-  exec_rleprog (right_arrow, corner[0] + row * xbuf + 320 - col - 13);
+  DRAW_SPRITE (left_arrow, corner[0] + row * xbuf + col);
+  DRAW_SPRITE (right_arrow, corner[0] + row * xbuf + 320 - col - 13);
 }
 
 static void
 chkbox (unsigned int row, unsigned int col, int checked)
 {
-  exec_rleprog (checked_box[checked], corner[0] + row * xbuf + col);
+  DRAW_SPRITE (checked_box[checked], corner[0] + row * xbuf + col);
 }
 
 static void
 cursor (unsigned int row, unsigned int col,
 	unsigned int value, unsigned int max)
 {
-  exec_rleprog (cursor_bg, corner[0] + (row + 2) * xbuf + col);
-  exec_rleprog (cursor_fg, corner[0] + row * xbuf + col + 2 + (25*value/max));
+  DRAW_SPRITE (cursor_bg, corner[0] + (row + 2) * xbuf + col);
+  DRAW_SPRITE (cursor_fg, corner[0] + row * xbuf + col + 2 + (25*value/max));
 }
 
 static void
 hrule (unsigned int row)
 {
-  exec_rleprog (horizontal_rule, corner [0] + row * xbuf + 100);
+  DRAW_SPRITE (horizontal_rule, corner [0] + row * xbuf + 100);
 }
 
 static keycode_t
@@ -351,7 +307,7 @@ control_menu (void)
     chkbox (69, 260, opt.autopilot_one);
     chkbox (141, 260, opt.autopilot_two);
     hrule (95);
-    exec_rleprog (control_menu_txt, corner[0]);
+    DRAW_SPRITE (control_menu_txt, corner[0]);
     vsynch ();
     aff_buffer ();
     if (key_or_joy_ready ()) {
@@ -406,16 +362,16 @@ keyboard_menu (void)
     background_menu ();
 
     arrows (11 * l + 33 + 15 * (l >= 6) + 4 * (l == 12), 1);
-    exec_rleprog (keyboard_menu_txt, corner[0]);
+    DRAW_SPRITE (keyboard_menu_txt, corner[0]);
 
     /* Draw the key name,
-       generate the associated RLE-program if needed. */
+       generate the associated sprite if needed. */
     for (i = 0; i < 12; ++i) {
       if (l != reorder[i] || testing == 0) {
-	if (!keyboard_keys_txt[i]) { /* need to generate a RLE-prog ? */
-	  rleprog_t* res;
+	if (!keyboard_keys_txt[i]) { /* need to generate a sprite ? */
+	  sprite_t *res;
 	  int key = opt.player_keys[i > 5][i > 5 ? i - 6 : i];
-	  const char* keyname = search_keyname (key);
+	  const char *keyname = search_keyname (key);
 
 	  if (!keyname) {	/* unknown key? print its code number */
 	    char name[64];
@@ -427,7 +383,7 @@ keyboard_menu (void)
 				     keyline[reorder[i]], 295);
 	  keyboard_keys_txt[i] = res;
 	}
-	exec_rleprog (keyboard_keys_txt[i], corner[0]);
+	DRAW_SPRITE (keyboard_keys_txt[i], corner[0]);
       }
     }
     vsynch ();
@@ -466,7 +422,7 @@ keyboard_menu (void)
 	l++;
 
 	/* force the regeneration of key name on next display */
-	free_rleprog (keyboard_keys_txt[l]);
+	FREE_SPRITE0 (keyboard_keys_txt[l]);
 	keyboard_keys_txt[l] = 0;
 
 	testing = 0;
@@ -522,15 +478,15 @@ sound_menu (void)
 		   (68 + 19 * (opt.music_volume / 2)) * 320 + 36,
 		   corner[0] + 70 * xbuf + 20, 32, 18);
       cursor (72, 251, 13 - opt.music_volume, 13);
-      exec_rleprog (music_vol_txt, corner[0]);
+      DRAW_SPRITE (music_vol_txt, corner[0]);
     }
     if (opt.sfx) {
       copy_rect_4 (icons_img.buffer + (68 + 19 * (opt.sfx_volume / 2)) * 320 +
 		   72, corner[0] + 140 * xbuf + 20, 32, 18);
       cursor (142, 251, 13 - opt.sfx_volume, 13);
-      exec_rleprog (sfx_vol_txt, corner[0]);
+      DRAW_SPRITE (sfx_vol_txt, corner[0]);
     }
-    exec_rleprog (sound_menu_txt, corner[0]);
+    DRAW_SPRITE (sound_menu_txt, corner[0]);
     vsynch ();
     aff_buffer ();
     if (key_or_joy_ready ()) {
@@ -623,7 +579,7 @@ screen_menu (void)
 
     cursor (120, 251, 6 - opt.luminance, 6);
     chkbox (147, 260, opt.inertia);
-    exec_rleprog (screen_menu_txt, corner[0]);
+    DRAW_SPRITE (screen_menu_txt, corner[0]);
 
     vsynch ();
     aff_buffer ();
@@ -683,7 +639,7 @@ game_menu (void)
     cursor (128, 251, opt.speed, 2);
     cursor (154, 251, opt.gamerounds, 15);
     arrows (29 + l * 24 + 24 * (l > 2), 1);
-    exec_rleprog (game_menu_txt, corner[0]);
+    DRAW_SPRITE (game_menu_txt, corner[0]);
 
     if (!game_rounds_txt) {
       char rounds[32];
@@ -691,7 +647,7 @@ game_menu (void)
 	       (opt.gamerounds == 0) ? '\0' : 'S');
       game_rounds_txt = compile_menu_text (rounds, T_FLUSHED_LEFT, 153, 56);
     }
-    exec_rleprog (game_rounds_txt, corner[0]);
+    DRAW_SPRITE (game_rounds_txt, corner[0]);
 
     vsynch ();
     aff_buffer ();
@@ -714,7 +670,7 @@ game_menu (void)
 	  if (opt.gamerounds < 15) {
 	    opt.gamerounds++;
 	    /* Force regeneration of game_rounds_txt before next draw */
-	    free_rleprog (game_rounds_txt);
+	    FREE_SPRITE0 (game_rounds_txt);
 	    game_rounds_txt = 0;
 	  }
 	}
@@ -745,7 +701,7 @@ game_menu (void)
 	  if (opt.gamerounds > 0) {
 	    opt.gamerounds--;
 	    /* Force regeneration of game_rounds_txt before next draw */
-	    free_rleprog (game_rounds_txt);
+	    FREE_SPRITE0 (game_rounds_txt);
 	    game_rounds_txt = 0;
 	  }
 	if (l == 0) {
@@ -778,21 +734,21 @@ extra_menu (void)
 {
   int l = 0;
   int t, i, ll = 0;
-  /* We store only the RLE-prog for the displayed level names, as the list
+  /* We store only the sprites for the displayed level names, as the list
      can be big (hmmm... really?) */
-  rleprog_t* levelnames[7] = { 0, 0, 0, 0, 0, 0, 0 };
+  sprite_t *levelnames[7] = { 0, 0, 0, 0, 0, 0, 0 };
 
   std_white_fadein (&tile_set_img.palette);
   do {
     background_menu ();
-    exec_rleprog (extra_menu_txt, corner[0]);
-    exec_rleprog (extra_modes_txt[opt.extras], corner[0]);
+    DRAW_SPRITE (extra_menu_txt, corner[0]);
+    DRAW_SPRITE (extra_modes_txt[opt.extras], corner[0]);
 
 
     if (opt.extras == 0)
-      exec_rleprog (extra_combine_txt[0], corner[0]);
+      DRAW_SPRITE (extra_combine_txt[0], corner[0]);
     else
-      exec_rleprog (extra_combine_txt[(extrasel == 0)?1:2], corner[0]);
+      DRAW_SPRITE (extra_combine_txt[(extrasel == 0)?1:2], corner[0]);
 
     if (extrasel && opt.extras != 0) {
       hrule (72);
@@ -805,11 +761,8 @@ extra_menu (void)
 	    levelnames[3 + i] = compile_menu_text (lname, T_FLUSHED_RIGHT,
 						   118, 200);
 	  }
-	  /* FIXME: the middle levelname used to be waving.
-	     This can't be done without additional support from rletext.c.
-	     An alternate solution may be to use a transparent ligne
-	     to highlight the background of this middle level. */
-	  exec_rleprog (levelnames[3 + i], corner[0] + i * 13 * xbuf);
+	  draw_sprprogwav_if (i==0,
+			      levelnames[3 + i], corner[0] + i * 13 * xbuf);
 	  chkbox (115 + i * 13, 210, extra_selected_list[i + ll]);
 	}
     }
@@ -827,7 +780,7 @@ extra_menu (void)
 	  if (ll > 0) {
 	    ll--;
 	    /* Rotate the levelnames. */
-	    free_rleprog (levelnames[6]);
+	    FREE_SPRITE0 (levelnames[6]);
 	    memmove (levelnames + 1, levelnames, 6 * sizeof (*levelnames));
 	    levelnames[0] = 0;
 	  } else
@@ -837,7 +790,7 @@ extra_menu (void)
 	  if ((unsigned int) (ll + 1) < extra_nbr) {
 	    ll++;
 	    /* Rotate the levelnames. */
-	    free_rleprog (levelnames[0]);
+	    FREE_SPRITE0 (levelnames[0]);
 	    memmove (levelnames, levelnames + 1, 6 * sizeof (*levelnames));
 	    levelnames[6] = 0;
 	  } else
@@ -848,7 +801,7 @@ extra_menu (void)
 	  int j;
 	  /* Free all levelnames. */
 	  for (j = 6; j >= 0; --j) {
-	    free_rleprog (levelnames[j]);
+	    FREE_SPRITE0 (levelnames[j]);
 	    levelnames[j] = 0;
 	  }
 
@@ -914,7 +867,7 @@ extra_menu (void)
 
   /* Free all levelnames. */
   for (i = 6; i >= 0; --i)
-    free_rleprog (levelnames[i]);
+    FREE_SPRITE0 (levelnames[i]);
 }
 
 void
@@ -1480,7 +1433,7 @@ draw_saved_games_info (int decal, int l, char h)
   for (i = 0; i < 10; i++)
     draw_text (saverec[i].name, 159 + decal, 40 + i * 14, 1);
 
-  exec_rleprog (left_arrow, corner[0] + decal + (35 + l * 14) * xbuf + 1);
-  exec_rleprog (right_arrow,
-		corner[0] + decal + (35 + l * 14) * xbuf + 320 - 1 - 13);
+  DRAW_SPRITE (left_arrow, corner[0] + decal + (35 + l * 14) * xbuf + 1);
+  DRAW_SPRITE (right_arrow,
+	       corner[0] + decal + (35 + l * 14) * xbuf + 320 - 1 - 13);
 }

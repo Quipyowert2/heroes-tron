@@ -90,10 +90,6 @@ render.c \
 render.h \
 renderdata.c \
 renderdata.h \
-rleprog.c \
-rleprog.h \
-rletext.c \
-rletext.h \
 rsc_files.c \
 rsc_files.h \
 rsc_files_hash.c \
@@ -108,6 +104,16 @@ sfx.c \
 sfx.h \
 sound.c \
 sound.h \
+sprite.c \
+sprite.h \
+sprrle.c \
+sprrle.h \
+sprprog.c \
+sprprog.h \
+sprprogwav.c \
+sprprogwav.h \
+sprtext.c \
+sprtext.h \
 structs.h \
 system.h \
 timer.c \

@@ -1,3 +1,47 @@
+2000-11-03  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Rewrite the sprite interface, cleaner and clever.
+	Remove the RLE-program stuff, install the brand new system.
+
+	* src/rleprog.c: Delete file.
+	* src/rleprog.h: Delete file.
+	* src/rletext.c: Delete file.
+	* src/rletext.h: Delete file.
+	* src/sprite.c: New file.
+	* src/sprite.h: New file.
+	* src/sprrle.c: New file (bits from src/rleprog.c)
+	* src/sprrle.h: New file.
+	* src/sprprog.c: New file.
+	* src/sprprog.h: New file.
+	* src/sprprogwav.c: New file.
+	* src/sprprogwav.h: New file.
+	* src/sprtext.c: New file (mostly from src/rletext.c)
+	* src/sprtext.h: New file (mostly from src/rletext.h)
+	* src/Makefile.in (source_HEROES): Report the above changes.
+	* src/bonus.c (bonus_rle,init_bonuses,uninit_bonuses): Adapt
+	to use the new sprite interface.
+	* src/heroes.c (draw_end_level_info): Use waving_arrows.
+	* src/menus.c (left_arrow, right_arrow, checked_box, cursor_bg,
+	cursor_fg, horizontal_rule, control_menu_txt, sound_menu_txt,
+	music_vol_txt, sfx_vol_txt, screen_menu_txt, game_menu_txt,
+	game_rounds_txt, keyboard_menu_txt, keyboard_keys_txt,
+	extra_menu_txt, extra_modes_txt, extra_combine_txt): Use sprite_t,
+	declare them all static.
+	(init_menus_sprites): Adapt to use compile_sprrle, and the
+	*sprprog functions.
+	(uninit_menus_sprites): Adapt to use FREE_SPRITE0.
+	(arrows, waving_arrows, chkbox, cursor, hrule, control_menu,
+	keyboard_menu, sound_menu, screen_menu, game_menu, extra_menu,
+	draw_saved_games_info): Use DRAW_SPRITE.
+	(waving_arrows): Export.
+	* src/menus.h (left_arrow,right_arrow): Remove.
+	(waving_arrows): Declare.
+	* src/render.c (draw_level): Use DRAW_SPRITE.
+	* src/renderdata.c (tile_sprites): Rename as ...
+	(tile_transp): ... this.  Use sprite_t.  Adjust all references.
+	(get_tile_sprite): Use compile_sprrle.
+	* src/renderdata.h (fg_data_t): Use sprite_t for members.
+
 2000-11-02  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Draw superposed sprites using RLE-programs.

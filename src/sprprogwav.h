@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------.
-| Copyright 1997, 1998, 2000  Alexandre Duret-Lutz <duret_g@epita.fr>     |
+| Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>                 |
 |                                                                         |
 | This file is part of Heroes.                                            |
 |                                                                         |
@@ -18,26 +18,30 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-#ifndef HEROES__MENUS__H
-#define HEROES__MENUS__H
+#ifndef HEROES__SPRPROGWAV__H
+#define HEROES__SPRPROGWAV__H
 
 #include "sprite.h"
+#include "sprprog.h"
+#include "draw.h"
+#include "const.h"
 
-void init_menus_sprites (void);
-void uninit_menus_sprites (void);
-void waving_arrows (unsigned int row, unsigned int col);
+/*-------------------------------------------------------------------.
+| S_PROG_WAV is the same as S_PROG, except that the drawing function |
+| will wave the sprites up and down                                  |
+`-------------------------------------------------------------------*/
 
+/* it is safe to call the following on S_PROG too */
+void draw_sprprogwav (const sprite_t *sprite, pixel_t *dest);
 
-void background_menu (void);
+/* the following is called inheritance in some languages :o) */
+#define free_sprprogwav free_sprprog
+#define new_sprprogwav new_sprprog
+#define add_sprprogwav add_sprprog
 
-void option_menu (void);
-char quit_menu (void);
-void draw_play_menu (int l);
+sprite_t *end_sprprogwav (void);
 
-void draw_main_menu (int l);
-void draw_quit_menu (int l);
-void editor_first_menu (void);
+#define draw_sprprogwav_if(cond, spr, dest) \
+  ((cond) ? draw_sprprogwav : draw_sprprog) ((spr), (dest))
 
-void draw_saved_games_info (int decal, int l, char h);
-
-#endif /* HEROES__MENUS__H */
+#endif /* HEROES__SPRPROGWAV__H */

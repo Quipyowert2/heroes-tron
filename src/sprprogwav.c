@@ -18,29 +18,34 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-#ifndef HEROES__RLETEXT__H
-#define HEROES__RLETEXT__H
+#include "system.h"
+#include "sprprogwav.h"
 
-#include "rleprog.h"
-#include "fontdata.h"
+static int
+waving_offset (int pos)
+{
+  return ceil (sin (((text_waving_step + pos*2) & 31) * 3.141592653 / 16.0)
+	       * 1.7) * xbuf;
+}
 
+void
+draw_sprprogwav (const sprite_t *sprite, pixel_t *dest)
+{
+  sprite_prog_list_t *list;
+  int pos = 0;
 
-/* Don't change the order of the four first options.  The code rely
-   on these values (for instance we must have
-   T_FLUSHED_RIGHT | T_FLUSHED_LEFT == T_JUSTIFIED). */
-enum text_option { T_CENTERED = 0,
-		   T_FLUSHED_LEFT = 1,
-		   T_FLUSHED_RIGHT = 2,
-		   T_JUSTIFIED = 3,
-		   T_WAVING = 4};
+  assert (sprite->all.kind == S_PROG || sprite->all.kind == S_PROG_WAV);
 
-rleprog_t* compile_rletext (const fontdata_t *font, const char *text, 
-			    enum text_option topt, unsigned int maxwidth,
-			    int offset);
+  for (list = sprite->prog.list; list; list = list->cdr) {
+    sprite_t *s = list->car;
+    s->draw (s, dest + list->offset + waving_offset (pos++));
+  }
+}
 
-/* short-hand functions */
-
-rleprog_t* compile_menu_text (const char *text, enum text_option topt,
-			      int row, int col);
-
-#endif /* HEROES__RLETEXT__H */
+sprite_t *
+end_sprprogwav (void)
+{
+  sprite_t *s = end_sprprog ();
+  s->all.kind = S_PROG_WAV;	/* overwrite */
+  return s;
+}

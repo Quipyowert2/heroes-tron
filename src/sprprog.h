@@ -1,0 +1,72 @@
+/*------------------------------------------------------------------------.
+| Copyright 2000  Alexandre Duret-Lutz <duret_g@epita.fr>                 |
+|                                                                         |
+| This file is part of Heroes.                                            |
+|                                                                         |
+| Heroes is free software; you can redistribute it and/or modify it under |
+| the terms of the GNU General Public License as published by the Free    |
+| Software Foundation; either version 2 of the License, or (at your       |
+| option) any later version.                                              |
+|                                                                         |
+| Heroes is distributed in the hope that it will be useful, but WITHOUT   |
+| ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or   |
+| FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   |
+| for more details.                                                       |
+|                                                                         |
+| You should have received a copy of the GNU General Public License along |
+| with this program; if not, write to the Free Software Foundation, Inc., |
+| 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
+`------------------------------------------------------------------------*/
+
+#ifndef HEROES__SPRPROG__H
+#define HEROES__SPRPROG__H
+
+#include "sprite.h"
+
+/*-----------------------------------------------------------------.
+| sprite-programs are singly linked list of sprites, which are all |
+| drawn at once.                                                   |
+`-----------------------------------------------------------------*/
+
+/* it is safe to call the following on S_PROG_WAV too */
+void draw_sprprog (const sprite_t *sprite, pixel_t *dest);
+void free_sprprog (sprite_t *sprite);
+
+
+/* The following is not thread safe, because when you build a sprprog
+   the state is kept in static variables.  But this make the interface
+   friendlier.  But it can be called recusrively, i.e. you can
+   build a new prog (new,add...,end) while you are already building
+   another prog.  new and end will actually save and restore the
+   context.
+
+   It is safe to do
+     new_sprprog ();
+     add_sprprog0 (compile_menu_text ("bar", T_CENTERED|T_WAVING, 5, 159));
+     add_sprprog0 (compile_menu_text ("foo", T_FLUSHED_LEFT, 39, 56));
+     end_sprprog ();
+   even if compile_menu_text is itself using {new,add,end}_sprprog.
+*/
+
+/* call this to start a new sprprog */
+void new_sprprog (void);
+
+/* add as many sprites as you wish */
+void add_sprprog (sprite_t *sprite, int offset);
+/* likewise, with offset = 0 */
+void add_sprprog0 (sprite_t *sprite);
+
+/* finish the sprprog, and return it */
+sprite_t *end_sprprog (void);
+
+
+/* The following is an internal definition,
+   which is made public for sprprogwav.c usage. */
+
+struct sprite_prog_list_s {
+  sprite_prog_list_t *cdr;
+  sprite_t *car;
+  int offset;			/* offset to add to the destination supplied */
+};
+
+#endif /* HEROES__SPRPROG__H */

@@ -3745,15 +3745,9 @@ draw_end_level_info (int decal, char l)
   else if (game_mode == M_COLOR)
     draw_text (txti[57], 170 + decal, 50, 1);
   if ((level_is_finished != 15) && (game_mode == M_QUEST)) {
-    j = minisinus[read_htimer (waving_htimer) & 31];
     draw_text_array[l == 0] (txti[58], 159 + decal, 150, 1);
     draw_text_array[l == 1] (txti[59], 159 + decal, 170, 1);
-
-    exec_rleprog (left_arrow,
-		  corner[0] + decal + (145 + l * 20) * xbuf + 45 + j);
-    exec_rleprog (right_arrow,
-		  corner[0] + decal + (145 + l * 20) * xbuf
-		  + 320 - 45 - 13 - j);
+    waving_arrows (145 + l * 20, 45);
   } else {
     draw_text (txti[60], 159 + decal, 160, 1);
   }

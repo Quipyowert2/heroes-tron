@@ -19,39 +19,25 @@
 `------------------------------------------------------------------------*/
 
 #include "system.h"
-#include "rletext.h"
+#include "sprtext.h"
+#include "sprprogwav.h"
+#include "sprrle.h"
 #include "const.h"
-#include "debugmsg.h"
-#include "draw.h"
-
-
-/* used to alter the offset of waving strings */
-static int
-waving_offset (const rleprog_t* prog)
-{
-  return ceil (sin (((text_waving_step + prog->func_data*2) & 31)
-		    * 3.141592653 / 16.0)
-	       * 1.7) * prog->line_size;
-}
-
 
 /*
- * Generate a RLE-program that display a text, using a given font.
+ * Generate a sprite_t that display a text, using a given font.
  *
- * Currently, rleprog_t are computed for each character and chained
- * together.  This can be enhanced: unless waving, there is no point
- * in computing a REL-prog for each character, it may be better to
- * compute *one* REL-prog for the *whole* string.
+ * Currently, an S_RLE sprite is computed for each character and chained
+ * together in a S_PROG sprite.  This can be enhanced: unless waving,
+ * there is no point in computing a S_RLE for each separate character,
+ * it may be better to compute *one* S_RLE for the *whole* string.
  */
 
-rleprog_t*
-compile_rletext (const fontdata_t *font, const char *text, 
+sprite_t*
+compile_sprtext (const fontdata_t *font, const char *text,
 		 enum text_option topt, unsigned int maxwidth,
 		 int offset)
 {
-  rleprog_t *result = 0;	/* RLE-program to return */
-  rleprog_t **next = &result;	/* place for the next RLE-program */
-
   if (topt & T_FLUSHED_LEFT) {	/* FLUSHED_LEFT or JUSTIFIED */
     /* offset = 0; */
   } else {			/* FLUSHED_RIGHT or CENTERED */
@@ -63,39 +49,30 @@ compile_rletext (const fontdata_t *font, const char *text,
       offset -= (int) text_width/2;
   }
 
+  new_sprprog ();
+
   for (; *text; ++text) {
     if (*text == ' ') {
       offset += font->width[' '];
       /* FIXME: handle the JUSTIFIED case here. */
     } else {
-      *next = compile_rleprog (font->upper_left[(int)*text], 0,
-			       font->height, font->width[(int)*text],
-			       font->line_size, xbuf);
-      (*next)->dest_offset = offset;
-      result->latest_known = *next;
-      next = &((*next)->next_prog);
+      add_sprprog (compile_sprrle (font->upper_left[(int)*text], 0,
+				   font->height, font->width[(int)*text],
+				   font->line_size, xbuf),
+		   offset);
       offset += font->width[(int)*text];
     }
   }
 
-  /* setup waving parameters, if needed */
-  if (topt & T_WAVING) {
-    rleprog_t* cur = result;
-    int number = 0;
-
-    while (cur) {
-      cur->func_offset = waving_offset;
-      cur->func_data = number++;
-      cur = cur->next_prog;
-    }
-  }
-
-  return result;
+  if (topt & T_WAVING)
+    return end_sprprogwav ();
+  else
+    return end_sprprog ();
 }
 
-rleprog_t*
+sprite_t*
 compile_menu_text (const char *text, enum text_option topt,
 		   int row, int col)
 {
-  return compile_rletext (menu_font, text, topt, 0, row * xbuf + col);
+  return compile_sprtext (menu_font, text, topt, 0, row * xbuf + col);
 }

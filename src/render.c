@@ -694,11 +694,11 @@ draw_level (int p)
 	 j--, i = ((i + 1) & map_info.xwrap)) {
       int pos = i + m;
       if (fg_data[pos].bonus)
-	exec_rleprog (fg_data[pos].bonus[bonus_anim_offset], dest);
+	DRAW_SPRITE (fg_data[pos].bonus[bonus_anim_offset], dest);
       if (fg_data[pos].big_dollar)
 	draw_dollar (dest);
       if (fg_data[pos].sprite)
-	exec_rleprog (fg_data[pos].sprite, dest);
+	DRAW_SPRITE (fg_data[pos].sprite, dest);
       dest += 24;
     }
     dest += xbuf * 20 - 24 * (nbr_tiles_cols - camera_stop_x[p]);

@@ -19,30 +19,26 @@
 `------------------------------------------------------------------------*/
 
 #include "system.h"
-#include "rleprog.h"
-#include "errors.h"
+#include "sprrle.h"
 
-static void
-unclipped_run (const rleprog_t* prog, pixel_t* dest)
+void
+draw_sprrle (const sprite_t *sprite, pixel_t *dest)
 {
-  pixel_t*	cur;		/* current writting possition */
-  u8_t*		pc;		/* program counter */
-  u8_t*		epc;		/* end of program code */
+  pixel_t	*cur = dest;	/* current writting possition */
+  u8_t		*pc;		/* program counter */
+  u8_t		*epc;		/* end of program code */
 
-  cur = dest + prog->dest_offset;
+  assert (sprite->all.kind == S_RLE);
 
-  if (prog->func_offset)
-    cur += prog->func_offset (prog);
-
-  pc = prog->code;
-  epc = prog->end_code;
+  pc = sprite->rle.code;
+  epc = sprite->rle.end_code;
 
   while (pc < epc) {
     unsigned m, n;
     m = *pc++;
     n = *pc++;
     if (n == 0 && m == 0) {	/* end of line */
-      cur += prog->line_skip;
+      cur += sprite->rle.line_skip;
     } else {
       cur += m;
       for (; n; --n)
@@ -51,26 +47,15 @@ unclipped_run (const rleprog_t* prog, pixel_t* dest)
   }
 }
 
-void
-exec_rleprog (const rleprog_t* prog, pixel_t* dest)
+sprite_t *
+compile_sprrle (const pixel_t *src, pixel_t transp_color,
+		unsigned int block_height, unsigned int block_width,
+		unsigned int src_width, unsigned int dest_width)
 {
-  while (prog) {
-    /* only unclipped run are currently supported */
-    unclipped_run (prog, dest);
-    prog = prog->next_prog;
-  }
-}
-
-
-rleprog_t*
-compile_rleprog (const pixel_t* src, pixel_t transp_color,
-		 unsigned int block_height, unsigned int block_width,
-		 unsigned int src_width, unsigned int dest_width)
-{
-  rleprog_t* prog;
+  sprite_t* sprite;
   unsigned int row;
   unsigned int code_size;
-  u8_t* pc;			/* program counter */
+  u8_t *pc;			/* program counter */
 
 
   /* In the worst case (start with an opaque pixel and alternate
@@ -79,14 +64,14 @@ compile_rleprog (const pixel_t* src, pixel_t transp_color,
      of line. */
   code_size = block_height * ((block_width / 2 + 1) * 3 + 2);
 
-  XMALLOC_VAR (prog);
-  XMALLOC_ARRAY (prog->code, code_size);
+  XMALLOC_VAR (sprite);
+  XMALLOC_ARRAY (sprite->rle.code, code_size);
 
   /* encode the bloc */
-  pc = prog->code;
+  pc = sprite->rle.code;
   for (row = block_height; row; --row) {
     unsigned int m, n;
-    const pixel_t* eol = src + block_width; /* end of line */
+    const pixel_t *eol = src + block_width; /* end of line */
 
     /* encode a line */
     do {
@@ -111,49 +96,20 @@ compile_rleprog (const pixel_t* src, pixel_t transp_color,
     src += src_width - block_width;
   }
 
-  prog->end_code = pc;
-  prog->line_skip = dest_width - block_width;
-  prog->line_size = dest_width;
-  prog->next_prog = 0;
-  prog->dest_offset = 0;
-  prog->latest_known = 0;
-  prog->func_offset = 0;
-  prog->func_data = 0;
+  sprite->rle.kind = S_RLE;
+  sprite->rle.draw = draw_sprrle;
+  sprite->rle.end_code = pc;
+  sprite->rle.line_skip = dest_width - block_width;
 
-  assert (pc < prog->code + code_size);
+  assert (pc < sprite->rle.code + code_size);
 
-  return prog;
+  return sprite;
 }
 
 void
-free_rleprog (rleprog_t* prog)
+free_sprrle (sprite_t *prog)
 {
-  while (prog) {
-    rleprog_t* next = prog->next_prog;
-    free (prog);
-    prog = next;
-  }
-}
-
-rleprog_t*
-concat_rleprog (rleprog_t* head, rleprog_t* tail)
-{
-  rleprog_t* pos = head;
-
-  if (!head)
-    return tail;
-
-  /* use latest_known to reach the end more quickly */
-  while (pos->latest_known && pos != pos->latest_known)
-    pos = pos->latest_known;
-
-  while (pos->next_prog)
-    pos = pos->next_prog;
-
-  pos->next_prog = tail;
-
-  /* update latest_known for next uses */
-  head->latest_known = tail->latest_known ? tail->latest_known : tail;
-
-  return head;
+  assert (prog->all.kind == S_RLE);
+  free (prog->rle.code);
+  free (prog);
 }
