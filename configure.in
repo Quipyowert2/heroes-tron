@@ -157,6 +157,7 @@ AM_GNU_GETTEXT
 # Setup the correct compiler options.
 # ===================================
 
+adl_ENABLE_DEVEL
 adl_NDEBUG
 adl_ENABLE_GPROF
 adl_ENABLE_DEBUG

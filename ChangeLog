@@ -1,3 +1,11 @@
+2001-01-06  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* doc/heroes.texi (configure options): Describe --enable-devel.
+	s/disable-debug/enable-debug/
+	s/disable-optimization/disable-optimizations/
+	* m4/devel.m4: New file.
+	* configure.in: Call adl_ENABLE_DEVEL.
+
 2001-01-04  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* man/Makefile.am (heroes.6): Be more verbose in game description.

@@ -686,13 +686,13 @@ attempting to hack the code may want debugging symbols or compiler
 warning.
 
 @table @samp
-@item --disable-debug
-@cindex --disable-debug
+@item --enable-debug
+@cindex --enable-debug
 Turn on debugging options: compile with debugging symbols and debugging
 code.  This is disabled by default because it produce bigger binaries.
 
-@item --disable-optimization
-@cindex --disable-optimization
+@item --disable-optimizations
+@cindex --disable-optimizations
 Turn off compiler optimizations options.  This can ease debugging.
 
 @item --enable-warnings
@@ -703,6 +703,10 @@ Try to turn on a large bunch of compiler warnings.
 @cindex --enable-assert
 Turn on some assertions squattered over the source code.
 This can slow down things a bit.
+
+@item --enable-devel
+@cindex --enable-devel
+Is a shorthand for @samp{--enable-debug --disable-optimizations --enable-warnings --enable-assert}.
 
 @item --with-dmalloc
 @cindex --with-dmalloc
