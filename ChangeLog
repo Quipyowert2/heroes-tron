@@ -1,5 +1,24 @@
 2000-09-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Use opendir/readdir/closedir instead of scandir.
+
+	* configure.in: Remove checks for scandir and alphadir.
+	Remove the test about the type of d_name.
+	* lib/scandir.c: Delete.
+	* lib/alphadir.c: Delete.
+	* lib/Makefile.am (EXTRA_DIST): Remove scandir and alphadir.
+	* src/extras.c (NEW_LIST(level)): New.
+	(alphasort,scandir): Remove declaration.
+	(browse_extra_directory): Rewrite using opendir/readdir/closedir,
+	add the files to a list given as a new argument.
+	(browse_extra_directories): Convert the list filled by
+	browse_extra_directory to an array, and allocate
+	extra_selected_list (these two operations used to be done by
+	browse_extra_directory).
+	* src/common.h [!HAVE_DIRENT_H]: Include other possible headers.
+	
+2000-09-15  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Improve the generic list by handling comparator and
 	destructor for the cells' type.
 

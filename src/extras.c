@@ -41,6 +41,12 @@ static void free_extradir_info (extradir_info_t* ei);
 
 NEW_LIST (extradir, extradir_info_t*, STD_EQUAL, free_extradir_info);
 
+/* level_list_t is used for building a temporaly list of all extra
+   levels seen in directories.  The list will be converted to an
+   array, so though the data are pointer we don't want to free them
+   when cleaning the list with in level_clear */
+NEW_LIST (level, extra_level_t*, STD_EQUAL, NULL_DESTRUCTOR);
+
 extradir_list_t edir;
 
 int extra_nbr = 0;		/* The total number of extra levels */
@@ -78,82 +84,90 @@ cmp_extralevels (const extra_level_t* l, const extra_level_t* r)
   return strcasecmp (l->level_name, r->level_name);
 }
 
-#ifndef HAVE_ALPHASORT
-int alphasort (const struct dirent **a, const struct dirent **b);
-#endif
-
-#ifndef HAVE_SCANDIR
-int scandir (const char *dir, struct dirent ***namelist,
-	     int (*select)(const struct dirent *),
-	     int (*compar)(const struct dirent **, const struct dirent **));
-#endif
-
+/* Browse a directory, adds the levels found to ll.
+   Update extra_nbr and extra_user_nbr. */
 static void
-browse_extra_directory (const char* directory, char is_in_user_dir)
+browse_extra_directory (const char* directory, char is_in_user_dir, 
+			level_list_t* ll)
 {
-  int i;
-  struct dirent **tmp_list;
-  int extra_nbr_here, old_nbr;
+  DIR* dir;
+  struct dirent* de;
+  int n = 0;
 
   dmsg (D_FILE, "browsing directory %s ...", directory);
-  /* get the files list of the directory */
-  extra_nbr_here = scandir (directory, &tmp_list, select_file, alphasort);
 
-  if (extra_nbr_here == -1) {
+  dir = opendir (directory);
+  if (!dir) {
+    /* Always output an error message when handling a user directory.
+       If not, we are probably reading a default extra directory,
+       maybe system wide configured or hard coded in the source;
+       it's best to assume this is not an error (this allow the
+       addition of extra levels as packages or such).  */
     if (is_in_user_dir) 
       perror (directory);
     dperror ("scandir");
     return;
   }
+    
+  while ((de = readdir (dir)))
+    if (select_file (de)) {
+      /* add the file to the list */
+      extra_level_t* tmp = malloc (sizeof (*tmp));
+      char* fn = malloc (strlen (directory) + 1 + 
+			 strlen (de->d_name) + 1);
 
-  dmsg (D_FILE, "... %d files", extra_nbr_here);
+      tmp->level_name = strdup (de->d_name);
+      sprintf (fn, "%s/%s", directory, tmp->level_name);
+      tmp->full_name = fn;
+      tmp->is_in_user_dir = is_in_user_dir;
 
-  if (extra_nbr_here == 0)
-    return;
+      strupr (tmp->level_name);
+      if ((fn = strchr (tmp->level_name, '.')))
+	*fn = 0;
 
-  old_nbr = extra_nbr;
-  extra_nbr += extra_nbr_here;
+      level_push (ll, tmp);
+      ++n;
+    }
+
+  closedir (dir);
+
+  dmsg (D_FILE, "... %d files", n);
+
+  extra_nbr +=n;
   if (is_in_user_dir)
-    extra_user_nbr += extra_nbr_here;
-  /* realloc the list and the selection array */
-  extra_selected_list = realloc (extra_selected_list, extra_nbr);
-  memset (extra_selected_list, 0, extra_nbr);
-  extra_list = realloc (extra_list, extra_nbr * sizeof (*extra_list));
-  /* update the list */
-  for (i = 0; i < extra_nbr_here; ++i) {
-    char* fn = malloc (strlen (directory) + 1 + 
-		       strlen(tmp_list[i]->d_name) + 1);
-#if !defined HAVE_SCANDIR && defined D_NAME_IS_POINTER
-    /* d_name has been allocated by the scandir replacement */
-    extra_list[old_nbr + i].level_name = tmp_list[i]->d_name;
-#else
-    extra_list[old_nbr + i].level_name = strdup (tmp_list[i]->d_name);
-#endif
-    sprintf(fn, "%s/%s", directory, tmp_list[i]->d_name);
-    extra_list[old_nbr + i].full_name = fn;
-    extra_list[old_nbr + i].is_in_user_dir = is_in_user_dir;
-    strupr (extra_list[old_nbr + i].level_name);
-    if ((fn = strchr (extra_list[old_nbr + i].level_name, '.')))
-      *fn = 0;
-    free (tmp_list[i]);
-  }
-  free (tmp_list);  
+    extra_user_nbr += n;
 }
 
 void
 browse_extra_directories (void)
 {
   extradir_list_t ed = edir;
+  level_list_t ll = 0;
+  level_list_t ll_cur;
+  int i;
 
-  /* get the files of each directory */
+  /* build the list of the files found in each directory */
   while (ed) {
-    browse_extra_directory (ed->car->filename, ed->car->is_in_user_dir);
+    browse_extra_directory (ed->car->filename, ed->car->is_in_user_dir, &ll);
     ed = ed->cdr;
   }
+
+  /* convert the list to an array (this array is called extra_list, BTW :)) */
+  extra_list = realloc (extra_list, extra_nbr * sizeof (*extra_list));
+  for (i = 0, ll_cur = ll; ll_cur; ll_cur = ll_cur->cdr, ++i)
+    extra_list[i] = *(ll_cur->car);
+  assert (i == extra_nbr);
+
+  /* ll is now useless */
+  level_clear (&ll);
 
   /* sort the files list */
   qsort (extra_list, extra_nbr, sizeof(*extra_list),
 	 (int (*)(const void*,const void*))cmp_extralevels);
+
+  /* allocate the selection array */
+  extra_selected_list = realloc (extra_selected_list, extra_nbr);
+  memset (extra_selected_list, 0, extra_nbr);
 }
 
 void 
