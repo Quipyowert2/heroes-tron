@@ -10,7 +10,7 @@ config.status
 configure
 music.raw
 music.wav
-stamp-h
+stamp-h*
 INSTALL
 COPYING
 *.tar.gz
@@ -18,3 +18,4 @@ COPYING
 ABOUT-NLS
 AUTHORS
 THANKS
+autom4te.cache
