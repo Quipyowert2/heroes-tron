@@ -1,5 +1,17 @@
 2000-11-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Draw bonuses using RLE-programs.
+
+	* src/bonus.c (bonus_a_img, bonus_b_img): Make them static.
+	(bonus_rle): New.
+	(init_bonuses, uninit_bonus): Take care of bonus_rle.
+	(add_bonus): Adapt to put a rleprog_t in fg_data[pos].bonus.
+	* src/bonus.h (bonus_a_img, bonus_b_img): Remove.
+	* src/render.c (draw_level): Adapt to display bonuses as rleprog.
+	* src/renderdata.h (fg_data_t): Use rleprog_t for bonus.
+
+2000-11-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* doc/heroes.texi (Options): Describe --list=debug.
 	(Environment): Mention --list=debug.
 	* src/Makefile.am (heroes_SOURCES): Add debughash.c and debughash.h.

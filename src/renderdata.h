@@ -27,6 +27,7 @@
 
 #include "display.h"
 #include "pcx.h"
+#include "rleprog.h"
 
 /* data for background tiles */
 
@@ -46,7 +47,7 @@ extern bg_data_t *bg_data;
 
 typedef struct {
   const pixel_t *sprite;	/* transparent sprite if non nil */
-  const pixel_t *bonus;		/* bonus line, if non nil */
+  rleprog_t **bonus;		/* bonus line, if non nil */
   char big_dollar;		/* 1 if a big dollar must be drawn */
 } fg_data_t;
 

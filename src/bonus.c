@@ -51,7 +51,11 @@ static int bonus_proba[17];	/* FIXME: What's the english for
 				   "fonction de r\'epartition"? */
 static int bonus_proba_sum = 0;
 
-pcx_image_t bonus_a_img, bonus_b_img;
+static pcx_image_t bonus_a_img, bonus_b_img;
+
+#define N_BONUSES 16
+#define N_BONUS_FRAMES 13
+rleprog_t *bonus_rle[2][N_BONUSES][N_BONUS_FRAMES];
 
 unsigned char *tile_bonus;
 unsigned char *tile_bonus_cpu;
@@ -70,19 +74,42 @@ int txt_bonus_tempo[4];
 void
 init_bonuses (void)
 {
+  int bonus;
+  int frame;
+
   bonus_anim_htimer = new_htimer (T_GLOBAL, HZ (35));
   pcx_load_from_rsc ("purple-bonus-img", &bonus_a_img);
   pcx_load_from_rsc ("brown-bonus-img", &bonus_b_img);
   pcx_load_from_rsc ("bonus-font", &bonus_font_img);
+
+  for (bonus = 0; bonus < N_BONUSES; ++bonus)
+    for (frame = 0; frame < N_BONUS_FRAMES; ++frame)
+      bonus_rle[0][bonus][frame] =
+	compile_rleprog (IMGPOS (bonus_a_img, bonus * 20, frame * 24),
+			 0, 20, 24, bonus_a_img.width, xbuf);
+  for (bonus = 0; bonus < N_BONUSES; ++bonus)
+    for (frame = 0; frame < N_BONUS_FRAMES; ++frame)
+      bonus_rle[1][bonus][frame] =
+	compile_rleprog (IMGPOS (bonus_b_img, bonus * 20, frame * 24),
+			 0, 20, 24, bonus_b_img.width, xbuf);
 }
 
 void
 uninit_bonuses (void)
 {
+  int bonus;
+  int frame;
+
   img_free (&bonus_font_img);
   img_free (&bonus_b_img);
   img_free (&bonus_a_img);
   free_htimer (bonus_anim_htimer);
+
+  for (bonus = 0; bonus < N_BONUSES; ++bonus)
+    for (frame = 0; frame < N_BONUS_FRAMES; ++frame) {
+      free_rleprog (bonus_rle[0][bonus][frame]);
+      free_rleprog (bonus_rle[1][bonus][frame]);
+    }
 }
 
 static unsigned char
@@ -119,11 +146,9 @@ add_bonus (int pos_in_list, unsigned char what)
     fg_data[pos].big_dollar = 1;
   else {
     if (what & 128)
-      fg_data[pos].bonus = (bonus_b_img.buffer
-			    + (what & 127) * bonus_b_img.width * 20);
+      fg_data[pos].bonus = bonus_rle[1][what & 127];
     else
-      fg_data[pos].bonus = (bonus_a_img.buffer
-			    + what * bonus_a_img.width * 20);
+      fg_data[pos].bonus = bonus_rle[0][what];
   }
 }
 
@@ -393,7 +418,7 @@ update_bonuses (void)
 
     /* erase the bonus */
     tile_bonus[bonus_pos] = 0;
-    /* dno't draw it anymore */
+    /* don't draw it anymore */
     fg_data[bonus_pos].bonus = 0;
     fg_data[bonus_pos].big_dollar = 0;
     /* add a new bonus, at the same position in the list */

@@ -522,10 +522,9 @@ draw_level (int p)
     for (bb = 3; bb >= 0; bb--)
       invincible[bb] = 0;
 
-  bonus_anim_offset = read_htimer (bonus_anim_htimer) & 15;
-  if (bonus_anim_offset > 8)
-    bonus_anim_offset = 16 - bonus_anim_offset;
-  bonus_anim_offset *= 24;
+  bonus_anim_offset = read_htimer (bonus_anim_htimer) % 25;
+  if (bonus_anim_offset >= 13)
+    bonus_anim_offset = 25 - bonus_anim_offset;
 
   if (map_info.ywrap == DONT_WRAP && (corner_dy[p] + 11U) > map_info.yt)
     camera_stop_y[p] = 1;
@@ -713,7 +712,7 @@ draw_level (int p)
 	 j--, i = ((i + 1) & map_info.xwrap)) {
       int pos = i + m;
       if (fg_data[pos].bonus)
-	copy_tile_transp (fg_data[pos].bonus, dest, bonus_a_img.width);
+	exec_rleprog (fg_data[pos].bonus[bonus_anim_offset], dest);
       if (fg_data[pos].big_dollar)
 	draw_dollar (dest);
       if (fg_data[pos].sprite)

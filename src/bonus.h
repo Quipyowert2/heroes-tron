@@ -30,8 +30,6 @@ extern int bonus_points[2][17];	/* interest of bonuses,
 extern htimer_t bonus_anim_htimer;
 extern int bonus_anim_offset;
 
-extern pcx_image_t bonus_a_img, bonus_b_img;
-
 extern unsigned char *tile_bonus;
 extern unsigned char *tile_bonus_cpu;
 extern int *bonus_time;
