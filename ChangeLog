@@ -1,3 +1,10 @@
+2000-09-01  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* src/intro.c (show_intro): Addapt constants for better
+	synchronisation with the sound track.
+	* src/heroes.c (play_demo): Reset the fading_timer once,
+	and set fade to 0 only if it was equal to -1 before.
+
 2000-08-31  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* NEWS: Update.

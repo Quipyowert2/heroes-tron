@@ -3399,19 +3399,21 @@ play_demo (void)
     update_text_waving_step ();
     if (enable_blit) {
       long duration = read_htimer (demo_htimer);
-      if (duration >= (DEMO_DURATION - 1))
-	fade = 0;
-      else {
-	reset_htimer (fading_htimer);
+      if (duration >= (DEMO_DURATION - 1) || fade >= 0) {
+	if (fade >= 0) {
+	  fade += read_htimer (fading_htimer);
+	  if (fade > 64)
+	    fade = 64;
+	  pal2pal (&tile_set_img.palette, &pal, fade);
+	  vsynch ();
+	  set_pal_with_luminance ((palette_rvb *) temppal.global);
+	} else {
+	  dmsg (D_MISC, "end of demo time reached");
+	  fade = 0;
+	  reset_htimer (fading_htimer);
+	}
+      } else {
 	vsynch ();
-      }
-      if (fade >= 0) {
-	fade += read_htimer (fading_htimer);
-	if (fade > 64)
-	  fade = 64;
-	pal2pal (&tile_set_img.palette, &pal, fade);
-	vsynch ();
-	set_pal_with_luminance ((palette_rvb *) temppal.global);
       }
       if (two_players == 0) {
 	aff_buffer ();
@@ -3436,8 +3438,10 @@ play_demo (void)
       notbyebye = 0;
 
     if (!(notbyebye && level_is_finished == 0))
-      if (fade == -1)
+      if (fade == -1) {
 	fade = 0;
+	reset_htimer (fading_htimer);
+      }
   } while (fade < 64);
 
   free_htimer (demo_htimer);

@@ -191,7 +191,7 @@ show_intro (void)
 
   set_pal ((char *) &pal, 0, 768);
   img2vram (&intro_img);
-  while (read_htimer (intro_global_htimer) < 3) {
+  while (read_htimer (intro_global_htimer) < 2) {
     vsynch ();
     if (key_or_joy_ready ()) {
       img_free (&intro_img);
@@ -214,7 +214,7 @@ show_intro (void)
 
   img_free (&intro_img);
   pcx_load_from_rsc ("intro-vehicles-img", &intro_img);
-  while (read_htimer (intro_global_htimer) < 12) {
+  while (read_htimer (intro_global_htimer) < 9) {
     vsynch ();
     if (key_or_joy_ready ()) {
       img_free (&intro_img);
@@ -239,7 +239,7 @@ show_intro (void)
   memset (screen + 32000, 0, 32000);
   set_pal ((char *) &intro_img.palette, 0, 768);
 
-  while (read_htimer (intro_global_htimer) < 18) {
+  while (read_htimer (intro_global_htimer) < 14) {
     vsynch ();
     if (key_or_joy_ready ()) {
       img_free (&intro_img);
@@ -288,7 +288,7 @@ show_intro (void)
   compute_erase_data ();
   img_free (&intro_img);
 
-  while (read_htimer (intro_global_htimer) < 40) {
+  while (read_htimer (intro_global_htimer) < 27) {
     vsynch ();
     if (key_or_joy_ready ())
       return (1);
