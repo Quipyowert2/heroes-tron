@@ -37,9 +37,11 @@ enum sprite_kind {
   S_RLE_ZCOL,			/* transparant, using a kind of
   				   color-based z-buffer, for explosions */
   S_RLE_GLENZ,			/* transparant,
-				   using unform glenz for the rest */
-  S_RLE_UNIC_SHADE,		/* transparant, using a UNIque opaque Color, and
-				   one line of glenz */
+				   using uniform glenz for the rest */
+  S_RLE_UNIC_SHADE,		/* transparant, using a UNIque opaque Color,
+				   and one line of glenz */
+  S_RLE_GLENZ_AUTO,		/* transparant, using glenz for some
+				   known colors (this is slow) */
   S_PROG,			/* a list of sprites, to draw all at once */
   S_PROG_WAV			/* like S_PROG but also wave */
 };

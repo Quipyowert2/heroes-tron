@@ -38,6 +38,10 @@ sprite_t *compile_sprtext (const fontdata_t *font, const char *text,
 			   enum text_option topt, unsigned int maxwidth,
 			   int offset);
 
+sprite_t * compile_sprtext_color (const fontdata_t *font, const char *text,
+				  enum text_option topt, unsigned int maxwidth,
+				  int offset);
+
 sprite_t *compile_sprpara (const fontdata_t *font, const char *text,
 			   enum text_option topt, unsigned int maxwidth,
 			   int offset);

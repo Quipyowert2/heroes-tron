@@ -22,6 +22,7 @@
 #include "sprtext.h"
 #include "sprprogwav.h"
 #include "sprrle.h"
+#include "sprunish.h"
 #include "const.h"
 #include "parafmt.h"
 
@@ -36,13 +37,22 @@
 
 sprite_t *
 compile_sprtext (const fontdata_t *font, const char *text,
-		 enum text_option topt, unsigned int maxwidth ATTRIBUTE_UNUSED,
+		 enum text_option topt, unsigned int maxwidth,
 		 int offset)
 {
+  unsigned int nspaces;
+  unsigned int text_width;
+
   if (topt & T_FLUSHED_LEFT) {	/* FLUSHED_LEFT or JUSTIFIED */
-    /* offset = 0; */
+    if (topt & T_FLUSHED_RIGHT) { /* JUSTIFIED */
+      text_width = compute_text_width (font, text, &nspaces);
+      if (nspaces == 0) {	/* we cannot justify a text without spaces */
+	topt &= ~T_JUSTIFIED;
+	topt |= T_FLUSHED_LEFT;
+      }
+    }
   } else {			/* FLUSHED_RIGHT or CENTERED */
-    unsigned int text_width = compute_text_width (font, text, 0);
+    text_width = compute_text_width (font, text, 0);
 
     if (topt & T_FLUSHED_RIGHT)	/* FLUSHED_RIGHT */
       offset -= (int) text_width;
@@ -54,12 +64,97 @@ compile_sprtext (const fontdata_t *font, const char *text,
 
   for (; *text; ++text) {
     if (*text == ' ') {
-      offset += font->width[' '];
-      /* FIXME: handle the JUSTIFIED case here. */
+      if ((topt & T_JUSTIFIED) == T_JUSTIFIED) {
+	unsigned int off = (maxwidth - text_width) / nspaces;
+	offset += off;
+	text_width += off;
+	--nspaces;
+      } else
+	offset += font->width[' '];
     } else {
-      add_sprprog (compile_sprrle (font->upper_left[(int)*text], 0,
-				   font->height, font->width[(int)*text],
+      add_sprprog (compile_sprrle (font->upper_left[UCHAR (*text)], 0,
+				   font->height, font->width[UCHAR (*text)],
 				   font->line_size, xbuf),
+		   offset);
+      offset += font->width[UCHAR (*text)];
+    }
+  }
+
+  if (topt & T_WAVING)
+    return end_sprprogwav ();
+  else
+    return end_sprprog ();
+}
+
+
+sprite_t *
+compile_sprtext_color (const fontdata_t *font, const char *text,
+		       enum text_option topt, unsigned int maxwidth,
+		       int offset)
+{
+  unsigned int nspaces;
+  unsigned int text_width;
+  unsigned int colors[] = { 255, 111, 127, 143, 159, 16 };
+  unsigned int c = colors[0];
+
+  if (topt & T_FLUSHED_LEFT) {	/* FLUSHED_LEFT or JUSTIFIED */
+    if (topt & T_FLUSHED_RIGHT) { /* JUSTIFIED */
+      text_width = compute_text_width (font, text, &nspaces);
+      if (nspaces == 0) {	/* we cannot justify a text without spaces */
+	topt &= ~T_JUSTIFIED;
+	topt |= T_FLUSHED_LEFT;
+      }
+    }
+  } else {			/* FLUSHED_RIGHT or CENTERED */
+    text_width = compute_text_width (font, text, 0);
+
+    if (topt & T_FLUSHED_RIGHT)	/* FLUSHED_RIGHT */
+      offset -= (int) text_width;
+    else			/* CENTERED */
+      offset -= (int) text_width/2;
+  }
+
+  new_sprprog ();
+
+  for (; *text; ++text) {
+    if (*text == ' ') {
+      if ((topt & T_JUSTIFIED) == T_JUSTIFIED) {
+	unsigned int off = (maxwidth - text_width) / nspaces;
+	offset += off;
+	text_width += off;
+	--nspaces;
+      } else
+	offset += font->width[' '];
+    } else if (*text == '%') {
+      ++text;
+      switch (*text) {
+      case 'w':
+	c = colors[0];
+	break;
+      case 'p':
+	c = colors[1];
+	break;
+      case 'y':
+	c = colors[2];
+	break;
+      case 'b':
+	c = colors[3];
+	break;
+      case 'g':
+	c = colors[4];
+	break;
+      case 'r':
+	c = colors[5];
+	break;
+      default:
+	goto compile_letter;
+      }
+    } else {
+    compile_letter:
+      add_sprprog (compile_sprunish (font->upper_left[UCHAR (*text)], 0,
+				     82, glenz[0], c,
+				     font->height, font->width[UCHAR (*text)],
+				     font->line_size, xbuf),
 		   offset);
       offset += font->width[(int)*text];
     }
@@ -71,10 +166,11 @@ compile_sprtext (const fontdata_t *font, const char *text,
     return end_sprprog ();
 }
 
+
 sprite_t *
 compile_sprpara (const fontdata_t *font, const char *text,
-		      enum text_option topt, unsigned int maxwidth,
-		      int offset)
+		 enum text_option topt, unsigned int maxwidth,
+		 int offset)
 {
   char **p = parafmt (text, font->width, maxwidth, font->min_space_width);
   char **l = p;

@@ -28,6 +28,7 @@ fontdata_t *menu_font = 0;
 fontdata_t *help_font = 0;
 fontdata_t *deck_font = 0;
 fontdata_t *bonus_font = 0;
+static pcx_image_t help_font_img;
 
 static void
 initialize_menu_font (void)
@@ -141,6 +142,43 @@ initialize_bonus_font (void)
   bonus_font->min_space_width = 2;
 }
 
+static void
+initialize_help_font (void)
+{
+  pixel_t *upl;			/* upper left pixel of the character */
+  int ch;			/* current character */
+
+  pcx_load_from_rsc ("help-font", &help_font_img);
+
+  XMALLOC_VAR (help_font);
+  help_font->height = 9;
+  help_font->line_skip = 1;
+  help_font->line_size = help_font_img.width;
+  memset (help_font->width, 0, 256);
+
+  for (ch = ' '; ch <= 127; ++ch) {
+    unsigned int width, act_width;
+    unsigned int height;
+
+    upl = help_font_img.buffer +
+      ((int) (ch - ' ') % 32) * 8 +
+      ((int) (ch - ' ') / 32) * help_font_img.width * help_font->height;
+
+    /* detect the width of a character */
+    for (act_width = width = 0; width < 8; ++width)
+      for (height = 0; height < help_font->height; ++height) {
+	if (upl[width + height * help_font_img.width] != 0) {
+	  act_width = width + 1;
+	  break;
+	}
+      }
+    help_font->upper_left[ch] = upl;
+    help_font->width[ch] = act_width;
+  }
+  help_font->width[' '] = 4;
+  help_font->min_space_width = 2;
+}
+
 void
 init_fonts (void)
 {
@@ -148,7 +186,7 @@ init_fonts (void)
 
   initialize_menu_font ();
   edit_font = 0;
-  help_font = 0;
+  initialize_help_font ();
   initialize_deck_font ();
   initialize_bonus_font ();
 }
@@ -163,16 +201,28 @@ uninit_fonts (void)
   XFREE0 (help_font);
   XFREE0 (deck_font);
   XFREE0 (bonus_font);
+  img_free (&help_font_img);
 }
 
 unsigned int
 compute_text_width (const fontdata_t *font, const char *text,
-		    int ignore_spaces)
+		    unsigned int *nspaces)
 {
   unsigned int width = 0;
+  unsigned int ns = 0;
 
-  for (; *text; ++text)
-    if (!ignore_spaces || *text != ' ')
+  for (; *text; ++text) {
+    if (*text == '%') {
+      ++text;
+      if (*text != '%')
+	continue;
+    }
+    if (!nspaces || *text != ' ')
       width += font->width[(int) *text];
+    else
+      ++ns;
+  }
+  if (nspaces)
+    *nspaces = ns;
   return width;
 }

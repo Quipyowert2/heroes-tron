@@ -127,6 +127,20 @@ split_words (const char *input_str, const width_t *wa)
     {
       width_t w = 0;
       do {
+	/* skip possible %x or %{xxx} */
+	if (*str == '%') {
+	  if (str[1] == '%')
+	    ++str;
+	  else /* if (str[1] == '{') {
+	    str = strchr (str, '}');
+	    assert (str);
+	    ++str;
+	  } else */
+	    str += 2;
+	  if (!*str || ISSPACE(*str))
+	    break;
+	}
+
 	w += wa[UCHAR (*str)];
 	++str;
       } while (*str && !ISSPACE (*str));

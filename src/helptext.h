@@ -18,37 +18,11 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-#ifndef HEROES__FONTDATA__H
-#define HEROES__FONTDATA__H
+#ifndef HEROES__HELPTEXT__H
+#define HEROES__HELPTEXT__H
 
-#include "display.h"
+#include "readmake.h"
 
-typedef struct {
-  unsigned int	width[256];	/* width of each character */
-  unsigned int	height;		/* height common to each character */
-  pixel_t*	upper_left[256]; /* upper left pixel of each character.
-				    DO NOT use this pointer if the
-				    corresponding width is null. */
-  unsigned int	line_size;	/* size of a line in the font buffer */
-  unsigned int	line_skip;	/* number of pixel to skip verticaly
-				   between lines, height is added. */
-  unsigned int	min_space_width; /* minimum width allowed for space */
-} fontdata_t;
+read_data_t *compile_helptext (void);
 
-extern fontdata_t *edit_font;
-extern fontdata_t *menu_font;
-extern fontdata_t *help_font;
-extern fontdata_t *deck_font;
-extern fontdata_t *bonus_font;
-
-void init_fonts (void);
-void uninit_fonts (void);
-
-/* Compute the width needed by `text' using font `font'.
-   If nspaces is non null spaces are not accounted in
-   the returned width but *NSPACES is set to the number of
-   space encountered. */
-unsigned int compute_text_width (const fontdata_t *font, const char *text,
-				 unsigned int *nspaces);
-
-#endif /* HEROES__FONTDATA__H */
+#endif /* HEROES__HELPTEXT__H */

@@ -1,3 +1,33 @@
+2000-12-16  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Rewrite the help reader totally, using the sprite layer and
+	the parafmt functions to ease i18n.
+
+	* src/helptext.h: New file.
+	* src/helptext.c: New file.
+	* src/readmake.h: New file.
+	* src/readmake.c: New file.
+	* src/sprglauto.h: New file.
+	* src/sprglauto.c: New file.
+	* src/Makefile.am (heroes_SOURCES): Add the above files.
+	* src/txt_cfg/heroes.hlp: Delete (obsoleted by helptext.c)
+	* src/txt_cfg/Makefile.am (z_DATA): Remove heroes.hlp.
+	* src/fontdata.c (help_font_img, initializ_help_font): New.
+	(init_fonts): Call initilize_help_font and free help_font_img.
+	(compute_text_witdh): Make the last argument a pointer.
+	* src/fontdata.h (compute_text_width): Likewise.
+	* src/heroes.c (main_menu): Call help_menu instead of graphic_reader.
+	* src/menus.c (help_text, help_menu): New.
+	(init_menus_sprites, uninit_menus_sprites): Create and destroy
+	help_text.
+	* src/menus.h (help_menu): New.
+	* src/parafmt.c (split_words): Ignore '%' commands.
+	* src/sprite.h (sprite_kind): Add S_RLE_GLENZ_AUTO.
+	* src/sprite.c (free_sprite): Handle S_RLE_GLENZ_AUTO.
+	* src/sprtext.c (compile_sprtext): Handle T_JUSTIFIED.
+	(compile_sprtext_color): New.
+	* src/sprtext.h (compile_sprtext_color): New.
+
 2000-12-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* src/parafmt.c (word_s): Declare next_break and next_break_cost as

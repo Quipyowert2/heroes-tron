@@ -52,4 +52,6 @@ void draw_round_info (int decal);
 void draw_end_level_info (int decal, char l);
 void scores_menu (void);
 
+void help_menu (void);
+
 #endif /* HEROES__MENUS__H */

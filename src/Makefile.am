@@ -59,6 +59,8 @@ generic_list.h \
 gfx_reader.h \
 hedlite.c \
 hedlite.h \
+helptext.c \
+helptext.h \
 hendian.c \
 hendian.h \
 heroes.c \
@@ -88,6 +90,8 @@ pcx.c \
 pcx.h \
 pixelize.c \
 pixelize.h \
+readmake.c \
+readmake.h \
 render.c \
 render.h \
 renderdata.c \
@@ -106,6 +110,8 @@ sfx.c \
 sfx.h \
 sound.c \
 sound.h \
+sprglauto.c \
+sprglauto.h \
 sprglenz.c \
 sprglenz.h \
 sprite.c \

@@ -19,48 +19,72 @@
 `------------------------------------------------------------------------*/
 
 #include "system.h"
-#include "sprite.h"
-#include "sprrle.h"
-#include "sprprog.h"
-#include "sprzcol.h"
-#include "sprshade.h"
-#include "sprglenz.h"
-#include "spropaque.h"
-#include "sprunish.h"
 #include "sprglauto.h"
+#include "sprrle.h"
+#include "const.h"
 
 void
-free_sprite (sprite_t* sprite)
+draw_sprglauto (const sprite_t *sprite, pixel_t *dest)
 {
-  if (!sprite)
-    return;
+  pixel_t	*cur = dest;	/* current writting possition */
+  u8_t		*pc;		/* program counter */
+  u8_t		*epc;		/* end of program code */
 
-  /* dispatch */
-  switch (sprite->all.kind) {
-  case S_OPAQUE:
-    free_spropaque (sprite);
-    break;
-  case S_RLE:
-    free_sprrle (sprite);
-    break;
-  case S_RLE_ZCOL:
-    free_sprzcol (sprite);
-    break;
-  case S_RLE_SHADE:
-    free_sprshade (sprite);
-    break;
-  case S_RLE_GLENZ:
-    free_sprglenz (sprite);
-    break;
-  case S_RLE_GLENZ_AUTO:
-    free_sprglauto (sprite);
-    break;
-  case S_RLE_UNIC_SHADE:
-    free_sprunish (sprite);
-    break;
-  case S_PROG:
-  case S_PROG_WAV:
-    free_sprprog (sprite);
-    break;
+  assert (sprite->all.kind == S_RLE_GLENZ_AUTO);
+
+  pc = sprite->rle.code;
+  epc = sprite->rle.end_code;
+
+  while (pc < epc) {
+    unsigned m, n;
+    m = *pc++;
+    n = *pc++;
+    if (n == 0 && m == 0) {	/* end of line */
+      cur += sprite->rle.line_skip;
+    } else {
+      cur += m;
+      for (; n; --n) {
+	pixel_t c = *pc;
+	if (c == 1)
+	  *cur = glenz[0][*cur];
+	else if (c == 111)
+	  *cur = glenz[2][*cur];
+	else if (c == 127)
+	  *cur = glenz[3][*cur];
+	else if (c == 143)
+	  *cur = glenz[4][*cur];
+	else if (c == 159)
+	  *cur = glenz[5][*cur];
+	else if (c == 15)
+	  *cur = glenz[7][*cur];
+	else if (c == 16)
+	  *cur = glenz[6][*cur];
+	else
+	  *cur = c;
+	++cur;
+	++pc;
+      }
+    }
   }
+}
+
+sprite_t *
+compile_sprglauto (const pixel_t *src, pixel_t transp_color,
+		   unsigned int block_height, unsigned int block_width,
+		   unsigned int src_width, unsigned int dest_width)
+{
+  sprite_t *s;
+  s = compile_sprrle (src, transp_color, block_height, block_width,
+		      src_width, dest_width);
+  s->all.kind = S_RLE_GLENZ_AUTO;
+  s->draw = draw_sprglauto;
+  return s;
+}
+
+void
+free_sprglauto (sprite_t *prog)
+{
+  assert (prog->all.kind == S_RLE_GLENZ_AUTO);
+  free (prog->rle.code);
+  free (prog);
 }

@@ -17,6 +17,6 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 zdir = $(pkgdatadir)/txt_cfg
-z_DATA = heroes.hlp heroes.sdf
+z_DATA = heroes.sdf
 
 EXTRA_DIST = $(z_DATA)

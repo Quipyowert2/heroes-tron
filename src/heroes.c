@@ -115,8 +115,6 @@ htimer_t background_htimer;
 htimer_t sound_track_htimer;
 htimer_t demo_trigger_htimer;
 
-#include "gfx_reader.h"
-
 static unsigned char play_game (char);
 
 static void
@@ -3008,10 +3006,8 @@ main_menu (void)
       option_menu ();
       write_options ();
     }
-    if (l == 2) {
-      graphic_reader ();
-      event_sfx (8);
-    }
+    if (l == 2)
+      help_menu ();
     if (l == 3)
       jukebox_menu ();
     if (l == 4)

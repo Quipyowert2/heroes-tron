@@ -51,6 +51,8 @@
 #include "joystick.h"
 #include "pixelize.h"
 #include "scores.h"
+#include "helptext.h"
+#include "readmake.h"
 
 static htimer_t lemming_htimer;
 static sprite_t* left_arrow = 0;
@@ -132,6 +134,7 @@ sprite_t* player_logo[4] = { 0, 0, 0, 0}; /* for end level info and game */
 static sprite_t* player_ico[4] = { 0, 0, 0, 0}; /* for menus */
 static sprite_t* speed_ico[5] = { 0, 0, 0, 0, 0};
 static sprite_t* deck_digits[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+static read_data_t* help_text = 0;
 
 /* the following definitions are used to compile text-centered menus,
    that is, the main and the option menus */
@@ -577,6 +580,8 @@ init_menus_sprites (void)
 					 T_CENTERED|T_WAVING, 10, 159);
   img_free (&icons_img);
   img_free (&jukebox_img);
+
+  help_text = compile_helptext ();
 }
 
 void
@@ -714,6 +719,9 @@ uninit_menus_sprites (void)
       FREE_SPRITE0 (vehicles_spr[i]);
   }
   FREE_SPRITE0 (higher_scores_txt);
+
+  if (help_text)
+    free_reader_data (help_text);
 }
 
 static void
@@ -2474,4 +2482,59 @@ scores_menu (void)
       FREE_SPRITE0 (points_txt[i][j]);
       FREE_SPRITE0 (highs_txt[i][j]);
     }
+}
+
+void
+help_menu (void)
+{
+  keycode_t t;
+  int top = 0;
+#define MULT_SHIFT 10
+  int curmult = 0;
+
+  std_white_fadein (&tile_set_img.palette);
+  do {
+    background_menu ();
+
+    curmult += ((top << MULT_SHIFT) - curmult) / 8;
+
+    draw_reader_data (help_text, corner[0] - 10 * xbuf,
+		      curmult >> MULT_SHIFT, (curmult >> MULT_SHIFT) + 340);
+
+    vsynch ();
+    aff_buffer ();
+
+    if (key_or_joy_ready ()) {
+      t = get_key_or_joy ();
+      switch (t) {
+      case HK_Down:
+	top += 10;
+	break;
+      case HK_Up:
+	top -= 10;
+	break;
+      case HK_PageDown:
+	top += 200;
+	break;
+      case HK_PageUp:
+	top -= 200;
+	break;
+      case HK_End:
+	top = help_text->max;
+	break;
+      case HK_Home:
+	top = 0;
+	break;
+      default:
+	/* NOP */
+	break;
+      }
+      if (top + 200 > help_text->max / xbuf)
+	top = help_text->max / xbuf - 200;
+      if (top < 0)
+	top = 0;
+     } else
+       t = 0;
+  } while (t != HK_Escape);
+  event_sfx (8);
 }
