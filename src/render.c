@@ -32,13 +32,13 @@
 char tutor = 0;
 
 static void
-copy_tile (unsigned char *src, unsigned char *dest, int tx)
+copy_tile (const pixel_t* src, pixel_t* dest, int tx)
 {
-  int *s = (int *) src;
+  const int *s = (const int *) src;
   int *d = (int *) dest;
   int t1, t2, y;
-  for (y = 20; y; --y) {
-    t1 = s[0];
+  for (y = 20; y; --y) {	/* FIXME: Is this really faster than a */
+    t1 = s[0];			/* straight copy?  Need a benchmark  */
     t2 = s[3];
     d[0] = t1;
     d[3] = t2;
@@ -50,18 +50,18 @@ copy_tile (unsigned char *src, unsigned char *dest, int tx)
     t2 = s[5];
     d[2] = t1;
     d[5] = t2;
-    s = (int *) (((int) s) + tx);
+    s = (const int *) (((int) s) + tx);
     d = (int *) (((int) d) + xbuf);
   }
 }
 
 static void
-copy_tile_transp (int src_, char *dest)
+copy_tile_transp (int offset, pixel_t* dest)
 {
   int i = tile_set_img.width;
   int j, k;
-  char c;
-  char *src = (tile_set_img.buffer) + src_;
+  pixel_t c;
+  const pixel_t* src = tile_set_img.buffer + offset;
   for (j = 20; j != 0; j--) {
     for (k = 24; k != 0; k--) {
       c = *src++;
@@ -75,16 +75,16 @@ copy_tile_transp (int src_, char *dest)
 }
 
 static void
-draw_bonus (unsigned char b, unsigned char *dest)
+draw_bonus (unsigned char b, pixel_t* dest)
 {
   int j, k;
-  unsigned char *src;
-  unsigned char c;
+  const pixel_t* src;
+  pixel_t c;
   if (b != 16 && b != (128 + 16)) {
     if (b & 128)
-      src = (bonus_b_img.buffer) + (b & 127) * 320 * 20 + bonus_anim_offset;
+      src = bonus_b_img.buffer + (b & 127) * 320 * 20 + bonus_anim_offset;
     else
-      src = (bonus_a_img.buffer) + b * 320 * 20 + bonus_anim_offset;
+      src = bonus_a_img.buffer + b * 320 * 20 + bonus_anim_offset;
 
     for (j = 20; j != 0; j--) {
       for (k = 24; k != 0; k--) {
@@ -129,10 +129,10 @@ draw_bonus (unsigned char b, unsigned char *dest)
 }
 
 static void
-copy_square_transp (char *src, char *dest, char d, char e)
+copy_square_transp (const pixel_t* src, pixel_t* dest, char d, char e)
 {
   int j, k;
-  char c;
+  pixel_t c;
   for (j = 10 - e; j != 0; j--) {
     for (k = 12 - d; k != 0; k--) {
       c = *src++;
@@ -146,12 +146,12 @@ copy_square_transp (char *src, char *dest, char d, char e)
 }
 
 static void
-draw_trail_real (int c, unsigned char s, unsigned char *dest,
+draw_trail_real (int c, unsigned char s, pixel_t* dest,
 		 unsigned char fixe)
 {
-  unsigned char *src;
-  char ch;
-  unsigned char *glenzline;
+  const pixel_t* src;
+  pixel_t ch;
+  const pixel_t* glenzline;
   int d = 0, x, y;
 
   if (fixe) {
@@ -160,7 +160,7 @@ draw_trail_real (int c, unsigned char s, unsigned char *dest,
     else
       d = player[c].d.e / 6554;
   }
-  src = (char *) trail[s] + (d << 4);
+  src = (const pixel_t *) trail[s] + (d << 4);
   if (opt.use_glenz) {
     glenzline = glenz[c + 2];
     for (y = 10; y != 0; y--) {
@@ -171,39 +171,40 @@ draw_trail_real (int c, unsigned char s, unsigned char *dest,
 	dest++;
       }
       dest += xbuf - 12;
-      src += 192 - 12;		/* 320-12; */
+      src += 192 - 12;
     }
   } else {
-    c = (char) (NOGLENZPLR + (c << 4));
+    pixel_t col = (pixel_t) (NOGLENZPLR + (c << 4));
     for (y = 10; y != 0; y--) {
       for (x = 12; x != 0; x--) {
 	ch = *src++;
 	if (ch != 0)
-	  *dest = c;		/* pb ici pour watcom: c */
-	dest++;			/*  est dans la pile !?! */
+	  *dest = col;
+	dest++;
       }
       dest += xbuf - 12;
-      src += 192 - 12;		/* 320-12; */
+      src += 192 - 12;
     }
   }
 }
 
 static void
-draw_vehicle_tail (int c, unsigned char *dest)
+draw_vehicle_tail (int c, pixel_t* dest)
 {
   int d = 0, x, y;
-  char *posit = 0;
+  const pixel_t* posit = 0;
   int s = ((player[c].old_way ^ 2) + ((player[c].way ^ 2) << 2));
-  unsigned char *src, *tmp = dest;
-  char *glenzline;
-  char ch, cc;
+  const pixel_t* src;
+  pixel_t* tmp = dest;
+  const pixel_t* glenzline;
+  pixel_t ch, cc;
 
   if (s & 4) {
     d = player[c].d.e / 5461;
-    src = (unsigned char *) trail[s] + ((12 - (d + 12) / 2) << 4);
+    src = (const pixel_t *) trail[s] + ((12 - (d + 12) / 2) << 4);
   } else {
     d = player[c].d.e / 6554;
-    src = (unsigned char *) trail[s] + ((10 - (d + 10) / 2) << 4);
+    src = (const pixel_t *) trail[s] + ((10 - (d + 10) / 2) << 4);
   }
   if (opt.use_glenz) {
     glenzline = glenz[c + 2];
@@ -215,19 +216,19 @@ draw_vehicle_tail (int c, unsigned char *dest)
 	dest++;
       }
       dest += xbuf - 12;
-      src += 192 - 12;		/* 320-12; */
+      src += 192 - 12;
     }
   } else {
-    cc = (char) (NOGLENZPLR + (c << 4));
+    cc = (pixel_t) (NOGLENZPLR + (c << 4));
     for (y = 10; y != 0; y--) {
       for (x = 12; x != 0; x--) {
 	ch = *src++;
 	if (ch != 0)
-	  *dest = cc;		/* pb ici pour watcom: cc */
-	dest++;			/*  est dans la pile !?!  */
+	  *dest = cc;
+	dest++;
       }
       dest += xbuf - 12;
-      src += 192 - 12;		/* 320-12; */
+      src += 192 - 12;
     }
   }
   posit = vehicles_img.buffer + (c << 6) + (player[c].way << 4);
@@ -244,11 +245,11 @@ draw_vehicle_tail (int c, unsigned char *dest)
 }
 
 static void
-draw_vehicle_head (int c, char *dest)
+draw_vehicle_head (int c, pixel_t* dest)
 {
   int d;
   char b;
-  char *posit;
+  const pixel_t* posit;
 
   if (player[c].spec == t_tunnel)
     b = player[c].tunnel_way;
@@ -277,13 +278,13 @@ draw_vehicle_head (int c, char *dest)
 }
 
 static void
-draw_trail (int c, char *dest, char d)
+draw_trail (int c, pixel_t* dest, char d)
 {
   draw_trail_real ((char) (c - 2), (char) (d & 15), dest, 0);
 }
 
 static void
-draw_trail_tail (int c, char *dest)
+draw_trail_tail (int c, pixel_t* dest)
 {
   char k;
   int tmp1;
@@ -298,7 +299,7 @@ draw_trail_tail (int c, char *dest)
 }
 
 static void
-copy_lemming_transp (unsigned char *src, unsigned char *dest)
+copy_lemming_transp (const pixel_t* src, pixel_t *dest)
 {
   int j, k;
   if (opt.use_glenz)
@@ -329,11 +330,11 @@ copy_lemming_transp (unsigned char *src, unsigned char *dest)
 }
 
 static void
-draw_color (unsigned char *dest, int c)
+draw_color (pixel_t* dest, int c)
 {
   int j, k, xt = 9, yt = 7;
-  unsigned char *src = main_font_img.buffer + 64 * 320 + 16 * (c & 7);
-  unsigned char *dest2 = dest;
+  const pixel_t* src = main_font_img.buffer + 64 * 320 + 16 * (c & 7);
+  pixel_t* dest2 = dest;
 
   if (c & 16) {
     xt = yt = 10;
@@ -401,10 +402,10 @@ draw_color (unsigned char *dest, int c)
 }
 
 static void
-draw_cash (unsigned char *dest, int c)
+draw_cash (pixel_t* dest, int c)
 {
   int j, k, xt = 10, yt = 10;
-  unsigned char *src = main_font_img.buffer + 81 * 320 + 18;
+  const pixel_t* src = main_font_img.buffer + 81 * 320 + 18;
 
   if (c == 15) {		/*xt=yt=10; */
     src = clock_anim_offset;
@@ -439,10 +440,10 @@ draw_cash (unsigned char *dest, int c)
 
 
 static void
-draw_lemming (unsigned char *dest, lemming_t * ptibptr, unsigned int pos)
+draw_lemming (pixel_t* dest, const lemming_t* ptibptr, unsigned int pos)
 {
   char c, d;
-  unsigned char *src;
+  const pixel_t *src;
 
   if (ptibptr >= lemmings_support
       && ptibptr < lemmings_support + lemmings_total && pos == ptibptr->pos1) {
@@ -462,15 +463,13 @@ draw_lemming (unsigned char *dest, lemming_t * ptibptr, unsigned int pos)
       dest += (lemmings_move_offset / 6553) * xbuf;
     if (d == w_left)
       dest -= lemmings_move_offset / 5461;
-/*                 copy_rect_transp(src,dest,8,7); */
     copy_lemming_transp (src, dest);
   }
 
 }
 
 static void
-copy_dead_lemming_transp (unsigned char *src, unsigned char *dest,
-			  int couleur)
+copy_dead_lemming_transp (const pixel_t* src, pixel_t* dest, int couleur)
 {
   int x, y;
   if (opt.use_glenz) {
@@ -488,15 +487,15 @@ copy_dead_lemming_transp (unsigned char *src, unsigned char *dest,
 }
 
 static void
-draw_dead_lemming (char *src, lemming_t * ptibptr)
+draw_dead_lemming (pixel_t* dest_, const lemming_t* ptibptr)
 {
-  char *dest;
+  pixel_t *dest;
   char d;
 
   if (ptibptr >= lemmings_support
       && ptibptr < lemmings_support + lemmings_total)
     do {
-      dest = src;
+      dest = dest_;
       d = ptibptr->way;
       if (d == w_up)
 	dest -= (ptibptr->min / 6553) * xbuf;
@@ -506,7 +505,6 @@ draw_dead_lemming (char *src, lemming_t * ptibptr)
 	dest += (ptibptr->min / 6553) * xbuf;
       if (d == w_left)
 	dest -= ptibptr->min / 5461;
-/*        copy_rect_transp(vehicles_img.buffer+240+(ptibptr->dead<<4),dest,12,10); */
 
       copy_dead_lemming_transp (vehicles_img.buffer + 181 * 320 - 16 +
 				(ptibptr->dead << 4), dest,
@@ -522,14 +520,14 @@ draw_level (int p)
 {
   int i, j;
   int k, l, m, tmp, tmp2;
-  lemming_t *tmppti;
+  const lemming_t* tmppti;
   signed char bb;
   unsigned char b;
   unsigned int ib;
   unsigned char t;
   signed char sinl;
-  unsigned char *dest = render_buffer[p] + sbuf;
-  unsigned char *dest2;
+  pixel_t *dest = render_buffer[p] + sbuf;
+  pixel_t *dest2;
   long anim_frame;
 
   clock_anim_offset = main_font_img.buffer + 81 * 320 + 52 + 
@@ -573,7 +571,7 @@ draw_level (int p)
 	     (t == t_speed || t == t_boom || t == t_stop || t == t_ice
 	      || t == t_outway || t == t_dust))) {
 	  if (t == t_anim)
-	    copy_tile ((char *)
+	    copy_tile ((pixel_t *)
 		       (level_map[i + m].number +
 			24 *
 			((anim_frame / (level_map[i + m].info.anim.speed + 1))
@@ -586,11 +584,11 @@ draw_level (int p)
 	       (tmp2 << 1));
 	    if (tmp > tmp2)
 	      tmp = (tmp2 << 1) - tmp;
-	    copy_tile ((char *) (level_map[i + m].number + 24 * tmp), dest,
+	    copy_tile ((pixel_t *) (level_map[i + m].number + 24 * tmp), dest,
 		       tile_set_img.width);
 	  }
 	} else
-	  copy_tile ((char *) level_map[i + m].number, dest, 
+	  copy_tile ((pixel_t *) level_map[i + m].number, dest, 
 		     tile_set_img.width);
 
       }
@@ -752,9 +750,9 @@ draw_level (int p)
 	  if (b < (nfrexplo1 - 1) * 8 - 1) {
 	    b++;
 	    if (square_explosion_type[m + i] == 1)
-	      copy_32x32_transp_z ((char *) fst_explo_list[b >> 3], dest);
+	      copy_32x32_transp_z ((pixel_t *) fst_explo_list[b >> 3], dest);
 	    else
-	      copy_32x32_transp_z ((char *) snd_explo_list[b >> 3], dest);
+	      copy_32x32_transp_z ((pixel_t *) snd_explo_list[b >> 3], dest);
 	  }
 	}
 	dest += 12;
@@ -782,11 +780,11 @@ draw_level (int p)
 	    if (ib < (nfrexplo1 - 1) * 8 - 1) {
 	      ib++;
 	      if (square_explosion_type[m + i] == 1)
-		copy_32x32_transp_z ((char *)
+		copy_32x32_transp_z ((pixel_t *)
 				     fst_explo_list[nfrexplo1 - 2 -
 						    (ib >> 3)], dest);
 	      else
-		copy_32x32_transp_z ((char *)
+		copy_32x32_transp_z ((pixel_t *)
 				     snd_explo_list[nfrexplo1 - 2 -
 						    (ib >> 3)], dest);
 	    }
@@ -851,7 +849,7 @@ draw_level (int p)
 void
 draw_radar_map (int dx, int dy)
 {
-  unsigned char *src = corner[0] + 5 * xbuf + 239 + radar_current_pos;
+  pixel_t *src = corner[0] + 5 * xbuf + 239 + radar_current_pos;
   int x, y, tdx, tdy, tdym, dede = 50 * (radar_current_pos > 60);
   signed char tmp;
   long blink = read_htimer (blink_htimer) & 2;
@@ -862,14 +860,7 @@ draw_radar_map (int dx, int dy)
     *src++ = 15;
   src += xbuf - 75 + dede;
 
-  for (y = 40; y != 0; y--)
-/*  {*src++=15;
-   for (x=73-dede;x!=0;x--) ; *src++=glenz[0][*src];
-   *src=15;
-   src+=xbuf-74+dede;
-  }
-*/
-  {
+  for (y = 40; y != 0; y--) {
     *src = 15;
     src[74 - dede] = 15;
     src += xbuf;
@@ -904,7 +895,7 @@ draw_radar_map (int dx, int dy)
 	src++;
 	tdx++;
       }
-    } else			/*src+=xbuf; */
+    } else
       for (x = 73 - dede; x != 0; x--)
 	*src++ = glenz[0][*src];
     src += xbuf - 73 + dede;
@@ -913,11 +904,11 @@ draw_radar_map (int dx, int dy)
 }
 
 void
-draw_score (int c, int p, unsigned char *dest)
+draw_score (int c, int p, pixel_t* dest)
 {
-  unsigned char *src = corner[p] + (int) dest;
-  unsigned char *tmp = src + 22 + 2 * xbuf;
-  unsigned char *tmp2 = src + 25 + 5 * xbuf + 53 * xbuf;
+  pixel_t* src = corner[p] + (int) dest;
+  pixel_t* tmp = src + 22 + 2 * xbuf;
+  pixel_t* tmp2 = src + 25 + 5 * xbuf + 53 * xbuf;
   int x, y, i;
 
   if (radar_current_pos > 60)
@@ -990,12 +981,12 @@ draw_score (int c, int p, unsigned char *dest)
 }
 
 void
-draw_logo_info (int c, int nbr, unsigned char *dest)
+draw_logo_info (int c, int nbr, pixel_t* dest)
 {
-  unsigned char *src = dest;
-  unsigned char *tmp;
-  unsigned char *tmp2;
-  unsigned char *tmp3;
+  pixel_t* src = dest;
+  pixel_t* tmp;
+  pixel_t* tmp2;
+  pixel_t* tmp3;
   int x, y;
 
   if (game_mode < M_TCASH) {
@@ -1087,8 +1078,8 @@ draw_logo_info (int c, int nbr, unsigned char *dest)
 void
 display_buffer_tmp1 (void)
 {
-  char *src = render_buffer[1];
-  char *dest = (char *) screen;
+  const pixel_t* src = render_buffer[1];
+  pixel_t* dest = screen;
   int i;
   draw_demo_stick (src);
   for (i = 200; i > 0; i--, src += xbuf, dest += 320)
@@ -1098,8 +1089,8 @@ display_buffer_tmp1 (void)
 void
 display_buffer_moving (int x)
 {
-  char *src = corner[0];
-  char *dest = (char *) screen;
+  const pixel_t* src = corner[0];
+  pixel_t *dest = screen;
   int *desti;
   int i, j;
   draw_demo_stick (src);
@@ -1114,8 +1105,9 @@ display_buffer_moving (int x)
 void
 display_two_buffers (void)
 {
-  char *src1 = corner[swapside], *src2 = corner[1 - swapside];
-  char *dest = (char *) screen;
+  const pixel_t* src1 = corner[swapside];
+  const pixel_t* src2 = corner[1 - swapside];
+  pixel_t *dest = screen;
   int i;
   draw_demo_stick (src2 - 160);
   for (i = 200; i > 0; i--, src1 += xbuf, src2 += xbuf, dest += 320) {
@@ -1127,25 +1119,25 @@ display_two_buffers (void)
 void
 display_two_buffers_moving (int x)
 {
-  char *src1 = corner[swapside], *src2 = corner[1 - swapside];
-  char *dest = (char *) screen;
-  /* int *desti; */
-  int i;			/* ,j; */
+  const pixel_t* src1 = corner[swapside];
+  const pixel_t* src2 = corner[1 - swapside];
+  pixel_t *dest = screen;
+
+  int i;
   draw_demo_stick (src2 - 160);
   for (i = 200; i > 0; i--, src1 += xbuf, src2 += xbuf, dest += 320) {
     fastmem4 (src1 + (x << 2), dest, 160 / 4 - x);
-/*      desti=((int*)dest)+40-x; */
-/*      for (j=(x<<1);j!=0;j--) *desti++=0; */
     fastmem4 (src2, dest + 160 + (x << 2), 160 / 4 - x);
   }
 }
 
-/* cette version efface aussi l'écran */
+/* this one clear the screen too */
 void
 display_two_buffers_moving_and_clear (int x)
 {
-  char *src1 = corner[swapside], *src2 = corner[1 - swapside];
-  char *dest = (char *) screen;
+  const pixel_t* src1 = corner[swapside];
+  const pixel_t* src2 = corner[1 - swapside];
+  pixel_t* dest = screen;
   int *desti;
   int i, j;
   draw_demo_stick (src2 - 160);

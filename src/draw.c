@@ -505,7 +505,7 @@ copy_rect_4_320 (const unsigned char *src, unsigned char *dest, int xt,
 }
 
 void
-draw_demo_stick (unsigned char *dest ATTRIBUTE_UNUSED)
+draw_demo_stick (const pixel_t* dest ATTRIBUTE_UNUSED)
 {
 #ifdef PORT
   signed char sinl;

@@ -154,7 +154,7 @@ extern int game_mode;
 extern unsigned char game_magic;
 
 extern int camera_center_x;
-extern char *clock_anim_offset;
+extern pixel_t* clock_anim_offset;
 extern int lemmings_anim_offset;
 extern int lemmings_move_offset;
 

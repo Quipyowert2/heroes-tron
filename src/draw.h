@@ -59,7 +59,7 @@ void copy_rect_2_320 (const unsigned char *src, unsigned char *dest, int xt,
 void copy_rect_4_320 (const unsigned char *src, unsigned char *dest, int xt,
 		      int yt);
 
-void draw_demo_stick (unsigned char *dest);
+void draw_demo_stick (const pixel_t* dest);
 void aff_buffer (void);
 void copy_rect_transp_shadow (const unsigned char *src, unsigned char *dest,
 			      int xt, int yt);

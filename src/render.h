@@ -25,8 +25,8 @@ extern char tutor;
 
 void draw_level (int p);
 void draw_radar_map (int dx, int dy);
-void draw_score (int c, int p, unsigned char *dest);
-void draw_logo_info (int c, int nbr, unsigned char *dest);
+void draw_score (int c, int p, pixel_t* dest);
+void draw_logo_info (int c, int nbr, pixel_t* dest);
 void display_buffer_tmp1 (void);
 void display_buffer_moving (int x);
 void display_two_buffers (void);

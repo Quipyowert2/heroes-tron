@@ -1,5 +1,24 @@
 2000-10-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Fix most warnings of src/render.h.
+
+	* src/const.h (clock_anim_offset): Declare as pixel_t*.
+	* src/const.c (clock_anim_offset): Likewise.
+	* src/draw.h (draw_demo_stick): Fix argument constness.
+	* src/draw.c (draw_demo_stick): Likewise.
+	* src/render.c (copy_tile, copy_tile_transp, draw_bonus,
+	copy_square_transp, draw_trail_real, draw_vehicle_tail,
+	draw_vehicle_head, draw_trail, copy_lemming_transp, draw_color,
+	draw_cash, draw_lemming, copy_dead_lemming_transp,
+	draw_dead_lemming, draw_level, draw_radar_map, draw_score,
+	draw_logo_info, display_buffer_tmp1, display_buffer_moving,
+	display_two_buffers, display_two_buffers_moving,
+	display_two_buffers_moving_and_clear): Fix constness and
+	signedness.
+	* src/render.h (draw_score,draw_logo_info): Use pixel_t*.
+
+2000-10-10  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* HACKING: New file.
 	* Makefile.am (EXTRA_DIST): Add HACKING.
 
