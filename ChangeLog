@@ -1,3 +1,9 @@
+2000-07-12  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* doc/heroes.texi (Libraries): Link LibMikMod description
+	to Troubleshooting.
+	(Troubleshooting): Add the `SegFault with Alsa'	section.
+
 2000-07-11  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Link the level editor into the menu, and adapt

@@ -382,9 +382,10 @@ install all of them but just a subset).
 
 @itemize @bullet
 @item
-LibMikMod is the only sound engine supported. You don't need it
-if you want to compile Heroes without sound support.  Get it
-from @uref{http://mikmod.darkorb.net/}.
+LibMikMod is the only sound engine supported. You don't need it if you
+want to compile Heroes without sound support.  Get it from
+@uref{http://mikmod.darkorb.net/}.  You may want to compile LibMikMod
+without Alsa support (@pxref{Troubleshooting}).
 
 @item
 LibGGI (General Graphic Interface) can be used as a display and keyboard
@@ -841,6 +842,28 @@ available.
 Remember that you can always put these options in your
 @samp{~/.heroes/heroes} file (@pxref{heroesrc}) so that you don't need
 to type them every time you run the game.
+
+@subsection SegFault when using Alsa drivers
+@cindex Alsa
+@cindex sound errors
+@cindex MikMod and Alsa
+
+If you are using Alsa 0.5.x drivers@footnote{Alsa is a project to
+improve the Linux sound subsystem (See
+@uref{http://www.alsa-project.org/,the Alsa page} for details).} Heroes
+is likely to crash during it's startup.  This is because the current
+version of LibMikMod (3.1.9 at the time of writing) lacks support for
+Alsa 0.5.
+
+A solution is to run Alsa in OSS-emulation mode: simply run @samp{heroes
+-doss} to force LibMikMod using its OSS@footnote{Open Sound System is a
+set of device drivers that provide a uniform API across all the major
+UNIX architectures.  The Linux kernel contain free code from the
+commercial OSS (See @uref{http://www.linux.org.uk/OSS/,this page} for
+details).}, interface.
+
+A more extreme solution, you may want to compile LibMikMod without Alsa
+support so that it never crash for any application.
 
 @node    Index,  , Running, Top
 @comment node-name,     next,           previous, up
