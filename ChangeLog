@@ -1,5 +1,9 @@
 2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* m4/ac_adl_gcc_optim.m4: Don't erase CFLAGS, append to it.
+
+2000-11-19  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/gfx_reader.h (show_help, graphic_reader): Don't cast a
 	pointer to an int.  Heroes seems to run fine on
 	alphaev56-dec-osf4.0d, now.  Great!

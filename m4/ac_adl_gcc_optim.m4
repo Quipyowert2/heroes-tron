@@ -20,8 +20,8 @@ EOF
     fi
   done
   rm -f conftest*
-  CFLAGS="$ac_cv_prog_gcc_opt_flags"])
+  CFLAGS="$cf_save_CFLAGS $ac_cv_prog_gcc_opt_flags"])
 else
-  CFLAGS=-O
+  CFLAGS="$cf_save_CFLAGS -O"
 fi
 ])dnl
