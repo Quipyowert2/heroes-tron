@@ -1,3 +1,9 @@
+2000-08-25  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.in: Do not run AC_C_BIGENDIAN when doing a cross build
+	but rely on explit knoledge of byte ordering of the target host
+	instead.
+
 2000-08-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Documents new features (file resources, HEROES_DATA_DIR), the
