@@ -152,7 +152,7 @@ AC_C_BIGENDIAN_CROSS
 # Internationalization.
 # =====================
 
-ALL_LINGUAS="fr nl"
+ALL_LINGUAS="de fr nl"
 AM_GNU_GETTEXT
 
 # ===================================

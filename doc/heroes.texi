@@ -446,9 +446,14 @@ Pierre Baillet @email{octplane@@via.ecp.fr}
 Contributed support for non-8bits depth video mode with LibGGI.
 
 @item
+Hermann J. Beackers @email{beckers@@st-oneline.de}
+
+Contributed the German translations.
+
+@item
 Jos Boersema @email{joshb@@sourceforge.net}
 
-Contributed the Dutsh translation.
+Contributed the Dutch translations.
 
 @item
 Daniel Burrows @email{Daniel_Burrows@@brown.edu}

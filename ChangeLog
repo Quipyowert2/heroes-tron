@@ -1,3 +1,13 @@
+2001-03-09  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	German translations.
+	From Hermann J. Beckers <beckers@st-oneline.de>.
+
+	* configure.in (ALL_LINGUAS): Add `de'.
+	* po/de.po: New file.
+	* THANKS: Add Hermann.
+	* doc/heroes.texi: Likewise.
+
 2001-02-28  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* m4/mkdir.m4: Update for submission to the Autoconf macro archive.
