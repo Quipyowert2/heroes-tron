@@ -20,7 +20,9 @@
 pkglib_LTLIBRARIES = plugins/stdai.la
 
 plugins_stdai_la_SOURCES = plugins/stdai.c
-plugins_stdai_la_LDFLAGS = -module -release $(VERSION)
+plugins_stdai_la_LDFLAGS = -module
+# plugins_stdai_la_CPPFLAGS would be ignored by Automake, so use _CFLAGS.
+plugins_stdai_la_CFLAGS = $(MORE_WARNINGS_CFLAGS) -I./plugins
 
 pkginclude_HEADERS = plugins/plugin.h
 nodist_pkginclude_HEADERS = plugins/pconf.h
@@ -46,3 +48,12 @@ plugins/extrconf.sh: plugins/plugin.h $(top_srcdir)/lib/xalloc.h $(SCANDEFS_PL)
 
 plugins/pconf.h: plugins/extrconf.sh $(CONFIG_HEADER)
 	$(SHELL) plugins/extrconf.sh $(CONFIG_HEADER) >plugins/pconf.h
+
+DISTCLEANFILES += \
+  plugins/pconf.h \
+  plugins/extrconf.sh
+
+# Workaround an Automake 1.6 bug.
+distclean-local:
+	rm -Rf plugins/.libs plugins/_libs
+	rm -f plugins/plugins_stdai_la-*

@@ -1,3 +1,9 @@
+Heroes 0.29a	March 21, 2002
+
+	* Preliminary and experimental plug-in support (option -p).
+	* Bug fix:
+	  - Bail out if GGI can't setup a two-frame display.
+
 Heroes 0.20	February 7, 2002
 
 	* Bug fixes:

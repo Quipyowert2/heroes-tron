@@ -16,7 +16,6 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 #
 
-AUTOMAKE_OPTIONS = 1.4b gnits dist-bzip2
 ACLOCAL_AMFLAGS = -I m4
 
 # Some files, such as AUTHORS or THANKS, usually automatically added
@@ -92,33 +91,39 @@ t=./=test
 my-distcheck-ggi:
 	-rm -rf $(t)
 	mkdir $(t)
-	cd $(t) \
+	if test -z "$(GGI_OK)"; then \
+	  cd $(t) \
 	  && ../$(distdir)/configure --disable-nls --with-ggi --with-gii \
 			             --with-mikmod \
 	  && $(MAKE) AM_MAKEFLAGS='$(null_AM_MAKEFLAGS)' \
-	  && $(MAKE) check
+	  && $(MAKE) check; \
+	fi
 	-rm -rf $(t)
 
 # build with Allegro and mikmod (VPATH build)
 my-distcheck-allegro:
 	-rm -rf $(t)
 	mkdir $(t)
-	cd $(t) \
+	if test -z "$(ALLEGRO_OK)"; then \
+	   cd $(t) \
 	  && ../$(distdir)/configure --disable-nls --with-allegro \
 			             --with-mikmod \
 	  && $(MAKE) AM_MAKEFLAGS='$(null_AM_MAKEFLAGS)' \
-	  && $(MAKE) check
+	  && $(MAKE) check; \
+	fi
 	-rm -rf $(t)
 
 # build without any library (VPATH build)
 my-distcheck-nodisplay:
 	-rm -rf $(t)
 	mkdir $(t)
-	cd $(t) \
+	if test -z "$(NODISPLAY_OK)"; then \
+	   cd $(t) \
 	  && ../$(distdir)/configure --disable-nls --disable-display \
 				     --disable-joystick --disable-sound \
 	  && $(MAKE) AM_MAKEFLAGS='$(null_AM_MAKEFLAGS)' \
-	  && $(MAKE) check
+	  && $(MAKE) check; \
+	fi
 	-rm -rf $(t)
 
 # build with libsdl and sdl_mixer (build in current directory, then
@@ -126,20 +131,23 @@ my-distcheck-nodisplay:
 my-distcheck-sdl:
 	-rm -rf $(t)
 	mkdir $(t)
-	GZIP=$(GZIP) $(AMTAR) -C $(t) -zxf $(distdir).tar.gz
-	cd $(t)/$(distdir) \
+	if test -z "$(SDL_OK)"; then \
+	  set -e; \
+	  GZIP=$(GZIP) $(AMTAR) -C $(t) -zxf $(distdir).tar.gz \
+	  && cd $(t)/$(distdir) \
 	  && ./configure --disable-nls --with-sdl --with-sdl-mixer \
 			 --enable-html-doc \
 	  && $(MAKE) AM_MAKEFLAGS='$(null_AM_MAKEFLAGS)' \
 	  && $(MAKE) dvi \
 	  && $(MAKE) check \
 	  && $(MAKE) distclean \
-	  && rm -rf $(DEPDIR)
-# Removing $(DEPDIR) like this is a gross kludge to work around a bug
-# in automake.  Remove that line once it's fixed.
-	cd $(t) && mv $(distdir) $(distdir).new \
-	  && $(AMTAR) -zxf ../$(distdir).tar.gz
-	diff -ur $(t)/$(distdir) $(t)/$(distdir).new
+	  && rm -rf $(DEPDIR); \
+## Removing $(DEPDIR) like this is a gross kludge to work around a bug
+## in automake.  Remove that line once it's fixed.
+	  cd .. && mv $(distdir) $(distdir).new \
+	  && $(AMTAR) -zxf ../$(distdir).tar.gz; \
+	  cd .. && diff -ur $(t)/$(distdir) $(t)/$(distdir).new; \
+	fi
 	-rm -rf $(t)
 
 man-distcheck:

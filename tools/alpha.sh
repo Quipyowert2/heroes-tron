@@ -10,9 +10,10 @@ eval `autoconf --trace 'AC_INIT:VERSION=$2;PACKAGE=$1'`
 VERSION_=`echo $VERSION | tr . _`
 PACKAGEUP=`echo ${PACKAGE}_ALPHA | tr 'a-z-' 'A-Z_'`
 
-# make distribution
-make distcheck
-make dist-bzip2
+# make distribution if not already done.
+test -z $PACKAGE-$VERSION.tar.gz &&
+  test -z $PACKAGE-$VERSION.tar.bz2 &&
+    make distcheck
 
 # commit it, tag it
 clcommit

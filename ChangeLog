@@ -1,3 +1,22 @@
+2002-03-21  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	* configure.ac: Bump version to 0.29a.  Use the new
+	AM_INIT_AUTOMAKE form.  Require Automake 1.6 (needed to support
+	LTLIBRARIES in subdirectories).
+	* NEWS: Update for 0.29a.
+	* Makefile.am (AUTOMAKE_OPTIONS): Remove.
+	(my-distcheck-ggi, my-distcheck-allegro, my-distcheck-nodisplay,
+	my-distcheck-sdl): Don't run make if GGI_OK, ALLEGRO_OK, NODISPLAY_OK
+	or SDL_OK are set.
+	* tools/alpha.sh: Don't run make dist-bzip2 (distcheck will do it).
+	Don't run `make distcheck' if the tarballs already exist.
+	* src/plugins/Makefile.inc (plugins_stdai_la_LDFLAGS): Remove the
+	useless -release $(VERSION) option.
+	(plugins_stdai_la_CFLAGS): New variable.
+	(DISTCLEANFILES): Add pconf and extrconf.sh.
+	(distclean-local): Delete plugins/.libs and plugins/_libs.
+	* src/plugins/stdai.c (ia_eval_dir_cash): Typo.
+
 2002-03-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	* tools/scandefs.pl: New file.

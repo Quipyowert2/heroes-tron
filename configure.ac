@@ -16,12 +16,12 @@ dnl with this program; if not, write to the Free Software Foundation, Inc.,
 dnl 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 dnl
 
-AC_PREREQ(2.50)
+AC_PREREQ(2.52)
 
-AC_INIT([heroes], [0.20], [heroes-bugs@lists.sourceforge.net])
+AC_INIT([heroes], [0.29a], [heroes-bugs@lists.sourceforge.net])
 AC_CONFIG_AUX_DIR(tools)
 AC_CONFIG_SRCDIR([src/heroes.c])
-AM_INIT_AUTOMAKE([heroes], [0.20])
+AM_INIT_AUTOMAKE([1.6 gnits dist-bzip2])
 
 AC_COPYRIGHT([Copyright 2000, 2001, 2002  Alexandre Duret-Lutz])
 

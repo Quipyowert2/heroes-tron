@@ -416,7 +416,7 @@ ia_eval_dir_cash (const a_level_state *state, const a_level *lvl,
 
     mindist += tmp2;		/* *(5+ia_cur_depth); */
 
-    square_marks[pos] = true;
+    square_marks[pos] = false;
     ia_cur_depth++;
     return mindist;
   } else {

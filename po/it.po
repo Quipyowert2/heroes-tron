@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Heroes 0.9\n"
-"POT-Creation-Date: 2002-01-28 18:45+0100\n"
+"POT-Creation-Date: 2002-03-21 20:29+0100\n"
 "PO-Revision-Date: 2001-04-27 21:15+01:00\n"
 "Last-Translator: Alessandro Dotti <alessandro.dotti@libero.it>\n"
 "Language-Team: none <LL@li.org>\n"
@@ -83,7 +83,7 @@ msgstr "%s: l'opzione `-W %s' non accetta argomenti\n"
 msgid "memory exhausted"
 msgstr "memoria esaurita"
 
-#: src/argv.c:60
+#: src/argv.c:61
 #, c-format
 msgid ""
 "Copyright (C) %d  Alexandre Duret-Lutz, Romuald Genevois,\n"
@@ -92,7 +92,7 @@ msgstr ""
 "Copyright (C) %d  Alexandre Duret-Lutz, Romuald Genevois,\n"
 "Alexandre Liverneaux e Philippe Meisburger.\n"
 
-#: src/argv.c:63 src/heroeslvl.c:64
+#: src/argv.c:64 src/heroeslvl.c:64
 msgid ""
 "This is free software; see the source for copying conditions.  There is NO\n"
 "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
@@ -102,43 +102,43 @@ msgstr ""
 "Non vi è ALCUNA garanzia, nemmeno per ciò che riguarda la COMMERCIABILITA',\n"
 "o LA RISPOSTA AD UNO SCOPO PRECISO."
 
-#: src/argv.c:74
+#: src/argv.c:75
 msgid "Use `-lWORD' or `--list=WORD' where WORD can be:"
 msgstr ""
 
-#: src/argv.c:76
+#: src/argv.c:77
 msgid "display all debugging channels"
 msgstr ""
 
-#: src/argv.c:78
+#: src/argv.c:79
 #, fuzzy
 msgid "list all level files"
 msgstr "%s: file di livello no valido"
 
-#: src/argv.c:80
+#: src/argv.c:81
 msgid "print the preferences settings"
 msgstr ""
 
-#: src/argv.c:82
+#: src/argv.c:83
 #, fuzzy
 msgid "print the resources list"
 msgstr "gestione dei nomi dei file"
 
-#: src/argv.c:84
+#: src/argv.c:85
 msgid "print the sound driver list"
 msgstr ""
 
-#: src/argv.c:86
+#: src/argv.c:87
 #, fuzzy
 msgid "print the sound track list"
 msgstr "eventi sonori"
 
-#: src/argv.c:145 src/heroeslvl.c:74
+#: src/argv.c:146 src/heroeslvl.c:74
 #, c-format
 msgid "Try '%s --help' for more information.\n"
 msgstr ""
 
-#: src/argv.c:150
+#: src/argv.c:151
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]...\n"
@@ -147,7 +147,7 @@ msgstr ""
 "Uso: %s [OPZIONI]...\n"
 "\n"
 
-#: src/argv.c:151
+#: src/argv.c:152
 msgid ""
 "Heroes is a game similar to the \"Tron\" and \"Nibbles\" games of yore\n"
 "but includes many graphical improvements and new game features.\n"
@@ -155,14 +155,14 @@ msgstr ""
 "Heroes è un gioco simile ai vecchi \"Tron\" e \"Nibble\"\n"
 "ma più elaborato e con diversi miglioramenti grafici\n"
 
-#: src/argv.c:154 src/heroeslvl.c:81
+#: src/argv.c:155 src/heroeslvl.c:81
 msgid ""
 "Mandatory arguments to long options are mandatory for short options too.\n"
 msgstr ""
 "Gli argomenti obbligatori per le opzioni estese lo sono anche per le opzioni "
 "brevi\n"
 
-#: src/argv.c:156
+#: src/argv.c:157
 msgid ""
 "General options:\n"
 "  -v, --version               display version number\n"
@@ -186,7 +186,7 @@ msgstr ""
 "\t\t\t\tWORD può assumere i valori: 'debug', 'resources',\n"
 "\t\t\t\t'sound-drivers' o 'sound-tracks'\n"
 
-#: src/argv.c:167
+#: src/argv.c:168
 msgid ""
 "Sound options:\n"
 "  -d, --driver=N[,OPTIONS]    use Nth driver for sound output (0:"
@@ -208,7 +208,7 @@ msgstr ""
 "  -8, --8bits\t\t\toutput sonoro a 8 bit\n"
 "  -i, --high-quality\t\tmixer ad alta qualità\n"
 
-#: src/argv.c:176
+#: src/argv.c:177
 msgid ""
 "Display options:\n"
 "  -G, --gfx-options=OPTIONS   pass OPTIONS to the display driver\n"
@@ -231,7 +231,7 @@ msgstr ""
 #. waves is another effect where the screen is agitated like some
 #. jelly (this was also called the `mushroom effect' in game like
 #. Death Rally).
-#: src/argv.c:189
+#: src/argv.c:190
 msgid ""
 "Miscellaneous options:\n"
 "      --cpu-off               disable computer opponents\n"
@@ -255,7 +255,11 @@ msgstr ""
 "  -g, --go\t\t\tsalta l'introdzione\n"
 "  -J, --no-joystick\t\tdisabilita il joystick\n"
 
-#: src/argv.c:199
+#: src/argv.c:200
+msgid "  -p, --plug-in=NAME\t      load plug-in NAME\n"
+msgstr ""
+
+#: src/argv.c:202
 msgid ""
 "These options can be set in your file ~/.heroes/heroesrc (which is read\n"
 "before parsing other command line options) using a line like the following:\n"
@@ -267,7 +271,7 @@ msgstr ""
 "utilizzando linee del tipo:\n"
 "  Options: -gs -d3,buffer=11,count=4\n"
 
-#: src/argv.c:204
+#: src/argv.c:207
 msgid ""
 "Visit http://heroes.sourceforge.net/ for news, documentation, and updates."
 msgstr ""
@@ -275,59 +279,17 @@ msgstr ""
 "documentazione e\n"
 "aggiornamenti."
 
-#: src/argv.c:206 src/heroeslvl.c:102
+#: src/argv.c:209 src/heroeslvl.c:102
 msgid "Report bugs to <heroes-bugs@lists.sourceforge.net>."
 msgstr "Segnalate errori e anomalie a <heroes-bugs@lists.sourceforge.net>."
 
-#: src/argv.c:312
+#: src/argv.c:316
 msgid "-n is an obsolete option, you should use --list=sound-drivers"
 msgstr "-n è un'opzione obsoleta, dovresti usare --list=sound-divers"
-
-#: src/bonus.c:324 src/bonus.c:329
-#, c-format
-msgid "SIZE IS %d"
-msgstr "DIMENSIONE %d"
-
-#: src/bonus.c:334
-msgid "SPEEDED UP"
-msgstr "ACCELLERAZIONE"
-
-#: src/bonus.c:338
-msgid "SPEEDED DOWN"
-msgstr "RALLENTAMENTO"
-
-#: src/bonus.c:345
-#, c-format
-msgid "GET %dPTS"
-msgstr "%d PUNTI"
-
-#: src/bonus.c:350
-msgid "FIRE TRAIL!"
-msgstr ""
-
-#: src/bonus.c:364
-msgid "GET TURBO+"
-msgstr "TURBO+"
-
-#: src/bonus.c:371
-msgid "GET TURBO-"
-msgstr "TURBO-"
-
-#: src/bonus.c:379
-msgid "INVINCIBLE!"
-msgstr "INVINCIBILE"
-
-#: src/bonus.c:391
-msgid "EXTRA-LIFE!"
-msgstr "VITA EXTRA"
 
 #: src/debughash.c:97 src/debughash.gperf:45
 msgid "all messages"
 msgstr "tutti i messaggi"
-
-#: src/debughash.c:98 src/debughash.gperf:49
-msgid "files and directories handling"
-msgstr "gestione di file e directory"
 
 #: src/debughash.c:99 src/debughash.gperf:50
 msgid "levels handling"
@@ -345,9 +307,9 @@ msgstr "gestione dei nomi dei file"
 msgid "miscellaneous events"
 msgstr "eventi vari"
 
-#: src/debughash.c:104 src/debughash.gperf:58
-msgid "bonus"
-msgstr "bonus"
+#: src/debughash.c:104 src/debughash.gperf:53
+msgid "communication with the display driver"
+msgstr "comunicazion con il driver video"
 
 #: src/debughash.c:105 src/debughash.gperf:51
 msgid "sound track events"
@@ -362,28 +324,37 @@ msgstr "diverse fasi del gioco"
 msgid "joystick initialization and events"
 msgstr "inizializzazione del joystick"
 
+#: src/debughash.c:108 src/debughash.gperf:49
+msgid "files and directories handling"
+msgstr "gestione di file e directory"
+
 #: src/debughash.c:109 src/debughash.gperf:55
 msgid "timer handling"
 msgstr "gestione del timer"
 
-#: src/debughash.c:111 src/debughash.gperf:57
+#: src/debughash.c:111 src/debughash.gperf:59
+#, fuzzy
+msgid "hooks handling"
+msgstr "gestione di file e directory"
+
+#: src/debughash.c:112 src/debughash.gperf:58
+msgid "bonus"
+msgstr "bonus"
+
+#: src/debughash.c:113 src/debughash.gperf:57
 msgid "palette fade events"
 msgstr "dissolvenza della paletta"
 
-#: src/debughash.c:113 src/debughash.gperf:52
+#: src/debughash.c:115 src/debughash.gperf:52
 msgid "sound effects events"
 msgstr "event degli effetti sonori"
 
-#: src/debughash.c:115 src/debughash.gperf:53
-msgid "communication with the display driver"
-msgstr "comunicazion con il driver video"
-
-#: src/debughash.c:165 src/debughash.gperf:87
+#: src/debughash.c:165 src/debughash.gperf:88
 #, c-format
 msgid "%s: no such channel, assuming you meant '%s'."
 msgstr "%s: canale inesistente, suppongo volessi dire '%s'."
 
-#: src/debughash.c:168 src/debughash.gperf:90
+#: src/debughash.c:168 src/debughash.gperf:91
 #, c-format
 msgid "%s: no such channel (--list=debug will list all known channels)"
 msgstr "%s: canale inesistente (--list=debug elenca tutti i canali)"
@@ -819,44 +790,26 @@ msgstr ""
 "Alexandre Liverneaux e Philippe Meisburger.\n"
 "\n"
 
-#: src/heroes.c:677 src/heroes.c:763
+#: src/heroes.c:229 src/heroes.c:315
 #, c-format
 msgid "Cannot load level %s (error %d)"
 msgstr ""
 
-#: src/heroes.c:1969
-#, c-format
-msgid "INVERTED %d"
-msgstr "INVERTITO %d"
-
-#: src/heroes.c:2003
-#, c-format
-msgid "STOPPED %d"
-msgstr "FERMATO %d"
-
-#. TRANS: %d, the number of remaining lives, is always
-#. positive.
-#: src/heroes.c:2300
-msgid "LAST LIFE"
-msgid_plural "%d LIVES LEFT"
-msgstr[0] "ULTIMA VITA"
-msgstr[1] "%d VITE RIMASTE"
-
-#: src/heroes.c:2873
+#: src/heroes.c:1182
 msgid "Error during level loading"
 msgstr "Errore durante il caricamento del livello"
 
-#: src/heroes.c:2909
+#: src/heroes.c:1218
 #, c-format
 msgid "-LEVEL %d-"
 msgstr "-LIVELLO %d-"
 
-#: src/heroes.c:2911
+#: src/heroes.c:1220
 #, c-format
 msgid "-ROUND %d/%d-"
 msgstr "-ROUND %d/%d-"
 
-#: src/heroes.c:3416
+#: src/heroes.c:1735
 msgid "error in sfx.cfg"
 msgstr "errore in sfx.cfg"
 
@@ -1465,7 +1418,7 @@ msgstr[0] "%d ROUND"
 msgid "PLAYER %d, YOU CAME IN THE TOP 10"
 msgstr "GIOCATORE %d, SEI ENTRATO NEI PRIMI 10"
 
-#: src/menus.c:2287
+#: src/menus.c:2288
 #, c-format
 msgid "PLAYER %d WON!"
 msgstr "VINCE IL GIOCAT. %d"
@@ -1561,11 +1514,11 @@ msgstr "Altre persone che vorremmo ringraziare\n"
 msgid "Unknown option '%c' for command '%s'."
 msgstr "Opzione sconosciuta '%c' per il comando '%s'."
 
-#: src/relocate.c:70
+#: src/relocate.c:86
 msgid "HOME variable not found in environment, defaulting to `.'"
 msgstr "Variabile d'ambiente `HOME' inesistente, `.' usata come default.  "
 
-#: src/relocate.c:182
+#: src/relocate.c:199
 msgid ""
 "It looks like the game is not correctly installed.\n"
 "Maybe the data files have not been installed with the same configure "
@@ -1677,40 +1630,40 @@ msgid "Heroes has been compiled without sound support."
 msgstr "Heroes è stato compilato senza il supporto audio."
 
 #. FIXME: ask to send a bug report with a trace
-#: src/media/ggi/video.c:173
+#: src/media/ggi/video.c:174
 msgid "failed to get any direct buffer for this visual"
 msgstr "impossibile ottenere un buffer diretto per questo schermo"
 
 #. TRANS: a `visual' is associated by LibGGI to a display.  You can
 #. actually call it a `display', this makes no big difference.
-#: src/media/ggi/video.c:195
+#: src/media/ggi/video.c:196
 msgid "failed to open visual."
 msgstr "impossibile aprire lo schermo."
 
-#: src/media/ggi/video.c:203
+#: src/media/ggi/video.c:204
 msgid "cannot setup a correct display."
 msgstr "impossibile impostare uno schermo corretto."
 
-#: src/media/ggi/video.c:210
-#, c-format
-msgid "negociated video mode is too small (width=%d, height=%d)"
+#: src/media/ggi/video.c:211
+#, fuzzy, c-format
+msgid "negotiated video mode is too small (width=%d, height=%d)"
 msgstr "il modo video negoziato è troppo piccolo (ampiezza=%d, larghezza=%d)"
 
 #. TRANS: `display-memory' is the name of a LibGGI driver and
 #. make no sense to translate.
-#: src/media/ggi/video.c:223
+#: src/media/ggi/video.c:224
 msgid "Failed to open an internal `display-memory' visual."
 msgstr "Impossibile aprire un `display-memory' interno."
 
-#: src/media/ggi/video.c:225
+#: src/media/ggi/video.c:226
 msgid "Failed to set 320x200x8 mode on display-memory"
 msgstr "Impossibile impostare il modo 320x200x8 su `display-memory'"
 
-#: src/media/ggi/video.c:303
+#: src/media/ggi/video.c:304
 msgid "failed to acquire direct-buffer"
 msgstr "impossibile acquisire il buffer diretto"
 
-#: src/media/ggi/video.c:320
+#: src/media/ggi/video.c:321
 msgid "failed to release direct-buffer"
 msgstr "impossibile rilasciare il buffer diretto"
 
@@ -1801,6 +1754,41 @@ msgstr "%s: parametro mancante per `buffers'"
 #, c-format
 msgid "%s: recognized sound options are freq=nnn and buffers=nnn"
 msgstr "%s: le opzioni sonore riconosciute sono freq=nnn e buffers=nnn"
+
+#~ msgid "SIZE IS %d"
+#~ msgstr "DIMENSIONE %d"
+
+#~ msgid "SPEEDED UP"
+#~ msgstr "ACCELLERAZIONE"
+
+#~ msgid "SPEEDED DOWN"
+#~ msgstr "RALLENTAMENTO"
+
+#~ msgid "GET %dPTS"
+#~ msgstr "%d PUNTI"
+
+#~ msgid "GET TURBO+"
+#~ msgstr "TURBO+"
+
+#~ msgid "GET TURBO-"
+#~ msgstr "TURBO-"
+
+#~ msgid "INVINCIBLE!"
+#~ msgstr "INVINCIBILE"
+
+#~ msgid "EXTRA-LIFE!"
+#~ msgstr "VITA EXTRA"
+
+#~ msgid "INVERTED %d"
+#~ msgstr "INVERTITO %d"
+
+#~ msgid "STOPPED %d"
+#~ msgstr "FERMATO %d"
+
+#~ msgid "LAST LIFE"
+#~ msgid_plural "%d LIVES LEFT"
+#~ msgstr[0] "ULTIMA VITA"
+#~ msgstr[1] "%d VITE RIMASTE"
 
 #~ msgid ""
 #~ "Use `-lWORD' or `--list=WORD' where WORD can be:\n"
