@@ -119,6 +119,7 @@ static sprite_t* jukebox_frame = 0;
 static sprite_t* jukebox_back = 0;
 static sprite_t* jukebox_forw = 0;
 static sprite_t* jukebox_quit = 0;
+static sprite_t* vehicles_spr[4] = { 0, 0, 0, 0 };
 
 /* the following definitions are used to compile text-centered menus,
    that is, the main and the option menus */
@@ -468,6 +469,13 @@ init_menus_sprites (void)
   }
   info_round_txt = compile_menu_text (txti[62],
 				      T_CENTERED, 50, 180);
+  {
+    int i;
+    for (i = 0; i < 4; ++i)
+      vehicles_spr[i] = compile_sprrle (IMGPOS (vehicles_img,
+						0, (i << 6) + 16),
+					0, 10, 12, vehicles_img.width, xbuf);
+  }
 
   /* higher scores */
   higher_scores_txt = compile_menu_text (txti[10],
@@ -563,13 +571,18 @@ uninit_menus_sprites (void)
   FREE_SPRITE0 (info_mode_next_txt);
   FREE_SPRITE0 (info_mode_save_txt);
   FREE_SPRITE0 (info_mode_return_txt);
-  FREE_SPRITE0 (info_round_txt);
-  FREE_SPRITE0 (higher_scores_txt);
   {
     int i;
     for (i = 0; i < 4; ++i)
       FREE_SPRITE0 (info_martian[i]);
   }
+  FREE_SPRITE0 (info_round_txt);
+  {
+    int i;
+    for (i = 0; i < 4; ++i)
+      FREE_SPRITE0 (vehicles_spr[i]);
+  }
+  FREE_SPRITE0 (higher_scores_txt);
 }
 
 static void
@@ -2157,14 +2170,11 @@ draw_end_level_info (int decal, char l)
   }
   for (i = 0; i < 4; i++) {
     draw_glenz_box (corner[0] + decal + (75 + i * 12) * xbuf +
-		    2 * xbuf /*+25+28 */ , col2plr[i] + 2,
-		    284 /*-25-28*/  + i * 6, 6);
-    copy_rect_transp (vehicles_img.buffer + 16 + 64 * col2plr[i],
-		      corner[0] + decal + (75 + i * 12) * xbuf + 284 + i * 6,
-		      12, 10);
+		    2 * xbuf, col2plr[i] + 2, 284 + i * 6, 6);
+    DRAW_SPRITE (vehicles_spr[col2plr[i]],
+		 corner[0] + decal + (75 + i * 12) * xbuf + 284 + i * 6);
     copy_rect_4 (main_font_img.buffer + 196 + col2plr[i] * 28 + 72 * 320,
-		 corner[0] + decal + (75 + i * 12) * xbuf + /*25 */ 5, 28,
-		 11);
+		 corner[0] + decal + (75 + i * 12) * xbuf + 5, 28, 11);
     if (player[col2plr[i]].martians_nbr)
       DRAW_SPRITE (info_martian[i],
 		   corner[0] + decal + (69 + i * 12) * xbuf + 35);
@@ -2222,14 +2232,11 @@ draw_round_info (int decal)
 
   for (i = 0; i < 4; i++) {
     draw_glenz_box (corner[0] + decal + (75 + i * 12) * xbuf +
-		    2 * xbuf /*+25+28 */ , col2plr[i] + 2,
-		    284 /*-25-28*/  + i * 6, 6);
-    copy_rect_transp (vehicles_img.buffer + 16 + 64 * col2plr[i],
-		      corner[0] + decal + (75 + i * 12) * xbuf + 284 + i * 6,
-		      12, 10);
+		    2 * xbuf, col2plr[i] + 2, 284 + i * 6, 6);
+    DRAW_SPRITE (vehicles_spr[col2plr[i]],
+		 corner[0] + decal + (75 + i * 12) * xbuf + 284 + i * 6);
     copy_rect_4 (main_font_img.buffer + 196 + col2plr[i] * 28 + 72 * 320,
-		 corner[0] + decal + (75 + i * 12) * xbuf + /*25 */ 5, 28,
-		 11);
+		 corner[0] + decal + (75 + i * 12) * xbuf + 5, 28, 11);
     if (!lines[i][0]) {
       sprintf (info, "%d", player[col2plr[i]].wins);
       lines[i][0] = compile_menu_text (info,

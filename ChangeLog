@@ -1,5 +1,11 @@
 2000-11-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/menus.c (vehicles_spr): New.
+	(init_menus_sprites, uninit_menus_sprites): Handle vehicles_spr.
+	(draw_end_level_info, draw_round_info): Use it.
+
+2000-11-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/bonus.c (txt_bonus): Use sprite_t and qualify as static.
 	(set_txt_bonus): Compile the bonus text as a sprite.
 	(show_txt_bonus): Use DRAW_SPRITE.  Change prototype and take
