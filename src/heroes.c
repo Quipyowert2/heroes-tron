@@ -3843,9 +3843,6 @@ main (int argc, char *argv[])
   init_explosions ();
   init_items ();
 
-  for (i = 15; i >= 0; i--) {
-    trail[i] += (int) trailimg.buffer;
-  }
   for (i = 0; i != 32; i++)
     minisinus[i] = ceil (sin (i * 2.0 * 3.141592653 / 32.0) * 1.7);
   compute_lut ();

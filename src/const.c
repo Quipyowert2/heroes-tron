@@ -33,11 +33,6 @@
 #include "timer.h"
 #include "heroes.h"
 
-int trail[16] =
-  { 110 * 192, 0, 0, 30 * 192, 100 * 192, 20 * 192, 70 * 192, 0, 0, 10 * 192,
-  80 * 192, 40 * 192, 90 * 192, 0, 60 * 192, 50 * 192
-};
-
 /* correspondance entree-output pour les virages de tunnels, je sais plus
    comment ça marche, mais ça marche... */
 int tunnel_square_io[4][2] = { {0, 1}, {1, 3}, {3, 2}, {2, 0} };

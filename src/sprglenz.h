@@ -18,26 +18,28 @@
 | 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                   |
 `------------------------------------------------------------------------*/
 
-#ifndef HEROES__ITEMS__H
-#define HEROES__ITEMS__H
+#ifndef HEROES__SPRGLENZ__H
+#define HEROES__SPRGLENZ__H
 
-/*----------------------------------------------------------------.
-| `Items' refers to the various items collectable during the game |
-| (color pyramids, dollars, etc.).                                |
-`----------------------------------------------------------------*/
+/*------------------------------------------------------------------.
+| transparent sprites whose non-transparent pixel are drawn using a |
+| glenz line.  This is used for trails, amongst other things.       |
+`------------------------------------------------------------------*/
 
-#include "sprite.h"
+#include "sprrle.h"
 
-extern sprite_t *big_dollar;
-extern sprite_t *small_dollar;
-#define NBR_CLOCK_FRAMES 8
-extern sprite_t *clocks[NBR_CLOCK_FRAMES];
-#define NBR_PYRAMIDS 5
-extern sprite_t *pyramids[NBR_PYRAMIDS];
-extern sprite_t *catch_this;
-extern sprite_t *trails[16][12];
+void draw_sprglenz (const sprite_t *sprite, pixel_t *dest);
 
-void init_items (void);
-void uninit_items (void);
+/* Same as above, but allow to chose the glenz line used */
+void draw_sprglenz_custom (const sprite_t *sprite, pixel_t *dest,
+			   const pixel_t *glenz);
 
-#endif /* HEROES__ITEMS__H */
+sprite_t *compile_sprglenz (const pixel_t *src, pixel_t transp_color,
+			    pixel_t *glenz_line,
+			    unsigned int block_height,
+			    unsigned int block_width,
+			    unsigned int src_width, unsigned int dest_width);
+
+void free_sprglenz (sprite_t *prog);
+
+#endif /* HEROES__SPRGLENZ__H */

@@ -108,6 +108,8 @@ sound.c \
 sound.h \
 sprite.c \
 sprite.h \
+sprglenz.c \
+sprglenz.h \
 sprrle.c \
 sprrle.h \
 sprprog.c \

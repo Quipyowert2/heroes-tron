@@ -36,6 +36,8 @@ enum sprite_kind {
   S_RLE_SHADE,			/* transparant, using one line of glenz */
   S_RLE_ZCOL,			/* transparant, using a kind of
   				   color-based z-buffer, for explosions */
+  S_RLE_GLENZ,			/* transparant,
+				   using unform glenz for the rest */
   S_PROG,			/* a list of sprites, to draw all at once */
   S_PROG_WAV			/* like S_PROG but also wave */
 };
@@ -114,12 +116,25 @@ struct sprite_rle_shade_s {
   pixel_t*	glenz;
 };
 
+struct sprite_rle_glenz_s {
+  /* glenz sprites reuse the member of RLE, but the code used
+     is extended.  The code of a shaded sprite is a sequence of
+       1 u8_t: number m of transparent pixels to skip
+       1 u8_t: number n of glenz pixels to write
+     The end of a line can be announced using m=0, and n=0,
+     and the code MUST terminate by m=0, and n=0.
+  */
+  SPRITE_RLE_MEMBERS;
+  pixel_t*	glenz;
+};
+
 union sprite_s {
   SPRITE_FIRST_MEMBER;
   struct sprite_common_s	all;
   struct sprite_prog_s		prog;
   struct sprite_rle_s		rle;
   struct sprite_rle_shade_s	shade;
+  struct sprite_rle_glenz_s	glenz;
 };
 
 /* generic sprite freeing function, this will dispatch to the right

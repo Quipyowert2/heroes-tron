@@ -32,6 +32,7 @@
 #include "bonus.h"
 #include "explosions.h"
 #include "items.h"
+#include "sprglenz.h"
 
 char tutor = 0;
 static sprite_t *clock_anim;
@@ -82,10 +83,9 @@ static void
 draw_trail_real (int c, unsigned char s, pixel_t* dest,
 		 unsigned char fixe)
 {
-  const pixel_t* src;
+  const sprite_t *spr;
   pixel_t ch;
-  const pixel_t* glenzline;
-  int d = 0, x, y;
+  int d = 0;
 
   if (fixe) {
     if (s & 1)
@@ -93,88 +93,38 @@ draw_trail_real (int c, unsigned char s, pixel_t* dest,
     else
       d = player[c].d.e / 6554;
   }
-  src = (const pixel_t *) trail[s] + (d << 4);
-  if (opt.use_glenz) {
-    glenzline = glenz[c + 2];
-    for (y = 10; y != 0; y--) {
-      for (x = 12; x != 0; x--) {
-	ch = *src++;
-	if (ch != 0)
-	  *dest = glenzline[*dest];
-	dest++;
-      }
-      dest += xbuf - 12;
-      src += 192 - 12;
-    }
-  } else {
-    pixel_t col = (pixel_t) (NOGLENZPLR + (c << 4));
-    for (y = 10; y != 0; y--) {
-      for (x = 12; x != 0; x--) {
-	ch = *src++;
-	if (ch != 0)
-	  *dest = col;
-	dest++;
-      }
-      dest += xbuf - 12;
-      src += 192 - 12;
-    }
-  }
+  spr = trails[s][d];
+  draw_sprglenz_custom (spr, dest, glenz[c + 2]);
 }
 
 static void
 draw_vehicle_tail (int c, pixel_t* dest)
 {
-  int d = 0, x, y;
+  int d;
   const pixel_t* posit = 0;
   int s = ((player[c].old_way ^ 2) + ((player[c].way ^ 2) << 2));
-  const pixel_t* src;
-  pixel_t* tmp = dest;
-  const pixel_t* glenzline;
-  pixel_t ch, cc;
+  const sprite_t *spr;
 
   if (s & 4) {
     d = player[c].d.e / 5461;
-    src = (const pixel_t *) trail[s] + ((12 - (d + 12) / 2) << 4);
+    spr = trails[s][12 - (d + 12) / 2];
   } else {
     d = player[c].d.e / 6554;
-    src = (const pixel_t *) trail[s] + ((10 - (d + 10) / 2) << 4);
+    spr = trails[s][10 - (d + 10) / 2];
   }
-  if (opt.use_glenz) {
-    glenzline = glenz[c + 2];
-    for (y = 10; y != 0; y--) {
-      for (x = 12; x != 0; x--) {
-	ch = *src++;
-	if (ch != 0)
-	  *dest = glenzline[*dest];
-	dest++;
-      }
-      dest += xbuf - 12;
-      src += 192 - 12;
-    }
-  } else {
-    cc = (pixel_t) (NOGLENZPLR + (c << 4));
-    for (y = 10; y != 0; y--) {
-      for (x = 12; x != 0; x--) {
-	ch = *src++;
-	if (ch != 0)
-	  *dest = cc;
-	dest++;
-      }
-      dest += xbuf - 12;
-      src += 192 - 12;
-    }
-  }
+  draw_sprglenz_custom (spr, dest, glenz[c + 2]);
+
   posit = vehicles_img.buffer + (c << 6) + (player[c].way << 4);
   if (invincible[c])
     posit += 10 * 320;
   if (player[c].way == w_left)
-    copy_square_transp (posit + d, tmp, (char) d, 0);
+    copy_square_transp (posit + d, dest, (char) d, 0);
   if (player[c].way == w_right)
-    copy_square_transp (posit, tmp + d, (char) d, 0);
+    copy_square_transp (posit, dest + d, (char) d, 0);
   if (player[c].way == w_up)
-    copy_square_transp (posit + d * 320, tmp, 0, (char) d);
+    copy_square_transp (posit + d * 320, dest, 0, (char) d);
   if (player[c].way == w_down)
-    copy_square_transp (posit, tmp + d * xbuf, 0, (char) d);
+    copy_square_transp (posit, dest + d * xbuf, 0, (char) d);
 }
 
 static void

@@ -1,5 +1,26 @@
 2000-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	Add a new kind of sprite (S_RLE_GLENZ) and use it to draw the
+	trails.
+
+	* src/sprglenz.c: New file.
+	* src/sprglenz.h: New file.
+	* src/Makefile.am (heroes_SOURCES): Add sprglenz.c and sprglenz.h.
+	* src/sprite.h (sprite_kind): Add S_RLE_GLENZ.
+	(sprite_rle_glenz_s): New.
+	(sprite_s): Add member glenz.
+	* src/sprite.c (free_sprite): Add the S_RLE_GLENZ case.
+	* src/const.c (trail): Remove.
+	* src/const.h (trail): Remove.
+	* src/heroes.c (main): Do not initialize trail any more.
+	* src/items.c (trails, trail_row): New.
+	(init_items, uninit_items): (Un)initialize trails.
+	* src/items.h (trails): New.
+	* src/render.c (draw_trail_real, draw_vehicle_tail): Adapt to
+	use trails.
+
+2000-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/visuals.c (horizontal_zoom_flip): Use PTR_TO_INT.
 
 2000-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>

@@ -24,8 +24,6 @@
 #include "pcx.h"
 #include "structs.h"
 
-extern int trail[16];
-
 extern int tunnel_square_io[4][2];
 
 #define xbuf 384		/* pour des multiplications plus faciles */
