@@ -1,5 +1,10 @@
 2000-11-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/hedlite.c (hmain): convert tile_set_name to lowercase (this
+	allow to load existing levels).
+
+2000-11-05  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Adapt editor_menu to xbuf-wide buffer and new sprite functions.
 
 	* src/menus.c (bigarr_cursor, sqr_cursor, small_arrows,

@@ -1801,7 +1801,7 @@ hmain (const char* lname, const char* tset_name,
     hplaninfo.start_way[3] = 0x23;
   }
 
-  /* fprintf(hlog,"\tUsing %s (PCX,PIE) and %s (XM)\n",hplaninfo.tile_set_name,hplaninfo.soundtrack_name); */
+  strlwr (hplaninfo.tile_set_name);
 
   tile_set_name = strappend (strappend (tile_set_name,
 					hplaninfo.tile_set_name), ".pcx");
