@@ -5,10 +5,9 @@ please send a note to <heroes-discuss@lists.sourceforge.net>.
 Short term.
 -----------
 
-  Use the level-loading library in the level editor.  Hence, get rid
+  Use the level-loading library in the level editor, so as to get rid
   of most struct in src/struct.h (and their ugly ATTRIBUTE_PACKED).
-
-  Document heroeslvl.
+  This require to add some *saving* functions to this library.
 
 Middle term.
 ------------
@@ -19,7 +18,8 @@ Middle term.
 
   If possible, Get rid of GETWORD, SETWORD and Cie, see src/endian.h.
 
-  the default installation path on BeOS should not be /usr/local (?)
+  The default installation path on BeOS should not be /usr/local (?).  I need
+  some more input about this.
 
   Replace all C++-style comments (//foo) with C-style comments (/* foo */)
 
@@ -64,12 +64,12 @@ Miscellaneous
 
   Write assembly routines for stretching code.
 
-  Use makeheaders (provided I can get in touch with its maintainer).
+  Use makeheaders ? (provided I can get in touch with its maintainer)
 
 
 Ideas, to be discussed
 ----------------------
 
   Load GGI, SDL, and MikMod libraries dymically (i.e. select
-  available library at run-time versus configure-time).  This needs
-  to be discussed.
+  available library at run-time versus configure-time).  This is probably
+  easier to do now, with the new way media libraries are handled.
