@@ -57,6 +57,7 @@ rleprog_t* music_vol_txt = 0;
 rleprog_t* sfx_vol_txt = 0;
 rleprog_t* screen_menu_txt = 0;
 rleprog_t* game_menu_txt = 0;
+rleprog_t* game_rounds_txt = 0;
 rleprog_t* keyboard_menu_txt = 0;
 rleprog_t* keyboard_keys_txt[12] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
@@ -194,6 +195,8 @@ uninit_menus_sprites (void)
   sfx_vol_txt = 0;
   free_rleprog (game_menu_txt);
   game_menu_txt = 0;
+  free_rleprog (game_rounds_txt);
+  game_rounds_txt = 0;
   free_rleprog (screen_menu_txt);
   screen_menu_txt = 0;
   free_rleprog (keyboard_menu_txt);
@@ -696,7 +699,6 @@ game_menu (void)
 {
   char l = 0, tmp;
   keycode_t t;
-  char rounds[32];
 
   std_white_fadein (&tile_set_img.palette);
   do {
@@ -719,9 +721,13 @@ game_menu (void)
     arrows (29 + l * 24 + 24 * (l > 2), 1);
     exec_rleprog (game_menu_txt, corner[0]);
 
-    sprintf (rounds, txti[121], rounds_nbr_values[opt.gamerounds],
-	     (opt.gamerounds == 0) ? '\0' : 'S');
-    draw_text (rounds, 56, 153, 0);
+    if (!game_rounds_txt) {
+      char rounds[32];
+      sprintf (rounds, txti[121], rounds_nbr_values[opt.gamerounds],
+	       (opt.gamerounds == 0) ? '\0' : 'S');
+      game_rounds_txt = compile_menu_text (rounds, T_FLUSHED_LEFT, 153, 56);
+    }
+    exec_rleprog (game_rounds_txt, corner[0]);
 
     vsynch ();
     aff_buffer ();
@@ -749,23 +755,23 @@ game_menu (void)
       }
       if (t == HK_Right || t == HK_Left || t == HK_Enter)
 	if (l != 6) {
-	  if			/*(l==4) event_sfx(3);
-				   else if */ ((l == 3) || (l == 4))
+	  if ((l == 3) || (l == 4))
 	    event_sfx (4);
-
 	  else
 	    event_sfx (5);
 	}
       if (t == HK_Right || t == HK_Enter) {
-
-/*       if (l==4) opt.ghosts^=1; */
 	if (l == 3) {
 	  if (opt.speed < 2)
-	    opt.speed++;	/* else opt.speed=0; */
+	    opt.speed++;
 	}
 	if (l == 4) {
-	  if (opt.gamerounds < 15)
-	    opt.gamerounds++;	/* else opt.gamerounds=0; */
+	  if (opt.gamerounds < 15) {
+	    opt.gamerounds++;
+	    /* Force regeneration of game_rounds_txt before next draw */
+	    free_rleprog (game_rounds_txt);
+	    game_rounds_txt = 0;
+	  }
 	}
 	if (l == 0) {
 	  tmp = opt.player_color[0];
@@ -787,14 +793,16 @@ game_menu (void)
 	}
       }
       if (t == HK_Left) {
-
-/*       if (l==4) opt.ghosts^=1; */
 	if (l == 3)
 	  if (opt.speed > 0)
 	    opt.speed--;
 	if (l == 4)
-	  if (opt.gamerounds > 0)
+	  if (opt.gamerounds > 0) {
 	    opt.gamerounds--;
+	    /* Force regeneration of game_rounds_txt before next draw */
+	    free_rleprog (game_rounds_txt);
+	    game_rounds_txt = 0;
+	  }
 	if (l == 0) {
 	  tmp = opt.player_color[3];
 	  opt.player_color[3] = opt.player_color[2];

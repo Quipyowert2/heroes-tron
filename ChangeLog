@@ -1,3 +1,11 @@
+2000-10-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
+	Use a rleprog_t to display the rounds number too.
+
+	* src/menus.c (game_rounds_txt): New.
+	(uninit_menus_sprites): Free game_rounds_txt.
+	(game_menu): Handle game_rounds_txt.
+
 2000-10-17  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
 	Use keycode_t when handling key codes.
