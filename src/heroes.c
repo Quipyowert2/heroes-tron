@@ -3299,6 +3299,7 @@ play_demo (void)
   txt_bonus_tempo[3] = 0;
   n = 1;
 
+  update_timers ();
   reset_timer_with_offset (event_timer, 4, 0);
   reset_timer (clock_timer);
   reset_timer (bonus_anim_timer);
@@ -4184,6 +4185,7 @@ play_game (char cont)
   txt_bonus_tempo[3] = 0;
   n = 1;
 
+  update_timers ();
   reset_timer_with_offset (event_timer, 4, 0);
   reset_timer (clock_timer);
   reset_timer (bonus_anim_timer);

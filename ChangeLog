@@ -1,5 +1,10 @@
 2000-08-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/heroes.c (play_demo,play_game): Call update_timers
+	before reseting them.
+
+2000-08-24  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	Introduce new timer code in order to handle multiple (and non
 	proportionnal) speeds, and to not depends on the display refresh
 	rate.  This is a rather important change that will probably
