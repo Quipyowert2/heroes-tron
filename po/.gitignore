@@ -1,4 +1,5 @@
 POTFILES
+POTFILES.in
 Makefile.in
 Makefile
 cat-id-tbl.c

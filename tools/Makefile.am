@@ -17,4 +17,10 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 #
 
-EXTRA_DIST = autogen.sh readme.sed fetish-sync.sh genpotfiles.sh
+EXTRA_DIST = \
+autogen.sh \
+cvsboot.sh \
+fetish-sync.sh \
+gemm4mam.sh \
+genpotfiles.sh \
+readme.sed
