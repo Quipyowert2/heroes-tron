@@ -1,5 +1,15 @@
 2001-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
 
+	* src/argv.h (a_check, check_what): New.
+	* src/argv.c (check): New function.
+	(long_options): Add --check.
+	(parse_argv): Call check().
+	* src/heroes.c (heroes_main): Handle check_intro.
+	(main_menu): Handle check_demo.
+	* src/const.c (key_or_joy_ready): Handle check_demo.
+
+2001-11-18  Alexandre Duret-Lutz  <duret_g@epita.fr>
+
 	* src/sprglenz.c (compile_sprglenz): Check for src<eol before
 	dereferencing *src, not after.
 	* src/sprrle.c (compile_sprrle): Likewise.

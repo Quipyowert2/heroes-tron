@@ -51,6 +51,7 @@ bool nosound = false;
 bool even_lines = false;
 bool showprefs = false;
 bool showlevels = false;
+a_check check_what = check_nothing;
 
 static void
 version (void)
@@ -116,6 +117,25 @@ list (char *word)
     list (0);
   }
   return true;
+}
+
+static bool
+check (char *word)
+{
+  if (!word) {
+    puts ("Use `--check=WORD' where WORD can be:");
+    puts ("intro	run the intro");
+    puts ("demo		run a demo");
+    return true;
+  }
+  if (!strcasecmp (word, "intro"))
+    check_what = check_intro;
+  else if (!strcasecmp (word, "demo"))
+    check_what = check_demo;
+  else
+    /* Unknown WORD, print usage.  */
+    return check (0);
+  return false;
 }
 
 static void ATTRIBUTE_NORETURN
@@ -189,6 +209,7 @@ Visit http://heroes.sourceforge.net/ for news, documentation, and updates."));
 
 const struct option long_options[] = {
   {"8bits",		no_argument,       NULL,	'8'},
+  {"check",		required_argument, NULL,	1000},
   {"cpu-off",		no_argument,       &cpuon,	0},
   {"default-options",	no_argument,       &reinitopt,	1},
   {"default-saves",	no_argument,       &reinitsav,	1},
@@ -333,7 +354,10 @@ parse_argv (int argc, char **argv, const char *from_file, int from_line)
     case 'q':
       disable_wmsg = true;
       break;
-
+    case 1000:			/* --check */
+      if (check (optarg))
+        return -1;
+      break;
     default:
       abort ();
     }

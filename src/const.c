@@ -33,7 +33,7 @@
 #include "const.h"
 #include "timer.h"
 #include "heroes.h"
-
+#include "argv.h"
 
 /* available round numbers */
 int rounds_nbr_values[16] = {
@@ -95,7 +95,7 @@ key_or_joy_ready (void)
   int ct = read_htimer (demo_trigger_htimer);
 
   if ((in_jokebox == 0)) {
-    if (ct >= 30)
+    if (ct >= 30 || check_what == check_demo)
       demo_ready = 1;
     else
       demo_ready = 0;

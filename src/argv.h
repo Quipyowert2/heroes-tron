@@ -47,4 +47,8 @@ extern bool even_lines;
 extern bool showprefs;
 extern bool showlevels;
 
+enum a_check { check_nothing, check_intro, check_demo };
+typedef enum a_check a_check;
+extern a_check check_what;
+
 #endif /* HEROES__ARGV__H */

@@ -2522,6 +2522,7 @@ main_menu (void)
       background_menu ();
       draw_main_menu (l);
       flush_display (corner[0]);
+
       if (key_or_joy_ready () || demo_ready) {
 	if (demo_ready == 0)
 	  t = get_key_or_joy ();
@@ -2563,6 +2564,10 @@ main_menu (void)
 	    flush_display (corner[0]);
 	  }
 	  load_demo ();
+
+	  if (check_what == check_demo)
+	    exit_heroes (0);
+
 	  dmsg (D_SECTION, "-- (back to) menu (from demo) --");
 	  demo_ready = 0;
 	  event_sfx (131);
@@ -3364,8 +3369,10 @@ heroes_main (int argc, char *argv[])
   init_text_waving_step ();
   init_fader ();
 
-  if (!directmenu) {
+  if (!directmenu || check_what == check_intro) {
     play_intro ();
+    if (check_what == check_intro)
+      exit_heroes (0);
   }
 
   init_buffers ();
